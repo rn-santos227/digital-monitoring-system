@@ -43,4 +43,11 @@ export type {
   ServiceabilityStatusesUpdate,
 } from './modules/equipment.lookup'
 
-
+export type {
+  IncidentTypesInsert,
+  IncidentTypesRow,
+  IncidentTypesUpdate,
+  InvestigationStatusesInsert,
+  InvestigationStatusesRow,
+  InvestigationStatusesUpdate,
+} from './modules/incident.lookup'
