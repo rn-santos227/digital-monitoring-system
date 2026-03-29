@@ -21,3 +21,12 @@ export type PersonnelMedicalReadinessRow = AuditColumns & {
 export type PersonnelMedicalReadinessInsert = AuditInsert & Omit<PersonnelMedicalReadinessRow, keyof AuditColumns | 'id'> & { id?: UUID }
 export type PersonnelMedicalReadinessUpdate = Partial<PersonnelMedicalReadinessInsert>
 
+export type PersonnelWeaponAssignmentsRow = AuditColumns & {
+  id: UUID
+  personnel_id: UUID
+  equipment_asset_id: UUID
+  assignment_date: ISODate
+  relieved_date: ISODate | null
+}
+export type PersonnelWeaponAssignmentsInsert = AuditInsert & Omit<PersonnelWeaponAssignmentsRow, keyof AuditColumns | 'id'> & { id?: UUID }
+export type PersonnelWeaponAssignmentsUpdate = Partial<PersonnelWeaponAssignmentsInsert>
