@@ -87,3 +87,19 @@ export type EquipmentMaintenanceRecordsInsert = AuditInsert & Omit<EquipmentMain
 export type EquipmentMaintenanceRecordsUpdate = Partial<EquipmentMaintenanceRecordsInsert>
 
 
+export type EquipmentIncidentsRow = AuditColumns & {
+  id: UUID
+  incident_no: string
+  equipment_asset_id: UUID
+  personnel_id: UUID | null
+  deployment_id: UUID | null
+  incident_type_id: UUID
+  incident_date: ISODate
+  location: string | null
+  description: string
+  investigation_status_id: UUID | null
+  resolution: string | null
+  remarks: string | null
+}
+export type EquipmentIncidentsInsert = AuditInsert & Omit<EquipmentIncidentsRow, keyof AuditColumns | 'id'> & { id?: UUID }
+export type EquipmentIncidentsUpdate = Partial<EquipmentIncidentsInsert>
