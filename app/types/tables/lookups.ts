@@ -15,3 +15,12 @@ export type {
   TrainingStatusesRow,
   TrainingStatusesUpdate,
 } from './modules/training.lookup'
+
+export type {
+  EngagementStatusesInsert,
+  EngagementStatusesRow,
+  EngagementStatusesUpdate,
+  EngagementTypesInsert,
+  EngagementTypesRow,
+  EngagementTypesUpdate,
+} from './modules/engagement.lookup'
