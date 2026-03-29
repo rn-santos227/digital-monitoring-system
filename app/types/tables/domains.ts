@@ -1,3 +1,5 @@
-import type { AuditColumns, AuditInsert, ISODate, UUID } from './shared'
-
-
+export type {
+  TrainingRecordsInsert,
+  TrainingRecordsRow,
+  TrainingRecordsUpdate,
+} from './modules/training.domain'
