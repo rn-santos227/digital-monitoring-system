@@ -196,3 +196,36 @@ import type {
   TrainingRecordsRow,
   TrainingRecordsUpdate,
 } from './tables/domains'
+
+export interface DatabaseTables {
+  ranks: TableShape<RanksRow, RanksInsert, RanksUpdate>
+  units: TableShape<UnitsRow, UnitsInsert, UnitsUpdate>
+  employment_statuses: TableShape<EmploymentStatusesRow, EmploymentStatusesInsert, EmploymentStatusesUpdate>
+  service_statuses: TableShape<ServiceStatusesRow, ServiceStatusesInsert, ServiceStatusesUpdate>
+  personnel: TableShape<PersonnelRow, PersonnelInsert, PersonnelUpdate>
+  levels: TableShape<LevelsRow, LevelsInsert, LevelsUpdate>
+  training_categories: TableShape<TrainingCategoriesRow, TrainingCategoriesInsert, TrainingCategoriesUpdate>
+  training_statuses: TableShape<TrainingStatusesRow, TrainingStatusesInsert, TrainingStatusesUpdate>
+  deployment_statuses: TableShape<DeploymentStatusesRow, DeploymentStatusesInsert, DeploymentStatusesUpdate>
+  engagement_types: TableShape<EngagementTypesRow, EngagementTypesInsert, EngagementTypesUpdate>
+  engagement_statuses: TableShape<EngagementStatusesRow, EngagementStatusesInsert, EngagementStatusesUpdate>
+  condition_statuses: TableShape<ConditionStatusesRow, ConditionStatusesInsert, ConditionStatusesUpdate>
+  serviceability_statuses: TableShape<ServiceabilityStatusesRow, ServiceabilityStatusesInsert, ServiceabilityStatusesUpdate>
+  asset_statuses: TableShape<AssetStatusesRow, AssetStatusesInsert, AssetStatusesUpdate>
+  issuance_statuses: TableShape<IssuanceStatusesRow, IssuanceStatusesInsert, IssuanceStatusesUpdate>
+  maintenance_types: TableShape<MaintenanceTypesRow, MaintenanceTypesInsert, MaintenanceTypesUpdate>
+  incident_types: TableShape<IncidentTypesRow, IncidentTypesInsert, IncidentTypesUpdate>
+  investigation_statuses: TableShape<InvestigationStatusesRow, InvestigationStatusesInsert, InvestigationStatusesUpdate>
+  training_records: TableShape<TrainingRecordsRow, TrainingRecordsInsert, TrainingRecordsUpdate>
+  deployment_records: TableShape<DeploymentRecordsRow, DeploymentRecordsInsert, DeploymentRecordsUpdate>
+  engagement_records: TableShape<EngagementRecordsRow, EngagementRecordsInsert, EngagementRecordsUpdate>
+  equipment_categories: TableShape<EquipmentCategoriesRow, EquipmentCategoriesInsert, EquipmentCategoriesUpdate>
+  equipment_items: TableShape<EquipmentItemsRow, EquipmentItemsInsert, EquipmentItemsUpdate>
+  equipment_assets: TableShape<EquipmentAssetsRow, EquipmentAssetsInsert, EquipmentAssetsUpdate>
+  equipment_issuances: TableShape<EquipmentIssuancesRow, EquipmentIssuancesInsert, EquipmentIssuancesUpdate>
+  equipment_maintenance_records: TableShape<EquipmentMaintenanceRecordsRow, EquipmentMaintenanceRecordsInsert, EquipmentMaintenanceRecordsUpdate>
+  equipment_incidents: TableShape<EquipmentIncidentsRow, EquipmentIncidentsInsert, EquipmentIncidentsUpdate>
+  personnel_qualifications: TableShape<PersonnelQualificationsRow, PersonnelQualificationsInsert, PersonnelQualificationsUpdate>
+  personnel_medical_readiness: TableShape<PersonnelMedicalReadinessRow, PersonnelMedicalReadinessInsert, PersonnelMedicalReadinessUpdate>
+  personnel_weapon_assignments: TableShape<PersonnelWeaponAssignmentsRow, PersonnelWeaponAssignmentsInsert, PersonnelWeaponAssignmentsUpdate>
+}
