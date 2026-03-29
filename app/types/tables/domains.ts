@@ -10,3 +10,8 @@ export type {
   DeploymentRecordsUpdate,
 } from './modules/deployment.domain'
 
+export type {
+  EngagementRecordsInsert,
+  EngagementRecordsRow,
+  EngagementRecordsUpdate,
+} from './modules/engagement.domain'
