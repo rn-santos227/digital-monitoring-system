@@ -7,4 +7,11 @@ export type {
   DeploymentStatusesUpdate,
 } from './modules/general.lookup'
 
-
+export type {
+  TrainingCategoriesInsert,
+  TrainingCategoriesRow,
+  TrainingCategoriesUpdate,
+  TrainingStatusesInsert,
+  TrainingStatusesRow,
+  TrainingStatusesUpdate,
+} from './modules/training.lookup'
