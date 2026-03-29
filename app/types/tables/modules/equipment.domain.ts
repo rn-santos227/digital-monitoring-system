@@ -66,3 +66,24 @@ export type EquipmentIssuancesRow = AuditColumns & {
 export type EquipmentIssuancesInsert = AuditInsert & Omit<EquipmentIssuancesRow, keyof AuditColumns | 'id'> & { id?: UUID }
 export type EquipmentIssuancesUpdate = Partial<EquipmentIssuancesInsert>
 
+
+export type EquipmentMaintenanceRecordsRow = AuditColumns & {
+  id: UUID
+  maintenance_no: string
+  equipment_asset_id: UUID
+  maintenance_type_id: UUID
+  reported_date: ISODate | null
+  scheduled_date: ISODate | null
+  completed_date: ISODate | null
+  performed_by: string | null
+  cost: number | null
+  findings: string | null
+  action_taken: string | null
+  resulting_condition_status_id: UUID | null
+  resulting_serviceability_status_id: UUID | null
+  remarks: string | null
+}
+export type EquipmentMaintenanceRecordsInsert = AuditInsert & Omit<EquipmentMaintenanceRecordsRow, keyof AuditColumns | 'id'> & { id?: UUID }
+export type EquipmentMaintenanceRecordsUpdate = Partial<EquipmentMaintenanceRecordsInsert>
+
+
