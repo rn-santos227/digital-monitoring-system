@@ -18,3 +18,9 @@ type AuditInsert = {
   updated_at?: ISODateTime
 }
 
+export type RanksRow = AuditColumns & {
+  id: UUID
+  code: string
+  name: string
+  sort_order: number
+}
