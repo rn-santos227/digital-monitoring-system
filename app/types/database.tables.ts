@@ -37,3 +37,13 @@ export type UnitsRow = AuditColumns & {
   is_active: boolean
 }
 
+export type UnitsInsert = AuditInsert & Omit<UnitsRow, keyof AuditColumns | 'id'> & { id?: UUID }
+export type UnitsUpdate = Partial<UnitsInsert>
+
+export type EmploymentStatusesRow = AuditColumns & { id: UUID; name: string }
+export type EmploymentStatusesInsert = AuditInsert & Omit<EmploymentStatusesRow, keyof AuditColumns | 'id'> & { id?: UUID }
+export type EmploymentStatusesUpdate = Partial<EmploymentStatusesInsert>
+
+export type ServiceStatusesRow = AuditColumns & { id: UUID; name: string }
+export type ServiceStatusesInsert = AuditInsert & Omit<ServiceStatusesRow, keyof AuditColumns | 'id'> & { id?: UUID }
+export type ServiceStatusesUpdate = Partial<ServiceStatusesInsert>
