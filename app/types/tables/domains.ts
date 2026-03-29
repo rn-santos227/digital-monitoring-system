@@ -36,3 +36,15 @@ export type {
   EquipmentMaintenanceRecordsRow,
   EquipmentMaintenanceRecordsUpdate,
 } from './modules/equipment.domain'
+
+export type {
+  PersonnelMedicalReadinessInsert,
+  PersonnelMedicalReadinessRow,
+  PersonnelMedicalReadinessUpdate,
+  PersonnelQualificationsInsert,
+  PersonnelQualificationsRow,
+  PersonnelQualificationsUpdate,
+  PersonnelWeaponAssignmentsInsert,
+  PersonnelWeaponAssignmentsRow,
+  PersonnelWeaponAssignmentsUpdate,
+} from './modules/readiness.domain'
