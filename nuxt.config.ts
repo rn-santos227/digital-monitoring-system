@@ -1,17 +1,14 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import tailwindcss from '@tailwindcss/vite'
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   modules: [
     '@nuxtjs/supabase',
     '@pinia/nuxt',
-    '@nuxtjs/tailwindcss',
   ],
-  css: ['~/app/assets/css/main.css'],
-  runtimeConfig: {
-    public: {
-      supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL,
-      supabaseKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,
-    },
+  css: ['./app/assets/css/main.css'],
+  vite: {
+    plugins: [tailwindcss()],
   },
   supabase: {
     redirect: false,
@@ -19,5 +16,5 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
   },
-  devtools: { enabled: true }
+  devtools: { enabled: true },
 })
