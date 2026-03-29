@@ -8,4 +8,8 @@ export interface TableShape<Row, Insert, Update> {
   Update: Update
 }
 
+type AuditColumns = {
+  created_at: ISODateTime
+  updated_at: ISODateTime
+}
 
