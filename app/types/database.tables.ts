@@ -13,3 +13,8 @@ type AuditColumns = {
   updated_at: ISODateTime
 }
 
+type AuditInsert = {
+  created_at?: ISODateTime
+  updated_at?: ISODateTime
+}
+
