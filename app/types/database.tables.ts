@@ -28,3 +28,12 @@ export type RanksRow = AuditColumns & {
 export type RanksInsert = AuditInsert & Omit<RanksRow, keyof AuditColumns | 'id'> & { id?: UUID }
 export type RanksUpdate = Partial<RanksInsert>
 
+export type UnitsRow = AuditColumns & {
+  id: UUID
+  code: string
+  name: string
+  parent_unit_id: UUID | null
+  unit_type: string
+  is_active: boolean
+}
+
