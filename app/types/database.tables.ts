@@ -24,3 +24,7 @@ export type RanksRow = AuditColumns & {
   name: string
   sort_order: number
 }
+
+export type RanksInsert = AuditInsert & Omit<RanksRow, keyof AuditColumns | 'id'> & { id?: UUID }
+export type RanksUpdate = Partial<RanksInsert>
+
