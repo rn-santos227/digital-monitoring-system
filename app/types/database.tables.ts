@@ -98,3 +98,22 @@ export type {
   TrainingRecordsRow,
   TrainingRecordsUpdate,
 } from './tables/domains'
+
+import type { TableShape } from './tables/shared'
+import type {
+  EmploymentStatusesInsert,
+  EmploymentStatusesRow,
+  EmploymentStatusesUpdate,
+  PersonnelInsert,
+  PersonnelRow,
+  PersonnelUpdate,
+  RanksInsert,
+  RanksRow,
+  RanksUpdate,
+  ServiceStatusesInsert,
+  ServiceStatusesRow,
+  ServiceStatusesUpdate,
+  UnitsInsert,
+  UnitsRow,
+  UnitsUpdate,
+} from './tables/master'
