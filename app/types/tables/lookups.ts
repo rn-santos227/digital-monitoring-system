@@ -24,3 +24,23 @@ export type {
   EngagementTypesRow,
   EngagementTypesUpdate,
 } from './modules/engagement.lookup'
+
+export type {
+  AssetStatusesInsert,
+  AssetStatusesRow,
+  AssetStatusesUpdate,
+  ConditionStatusesInsert,
+  ConditionStatusesRow,
+  ConditionStatusesUpdate,
+  IssuanceStatusesInsert,
+  IssuanceStatusesRow,
+  IssuanceStatusesUpdate,
+  MaintenanceTypesInsert,
+  MaintenanceTypesRow,
+  MaintenanceTypesUpdate,
+  ServiceabilityStatusesInsert,
+  ServiceabilityStatusesRow,
+  ServiceabilityStatusesUpdate,
+} from './modules/equipment.lookup'
+
+
