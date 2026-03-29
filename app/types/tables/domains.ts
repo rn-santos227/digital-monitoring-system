@@ -15,3 +15,24 @@ export type {
   EngagementRecordsRow,
   EngagementRecordsUpdate,
 } from './modules/engagement.domain'
+
+export type {
+  EquipmentAssetsInsert,
+  EquipmentAssetsRow,
+  EquipmentAssetsUpdate,
+  EquipmentCategoriesInsert,
+  EquipmentCategoriesRow,
+  EquipmentCategoriesUpdate,
+  EquipmentIncidentsInsert,
+  EquipmentIncidentsRow,
+  EquipmentIncidentsUpdate,
+  EquipmentIssuancesInsert,
+  EquipmentIssuancesRow,
+  EquipmentIssuancesUpdate,
+  EquipmentItemsInsert,
+  EquipmentItemsRow,
+  EquipmentItemsUpdate,
+  EquipmentMaintenanceRecordsInsert,
+  EquipmentMaintenanceRecordsRow,
+  EquipmentMaintenanceRecordsUpdate,
+} from './modules/equipment.domain'
