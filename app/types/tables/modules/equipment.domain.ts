@@ -28,3 +28,23 @@ export type EquipmentItemsRow = AuditColumns & {
 export type EquipmentItemsInsert = AuditInsert & Omit<EquipmentItemsRow, keyof AuditColumns | 'id'> & { id?: UUID }
 export type EquipmentItemsUpdate = Partial<EquipmentItemsInsert>
 
+export type EquipmentAssetsRow = AuditColumns & {
+  id: UUID
+  asset_tag: string
+  equipment_item_id: UUID
+  serial_no: string | null
+  batch_no: string | null
+  procurement_date: ISODate | null
+  acquisition_cost: number | null
+  fund_source: string | null
+  current_unit_id: UUID | null
+  current_location: string | null
+  condition_status_id: UUID | null
+  serviceability_status_id: UUID | null
+  asset_status_id: UUID
+  remarks: string | null
+}
+export type EquipmentAssetsInsert = AuditInsert & Omit<EquipmentAssetsRow, keyof AuditColumns | 'id'> & { id?: UUID }
+export type EquipmentAssetsUpdate = Partial<EquipmentAssetsInsert>
+
+
