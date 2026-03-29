@@ -47,3 +47,20 @@ export type EmploymentStatusesUpdate = Partial<EmploymentStatusesInsert>
 export type ServiceStatusesRow = AuditColumns & { id: UUID; name: string }
 export type ServiceStatusesInsert = AuditInsert & Omit<ServiceStatusesRow, keyof AuditColumns | 'id'> & { id?: UUID }
 export type ServiceStatusesUpdate = Partial<ServiceStatusesInsert>
+
+export type PersonnelRow = AuditColumns & {
+  id: UUID
+  personnel_code: string
+  service_number: string
+  last_name: string
+  first_name: string
+  middle_name: string | null
+  sex: 'Male' | 'Female'
+  birthdate: ISODate | null
+  rank_id: UUID
+  unit_id: UUID
+  employment_status_id: UUID
+  service_status_id: UUID
+  contact_number: string | null
+  date_enlisted: ISODate | null
+}
