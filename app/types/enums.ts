@@ -17,3 +17,10 @@ export type EngagementTypeName =
   | 'Joint Exercise'
   | 'Community Operation'
   | 'Official Representation'
+
+export type ConditionStatusName = 'Excellent' | 'Good' | 'Fair' | 'Damaged'
+export type ServiceabilityStatusName = 'Serviceable' | 'Limited Serviceability' | 'Unserviceable'
+export type AssetStatusName = 'In Stock' | 'Issued' | 'Lost' | 'Under Repair' | 'Condemned'
+export type IssuanceStatusName = 'Issued' | 'Returned' | 'Overdue'
+export type MaintenanceTypeName = 'Preventive' | 'Corrective' | 'Inspection' | 'Calibration'
+export type InvestigationStatusName = 'Reported' | 'Under Investigation' | 'Resolved' | 'Closed'
