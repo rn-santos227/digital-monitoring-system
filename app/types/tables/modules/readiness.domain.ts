@@ -10,4 +10,14 @@ export type PersonnelQualificationsRow = AuditColumns & {
 export type PersonnelQualificationsInsert = AuditInsert & Omit<PersonnelQualificationsRow, keyof AuditColumns | 'id'> & { id?: UUID }
 export type PersonnelQualificationsUpdate = Partial<PersonnelQualificationsInsert>
 
+export type PersonnelMedicalReadinessRow = AuditColumns & {
+  id: UUID
+  personnel_id: UUID
+  medical_status: string
+  fit_for_deployment: boolean
+  last_exam_date: ISODate | null
+  next_exam_date: ISODate | null
+}
+export type PersonnelMedicalReadinessInsert = AuditInsert & Omit<PersonnelMedicalReadinessRow, keyof AuditColumns | 'id'> & { id?: UUID }
+export type PersonnelMedicalReadinessUpdate = Partial<PersonnelMedicalReadinessInsert>
 
