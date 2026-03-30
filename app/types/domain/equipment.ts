@@ -1,0 +1,60 @@
+import type {
+  EquipmentAssetsInsert,
+  EquipmentAssetsRow,
+  EquipmentAssetsUpdate,
+  EquipmentIssuancesInsert,
+  EquipmentIssuancesRow,
+  EquipmentIssuancesUpdate,
+  UUID,
+} from '../database.tables'
+
+export type EquipmentAssetCreateInput = EquipmentAssetsInsert
+export type EquipmentAssetUpdateInput = EquipmentAssetsUpdate
+
+export type EquipmentIssuanceCreateInput = EquipmentIssuancesInsert
+export type EquipmentIssuanceUpdateInput = EquipmentIssuancesUpdate
+
+export interface EquipmentAccountabilityRow {
+  equipment_asset_id: UUID
+  asset_tag: string
+  serial_no: string | null
+  batch_no: string | null
+  equipment_code: string
+  item_name: string
+  category_code: string
+  category_name: string
+  current_unit_code: string | null
+  current_unit_name: string | null
+  current_location: string | null
+  condition_status: string | null
+  serviceability_status: string | null
+  asset_status: string
+  issuance_id: UUID | null
+  latest_issue_no: string | null
+  latest_issue_date: string | null
+  latest_expected_return_date: string | null
+  latest_actual_return_date: string | null
+  latest_issuance_status: string | null
+  issued_to_personnel_code: string | null
+  issued_to_last_name: string | null
+  issued_to_first_name: string | null
+}
+
+export interface EquipmentServiceabilityAggregate {
+  serviceability_status: string
+  condition_status: string
+  asset_count: number
+}
+
+export interface EquipmentAssetWithIssuance {
+  asset: EquipmentAssetsRow
+  latest_issuance: EquipmentIssuancesRow | null
+}
+
+export interface EquipmentFilters {
+  equipment_item_id?: UUID
+  category_id?: UUID
+  current_unit_id?: UUID
+  serviceability_status_id?: UUID
+  asset_status_id?: UUID
+}
