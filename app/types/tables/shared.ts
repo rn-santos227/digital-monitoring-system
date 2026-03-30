@@ -11,9 +11,11 @@ export interface TableShape<Row, Insert, Update> {
 export type AuditColumns = {
   created_at: ISODateTime
   updated_at: ISODateTime
+  created_by: UUID | null
 }
 
 export type AuditInsert = {
   created_at?: ISODateTime
   updated_at?: ISODateTime
+  created_by: UUID | null
 }
