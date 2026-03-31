@@ -79,3 +79,11 @@ create table if not exists public.levels (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+create table if not exists public.training_categories (
+  id uuid primary key default gen_random_uuid(),
+  code text not null unique,
+  name text not null unique,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
