@@ -259,3 +259,27 @@ create table if not exists public.equipment_items (
   updated_at timestamptz not null default now(),
   constraint equipment_items_minimum_stock_level_check check (minimum_stock_level >= 0)
 );
+
+create table if not exists public.equipment_assets (
+  id uuid primary key default gen_random_uuid(),
+  asset_tag text not null unique,
+  equipment_item_id uuid not null references public.equipment_items(id) on delete restrict,
+  serial_no text null,
+  batch_no text null,
+  procurement_date date null,
+  acquisition_cost numeric(14,2) null,
+  fund_source text null,
+  current_unit_id uuid null references public.units(id) on delete restrict,
+  current_location text null,
+  condition_status_id uuid null references public.condition_statuses(id) on delete restrict,
+  serviceability_status_id uuid null references public.serviceability_statuses(id) on delete restrict,
+  asset_status_id uuid not null references public.asset_statuses(id) on delete restrict,
+  remarks text null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint equipment_assets_acquisition_cost_check check (acquisition_cost is null or acquisition_cost >= 0)
+);
+
+comment on table public.equipment_assets is
+'Business rule for app validation: if linked equipment_items.is_serialized = true, serial_no should be present.';
+
