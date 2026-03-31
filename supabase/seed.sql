@@ -168,3 +168,139 @@ set name = excluded.name,
     parent_unit_id = excluded.parent_unit_id,
     unit_type = excluded.unit_type,
     is_active = excluded.is_active;
+
+on conflict (code) do update
+set name = excluded.name,
+    parent_unit_id = excluded.parent_unit_id,
+    unit_type = excluded.unit_type,
+    is_active = excluded.is_active;
+
+-- Account types (RBAC roles)
+insert into public.account_types (code, name, description, is_system)
+values
+  ('ADMIN', 'ADMIN', 'System administrator with full access.', true),
+  ('COMMANDER', 'COMMANDER', 'Command-level user with strategic controls.', true),
+  ('OPERATIONS', 'OPERATIONS', 'Operations-focused planning and execution role.', true),
+  ('TRAINING_OFFICER', 'TRAINING_OFFICER', 'Role responsible for training readiness records.', true),
+  ('LOGISTICS', 'LOGISTICS', 'Role responsible for inventory and issuance workflows.', true),
+  ('MEDICAL', 'MEDICAL', 'Role responsible for medical-readiness workflows.', true),
+  ('AUDITOR', 'AUDITOR', 'Read-only role with expanded audit visibility.', true),
+  ('VIEWER', 'VIEWER', 'Basic read-only access role.', true)
+on conflict (code) do update
+set name = excluded.name,
+    description = excluded.description,
+    is_system = excluded.is_system,
+    updated_at = now();
+
+-- Permissions
+insert into public.permissions (code, name, module)
+values
+  ('personnel.view', 'View Personnel', 'personnel'),
+  ('personnel.create', 'Create Personnel', 'personnel'),
+  ('personnel.update', 'Update Personnel', 'personnel'),
+  ('personnel.delete', 'Delete Personnel', 'personnel'),
+  ('training.manage', 'Manage Training', 'training'),
+  ('deployment.manage', 'Manage Deployment', 'deployment'),
+  ('engagement.manage', 'Manage Engagement', 'engagement'),
+  ('equipment.view', 'View Equipment', 'equipment'),
+  ('equipment.manage', 'Manage Equipment', 'equipment'),
+  ('equipment.issue', 'Issue Equipment', 'equipment'),
+  ('equipment.maintain', 'Maintain Equipment', 'equipment'),
+  ('reports.view', 'View Reports', 'reports'),
+  ('audit.view', 'View Audit Logs', 'audit')
+on conflict (code) do update
+set name = excluded.name,
+    module = excluded.module;
+
+-- Optional bootstrap account seeding.
+-- Configure DB settings before seed execution:
+--   app.default_user_email
+--   app.default_user_password
+--   app.default_user_username (optional)
+--   app.default_user_full_name (optional)
+do $$
+declare
+  v_email text := nullif(current_setting('app.default_user_email', true), '');
+  v_password text := nullif(current_setting('app.default_user_password', true), '');
+  v_username text := nullif(current_setting('app.default_user_username', true), '');
+  v_full_name text := coalesce(nullif(current_setting('app.default_user_full_name', true), ''), 'Default Administrator');
+  v_user_id uuid;
+begin
+  if v_email is null or v_password is null then
+    raise notice 'Skipping default user seed. Set app.default_user_email and app.default_user_password to enable.';
+    return;
+  end if;
+
+  select id into v_user_id
+  from auth.users
+  where email = v_email
+  limit 1;
+
+  if v_user_id is null then
+    insert into auth.users (
+      id,
+      aud,
+      role,
+      email,
+      encrypted_password,
+      email_confirmed_at,
+      raw_app_meta_data,
+      raw_user_meta_data,
+      created_at,
+      updated_at
+    )
+    values (
+      gen_random_uuid(),
+      'authenticated',
+      'authenticated',
+      v_email,
+      crypt(v_password, gen_salt('bf')),
+      now(),
+      jsonb_build_object('provider', 'email', 'providers', array['email']),
+      '{}'::jsonb,
+      now(),
+      now()
+    )
+    returning id into v_user_id;
+
+    insert into auth.identities (
+      id,
+      user_id,
+      identity_data,
+      provider,
+      provider_id,
+      created_at,
+      updated_at
+    )
+    values (
+      gen_random_uuid(),
+      v_user_id,
+      jsonb_build_object('sub', v_user_id::text, 'email', v_email),
+      'email',
+      v_user_id::text,
+      now(),
+      now()
+    )
+    on conflict do nothing;
+  end if;
+
+  insert into public.user_profiles (id, username, full_name, is_active)
+  values (
+    v_user_id,
+    coalesce(v_username, split_part(v_email, '@', 1)),
+    v_full_name,
+    true
+  )
+  on conflict (id) do update
+  set username = excluded.username,
+      full_name = excluded.full_name,
+      is_active = true,
+      updated_at = now();
+
+  insert into public.user_account_types (user_id, account_type_id)
+  select v_user_id, at.id
+  from public.account_types at
+  where at.code = 'ADMIN'
+  on conflict (user_id, account_type_id) do nothing;
+end;
+$$;
