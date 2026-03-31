@@ -208,3 +208,22 @@ create table if not exists public.deployment_records (
   updated_at timestamptz not null default now(),
   constraint deployment_records_date_check check (end_date is null or end_date >= start_date)
 );
+
+-- ============================
+-- ENGAGEMENT DOMAIN
+-- ============================
+create table if not exists public.engagement_records (
+  id uuid primary key default gen_random_uuid(),
+  record_no text not null unique,
+  personnel_id uuid not null references public.personnel(id) on delete restrict,
+  engagement_title text not null,
+  engagement_type_id uuid not null references public.engagement_types(id) on delete restrict,
+  level_id uuid null references public.levels(id) on delete restrict,
+  date_start date null,
+  date_end date null,
+  status_id uuid not null references public.engagement_statuses(id) on delete restrict,
+  remarks text null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint engagement_records_date_check check (date_end is null or date_start is null or date_end >= date_start)
+);
