@@ -243,3 +243,19 @@ create table if not exists public.equipment_categories (
   updated_at timestamptz not null default now()
 );
 
+create table if not exists public.equipment_items (
+  id uuid primary key default gen_random_uuid(),
+  equipment_code text not null unique,
+  category_id uuid not null references public.equipment_categories(id) on delete restrict,
+  name text not null,
+  model text null,
+  manufacturer text null,
+  description text null,
+  unit_of_measure text null,
+  minimum_stock_level integer not null default 0,
+  is_serialized boolean not null default false,
+  is_active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint equipment_items_minimum_stock_level_check check (minimum_stock_level >= 0)
+);
