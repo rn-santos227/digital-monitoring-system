@@ -187,3 +187,24 @@ create table if not exists public.training_records (
   constraint training_records_date_check check (end_date is null or start_date is null or end_date >= start_date),
   constraint training_records_valid_until_check check (valid_until is null or end_date is null or valid_until >= end_date)
 );
+
+-- ============================
+-- DEPLOYMENT DOMAIN
+-- ============================
+create table if not exists public.deployment_records (
+  id uuid primary key default gen_random_uuid(),
+  record_no text not null unique,
+  personnel_id uuid not null references public.personnel(id) on delete restrict,
+  deployment_area text not null,
+  assignment_role text null,
+  operation_name text null,
+  start_date date not null,
+  end_date date null,
+  status_id uuid not null references public.deployment_statuses(id) on delete restrict,
+  location text null,
+  supervisor_id uuid null references public.personnel(id) on delete restrict,
+  remarks text null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint deployment_records_date_check check (end_date is null or end_date >= start_date)
+);
