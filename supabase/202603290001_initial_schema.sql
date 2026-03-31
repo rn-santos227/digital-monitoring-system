@@ -123,3 +123,9 @@ create table if not exists public.condition_statuses (
   updated_at timestamptz not null default now()
 );
 
+create table if not exists public.serviceability_statuses (
+  id uuid primary key default gen_random_uuid(),
+  name text not null unique,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
