@@ -165,3 +165,25 @@ create table if not exists public.investigation_statuses (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+-- ============================
+-- TRAINING DOMAIN
+-- ============================
+create table if not exists public.training_records (
+  id uuid primary key default gen_random_uuid(),
+  record_no text not null unique,
+  personnel_id uuid not null references public.personnel(id) on delete restrict,
+  training_title text not null,
+  training_category_id uuid null references public.training_categories(id) on delete restrict,
+  level_id uuid null references public.levels(id) on delete restrict,
+  start_date date null,
+  end_date date null,
+  status_id uuid not null references public.training_statuses(id) on delete restrict,
+  certificate_no text null,
+  valid_until date null,
+  remarks text null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint training_records_date_check check (end_date is null or start_date is null or end_date >= start_date),
+  constraint training_records_valid_until_check check (valid_until is null or end_date is null or valid_until >= end_date)
+);
