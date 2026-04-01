@@ -283,3 +283,31 @@ create table if not exists public.equipment_assets (
 comment on table public.equipment_assets is
 'Business rule for app validation: if linked equipment_items.is_serialized = true, serial_no should be present.';
 
+-- ============================
+-- EQUIPMENT ISSUANCE
+-- ============================
+create table if not exists public.equipment_issuances (
+  id uuid primary key default gen_random_uuid(),
+  issue_no text not null unique,
+  equipment_asset_id uuid not null references public.equipment_assets(id) on delete restrict,
+  issued_to_personnel_id uuid not null references public.personnel(id) on delete restrict,
+  issued_by_personnel_id uuid null references public.personnel(id) on delete restrict,
+  issue_date date not null,
+  expected_return_date date null,
+  actual_return_date date null,
+  issue_purpose text null,
+  deployment_id uuid null references public.deployment_records(id) on delete set null,
+  status_id uuid not null references public.issuance_statuses(id) on delete restrict,
+  condition_on_issue_id uuid null references public.condition_statuses(id) on delete restrict,
+  condition_on_return_id uuid null references public.condition_statuses(id) on delete restrict,
+  remarks text null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint equipment_issuances_actual_return_date_check check (
+    actual_return_date is null or actual_return_date >= issue_date
+  ),
+  constraint equipment_issuances_expected_return_date_check check (
+    expected_return_date is null or expected_return_date >= issue_date
+  )
+);
+
