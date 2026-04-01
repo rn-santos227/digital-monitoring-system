@@ -68,3 +68,15 @@ create table if not exists public.account_type_permissions (
   permission_id uuid not null references public.permissions (id) on delete cascade,
   unique (account_type_id, permission_id)
 );
+
+create table if not exists public.audit_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid null references public.user_profiles (id) on delete set null,
+  action text not null,
+  table_name text not null,
+  record_id uuid null,
+  old_data jsonb null,
+  new_data jsonb null,
+  metadata jsonb null,
+  created_at timestamptz not null default now()
+);
