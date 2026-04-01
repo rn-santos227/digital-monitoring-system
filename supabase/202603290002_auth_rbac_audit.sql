@@ -188,3 +188,9 @@ before update on public.user_profiles
 for each row
 execute function public.set_updated_at();
 
+drop trigger if exists set_account_types_updated_at on public.account_types;
+
+create trigger set_account_types_updated_at
+before update on public.account_types
+for each row
+execute function public.set_updated_at();
