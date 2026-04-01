@@ -311,3 +311,32 @@ create table if not exists public.equipment_issuances (
   )
 );
 
+
+comment on table public.equipment_issuances is
+'App-level rules: only one active/open issuance per asset at a time; only serviceable assets should normally be issued.';
+
+-- ============================
+-- MAINTENANCE DOMAIN
+-- ============================
+create table if not exists public.equipment_maintenance_records (
+  id uuid primary key default gen_random_uuid(),
+  maintenance_no text not null unique,
+  equipment_asset_id uuid not null references public.equipment_assets(id) on delete restrict,
+  maintenance_type_id uuid not null references public.maintenance_types(id) on delete restrict,
+  reported_date date null,
+  scheduled_date date null,
+  completed_date date null,
+  performed_by text null,
+  cost numeric(14,2) null,
+  findings text null,
+  action_taken text null,
+  resulting_condition_status_id uuid null references public.condition_statuses(id) on delete restrict,
+  resulting_serviceability_status_id uuid null references public.serviceability_statuses(id) on delete restrict,
+  remarks text null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint equipment_maintenance_records_cost_check check (cost is null or cost >= 0),
+  constraint equipment_maintenance_records_completed_date_check check (
+    completed_date is null or reported_date is null or completed_date >= reported_date
+  )
+);
