@@ -434,3 +434,12 @@ create index if not exists idx_engagement_records_personnel_id on public.engagem
 create index if not exists idx_engagement_records_engagement_type_id on public.engagement_records(engagement_type_id);
 create index if not exists idx_engagement_records_level_id on public.engagement_records(level_id);
 create index if not exists idx_engagement_records_status_id on public.engagement_records(status_id);
+
+create index if not exists idx_equipment_items_category_id on public.equipment_items(category_id);
+create index if not exists idx_equipment_items_is_active on public.equipment_items(is_active);
+
+create index if not exists idx_equipment_assets_equipment_item_id on public.equipment_assets(equipment_item_id);
+create index if not exists idx_equipment_assets_current_unit_id on public.equipment_assets(current_unit_id);
+create index if not exists idx_equipment_assets_condition_status_id on public.equipment_assets(condition_status_id);
+create index if not exists idx_equipment_assets_serviceability_status_id on public.equipment_assets(serviceability_status_id);
+create index if not exists idx_equipment_assets_asset_status_id on public.equipment_assets(asset_status_id);
