@@ -419,3 +419,10 @@ create index if not exists idx_personnel_employment_status_id on public.personne
 create index if not exists idx_personnel_service_status_id on public.personnel(service_status_id);
 create index if not exists idx_personnel_last_name on public.personnel(last_name);
 
+create index if not exists idx_training_records_personnel_id on public.training_records(personnel_id);
+create index if not exists idx_training_records_training_category_id on public.training_records(training_category_id);
+create index if not exists idx_training_records_level_id on public.training_records(level_id);
+create index if not exists idx_training_records_status_id on public.training_records(status_id);
+create index if not exists idx_training_records_start_date on public.training_records(start_date);
+
+
