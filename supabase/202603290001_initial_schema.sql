@@ -609,3 +609,14 @@ left join public.condition_statuses cs on cs.id = ea.condition_status_id
 left join public.serviceability_statuses ss on ss.id = ea.serviceability_status_id
 join public.asset_statuses ast on ast.id = ea.asset_status_id
 left join latest_issuance li on li.equipment_asset_id = ea.id;
+
+create or replace view public.vw_equipment_serviceability as
+select
+  coalesce(ss.name, 'Unknown') as serviceability_status,
+  coalesce(cs.name, 'Unknown') as condition_status,
+  count(*)::bigint as asset_count
+from public.equipment_assets ea
+left join public.serviceability_statuses ss on ss.id = ea.serviceability_status_id
+left join public.condition_statuses cs on cs.id = ea.condition_status_id
+group by coalesce(ss.name, 'Unknown'), coalesce(cs.name, 'Unknown')
+order by serviceability_status, condition_status;
