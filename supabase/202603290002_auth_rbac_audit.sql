@@ -45,3 +45,11 @@ create table if not exists public.account_types (
   updated_at timestamptz not null default now()
 );
 
+create table if not exists public.user_account_types (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.user_profiles (id) on delete cascade,
+  account_type_id uuid not null references public.account_types (id) on delete cascade,
+  assigned_at timestamptz not null default now(),
+  assigned_by uuid null references public.user_profiles (id) on delete set null,
+  unique (user_id, account_type_id)
+);
