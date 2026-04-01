@@ -360,3 +360,19 @@ create table if not exists public.equipment_incidents (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+-- ============================
+-- PERSONNEL READINESS
+-- ============================
+create table if not exists public.personnel_qualifications (
+  id uuid primary key default gen_random_uuid(),
+  personnel_id uuid not null references public.personnel(id) on delete restrict,
+  qualification_type text not null,
+  date_obtained date null,
+  valid_until date null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint personnel_qualifications_validity_check check (
+    valid_until is null or date_obtained is null or valid_until >= date_obtained
+  )
+);
