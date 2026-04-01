@@ -61,3 +61,10 @@ create table if not exists public.permissions (
   module text not null,
   created_at timestamptz not null default now()
 );
+
+create table if not exists public.account_type_permissions (
+  id uuid primary key default gen_random_uuid(),
+  account_type_id uuid not null references public.account_types (id) on delete cascade,
+  permission_id uuid not null references public.permissions (id) on delete cascade,
+  unique (account_type_id, permission_id)
+);
