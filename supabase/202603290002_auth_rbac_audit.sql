@@ -260,3 +260,46 @@ drop trigger if exists tr_audit_engagement_records on public.engagement_records;
 create trigger tr_audit_engagement_records
 after insert or update or delete on public.engagement_records
 for each row execute function public.log_audit_changes();
+
+drop trigger if exists tr_audit_equipment_assets on public.equipment_assets;
+
+create trigger tr_audit_equipment_assets
+after insert or update or delete on public.equipment_assets
+for each row execute function public.log_audit_changes();
+
+drop trigger if exists tr_audit_equipment_issuances on public.equipment_issuances;
+
+create trigger tr_audit_equipment_issuances
+after insert or update or delete on public.equipment_issuances
+for each row execute function public.log_audit_changes();
+
+-- Optional hardening helpers.
+-- 1) One active session per user/device fingerprint.
+create unique index if not exists auth_sessions_active_device_uniq
+on public.auth_sessions (user_id, provider, coalesce(user_agent, ''), coalesce(ip_address, ''))
+where revoked_at is null;
+
+-- 2) Query helpers for revocation and expiry checks.
+create or replace view public.active_auth_sessions as
+select *
+from public.auth_sessions
+where revoked_at is null
+  and expires_at > now();
+
+-- 3) Automatic expiry housekeeping helper.
+create or replace function public.expire_auth_sessions()
+returns bigint
+language plpgsql
+as $$
+declare
+  affected_count bigint;
+begin
+  update public.auth_sessions
+  set revoked_at = now()
+  where revoked_at is null
+    and expires_at <= now();
+
+  get diagnostics affected_count = row_count;
+  return affected_count;
+end;
+$$;
