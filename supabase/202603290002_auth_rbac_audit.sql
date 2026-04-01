@@ -180,3 +180,11 @@ alter table if exists public.equipment_issuances
   add column if not exists created_at timestamptz not null default now(),
   add column if not exists updated_at timestamptz not null default now(),
   add column if not exists created_by uuid null references public.user_profiles (id) on delete set null;
+
+drop trigger if exists set_user_profiles_updated_at on public.user_profiles;
+
+create trigger set_user_profiles_updated_at
+before update on public.user_profiles
+for each row
+execute function public.set_updated_at();
+
