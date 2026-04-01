@@ -95,3 +95,49 @@ begin
 end;
 $$;
 
+
+create or replace function public.log_audit_changes()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  actor_id uuid;
+  current_record_id uuid;
+begin
+  -- TODO: inject user_id from application layer if not available in DB session
+  begin
+    actor_id := nullif(current_setting('app.audit_user_id', true), '')::uuid;
+  exception
+    when others then
+      actor_id := null;
+  end;
+
+  if tg_op = 'INSERT' then
+    current_record_id := (to_jsonb(new)->>'id')::uuid;
+
+    insert into public.audit_logs (user_id, action, table_name, record_id, old_data, new_data)
+    values (actor_id, 'INSERT', tg_table_name, current_record_id, null, to_jsonb(new));
+
+    return new;
+  elsif tg_op = 'UPDATE' then
+    current_record_id := coalesce((to_jsonb(new)->>'id')::uuid, (to_jsonb(old)->>'id')::uuid);
+
+    insert into public.audit_logs (user_id, action, table_name, record_id, old_data, new_data)
+    values (actor_id, 'UPDATE', tg_table_name, current_record_id, to_jsonb(old), to_jsonb(new));
+
+    return new;
+  elsif tg_op = 'DELETE' then
+    current_record_id := (to_jsonb(old)->>'id')::uuid;
+
+    insert into public.audit_logs (user_id, action, table_name, record_id, old_data, new_data)
+    values (actor_id, 'DELETE', tg_table_name, current_record_id, to_jsonb(old), null);
+
+    return old;
+  end if;
+
+  return null;
+end;
+$$;
+
