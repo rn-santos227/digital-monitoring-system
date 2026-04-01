@@ -459,3 +459,8 @@ create index if not exists idx_equipment_incidents_personnel_id on public.equipm
 create index if not exists idx_equipment_incidents_deployment_id on public.equipment_incidents(deployment_id);
 create index if not exists idx_equipment_incidents_incident_type_id on public.equipment_incidents(incident_type_id);
 create index if not exists idx_equipment_incidents_investigation_status_id on public.equipment_incidents(investigation_status_id);
+
+create index if not exists idx_personnel_qualifications_personnel_id on public.personnel_qualifications(personnel_id);
+create index if not exists idx_personnel_medical_readiness_personnel_id on public.personnel_medical_readiness(personnel_id);
+create index if not exists idx_personnel_weapon_assignments_personnel_id on public.personnel_weapon_assignments(personnel_id);
+create index if not exists idx_personnel_weapon_assignments_equipment_asset_id on public.personnel_weapon_assignments(equipment_asset_id);
