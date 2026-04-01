@@ -194,3 +194,31 @@ create trigger set_account_types_updated_at
 before update on public.account_types
 for each row
 execute function public.set_updated_at();
+
+drop trigger if exists set_personnel_updated_at on public.personnel;
+
+create trigger set_personnel_updated_at
+before update on public.personnel
+for each row
+execute function public.set_updated_at();
+
+drop trigger if exists set_training_records_updated_at on public.training_records;
+
+create trigger set_training_records_updated_at
+before update on public.training_records
+for each row
+execute function public.set_updated_at();
+
+drop trigger if exists set_deployment_records_updated_at on public.deployment_records;
+
+create trigger set_deployment_records_updated_at
+before update on public.deployment_records
+for each row
+execute function public.set_updated_at();
+
+drop trigger if exists set_engagement_records_updated_at on public.engagement_records;
+
+create trigger set_engagement_records_updated_at
+before update on public.engagement_records
+for each row
+execute function public.set_updated_at();
