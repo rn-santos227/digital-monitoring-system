@@ -141,3 +141,11 @@ begin
 end;
 $$;
 
+create or replace function public.set_audit_user(audit_user_id uuid)
+returns void
+language sql
+security definer
+as $$
+  select set_config('app.audit_user_id', coalesce(audit_user_id::text, ''), true);
+$$;
+
