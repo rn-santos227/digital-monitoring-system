@@ -430,3 +430,7 @@ create index if not exists idx_deployment_records_supervisor_id on public.deploy
 create index if not exists idx_deployment_records_status_id on public.deployment_records(status_id);
 create index if not exists idx_deployment_records_start_date on public.deployment_records(start_date);
 
+create index if not exists idx_engagement_records_personnel_id on public.engagement_records(personnel_id);
+create index if not exists idx_engagement_records_engagement_type_id on public.engagement_records(engagement_type_id);
+create index if not exists idx_engagement_records_level_id on public.engagement_records(level_id);
+create index if not exists idx_engagement_records_status_id on public.engagement_records(status_id);
