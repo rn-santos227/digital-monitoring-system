@@ -12,3 +12,16 @@ create table if not exists public.user_profiles (
   updated_at timestamptz not null default now()
 );
 
+create table if not exists public.auth_sessions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.user_profiles (id) on delete cascade,
+  access_token text not null,
+  refresh_token text null,
+  provider text not null,
+  ip_address text null,
+  user_agent text null,
+  expires_at timestamptz not null,
+  revoked_at timestamptz null,
+  created_at timestamptz not null default now()
+);
+
