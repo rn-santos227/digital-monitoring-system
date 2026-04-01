@@ -149,9 +149,34 @@ as $$
   select set_config('app.audit_user_id', coalesce(audit_user_id::text, ''), true);
 $$;
 
+
 -- Ensure baseline audit fields exist in major operational tables.
 alter table if exists public.personnel
   add column if not exists created_at timestamptz not null default now(),
   add column if not exists updated_at timestamptz not null default now(),
   add column if not exists created_by uuid null references public.user_profiles (id) on delete set null;
 
+alter table if exists public.training_records
+  add column if not exists created_at timestamptz not null default now(),
+  add column if not exists updated_at timestamptz not null default now(),
+  add column if not exists created_by uuid null references public.user_profiles (id) on delete set null;
+
+alter table if exists public.deployment_records
+  add column if not exists created_at timestamptz not null default now(),
+  add column if not exists updated_at timestamptz not null default now(),
+  add column if not exists created_by uuid null references public.user_profiles (id) on delete set null;
+
+alter table if exists public.engagement_records
+  add column if not exists created_at timestamptz not null default now(),
+  add column if not exists updated_at timestamptz not null default now(),
+  add column if not exists created_by uuid null references public.user_profiles (id) on delete set null;
+
+alter table if exists public.equipment_assets
+  add column if not exists created_at timestamptz not null default now(),
+  add column if not exists updated_at timestamptz not null default now(),
+  add column if not exists created_by uuid null references public.user_profiles (id) on delete set null;
+
+alter table if exists public.equipment_issuances
+  add column if not exists created_at timestamptz not null default now(),
+  add column if not exists updated_at timestamptz not null default now(),
+  add column if not exists created_by uuid null references public.user_profiles (id) on delete set null;
