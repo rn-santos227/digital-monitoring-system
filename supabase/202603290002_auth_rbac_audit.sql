@@ -53,3 +53,11 @@ create table if not exists public.user_account_types (
   assigned_by uuid null references public.user_profiles (id) on delete set null,
   unique (user_id, account_type_id)
 );
+
+create table if not exists public.permissions (
+  id uuid primary key default gen_random_uuid(),
+  code text not null unique,
+  name text not null,
+  module text not null,
+  created_at timestamptz not null default now()
+);
