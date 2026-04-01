@@ -425,4 +425,8 @@ create index if not exists idx_training_records_level_id on public.training_reco
 create index if not exists idx_training_records_status_id on public.training_records(status_id);
 create index if not exists idx_training_records_start_date on public.training_records(start_date);
 
+create index if not exists idx_deployment_records_personnel_id on public.deployment_records(personnel_id);
+create index if not exists idx_deployment_records_supervisor_id on public.deployment_records(supervisor_id);
+create index if not exists idx_deployment_records_status_id on public.deployment_records(status_id);
+create index if not exists idx_deployment_records_start_date on public.deployment_records(start_date);
 
