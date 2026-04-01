@@ -340,3 +340,23 @@ create table if not exists public.equipment_maintenance_records (
     completed_date is null or reported_date is null or completed_date >= reported_date
   )
 );
+
+-- ============================
+-- INCIDENT TRACKING
+-- ============================
+create table if not exists public.equipment_incidents (
+  id uuid primary key default gen_random_uuid(),
+  incident_no text not null unique,
+  equipment_asset_id uuid not null references public.equipment_assets(id) on delete restrict,
+  personnel_id uuid null references public.personnel(id) on delete set null,
+  deployment_id uuid null references public.deployment_records(id) on delete set null,
+  incident_type_id uuid not null references public.incident_types(id) on delete restrict,
+  incident_date date not null,
+  location text null,
+  description text not null,
+  investigation_status_id uuid null references public.investigation_statuses(id) on delete restrict,
+  resolution text null,
+  remarks text null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
