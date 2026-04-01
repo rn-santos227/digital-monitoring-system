@@ -149,3 +149,9 @@ as $$
   select set_config('app.audit_user_id', coalesce(audit_user_id::text, ''), true);
 $$;
 
+-- Ensure baseline audit fields exist in major operational tables.
+alter table if exists public.personnel
+  add column if not exists created_at timestamptz not null default now(),
+  add column if not exists updated_at timestamptz not null default now(),
+  add column if not exists created_by uuid null references public.user_profiles (id) on delete set null;
+
