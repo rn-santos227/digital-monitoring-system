@@ -25,3 +25,13 @@ create table if not exists public.auth_sessions (
   created_at timestamptz not null default now()
 );
 
+
+create index if not exists auth_sessions_user_id_idx on public.auth_sessions (user_id);
+create index if not exists auth_sessions_expires_at_idx on public.auth_sessions (expires_at);
+create index if not exists auth_sessions_revoked_at_idx on public.auth_sessions (revoked_at);
+
+comment on table public.auth_sessions is
+  'OAuth/session token metadata from Supabase Auth. Prefer encrypted or hashed token persistence at rest where possible.';
+comment on column public.auth_sessions.access_token is
+  'Token currently stored as plaintext for revocation lookup. TODO: store hashed token + encrypted original if product constraints allow.';
+
