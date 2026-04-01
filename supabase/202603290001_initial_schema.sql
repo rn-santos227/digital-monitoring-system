@@ -620,3 +620,42 @@ left join public.serviceability_statuses ss on ss.id = ea.serviceability_status_
 left join public.condition_statuses cs on cs.id = ea.condition_status_id
 group by coalesce(ss.name, 'Unknown'), coalesce(cs.name, 'Unknown')
 order by serviceability_status, condition_status;
+
+create or replace view public.vw_dashboard_kpis as
+select
+  (select count(*)::bigint from public.personnel) as total_personnel,
+  (
+    select count(*)::bigint
+    from public.personnel p
+    join public.service_statuses ss on ss.id = p.service_status_id
+    where ss.name = 'Active Duty'
+  ) as active_personnel,
+  (
+    select count(distinct dr.personnel_id)::bigint
+    from public.deployment_records dr
+    join public.deployment_statuses ds on ds.id = dr.status_id
+    where ds.name = 'Active'
+  ) as deployed_personnel,
+  (select count(*)::bigint from public.equipment_assets) as total_equipment_assets,
+  (
+    select count(*)::bigint
+    from public.equipment_assets ea
+    join public.serviceability_statuses ss on ss.id = ea.serviceability_status_id
+    where ss.name = 'Serviceable'
+  ) as serviceable_equipment_assets,
+  (
+    select count(*)::bigint
+    from public.equipment_issuances ei
+    join public.issuance_statuses ist on ist.id = ei.status_id
+    where ist.name = 'Issued'
+      and ei.actual_return_date is null
+  ) as issued_equipment_assets,
+  (
+    select count(*)::bigint
+    from public.equipment_issuances ei
+    join public.issuance_statuses ist on ist.id = ei.status_id
+    where ist.name in ('Issued', 'Overdue')
+      and ei.actual_return_date is null
+      and ei.expected_return_date is not null
+      and ei.expected_return_date < current_date
+  ) as overdue_equipment_returns;
