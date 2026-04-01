@@ -80,3 +80,18 @@ create table if not exists public.audit_logs (
   metadata jsonb null,
   created_at timestamptz not null default now()
 );
+
+create index if not exists audit_logs_user_id_idx on public.audit_logs (user_id);
+create index if not exists audit_logs_table_name_idx on public.audit_logs (table_name);
+create index if not exists audit_logs_created_at_desc_idx on public.audit_logs (created_at desc);
+
+create or replace function public.set_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
