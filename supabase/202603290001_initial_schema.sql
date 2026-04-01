@@ -558,3 +558,54 @@ join public.ranks r on r.id = p.rank_id
 join public.units u on u.id = p.unit_id
 join public.employment_statuses es on es.id = p.employment_status_id
 join public.service_statuses ss on ss.id = p.service_status_id;
+
+create or replace view public.vw_equipment_accountability as
+with latest_issuance as (
+  select distinct on (ei.equipment_asset_id)
+    ei.equipment_asset_id,
+    ei.id as issuance_id,
+    ei.issue_no,
+    ei.issue_date,
+    ei.expected_return_date,
+    ei.actual_return_date,
+    ist.name as issuance_status,
+    p.personnel_code as issued_to_personnel_code,
+    p.last_name as issued_to_last_name,
+    p.first_name as issued_to_first_name
+  from public.equipment_issuances ei
+  join public.issuance_statuses ist on ist.id = ei.status_id
+  join public.personnel p on p.id = ei.issued_to_personnel_id
+  order by ei.equipment_asset_id, ei.issue_date desc, ei.created_at desc
+)
+select
+  ea.id as equipment_asset_id,
+  ea.asset_tag,
+  ea.serial_no,
+  ea.batch_no,
+  ei.equipment_code,
+  ei.name as item_name,
+  ec.code as category_code,
+  ec.name as category_name,
+  u.code as current_unit_code,
+  u.name as current_unit_name,
+  ea.current_location,
+  cs.name as condition_status,
+  ss.name as serviceability_status,
+  ast.name as asset_status,
+  li.issuance_id,
+  li.issue_no as latest_issue_no,
+  li.issue_date as latest_issue_date,
+  li.expected_return_date as latest_expected_return_date,
+  li.actual_return_date as latest_actual_return_date,
+  li.issuance_status as latest_issuance_status,
+  li.issued_to_personnel_code,
+  li.issued_to_last_name,
+  li.issued_to_first_name
+from public.equipment_assets ea
+join public.equipment_items ei on ei.id = ea.equipment_item_id
+join public.equipment_categories ec on ec.id = ei.category_id
+left join public.units u on u.id = ea.current_unit_id
+left join public.condition_statuses cs on cs.id = ea.condition_status_id
+left join public.serviceability_statuses ss on ss.id = ea.serviceability_status_id
+join public.asset_statuses ast on ast.id = ea.asset_status_id
+left join latest_issuance li on li.equipment_asset_id = ea.id;
