@@ -376,3 +376,17 @@ create table if not exists public.personnel_qualifications (
     valid_until is null or date_obtained is null or valid_until >= date_obtained
   )
 );
+
+create table if not exists public.personnel_medical_readiness (
+  id uuid primary key default gen_random_uuid(),
+  personnel_id uuid not null references public.personnel(id) on delete restrict,
+  medical_status text not null,
+  fit_for_deployment boolean not null default false,
+  last_exam_date date null,
+  next_exam_date date null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint personnel_medical_readiness_exam_date_check check (
+    next_exam_date is null or last_exam_date is null or next_exam_date >= last_exam_date
+  )
+);
