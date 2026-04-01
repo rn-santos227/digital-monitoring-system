@@ -408,3 +408,14 @@ create table if not exists public.personnel_weapon_assignments (
 comment on table public.personnel_weapon_assignments is
 'App-level rule: weapon assignments should reference weapon-class assets/items only.';
 
+-- ============================
+-- INDEXES (all FKs + common filters)
+-- ============================
+create index if not exists idx_units_parent_unit_id on public.units(parent_unit_id);
+
+create index if not exists idx_personnel_rank_id on public.personnel(rank_id);
+create index if not exists idx_personnel_unit_id on public.personnel(unit_id);
+create index if not exists idx_personnel_employment_status_id on public.personnel(employment_status_id);
+create index if not exists idx_personnel_service_status_id on public.personnel(service_status_id);
+create index if not exists idx_personnel_last_name on public.personnel(last_name);
+
