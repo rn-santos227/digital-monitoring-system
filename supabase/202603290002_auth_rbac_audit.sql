@@ -222,3 +222,41 @@ create trigger set_engagement_records_updated_at
 before update on public.engagement_records
 for each row
 execute function public.set_updated_at();
+
+drop trigger if exists set_equipment_assets_updated_at on public.equipment_assets;
+
+create trigger set_equipment_assets_updated_at
+before update on public.equipment_assets
+for each row
+execute function public.set_updated_at();
+
+drop trigger if exists set_equipment_issuances_updated_at on public.equipment_issuances;
+
+create trigger set_equipment_issuances_updated_at
+before update on public.equipment_issuances
+for each row
+execute function public.set_updated_at();
+
+drop trigger if exists tr_audit_personnel on public.personnel;
+
+create trigger tr_audit_personnel
+after insert or update or delete on public.personnel
+for each row execute function public.log_audit_changes();
+
+drop trigger if exists tr_audit_training_records on public.training_records;
+
+create trigger tr_audit_training_records
+after insert or update or delete on public.training_records
+for each row execute function public.log_audit_changes();
+
+drop trigger if exists tr_audit_deployment_records on public.deployment_records;
+
+create trigger tr_audit_deployment_records
+after insert or update or delete on public.deployment_records
+for each row execute function public.log_audit_changes();
+
+drop trigger if exists tr_audit_engagement_records on public.engagement_records;
+
+create trigger tr_audit_engagement_records
+after insert or update or delete on public.engagement_records
+for each row execute function public.log_audit_changes();
