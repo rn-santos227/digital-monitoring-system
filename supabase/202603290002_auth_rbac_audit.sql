@@ -35,3 +35,13 @@ comment on table public.auth_sessions is
 comment on column public.auth_sessions.access_token is
   'Token currently stored as plaintext for revocation lookup. TODO: store hashed token + encrypted original if product constraints allow.';
 
+create table if not exists public.account_types (
+  id uuid primary key default gen_random_uuid(),
+  code text not null unique,
+  name text not null unique,
+  description text null,
+  is_system boolean not null default false,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
