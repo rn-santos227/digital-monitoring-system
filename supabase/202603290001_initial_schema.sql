@@ -390,3 +390,21 @@ create table if not exists public.personnel_medical_readiness (
     next_exam_date is null or last_exam_date is null or next_exam_date >= last_exam_date
   )
 );
+
+
+create table if not exists public.personnel_weapon_assignments (
+  id uuid primary key default gen_random_uuid(),
+  personnel_id uuid not null references public.personnel(id) on delete restrict,
+  equipment_asset_id uuid not null references public.equipment_assets(id) on delete restrict,
+  assignment_date date not null,
+  relieved_date date null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  constraint personnel_weapon_assignments_date_check check (
+    relieved_date is null or relieved_date >= assignment_date
+  )
+);
+
+comment on table public.personnel_weapon_assignments is
+'App-level rule: weapon assignments should reference weapon-class assets/items only.';
+
