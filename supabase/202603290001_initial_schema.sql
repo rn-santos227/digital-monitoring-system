@@ -443,3 +443,13 @@ create index if not exists idx_equipment_assets_current_unit_id on public.equipm
 create index if not exists idx_equipment_assets_condition_status_id on public.equipment_assets(condition_status_id);
 create index if not exists idx_equipment_assets_serviceability_status_id on public.equipment_assets(serviceability_status_id);
 create index if not exists idx_equipment_assets_asset_status_id on public.equipment_assets(asset_status_id);
+
+create index if not exists idx_equipment_issuances_equipment_asset_id on public.equipment_issuances(equipment_asset_id);
+create index if not exists idx_equipment_issuances_issued_to_personnel_id on public.equipment_issuances(issued_to_personnel_id);
+create index if not exists idx_equipment_issuances_issued_by_personnel_id on public.equipment_issuances(issued_by_personnel_id);
+create index if not exists idx_equipment_issuances_deployment_id on public.equipment_issuances(deployment_id);
+create index if not exists idx_equipment_issuances_status_id on public.equipment_issuances(status_id);
+create index if not exists idx_equipment_issuances_expected_return_date on public.equipment_issuances(expected_return_date);
+
+create index if not exists idx_equipment_maintenance_records_equipment_asset_id on public.equipment_maintenance_records(equipment_asset_id);
+create index if not exists idx_equipment_maintenance_records_maintenance_type_id on public.equipment_maintenance_records(maintenance_type_id);
