@@ -453,3 +453,9 @@ create index if not exists idx_equipment_issuances_expected_return_date on publi
 
 create index if not exists idx_equipment_maintenance_records_equipment_asset_id on public.equipment_maintenance_records(equipment_asset_id);
 create index if not exists idx_equipment_maintenance_records_maintenance_type_id on public.equipment_maintenance_records(maintenance_type_id);
+
+create index if not exists idx_equipment_incidents_equipment_asset_id on public.equipment_incidents(equipment_asset_id);
+create index if not exists idx_equipment_incidents_personnel_id on public.equipment_incidents(personnel_id);
+create index if not exists idx_equipment_incidents_deployment_id on public.equipment_incidents(deployment_id);
+create index if not exists idx_equipment_incidents_incident_type_id on public.equipment_incidents(incident_type_id);
+create index if not exists idx_equipment_incidents_investigation_status_id on public.equipment_incidents(investigation_status_id);
