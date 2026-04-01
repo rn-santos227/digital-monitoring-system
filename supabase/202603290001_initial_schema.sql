@@ -464,3 +464,68 @@ create index if not exists idx_personnel_qualifications_personnel_id on public.p
 create index if not exists idx_personnel_medical_readiness_personnel_id on public.personnel_medical_readiness(personnel_id);
 create index if not exists idx_personnel_weapon_assignments_personnel_id on public.personnel_weapon_assignments(personnel_id);
 create index if not exists idx_personnel_weapon_assignments_equipment_asset_id on public.personnel_weapon_assignments(equipment_asset_id);
+
+-- ============================
+-- UPDATED_AT TRIGGERS
+-- ============================
+create trigger set_updated_at_ranks before update on public.ranks
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_units before update on public.units
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_employment_statuses before update on public.employment_statuses
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_service_statuses before update on public.service_statuses
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_personnel before update on public.personnel
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_levels before update on public.levels
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_training_categories before update on public.training_categories
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_training_statuses before update on public.training_statuses
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_deployment_statuses before update on public.deployment_statuses
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_engagement_types before update on public.engagement_types
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_engagement_statuses before update on public.engagement_statuses
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_condition_statuses before update on public.condition_statuses
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_serviceability_statuses before update on public.serviceability_statuses
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_asset_statuses before update on public.asset_statuses
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_issuance_statuses before update on public.issuance_statuses
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_maintenance_types before update on public.maintenance_types
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_incident_types before update on public.incident_types
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_investigation_statuses before update on public.investigation_statuses
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_training_records before update on public.training_records
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_deployment_records before update on public.deployment_records
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_engagement_records before update on public.engagement_records
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_equipment_categories before update on public.equipment_categories
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_equipment_items before update on public.equipment_items
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_equipment_assets before update on public.equipment_assets
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_equipment_issuances before update on public.equipment_issuances
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_equipment_maintenance_records before update on public.equipment_maintenance_records
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_equipment_incidents before update on public.equipment_incidents
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_personnel_qualifications before update on public.personnel_qualifications
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_personnel_medical_readiness before update on public.personnel_medical_readiness
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_personnel_weapon_assignments before update on public.personnel_weapon_assignments
+for each row execute function public.set_updated_at();
+
