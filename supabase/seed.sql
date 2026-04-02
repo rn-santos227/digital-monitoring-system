@@ -256,6 +256,10 @@ begin
     limit 1;
   end if;
 
+  v_email := coalesce(v_file_email, v_email);
+  v_password := coalesce(v_file_password, v_password);
+  v_username := coalesce(v_file_username, v_username);
+  v_full_name := coalesce(v_file_full_name, v_full_name);
   if v_email is null or v_password is null then
     raise notice 'Skipping default user seed. Set app.default_user_email and app.default_user_password to enable.';
     return;
