@@ -227,6 +227,13 @@ declare
   v_file_full_name text := null;
   v_user_id uuid;
 begin
+  begin
+    v_bootstrap_file := pg_read_file('supabase/seeds/bootstrap-account.txt', 0, 10000);
+  exception
+    when others then
+      v_bootstrap_file := null;
+  end;
+
   if v_email is null or v_password is null then
     raise notice 'Skipping default user seed. Set app.default_user_email and app.default_user_password to enable.';
     return;
