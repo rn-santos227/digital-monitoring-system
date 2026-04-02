@@ -1,7 +1,6 @@
 import type { H3Event } from 'h3'
+import { getCookie, getHeader } from 'h3'
 import { serverSupabaseUser } from '#supabase/server'
+import { getServiceSupabaseClient } from './serviceClient'
 
-export async function getUser(event: H3Event) {
-  const user = await serverSupabaseUser(event)
-  return user ?? null
-}
+
