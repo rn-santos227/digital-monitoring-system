@@ -205,6 +205,8 @@ values
 on conflict (code) do update
 set name = excluded.name,
     module = excluded.module;
+  insert into public.user_profiles (id, username, full_name, is_active)
+
 
 -- Optional bootstrap account seeding.
 -- Configure DB settings before seed execution:
@@ -278,17 +280,21 @@ begin
     on conflict do nothing;
   end if;
 
-  insert into public.user_profiles (id, username, full_name, is_active)
-  values (
+  insert into public.user_profiles (id, username, full_name, is_active, password_hash, password_updated_at)
+ values (
     v_user_id,
     coalesce(v_username, split_part(v_email, '@', 1)),
     v_full_name,
-    true
+    true,
+    crypt(v_password, gen_salt('bf')),
+    now()
   )
   on conflict (id) do update
   set username = excluded.username,
       full_name = excluded.full_name,
       is_active = true,
+      password_hash = excluded.password_hash,
+      password_updated_at = now(),
       updated_at = now();
 
   insert into public.user_account_types (user_id, account_type_id)
