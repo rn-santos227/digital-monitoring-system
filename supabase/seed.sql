@@ -220,6 +220,11 @@ declare
   v_password text := nullif(current_setting('app.default_user_password', true), '');
   v_username text := nullif(current_setting('app.default_user_username', true), '');
   v_full_name text := coalesce(nullif(current_setting('app.default_user_full_name', true), ''), 'Default Administrator');
+  v_bootstrap_file text := null;
+  v_file_email text := null;
+  v_file_password text := null;
+  v_file_username text := null;
+  v_file_full_name text := null;
   v_user_id uuid;
 begin
   if v_email is null or v_password is null then
