@@ -8,4 +8,9 @@ export async function getUser(event: H3Event) {
   const tokenFromHeader = bearer?.startsWith('Bearer ') ? bearer.slice(7).trim() : null
   const token = tokenFromHeader || getCookie(event, 'dms_session')
 
+  if (token) {
+    const supabase = getServiceSupabaseClient()
+    const now = new Date().toISOString()
+
+  }
 }
