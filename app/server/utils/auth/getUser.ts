@@ -21,5 +21,13 @@ export async function getUser(event: H3Event) {
       .limit(1)
       .maybeSingle()
 
+    if (data?.user_profiles && (data.user_profiles as any).is_active) {
+      const profile = data.user_profiles as any
+      return {
+        id: profile.id,
+        username: profile.username,
+        full_name: profile.full_name,
+      }
+    }
   }
 }
