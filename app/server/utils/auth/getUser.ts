@@ -30,4 +30,7 @@ export async function getUser(event: H3Event) {
       }
     }
   }
+
+  const user = await serverSupabaseUser(event)
+  return user ?? null
 }
