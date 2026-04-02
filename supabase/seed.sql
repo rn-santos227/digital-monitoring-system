@@ -240,6 +240,11 @@ begin
     where split_part(line, '=', 1) = 'email'
     limit 1;
 
+    select nullif(trim(split_part(line, '=', 2)), '') into v_file_password
+    from regexp_split_to_table(v_bootstrap_file, E'\n') as line
+    where split_part(line, '=', 1) = 'password'
+    limit 1;
+
   end if;
 
   if v_email is null or v_password is null then
