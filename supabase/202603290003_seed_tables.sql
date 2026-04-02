@@ -169,12 +169,6 @@ set name = excluded.name,
     unit_type = excluded.unit_type,
     is_active = excluded.is_active;
 
-on conflict (code) do update
-set name = excluded.name,
-    parent_unit_id = excluded.parent_unit_id,
-    unit_type = excluded.unit_type,
-    is_active = excluded.is_active;
-
 -- Account types (RBAC roles)
 insert into public.account_types (code, name, description, is_system)
 values
