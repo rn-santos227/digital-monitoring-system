@@ -6,5 +6,8 @@ export default defineEventHandler(async (event) => {
   const tokenFromHeader = bearer?.startsWith('Bearer ') ? bearer.slice(7).trim() : null
   const token = tokenFromHeader || getCookie(event, 'dms_session')
 
+  if (!token) {
+    throw createError({ statusCode: 400, statusMessage: 'No active session token found' })
+  }
 
 })
