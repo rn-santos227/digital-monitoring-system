@@ -234,6 +234,14 @@ begin
       v_bootstrap_file := null;
   end;
 
+  if v_bootstrap_file is not null then
+    select nullif(trim(split_part(line, '=', 2)), '') into v_file_email
+    from regexp_split_to_table(v_bootstrap_file, E'\n') as line
+    where split_part(line, '=', 1) = 'email'
+    limit 1;
+
+  end if;
+
   if v_email is null or v_password is null then
     raise notice 'Skipping default user seed. Set app.default_user_email and app.default_user_password to enable.';
     return;
