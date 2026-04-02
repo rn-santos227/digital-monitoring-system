@@ -17,5 +17,10 @@ export default defineEventHandler(async (event) => {
     .eq('access_token', token)
     .is('revoked_at', null)
 
-  
+  if (error) {
+    throw createError({ statusCode: 500, statusMessage: `Logout failed: ${error.message}` })
+  }
+
+  deleteCookie(event, 'dms_session', { path: '/' })
+  return { ok: true }
 })
