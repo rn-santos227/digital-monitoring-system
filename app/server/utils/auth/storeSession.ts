@@ -1,14 +1,8 @@
 import type { H3Event } from 'h3'
 import { getHeader } from 'h3'
 import { serverSupabaseClient } from '#supabase/server'
-
-interface StoreSessionInput {
-  userId: string
-  accessToken: string
-  refreshToken?: string | null
-  provider: string
-  expiresAt: string
-}
+import type { StoreSessionInput } from '../../shared/models'
+import { getRequestIpAddress } from '../../shared/utils'
 
 export async function storeSession(event: H3Event, input: StoreSessionInput) {
   const supabase = (await serverSupabaseClient(event)) as any
@@ -20,7 +14,7 @@ export async function storeSession(event: H3Event, input: StoreSessionInput) {
     access_token: input.accessToken,
     refresh_token: input.refreshToken ?? null,
     provider: input.provider,
-    ip_address: getHeader(event, 'x-forwarded-for')?.split(',')[0]?.trim() ?? event.node.req.socket.remoteAddress ?? null,
+    ip_address: getRequestIpAddress(event),
     user_agent: getHeader(event, 'user-agent') ?? null,
     expires_at: input.expiresAt,
   }
