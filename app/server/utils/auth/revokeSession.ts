@@ -1,10 +1,6 @@
 import type { H3Event } from 'h3'
 import { serverSupabaseClient } from '#supabase/server'
-
-interface RevokeSessionInput {
-  sessionId?: string
-  accessToken?: string
-}
+import type { RevokeSessionInput } from '../../shared/models'
 
 export async function revokeSession(event: H3Event, input: RevokeSessionInput) {
   const supabase = (await serverSupabaseClient(event)) as any
