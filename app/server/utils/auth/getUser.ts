@@ -1,6 +1,7 @@
 import type { H3Event } from 'h3'
-import { getCookie, getHeader } from 'h3'
 import { serverSupabaseUser } from '#supabase/server'
+import type { AuthenticatedUser } from '../../shared/models'
+import { getSessionTokenFromEvent } from '../../shared/utils'
 import { getServiceSupabaseClient } from './serviceClient'
 
 export async function getUser(event: H3Event) {
