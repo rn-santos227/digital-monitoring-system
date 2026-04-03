@@ -16,5 +16,10 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: 'identifier and password are required' })
   }
 
+  const supabase = getServiceSupabaseClient()
 
+  const { data: authRow, error: authError } = await supabase.rpc('authenticate_local_user', {
+    p_identifier: identifier,
+    p_password: password,
+  })
 })
