@@ -34,4 +34,19 @@ export default defineEventHandler(async (event) => {
 
   const token = generateSessionToken()
   const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 12).toISOString()
+  const ipAddress =
+    (event.node.req.headers['x-forwarded-for'] as string | undefined)
+      ?.split(',')[0]
+      ?.trim()
+    ?? event.node.req.socket?.remoteAddress
+    ?? null
+
+  const { error: sessionError } = await supabase.from('auth_sessions').insert({
+    user_id: user.user_id,
+    access_token: token,
+    provider: 'local',
+    user_agent: event.node.req.headers['user-agent'] ?? null,
+    ip_address: ipAddress,
+    expires_at: expiresAt,
+  })
 })
