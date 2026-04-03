@@ -31,13 +31,8 @@ export default defineEventHandler(async (event) => {
   }
 
   const token = generateSessionToken()
-  const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 12).toISOString()
-  const ipAddress =
-    (event.node.req.headers['x-forwarded-for'] as string | undefined)
-      ?.split(',')[0]
-      ?.trim()
-    ?? event.node.req.socket?.remoteAddress
-    ?? null
+  const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * SESSION_DURATION_HOURS).toISOString()
+  const ipAddress = getRequestIpAddress(event)
 
   const { error: sessionError } = await supabase.from('auth_sessions').insert({
     user_id: user.user_id,
@@ -57,7 +52,7 @@ export default defineEventHandler(async (event) => {
     .update({ last_login_at: new Date().toISOString() })
     .eq('id', user.user_id)
 
-  setCookie(event, 'dms_session', token, {
+  setCookie(event, SESSION_COOKIE_NAME, token, {
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
