@@ -23,3 +23,8 @@ export const parseBoolean = (value: unknown, fallback = false): boolean => {
   return fallback
 }
 
+export const parseNumber = (value: unknown, fallback = 0): number => {
+  const numeric = Number(value)
+
+  return Number.isFinite(numeric) ? numeric : fallback
+}
