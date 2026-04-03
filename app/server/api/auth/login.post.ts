@@ -66,4 +66,14 @@ export default defineEventHandler(async (event) => {
     path: '/',
     expires: new Date(expiresAt),
   })
+
+  return {
+    ok: true,
+    user: {
+      id: user.user_id,
+      username: user.username,
+      fullName: user.full_name,
+    },
+    expiresAt,
+  }
 })
