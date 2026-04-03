@@ -59,4 +59,11 @@ export default defineEventHandler(async (event) => {
     .update({ last_login_at: new Date().toISOString() })
     .eq('id', user.user_id)
 
+  setCookie(event, 'dms_session', token, {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    path: '/',
+    expires: new Date(expiresAt),
+  })
 })
