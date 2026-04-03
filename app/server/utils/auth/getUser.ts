@@ -14,9 +14,7 @@ interface SessionUserRow {
 }
 
 export async function getUser(event: H3Event) {
-  const bearer = getHeader(event, 'authorization')
-  const tokenFromHeader = bearer?.startsWith('Bearer ') ? bearer.slice(7).trim() : null
-  const token = tokenFromHeader || getCookie(event, 'dms_session')
+  const token = getSessionTokenFromEvent(event)
 
   if (token) {
     const supabase = getServiceSupabaseClient()
@@ -29,7 +27,7 @@ export async function getUser(event: H3Event) {
       .is('revoked_at', null)
       .gt('expires_at', now)
       .limit(1)
-      .maybeSingle()
+      .maybeSingle<SessionUserRow>()
 
     if (data?.user_profiles && (data.user_profiles as any).is_active) {
       const profile = data.user_profiles as any
