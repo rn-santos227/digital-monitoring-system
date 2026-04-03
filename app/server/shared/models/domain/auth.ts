@@ -16,3 +16,8 @@ export interface StoreSessionInput {
   provider: string
   expiresAt: string
 }
+
+export interface RevokeSessionInput {
+  sessionId?: string
+  accessToken?: string
+}
