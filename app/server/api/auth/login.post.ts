@@ -31,4 +31,7 @@ export default defineEventHandler(async (event) => {
   if (!user?.user_id) {
     throw createError({ statusCode: 401, statusMessage: 'Invalid credentials' })
   }
+
+  const token = generateSessionToken()
+  const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 12).toISOString()
 })
