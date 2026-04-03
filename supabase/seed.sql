@@ -205,8 +205,6 @@ values
 on conflict (code) do update
 set name = excluded.name,
     module = excluded.module;
-  insert into public.user_profiles (id, username, full_name, is_active)
-
 
 -- Optional bootstrap account seeding.
 -- Configure DB settings before seed execution:
