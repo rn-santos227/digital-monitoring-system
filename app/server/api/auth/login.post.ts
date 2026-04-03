@@ -53,4 +53,10 @@ export default defineEventHandler(async (event) => {
   if (sessionError) {
     throw createError({ statusCode: 500, statusMessage: `Failed to create session: ${sessionError.message}` })
   }
+
+  await supabase
+    .from('user_profiles')
+    .update({ last_login_at: new Date().toISOString() })
+    .eq('id', user.user_id)
+
 })
