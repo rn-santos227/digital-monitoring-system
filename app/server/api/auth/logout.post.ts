@@ -1,10 +1,10 @@
-import { createError, defineEventHandler, deleteCookie, getCookie, getHeader } from 'h3'
+import { createError, defineEventHandler, deleteCookie } from 'h3'
+import { SESSION_COOKIE_NAME } from '../../shared/constants'
+import { getSessionTokenFromEvent } from '../../shared/utils'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
 export default defineEventHandler(async (event) => {
-  const bearer = getHeader(event, 'authorization')
-  const tokenFromHeader = bearer?.startsWith('Bearer ') ? bearer.slice(7).trim() : null
-  const token = tokenFromHeader || getCookie(event, 'dms_session')
+  const token = getSessionTokenFromEvent(event)
 
   if (!token) {
     throw createError({ statusCode: 400, statusMessage: 'No active session token found' })
@@ -21,6 +21,6 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 500, statusMessage: `Logout failed: ${error.message}` })
   }
 
-  deleteCookie(event, 'dms_session', { path: '/' })
+  deleteCookie(event, SESSION_COOKIE_NAME, { path: '/' })
   return { ok: true }
 })
