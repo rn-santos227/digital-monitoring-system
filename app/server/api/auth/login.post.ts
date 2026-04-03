@@ -12,5 +12,9 @@ export default defineEventHandler(async (event) => {
   const identifier = body.identifier?.trim()
   const password = body.password
 
+  if (!identifier || !password) {
+    throw createError({ statusCode: 400, statusMessage: 'identifier and password are required' })
+  }
+
 
 })
