@@ -26,4 +26,9 @@ export default defineEventHandler(async (event) => {
   if (authError) {
     throw createError({ statusCode: 500, statusMessage: `Login failed: ${authError.message}` })
   }
+
+  const user = authRow?.[0]
+  if (!user?.user_id) {
+    throw createError({ statusCode: 401, statusMessage: 'Invalid credentials' })
+  }
 })
