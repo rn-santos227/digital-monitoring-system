@@ -49,4 +49,8 @@ export default defineEventHandler(async (event) => {
     ip_address: ipAddress,
     expires_at: expiresAt,
   })
+
+  if (sessionError) {
+    throw createError({ statusCode: 500, statusMessage: `Failed to create session: ${sessionError.message}` })
+  }
 })
