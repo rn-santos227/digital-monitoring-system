@@ -8,3 +8,11 @@ export interface AuthenticatedUser {
   username: string
   full_name: string | null
 }
+
+export interface StoreSessionInput {
+  userId: string
+  accessToken: string
+  refreshToken?: string | null
+  provider: string
+  expiresAt: string
+}
