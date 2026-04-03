@@ -22,4 +22,8 @@ export default defineEventHandler(async (event) => {
     p_identifier: identifier,
     p_password: password,
   })
+
+  if (authError) {
+    throw createError({ statusCode: 500, statusMessage: `Login failed: ${authError.message}` })
+  }
 })
