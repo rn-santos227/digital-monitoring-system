@@ -4,6 +4,15 @@ import type { AuthenticatedUser } from '../../shared/models'
 import { getSessionTokenFromEvent } from '../../shared/utils'
 import { getServiceSupabaseClient } from './serviceClient'
 
+interface SessionProfileRow extends AuthenticatedUser {
+  is_active: boolean
+}
+
+interface SessionUserRow {
+  user_id: string
+  user_profiles: SessionProfileRow
+}
+
 export async function getUser(event: H3Event) {
   const bearer = getHeader(event, 'authorization')
   const tokenFromHeader = bearer?.startsWith('Bearer ') ? bearer.slice(7).trim() : null
