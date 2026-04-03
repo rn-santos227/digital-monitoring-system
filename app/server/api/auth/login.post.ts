@@ -8,5 +8,9 @@ interface LoginBody {
 }
 
 export default defineEventHandler(async (event) => {
+  const body = await readBody<LoginBody>(event)
+  const identifier = body.identifier?.trim()
+  const password = body.password
+
 
 })
