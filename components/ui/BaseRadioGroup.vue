@@ -10,6 +10,16 @@
         class="flex items-center gap-3 text-sm text-slate-700"
         :for="`${inputId}-${index}`"
       >
+        <input
+          :id="`${inputId}-${index}`"
+          type="radio"
+          :name="name"
+          :value="option.value"
+          :checked="modelValue === option.value"
+          :disabled="disabled"
+          class="h-4 w-4 border-slate-300 text-indigo-600 focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:opacity-60"
+          @change="onChange"
+        />
       </label>
     </div>
   </div>
