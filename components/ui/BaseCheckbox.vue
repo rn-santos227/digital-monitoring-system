@@ -1,5 +1,14 @@
 <template>
-
+  <label class="flex items-start gap-3">
+    <input
+      :id="inputId"
+      type="checkbox"
+      :checked="modelValue"
+      :disabled="disabled"
+      class="mt-1 h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:opacity-60"
+      @change="onChange"
+    />
+  </label>
 </template>
 
 <script setup lang="ts">
