@@ -50,4 +50,22 @@ const handleBackdrop = () => {
   emit('close')
 }
 
+const lockBodyScroll = () => {
+  if (typeof document === 'undefined') {
+    return
+  }
+
+  const body = document.body
+  const activeCount = Number(body.dataset.modalCount ?? '0')
+
+  if (activeCount === 0) {
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
+    if (scrollbarWidth > 0) {
+      body.style.paddingRight = `${scrollbarWidth}px`
+    }
+    body.classList.add('overflow-hidden')
+  }
+
+  body.dataset.modalCount = String(activeCount + 1)
+}
 </script>
