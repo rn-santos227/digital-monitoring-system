@@ -20,6 +20,12 @@
           class="h-4 w-4 border-slate-300 text-indigo-600 focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:opacity-60"
           @change="onChange"
         />
+        <span>
+          {{ option.label }}
+          <span v-if="option.helper" class="block text-xs text-slate-500">
+            {{ option.helper }}
+          </span>
+        </span>
       </label>
     </div>
   </div>
