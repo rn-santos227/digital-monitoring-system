@@ -16,4 +16,12 @@ const emit = defineEmits<{
   (event: 'cancel'): void
 }>()
 
+const promptValue = ref(props.dialog.defaultValue ?? '')
+
+watch(
+  () => props.dialog,
+  (value) => {
+    promptValue.value = value.defaultValue ?? ''
+  }
+)
 </script>
