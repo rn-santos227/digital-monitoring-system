@@ -41,4 +41,13 @@ const sizeClass = computed(() => {
       return 'max-w-xl'
   }
 })
+
+const handleBackdrop = () => {
+  if (!props.closeOnBackdrop) {
+    return
+  }
+
+  emit('close')
+}
+
 </script>
