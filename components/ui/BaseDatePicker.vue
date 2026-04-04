@@ -4,6 +4,20 @@
       {{ label }}
       <span v-if="required" class="text-rose-600">*</span>
     </label>
+    <input
+      :id="inputId"
+      type="date"
+      :value="modelValue"
+      :min="min"
+      :max="max"
+      :disabled="disabled"
+      :class="[
+        baseClasses,
+        error ? 'border-rose-500 focus-visible:ring-rose-500' : 'border-slate-300 focus-visible:ring-indigo-500 focus-visible:border-indigo-500',
+        disabled ? 'bg-slate-100 text-slate-400' : 'bg-slate-50'
+      ]"
+      @input="onInput"
+    />
   </div>
 </template>
 
