@@ -6,5 +6,8 @@ type LoadingState = {
 }
 
 export const useLoadingStore = defineStore('loading', {
-
+  state: (): LoadingState => ({
+    activeRequests: 0,
+    message: 'Processing request...'
+  }),
 })
