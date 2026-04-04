@@ -27,5 +27,8 @@ const emit = defineEmits<{
 const generatedId = useId()
 const inputId = computed(() => props.id ?? `checkbox-${generatedId}`)
 
-
+const onChange = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  emit('update:modelValue', target.checked)
+}
 </script>
