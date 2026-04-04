@@ -1,5 +1,15 @@
 <template>
-
+  <Transition name="dialog-fade" appear>
+    <div class="fixed inset-0 z-60 flex items-center justify-center bg-slate-900/40 p-4">
+      <div
+        class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-slate-200"
+        role="dialog"
+        aria-modal="true"
+        :aria-labelledby="`dialog-title-${dialog.id}`"
+      >
+      </div>
+    </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
