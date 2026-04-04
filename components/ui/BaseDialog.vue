@@ -42,4 +42,13 @@ const indicatorClass = computed(() => {
   }
 })
 
+const confirmVariant = computed(() => {
+  if (props.dialog.type === 'error') {
+    return 'danger'
+  }
+  if (props.dialog.type === 'warning') {
+    return 'secondary'
+  }
+  return 'primary'
+})
 </script>
