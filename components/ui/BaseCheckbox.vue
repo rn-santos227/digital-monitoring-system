@@ -24,5 +24,8 @@ const emit = defineEmits<{
   (event: 'update:modelValue', value: boolean): void
 }>()
 
+const generatedId = useId()
+const inputId = computed(() => props.id ?? `checkbox-${generatedId}`)
+
 
 </script>
