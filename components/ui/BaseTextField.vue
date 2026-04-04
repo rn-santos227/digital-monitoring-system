@@ -1,4 +1,42 @@
 <template>
+  <div class="space-y-1">
+    <label v-if="label" :for="inputId" class="text-sm font-medium text-slate-700">
+      {{ label }}
+      <span v-if="required" class="text-rose-600">*</span>
+    </label>
+    <div class="relative">
+      <input
+        :id="inputId"
+        :type="resolvedType"
+        :value="modelValue"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :class="[
+          baseClasses,
+          isPassword ? 'pr-14' : '',
+          error ? 'border-rose-500 focus-visible:ring-rose-500' : 'border-slate-300 focus-visible:ring-indigo-500 focus-visible:border-indigo-500',
+          disabled ? 'bg-slate-100 text-slate-400' : 'bg-slate-50'
+        ]"
+        @input="onInput"
+      />
+      <button
+        v-if="isPassword"
+        type="button"
+        class="absolute right-2 top-1/2 flex -translate-y-1/2 items-center justify-center rounded-full p-1 text-slate-500 transition hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+        :disabled="disabled"
+        @click="togglePassword"
+      >
+        <component :is="showPassword ? EyeSlashIcon : EyeIcon" class="h-5 w-5" aria-hidden="true" />
+        <span class="sr-only">{{ showPassword ? 'Hide password' : 'Show password' }}</span>
+      </button>
+    </div>
+    <p v-if="error" class="text-sm text-rose-600">
+      {{ error }}
+    </p>
+    <p v-else-if="helperText" class="text-sm text-slate-500">
+      {{ helperText }}
+    </p>
+  </div>
 </template>
 
 <script setup lang="ts">
