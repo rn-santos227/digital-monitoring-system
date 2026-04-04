@@ -51,4 +51,12 @@ const confirmVariant = computed(() => {
   }
   return 'primary'
 })
+
+const handleConfirm = () => {
+  emit('confirm', props.dialog.type === 'prompt' ? promptValue.value : undefined)
+}
+
+const handleCancel = () => {
+  emit('cancel')
+}
 </script>
