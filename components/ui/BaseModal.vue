@@ -1,5 +1,11 @@
 <template>
-
+  <Teleport to="body">
+    <Transition name="modal-fade" appear>
+      <div class="fixed inset-0 z-50 bg-slate-900/40" @click.self="handleBackdrop">
+        <div class="flex min-h-full items-center justify-center p-4"></div>
+      </div>
+    </Transition>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
