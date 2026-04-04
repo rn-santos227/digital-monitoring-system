@@ -22,6 +22,12 @@
         {{ option.label }}
       </option>
     </select>
+    <p v-if="error" class="text-sm text-rose-600">
+      {{ error }}
+    </p>
+    <p v-else-if="helperText" class="text-sm text-slate-500">
+      {{ helperText }}
+    </p>
   </div>
 </template>
 
