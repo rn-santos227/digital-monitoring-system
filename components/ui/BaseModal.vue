@@ -68,4 +68,22 @@ const lockBodyScroll = () => {
 
   body.dataset.modalCount = String(activeCount + 1)
 }
+
+const unlockBodyScroll = () => {
+  if (typeof document === 'undefined') {
+    return
+  }
+
+  const body = document.body
+  const activeCount = Number(body.dataset.modalCount ?? '1')
+  const nextCount = Math.max(activeCount - 1, 0)
+
+  if (nextCount === 0) {
+    body.classList.remove('overflow-hidden')
+    body.style.paddingRight = ''
+    delete body.dataset.modalCount
+  } else {
+    body.dataset.modalCount = String(nextCount)
+  }
+}
 </script>
