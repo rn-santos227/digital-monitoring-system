@@ -86,4 +86,12 @@ const unlockBodyScroll = () => {
     body.dataset.modalCount = String(nextCount)
   }
 }
+
+onMounted(() => {
+  lockBodyScroll()
+})
+
+onBeforeUnmount(() => {
+  unlockBodyScroll()
+})
 </script>
