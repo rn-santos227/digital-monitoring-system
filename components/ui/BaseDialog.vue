@@ -20,6 +20,14 @@
               {{ dialog.message }}
             </p>
           </div>
+          <button
+            type="button"
+            class="text-slate-400 transition hover:text-slate-600"
+            aria-label="Dismiss dialog"
+            @click="handleCancel"
+          >
+            ✕
+          </button>
         </div>
       </div>
     </div>
