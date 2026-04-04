@@ -30,4 +30,8 @@ const emit = defineEmits<{
   (event: 'update:modelValue', value: string): void
 }>()
 
+const baseClasses =
+  'w-full rounded-xl border px-3 py-2.5 text-sm text-slate-900 shadow-sm transition focus-visible:outline-none focus-visible:ring-2'
+
+
 </script>
