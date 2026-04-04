@@ -1,4 +1,18 @@
 <template>
+  <div class="space-y-2">
+    <p v-if="label" class="text-sm font-medium text-slate-700">
+      {{ label }}
+    </p>
+    <div class="space-y-2">
+      <label
+        v-for="(option, index) in options"
+        :key="option.value"
+        class="flex items-center gap-3 text-sm text-slate-700"
+        :for="`${inputId}-${index}`"
+      >
+      </label>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
