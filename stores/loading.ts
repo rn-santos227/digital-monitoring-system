@@ -10,4 +10,8 @@ export const useLoadingStore = defineStore('loading', {
     activeRequests: 0,
     message: 'Processing request...'
   }),
+
+  getters: {
+    isLoading: (state) => state.activeRequests > 0
+  },
 })
