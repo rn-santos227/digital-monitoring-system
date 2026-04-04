@@ -41,6 +41,17 @@
             type="text"
           />
         </form>
+        <div class="flex items-center justify-end gap-3 px-5 pb-5 pt-4">
+          <BaseButton
+            v-if="dialog.showCancel"
+            variant="ghost"
+            size="sm"
+            type="button"
+            @click="handleCancel"
+          >
+            {{ dialog.cancelLabel }}
+          </BaseButton>
+        </div>
       </div>
     </div>
   </Transition>
