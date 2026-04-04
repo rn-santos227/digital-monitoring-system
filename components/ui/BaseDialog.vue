@@ -33,6 +33,13 @@
           <label class="text-sm font-medium text-slate-700" :for="`dialog-input-${dialog.id}`">
             Response
           </label>
+          <input
+            :id="`dialog-input-${dialog.id}`"
+            v-model="promptValue"
+            :placeholder="dialog.placeholder"
+            class="mt-2 w-full rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            type="text"
+          />
         </form>
       </div>
     </div>
