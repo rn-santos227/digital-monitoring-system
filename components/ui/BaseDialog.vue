@@ -51,6 +51,14 @@
           >
             {{ dialog.cancelLabel }}
           </BaseButton>
+          <BaseButton
+            :variant="confirmVariant"
+            size="sm"
+            type="button"
+            @click="handleConfirm"
+          >
+            {{ dialog.confirmLabel }}
+          </BaseButton>
         </div>
       </div>
     </div>
