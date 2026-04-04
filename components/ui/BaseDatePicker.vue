@@ -1,5 +1,10 @@
 <template>
-
+  <div class="space-y-1">
+    <label v-if="label" :for="inputId" class="text-sm font-medium text-slate-700">
+      {{ label }}
+      <span v-if="required" class="text-rose-600">*</span>
+    </label>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -29,6 +34,9 @@ const props = withDefaults(
 const emit = defineEmits<{
   (event: 'update:modelValue', value: string): void
 }>()
+
+const generatedId = useId()
+const inputId = computed(() => props.id ?? `date-picker-${generatedId}`)
 
 const baseClasses =
   'w-full rounded-xl border px-3 py-2.5 text-sm text-slate-900 shadow-sm transition focus-visible:outline-none focus-visible:ring-2'
