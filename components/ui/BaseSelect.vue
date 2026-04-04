@@ -4,6 +4,24 @@
       {{ label }}
       <span v-if="required" class="text-rose-600">*</span>
     </label>
+    <select
+      :id="inputId"
+      :value="modelValue"
+      :disabled="disabled"
+      :class="[
+        baseClasses,
+        error ? 'border-rose-500 focus-visible:ring-rose-500' : 'border-slate-300 focus-visible:ring-indigo-500 focus-visible:border-indigo-500',
+        disabled ? 'bg-slate-100 text-slate-400' : 'bg-slate-50'
+      ]"
+      @change="onChange"
+    >
+      <option v-if="placeholder" disabled value="">
+        {{ placeholder }}
+      </option>
+      <option v-for="option in options" :key="option.value" :value="option.value">
+        {{ option.label }}
+      </option>
+    </select>
   </div>
 </template>
 
