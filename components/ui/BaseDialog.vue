@@ -29,6 +29,11 @@
             ✕
           </button>
         </div>
+        <form v-if="dialog.type === 'prompt'" class="px-5 pt-4" @submit.prevent="handleConfirm">
+          <label class="text-sm font-medium text-slate-700" :for="`dialog-input-${dialog.id}`">
+            Response
+          </label>
+        </form>
       </div>
     </div>
   </Transition>
