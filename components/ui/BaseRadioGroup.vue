@@ -10,4 +10,24 @@ type RadioOption = {
   helper?: string
 }
 
+const props = withDefaults(
+  defineProps<{
+    modelValue?: string
+    label?: string
+    options: RadioOption[]
+    name?: string
+    helperText?: string
+    error?: string
+    id?: string
+    disabled?: boolean
+  }>(),
+  {
+    modelValue: '',
+    label: '',
+    name: 'radio-group',
+    helperText: '',
+    error: '',
+    disabled: false
+  }
+)
 </script>
