@@ -21,5 +21,12 @@ const props = withDefaults(
   }
 )
 
+const emit = defineEmits<{
+  (event: 'close'): void
+}>()
+
+const titleId = computed(() =>
+  `modal-title-${props.title.toLowerCase().replace(/\s+/g, '-') || 'content'}`
+)
 
 </script>
