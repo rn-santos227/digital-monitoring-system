@@ -9,6 +9,10 @@
       @change="onChange"
     />
   </label>
+    <span>
+      <span class="text-sm font-medium text-slate-700">{{ label }}</span>
+      <span v-if="description" class="block text-sm text-slate-500">{{ description }}</span>
+    </span>
 </template>
 
 <script setup lang="ts">
