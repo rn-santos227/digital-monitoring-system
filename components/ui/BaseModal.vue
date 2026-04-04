@@ -28,6 +28,12 @@
                 ✕
               </button>
             </div>
+            <div class="px-6 py-5">
+              <slot />
+            </div>
+            <div v-if="$slots.footer" class="border-t border-slate-100 px-6 py-4">
+              <slot name="footer" />
+            </div>
           </div>
         </div>
       </div>
