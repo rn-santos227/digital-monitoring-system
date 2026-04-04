@@ -37,4 +37,17 @@ const inputId = computed(() => props.id ?? `text-field-${generatedId}`)
 const showPassword = ref(false)
 const isPassword = computed(() => props.type === 'password')
 const resolvedType = computed(() => (isPassword.value && showPassword.value ? 'text' : props.type))
+
+const baseClasses =
+  'w-full rounded-xl border px-3 py-2.5 text-sm text-slate-900 shadow-sm transition focus-visible:outline-none focus-visible:ring-2'
+
+const onInput = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  emit('update:modelValue', target.value)
+}
+
+const togglePassword = () => {
+  if (props.disabled) return
+  showPassword.value = !showPassword.value
+}
 </script>
