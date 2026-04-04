@@ -20,4 +20,9 @@ const props = withDefaults(
   }
 )
 
+const emit = defineEmits<{
+  (event: 'update:modelValue', value: boolean): void
+}>()
+
+
 </script>
