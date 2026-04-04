@@ -29,4 +29,16 @@ const titleId = computed(() =>
   `modal-title-${props.title.toLowerCase().replace(/\s+/g, '-') || 'content'}`
 )
 
+const sizeClass = computed(() => {
+  switch (props.size) {
+    case 'sm':
+      return 'max-w-md'
+    case 'lg':
+      return 'max-w-3xl'
+    case 'xl':
+      return 'max-w-5xl'
+    default:
+      return 'max-w-xl'
+  }
+})
 </script>
