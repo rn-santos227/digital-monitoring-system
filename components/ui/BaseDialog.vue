@@ -24,4 +24,22 @@ watch(
     promptValue.value = value.defaultValue ?? ''
   }
 )
+
+const indicatorClass = computed(() => {
+  switch (props.dialog.type) {
+    case 'success':
+      return 'bg-emerald-500'
+    case 'warning':
+      return 'bg-amber-500'
+    case 'error':
+      return 'bg-rose-500'
+    case 'question':
+      return 'bg-violet-500'
+    case 'prompt':
+      return 'bg-indigo-500'
+    default:
+      return 'bg-sky-500'
+  }
+})
+
 </script>
