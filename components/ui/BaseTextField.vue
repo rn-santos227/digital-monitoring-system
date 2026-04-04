@@ -27,4 +27,14 @@ const props = withDefaults(
     disabled: false
   }
 )
+
+const emit = defineEmits<{
+  (event: 'update:modelValue', value: string): void
+}>()
+
+const generatedId = useId()
+const inputId = computed(() => props.id ?? `text-field-${generatedId}`)
+const showPassword = ref(false)
+const isPassword = computed(() => props.type === 'password')
+const resolvedType = computed(() => (isPassword.value && showPassword.value ? 'text' : props.type))
 </script>
