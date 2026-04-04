@@ -1,4 +1,10 @@
 <template>
+  <div class="space-y-1">
+    <label v-if="label" :for="inputId" class="text-sm font-medium text-slate-700">
+      {{ label }}
+      <span v-if="required" class="text-rose-600">*</span>
+    </label>
+  </div>
 </template>
 
 <script setup lang="ts">
