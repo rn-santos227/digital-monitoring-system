@@ -7,6 +7,20 @@
         aria-modal="true"
         :aria-labelledby="`dialog-title-${dialog.id}`"
       >
+        <div class="flex items-start gap-3 border-b border-slate-100 px-5 pb-4 pt-5">
+          <div class="mt-1 h-3 w-3 rounded-full" :class="indicatorClass" aria-hidden="true" />
+          <div class="flex-1">
+            <p
+              :id="`dialog-title-${dialog.id}`"
+              class="text-lg font-semibold text-slate-900"
+            >
+              {{ dialog.title }}
+            </p>
+            <p v-if="dialog.message" class="mt-1 text-sm text-slate-600">
+              {{ dialog.message }}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </Transition>
