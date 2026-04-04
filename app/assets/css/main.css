@@ -1,1 +1,30 @@
 @import "tailwindcss";
+
+.modal-fade-enter-active,
+.modal-fade-leave-active,
+.dialog-fade-enter-active,
+.dialog-fade-leave-active,
+.dropdown-slide-enter-active,
+.dropdown-slide-leave-active {
+  transition: all 0.2s ease;
+}
+
+.modal-fade-enter-from,
+.modal-fade-leave-to,
+.dialog-fade-enter-from,
+.dialog-fade-leave-to {
+  opacity: 0;
+}
+
+.modal-fade-enter-from > div,
+.modal-fade-leave-to > div,
+.dialog-fade-enter-from > div,
+.dialog-fade-leave-to > div {
+  transform: translateY(8px) scale(0.98);
+}
+
+.dropdown-slide-enter-from,
+.dropdown-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}
