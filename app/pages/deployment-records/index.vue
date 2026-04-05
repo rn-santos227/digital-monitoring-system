@@ -124,6 +124,7 @@
       <CreateDeploymentRecordModal
         v-if="isCreateDeploymentRecordModalOpen"
         :is-submitting="isDeploymentRecordsLoading"
+        :error-message="deploymentRecordErrorMessage"
         @close="onCloseCreateDeploymentRecordModal"
         @submit="onSubmitCreateDeploymentRecord"
       />
@@ -227,10 +228,7 @@ import {
   DEPLOYMENTS_PAGE_TITLE,
 } from '~/constants/page.constants'
 import { DEPLOYMENT_PRIVILEGES } from '~/constants/privileges.constants'
-import {
-  APP_MAIN_CONTENT_CLASSES,
-  DEPLOYMENTS_PAGE_HEADER_CLASSES,
-} from '~/constants/shared.constants'
+import { APP_MAIN_CONTENT_CLASSES, DEPLOYMENTS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
 import { useDialog } from '~/composables/useDialog'
 import { useToast } from '~/composables/useToast'
 import {
@@ -424,7 +422,6 @@ const { onCloseViewDeploymentModal, onViewDeploymentAction } = useViewDeployment
   isViewDeploymentModalOpen,
   getDeploymentById,
 })
-
 
 const { onCloseViewDeploymentRecordModal, onViewDeploymentRecordAction } = useViewDeploymentRecordHandler({
   selectedDeploymentRecord,
