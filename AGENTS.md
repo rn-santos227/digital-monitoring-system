@@ -3,12 +3,12 @@
 ## Development Rules
 
 1. **Keep shared logic centralized**
-   - Put reusable server models in `app/server/shared/models`.
-   - Put reusable constants in `app/server/shared/constants`.
-   - Put reusable helpers in `app/server/shared/utils`.
+   - Put reusable server models in `server/shared/models`.
+   - Put reusable constants in `server/shared/constants`.
+   - Put reusable helpers in `server/shared/utils`.
 
 2. **Preserve domain-first organization**
-   - New model files should live under `app/server/shared/models/domain/<domain-name>.ts`.
+   - New model files should live under `server/shared/models/domain/<domain-name>.ts`.
    - Avoid mixing unrelated domain contracts in a single file.
 
 3. **Prefer pure utilities**
@@ -28,3 +28,8 @@
 7. **File naming and style**
    - Use lowercase kebab-case or simple descriptive names for files.
    - Keep TypeScript strict-friendly and avoid `any` when practical.
+
+8. **Use shared UI components in pages**
+   - When constructing or updating pages, compose the page using existing `components/ui` building blocks.
+   - Avoid writing one-off page-level markup/styles for controls that already exist as shared UI components.
+   - If a needed UI building block does not exist, add it to `components/ui` first and then consume it from pages.
