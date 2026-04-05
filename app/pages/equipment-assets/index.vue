@@ -87,12 +87,16 @@
       />
 
       <CreateEquipmentAssetModal
+        :error-message="error"
+        :is-submitting="isLoading"
         v-if="isCreateEquipmentAssetModalOpen"
         @close="onCloseCreateEquipmentAssetModal"
         @submit="onCreateEquipmentAssetWithFeedback"
       />
 
       <UpdateEquipmentAssetModal
+        :error-message="error"
+        :is-submitting="isLoading"
         v-if="isUpdateEquipmentAssetModalOpen && selectedEquipmentAsset"
         :initial-values="selectedEquipmentAssetFormValues"
         @close="closeUpdateEquipmentAssetModal"
@@ -109,6 +113,7 @@
 </template>
 
 <script setup lang="ts">
+import { createLoadMoreCardsHandler } from '~/handlers/shared'
 import { computed, ref, watch } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateEquipmentAssetModal from '~/components/equipment/CreateEquipmentAssetModal.vue'
@@ -144,10 +149,7 @@ import {
   usePrintEquipmentHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
-import type {
-  EquipmentAssetListItem,
-  EquipmentAssetTableRow,
-} from '~/types/domain/equipment'
+import type { EquipmentAssetListItem, EquipmentAssetTableRow } from '~/types/domain/equipment'
 import type { ListViewMode } from '~/constants/ui.constants'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 
@@ -178,14 +180,15 @@ watch(tableRows, (rows) => {
 
 const canLoadMoreCards = computed(() => pagination.value.page < pagination.value.totalPages)
 
-const onLoadMoreCards = async () => {
-  if (isLoading.value || !canLoadMoreCards.value) {
-    return
-  }
-
-  await loadEquipmentAssets(pagination.value.page + 1, filters.value, pagination.value.pageSize)
-  equipmentAssetCardRows.value = [...equipmentAssetCardRows.value, ...tableRows.value]
-}
+const onLoadMoreCards = createLoadMoreCardsHandler({
+  cardRows: equipmentAssetCardRows,
+  tableRows,
+  isLoading,
+  canLoadMore: canLoadMoreCards,
+  pagination,
+  filters,
+  loadPage: loadEquipmentAssets,
+})
 
 const authStore = useAuthStore()
 const canCreateEquipmentAssets = computed(() => authStore.hasPermissionAccess(EQUIPMENT_ASSETS_PAGE_REQUIRED_PERMISSIONS.create))
