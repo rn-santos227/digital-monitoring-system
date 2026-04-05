@@ -1,8 +1,8 @@
 <template>
   <div class="space-y-1">
-    <label v-if="label" :for="inputId" class="text-sm font-medium text-slate-700">
+    <label v-if="label" :for="inputId" :class="FIELD_LABEL_CLASSES">
       {{ label }}
-      <span v-if="required" class="text-rose-600">*</span>
+      <span v-if="required" :class="FIELD_REQUIRED_MARKER_CLASSES">*</span>
     </label>
     <textarea
       :id="inputId"
@@ -10,17 +10,13 @@
       :placeholder="placeholder"
       :rows="rows"
       :disabled="disabled"
-      :class="[
-        baseClasses,
-        error ? 'border-rose-500 focus-visible:ring-rose-500' : 'border-slate-300 focus-visible:ring-indigo-500 focus-visible:border-indigo-500',
-        disabled ? 'bg-slate-100 text-slate-400' : 'bg-slate-50'
-      ]"
+      :class="textAreaClasses"
       @input="onInput"
     />
-    <p v-if="error" class="text-sm text-rose-600">
+    <p v-if="error" :class="FIELD_ERROR_TEXT_CLASSES">
       {{ error }}
     </p>
-    <p v-else-if="helperText" class="text-sm text-slate-500">
+    <p v-else-if="helperText" :class="FIELD_HELPER_TEXT_CLASSES">
       {{ helperText }}
     </p>
   </div>
@@ -28,6 +24,14 @@
 
 <script setup lang="ts">
 import { computed, useId } from 'vue'
+import {
+  FIELD_ERROR_TEXT_CLASSES,
+  FIELD_HELPER_TEXT_CLASSES,
+  FIELD_LABEL_CLASSES,
+  FIELD_REQUIRED_MARKER_CLASSES,
+  FORM_CONTROL_BASE_CLASSES,
+  FORM_CONTROL_STATE_CLASSES
+} from '../../constants/ui.constants'
 
 const props = withDefaults(
   defineProps<{
@@ -59,8 +63,11 @@ const emit = defineEmits<{
 const generatedId = useId()
 const inputId = computed(() => props.id ?? `text-area-${generatedId}`)
 
-const baseClasses =
-  'w-full rounded-xl border px-3 py-2.5 text-sm text-slate-900 shadow-sm transition focus-visible:outline-none focus-visible:ring-2'
+const textAreaClasses = computed(() => [
+  FORM_CONTROL_BASE_CLASSES,
+  props.error ? FORM_CONTROL_STATE_CLASSES.error : FORM_CONTROL_STATE_CLASSES.default,
+  props.disabled ? FORM_CONTROL_STATE_CLASSES.disabled : FORM_CONTROL_STATE_CLASSES.enabled
+])
 
 const onInput = (event: Event) => {
   const target = event.target as HTMLTextAreaElement
