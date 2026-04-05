@@ -138,6 +138,7 @@
       <CreateEngagementRecordModal
         v-if="isCreateEngagementRecordModalOpen"
         :is-submitting="isEngagementRecordsLoading"
+        :error-message="createEngagementRecordErrorMessage"
         @close="onCloseCreateEngagementRecordModal"
         @submit="onSubmitCreateEngagementRecord"
       />
@@ -194,6 +195,25 @@
 </template>
 
 <script setup lang="ts">
+import {
+  useEngagementListLoadHandlers,
+  loadEngagementCalendarEventsHandler,
+  useCreateEngagementHandler,
+  useCreateEngagementRecordHandler,
+  useDeleteEngagementHandler,
+  useDeleteEngagementRecordHandler,
+  useBulkDeleteEngagementRecordsHandler,
+  useBulkDeleteEngagementsHandler,
+  useBulkUpdateEngagementsHandler,
+  useEngagementManagementPageHandlers,
+  useEngagementTableActionHandlers,
+  useEngagementTabHandler,
+  useUpdateEngagementHandler,
+  useUpdateEngagementRecordHandler,
+  useViewEngagementHandler,
+  useViewEngagementRecordHandler,
+  usePrintEngagementsHandler,
+} from '~/handlers/engagements'
 import { computed, ref, watch } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import OperationsCalendar from '~/components/calendar/OperationsCalendar.vue'
@@ -212,23 +232,6 @@ import ViewEngagementRecordModal from '~/components/engagements/ViewEngagementRe
 import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import { useDialog } from '~/composables/useDialog'
 import { useEngagements } from '~/composables/useEngagements'
-import {
-  useCreateEngagementHandler,
-  useCreateEngagementRecordHandler,
-  useDeleteEngagementHandler,
-  useDeleteEngagementRecordHandler,
-  useBulkDeleteEngagementRecordsHandler,
-  useBulkDeleteEngagementsHandler,
-  useBulkUpdateEngagementsHandler,
-  useEngagementManagementPageHandlers,
-  useEngagementTableActionHandlers,
-  useEngagementTabHandler,
-  useUpdateEngagementHandler,
-  useUpdateEngagementRecordHandler,
-  useViewEngagementHandler,
-  useViewEngagementRecordHandler,
-  usePrintEngagementsHandler,
-} from '~/handlers/engagements'
 import { useValidatedListHandlers, createCompleteListPrintHandler } from '~/handlers/shared'
 import { useAuthStore } from '~/stores/auth'
 import { useEngagementsStore } from '~/stores/engagements'
@@ -247,7 +250,6 @@ import type {
   EngagementManagementSearchQuery,
   EngagementRecordsTabId,
 } from '~/types/domain/engagement'
-import type { CalendarEventsQuery } from '~/types/domain/calendar'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
 const activeTab = ref<EngagementRecordsTabId>('engagements')
@@ -366,10 +368,9 @@ const totalEngagementRecords = computed(() => engagementsStore.kpis.totalEngagem
 const engagementCalendarEvents = computed(() => engagementsStore.calendar.items)
 const isEngagementCalendarLoading = computed(() => engagementsStore.calendar.isLoading)
 const engagementCalendarError = computed(() => engagementsStore.calendar.error)
+const createEngagementRecordErrorMessage = ref('')
 
-const onEngagementCalendarRangeChange = async (query: CalendarEventsQuery) => {
-  await loadEngagementCalendarEvents(query).catch(() => {})
-}
+const onEngagementCalendarRangeChange = loadEngagementCalendarEventsHandler.bind(null, loadEngagementCalendarEvents)
 
 const updateFormValues = computed(() => ({
   engagementTitle: selectedEngagement.value?.engagementTitle ?? '',
@@ -393,13 +394,14 @@ const updateRecordFormValues = computed(() => ({
   remarks: selectedEngagementRecord.value?.remarks ?? '',
 }))
 
-const loadEngagements = async (page = 1, pageSize?: number) => {
-  await engagementsStore.fetchEngagements(page, engagementsFilters.value, pageSize)
-}
-
-const loadEngagementRecords = async (page = 1, pageSize?: number) => {
-  await engagementsStore.fetchEngagementRecords(page, engagementRecordsFilters.value, pageSize)
-}
+const {
+  loadEngagements,
+  loadEngagementRecords,
+} = useEngagementListLoadHandlers({
+  engagementsStore,
+  engagementsFilters,
+  engagementRecordsFilters,
+})
 
 const handlePrintEngagements = createCompleteListPrintHandler({
   rows: engagementRows,
@@ -459,6 +461,7 @@ const {
   isCreateEngagementRecordModalOpen,
   createEngagementRecord,
   showDialog,
+  errorMessage: createEngagementRecordErrorMessage,
 })
 
 const {
