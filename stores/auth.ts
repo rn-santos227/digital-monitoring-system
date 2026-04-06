@@ -93,5 +93,18 @@ export const useAuthStore = defineStore('auth', {
         this.isSubmitting = false
       }
     },
+
+    async logout() {
+      if (this.isLoggingOut) return
+
+      this.isLoggingOut = true
+
+      try {
+        await $fetch(AUTH_API_ENDPOINTS.logout, { method: 'POST' })
+      } finally {
+        this.currentUser = null
+        this.isLoggingOut = false
+      }
+    }
   }
 })
