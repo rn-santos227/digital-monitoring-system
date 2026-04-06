@@ -27,7 +27,9 @@
         class="w-full max-w-lg"
         padding="lg"
       >
-
+        <form class="space-y-6" @submit.prevent="onLogin">
+          
+        </form>
       </BaseCard>
     </section>
   </div>
