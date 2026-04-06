@@ -65,6 +65,33 @@ export const useAuthStore = defineStore('auth', {
 
       this.loginError = ''
       this.isSubmitting = true
+
+      try {
+        const response = await $fetch<SessionResponse>(AUTH_API_ENDPOINTS.login, {
+          method: 'POST',
+          body: payload
+        })
+
+        this.currentUser = response.user
+        return true
+      } catch (error: unknown) {
+        const statusMessage =
+          typeof error === 'object' &&
+          error !== null &&
+          'data' in error &&
+          typeof error.data === 'object' &&
+          error.data !== null &&
+          'statusMessage' in error.data &&
+          typeof error.data.statusMessage === 'string'
+            ? error.data.statusMessage
+            : ''
+
+        const fallbackMessage = error instanceof Error ? error.message : DEFAULT_LOGIN_ERROR
+        this.loginError = statusMessage || fallbackMessage || DEFAULT_LOGIN_ERROR
+        return false
+      } finally {
+        this.isSubmitting = false
+      }
     },
   }
 })
