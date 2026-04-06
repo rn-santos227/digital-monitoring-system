@@ -18,15 +18,24 @@ interface LoginPayload {
   password: string
 }
 
+interface AuthState {
+  currentUser: SessionUser | null
+  hasCheckedSession: boolean
+  isCheckingSession: boolean
+  isSubmitting: boolean
+  isLoggingOut: boolean
+  loginError: string
+}
+
 const DEFAULT_LOGIN_ERROR = 'Unable to sign in. Please try again.'
 
-export const useAuthStore = defineStore('auth', () => {
-  const currentUser = ref<SessionUser | null>(null)
-  const hasCheckedSession = ref(false)
-  const isCheckingSession = ref(false)
-  const isSubmitting = ref(false)
-  const isLoggingOut = ref(false)
-  const loginError = ref('')
-
-
+export const useAuthStore = defineStore('auth', {
+  state: (): AuthState => ({
+    currentUser: null,
+    hasCheckedSession: false,
+    isCheckingSession: false,
+    isSubmitting: false,
+    isLoggingOut: false,
+    loginError: ''
+  }),
 })
