@@ -34,7 +34,16 @@
             placeholder="Enter your username"
             :disabled="isSubmitting"
             required
-          />     
+          /> 
+
+          <BaseTextField
+            v-model="credentials.password"
+            label="Password"
+            type="password"
+            placeholder="Enter your password"
+            :disabled="isSubmitting"
+            required
+          />
         </form>
       </BaseCard>
     </section>
