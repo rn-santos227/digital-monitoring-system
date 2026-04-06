@@ -1,0 +1,18 @@
+import { useAuth } from '~/composables/useAuth'
+import { ROUTE_PATHS } from '~/constants/routes.constants'
+
+export default defineNuxtRouteMiddleware(async (to) => {
+  const { hasCheckedSession, isAuthenticated, initializeSession } = useAuth()
+
+  if (!hasCheckedSession.value) {
+    await initializeSession()
+  }
+
+  if (!isAuthenticated.value && to.path !== ROUTE_PATHS.login) {
+    return navigateTo(ROUTE_PATHS.login)
+  }
+
+  if (isAuthenticated.value && to.path === ROUTE_PATHS.login) {
+    return navigateTo(ROUTE_PATHS.home)
+  }
+})

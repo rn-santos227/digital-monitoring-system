@@ -27,4 +27,3 @@ export const useAuth = () => {
     logout: authStore.logout
   }
 }
-
