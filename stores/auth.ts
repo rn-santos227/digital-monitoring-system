@@ -59,5 +59,12 @@ export const useAuthStore = defineStore('auth', {
         this.isCheckingSession = false
       }
     },
+
+    async login(payload: LoginPayload) {
+      if (this.isSubmitting) return false
+
+      this.loginError = ''
+      this.isSubmitting = true
+    },
   }
 })
