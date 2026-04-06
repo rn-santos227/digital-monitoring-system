@@ -28,7 +28,13 @@
         padding="lg"
       >
         <form class="space-y-6" @submit.prevent="onLogin">
-          
+          <BaseTextField
+            v-model="credentials.identifier"
+            label="Username"
+            placeholder="Enter your username"
+            :disabled="isSubmitting"
+            required
+          />     
         </form>
       </BaseCard>
     </section>
