@@ -42,4 +42,22 @@ export const useAuthStore = defineStore('auth', {
   getters: {
     isAuthenticated: (state) => Boolean(state.currentUser)
   },
+
+  actions: {
+    async initializeSession() {
+      if (this.isCheckingSession) return
+
+      this.isCheckingSession = true
+
+      try {
+        const response = await $fetch<SessionResponse>(AUTH_API_ENDPOINTS.session)
+        this.currentUser = response.user
+      } catch {
+        this.currentUser = null
+      } finally {
+        this.hasCheckedSession = true
+        this.isCheckingSession = false
+      }
+    },
+  }
 })
