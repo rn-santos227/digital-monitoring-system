@@ -110,12 +110,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import EquipmentItemBattalionsUsageTable from '~/components/equipment/views/EquipmentItemBattalionsUsageTable.vue'
-import EquipmentItemCompaniesUsageTable from '~/components/equipment/views/EquipmentItemCompaniesUsageTable.vue'
-import EquipmentItemPersonnelUsageTable from '~/components/equipment/views/EquipmentItemPersonnelUsageTable.vue'
-import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import {
+  EQUIPMENT_ITEM_USAGE_DEFAULT_PAGINATION,
   EQUIPMENT_ITEM_PROFILE_PAGE_SUBTITLE,
   EQUIPMENT_ITEM_PROFILE_PAGE_TITLE,
   EQUIPMENT_ITEM_PROFILE_TAB_ITEMS,
@@ -123,10 +119,15 @@ import {
   EQUIPMENT_ITEMS_PAGE_REQUIRED_PERMISSIONS,
   EQUIPMENT_ITEMS_PAGE_SECTION_CLASSES,
 } from '~/constants/page.constants'
-import {
-  PERSONNEL_PROFILE_GRID_CLASSES,
-  PERSONNEL_PROFILE_PAGE_HEADER_CLASSES,
-} from '~/constants/shared.constants'
+import { useEquipmentItemDetailHandlers, useEquipmentItemProfileLoader } from '~/handlers/equipment'
+import type { TablePaginationState } from '~/constants/ui.constants'
+import { createCurrentValuePrintHandler } from '~/handlers/shared'
+import { computed, ref, watch } from 'vue'
+import EquipmentItemBattalionsUsageTable from '~/components/equipment/views/EquipmentItemBattalionsUsageTable.vue'
+import EquipmentItemCompaniesUsageTable from '~/components/equipment/views/EquipmentItemCompaniesUsageTable.vue'
+import EquipmentItemPersonnelUsageTable from '~/components/equipment/views/EquipmentItemPersonnelUsageTable.vue'
+import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
+import { PERSONNEL_PROFILE_GRID_CLASSES, PERSONNEL_PROFILE_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
 import { useDateDisplay } from '~/composables/useDateDisplay'
 import { useAuthStore } from '~/stores/auth'
 import type {
@@ -136,29 +137,7 @@ import type {
   EquipmentItemPersonnelUsageListItem,
   EquipmentItemProfileTabId,
 } from '~/types/domain/equipment'
-import {
-  getEquipmentItemBattalionsEndpoint,
-  getEquipmentItemByIdEndpoint,
-  getEquipmentItemCompaniesEndpoint,
-  getEquipmentItemPersonnelEndpoint,
-} from '~/utils/equipment-endpoints'
 import { usePrintEquipmentHandler } from '~/handlers'
-
-interface UsagePaginationState {
-  page: number
-  pageSize: number
-  totalItems: number
-  totalPages: number
-}
-
-const DEFAULT_USAGE_PAGINATION: UsagePaginationState = {
-  page: 1,
-  pageSize: 10,
-  totalItems: 0,
-  totalPages: 0,
-}
-
-const createPaginationState = (): UsagePaginationState => ({ ...DEFAULT_USAGE_PAGINATION })
 
 const { formatDate } = useDateDisplay()
 const route = useRoute()
@@ -173,9 +152,9 @@ const personnelRows = ref<EquipmentItemPersonnelUsageListItem[]>([])
 const companyRows = ref<EquipmentItemCompanyUsageListItem[]>([])
 const battalionRows = ref<EquipmentItemBattalionUsageListItem[]>([])
 
-const personnelPagination = ref<UsagePaginationState>(createPaginationState())
-const companyPagination = ref<UsagePaginationState>(createPaginationState())
-const battalionPagination = ref<UsagePaginationState>(createPaginationState())
+const personnelPagination = ref<TablePaginationState>({ ...EQUIPMENT_ITEM_USAGE_DEFAULT_PAGINATION })
+const companyPagination = ref<TablePaginationState>({ ...EQUIPMENT_ITEM_USAGE_DEFAULT_PAGINATION })
+const battalionPagination = ref<TablePaginationState>({ ...EQUIPMENT_ITEM_USAGE_DEFAULT_PAGINATION })
 
 const isLoadingPersonnel = ref(false)
 const isLoadingCompanies = ref(false)
@@ -190,82 +169,26 @@ const equipmentItemId = computed(() => {
   return Array.isArray(idValue) ? (idValue[0] ?? '') : (idValue ?? '')
 })
 
-const handlePrintEquipmentItemProfile = () => {
-  return printEquipmentItemProfile(equipmentItem.value)
-}
+const handlePrintEquipmentItemProfile = createCurrentValuePrintHandler(equipmentItem, printEquipmentItemProfile)
 
-const applyPagination = (target: typeof personnelPagination, response: UsagePaginationState) => {
-  target.value = {
-    page: response.page,
-    pageSize: response.pageSize,
-    totalItems: response.totalItems,
-    totalPages: response.totalPages,
-  }
-}
-
-const loadPersonnelUsage = async (page = personnelPagination.value.page, pageSize = personnelPagination.value.pageSize) => {
-  const id = equipmentItemId.value
-
-  if (!id) {
-    return
-  }
-
-  isLoadingPersonnel.value = true
-
-  try {
-    const response = await getEquipmentItemPersonnelEndpoint(id, { page, pageSize })
-    personnelRows.value = response.items
-    applyPagination(personnelPagination, response)
-  } finally {
-    isLoadingPersonnel.value = false
-  }
-}
-
-const loadCompanyUsage = async (page = companyPagination.value.page, pageSize = companyPagination.value.pageSize) => {
-  const id = equipmentItemId.value
-
-  if (!id) {
-    return
-  }
-
-  isLoadingCompanies.value = true
-
-  try {
-    const response = await getEquipmentItemCompaniesEndpoint(id, { page, pageSize })
-    companyRows.value = response.items
-    applyPagination(companyPagination, response)
-  } finally {
-    isLoadingCompanies.value = false
-  }
-}
-
-const loadBattalionUsage = async (page = battalionPagination.value.page, pageSize = battalionPagination.value.pageSize) => {
-  const id = equipmentItemId.value
-
-  if (!id) {
-    return
-  }
-
-  isLoadingBattalions.value = true
-
-  try {
-    const response = await getEquipmentItemBattalionsEndpoint(id, { page, pageSize })
-    battalionRows.value = response.items
-    applyPagination(battalionPagination, response)
-  } finally {
-    isLoadingBattalions.value = false
-  }
-}
-
-const loadEquipmentItemProfile = async (id: string) => {
-  const response = await getEquipmentItemByIdEndpoint(id)
-  equipmentItem.value = response.item
-  await Promise.all([
-    loadPersonnelUsage(1, personnelPagination.value.pageSize),
-    loadCompanyUsage(1, companyPagination.value.pageSize),
-    loadBattalionUsage(1, battalionPagination.value.pageSize),
-  ])
-}
+const {
+  loadPersonnelUsage,
+  loadCompanyUsage,
+  loadBattalionUsage,
+  loadEquipmentItemProfile,
+} = useEquipmentItemProfileLoader({
+  equipmentItemId,
+  equipmentItem,
+  personnelRows,
+  companyRows,
+  battalionRows,
+  personnelPagination,
+  companyPagination,
+  battalionPagination,
+  isLoadingPersonnel,
+  isLoadingCompanies,
+  isLoadingBattalions,
+})
 
 watch([canViewEquipmentItems, equipmentItemId], async ([hasAccess, id]) => {
   if (!hasAccess || !id) {
@@ -281,33 +204,19 @@ watch([canViewEquipmentItems, equipmentItemId], async ([hasAccess, id]) => {
   }
 }, { immediate: true })
 
-const onTabChange = (nextTab: string) => {
-  if (nextTab === 'personnel' || nextTab === 'companies' || nextTab === 'battalions') {
-    activeTab.value = nextTab
-  }
-}
+const {
+  onTabChange,
+  onPersonnelPageChange,
+  onPersonnelPageSizeChange,
+  onCompanyPageChange,
+  onCompanyPageSizeChange,
+  onBattalionPageChange,
+  onBattalionPageSizeChange,
+} = useEquipmentItemDetailHandlers({
+  activeTab,
+  loadPersonnelUsage,
+  loadCompanyUsage,
+  loadBattalionUsage,
+})
 
-const onPersonnelPageChange = async (page: number) => {
-  await loadPersonnelUsage(page)
-}
-
-const onPersonnelPageSizeChange = async (pageSize: number) => {
-  await loadPersonnelUsage(1, pageSize)
-}
-
-const onCompanyPageChange = async (page: number) => {
-  await loadCompanyUsage(page)
-}
-
-const onCompanyPageSizeChange = async (pageSize: number) => {
-  await loadCompanyUsage(1, pageSize)
-}
-
-const onBattalionPageChange = async (page: number) => {
-  await loadBattalionUsage(page)
-}
-
-const onBattalionPageSizeChange = async (pageSize: number) => {
-  await loadBattalionUsage(1, pageSize)
-}
 </script>
