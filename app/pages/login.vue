@@ -19,6 +19,17 @@
         <p class="text-sm text-emerald-200">© {{ currentYear }} Digital Monitoring System. All rights reserved.</p>
       </div>
     </section>
+
+    <section class="flex items-center justify-center px-6 py-16 sm:px-10">
+      <BaseCard
+        title="Sign In"
+        subtitle="Enter your credentials to access your account"
+        class="w-full max-w-lg"
+        padding="lg"
+      >
+
+      </BaseCard>
+    </section>
   </div>
 </template>
 
