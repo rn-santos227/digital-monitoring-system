@@ -63,6 +63,13 @@
           <p v-if="loginError" class="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
             {{ loginError }}
           </p>
+
+
+          <BaseButton type="submit" full-width :disabled="isSubmitting" class="bg-emerald-700 hover:bg-emerald-800 focus-visible:ring-emerald-600">
+            {{ isSubmitting ? 'Signing in...' : 'Sign In' }}
+          </BaseButton>
+
+          <p class="text-center text-sm text-slate-600">Need help? Contact your system administrator.</p>
         </form>
       </BaseCard>
     </section>
