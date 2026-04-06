@@ -1,7 +1,23 @@
 <template>
   <div class="grid min-h-screen bg-slate-100 lg:grid-cols-2">
     <section class="relative overflow-hidden bg-emerald-800 px-10 py-14 text-white sm:px-14 lg:px-16">
-      
+      <div class="mx-auto flex h-full max-w-xl flex-col justify-between">
+        <div>
+          <p class="text-2xl font-semibold tracking-wide">Digital Monitoring System</p>
+          <p class="mt-1 text-lg text-emerald-200">Operations Portal</p>
+        </div>
+
+        <div class="py-12">
+          <h1 class="max-w-md text-4xl font-semibold leading-tight sm:text-5xl">
+            Welcome to Your Monitoring and Response Platform
+          </h1>
+          <p class="mt-8 max-w-lg text-lg leading-8 text-emerald-200">
+            Track incidents, readiness, and operational activities in one secure, centralized system.
+          </p>
+        </div>
+
+        <p class="text-sm text-emerald-200">© {{ currentYear }} Digital Monitoring System. All rights reserved.</p>
+      </div>
     </section>
   </div>
 </template>
