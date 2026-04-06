@@ -70,12 +70,16 @@
       />
 
       <CreateEquipmentCategoryModal
+        :error-message="error"
+        :is-submitting="isLoading"
         v-if="isCreateEquipmentCategoryModalOpen"
         @close="onCloseCreateEquipmentCategoryModal"
         @submit="onCreateEquipmentCategoryWithFeedback"
       />
 
       <UpdateEquipmentCategoryModal
+        :error-message="error"
+        :is-submitting="isLoading"
         v-if="isUpdateEquipmentCategoryModalOpen && selectedEquipmentCategory"
         :initial-values="selectedEquipmentCategoryFormValues"
         @close="closeUpdateEquipmentCategoryModal"
@@ -134,10 +138,7 @@ import {
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
-import type {
-  EquipmentCategoryDetailItem,
-  EquipmentCategoryTableRow,
-} from '~/types/domain/equipment'
+import type { EquipmentCategoryDetailItem, EquipmentCategoryTableRow } from '~/types/domain/equipment'
 
 const {
   filters,
