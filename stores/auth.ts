@@ -38,4 +38,8 @@ export const useAuthStore = defineStore('auth', {
     isLoggingOut: false,
     loginError: ''
   }),
+
+  getters: {
+    isAuthenticated: (state) => Boolean(state.currentUser)
+  },
 })
