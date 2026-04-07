@@ -14,3 +14,11 @@ export interface LoginPayload {
   password: string
 }
 
+export interface AuthState {
+  currentUser: SessionUser | null
+  hasCheckedSession: boolean
+  isCheckingSession: boolean
+  isSubmitting: boolean
+  isLoggingOut: boolean
+  loginError: string
+}
