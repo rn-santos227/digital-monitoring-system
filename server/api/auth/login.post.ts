@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
   const supabase = getServiceSupabaseClient()
 
   const { data: authRow, error: authError } = await supabase.rpc('authenticate_local_user', {
-    p_identifier: email,
+    p_email: email,
     p_password: password,
   })
 
@@ -64,7 +64,7 @@ export default defineEventHandler(async (event) => {
     ok: true,
     user: {
       id: user.user_id,
-      username: user.username,
+      email: user.email,
       fullName: user.full_name,
     },
     expiresAt,
