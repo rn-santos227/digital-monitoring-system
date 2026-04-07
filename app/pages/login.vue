@@ -30,9 +30,10 @@
         >
           <form class="space-y-6" @submit.prevent="onLogin">
             <UiBaseTextField
-              v-model="credentials.identifier"
-              label="Username"
-              placeholder="Type your username"
+              v-model="credentials.email"
+              label="Email"
+              type="email"
+              placeholder="name@company.com"
               :disabled="isSubmitting"
               required
             />
@@ -91,7 +92,7 @@ const currentYear = new Date().getFullYear()
 const rememberMe = ref(false)
 
 const credentials = reactive({
-  identifier: '',
+  email: '',
   password: ''
 })
 
@@ -99,7 +100,7 @@ const { isSubmitting, loginError, login } = useAuth()
 
 const onLogin = async () => {
   const success = await login({
-    identifier: credentials.identifier,
+    email: credentials.email.trim(),
     password: credentials.password
   })
 
