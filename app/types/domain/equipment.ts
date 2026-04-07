@@ -59,6 +59,8 @@ export interface EquipmentFilters {
   equipment_item_id?: UUID
   category_id?: UUID
   current_unit_id?: UUID
+  assigned_company_id?: UUID
+  assigned_group_id?: UUID
   serviceability_status_id?: UUID
   asset_status_id?: UUID
 }
