@@ -1,8 +1,8 @@
 <template>
   <div class="space-y-1">
-    <label v-if="label" :for="inputId" :class="FIELD_LABEL_CLASSES">
+    <label v-if="label" :for="inputId" class="text-sm font-medium text-slate-700">
       {{ label }}
-      <span v-if="required" :class="FIELD_REQUIRED_MARKER_CLASSES">*</span>
+      <span v-if="required" class="text-rose-600">*</span>
     </label>
     <div class="relative">
       <input
@@ -11,7 +11,14 @@
         :value="modelValue"
         :placeholder="placeholder"
         :disabled="disabled"
-        :class="inputClasses"
+        :class="[
+          'w-full rounded-xl border px-3 py-2.5 text-sm text-slate-900 shadow-sm transition focus-visible:outline-none focus-visible:ring-2',
+          isPassword ? 'pr-14' : '',
+          error
+            ? 'border-rose-500 focus-visible:ring-rose-500'
+            : 'border-slate-300 focus-visible:border-indigo-500 focus-visible:ring-indigo-500',
+          disabled ? 'bg-slate-100 text-slate-400' : 'bg-slate-50'
+        ]"
         @input="onInput"
       />
       <button
@@ -25,10 +32,10 @@
         <span class="sr-only">{{ showPassword ? 'Hide password' : 'Show password' }}</span>
       </button>
     </div>
-    <p v-if="error" :class="FIELD_ERROR_TEXT_CLASSES">
+    <p v-if="error" class="text-sm text-rose-600">
       {{ error }}
     </p>
-    <p v-else-if="helperText" :class="FIELD_HELPER_TEXT_CLASSES">
+    <p v-else-if="helperText" class="text-sm text-slate-500">
       {{ helperText }}
     </p>
   </div>
@@ -37,14 +44,6 @@
 <script setup lang="ts">
 import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline'
 import { computed, ref, useId } from 'vue'
-import {
-  FIELD_ERROR_TEXT_CLASSES,
-  FIELD_HELPER_TEXT_CLASSES,
-  FIELD_LABEL_CLASSES,
-  FIELD_REQUIRED_MARKER_CLASSES,
-  FORM_CONTROL_BASE_CLASSES,
-  FORM_CONTROL_STATE_CLASSES
-} from '../../constants/ui.constants'
 
 const props = withDefaults(
   defineProps<{
@@ -78,13 +77,6 @@ const inputId = computed(() => props.id ?? `text-field-${generatedId}`)
 const showPassword = ref(false)
 const isPassword = computed(() => props.type === 'password')
 const resolvedType = computed(() => (isPassword.value && showPassword.value ? 'text' : props.type))
-
-const inputClasses = computed(() => [
-  FORM_CONTROL_BASE_CLASSES,
-  isPassword.value ? 'pr-14' : '',
-  props.error ? FORM_CONTROL_STATE_CLASSES.error : FORM_CONTROL_STATE_CLASSES.default,
-  props.disabled ? FORM_CONTROL_STATE_CLASSES.disabled : FORM_CONTROL_STATE_CLASSES.enabled
-])
 
 const onInput = (event: Event) => {
   const target = event.target as HTMLInputElement
