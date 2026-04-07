@@ -1,9 +1,9 @@
 <template>
-  <div class="grid min-h-screen bg-slate-100 lg:grid-cols-2">
+  <div class="grid min-h-screen w-full bg-slate-100 lg:grid-cols-2">
     <section class="relative overflow-hidden bg-linear-to-b from-emerald-800 to-teal-800 px-10 py-14 text-white sm:px-14 lg:px-16">
       <div class="mx-auto flex h-full max-w-xl flex-col justify-between">
         <div>
-          <p class="text-2xl font-semibold tracking-wide">Digital Monitoring System</p>
+          <p class="text-2xl font-semibold tracking-wide">AFP Digital Monitoring System</p>
           <p class="mt-1 text-lg text-emerald-200">Operations Portal</p>
         </div>
 
@@ -16,7 +16,7 @@
           </p>
         </div>
 
-        <p class="text-sm text-emerald-200">© {{ currentYear }} Digital Monitoring System. All rights reserved.</p>
+        <p class="text-sm text-emerald-200">© {{ currentYear }} AFP Digital Monitoring System. All rights reserved.</p>
       </div>
     </section>
 
@@ -64,7 +64,12 @@
               {{ loginError }}
             </p>
 
-            <UiBaseButton type="submit" full-width :disabled="isSubmitting" class="bg-emerald-700 hover:bg-emerald-800 focus-visible:ring-emerald-600">
+            <UiBaseButton
+              type="submit"
+              full-width
+              :disabled="isSubmitting"
+              class="bg-emerald-700! !hover:bg-emerald-800 !focus-visible:ring-emerald-600"
+            >
               {{ isSubmitting ? 'Signing in...' : 'Sign In' }}
             </UiBaseButton>
 
