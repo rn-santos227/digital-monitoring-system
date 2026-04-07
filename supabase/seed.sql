@@ -210,18 +210,15 @@ set name = excluded.name,
 -- Configure DB settings before seed execution:
 --   app.default_user_email
 --   app.default_user_password
---   app.default_user_username (optional)
 --   app.default_user_full_name (optional)
 do $$
 declare
   v_email text := nullif(current_setting('app.default_user_email', true), '');
   v_password text := nullif(current_setting('app.default_user_password', true), '');
-  v_username text := nullif(current_setting('app.default_user_username', true), '');
   v_full_name text := coalesce(nullif(current_setting('app.default_user_full_name', true), ''), 'Default Administrator');
   v_bootstrap_file text := null;
   v_file_email text := null;
   v_file_password text := null;
-  v_file_username text := null;
   v_file_full_name text := null;
   v_user_id uuid;
 begin
@@ -243,11 +240,6 @@ begin
     where split_part(line, '=', 1) = 'password'
     limit 1;
 
-    select nullif(trim(split_part(line, '=', 2)), '') into v_file_username
-    from regexp_split_to_table(v_bootstrap_file, E'\n') as line
-    where split_part(line, '=', 1) = 'username'
-    limit 1;
-
     select nullif(trim(split_part(line, '=', 2)), '') into v_file_full_name
     from regexp_split_to_table(v_bootstrap_file, E'\n') as line
     where split_part(line, '=', 1) = 'full_name'
@@ -256,7 +248,6 @@ begin
 
   v_email := coalesce(v_file_email, v_email);
   v_password := coalesce(v_file_password, v_password);
-  v_username := coalesce(v_file_username, v_username);
   v_full_name := coalesce(v_file_full_name, v_full_name);
   if v_email is null or v_password is null then
     raise notice 'Skipping default user seed. Set app.default_user_email and app.default_user_password to enable.';
@@ -316,17 +307,17 @@ begin
     on conflict do nothing;
   end if;
 
-  insert into public.user_profiles (id, username, full_name, is_active, password_hash, password_updated_at)
+  insert into public.user_profiles (id, email, full_name, is_active, password_hash, password_updated_at)
  values (
     v_user_id,
-    coalesce(v_username, split_part(v_email, '@', 1)),
+    v_email,
     v_full_name,
     true,
     crypt(v_password, gen_salt('bf')),
     now()
   )
   on conflict (id) do update
-  set username = excluded.username,
+  set email = excluded.email,
       full_name = excluded.full_name,
       is_active = true,
       password_hash = excluded.password_hash,
