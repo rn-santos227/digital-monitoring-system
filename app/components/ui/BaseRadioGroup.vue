@@ -39,12 +39,7 @@
 
 <script setup lang="ts">
 import { computed, useId } from 'vue'
-
-type RadioOption = {
-  label: string
-  value: string
-  helper?: string
-}
+import type { RadioOption } from '../../types/domain/misc'
 
 const props = withDefaults(
   defineProps<{
