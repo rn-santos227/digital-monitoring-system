@@ -1,17 +1,8 @@
 import type { H3Event } from 'h3'
 import { serverSupabaseUser } from '#supabase/server'
-import type { AuthenticatedUser } from '../../shared/models'
+import type { SessionUserRow } from '../../shared/models'
 import { getSessionTokenFromEvent } from '../../shared/utils'
 import { getServiceSupabaseClient } from './serviceClient'
-
-interface SessionProfileRow extends AuthenticatedUser {
-  is_active: boolean
-}
-
-interface SessionUserRow {
-  user_id: string
-  user_profiles: SessionProfileRow
-}
 
 export async function getUser(event: H3Event) {
   const token = getSessionTokenFromEvent(event)
