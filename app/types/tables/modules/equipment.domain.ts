@@ -38,6 +38,8 @@ export type EquipmentAssetsRow = AuditColumns & {
   acquisition_cost: number | null
   fund_source: string | null
   current_unit_id: UUID | null
+  assigned_company_id: UUID | null
+  assigned_group_id: UUID | null
   current_location: string | null
   condition_status_id: UUID | null
   serviceability_status_id: UUID | null
