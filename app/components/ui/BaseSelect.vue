@@ -37,11 +37,7 @@ import {
   FORM_CONTROL_BASE_CLASSES,
   FORM_CONTROL_STATE_CLASSES
 } from '../../constants/ui.constants'
-
-type SelectOption = {
-  label: string
-  value: string
-}
+import type { SelectOption } from '../../types/domain/misc'
 
 const props = withDefaults(
   defineProps<{
