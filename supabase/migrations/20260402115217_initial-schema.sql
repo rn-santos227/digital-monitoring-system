@@ -639,9 +639,10 @@ select
   p.birthdate,
   r.code as rank_code,
   r.name as rank_name,
-  u.code as unit_code,
-  u.name as unit_name,
-  u.unit_type,
+  c.code as company_code,
+  c.name as company_name,
+  b.code as battalion_code,
+  b.name as battalion_name,
   es.name as employment_status,
   ss.name as service_status,
   p.contact_number,
@@ -650,7 +651,8 @@ select
   p.updated_at
 from public.personnel p
 join public.ranks r on r.id = p.rank_id
-join public.units u on u.id = p.unit_id
+join public.companies c on c.id = p.company_id
+left join public.battalions b on b.id = c.battalion_id
 join public.employment_statuses es on es.id = p.employment_status_id
 join public.service_statuses ss on ss.id = p.service_status_id;
 
@@ -681,12 +683,13 @@ select
   ei.name as item_name,
   ec.code as category_code,
   ec.name as category_name,
-  u.code as current_unit_code,
-  u.name as current_unit_name,
+  ap.personnel_code as assigned_personnel_code,
+  ap.last_name as assigned_personnel_last_name,
+  ap.first_name as assigned_personnel_first_name,
   c.code as assigned_company_code,
   c.name as assigned_company_name,
-  g.code as assigned_group_code,
-  g.name as assigned_group_name,
+  b.code as assigned_battalion_code,
+  b.name as assigned_battalion_name,
   ea.current_location,
   cs.name as condition_status,
   ss.name as serviceability_status,
