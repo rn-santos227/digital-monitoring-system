@@ -498,6 +498,10 @@ create trigger set_updated_at_ranks before update on public.ranks
 for each row execute function public.set_updated_at();
 create trigger set_updated_at_units before update on public.units
 for each row execute function public.set_updated_at();
+create trigger set_updated_at_companies before update on public.companies
+for each row execute function public.set_updated_at();
+create trigger set_updated_at_groups before update on public.groups
+for each row execute function public.set_updated_at();
 create trigger set_updated_at_employment_statuses before update on public.employment_statuses
 for each row execute function public.set_updated_at();
 create trigger set_updated_at_service_statuses before update on public.service_statuses
