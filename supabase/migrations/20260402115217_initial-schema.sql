@@ -618,6 +618,10 @@ select
   ec.name as category_name,
   u.code as current_unit_code,
   u.name as current_unit_name,
+  c.code as assigned_company_code,
+  c.name as assigned_company_name,
+  g.code as assigned_group_code,
+  g.name as assigned_group_name,
   ea.current_location,
   cs.name as condition_status,
   ss.name as serviceability_status,
@@ -635,6 +639,8 @@ from public.equipment_assets ea
 join public.equipment_items ei on ei.id = ea.equipment_item_id
 join public.equipment_categories ec on ec.id = ei.category_id
 left join public.units u on u.id = ea.current_unit_id
+left join public.companies c on c.id = ea.assigned_company_id
+left join public.groups g on g.id = ea.assigned_group_id
 left join public.condition_statuses cs on cs.id = ea.condition_status_id
 left join public.serviceability_statuses ss on ss.id = ea.serviceability_status_id
 join public.asset_statuses ast on ast.id = ea.asset_status_id
