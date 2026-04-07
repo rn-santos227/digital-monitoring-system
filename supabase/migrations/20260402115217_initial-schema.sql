@@ -458,16 +458,48 @@ begin
 
   return new;
 end;
+$$;
 
+create or replace function public.validate_equipment_issuance_assignment()
+returns trigger
+language plpgsql
+as $$
+declare
+  v_asset_company_id uuid;
+  v_asset_battalion_id uuid;
+  v_personnel_company_id uuid;
+  v_personnel_battalion_id uuid;
+begin
+  select ea.assigned_company_id, ea.assigned_battalion_id
+    into v_asset_company_id, v_asset_battalion_id
+  from public.equipment_assets ea
+  where ea.id = new.equipment_asset_id;
+
+  select p.company_id, c.battalion_id
+    into v_personnel_company_id, v_personnel_battalion_id
+  from public.personnel p
+  join public.companies c on c.id = p.company_id
+  where p.id = new.issued_to_personnel_id;
+
+  if v_asset_company_id is not null and v_personnel_company_id is distinct from v_asset_company_id then
+    raise exception 'Equipment assigned to a company can only be issued to personnel from that company';
+  end if;
+
+  if v_asset_battalion_id is not null and v_personnel_battalion_id is distinct from v_asset_battalion_id then
+    raise exception 'Equipment assigned to a battalion can only be issued within that battalion';
+  end if;
+
+  return new;
+end;
+$$;
 
 -- ============================
 -- INDEXES (all FKs + common filters)
 -- ============================
-create index if not exists idx_units_parent_unit_id on public.units(parent_unit_id);
-create index if not exists idx_groups_company_id on public.groups(company_id);
+create index if not exists idx_companies_battalion_id on public.companies(battalion_id);
 
 create index if not exists idx_personnel_rank_id on public.personnel(rank_id);
-create index if not exists idx_personnel_unit_id on public.personnel(unit_id);
+create index if not exists idx_personnel_company_id on public.personnel(company_id);
 create index if not exists idx_personnel_employment_status_id on public.personnel(employment_status_id);
 create index if not exists idx_personnel_service_status_id on public.personnel(service_status_id);
 create index if not exists idx_personnel_last_name on public.personnel(last_name);
@@ -492,9 +524,9 @@ create index if not exists idx_equipment_items_category_id on public.equipment_i
 create index if not exists idx_equipment_items_is_active on public.equipment_items(is_active);
 
 create index if not exists idx_equipment_assets_equipment_item_id on public.equipment_assets(equipment_item_id);
-create index if not exists idx_equipment_assets_current_unit_id on public.equipment_assets(current_unit_id);
+create index if not exists idx_equipment_assets_assigned_personnel_id on public.equipment_assets(assigned_personnel_id);
 create index if not exists idx_equipment_assets_assigned_company_id on public.equipment_assets(assigned_company_id);
-create index if not exists idx_equipment_assets_assigned_group_id on public.equipment_assets(assigned_group_id);
+create index if not exists idx_equipment_assets_assigned_battalion_id on public.equipment_assets(assigned_battalion_id);
 create index if not exists idx_equipment_assets_condition_status_id on public.equipment_assets(condition_status_id);
 create index if not exists idx_equipment_assets_serviceability_status_id on public.equipment_assets(serviceability_status_id);
 create index if not exists idx_equipment_assets_asset_status_id on public.equipment_assets(asset_status_id);
@@ -525,11 +557,9 @@ create index if not exists idx_personnel_weapon_assignments_equipment_asset_id o
 -- ============================
 create trigger set_updated_at_ranks before update on public.ranks
 for each row execute function public.set_updated_at();
-create trigger set_updated_at_units before update on public.units
-for each row execute function public.set_updated_at();
 create trigger set_updated_at_companies before update on public.companies
 for each row execute function public.set_updated_at();
-create trigger set_updated_at_groups before update on public.groups
+create trigger set_updated_at_battalions before update on public.battalions
 for each row execute function public.set_updated_at();
 create trigger set_updated_at_employment_statuses before update on public.employment_statuses
 for each row execute function public.set_updated_at();
@@ -575,8 +605,14 @@ create trigger set_updated_at_equipment_items before update on public.equipment_
 for each row execute function public.set_updated_at();
 create trigger set_updated_at_equipment_assets before update on public.equipment_assets
 for each row execute function public.set_updated_at();
+create trigger tr_validate_equipment_asset_assignment
+before insert or update on public.equipment_assets
+for each row execute function public.validate_equipment_asset_assignment();
 create trigger set_updated_at_equipment_issuances before update on public.equipment_issuances
 for each row execute function public.set_updated_at();
+create trigger tr_validate_equipment_issuance_assignment
+before insert or update on public.equipment_issuances
+for each row execute function public.validate_equipment_issuance_assignment();
 create trigger set_updated_at_equipment_maintenance_records before update on public.equipment_maintenance_records
 for each row execute function public.set_updated_at();
 create trigger set_updated_at_equipment_incidents before update on public.equipment_incidents
