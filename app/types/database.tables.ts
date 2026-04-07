@@ -1,9 +1,15 @@
 export type { ISODate, ISODateTime, TableShape, UUID } from './tables/shared'
 
 export type {
+  CompaniesInsert,
+  CompaniesRow,
+  CompaniesUpdate,
   EmploymentStatusesInsert,
   EmploymentStatusesRow,
   EmploymentStatusesUpdate,
+  GroupsInsert,
+  GroupsRow,
+  GroupsUpdate,
   PersonnelInsert,
   PersonnelRow,
   PersonnelUpdate,
@@ -101,12 +107,18 @@ export type {
 
 import type { TableShape } from './tables/shared'
 import type {
+  CompaniesInsert,
+  CompaniesRow,
+  CompaniesUpdate,
   EmploymentStatusesInsert,
   EmploymentStatusesRow,
   EmploymentStatusesUpdate,
   PersonnelInsert,
   PersonnelRow,
   PersonnelUpdate,
+  GroupsInsert,
+  GroupsRow,
+  GroupsUpdate,
   RanksInsert,
   RanksRow,
   RanksUpdate,
@@ -200,6 +212,8 @@ import type {
 export interface DatabaseTables {
   ranks: TableShape<RanksRow, RanksInsert, RanksUpdate>
   units: TableShape<UnitsRow, UnitsInsert, UnitsUpdate>
+  companies: TableShape<CompaniesRow, CompaniesInsert, CompaniesUpdate>
+  groups: TableShape<GroupsRow, GroupsInsert, GroupsUpdate>
   employment_statuses: TableShape<EmploymentStatusesRow, EmploymentStatusesInsert, EmploymentStatusesUpdate>
   service_statuses: TableShape<ServiceStatusesRow, ServiceStatusesInsert, ServiceStatusesUpdate>
   personnel: TableShape<PersonnelRow, PersonnelInsert, PersonnelUpdate>
