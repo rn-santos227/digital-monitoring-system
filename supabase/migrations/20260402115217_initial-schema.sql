@@ -26,12 +26,10 @@ create table if not exists public.ranks (
   updated_at timestamptz not null default now()
 );
 
-create table if not exists public.units (
+create table if not exists public.battalions (
   id uuid primary key default gen_random_uuid(),
   code text not null unique,
-  name text not null,
-  parent_unit_id uuid null references public.units(id) on delete restrict,
-  unit_type text not null,
+  name text not null unique,
   is_active boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -46,20 +44,9 @@ create table if not exists public.companies (
   updated_at timestamptz not null default now()
 );
 
-create table if not exists public.groups (
-  id uuid primary key default gen_random_uuid(),
-  company_id uuid not null references public.companies(id) on delete restrict,
-  code text not null,
-  name text not null,
-  is_active boolean not null default true,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now(),
-  unique (company_id, code),
-  unique (company_id, name)
-);
-
 create table if not exists public.employment_statuses (
   id uuid primary key default gen_random_uuid(),
+  battalion_id uuid null references public.battalions(id) on delete restrict,
   name text not null unique,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -82,7 +69,7 @@ create table if not exists public.personnel (
   sex text not null check (sex in ('Male', 'Female')),
   birthdate date null,
   rank_id uuid not null references public.ranks(id) on delete restrict,
-  unit_id uuid not null references public.units(id) on delete restrict,
+  company_id uuid not null references public.companies(id) on delete restrict,
   employment_status_id uuid not null references public.employment_statuses(id) on delete restrict,
   service_status_id uuid not null references public.service_statuses(id) on delete restrict,
   contact_number text null,

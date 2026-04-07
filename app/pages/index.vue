@@ -3,7 +3,7 @@
     <BaseCard title="AFP Monitoring System" class="w-full" padding="lg">
       <p class="text-slate-700">
         You are signed in as
-        <span class="font-semibold">{{ currentUser?.fullName ?? currentUser?.username }}</span>.
+        <span class="font-semibold">{{ currentUser?.fullName ?? currentUser?.email }}</span>.
       </p>
       <p class="mt-2 text-sm text-slate-500">The dashboard can now be loaded for authenticated users.</p>
 
