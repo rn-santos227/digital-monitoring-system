@@ -9,3 +9,8 @@ export interface SessionResponse {
   user: SessionUser
 }
 
+export interface LoginPayload {
+  identifier: string
+  password: string
+}
+
