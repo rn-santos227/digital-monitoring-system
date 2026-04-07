@@ -25,6 +25,10 @@ export interface EquipmentAccountabilityRow {
   category_name: string
   current_unit_code: string | null
   current_unit_name: string | null
+  assigned_company_code: string | null
+  assigned_company_name: string | null
+  assigned_group_code: string | null
+  assigned_group_name: string | null
   current_location: string | null
   condition_status: string | null
   serviceability_status: string | null
