@@ -1,15 +1,6 @@
 import type { H3Event } from 'h3'
 import { serverSupabaseClient } from '#supabase/server'
-
-interface LogActionInput {
-  userId?: string | null
-  action: string
-  tableName: string
-  recordId?: string | null
-  oldData?: Record<string, unknown> | null
-  newData?: Record<string, unknown> | null
-  metadata?: Record<string, unknown> | null
-}
+import type { LogActionInput } from '../../shared/models'
 
 export async function logAction(event: H3Event, input: LogActionInput) {
   const supabase = (await serverSupabaseClient(event)) as any
