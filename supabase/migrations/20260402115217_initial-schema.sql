@@ -706,9 +706,9 @@ select
 from public.equipment_assets ea
 join public.equipment_items ei on ei.id = ea.equipment_item_id
 join public.equipment_categories ec on ec.id = ei.category_id
-left join public.units u on u.id = ea.current_unit_id
+left join public.personnel ap on ap.id = ea.assigned_personnel_id
 left join public.companies c on c.id = ea.assigned_company_id
-left join public.groups g on g.id = ea.assigned_group_id
+left join public.battalions b on b.id = ea.assigned_battalion_id
 left join public.condition_statuses cs on cs.id = ea.condition_status_id
 left join public.serviceability_statuses ss on ss.id = ea.serviceability_status_id
 join public.asset_statuses ast on ast.id = ea.asset_status_id

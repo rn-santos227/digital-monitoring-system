@@ -140,33 +140,32 @@ on conflict (code) do update
 set name = excluded.name,
     sort_order = excluded.sort_order;
 
--- Starter units (self-referencing with HQ parent)
-with upsert_hq as (
-  insert into public.units (code, name, parent_unit_id, unit_type, is_active)
-  values ('HQ', 'Headquarters', null, 'Command', true)
-  on conflict (code) do update
-  set name = excluded.name,
-      unit_type = excluded.unit_type,
-      is_active = excluded.is_active
-  returning id
-)
-insert into public.units (code, name, parent_unit_id, unit_type, is_active)
-select 'A-COMP', 'Alpha Company', id, 'Company', true from upsert_hq
+-- Starter battalions
+insert into public.battalions (code, name, is_active)
+values
+  ('1BN', '1st Battalion', true),
+  ('2BN', '2nd Battalion', true)
 on conflict (code) do update
 set name = excluded.name,
-    parent_unit_id = excluded.parent_unit_id,
-    unit_type = excluded.unit_type,
     is_active = excluded.is_active;
 
-with resolved_hq as (
-  select id from public.units where code = 'HQ' limit 1
-)
-insert into public.units (code, name, parent_unit_id, unit_type, is_active)
-select 'B-COMP', 'Bravo Company', id, 'Company', true from resolved_hq
+-- Starter companies (scoped under battalions)
+insert into public.companies (battalion_id, code, name, is_active)
+select b.id, 'ALPHA', 'Alpha Company', true
+from public.battalions b
+where b.code = '1BN'
 on conflict (code) do update
-set name = excluded.name,
-    parent_unit_id = excluded.parent_unit_id,
-    unit_type = excluded.unit_type,
+set battalion_id = excluded.battalion_id,
+    name = excluded.name,
+    is_active = excluded.is_active;
+
+insert into public.companies (battalion_id, code, name, is_active)
+select b.id, 'BRAVO', 'Bravo Company', true
+from public.battalions b
+where b.code = '2BN'
+on conflict (code) do update
+set battalion_id = excluded.battalion_id,
+    name = excluded.name,
     is_active = excluded.is_active;
 
 -- Account types (RBAC roles)
