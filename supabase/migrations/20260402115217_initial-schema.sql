@@ -291,6 +291,8 @@ create table if not exists public.equipment_assets (
   acquisition_cost numeric(14,2) null,
   fund_source text null,
   current_unit_id uuid null references public.units(id) on delete restrict,
+  assigned_company_id uuid null references public.companies(id) on delete restrict,
+  assigned_group_id uuid null references public.groups(id) on delete restrict,
   current_location text null,
   condition_status_id uuid null references public.condition_statuses(id) on delete restrict,
   serviceability_status_id uuid null references public.serviceability_statuses(id) on delete restrict,
@@ -433,6 +435,7 @@ comment on table public.personnel_weapon_assignments is
 -- INDEXES (all FKs + common filters)
 -- ============================
 create index if not exists idx_units_parent_unit_id on public.units(parent_unit_id);
+create index if not exists idx_groups_company_id on public.groups(company_id);
 
 create index if not exists idx_personnel_rank_id on public.personnel(rank_id);
 create index if not exists idx_personnel_unit_id on public.personnel(unit_id);
@@ -461,6 +464,8 @@ create index if not exists idx_equipment_items_is_active on public.equipment_ite
 
 create index if not exists idx_equipment_assets_equipment_item_id on public.equipment_assets(equipment_item_id);
 create index if not exists idx_equipment_assets_current_unit_id on public.equipment_assets(current_unit_id);
+create index if not exists idx_equipment_assets_assigned_company_id on public.equipment_assets(assigned_company_id);
+create index if not exists idx_equipment_assets_assigned_group_id on public.equipment_assets(assigned_group_id);
 create index if not exists idx_equipment_assets_condition_status_id on public.equipment_assets(condition_status_id);
 create index if not exists idx_equipment_assets_serviceability_status_id on public.equipment_assets(serviceability_status_id);
 create index if not exists idx_equipment_assets_asset_status_id on public.equipment_assets(asset_status_id);
