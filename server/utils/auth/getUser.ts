@@ -1,8 +1,21 @@
 import type { H3Event } from 'h3'
+import { useRuntimeConfig } from '#imports'
 import { serverSupabaseUser } from '#supabase/server'
 import type { SessionUserRow } from '../../shared/models'
 import { getSessionTokenFromEvent } from '../../shared/utils'
 import { getServiceSupabaseClient } from './serviceClient'
+
+function hasSupabaseUserConfig() {
+  const config = useRuntimeConfig()
+
+  const supabaseUrl = process.env.NUXT_PUBLIC_SUPABASE_URL || config.public?.supabase?.url
+  const supabaseKey =
+    process.env.NUXT_PUBLIC_SUPABASE_KEY ||
+    process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY ||
+    config.public?.supabase?.key
+
+  return Boolean(supabaseUrl && supabaseKey)
+}
 
 export async function getUser(event: H3Event) {
   const token = getSessionTokenFromEvent(event)
@@ -30,6 +43,14 @@ export async function getUser(event: H3Event) {
     }
   }
 
-  const user = await serverSupabaseUser(event)
-  return user ?? null
+  if (!hasSupabaseUserConfig()) {
+    return null
+  }
+
+  try {
+    const user = await serverSupabaseUser(event)
+    return user ?? null
+  } catch {
+    return null
+  }
 }
