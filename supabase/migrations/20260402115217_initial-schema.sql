@@ -37,6 +37,15 @@ create table if not exists public.units (
   updated_at timestamptz not null default now()
 );
 
+create table if not exists public.companies (
+  id uuid primary key default gen_random_uuid(),
+  code text not null unique,
+  name text not null unique,
+  is_active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 create table if not exists public.employment_statuses (
   id uuid primary key default gen_random_uuid(),
   name text not null unique,
