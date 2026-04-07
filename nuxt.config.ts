@@ -4,7 +4,6 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   modules: [
     '@nuxtjs/supabase',
-    '@pinia/nuxt',
   ],
   css: ['./app/assets/css/main.css'],
   vite: {
