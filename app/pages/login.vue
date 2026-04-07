@@ -45,7 +45,6 @@
             required
           />
 
-
           <div class="flex items-center justify-between gap-4 text-sm text-slate-600">
             <BaseCheckbox
               v-model="rememberMe"
