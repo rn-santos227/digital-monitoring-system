@@ -277,9 +277,9 @@ create table if not exists public.equipment_assets (
   procurement_date date null,
   acquisition_cost numeric(14,2) null,
   fund_source text null,
-  current_unit_id uuid null references public.units(id) on delete restrict,
+  assigned_personnel_id uuid null references public.personnel(id) on delete restrict,
   assigned_company_id uuid null references public.companies(id) on delete restrict,
-  assigned_group_id uuid null references public.groups(id) on delete restrict,
+  assigned_battalion_id uuid null references public.battalions(id) on delete restrict,
   current_location text null,
   condition_status_id uuid null references public.condition_statuses(id) on delete restrict,
   serviceability_status_id uuid null references public.serviceability_statuses(id) on delete restrict,
@@ -417,6 +417,48 @@ create table if not exists public.personnel_weapon_assignments (
 
 comment on table public.personnel_weapon_assignments is
 'App-level rule: weapon assignments should reference weapon-class assets/items only.';
+
+-- ============================
+-- ASSIGNMENT VALIDATION FUNCTIONS
+-- ============================
+create or replace function public.validate_equipment_asset_assignment()
+returns trigger
+language plpgsql
+as $$
+declare
+  v_company_battalion_id uuid;
+  v_personnel_company_id uuid;
+  v_personnel_battalion_id uuid;
+begin
+  if new.assigned_company_id is not null then
+    select c.battalion_id into v_company_battalion_id
+    from public.companies c
+    where c.id = new.assigned_company_id;
+
+    if new.assigned_battalion_id is not null and v_company_battalion_id is distinct from new.assigned_battalion_id then
+      raise exception 'Assigned company must belong to the assigned battalion';
+    end if;
+  end if;
+
+  if new.assigned_personnel_id is not null then
+    select p.company_id, c.battalion_id
+      into v_personnel_company_id, v_personnel_battalion_id
+    from public.personnel p
+    join public.companies c on c.id = p.company_id
+    where p.id = new.assigned_personnel_id;
+
+    if new.assigned_company_id is not null and v_personnel_company_id is distinct from new.assigned_company_id then
+      raise exception 'Assigned personnel must belong to the assigned company';
+    end if;
+
+    if new.assigned_battalion_id is not null and v_personnel_battalion_id is distinct from new.assigned_battalion_id then
+      raise exception 'Assigned personnel must belong to the assigned battalion';
+    end if;
+  end if;
+
+  return new;
+end;
+
 
 -- ============================
 -- INDEXES (all FKs + common filters)
