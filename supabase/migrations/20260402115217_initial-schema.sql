@@ -46,6 +46,18 @@ create table if not exists public.companies (
   updated_at timestamptz not null default now()
 );
 
+create table if not exists public.groups (
+  id uuid primary key default gen_random_uuid(),
+  company_id uuid not null references public.companies(id) on delete restrict,
+  code text not null,
+  name text not null,
+  is_active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (company_id, code),
+  unique (company_id, name)
+);
+
 create table if not exists public.employment_statuses (
   id uuid primary key default gen_random_uuid(),
   name text not null unique,
