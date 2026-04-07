@@ -7,17 +7,17 @@ import { generateSessionToken } from '../../utils/auth/sessionToken'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<LoginBody>(event)
-  const identifier = body.identifier?.trim()
+  const email = body.email?.trim().toLowerCase()
   const password = body.password
 
-  if (!identifier || !password) {
-    throw createError({ statusCode: 400, statusMessage: 'identifier and password are required' })
+  if (!email || !password) {
+    throw createError({ statusCode: 400, statusMessage: 'email and password are required' })
   }
 
   const supabase = getServiceSupabaseClient()
 
   const { data: authRow, error: authError } = await supabase.rpc('authenticate_local_user', {
-    p_identifier: identifier,
+    p_identifier: email,
     p_password: password,
   })
 

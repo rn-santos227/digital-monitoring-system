@@ -1,5 +1,5 @@
 export interface LoginBody {
-  identifier?: string
+  email?: string
   password?: string
 }
 
