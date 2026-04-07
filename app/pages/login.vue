@@ -22,14 +22,14 @@
 
     <section class="flex items-center justify-center bg-slate-100 px-6 py-16 sm:px-10">
       <div class="w-full max-w-xl space-y-6">
-        <BaseCard
+        <UiBaseCard
           title="Sign In"
           subtitle="Use your assigned account credentials to continue."
           class="w-full"
           padding="lg"
         >
           <form class="space-y-6" @submit.prevent="onLogin">
-            <BaseTextField
+            <UiBaseTextField
               v-model="credentials.identifier"
               label="Username"
               placeholder="Type your username"
@@ -37,7 +37,7 @@
               required
             />
 
-            <BaseTextField
+            <UiBaseTextField
               v-model="credentials.password"
               label="Password"
               type="password"
@@ -47,7 +47,7 @@
             />
 
             <div class="flex items-center justify-between gap-4 text-sm text-slate-600">
-              <BaseCheckbox
+              <UiBaseCheckbox
                 v-model="rememberMe"
                 label="Remember me"
                 :disabled="isSubmitting"
@@ -64,13 +64,13 @@
               {{ loginError }}
             </p>
 
-            <BaseButton type="submit" full-width :disabled="isSubmitting" class="bg-emerald-700 hover:bg-emerald-800 focus-visible:ring-emerald-600">
+            <UiBaseButton type="submit" full-width :disabled="isSubmitting" class="bg-emerald-700 hover:bg-emerald-800 focus-visible:ring-emerald-600">
               {{ isSubmitting ? 'Signing in...' : 'Sign In' }}
-            </BaseButton>
+            </UiBaseButton>
 
             <p class="text-center text-sm text-slate-600">Need help? Contact your system administrator.</p>
           </form>
-        </BaseCard>
+        </UiBaseCard>
         <p class="text-center text-sm text-slate-500">Authorized users only. Activity is monitored for security.</p>
       </div>
     </section>
