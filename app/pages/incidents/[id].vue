@@ -106,6 +106,8 @@
 </template>
 
 <script setup lang="ts">
+import { useIncidentProfileLoader } from '~/handlers/incidents'
+import { createCurrentValuePrintHandler } from '~/handlers/shared'
 import { computed, ref, watch } from 'vue'
 import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import { useDateDisplay } from '~/composables/useDateDisplay'
@@ -115,16 +117,11 @@ import {
   EQUIPMENT_INCIDENTS_PAGE_REQUIRED_PERMISSIONS,
   EQUIPMENT_INCIDENTS_PAGE_SECTION_CLASSES,
 } from '~/constants/page.constants'
-import {
-  PERSONNEL_PROFILE_GRID_CLASSES,
-  PERSONNEL_PROFILE_PAGE_HEADER_CLASSES,
-} from '~/constants/shared.constants'
+import { PERSONNEL_PROFILE_GRID_CLASSES, PERSONNEL_PROFILE_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
 import { usePrintIncidentsHandler } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type { AuditLogListItem } from '~/types/domain/audit'
 import type { EquipmentIncidentListItem } from '~/types/domain/incident'
-import { getEquipmentIncidentByIdEndpoint } from '~/utils/incident-endpoints'
-import { searchAuditLogsEndpoint } from '~/utils/audit-endpoints'
 
 const { formatDate } = useDateDisplay()
 const route = useRoute()
@@ -174,33 +171,16 @@ const deploymentLabel = computed(() => {
   return [currentIncident.deploymentRecordNo, currentIncident.deploymentName].filter(Boolean).join(' — ') || currentIncident.deploymentId
 })
 
-const handlePrintEquipmentIncidentProfile = () => {
-  return printEquipmentIncidentProfile(incident.value)
-}
+const handlePrintEquipmentIncidentProfile = createCurrentValuePrintHandler(incident, printEquipmentIncidentProfile)
 
-const loadIncidentAuditLogs = async (id: string) => {
-  isLoadingAuditLogs.value = true
-  auditError.value = ''
-
-  try {
-    const response = await searchAuditLogsEndpoint({
-      page: 1,
-      pageSize: 25,
-      term: id,
-      fields: 'recordId',
-    })
-    incidentAuditLogs.value = response.items.filter((item) => item.tableName === 'equipment_incidents')
-  } catch {
-    auditError.value = 'Unable to load incident update and status-change audit logs.'
-  } finally {
-    isLoadingAuditLogs.value = false
-  }
-}
-
-const loadIncidentProfile = async (id: string) => {
-  incident.value = await getEquipmentIncidentByIdEndpoint(id)
-  await loadIncidentAuditLogs(id)
-}
+const {
+  loadIncidentProfile,
+} = useIncidentProfileLoader({
+  incident,
+  incidentAuditLogs,
+  auditError,
+  isLoadingAuditLogs,
+})
 
 watch([canViewEquipmentIncidents, incidentId], async ([hasAccess, id]) => {
   if (!hasAccess || !id) {
