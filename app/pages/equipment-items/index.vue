@@ -49,12 +49,16 @@
       />
 
       <CreateEquipmentItemModal
+        :error-message="error"
+        :is-submitting="isLoading"
         v-if="isCreateEquipmentItemModalOpen"
         @close="onCloseCreateEquipmentItemModal"
         @submit="onCreateEquipmentItemWithFeedback"
       />
 
       <UpdateEquipmentItemModal
+        :error-message="error"
+        :is-submitting="isLoading"
         v-if="isUpdateEquipmentItemModalOpen && selectedEquipmentItem"
         :initial-values="selectedEquipmentItemFormValues"
         @close="closeUpdateEquipmentItemModal"
@@ -104,10 +108,7 @@ import {
   createCompleteListPrintHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
-import type {
-  EquipmentItemListItem,
-  EquipmentItemTableRow,
-} from '~/types/domain/equipment'
+import type { EquipmentItemListItem, EquipmentItemTableRow } from '~/types/domain/equipment'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 
 const {
