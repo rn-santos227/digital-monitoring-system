@@ -9,35 +9,24 @@ export type RanksRow = AuditColumns & {
 export type RanksInsert = AuditInsert & Omit<RanksRow, keyof AuditColumns | 'id'> & { id?: UUID }
 export type RanksUpdate = Partial<RanksInsert>
 
-export type UnitsRow = AuditColumns & {
+export type BattalionsRow = AuditColumns & {
   id: UUID
   code: string
   name: string
-  parent_unit_id: UUID | null
-  unit_type: string
   is_active: boolean
 }
-export type UnitsInsert = AuditInsert & Omit<UnitsRow, keyof AuditColumns | 'id'> & { id?: UUID }
-export type UnitsUpdate = Partial<UnitsInsert>
+export type BattalionsInsert = AuditInsert & Omit<BattalionsRow, keyof AuditColumns | 'id'> & { id?: UUID }
+export type BattalionsUpdate = Partial<BattalionsInsert>
 
 export type CompaniesRow = AuditColumns & {
   id: UUID
+  battalion_id: UUID | null
   code: string
   name: string
   is_active: boolean
 }
 export type CompaniesInsert = AuditInsert & Omit<CompaniesRow, keyof AuditColumns | 'id'> & { id?: UUID }
 export type CompaniesUpdate = Partial<CompaniesInsert>
-
-export type GroupsRow = AuditColumns & {
-  id: UUID
-  company_id: UUID
-  code: string
-  name: string
-  is_active: boolean
-}
-export type GroupsInsert = AuditInsert & Omit<GroupsRow, keyof AuditColumns | 'id'> & { id?: UUID }
-export type GroupsUpdate = Partial<GroupsInsert>
 
 export type EmploymentStatusesRow = AuditColumns & { id: UUID; name: string }
 export type EmploymentStatusesInsert = AuditInsert & Omit<EmploymentStatusesRow, keyof AuditColumns | 'id'> & { id?: UUID }
@@ -57,7 +46,7 @@ export type PersonnelRow = AuditColumns & {
   sex: 'Male' | 'Female'
   birthdate: ISODate | null
   rank_id: UUID
-  unit_id: UUID
+  company_id: UUID
   employment_status_id: UUID
   service_status_id: UUID
   contact_number: string | null

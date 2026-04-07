@@ -23,12 +23,13 @@ export interface EquipmentAccountabilityRow {
   item_name: string
   category_code: string
   category_name: string
-  current_unit_code: string | null
-  current_unit_name: string | null
+  assigned_personnel_code: string | null
+  assigned_personnel_last_name: string | null
+  assigned_personnel_first_name: string | null
   assigned_company_code: string | null
   assigned_company_name: string | null
-  assigned_group_code: string | null
-  assigned_group_name: string | null
+  assigned_battalion_code: string | null
+  assigned_battalion_name: string | null
   current_location: string | null
   condition_status: string | null
   serviceability_status: string | null
@@ -58,9 +59,9 @@ export interface EquipmentAssetWithIssuance {
 export interface EquipmentFilters {
   equipment_item_id?: UUID
   category_id?: UUID
-  current_unit_id?: UUID
+  assigned_personnel_id?: UUID
   assigned_company_id?: UUID
-  assigned_group_id?: UUID
+  assigned_battalion_id?: UUID
   serviceability_status_id?: UUID
   asset_status_id?: UUID
 }
