@@ -26,7 +26,7 @@ export async function getUser(event: H3Event) {
 
     const { data } = await supabase
       .from('auth_sessions')
-      .select('user_id, user_profiles!inner(id, username, full_name, is_active)')
+      .select('user_id, user_profiles!inner(id, email, full_name, is_active)')
       .eq('access_token', token)
       .is('revoked_at', null)
       .gt('expires_at', now)
@@ -37,7 +37,7 @@ export async function getUser(event: H3Event) {
       const profile = data.user_profiles
       return {
         id: profile.id,
-        username: profile.username,
+        email: profile.email,
         full_name: profile.full_name,
       }
     }

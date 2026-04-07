@@ -5,7 +5,7 @@ export interface LoginBody {
 
 export interface AuthenticatedUser {
   id: string
-  username: string
+  email: string
   full_name: string | null
 }
 
