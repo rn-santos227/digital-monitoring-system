@@ -1,5 +1,10 @@
 <template>
-  <div :class="[baseClasses, paddingClasses[padding]]">
+  <div
+    :class="[
+      'rounded-2xl border border-slate-200 bg-white shadow-lg shadow-slate-300/35',
+      paddingClasses[padding]
+    ]"
+  >
     <div v-if="title || subtitle" class="space-y-1">
       <h3 v-if="title" class="text-base font-semibold text-slate-900">{{ title }}</h3>
       <p v-if="subtitle" class="text-sm text-slate-500">{{ subtitle }}</p>
@@ -28,9 +33,6 @@ const props = withDefaults(
     padding: 'md'
   }
 )
-
-const baseClasses =
-  'rounded-2xl border border-slate-200 bg-white shadow-md shadow-slate-200/60'
 
 const paddingClasses: Record<UiSize, string> = {
   sm: 'p-4',
