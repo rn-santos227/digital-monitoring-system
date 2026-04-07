@@ -31,10 +31,10 @@ end;
 $$;
 
 
-create or replace function public.authenticate_local_user(p_identifier text, p_password text)
+create or replace function public.authenticate_local_user(p_email text, p_password text)
 returns table (
   user_id uuid,
-  username text,
+  email text,
   full_name text
 )
 language plpgsql
@@ -43,14 +43,10 @@ set search_path = public, auth
 as $$
 begin
   return query
-  select up.id, up.username, up.full_name
+  select up.id, up.email, up.full_name
   from public.user_profiles up
-  left join auth.users au on au.id = up.id
   where up.is_active = true
-    and (
-      lower(up.username) = lower(p_identifier)
-      or lower(au.email) = lower(p_identifier)
-    )
+    and lower(up.email) = lower(p_email)
     and up.password_hash is not null
     and up.password_hash = crypt(p_password, up.password_hash)
   limit 1;
