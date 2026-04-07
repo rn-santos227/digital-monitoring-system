@@ -3,3 +3,9 @@ export interface SessionUser {
   username: string
   fullName: string | null
 }
+
+export interface SessionResponse {
+  ok: boolean
+  user: SessionUser
+}
+
