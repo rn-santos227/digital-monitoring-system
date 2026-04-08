@@ -1,5 +1,11 @@
 # AGENTS.md
 
+## Domain Context (Source of Truth)
+
+- This project domain is **Digital AFP Personnel and Equipment Monitoring System**
+- When adding or updating UI labels, shared constants, and models, align naming and modules with the initial schema in `supabase/migrations/20260402115217_initial-schema.sql`.
+- Prefer domain terms from schema entities such as: personnel, battalions, companies, training records, deployment records, engagement records, equipment categories/items/assets/issuances, incidents, and audit logs.
+
 ## Development Rules
 
 1. **Keep shared logic centralized**
@@ -34,8 +40,11 @@
    - Avoid writing one-off page-level markup/styles for controls that already exist as shared UI components.
    - If a needed UI building block does not exist, add it to `components/ui` first and then consume it from pages.
 
-## Domain Context (Source of Truth)
+9. **Centralize UI/page contracts and classes**
+   - Keep reusable UI interfaces/types and class-string constants in `app/constants/ui.constants.ts`.
+   - Keep reusable page-level labels, placeholders, and display configuration in `app/constants/pages.constants.ts`.
+   - Keep reusable class-string constants for custom components in `app/constants/shared.constants.ts`
+   - Avoid defining repeated interface/class strings directly inside page/component files when they can be shared through constants.
 
-- This project domain is **Digital AFP Personnel and Equipment Monitoring System**
-- When adding or updating UI labels, shared constants, and models, align naming and modules with the initial schema in `supabase/migrations/20260402115217_initial-schema.sql`.
-- Prefer domain terms from schema entities such as: personnel, battalions, companies, training records, deployment records, engagement records, equipment categories/items/assets/issuances, incidents, and audit logs.
+10. **Icon standardization**
+    - When adding UI icons, use `@heroicons/vue` (Heroicons) as the default icon set for consistency.
