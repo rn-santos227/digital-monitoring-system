@@ -69,11 +69,15 @@ create table if not exists public.personnel (
   sex text not null check (sex in ('Male', 'Female')),
   birthdate date null,
   rank_id uuid not null references public.ranks(id) on delete restrict,
-  company_id uuid not null references public.companies(id) on delete restrict,
+  company_id uuid null references public.companies(id) on delete restrict,
+  battalion_id uuid null references public.battalions(id) on delete restrict,
   employment_status_id uuid not null references public.employment_statuses(id) on delete restrict,
   service_status_id uuid not null references public.service_statuses(id) on delete restrict,
   contact_number text null,
   date_enlisted date null,
+  constraint personnel_unit_assignment_check check (
+    company_id is not null or battalion_id is not null
+  ),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
