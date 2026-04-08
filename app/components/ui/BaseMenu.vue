@@ -44,4 +44,12 @@ const closeMenu = () => {
   isOpen.value = false
 }
 
+const toggleMenu = () => {
+  isOpen.value = !isOpen.value
+}
+
+const onItemClick = (item: BaseMenuItem) => {
+  emit('select', item)
+  closeMenu()
+}
 </script>
