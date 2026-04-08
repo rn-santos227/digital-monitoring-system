@@ -15,9 +15,26 @@ export type BaseMenuItem = {
   danger?: boolean
 }
 
+export type NavigationIconName =
+  | 'home'
+  | 'users'
+  | 'building'
+  | 'clipboard'
+  | 'academic-cap'
+  | 'map'
+  | 'shield'
+  | 'squares'
+  | 'cube'
+  | 'archive'
+  | 'arrow-path'
+  | 'exclamation'
+  | 'clock'
+  | 'cog'
+
 export type NavigationItem = {
   label: string
   to: string
+  icon: NavigationIconName
 }
 
 export type NavigationSection = {
