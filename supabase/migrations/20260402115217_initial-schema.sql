@@ -37,6 +37,7 @@ create table if not exists public.battalions (
 
 create table if not exists public.companies (
   id uuid primary key default gen_random_uuid(),
+  battalion_id uuid null references public.battalions(id) on delete restrict,
   code text not null unique,
   name text not null unique,
   is_active boolean not null default true,
