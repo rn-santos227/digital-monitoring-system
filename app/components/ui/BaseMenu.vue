@@ -1,5 +1,36 @@
 <template>
+  <div ref="menuRoot" class="relative inline-flex">
+    <button
+      type="button"
+      :class="BASE_MENU_TRIGGER_CLASSES"
+      :aria-expanded="isOpen"
+      aria-haspopup="menu"
+      @click="toggleMenu"
+    >
+      <slot name="trigger" :is-open="isOpen">
+        <span>{{ label }}</span>
+      </slot>
+    </button>
 
+    <Transition name="dropdown-slide">
+      <div
+        v-if="isOpen"
+        :class="[BASE_MENU_PANEL_CLASSES, menuPositionClass]"
+        role="menu"
+      >
+        <button
+          v-for="item in items"
+          :key="item.value"
+          type="button"
+          :class="[BASE_MENU_ITEM_CLASSES, item.danger ? BASE_MENU_ITEM_DANGER_CLASSES : BASE_MENU_ITEM_DEFAULT_CLASSES]"
+          role="menuitem"
+          @click="onItemClick(item)"
+        >
+          {{ item.label }}
+        </button>
+      </div>
+    </Transition>
+  </div>
 </template>
 
 <script setup lang="ts">
