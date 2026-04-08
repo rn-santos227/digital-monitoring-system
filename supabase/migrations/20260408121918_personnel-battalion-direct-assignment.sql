@@ -79,3 +79,36 @@ begin
   return new;
 end;
 $$;
+
+create or replace function public.validate_equipment_issuance_assignment()
+returns trigger
+language plpgsql
+as $$
+declare
+  v_asset_company_id uuid;
+  v_asset_battalion_id uuid;
+  v_personnel_company_id uuid;
+  v_personnel_battalion_id uuid;
+begin
+  select ea.assigned_company_id, ea.assigned_battalion_id
+    into v_asset_company_id, v_asset_battalion_id
+  from public.equipment_assets ea
+  where ea.id = new.equipment_asset_id;
+
+  select p.company_id, coalesce(p.battalion_id, c.battalion_id)
+    into v_personnel_company_id, v_personnel_battalion_id
+  from public.personnel p
+  left join public.companies c on c.id = p.company_id
+  where p.id = new.issued_to_personnel_id;
+
+  if v_asset_company_id is not null and v_personnel_company_id is distinct from v_asset_company_id then
+    raise exception 'Equipment assigned to a company can only be issued to personnel from that company';
+  end if;
+
+  if v_asset_battalion_id is not null and v_personnel_battalion_id is distinct from v_asset_battalion_id then
+    raise exception 'Equipment assigned to a battalion can only be issued within that battalion';
+  end if;
+
+  return new;
+end;
+$$;
