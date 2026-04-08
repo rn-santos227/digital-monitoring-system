@@ -13,5 +13,16 @@ import {
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import type { BaseMenuItem } from '~/types/domain/misc'
 
+const props = withDefaults(
+  defineProps<{
+    label?: string
+    items: BaseMenuItem[]
+    align?: 'left' | 'right'
+  }>(),
+  {
+    label: 'Menu',
+    align: 'right'
+  }
+)
 
 </script>
