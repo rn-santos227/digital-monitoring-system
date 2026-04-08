@@ -25,4 +25,11 @@ const props = withDefaults(
   }
 )
 
+const emit = defineEmits<{
+  (event: 'select', item: BaseMenuItem): void
+}>()
+
+const isOpen = ref(false)
+const menuRoot = ref<HTMLElement | null>(null)
+
 </script>
