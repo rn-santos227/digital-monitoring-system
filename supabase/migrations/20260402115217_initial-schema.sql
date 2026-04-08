@@ -504,6 +504,7 @@ create index if not exists idx_companies_battalion_id on public.companies(battal
 
 create index if not exists idx_personnel_rank_id on public.personnel(rank_id);
 create index if not exists idx_personnel_company_id on public.personnel(company_id);
+create index if not exists idx_personnel_battalion_id on public.personnel(battalion_id);
 create index if not exists idx_personnel_employment_status_id on public.personnel(employment_status_id);
 create index if not exists idx_personnel_service_status_id on public.personnel(service_status_id);
 create index if not exists idx_personnel_last_name on public.personnel(last_name);
@@ -571,6 +572,31 @@ create trigger set_updated_at_service_statuses before update on public.service_s
 for each row execute function public.set_updated_at();
 create trigger set_updated_at_personnel before update on public.personnel
 for each row execute function public.set_updated_at();
+
+create or replace function public.validate_personnel_unit_assignment()
+returns trigger
+language plpgsql
+as $$
+declare
+  v_company_battalion_id uuid;
+begin
+  if new.company_id is not null then
+    select c.battalion_id into v_company_battalion_id
+    from public.companies c
+    where c.id = new.company_id;
+
+    if new.battalion_id is not null and v_company_battalion_id is distinct from new.battalion_id then
+      raise exception 'Personnel battalion must match the selected company battalion';
+    end if;
+  end if;
+
+  return new;
+end;
+$$;
+
+create trigger tr_validate_personnel_unit_assignment
+before insert or update on public.personnel
+for each row execute function public.validate_personnel_unit_assignment();
 create trigger set_updated_at_levels before update on public.levels
 for each row execute function public.set_updated_at();
 create trigger set_updated_at_training_categories before update on public.training_categories
