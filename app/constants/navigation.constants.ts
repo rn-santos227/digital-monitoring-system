@@ -37,4 +37,12 @@ export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.
   }
 ])
 
+export const SIDEBAR_FOOTER_ITEMS: readonly NavigationItem[] = Object.freeze([
+  {
+    label: 'Settings',
+    to: ROUTE_PATHS.settings,
+    icon: 'cog'
+  }
+])
+
 export const DASHBOARD_SEARCH_PLACEHOLDER = 'Search personnel, equipment, deployments...'
