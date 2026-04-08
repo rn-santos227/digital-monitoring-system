@@ -24,3 +24,8 @@ export const FORM_CONTROL_STATE_CLASSES = {
 export const CHECK_CONTROL_CLASSES =
   'h-4 w-4 rounded border-slate-300 text-indigo-600 focus-visible:ring-2 focus-visible:ring-indigo-500 disabled:opacity-60'
   
+export const APP_SIDEBAR_CLASSES = 'flex h-full w-72 flex-col border-r border-slate-200 bg-emerald-900 text-emerald-50'
+export const APP_SIDEBAR_SECTION_TITLE_CLASSES = 'px-2 text-xs font-semibold uppercase tracking-wide text-emerald-200/90'
+export const APP_SIDEBAR_ITEM_BASE_CLASSES = 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition'
+export const APP_SIDEBAR_ITEM_ACTIVE_CLASSES = 'bg-amber-400 text-slate-900 font-semibold'
+export const APP_SIDEBAR_ITEM_INACTIVE_CLASSES = 'text-emerald-50 hover:bg-white/10'
