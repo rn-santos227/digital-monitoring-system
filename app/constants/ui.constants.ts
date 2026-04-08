@@ -29,3 +29,6 @@ export const APP_SIDEBAR_SECTION_TITLE_CLASSES = 'px-2 text-xs font-semibold upp
 export const APP_SIDEBAR_ITEM_BASE_CLASSES = 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition'
 export const APP_SIDEBAR_ITEM_ACTIVE_CLASSES = 'bg-amber-400 text-slate-900 font-semibold'
 export const APP_SIDEBAR_ITEM_INACTIVE_CLASSES = 'text-emerald-50 hover:bg-white/10'
+
+export const APP_HEADER_CLASSES = 'sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-emerald-50 px-6'
+export const APP_FOOTER_CLASSES = 'border-t border-slate-200 bg-emerald-50 px-6 py-3 text-xs text-slate-500'
