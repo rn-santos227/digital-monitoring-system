@@ -41,3 +41,41 @@ create trigger tr_validate_personnel_unit_assignment
 before insert or update on public.personnel
 for each row execute function public.validate_personnel_unit_assignment();
 
+create or replace function public.validate_equipment_asset_assignment()
+returns trigger
+language plpgsql
+as $$
+declare
+  v_company_battalion_id uuid;
+  v_personnel_company_id uuid;
+  v_personnel_battalion_id uuid;
+begin
+  if new.assigned_company_id is not null then
+    select c.battalion_id into v_company_battalion_id
+    from public.companies c
+    where c.id = new.assigned_company_id;
+
+    if new.assigned_battalion_id is not null and v_company_battalion_id is distinct from new.assigned_battalion_id then
+      raise exception 'Assigned company must belong to the assigned battalion';
+    end if;
+  end if;
+
+  if new.assigned_personnel_id is not null then
+    select p.company_id, coalesce(p.battalion_id, c.battalion_id)
+      into v_personnel_company_id, v_personnel_battalion_id
+    from public.personnel p
+    left join public.companies c on c.id = p.company_id
+    where p.id = new.assigned_personnel_id;
+
+    if new.assigned_company_id is not null and v_personnel_company_id is distinct from new.assigned_company_id then
+      raise exception 'Assigned personnel must belong to the assigned company';
+    end if;
+
+    if new.assigned_battalion_id is not null and v_personnel_battalion_id is distinct from new.assigned_battalion_id then
+      raise exception 'Assigned personnel must belong to the assigned battalion';
+    end if;
+  end if;
+
+  return new;
+end;
+$$;
