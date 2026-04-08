@@ -52,4 +52,15 @@ const onItemClick = (item: BaseMenuItem) => {
   emit('select', item)
   closeMenu()
 }
+
+const onDocumentClick = (event: MouseEvent) => {
+  if (!menuRoot.value) return
+
+  const target = event.target
+  if (!(target instanceof Node)) return
+
+  if (!menuRoot.value.contains(target)) {
+    closeMenu()
+  }
+}
 </script>
