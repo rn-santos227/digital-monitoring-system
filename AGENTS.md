@@ -33,3 +33,9 @@
    - When constructing or updating pages, compose the page using existing `components/ui` building blocks.
    - Avoid writing one-off page-level markup/styles for controls that already exist as shared UI components.
    - If a needed UI building block does not exist, add it to `components/ui` first and then consume it from pages.
+
+## Domain Context (Source of Truth)
+
+- This project domain is **Digital AFP Personnel and Equipment Monitoring System**
+- When adding or updating UI labels, shared constants, and models, align naming and modules with the initial schema in `supabase/migrations/20260402115217_initial-schema.sql`.
+- Prefer domain terms from schema entities such as: personnel, battalions, companies, training records, deployment records, engagement records, equipment categories/items/assets/issuances, incidents, and audit logs.
