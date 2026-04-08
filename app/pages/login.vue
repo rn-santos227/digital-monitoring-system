@@ -85,6 +85,7 @@
 
 <script setup lang="ts">
 import { useAuth } from '~/composables/useAuth'
+import { useToast } from '~/composables/useToast'
 import { ROUTE_PATHS } from '~/constants/routes.constants'
 
 const router = useRouter()
@@ -97,6 +98,7 @@ const credentials = reactive({
 })
 
 const { isSubmitting, loginError, login } = useAuth()
+const { addToast } = useToast()
 
 const onLogin = async () => {
   const success = await login({
@@ -105,6 +107,13 @@ const onLogin = async () => {
   })
 
   if (!success) return
+
+  addToast({
+    title: 'Signed in successfully',
+    message: 'Welcome back. Your session is active.',
+    variant: 'success',
+    duration: 12000
+  })
 
   credentials.password = ''
   await router.push(ROUTE_PATHS.home)
