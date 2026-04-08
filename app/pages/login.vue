@@ -106,13 +106,22 @@ const onLogin = async () => {
     password: credentials.password
   })
 
-  if (!success) return
+ if (!success) {
+    addToast({
+      title: 'Sign in failed',
+      message: loginError.value || 'Unable to sign in with the provided credentials.',
+      variant: 'error',
+      duration: 3000
+    })
+
+    return
+  }
 
   addToast({
     title: 'Signed in successfully',
     message: 'Welcome back. Your session is active.',
     variant: 'success',
-    duration: 12000
+    duration: 3000
   })
 
   credentials.password = ''
