@@ -15,3 +15,14 @@ export const DASHBOARD_METRICS: readonly DashboardMetric[] = Object.freeze([
   { label: 'Equipment Issued', value: '1,126', change: '84 due for return' },
   { label: 'Serviceable Assets', value: '92%', change: '+1.8% readiness improvement' }
 ])
+
+export const DASHBOARD_PLACEHOLDER_CARDS = Object.freeze([
+  {
+    title: 'Pending Personnel Actions',
+    subtitle: 'Use shared list/table components for personnel workflows.'
+  },
+  {
+    title: 'Equipment Movement',
+    subtitle: 'Use shared cards and tables for issuance and return tracking.'
+  }
+])
