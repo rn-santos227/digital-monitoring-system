@@ -445,10 +445,10 @@ begin
   end if;
 
   if new.assigned_personnel_id is not null then
-    select p.company_id, c.battalion_id
+    select p.company_id, coalesce(p.battalion_id, c.battalion_id)
       into v_personnel_company_id, v_personnel_battalion_id
     from public.personnel p
-    join public.companies c on c.id = p.company_id
+    left join public.companies c on c.id = p.company_id
     where p.id = new.assigned_personnel_id;
 
     if new.assigned_company_id is not null and v_personnel_company_id is distinct from new.assigned_company_id then
@@ -479,10 +479,10 @@ begin
   from public.equipment_assets ea
   where ea.id = new.equipment_asset_id;
 
-  select p.company_id, c.battalion_id
+  select p.company_id, coalesce(p.battalion_id, c.battalion_id)
     into v_personnel_company_id, v_personnel_battalion_id
   from public.personnel p
-  join public.companies c on c.id = p.company_id
+  left join public.companies c on c.id = p.company_id
   where p.id = new.issued_to_personnel_id;
 
   if v_asset_company_id is not null and v_personnel_company_id is distinct from v_asset_company_id then
