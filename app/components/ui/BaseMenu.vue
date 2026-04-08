@@ -32,4 +32,16 @@ const emit = defineEmits<{
 const isOpen = ref(false)
 const menuRoot = ref<HTMLElement | null>(null)
 
+const menuPositionClass = computed(() => {
+  if (props.align === 'left') {
+    return 'left-0'
+  }
+
+  return 'right-0'
+})
+
+const closeMenu = () => {
+  isOpen.value = false
+}
+
 </script>
