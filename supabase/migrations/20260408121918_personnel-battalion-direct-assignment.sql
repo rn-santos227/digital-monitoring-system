@@ -35,3 +35,9 @@ begin
 end;
 $$;
 
+drop trigger if exists tr_validate_personnel_unit_assignment on public.personnel;
+
+create trigger tr_validate_personnel_unit_assignment
+before insert or update on public.personnel
+for each row execute function public.validate_personnel_unit_assignment();
+
