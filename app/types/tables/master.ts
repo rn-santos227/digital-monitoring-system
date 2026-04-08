@@ -46,7 +46,8 @@ export type PersonnelRow = AuditColumns & {
   sex: 'Male' | 'Female'
   birthdate: ISODate | null
   rank_id: UUID
-  company_id: UUID
+  company_id: UUID | null
+  battalion_id: UUID | null
   employment_status_id: UUID
   service_status_id: UUID
   contact_number: string | null

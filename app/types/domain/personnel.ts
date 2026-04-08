@@ -11,8 +11,8 @@ export type PersonnelUpdateInput = PersonnelUpdate
 export interface PersonnelProfile extends PersonnelRow {
   rank_code: string
   rank_name: string
-  company_code: string
-  company_name: string
+  company_code: string | null
+  company_name: string | null
   battalion_code: string | null
   battalion_name: string | null
   employment_status: string
