@@ -19,6 +19,15 @@ export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.
       { label: 'Engagement Records', to: ROUTE_PATHS.engagementRecords, icon: 'shield' }
     ]
   },
+  {
+    title: 'Equipment Handling',
+    items: [
+      { label: 'Equipment Categories', to: ROUTE_PATHS.equipmentCategories, icon: 'squares' },
+      { label: 'Equipment Items', to: ROUTE_PATHS.equipmentItems, icon: 'cube' },
+      { label: 'Equipment Assets', to: ROUTE_PATHS.equipmentAssets, icon: 'archive' },
+      { label: 'Equipment Issuances', to: ROUTE_PATHS.equipmentIssuances, icon: 'arrow-path' }
+    ]
+  },
 ])
 
 export const DASHBOARD_SEARCH_PLACEHOLDER = 'Search personnel, equipment, deployments...'
