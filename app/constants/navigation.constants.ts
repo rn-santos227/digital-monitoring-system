@@ -28,6 +28,13 @@ export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.
       { label: 'Equipment Issuances', to: ROUTE_PATHS.equipmentIssuances, icon: 'arrow-path' }
     ]
   },
+  {
+    title: 'Incidents & Audits',
+    items: [
+      { label: 'Incident Tracking', to: ROUTE_PATHS.incidents, icon: 'exclamation' },
+      { label: 'Audit Trail', to: ROUTE_PATHS.auditTrail, icon: 'clock' }
+    ]
+  }
 ])
 
 export const DASHBOARD_SEARCH_PLACEHOLDER = 'Search personnel, equipment, deployments...'
