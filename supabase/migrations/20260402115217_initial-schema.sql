@@ -667,6 +667,9 @@ select
   p.middle_name,
   p.sex,
   p.birthdate,
+  p.rank_id,
+  p.company_id,
+  p.battalion_id,
   r.code as rank_code,
   r.name as rank_name,
   c.code as company_code,
@@ -681,8 +684,8 @@ select
   p.updated_at
 from public.personnel p
 join public.ranks r on r.id = p.rank_id
-join public.companies c on c.id = p.company_id
-left join public.battalions b on b.id = c.battalion_id
+ft join public.companies c on c.id = p.company_id
+left join public.battalions b on b.id = coalesce(p.battalion_id, c.battalion_id)
 join public.employment_statuses es on es.id = p.employment_status_id
 join public.service_statuses ss on ss.id = p.service_status_id;
 
