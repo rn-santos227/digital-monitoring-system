@@ -113,7 +113,8 @@ begin
 end;
 $$;
 
-create or replace view public.vw_personnel_profile as
+create or replace view public.vw_personnel_profile
+with (security_invoker = true) as
 select
   p.id,
   p.personnel_code,
