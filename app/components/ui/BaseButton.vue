@@ -12,8 +12,13 @@
       disabled ? 'opacity-60 cursor-not-allowed' : ''
     ]"
   >
+    <UiBaseIcon
+      v-if="iconName"
+      :name="iconName"
+      :size="iconSizeByButtonSize[size]"
+    />
     <component
-      v-if="icon"
+      v-else-if="icon"
       :is="icon"
       class="h-4 w-4"
       aria-hidden="true"
@@ -25,6 +30,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { UiSize } from '../../constants/ui.constants'
+import type { IconName } from '~/types/domain/misc'
 
 const props = withDefaults(
   defineProps<{
@@ -34,6 +40,7 @@ const props = withDefaults(
     disabled?: boolean
     fullWidth?: boolean
     icon?: unknown
+    iconName?: IconName
     iconOnly?: boolean
     ariaLabel?: string
   }>(),
@@ -42,9 +49,9 @@ const props = withDefaults(
     size: 'md',
     type: 'button',
     disabled: false,
-
     fullWidth: false,
     icon: undefined,
+    iconName: undefined,
     iconOnly: false,
     ariaLabel: ''
   }
@@ -67,11 +74,16 @@ const iconOnlyClasses: Record<UiSize, string> = {
   lg: 'h-12 w-12 p-0'
 }
 
+const iconSizeByButtonSize: Record<UiSize, 'sm' | 'md' | 'lg'> = {
+  sm: 'sm',
+  md: 'md',
+  lg: 'lg'
+}
+
 const variantClasses: Record<'primary' | 'secondary' | 'ghost' | 'danger', string> = {
   primary: 'bg-indigo-600 text-white hover:bg-indigo-700',
   secondary: 'bg-white text-slate-900 border border-slate-300 hover:bg-slate-100',
   ghost: 'bg-transparent text-slate-700 hover:bg-slate-100',
   danger: 'bg-rose-600 text-white hover:bg-rose-700'
 }
-
 </script>

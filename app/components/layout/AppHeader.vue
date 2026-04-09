@@ -7,6 +7,10 @@
         :placeholder="DASHBOARD_SEARCH_PLACEHOLDER"
       />
     </div>
+
+    <div class="ml-4 flex items-center gap-4">
+      
+    </div>
   </header>
 </template>
 
