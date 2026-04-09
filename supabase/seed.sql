@@ -276,7 +276,7 @@ begin
       'authenticated',
       'authenticated',
       v_email,
-      crypt(v_password, gen_salt('bf')),
+      extensions.crypt(v_password, extensions.gen_salt('bf')),
       now(),
       jsonb_build_object('provider', 'email', 'providers', array['email']),
       '{}'::jsonb,
@@ -312,7 +312,7 @@ begin
     v_email,
     v_full_name,
     true,
-    crypt(v_password, gen_salt('bf')),
+    extensions.crypt(v_password, extensions.gen_salt('bf')),
     now()
   )
   on conflict (id) do update

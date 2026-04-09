@@ -11,7 +11,7 @@ create or replace function public.set_user_profile_password(p_user_id uuid, p_pa
 returns void
 language plpgsql
 security definer
-set search_path = public
+set search_path = public, extensions
 as $$
 begin
   if p_password is null or length(trim(p_password)) < 8 then
@@ -19,7 +19,7 @@ begin
   end if;
 
   update public.user_profiles
-  set password_hash = crypt(p_password, gen_salt('bf')),
+  set password_hash = extensions.crypt(p_password, extensions.gen_salt('bf')),
       password_updated_at = now(),
       updated_at = now()
   where id = p_user_id;
@@ -39,7 +39,8 @@ returns table (
 )
 language plpgsql
 security definer
-set search_path = public, auth
+set search_path = public, auth, extensions
+
 as $$
 begin
   return query
@@ -48,7 +49,7 @@ begin
   where up.is_active = true
     and lower(up.email) = lower(p_email)
     and up.password_hash is not null
-    and up.password_hash = crypt(p_password, up.password_hash)
+    and up.password_hash = extensions.crypt(p_password, up.password_hash)
   limit 1;
 end;
 $$;
