@@ -1,5 +1,13 @@
 <template>
-
+  <header :class="APP_HEADER_CLASSES">
+    <div class="w-full max-w-xl">
+      <UiBaseTextField
+        v-model="query"
+        :label="''"
+        :placeholder="DASHBOARD_SEARCH_PLACEHOLDER"
+      />
+    </div>
+  </header>
 </template>
 
 <script setup lang="ts">
