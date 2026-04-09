@@ -19,3 +19,19 @@ function getSupabasePublicKey(config: ReturnType<typeof useRuntimeConfig>) {
     config.public?.supabase?.key
   )
 }
+
+export function getServiceSupabaseClient() {
+  const config = useRuntimeConfig()
+  const supabaseUrl = getSupabaseUrl(config)
+  const serviceRoleKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_SERVICE_KEY ||
+    process.env.SUPABASE_KEY ||
+    config.supabaseServiceRoleKey
+
+  if (!supabaseUrl || !serviceRoleKey) {
+    throw new Error('Supabase server auth is not configured. Missing URL or service role key.')
+  }
+
+  return createClient(supabaseUrl as string, serviceRoleKey as string)
+}
