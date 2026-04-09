@@ -36,3 +36,4 @@ export const HERO_ICON_MAP: Record<IconName, Component> = {
   'bell': BellIcon
 }
 
+export const getHeroIcon = (name: IconName): Component => HERO_ICON_MAP[name]
