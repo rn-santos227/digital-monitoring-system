@@ -44,7 +44,7 @@ export default defineEventHandler(async (event) => {
   const ipAddress = getRequestIpAddress(event)
 
   const { error: sessionError } = await supabase.from('auth_sessions').insert({
-    user_id: user.user_id,
+    user_id: userProfile.id,
     access_token: token,
     provider: 'local',
     user_agent: event.node.req.headers['user-agent'] ?? null,
@@ -59,7 +59,7 @@ export default defineEventHandler(async (event) => {
   await supabase
     .from('user_profiles')
     .update({ last_login_at: new Date().toISOString() })
-    .eq('id', user.user_id)
+    .eq('id', userProfile.id)
 
   setCookie(event, SESSION_COOKIE_NAME, token, {
     httpOnly: true,
@@ -72,9 +72,9 @@ export default defineEventHandler(async (event) => {
   return {
     ok: true,
     user: {
-      id: user.user_id,
-      email: user.email,
-      fullName: user.full_name,
+      id: userProfile.id,
+      email: userProfile.email,
+      fullName: userProfile.full_name,
     },
     expiresAt,
   }
