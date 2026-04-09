@@ -144,10 +144,8 @@ const isLoginSubmitButtonDisabled = computed(() => hasHydrated.value && isSubmit
 const applicationSettingsStore = useApplicationSettingsStore()
 const { hasLoaded, item: settingsItem } = storeToRefs(applicationSettingsStore)
 
-const normalizeSettingLabel = (value: string | null | undefined) => value?.trim() ?? ''
-
 const landingAppName = computed(() => {
-  const appName = normalizeSettingLabel(settingsItem.value?.appName)
+  const appName = settingsItem.value?.appName?.trim() ?? ''
 
   if (appName) {
     return appName
@@ -157,7 +155,7 @@ const landingAppName = computed(() => {
 })
 
 const landingAppDescription = computed(() => {
-  const appDescription = normalizeSettingLabel(settingsItem.value?.appDescription)
+  const appDescription = settingsItem.value?.appDescription?.trim() ?? ''
 
   if (appDescription) {
     return appDescription
@@ -167,7 +165,7 @@ const landingAppDescription = computed(() => {
 })
 
 const landingBadge = computed(() => {
-  const appShortCode = normalizeSettingLabel(settingsItem.value?.appShortCode)
+  const appShortCode = settingsItem.value?.appShortCode?.trim() ?? ''
 
   if (appShortCode) {
     return appShortCode
