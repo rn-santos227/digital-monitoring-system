@@ -22,6 +22,15 @@
           3
         </span>
       </div>
+
+      <UiBaseMenu :items="menuItems" @select="onMenuSelect">
+        <template #trigger>
+          <span class="inline-flex items-center gap-2">
+            <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-emerald-700 text-xs font-semibold text-white">A</span>
+            <span class="hidden text-sm font-medium text-slate-800 sm:inline">{{ displayName }}</span>
+          </span>
+        </template>
+      </UiBaseMenu>
     </div>
   </header>
 </template>
