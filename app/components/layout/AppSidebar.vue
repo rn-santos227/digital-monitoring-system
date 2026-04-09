@@ -1,5 +1,10 @@
 <template>
-
+  <aside :class="APP_SIDEBAR_CLASSES">
+    <div class="border-b border-white/10 px-5 py-5">
+      <p class="text-lg font-semibold leading-tight">AFP Monitoring</p>
+      <p class="text-sm text-emerald-200">Personnel & Equipment</p>
+    </div>
+  </aside>
 </template>
 
 <script setup lang="ts">
