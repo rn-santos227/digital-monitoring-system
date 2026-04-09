@@ -8,10 +8,17 @@ import { getServiceSupabaseClient } from './serviceClient'
 function hasSupabaseUserConfig() {
   const config = useRuntimeConfig()
 
-  const supabaseUrl = process.env.NUXT_PUBLIC_SUPABASE_URL || config.public?.supabase?.url
+  const supabaseUrl =
+    process.env.NUXT_PUBLIC_SUPABASE_URL ||
+    process.env.SUPABASE_URL ||
+    config.public?.supabaseUrl ||
+    config.public?.supabase?.url
   const supabaseKey =
     process.env.NUXT_PUBLIC_SUPABASE_KEY ||
     process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.SUPABASE_KEY ||
+    process.env.SUPABASE_PUBLISHABLE_KEY ||
+    config.public?.supabaseKey ||
     config.public?.supabase?.key
 
   return Boolean(supabaseUrl && supabaseKey)
