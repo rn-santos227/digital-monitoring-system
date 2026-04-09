@@ -6,6 +6,9 @@ const supabaseKey =
   process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY ||
   process.env.SUPABASE_KEY ||
   process.env.SUPABASE_PUBLISHABLE_KEY
+const supabaseServiceRoleKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY ||
+  process.env.SUPABASE_SERVICE_KEY
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -17,6 +20,7 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
   runtimeConfig: {
+    supabaseServiceRoleKey,
      public: {
        supabaseUrl: supabaseUrl,
        supabaseKey: supabaseKey,
