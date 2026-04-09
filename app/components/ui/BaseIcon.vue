@@ -24,4 +24,11 @@ const iconSizeClassMap = {
   md: 'h-5 w-5',
   lg: 'h-6 w-6'
 } as const
+
+const iconComponent = computed(() => getHeroIcon(props.name))
+
+const resolvedClass = computed(() => {
+  const sizeClass = iconSizeClassMap[props.size]
+  return props.class ? `${sizeClass} ${props.class}` : sizeClass
+})
 </script>
