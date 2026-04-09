@@ -24,9 +24,19 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, statusMessage: 'Invalid credentials' })
   }
 
-  const user = authRow?.[0]
-  if (!user?.user_id) {
-    throw createError({ statusCode: 401, statusMessage: 'Invalid credentials' })
+  const supabase = getServiceSupabaseClient()
+  const { data: userProfile, error: userProfileError } = await supabase
+    .from('user_profiles')
+    .select('id, email, full_name, is_active')
+    .eq('id', authData.user.id)
+    .maybeSingle()
+
+  if (userProfileError) {
+    throw createError({ statusCode: 500, statusMessage: `Login failed: ${userProfileError.message}` })
+  }
+
+  if (!userProfile?.is_active) {
+    throw createError({ statusCode: 403, statusMessage: 'Account is inactive' })
   }
 
   const token = generateSessionToken()
