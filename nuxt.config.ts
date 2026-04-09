@@ -16,13 +16,11 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  supabase: {
-    redirect: false,
-    url: supabaseUrl,
-    key: supabaseKey,
-  },
   runtimeConfig: {
-    supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+     public: {
+       supabaseUrl: supabaseUrl,
+       supabaseKey: supabaseKey,
+     },
   },
   typescript: {
     strict: true,
