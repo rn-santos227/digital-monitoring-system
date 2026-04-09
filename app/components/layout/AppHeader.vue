@@ -9,7 +9,19 @@
     </div>
 
     <div class="ml-4 flex items-center gap-4">
-      
+      <div class="relative">
+        <UiBaseButton
+          variant="ghost"
+          size="sm"
+          icon-only
+          icon-name="bell"
+          aria-label="Notifications"
+          class="rounded-full! p-2! shadow-none!"
+        />
+        <span class="absolute -right-0.5 -top-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-semibold text-white">
+          3
+        </span>
+      </div>
     </div>
   </header>
 </template>
