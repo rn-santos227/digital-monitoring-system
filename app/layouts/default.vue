@@ -10,7 +10,13 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import StackToast from '../components/ui/StackToast.vue'
 import StackDialog from '../components/ui/StackDialog.vue'
 import StackModal from '../components/ui/StackModal.vue'
+import { ROUTE_PATHS } from '~/constants/routes.constants'
+
+const route = useRoute()
+const isLoginRoute = computed(() => route.path === ROUTE_PATHS.login)
 </script>
