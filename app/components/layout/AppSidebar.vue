@@ -4,6 +4,12 @@
       <p class="text-lg font-semibold leading-tight">AFP Monitoring</p>
       <p class="text-sm text-emerald-200">Personnel & Equipment</p>
     </div>
+
+    <nav class="flex-1 space-y-6 overflow-y-auto px-3 py-4">
+      <section v-for="section in SIDEBAR_NAVIGATION_SECTIONS" :key="section.title" class="space-y-2">
+        <h2 :class="APP_SIDEBAR_SECTION_TITLE_CLASSES">{{ section.title }}</h2>
+      </section>
+    </nav>
   </aside>
 </template>
 
