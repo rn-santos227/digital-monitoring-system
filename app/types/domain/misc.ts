@@ -15,7 +15,7 @@ export type BaseMenuItem = {
   danger?: boolean
 }
 
-export type NavigationIconName =
+export type IconName =
   | 'home'
   | 'users'
   | 'building'
@@ -30,11 +30,12 @@ export type NavigationIconName =
   | 'exclamation'
   | 'clock'
   | 'cog'
+  | 'bell'
 
 export type NavigationItem = {
   label: string
   to: string
-  icon: NavigationIconName
+  icon: IconName
 }
 
 export type NavigationSection = {
