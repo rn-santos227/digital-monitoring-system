@@ -21,6 +21,18 @@
         </div>
       </section>
     </nav>
+
+  <div class="border-t border-white/10 p-3">
+      <NuxtLink
+        v-for="item in SIDEBAR_FOOTER_ITEMS"
+        :key="item.to"
+        :to="item.to"
+        :class="[APP_SIDEBAR_ITEM_BASE_CLASSES, getItemClass(item.to)]"
+      >
+        <UiBaseIcon :name="item.icon" size="sm" class="shrink-0" />
+        <span>{{ item.label }}</span>
+      </NuxtLink>
+    </div>
   </aside>
 </template>
 
