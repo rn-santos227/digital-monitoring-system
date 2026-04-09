@@ -131,6 +131,7 @@
 </template>
 
 <script setup lang="ts">
+import { createLoadMoreCardsHandler } from '~/handlers/shared'
 import { computed, ref, watch } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
@@ -207,14 +208,15 @@ watch(tableRows, (rows) => {
 
 const canLoadMoreCards = computed(() => pagination.value.page < pagination.value.totalPages)
 
-const onLoadMoreCards = async () => {
-  if (isLoading.value || !canLoadMoreCards.value) {
-    return
-  }
-
-  await loadEquipmentIncidents(pagination.value.page + 1, filters.value, pagination.value.pageSize)
-  incidentCardRows.value = [...incidentCardRows.value, ...tableRows.value]
-}
+const onLoadMoreCards = createLoadMoreCardsHandler({
+  cardRows: incidentCardRows,
+  tableRows,
+  isLoading,
+  canLoadMore: canLoadMoreCards,
+  pagination,
+  filters,
+  loadPage: loadEquipmentIncidents,
+})
 
 const authStore = useAuthStore()
 const canCreateEquipmentIncidents = computed(() => authStore.hasPermissionAccess(EQUIPMENT_INCIDENTS_PAGE_REQUIRED_PERMISSIONS.create))
