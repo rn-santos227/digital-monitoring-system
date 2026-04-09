@@ -8,6 +8,17 @@
     <nav class="flex-1 space-y-6 overflow-y-auto px-3 py-4">
       <section v-for="section in SIDEBAR_NAVIGATION_SECTIONS" :key="section.title" class="space-y-2">
         <h2 :class="APP_SIDEBAR_SECTION_TITLE_CLASSES">{{ section.title }}</h2>
+        <div class="space-y-1">
+          <NuxtLink
+            v-for="item in section.items"
+            :key="item.to"
+            :to="item.to"
+            :class="[APP_SIDEBAR_ITEM_BASE_CLASSES, getItemClass(item.to)]"
+          >
+            <UiBaseIcon :name="item.icon" size="sm" class="shrink-0" />
+            <span>{{ item.label }}</span>
+          </NuxtLink>
+        </div>
       </section>
     </nav>
   </aside>
