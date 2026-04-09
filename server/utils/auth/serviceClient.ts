@@ -9,3 +9,13 @@ function getSupabaseUrl(config: ReturnType<typeof useRuntimeConfig>) {
     config.public?.supabase?.url
   )
 }
+
+function getSupabasePublicKey(config: ReturnType<typeof useRuntimeConfig>) {
+  return (
+    process.env.NUXT_PUBLIC_SUPABASE_KEY ||
+    process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.SUPABASE_PUBLISHABLE_KEY ||
+    config.public?.supabaseKey ||
+    config.public?.supabase?.key
+  )
+}
