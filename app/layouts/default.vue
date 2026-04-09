@@ -1,8 +1,22 @@
 <template>
-  <div class="flex min-h-screen flex-col bg-slate-50 text-slate-900">
-    <main class="flex flex-1">
+  <div class="min-h-screen bg-slate-100 text-slate-900">
+    <template v-if="isLoginRoute">
       <slot />
-    </main>
+    </template>
+
+    <template v-else>
+      <div class="flex min-h-screen">
+        <LayoutAppSidebar />
+        <div class="flex min-h-screen min-w-0 flex-1 flex-col">
+          <LayoutAppHeader />
+          <main class="flex-1 p-6">
+            <slot />
+          </main>
+          <LayoutAppFooter />
+        </div>
+      </div>
+    </template>
+
     <StackModal />
     <StackToast />
     <StackDialog />
