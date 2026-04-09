@@ -35,3 +35,21 @@ export function getServiceSupabaseClient() {
 
   return createClient(supabaseUrl as string, serviceRoleKey as string)
 }
+
+export function getPublicSupabaseClient() {
+  const config = useRuntimeConfig()
+  const supabaseUrl = getSupabaseUrl(config)
+  const publicKey = getSupabasePublicKey(config)
+
+  if (!supabaseUrl || !publicKey) {
+    throw new Error('Supabase public auth is not configured. Missing URL or publishable key.')
+  }
+
+  return createClient(supabaseUrl as string, publicKey as string, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false,
+    },
+  })
+}
