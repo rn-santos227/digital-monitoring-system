@@ -7,6 +7,7 @@ export interface SessionUser {
 export interface SessionResponse {
   ok: boolean
   user: SessionUser
+  sessionToken?: string
 }
 
 export interface LoginPayload {
