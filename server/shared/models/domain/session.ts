@@ -6,5 +6,5 @@ export interface SessionProfileRow extends AuthenticatedUser {
 
 export interface SessionUserRow {
   user_id: string
-  user_profiles: SessionProfileRow
+  user_profiles: SessionProfileRow | null
 }

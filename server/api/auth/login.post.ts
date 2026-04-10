@@ -29,26 +29,12 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, statusMessage: 'Invalid credentials' })
   }
 
-  const { data: userProfile, error: userProfileError } = await supabase
-    .from('user_profiles')
-    .select('id, email, full_name, is_active')
-    .eq('id', authenticatedUser.user_id)
-    .maybeSingle()
-
-  if (userProfileError) {
-    throw createError({ statusCode: 500, statusMessage: `Login failed: ${userProfileError.message}` })
-  }
-
-  if (!userProfile?.is_active) {
-    throw createError({ statusCode: 403, statusMessage: 'Account is inactive' })
-  }
-
   const token = generateSessionToken()
   const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * SESSION_DURATION_HOURS).toISOString()
   const ipAddress = getRequestIpAddress(event)
 
   const { error: sessionError } = await supabase.from('auth_sessions').insert({
-    user_id: userProfile.id,
+    user_id: authenticatedUser.user_id,
     access_token: token,
     provider: 'local',
     user_agent: event.node.req.headers['user-agent'] ?? null,
@@ -59,11 +45,6 @@ export default defineEventHandler(async (event) => {
   if (sessionError) {
     throw createError({ statusCode: 500, statusMessage: `Failed to create session: ${sessionError.message}` })
   }
-
-  await supabase
-    .from('user_profiles')
-    .update({ last_login_at: new Date().toISOString() })
-    .eq('id', userProfile.id)
 
   setCookie(event, SESSION_COOKIE_NAME, token, {
     httpOnly: true,
@@ -76,9 +57,9 @@ export default defineEventHandler(async (event) => {
   return {
     ok: true,
     user: {
-      id: userProfile.id,
-      email: userProfile.email,
-      fullName: userProfile.full_name,
+      id: authenticatedUser.user_id,
+      email: authenticatedUser.email,
+      fullName: authenticatedUser.full_name,
     },
     expiresAt,
   }
