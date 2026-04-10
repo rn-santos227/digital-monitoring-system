@@ -3,6 +3,17 @@ import { SESSION_COOKIE_NAME, SESSION_TOKEN_HEADER_NAME } from '../../shared/con
 import { requireAuth } from '../../utils/auth/requireAuth'
 
 export default defineEventHandler(async (event) => {
+  const sessionTokenFromStorage = getHeader(event, SESSION_TOKEN_HEADER_NAME)
+  const sessionTokenFromCookie = getCookie(event, SESSION_COOKIE_NAME)
+
+  if (!sessionTokenFromStorage || !sessionTokenFromCookie) {
+    throw createError({ statusCode: 401, statusMessage: 'Session token is missing' })
+  }
+
+  if (sessionTokenFromStorage !== sessionTokenFromCookie) {
+    throw createError({ statusCode: 401, statusMessage: 'Session token mismatch' })
+  }
+
   const user = await requireAuth(event)
   return { ok: true, user }
 })
