@@ -82,3 +82,57 @@ begin
     where public.has_rbac_permission(v_uid, pc.code)
   );
 end;
+$$;
+
+do $$
+declare
+  t record;
+  v_table text;
+begin
+  for t in
+    select tablename
+    from pg_tables
+    where schemaname = 'public'
+      and tablename not like 'pg_%'
+  loop
+    v_table := t.tablename;
+
+    execute format('grant select, insert, update, delete on table public.%I to authenticated', v_table);
+
+    execute format('drop policy if exists authenticated_select_policy on public.%I', v_table);
+    execute format('drop policy if exists authenticated_insert_policy on public.%I', v_table);
+    execute format('drop policy if exists authenticated_update_policy on public.%I', v_table);
+    execute format('drop policy if exists authenticated_delete_policy on public.%I', v_table);
+
+    execute format(
+      'create policy authenticated_select_policy on public.%I for select to authenticated using (public.has_table_privilege(%L, %L))',
+      v_table,
+      v_table,
+      'select'
+    );
+
+    execute format(
+      'create policy authenticated_insert_policy on public.%I for insert to authenticated with check (public.has_table_privilege(%L, %L))',
+      v_table,
+      v_table,
+      'insert'
+    );
+
+    execute format(
+      'create policy authenticated_update_policy on public.%I for update to authenticated using (public.has_table_privilege(%L, %L)) with check (public.has_table_privilege(%L, %L))',
+      v_table,
+      v_table,
+      'update',
+      v_table,
+      'update'
+    );
+
+    execute format(
+      'create policy authenticated_delete_policy on public.%I for delete to authenticated using (public.has_table_privilege(%L, %L))',
+      v_table,
+      v_table,
+      'delete'
+    );
+  end loop;
+end;
+$$;
