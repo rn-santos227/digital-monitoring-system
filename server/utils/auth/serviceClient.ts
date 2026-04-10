@@ -60,6 +60,12 @@ export function getServiceSupabaseClient() {
     throw new Error('Supabase server auth is not configured. Missing URL or service role key.')
   }
 
+  if (!isServiceRoleKey(serviceRoleKey)) {
+    throw new Error(
+      'Supabase server auth key is not a service-role key. Set SUPABASE_SERVICE_ROLE_KEY (or SUPABASE_SERVICE_KEY) with a service-role/secret key.',
+    )
+  }
+
   return createClient(supabaseUrl as string, serviceRoleKey as string)
 }
 
