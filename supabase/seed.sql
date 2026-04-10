@@ -207,50 +207,27 @@ set name = excluded.name,
 
 -- Optional bootstrap account seeding.
 -- Configure DB settings before seed execution:
+--   app.seed_default_user ('true'/'false', default false)
 --   app.default_user_email
 --   app.default_user_password
 --   app.default_user_full_name (optional)
 do $$
 declare
+  v_seed_default_user text := coalesce(nullif(current_setting('app.seed_default_user', true), ''), 'false');
   v_email text := nullif(current_setting('app.default_user_email', true), '');
   v_password text := nullif(current_setting('app.default_user_password', true), '');
   v_full_name text := coalesce(nullif(current_setting('app.default_user_full_name', true), ''), 'Default Administrator');
-  v_bootstrap_file text := null;
-  v_file_email text := null;
-  v_file_password text := null;
-  v_file_full_name text := null;
   v_user_id uuid;
 begin
-  begin
-    v_bootstrap_file := pg_read_file('supabase/seeds/bootstrap-account.txt', 0, 10000);
-  exception
-    when others then
-      v_bootstrap_file := null;
-  end;
-
-  if v_bootstrap_file is not null then
-    select nullif(trim(split_part(line, '=', 2)), '') into v_file_email
-    from regexp_split_to_table(v_bootstrap_file, E'\n') as line
-    where split_part(line, '=', 1) = 'email'
-    limit 1;
-
-    select nullif(trim(split_part(line, '=', 2)), '') into v_file_password
-    from regexp_split_to_table(v_bootstrap_file, E'\n') as line
-    where split_part(line, '=', 1) = 'password'
-    limit 1;
-
-    select nullif(trim(split_part(line, '=', 2)), '') into v_file_full_name
-    from regexp_split_to_table(v_bootstrap_file, E'\n') as line
-    where split_part(line, '=', 1) = 'full_name'
-    limit 1;
+  if lower(v_seed_default_user) <> 'true' then
+    raise notice 'Skipping default user seed. Set app.seed_default_user=true to enable.';
+    return;
   end if;
 
-  v_email := coalesce(v_file_email, v_email);
-  v_password := coalesce(v_file_password, v_password);
-  v_full_name := coalesce(v_file_full_name, v_full_name);
   if v_email is null or v_password is null then
-    raise notice 'Skipping default user seed. Set app.default_user_email and app.default_user_password to enable.';
-    return;
+    raise exception using
+      message = 'Default user seeding enabled but missing credentials.',
+      hint = 'Set app.default_user_email and app.default_user_password before running seed.sql.';
   end if;
 
   select id into v_user_id
