@@ -34,6 +34,17 @@ function isServiceRoleKey(key: string) {
     return true
   }
 
+  try {
+    const [, payloadSegment] = key.split('.')
+    if (!payloadSegment) {
+      return false
+    }
+
+    const payload = JSON.parse(Buffer.from(payloadSegment, 'base64url').toString('utf8')) as { role?: string }
+    return payload.role === 'service_role'
+  } catch {
+    return false
+  }
 }
 
 export function getServiceSupabaseClient() {
