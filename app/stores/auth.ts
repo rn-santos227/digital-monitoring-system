@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { AUTH_API_ENDPOINTS } from '../constants/api.constants'
+import { AUTH_API_ENDPOINTS, AUTH_HEADERS, AUTH_LOCAL_STORAGE_KEYS } from '../constants/api.constants'
 import type { AuthState, LoginPayload, SessionResponse } from '../types/domain/auth-store'
 
 const DEFAULT_LOGIN_ERROR = 'Unable to sign in. Please try again.'
@@ -25,7 +25,21 @@ export const useAuthStore = defineStore('auth', {
       this.isCheckingSession = true
 
       try {
-        const response = await $fetch<SessionResponse>(AUTH_API_ENDPOINTS.session)
+        const storedSessionToken = import.meta.client
+          ? localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
+          : null
+
+        if (!storedSessionToken) {
+          this.currentUser = null
+          return
+        }
+
+        const response = await $fetch<SessionResponse>(AUTH_API_ENDPOINTS.session, {
+          headers: {
+            [AUTH_HEADERS.sessionToken]: storedSessionToken
+          }
+        })
+
         this.currentUser = response.user
       } catch {
         this.currentUser = null
