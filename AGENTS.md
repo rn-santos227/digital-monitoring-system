@@ -48,3 +48,7 @@
 
 10. **Icon standardization**
     - When adding UI icons, use `@heroicons/vue` (Heroicons) as the default icon set for consistency.
+
+11. **Keep API route files focused**
+    - API route files under `server/api` should contain only one exported handler function.
+    - Move reusable helper functions into shared/server utility modules instead of defining them inside route files.
