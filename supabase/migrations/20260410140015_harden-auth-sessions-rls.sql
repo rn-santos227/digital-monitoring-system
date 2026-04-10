@@ -8,3 +8,9 @@ drop policy if exists authenticated_select_policy on public.auth_sessions;
 drop policy if exists authenticated_insert_policy on public.auth_sessions;
 drop policy if exists authenticated_update_policy on public.auth_sessions;
 drop policy if exists authenticated_delete_policy on public.auth_sessions;
+
+create policy authenticated_select_policy
+on public.auth_sessions
+for select
+to authenticated
+using (auth.uid() = user_id);
