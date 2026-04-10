@@ -20,7 +20,12 @@ export default defineEventHandler(async (event) => {
     p_password: password,
   })
 
-  if (authError || !authData.user) {
+  if (authError) {
+    throw createError({ statusCode: 500, statusMessage: `Login failed: ${authError.message}` })
+  }
+
+  const authenticatedUser = authData?.[0]
+  if (!authenticatedUser) {
     throw createError({ statusCode: 401, statusMessage: 'Invalid credentials' })
   }
 
