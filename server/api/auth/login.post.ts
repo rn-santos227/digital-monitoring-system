@@ -78,6 +78,7 @@ export default defineEventHandler(async (event) => {
 
   return {
     ok: true,
+    sessionToken: token,
     user: {
       id: authenticatedUser.user_id,
       email: authenticatedUser.email,
