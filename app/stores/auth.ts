@@ -94,6 +94,10 @@ export const useAuthStore = defineStore('auth', {
       try {
         await $fetch(AUTH_API_ENDPOINTS.logout, { method: 'POST' })
       } finally {
+        if (import.meta.client) {
+          localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
+        }
+
         this.currentUser = null
         this.isLoggingOut = false
       }
