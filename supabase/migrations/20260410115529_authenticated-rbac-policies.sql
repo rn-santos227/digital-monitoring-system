@@ -138,7 +138,7 @@ end;
 $$;
 
 grant usage on schema public to anon;
-grant select, insert, update, delete on table public.auth_sessions to anon;
+revoke all on table public.auth_sessions from anon;
 grant select, insert, update, delete on table public.auth_sessions to authenticated;
 
 drop policy if exists authenticated_select_policy on public.auth_sessions;
@@ -151,16 +151,11 @@ drop policy if exists authenticated_session_access_policy on public.auth_session
 
 alter table public.auth_sessions enable row level security;
 
-create policy anon_session_access_policy
-on public.auth_sessions
-for all
-to anon
-using (true)
-with check (true);
-
 create policy authenticated_session_access_policy
 on public.auth_sessions
 for all
 to authenticated
 using (true)
 with check (true);
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
