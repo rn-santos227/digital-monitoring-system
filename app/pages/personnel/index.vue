@@ -89,7 +89,6 @@
           />
           <BaseViewToggle v-model="personnelViewMode" />
 
-
           <PersonnelTable
             v-if="personnelViewMode === 'table'"
             :rows="tableRows"
@@ -163,6 +162,8 @@
       </template>
 
       <CreatePersonnelModal
+        :error-message="error"
+        :is-submitting="isLoading"
         v-if="isCreatePersonnelModalOpen"
         @close="closeCreatePersonnelModal"
         @submit="handleCreatePersonnel"
@@ -178,6 +179,8 @@
       />
 
       <UpdatePersonnelModal
+        :error-message="error"
+        :is-submitting="isLoading"
         v-if="isUpdatePersonnelModalOpen && selectedPersonnel"
         :initial-values="selectedPersonnel"
         @close="closeUpdatePersonnelModal"
@@ -185,6 +188,8 @@
       />
 
       <CreateRankModal
+        :error-message="rankError"
+        :is-submitting="isRanksLoading"
         v-if="isCreateRankModalOpen"
         @close="isCreateRankModalOpen = false"
         @submit="handleCreateRank"
@@ -210,6 +215,11 @@
 </template>
 
 <script setup lang="ts">
+import {
+  createCurrentValuePrintHandler,
+  createDeleteDialogCallbacks,
+  createLoadMoreCardsHandler,
+} from '~/handlers/shared'
 import { computed, ref, watch } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
@@ -353,42 +363,17 @@ const personnelCardRows = ref<typeof tableRows.value>([])
 const activeTab = ref<'personnel-records' | 'rank-management'>('personnel-records')
 const personnelViewMode = ref<ListViewMode>('table')
 const { openCreatePersonnelModal, closeCreatePersonnelModal } = useCreatePersonnelModalHandler(isCreatePersonnelModalOpen)
-const createDeleteDialogCallbacks = (
-  onRefresh: () => Promise<void>,
-  successTitle: string,
-  successMessage: string,
-  cancelledMessage: string,
-) => {
-  return {
-    onDeleteSuccess: async () => {
-      await onRefresh()
-      await showDialog({
-        type: 'success',
-        title: successTitle,
-        message: successMessage,
-        confirmLabel: 'OK',
-      })
-    },
-    onDeleteCancelled: async () => {
-      await showDialog({
-        type: 'warning',
-        title: 'Delete cancelled',
-        message: cancelledMessage,
-        confirmLabel: 'OK',
-      })
-    },
-  }
-}
 
 const { onDeletePersonnel } = useDeletePersonnelHandler({
   showDialog,
   deletePersonnel,
-  ...createDeleteDialogCallbacks(
-    async () => {},
-    'Personnel deleted',
-    'Personnel record has been deleted successfully.',
-    'Personnel deletion was cancelled.',
-  ),
+  ...createDeleteDialogCallbacks({
+    showDialog,
+    onRefresh: async () => {},
+    successTitle: 'Personnel deleted',
+    successMessage: 'Personnel record has been deleted successfully.',
+    cancelledMessage: 'Personnel deletion was cancelled.',
+  }),
 })
 const { onDeleteRank } = useDeleteRankHandler({
   showDialog,
@@ -464,14 +449,15 @@ watch(tableRows, (rows) => {
 
 const canLoadMorePersonnel = computed(() => pagination.value.page < pagination.value.totalPages)
 
-const handleLoadMorePersonnel = async () => {
-  if (isLoading.value || !canLoadMorePersonnel.value) {
-    return
-  }
-
-  await loadPersonnel(pagination.value.page + 1, filters.value, pagination.value.pageSize)
-  personnelCardRows.value = [...personnelCardRows.value, ...tableRows.value]
-}
+const handleLoadMorePersonnel = createLoadMoreCardsHandler({
+  cardRows: personnelCardRows,
+  tableRows,
+  isLoading,
+  canLoadMore: canLoadMorePersonnel,
+  pagination,
+  filters,
+  loadPage: loadPersonnel,
+})
 
 watch(canViewRanks, (hasAccess) => {
   if (!hasAccess) {
@@ -504,7 +490,7 @@ const {
   }),
 })
 
-const handlePrintPersonnel = () => handleDownloadAndPrintPersonnel(filters.value)
+const handlePrintPersonnel = createCurrentValuePrintHandler(filters, handleDownloadAndPrintPersonnel)
 const handlePrintRanks = createCompleteListPrintHandler({
   rows: rankRows,
   pagination: rankPagination,
