@@ -20,6 +20,21 @@ yarn install
 bun install
 ```
 
+## Local login seed account
+
+`supabase/seed.sql` does **not** create a default login account unless you explicitly opt in. This avoids committing predictable credentials that could be unsafe in hosted environments.
+
+To enable local bootstrap account seeding, set these PostgreSQL settings before running the seed:
+
+```sql
+alter database postgres set app.seed_default_user = 'true';
+alter database postgres set app.default_user_email = 'your-admin-email@example.com';
+alter database postgres set app.default_user_password = 'your-secure-password';
+alter database postgres set app.default_user_full_name = 'Your Admin Name';
+```
+
+If `app.seed_default_user` is not set to `true`, the bootstrap user seed is skipped.
+
 ## Development Server
 
 Start the development server on `http://localhost:3000`:
