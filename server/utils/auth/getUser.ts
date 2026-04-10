@@ -48,6 +48,18 @@ export async function getUser(event: H3Event) {
         full_name: profile.full_name,
       }
     }
+
+   if (data?.user_id) {
+      const { data: authUser } = await supabase.auth.admin.getUserById(data.user_id)
+
+      if (authUser?.user?.email) {
+        return {
+          id: data.user_id,
+          email: authUser.user.email,
+          full_name: (authUser.user.user_metadata?.full_name as string | undefined) ?? null,
+        }
+      }
+    }
   }
 
   if (!hasSupabaseUserConfig()) {
