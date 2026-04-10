@@ -2,7 +2,7 @@ import { createError, defineEventHandler, readBody, setCookie } from 'h3'
 import { SESSION_COOKIE_NAME, SESSION_DURATION_HOURS } from '../../shared/constants'
 import type { LoginBody } from '../../shared/models'
 import { getRequestIpAddress } from '../../shared/utils'
-import { getPublicSupabaseClient, getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { generateSessionToken } from '../../utils/auth/sessionToken'
 
 export default defineEventHandler(async (event) => {
@@ -14,10 +14,10 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: 'email and password are required' })
   }
 
-  const publicSupabase = getPublicSupabaseClient()
-  const { data: authData, error: authError } = await publicSupabase.auth.signInWithPassword({
-    email,
-    password,
+  const supabase = getServiceSupabaseClient()
+  const { data: authData, error: authError } = await supabase.rpc('authenticate_local_user', {
+    p_email: email,
+    p_password: password,
   })
 
   if (authError || !authData.user) {
