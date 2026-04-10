@@ -59,7 +59,7 @@ export default defineEventHandler(async (event) => {
     user_id: authenticatedUser.user_id,
     access_token: token,
     provider: 'local',
-    user_agent: event.node.req.headers['user-agent'] ?? null,
+    user_agent: userAgent,
     ip_address: ipAddress,
     expires_at: expiresAt,
   })
