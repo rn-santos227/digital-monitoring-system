@@ -14,3 +14,10 @@ on public.auth_sessions
 for select
 to authenticated
 using (auth.uid() = user_id);
+
+create policy authenticated_insert_policy
+on public.auth_sessions
+for insert
+to authenticated
+with check (auth.uid() = user_id);
+
