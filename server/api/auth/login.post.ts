@@ -1,7 +1,7 @@
 import { createError, defineEventHandler, readBody, setCookie } from 'h3'
 import { SESSION_COOKIE_NAME, SESSION_DURATION_HOURS } from '../../shared/constants'
 import type { LoginBody } from '../../shared/models'
-import { getRequestIpAddress } from '../../shared/utils'
+import { applyNullableFilter, getRequestIpAddress } from '../../shared/utils'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { generateSessionToken } from '../../utils/auth/sessionToken'
 
@@ -32,6 +32,28 @@ export default defineEventHandler(async (event) => {
   const token = generateSessionToken()
   const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * SESSION_DURATION_HOURS).toISOString()
   const ipAddress = getRequestIpAddress(event)
+  const userAgent = event.node.req.headers['user-agent'] ?? null
+
+  let revokeExistingSessionQuery = supabase
+    .from('auth_sessions')
+    .update({ revoked_at: new Date().toISOString() })
+    .eq('user_id', authenticatedUser.user_id)
+    .eq('provider', 'local')
+    .is('revoked_at', null)
+
+  revokeExistingSessionQuery = applyNullableFilter(revokeExistingSessionQuery, 'user_agent', userAgent)
+  revokeExistingSessionQuery = applyNullableFilter(revokeExistingSessionQuery, 'ip_address', ipAddress)
+
+  const { error: revokeExistingSessionError } = await revokeExistingSessionQuery
+
+  if (revokeExistingSessionError) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: `Failed to clear existing session: ${revokeExistingSessionError.message}`,
+    })
+  }
+
+
 
   const { error: sessionError } = await supabase.from('auth_sessions').insert({
     user_id: authenticatedUser.user_id,
