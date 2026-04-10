@@ -33,15 +33,15 @@ export async function getUser(event: H3Event) {
 
     const { data } = await supabase
       .from('auth_sessions')
-      .select('user_id, user_profiles!inner(id, email, full_name, is_active)')
+      .select('user_id, user_profiles(id, email, full_name, is_active)')
       .eq('access_token', token)
       .is('revoked_at', null)
       .gt('expires_at', now)
       .limit(1)
       .maybeSingle<SessionUserRow>()
 
-    if (data?.user_profiles?.is_active) {
-      const profile = data.user_profiles
+    const profile = data?.user_profiles
+    if (profile?.is_active) {
       return {
         id: profile.id,
         email: profile.email,
