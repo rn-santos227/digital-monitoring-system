@@ -14,10 +14,19 @@ function getSupabasePublicKey(config: ReturnType<typeof useRuntimeConfig>) {
   return (
     process.env.NUXT_PUBLIC_SUPABASE_KEY ||
     process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY ||
+    process.env.SUPABASE_KEY ||
     process.env.SUPABASE_PUBLISHABLE_KEY ||
     config.public?.supabaseKey ||
     config.public?.supabase?.key
   )
+}
+
+function isServiceRoleKey(key: string) {
+  if (!key) {
+    return false
+  }
+
+
 }
 
 export function getServiceSupabaseClient() {
