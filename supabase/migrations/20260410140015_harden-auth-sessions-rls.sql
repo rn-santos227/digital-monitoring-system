@@ -21,3 +21,10 @@ for insert
 to authenticated
 with check (auth.uid() = user_id);
 
+create policy authenticated_update_policy
+on public.auth_sessions
+for update
+to authenticated
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
