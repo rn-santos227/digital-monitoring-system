@@ -28,3 +28,8 @@ to authenticated
 using (auth.uid() = user_id)
 with check (auth.uid() = user_id);
 
+create policy authenticated_delete_policy
+on public.auth_sessions
+for delete
+to authenticated
+using (auth.uid() = user_id);
