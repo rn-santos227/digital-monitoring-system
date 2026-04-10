@@ -29,11 +29,10 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, statusMessage: 'Invalid credentials' })
   }
 
-  const supabase = getServiceSupabaseClient()
   const { data: userProfile, error: userProfileError } = await supabase
     .from('user_profiles')
     .select('id, email, full_name, is_active')
-    .eq('id', authData.user.id)
+    .eq('id', authenticatedUser.user_id)
     .maybeSingle()
 
   if (userProfileError) {
