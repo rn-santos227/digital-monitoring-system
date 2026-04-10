@@ -26,6 +26,13 @@ function isServiceRoleKey(key: string) {
     return false
   }
 
+  if (key.startsWith('sb_publishable_')) {
+    return false
+  }
+
+  if (key.startsWith('sb_secret_')) {
+    return true
+  }
 
 }
 
