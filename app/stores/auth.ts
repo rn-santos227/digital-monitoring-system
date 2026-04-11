@@ -3,6 +3,7 @@ import { AUTH_LOCAL_STORAGE_KEYS } from '../constants/api.constants'
 import type { AuthState, LoginPayload } from '../types/domain/auth-store'
 import { fetchAuthSession, postAuthLogin, postAuthLogout } from '../utils/auth-api'
 import { parseErrorMessage } from '../utils/error-message'
+import { extractHttpStatusCode } from '../utils/http-error'
 import { getStoredSessionToken, persistSessionToken } from '../utils/session-token'
 
 const DEFAULT_LOGIN_ERROR = 'Unable to sign in. Please verify your credentials and try again.'
@@ -12,6 +13,7 @@ export const useAuthStore = defineStore('auth', {
     currentUser: null,
     hasCheckedSession: false,
     isCheckingSession: false,
+    sessionInitializationPromise: null,
     isSubmitting: false,
     isLoggingOut: false,
     loginError: ''
@@ -23,21 +25,38 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async initializeSession(force = false) {
-      if (this.isCheckingSession || (this.hasCheckedSession && !force)) {
+      if (this.sessionInitializationPromise) {
+        await this.sessionInitializationPromise
+
+        if (!force) {
+          return
+        }
+      }
+
+      if (this.hasCheckedSession && !force) {
         return
       }
 
-      this.isCheckingSession = true
-      try {
-        const response = await fetchAuthSession(getStoredSessionToken(AUTH_LOCAL_STORAGE_KEYS.sessionToken))
-        this.currentUser = response.user
-      } catch {
-        this.currentUser = null
-        persistSessionToken(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
-      } finally {
-        this.hasCheckedSession = true
-        this.isCheckingSession = false
-      }
+      this.sessionInitializationPromise = (async () => {
+        this.isCheckingSession = true
+        try {
+          const response = await fetchAuthSession(getStoredSessionToken(AUTH_LOCAL_STORAGE_KEYS.sessionToken))
+          this.currentUser = response.user
+        } catch (error: unknown) {
+          this.currentUser = null
+          const statusCode = extractHttpStatusCode(error)
+
+          if (statusCode === 401 || statusCode === 403) {
+            persistSessionToken(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
+          }
+        } finally {
+          this.hasCheckedSession = true
+          this.isCheckingSession = false
+          this.sessionInitializationPromise = null
+        }
+      })()
+
+      await this.sessionInitializationPromise
     },
 
     async login(payload: LoginPayload) {
