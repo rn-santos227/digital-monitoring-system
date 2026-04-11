@@ -6,12 +6,14 @@ export default defineEventHandler(async (event) => {
   const sessionTokenFromStorage = getHeader(event, SESSION_TOKEN_HEADER_NAME)
   const sessionTokenFromCookie = getCookie(event, SESSION_COOKIE_NAME)
 
-  if (!sessionTokenFromStorage && !sessionTokenFromCookie) {
-    throw createError({ statusCode: 401, statusMessage: 'Session token is missing' })
-  }
+  const authorizationHeader = getHeader(event, 'authorization')
 
   if (sessionTokenFromStorage && sessionTokenFromCookie && sessionTokenFromStorage !== sessionTokenFromCookie) {
     throw createError({ statusCode: 401, statusMessage: 'Session token mismatch' })
+  }
+
+  if (!sessionTokenFromStorage && !sessionTokenFromCookie && !authorizationHeader) {
+    throw createError({ statusCode: 401, statusMessage: 'Session token is missing' })
   }
 
   const user = await requireAuth(event)
