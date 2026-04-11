@@ -8,6 +8,11 @@ export const getSessionTokenFromEvent = (event: H3Event): string | null => {
     return tokenFromSessionHeader
   }
 
+  const tokenFromCookie = getCookie(event, SESSION_COOKIE_NAME)
+  if (tokenFromCookie) {
+    return tokenFromCookie
+  }
+
   const bearer = getHeader(event, 'authorization')
   const tokenFromHeader = bearer?.startsWith('Bearer ') ? bearer.slice(7).trim() : null
   return tokenFromHeader || null
