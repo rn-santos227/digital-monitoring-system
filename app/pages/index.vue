@@ -1,25 +1,6 @@
 <template>
-  <section :class="DASHBOARD_PAGE_SECTION_CLASSES">
-    <header>
-      <h1 class="text-3xl font-semibold text-slate-900">{{ DASHBOARD_PAGE_TITLE }}</h1>
-      <p class="mt-1 text-sm text-slate-500">{{ DASHBOARD_PAGE_SUBTITLE }}</p>
-    </header>
-    <div :class="DASHBOARD_METRICS_GRID_CLASSES">
-      <UiBaseCard v-for="metric in DASHBOARD_METRICS" :key="metric.label" :title="metric.label" padding="md">
-        <p :class="DASHBOARD_METRIC_VALUE_CLASSES">{{ metric.value }}</p>
-        <p :class="DASHBOARD_METRIC_CHANGE_CLASSES">{{ metric.change }}</p>
-      </UiBaseCard>
-    </div>
-
-    <div :class="DASHBOARD_SECONDARY_GRID_CLASSES">
-      <UiBaseCard
-        v-for="card in DASHBOARD_PLACEHOLDER_CARDS"
-        :key="card.title"
-        :title="card.title"
-        :subtitle="card.subtitle"
-        padding="md"
-      />
-    </div>
+  <section class="flex min-h-[60vh] items-center justify-center px-4">
+    <p class="text-sm text-slate-600">Validating your session...</p>
   </section>
 </template>
 
