@@ -54,7 +54,10 @@ export const useAuthStore = defineStore('auth', {
 
         this.currentUser = response.user
       } catch {
-
+        this.currentUser = null
+        if (import.meta.client) {
+          localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
+        }
       } finally {
 
       }
