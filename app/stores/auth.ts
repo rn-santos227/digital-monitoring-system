@@ -11,3 +11,15 @@ const INITIAL_AUTH_STATE: AuthState = {
   loginError: '',
 }
 
+export const useAuthStore = defineStore('auth', {
+  state: (): AuthState => ({ ...INITIAL_AUTH_STATE }),
+
+  getters: {
+    isAuthenticated: (state) => Boolean(state.currentUser),
+  },
+
+  actions: {
+
+  },
+})
+ 
