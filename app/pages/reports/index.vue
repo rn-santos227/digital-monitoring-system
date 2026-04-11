@@ -18,7 +18,6 @@
         tone="danger"
       />
 
-
       <BaseCard
         class="print:hidden"
         :title="REPORTS_DATE_RANGE_TITLE"
@@ -102,6 +101,12 @@
 </template>
 
 <script setup lang="ts">
+import {
+  useReportPrintHandler,
+  createEmptyReportChartsResponse,
+  createReportDateRangeHandlers,
+  loadReportCharts,
+} from '~/handlers/reports'
 import ReportBarChart from '~/components/charts/ReportBarChart.vue'
 import ReportDonutChart from '~/components/charts/ReportDonutChart.vue'
 import ReportLineChart from '~/components/charts/ReportLineChart.vue'
@@ -129,8 +134,12 @@ import {
   REPORTS_TABS_ARIA_LABEL,
 } from '~/constants/page.constants'
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
-import { createEmptyReportChartsResponse, createReportDateRangeHandlers, loadReportCharts, printReportSections } from '~/handlers/reports'
-import type { ChartDataPoint, ReportChartsResponse, ReportDateRange, ReportTabId } from '~/types/domain/reports'
+import type {
+  ChartDataPoint,
+  ReportChartsResponse,
+  ReportDateRange,
+  ReportTabId,
+} from '~/types/domain/reports'
 
 const activeTab = ref<ReportTabId>('personnel')
 const reportLoadError = ref('')
@@ -181,12 +190,10 @@ const equipmentMetrics = computed(() => [
 
 const activeMetrics = computed(() => activeTab.value === 'personnel' ? personnelMetrics.value : equipmentMetrics.value)
 
-const handlePrintReport = (): void => {
-  printReportSections(activeTab.value === 'personnel' ? REPORTS_PERSONNEL_TAB_TITLE : REPORTS_EQUIPMENT_TAB_TITLE, [
-    {
-      title: REPORTS_SUMMARY_CARD_TITLE,
-      rows: activeMetrics.value,
-    },
-  ])
-}
+const {
+  handlePrintReport,
+} = useReportPrintHandler({
+  activeTab,
+  activeMetrics,
+})
 </script>
