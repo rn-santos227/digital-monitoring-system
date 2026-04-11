@@ -16,9 +16,18 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@nuxtjs/supabase',
   ],
+  components: [
+    {
+      path: '~/app/components',
+      pathPrefix: false,
+    },
+  ],
   css: ['./app/assets/css/main.css'],
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ['@heroicons/vue/24/outline'],
+    },
   },
   runtimeConfig: {
     supabaseServiceRoleKey,

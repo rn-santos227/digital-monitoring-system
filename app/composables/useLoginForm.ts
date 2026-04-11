@@ -36,7 +36,7 @@ export const useLoginForm = () => {
         variant: 'success',
       })
 
-      await navigateTo(ROUTE_PATHS.home)
+      await navigateTo(ROUTE_PATHS.home, { replace: true })
     } catch {
       addToast({
         title: 'Sign-in failed',

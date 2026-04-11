@@ -1,5 +1,5 @@
 import { ROUTE_PATHS } from '~/constants/routes.constants'
-import type { NavigationItem, NavigationSection } from '~/types/domain/misc'
+import type { BaseMenuItem, NavigationItem, NavigationSection } from '~/types/domain/misc'
 
 export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.freeze([
   {
@@ -42,6 +42,26 @@ export const SIDEBAR_FOOTER_ITEMS: readonly NavigationItem[] = Object.freeze([
     label: 'Settings',
     to: ROUTE_PATHS.settings,
     icon: 'cog'
+  }
+])
+
+export const HEADER_ACCOUNT_MENU_ITEMS: readonly BaseMenuItem[] = Object.freeze([
+  {
+    label: 'My Account',
+    value: 'my-account'
+  },
+  {
+    label: 'Profile',
+    value: 'profile'
+  },
+  {
+    label: 'Settings',
+    value: 'settings'
+  },
+  {
+    label: 'Logout',
+    value: 'logout',
+    danger: true
   }
 ])
 
