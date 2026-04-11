@@ -5,3 +5,16 @@ export function getStoredSessionToken(storageKey: string): string | null {
 
   return localStorage.getItem(storageKey)
 }
+
+export function persistSessionToken(storageKey: string, token?: string): void {
+  if (!import.meta.client) {
+    return
+  }
+
+  if (token) {
+    localStorage.setItem(storageKey, token)
+    return
+  }
+
+  localStorage.removeItem(storageKey)
+}
