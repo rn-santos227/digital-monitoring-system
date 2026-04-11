@@ -47,3 +47,13 @@ export const getSessionEndpoint = async (): Promise<SessionResponse> => {
 
   return normalizeSessionResponse(response)
 }
+
+export const logoutEndpoint = async (): Promise<{ ok: boolean }> => {
+  const response = await $fetch<{ ok: boolean }>(AUTH_API_ENDPOINTS.logout, {
+    method: 'POST',
+    headers: createSessionHeaders(),
+  })
+
+  saveSessionToken()
+  return response
+}
