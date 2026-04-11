@@ -29,16 +29,15 @@ export const useAuthStore = defineStore('auth', {
           ? localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
           : null
 
-        if (!storedSessionToken) {
-          this.currentUser = null
-          return
-        }
+        const sessionHeaders = storedSessionToken
+          ? {
+              [AUTH_HEADERS.sessionToken]: storedSessionToken
+            }
+          : undefined
 
-        const response = await $fetch<SessionResponse>(AUTH_API_ENDPOINTS.session, {
-          headers: {
-            [AUTH_HEADERS.sessionToken]: storedSessionToken
-          }
-        })
+        const response = await $fetch<SessionResponse>(AUTH_API_ENDPOINTS.session, sessionHeaders ? {
+          headers: sessionHeaders
+        } : undefined)
 
         this.currentUser = response.user
       } catch {
