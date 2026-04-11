@@ -47,20 +47,6 @@
               required
             />
 
-            <div class="flex items-center justify-between gap-4 text-sm text-slate-600">
-              <UiBaseCheckbox
-                v-model="rememberMe"
-                label="Remember me"
-                :disabled="isSubmitting"
-              />
-              <button
-                type="button"
-                class="font-medium text-emerald-700 transition hover:text-emerald-800"
-              >
-                Forgot password?
-              </button>
-            </div>
-
             <p v-if="loginError" class="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
               {{ loginError }}
             </p>
@@ -89,7 +75,6 @@ import { useToast } from '~/composables/useToast'
 import { ROUTE_PATHS } from '~/constants/routes.constants'
 
 const currentYear = new Date().getFullYear()
-const rememberMe = ref(false)
 
 const credentials = reactive({
   email: '',
@@ -101,7 +86,7 @@ const { addToast } = useToast()
 
 const onLogin = async () => {
   const success = await login({
-    email: credentials.email.trim(),
+    email: credentials.email,
     password: credentials.password
   })
 
