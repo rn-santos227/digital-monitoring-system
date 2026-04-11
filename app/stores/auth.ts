@@ -64,5 +64,22 @@ export const useAuthStore = defineStore('auth', {
         this.isSubmitting = false
       }
     },
+
+    async logout() {
+      if (this.isLoggingOut) {
+        return
+      }
+
+      this.isLoggingOut = true
+
+      try {
+        await postAuthLogout(getStoredSessionToken(AUTH_LOCAL_STORAGE_KEYS.sessionToken))
+      } finally {
+        persistSessionToken(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
+        this.currentUser = null
+        this.hasCheckedSession = true
+        this.isLoggingOut = false
+      }
+    }
   }
 })
