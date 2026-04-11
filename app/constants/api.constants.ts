@@ -5,7 +5,8 @@ export const AUTH_API_ENDPOINTS = Object.freeze({
 })
 
 export const AUTH_LOCAL_STORAGE_KEYS = Object.freeze({
-  sessionToken: 'dms_session_token'
+  sessionToken: 'dms_session_token',
+  sessionTokenExpiresAt: 'dms_session_token_expires_at'
 })
 
 export const AUTH_HEADERS = Object.freeze({

@@ -22,10 +22,13 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     supabaseServiceRoleKey,
-     public: {
-       supabaseUrl: supabaseUrl,
-       supabaseKey: supabaseKey,
-     },
+    public: {
+      supabase: {
+        redirect: false,
+      },
+      supabaseUrl: supabaseUrl,
+      supabaseKey: supabaseKey,
+    },
   },
   typescript: {
     strict: true,
