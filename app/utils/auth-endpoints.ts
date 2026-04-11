@@ -38,3 +38,12 @@ export const loginWithPasswordEndpoint = async (payload: LoginPayload): Promise<
   saveSessionToken(response.sessionToken, response.expiresAt)
   return normalizeSessionResponse(response)
 }
+
+export const getSessionEndpoint = async (): Promise<SessionResponse> => {
+  const response = await $fetch<SessionResponsePayload>(AUTH_API_ENDPOINTS.session, {
+    method: 'GET',
+    headers: createSessionHeaders(),
+  })
+
+  return normalizeSessionResponse(response)
+}
