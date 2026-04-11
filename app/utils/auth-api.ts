@@ -8,3 +8,15 @@ export function fetchAuthSession(sessionToken: string | null): Promise<SessionRe
     headers: buildSessionHeaders(AUTH_HEADERS.sessionToken, sessionToken),
   })
 }
+
+export function postAuthLogin(payload: LoginPayload): Promise<SessionResponse> {
+  return $fetch<SessionResponse>(AUTH_API_ENDPOINTS.login, {
+    method: 'POST',
+    credentials: 'include',
+    body: {
+      email: payload.email.trim(),
+      password: payload.password,
+    },
+  })
+}
+
