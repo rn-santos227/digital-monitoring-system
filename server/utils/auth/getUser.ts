@@ -1,9 +1,10 @@
 import type { H3Event } from 'h3'
+import { getHeader } from 'h3'
 import { useRuntimeConfig } from '#imports'
 import { serverSupabaseUser } from '#supabase/server'
 import type { SessionUserRow } from '../../shared/models'
 import { getSessionTokenFromEvent } from '../../shared/utils'
-import { getServiceSupabaseClient } from './serviceClient'
+import { getPublicSupabaseClient, getServiceSupabaseClient } from './serviceClient'
 
 function hasSupabaseUserConfig() {
   const config = useRuntimeConfig()
@@ -26,6 +27,10 @@ function hasSupabaseUserConfig() {
 
 export async function getUser(event: H3Event) {
   const token = getSessionTokenFromEvent(event)
+  const authorizationHeader = getHeader(event, 'authorization')
+  const oauthAccessToken = authorizationHeader?.startsWith('Bearer ')
+    ? authorizationHeader.slice(7).trim()
+    : null
 
   if (token) {
     const supabase = getServiceSupabaseClient()
