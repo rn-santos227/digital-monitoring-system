@@ -54,7 +54,7 @@ export async function getUser(event: H3Event) {
       }
     }
 
-   if (data?.user_id) {
+    if (data?.user_id) {
       const { data: authUser } = await supabase.auth.admin.getUserById(data.user_id)
 
       if (authUser?.user?.email) {
@@ -64,6 +64,14 @@ export async function getUser(event: H3Event) {
           full_name: (authUser.user.user_metadata?.full_name as string | undefined) ?? null,
         }
       }
+    }
+  }
+
+  if (oauthAccessToken) {
+    try {
+
+    } catch {
+      // Fall through to cookie-based Supabase session check.
     }
   }
 
