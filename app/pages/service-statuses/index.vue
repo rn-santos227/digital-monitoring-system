@@ -97,13 +97,15 @@
 </template>
 
 <script setup lang="ts">
+import {
+  useServiceStatusLocationHandlers,
+  useServiceStatusAssignmentHandler,
+  useServiceStatusFilterHandlers,
+  usePrintServiceStatusHandler,
+} from '~/handlers/service-status'
 import { computed, onMounted, ref } from 'vue'
 import { useDialog } from '~/composables/useDialog'
 import { useAssignments } from '~/composables/useAssignments'
-import {
-  useServiceStatusAssignmentHandler,
-  useServiceStatusFilterHandlers,
-} from '~/handlers/service-status'
 import QuickAssignDeploymentModal from '~/components/service-status/QuickAssignDeploymentModal.vue'
 import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import QuickAssignEngagementModal from '~/components/service-status/QuickAssignEngagementModal.vue'
@@ -133,8 +135,6 @@ import type { PersonnelLocationItem } from '~/types/domain/personnel'
 import type { CreateTrainingRecordPayload } from '~/types/domain/training'
 import type { CreateEquipmentIssuancePayload } from '~/types/domain/equipment'
 import type { ActiveServiceStatusModal } from '~/types/domain/service-status'
-import { fetchPersonnelLocationsEndpoint } from '~/utils/service-status-endpoints'
-import { usePrintServiceStatusHandler } from '~/handlers/service-status'
 
 const { showDialog } = useDialog()
 const {
@@ -187,27 +187,17 @@ const filteredLocationItems = computed(() => {
   })
 })
 
-const loadLocations = async () => {
-  isLoading.value = true
-  errorMessage.value = ''
-
-  try {
-    locationItems.value = await fetchPersonnelLocationsEndpoint()
-    selectedPersonnelId.value = locationItems.value[0]?.personnelId ?? null
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unable to load personnel locations.'
-    errorMessage.value = message
-  } finally {
-    isLoading.value = false
-  }
-}
-
-const handlePrintServiceStatusPersonnel = async (): Promise<readonly PersonnelLocationItem[]> => {
-  await loadLocations()
-  const completeItems = [...filteredLocationItems.value]
-  printServiceStatusPersonnel(completeItems)
-  return completeItems
-}
+const {
+  loadLocations,
+  handlePrintServiceStatusPersonnel,
+} = useServiceStatusLocationHandlers({
+  isLoading,
+  errorMessage,
+  locationItems,
+  selectedPersonnelId,
+  filteredLocationItems,
+  printServiceStatusPersonnel,
+})
 
 const {
   onOpenAssignDeployment,
