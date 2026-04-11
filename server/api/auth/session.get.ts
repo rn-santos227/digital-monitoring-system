@@ -1,14 +1,9 @@
-import { createError, defineEventHandler, getCookie, getHeader } from 'h3'
-import { SESSION_COOKIE_NAME, SESSION_TOKEN_HEADER_NAME } from '../../shared/constants'
+import { createError, defineEventHandler } from 'h3'
+import { getSessionTokenFromEvent } from '../../shared/utils'
 import { requireAuth } from '../../utils/auth/requireAuth'
 
 export default defineEventHandler(async (event) => {
-  const sessionTokenFromStorage = getHeader(event, SESSION_TOKEN_HEADER_NAME)
-  const sessionTokenFromCookie = getCookie(event, SESSION_COOKIE_NAME)
-
-  const authorizationHeader = getHeader(event, 'authorization')
-
-  if (!sessionTokenFromStorage && !sessionTokenFromCookie && !authorizationHeader) {
+  if (!getSessionTokenFromEvent(event)) {
     throw createError({ statusCode: 401, statusMessage: 'Session token is missing' })
   }
 
