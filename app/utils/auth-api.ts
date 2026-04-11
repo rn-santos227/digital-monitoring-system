@@ -20,3 +20,10 @@ export function postAuthLogin(payload: LoginPayload): Promise<SessionResponse> {
   })
 }
 
+export function postAuthLogout(sessionToken: string | null): Promise<{ ok: boolean }> {
+  return $fetch<{ ok: boolean }>(AUTH_API_ENDPOINTS.logout, {
+    method: 'POST',
+    credentials: 'include',
+    headers: buildSessionHeaders(AUTH_HEADERS.sessionToken, sessionToken),
+  })
+}
