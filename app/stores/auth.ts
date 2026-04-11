@@ -42,6 +42,15 @@ export const useAuthStore = defineStore('auth', {
         if (storedSessionToken) {
           sessionHeaders[AUTH_HEADERS.sessionToken] = storedSessionToken
         }
+
+        if (oauthAccessToken) {
+          sessionHeaders.Authorization = `Bearer ${oauthAccessToken}`
+        }
+
+        const response = await $fetch<SessionResponse>(AUTH_API_ENDPOINTS.session, Object.keys(sessionHeaders).length
+          ? {
+              headers: sessionHeaders
+          } : undefined)
       } catch {
 
       } finally {
