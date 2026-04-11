@@ -52,3 +52,7 @@
 11. **Keep API route files focused**
     - API route files under `server/api` should contain only one exported handler function.
     - Move reusable helper functions into shared/server utility modules instead of defining them inside route files.
+
+12. **Keep store actions thin via endpoint utilities**
+    - Supplementary logic used by store actions (for example session header building, token storage, request payload shaping) should be extracted into `app/utils` helpers instead of being declared inline inside stores.
+    - For API communication, provide one utility function per API endpoint (e.g., one function for login endpoint, one for logout endpoint, one for session endpoint) so store files stay concise and focused on state transitions.
