@@ -19,7 +19,6 @@ export interface AuthState {
   currentUser: SessionUser | null
   hasCheckedSession: boolean
   isCheckingSession: boolean
-  sessionInitializationPromise: Promise<void> | null
   isSubmitting: boolean
   isLoggingOut: boolean
   loginError: string

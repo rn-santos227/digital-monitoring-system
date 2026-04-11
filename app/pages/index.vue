@@ -5,18 +5,4 @@
 </template>
 
 <script setup lang="ts">
-import { useAuth } from '~/composables/useAuth'
-import { ROUTE_PATHS } from '~/constants/routes.constants'
-
-const { hasCheckedSession, isAuthenticated, initializeSession } = useAuth()
-
-if (!hasCheckedSession.value) {
-  await initializeSession()
-}
-
-if (isAuthenticated.value) {
-  await navigateTo(ROUTE_PATHS.home, { replace: true })
-} else {
-  await navigateTo(ROUTE_PATHS.login, { replace: true })
-}
 </script>
