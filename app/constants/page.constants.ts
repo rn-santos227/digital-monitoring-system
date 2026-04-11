@@ -26,3 +26,19 @@ export const DASHBOARD_PLACEHOLDER_CARDS = Object.freeze([
     subtitle: 'Use shared cards and tables for issuance and return tracking.'
   }
 ])
+
+export const LOGIN_PAGE_BADGE = 'AFP Digital Monitoring System'
+export const LOGIN_PAGE_TITLE = 'Digital Personnel and Equipment Monitoring'
+export const LOGIN_PAGE_SUBTITLE =
+  'Secure access for authorized personnel overseeing battalions, deployments, training records, and equipment issuances.'
+export const LOGIN_PAGE_CARD_TITLE = 'Sign In'
+export const LOGIN_PAGE_CARD_SUBTITLE = 'Enter your account credentials to access operational monitoring dashboards.'
+export const LOGIN_PAGE_EMAIL_LABEL = 'Email'
+export const LOGIN_PAGE_EMAIL_PLACEHOLDER = 'Enter your service email'
+export const LOGIN_PAGE_PASSWORD_LABEL = 'Password'
+export const LOGIN_PAGE_PASSWORD_PLACEHOLDER = 'Enter your password'
+export const LOGIN_PAGE_REMEMBER_LABEL = 'Remember this secure device'
+export const LOGIN_PAGE_FORGOT_LABEL = 'Forgot password?'
+export const LOGIN_PAGE_SIGN_IN_LABEL = 'Sign In'
+export const LOGIN_PAGE_SUPPORT_TEXT = 'Need assistance? Contact your battalion system administrator.'
+export const LOGIN_PAGE_FOOTER_NOTICE = 'This secure AFP system is for authorized access only.'
