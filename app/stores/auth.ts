@@ -64,7 +64,12 @@ export const useAuthStore = defineStore('auth', {
           body: payload
         })
 
+        if (import.meta.client && response.sessionToken) {
+          localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken, response.sessionToken)
+        }
+
         this.currentUser = response.user
+        this.hasCheckedSession = true
         return true
       } catch (error: unknown) {
         const statusMessage =
@@ -99,6 +104,7 @@ export const useAuthStore = defineStore('auth', {
         }
 
         this.currentUser = null
+        this.hasCheckedSession = true
         this.isLoggingOut = false
       }
     }

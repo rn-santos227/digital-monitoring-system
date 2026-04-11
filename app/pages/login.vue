@@ -88,7 +88,6 @@ import { useAuth } from '~/composables/useAuth'
 import { useToast } from '~/composables/useToast'
 import { ROUTE_PATHS } from '~/constants/routes.constants'
 
-const router = useRouter()
 const currentYear = new Date().getFullYear()
 const rememberMe = ref(false)
 
@@ -106,7 +105,7 @@ const onLogin = async () => {
     password: credentials.password
   })
 
- if (!success) {
+  if (!success) {
     addToast({
       title: 'Sign in failed',
       message: loginError.value || 'Unable to sign in with the provided credentials.',
@@ -125,6 +124,6 @@ const onLogin = async () => {
   })
 
   credentials.password = ''
-  await router.push(ROUTE_PATHS.home)
+  await navigateTo(ROUTE_PATHS.home, { replace: true })
 }
 </script>

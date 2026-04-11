@@ -2,6 +2,10 @@ import { useAuth } from '~/composables/useAuth'
 import { ROUTE_PATHS } from '~/constants/routes.constants'
 
 export default defineNuxtRouteMiddleware(async (to) => {
+  if (import.meta.server) {
+    return
+  }
+
   const { hasCheckedSession, isAuthenticated, initializeSession } = useAuth()
 
   if (!hasCheckedSession.value) {
