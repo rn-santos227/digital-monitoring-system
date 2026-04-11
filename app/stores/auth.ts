@@ -43,7 +43,7 @@ export const useAuthStore = defineStore('auth', {
           sessionHeaders[AUTH_HEADERS.sessionToken] = storedSessionToken
         }
 
-        if (oauthAccessToken) {
+        if (!storedSessionToken && oauthAccessToken) {
           sessionHeaders.Authorization = `Bearer ${oauthAccessToken}`
         }
 
