@@ -9,13 +9,7 @@ export const getSessionTokenFromEvent = (event: H3Event): string | null => {
   }
 
   const tokenFromCookie = getCookie(event, SESSION_COOKIE_NAME)
-  if (tokenFromCookie) {
-    return tokenFromCookie
-  }
-
-  const bearer = getHeader(event, 'authorization')
-  const tokenFromHeader = bearer?.startsWith('Bearer ') ? bearer.slice(7).trim() : null
-  return tokenFromHeader || null
+  return tokenFromCookie || null
 }
 
 export const getRequestIpAddress = (event: H3Event): string | null => {
