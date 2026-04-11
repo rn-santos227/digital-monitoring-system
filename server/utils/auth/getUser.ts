@@ -69,7 +69,16 @@ export async function getUser(event: H3Event) {
 
   if (oauthAccessToken) {
     try {
+      const supabase = getPublicSupabaseClient()
+      const { data: oauthUserData } = await supabase.auth.getUser(oauthAccessToken)
 
+      if (oauthUserData?.user?.id && oauthUserData.user.email) {
+        return {
+          id: oauthUserData.user.id,
+          email: oauthUserData.user.email,
+          full_name: (oauthUserData.user.user_metadata?.full_name as string | undefined) ?? null,
+        }
+      }
     } catch {
       // Fall through to cookie-based Supabase session check.
     }
