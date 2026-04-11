@@ -59,7 +59,8 @@ export const useAuthStore = defineStore('auth', {
           localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
         }
       } finally {
-
+        this.hasCheckedSession = true
+        this.isCheckingSession = false
       }
     },
 
