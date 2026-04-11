@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { AUTH_API_ENDPOINTS, AUTH_HEADERS, AUTH_LOCAL_STORAGE_KEYS } from '../constants/api.constants'
 import type { AuthState, LoginPayload, SessionResponse } from '../types/domain/auth-store'
 
-const DEFAULT_LOGIN_ERROR = 'Unable to sign in. Please try again.'
+const DEFAULT_LOGIN_ERROR = 'Unable to sign in. Please verify your credentials and try again.'
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
