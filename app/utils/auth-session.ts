@@ -6,3 +6,11 @@ const isExpired = (expiresAt: string): boolean => {
 
   return Date.now() >= expirationTimestamp
 }
+
+const clearStoredSessionToken = (): void => {
+  if (!import.meta.client) return
+
+  localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
+  localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionTokenExpiresAt)
+}
+
