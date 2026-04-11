@@ -15,3 +15,17 @@ type SessionResponsePayload = {
   expiresAt?: string
   user: SessionUserPayload
 }
+
+const normalizeSessionResponse = (response: SessionResponsePayload): SessionResponse => {
+  return {
+    ok: response.ok,
+    sessionToken: response.sessionToken,
+    expiresAt: response.expiresAt,
+    user: {
+      id: response.user.id,
+      email: response.user.email,
+      fullName: response.user.fullName ?? response.user.full_name ?? null,
+    },
+  }
+}
+

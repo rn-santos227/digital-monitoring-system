@@ -8,6 +8,7 @@ export interface SessionResponse {
   ok: boolean
   user: SessionUser
   sessionToken?: string
+  expiresAt?: string
 }
 
 export interface LoginPayload {
