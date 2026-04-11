@@ -10,6 +10,16 @@
         <p :class="DASHBOARD_METRIC_CHANGE_CLASSES">{{ metric.change }}</p>
       </UiBaseCard>
     </div>
+
+    <div :class="DASHBOARD_SECONDARY_GRID_CLASSES">
+      <UiBaseCard
+        v-for="card in DASHBOARD_PLACEHOLDER_CARDS"
+        :key="card.title"
+        :title="card.title"
+        :subtitle="card.subtitle"
+        padding="md"
+      />
+    </div>
   </section>
 </template>
 
