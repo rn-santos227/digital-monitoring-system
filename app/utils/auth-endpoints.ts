@@ -29,3 +29,12 @@ const normalizeSessionResponse = (response: SessionResponsePayload): SessionResp
   }
 }
 
+export const loginWithPasswordEndpoint = async (payload: LoginPayload): Promise<SessionResponse> => {
+  const response = await $fetch<SessionResponsePayload>(AUTH_API_ENDPOINTS.login, {
+    method: 'POST',
+    body: payload,
+  })
+
+  saveSessionToken(response.sessionToken, response.expiresAt)
+  return normalizeSessionResponse(response)
+}
