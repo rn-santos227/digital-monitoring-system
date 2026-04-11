@@ -30,6 +30,12 @@ export const useAuthStore = defineStore('auth', {
           : null
 
         let oauthAccessToken: string | null = null
+
+        if (import.meta.client) {
+          const supabaseClient = useSupabaseClient()
+          const { data } = await supabaseClient.auth.getSession()
+          oauthAccessToken = data.session?.access_token ?? null
+        }
       } catch {
 
       } finally {
