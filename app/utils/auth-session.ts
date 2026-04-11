@@ -56,3 +56,12 @@ export const saveSessionToken = (token?: string, expiresAt?: string): void => {
     }, msUntilExpiry)
   }
 }
+
+export const createSessionHeaders = (): Record<string, string> => {
+  const sessionToken = getStoredSessionToken()
+  if (!sessionToken) return {}
+
+  return {
+    [AUTH_HEADERS.sessionToken]: sessionToken,
+  }
+}
