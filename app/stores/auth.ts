@@ -39,5 +39,30 @@ export const useAuthStore = defineStore('auth', {
         this.isCheckingSession = false
       }
     },
+
+    async login(payload: LoginPayload) {
+      if (this.isSubmitting) {
+        return false
+      }
+
+      this.isSubmitting = true
+      this.loginError = ''
+
+      try {
+        const response = await postAuthLogin(payload)
+
+        this.currentUser = response.user
+        this.hasCheckedSession = true
+        persistSessionToken(AUTH_LOCAL_STORAGE_KEYS.sessionToken, response.sessionToken)
+
+        return true
+      } catch (error: unknown) {
+        this.currentUser = null
+        this.loginError = parseErrorMessage(error, DEFAULT_LOGIN_ERROR)
+        persistSessionToken(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
+      } finally {
+        this.isSubmitting = false
+      }
+    },
   }
 })
