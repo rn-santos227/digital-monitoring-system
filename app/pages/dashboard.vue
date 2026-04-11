@@ -1,4 +1,10 @@
 <template>
+  <section :class="DASHBOARD_PAGE_SECTION_CLASSES">
+    <header>
+      <h1 class="text-3xl font-semibold text-slate-900">{{ DASHBOARD_PAGE_TITLE }}</h1>
+      <p class="mt-1 text-sm text-slate-500">{{ DASHBOARD_PAGE_SUBTITLE }}</p>
+    </header>
+  </section>
 </template>
 
 <script setup lang="ts">
