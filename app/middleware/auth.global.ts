@@ -8,11 +8,15 @@ export default defineNuxtRouteMiddleware(async (to) => {
     await initializeSession()
   }
 
+  if (to.path === ROUTE_PATHS.root) {
+    return
+  }
+
   if (!isAuthenticated.value && to.path !== ROUTE_PATHS.login) {
-    return navigateTo(ROUTE_PATHS.login)
+    return navigateTo(ROUTE_PATHS.login, { replace: true })
   }
 
   if (isAuthenticated.value && to.path === ROUTE_PATHS.login) {
-    return navigateTo(ROUTE_PATHS.home)
+    return navigateTo(ROUTE_PATHS.home, { replace: true })
   }
 })
