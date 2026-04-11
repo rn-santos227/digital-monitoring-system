@@ -14,3 +14,19 @@ const clearStoredSessionToken = (): void => {
   localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionTokenExpiresAt)
 }
 
+export const getStoredSessionToken = (): string => {
+  if (!import.meta.client) return ''
+
+  const sessionToken = localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken) ?? ''
+  const expiresAt = localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionTokenExpiresAt) ?? ''
+
+  if (!sessionToken) return ''
+
+  if (!expiresAt || isExpired(expiresAt)) {
+    clearStoredSessionToken()
+    return ''
+  }
+
+  return sessionToken
+}
+
