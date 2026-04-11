@@ -8,10 +8,6 @@ export default defineEventHandler(async (event) => {
 
   const authorizationHeader = getHeader(event, 'authorization')
 
-  if (sessionTokenFromStorage && sessionTokenFromCookie && sessionTokenFromStorage !== sessionTokenFromCookie) {
-    throw createError({ statusCode: 401, statusMessage: 'Session token mismatch' })
-  }
-
   if (!sessionTokenFromStorage && !sessionTokenFromCookie && !authorizationHeader) {
     throw createError({ statusCode: 401, statusMessage: 'Session token is missing' })
   }
