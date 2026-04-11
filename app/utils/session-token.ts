@@ -18,3 +18,13 @@ export function persistSessionToken(storageKey: string, token?: string): void {
 
   localStorage.removeItem(storageKey)
 }
+
+export function buildSessionHeaders(headerName: string, sessionToken: string | null): Record<string, string> | undefined {
+  if (!sessionToken) {
+    return undefined
+  }
+
+  return {
+    [headerName]: sessionToken,
+  }
+}
