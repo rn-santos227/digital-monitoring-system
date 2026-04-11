@@ -23,11 +23,13 @@ export const useAuthStore = defineStore('auth', {
       if (this.isCheckingSession) return
 
       this.isCheckingSession = true
+      let sessionTokenUsedForCheck: string | null = null
 
       try {
         const storedSessionToken = import.meta.client
           ? localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
           : null
+        sessionTokenUsedForCheck = storedSessionToken ?? null
 
         let oauthAccessToken: string | null = null
 
@@ -55,8 +57,11 @@ export const useAuthStore = defineStore('auth', {
         this.currentUser = response.user
       } catch {
         this.currentUser = null
-        if (import.meta.client) {
-          localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
+        if (import.meta.client && sessionTokenUsedForCheck) {
+          const latestSessionToken = localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
+          if (latestSessionToken === sessionTokenUsedForCheck) {
+            localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
+          }
         }
       } finally {
         this.hasCheckedSession = true
