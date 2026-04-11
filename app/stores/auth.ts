@@ -36,6 +36,12 @@ export const useAuthStore = defineStore('auth', {
           const { data } = await supabaseClient.auth.getSession()
           oauthAccessToken = data.session?.access_token ?? null
         }
+
+        const sessionHeaders: Record<string, string> = {}
+
+        if (storedSessionToken) {
+          sessionHeaders[AUTH_HEADERS.sessionToken] = storedSessionToken
+        }
       } catch {
 
       } finally {
