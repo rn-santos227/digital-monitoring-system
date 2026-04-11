@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia'
-import { AUTH_API_ENDPOINTS, AUTH_HEADERS, AUTH_LOCAL_STORAGE_KEYS } from '../constants/api.constants'
-import type { AuthState, LoginPayload, SessionResponse } from '../types/domain/auth-store'
+import { AUTH_LOCAL_STORAGE_KEYS } from '../constants/api.constants'
+import type { AuthState, LoginPayload } from '../types/domain/auth-store'
+import { fetchAuthSession, postAuthLogin, postAuthLogout } from '../utils/auth-api'
+import { parseErrorMessage } from '../utils/error-message'
+import { getStoredSessionToken, persistSessionToken } from '../utils/session-token'
 
 const DEFAULT_LOGIN_ERROR = 'Unable to sign in. Please verify your credentials and try again.'
 
@@ -19,137 +22,22 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
-    getStoredSessionToken() {
-      if (!import.meta.client) return null
-      return localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
-    },
-
-    persistSessionToken(token?: string) {
-      if (!import.meta.client) return
-      if (token) {
-        localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken, token)
+    async initializeSession(force = false) {
+      if (this.isCheckingSession || (this.hasCheckedSession && !force)) {
         return
       }
 
-      localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
-    },
-
-    buildSessionHeaders() {
-      const storedToken = this.getStoredSessionToken()
-      if (!storedToken) {
-        return undefined
-      }
-
-      return {
-        [AUTH_HEADERS.sessionToken]: storedToken
-      }
-    },
-
-    async initializeSession() {
-      if (this.isCheckingSession) return
-
       this.isCheckingSession = true
-      let sessionTokenUsedForCheck: string | null = null
-
       try {
-        const storedSessionToken = import.meta.client
-          ? localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
-          : null
-        sessionTokenUsedForCheck = storedSessionToken ?? null
-
-        let oauthAccessToken: string | null = null
-
-        if (import.meta.client) {
-          const supabaseClient = useSupabaseClient()
-          const { data } = await supabaseClient.auth.getSession()
-          oauthAccessToken = data.session?.access_token ?? null
-        }
-
-        const sessionHeaders: Record<string, string> = {}
-
-        if (storedSessionToken) {
-          sessionHeaders[AUTH_HEADERS.sessionToken] = storedSessionToken
-        }
-
-        if (!storedSessionToken && oauthAccessToken) {
-          sessionHeaders.Authorization = `Bearer ${oauthAccessToken}`
-        }
-
-        const response = await $fetch<SessionResponse>(AUTH_API_ENDPOINTS.session, Object.keys(sessionHeaders).length
-          ? {
-              headers: sessionHeaders
-          } : undefined)
-
+        const response = await fetchAuthSession(getStoredSessionToken(AUTH_LOCAL_STORAGE_KEYS.sessionToken))
         this.currentUser = response.user
       } catch {
         this.currentUser = null
-        if (import.meta.client && sessionTokenUsedForCheck) {
-          const latestSessionToken = localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
-          if (latestSessionToken === sessionTokenUsedForCheck) {
-            localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
-          }
-        }
+        persistSessionToken(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
       } finally {
         this.hasCheckedSession = true
         this.isCheckingSession = false
       }
     },
-
-    async login(payload: LoginPayload) {
-      if (this.isSubmitting) return false
-
-      this.loginError = ''
-      this.isSubmitting = true
-
-      try {
-        const response = await $fetch<SessionResponse>(AUTH_API_ENDPOINTS.login, {
-          method: 'POST',
-          body: payload
-        })
-
-        if (import.meta.client && response.sessionToken) {
-          localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken, response.sessionToken)
-        }
-
-        this.currentUser = response.user
-        this.hasCheckedSession = true
-        return true
-      } catch (error: unknown) {
-        const statusMessage =
-          typeof error === 'object' &&
-          error !== null &&
-          'data' in error &&
-          typeof error.data === 'object' &&
-          error.data !== null &&
-          'statusMessage' in error.data &&
-          typeof error.data.statusMessage === 'string'
-            ? error.data.statusMessage
-            : ''
-
-        const fallbackMessage = error instanceof Error ? error.message : DEFAULT_LOGIN_ERROR
-        this.loginError = statusMessage || fallbackMessage || DEFAULT_LOGIN_ERROR
-        return false
-      } finally {
-        this.isSubmitting = false
-      }
-    },
-
-    async logout() {
-      if (this.isLoggingOut) return
-
-      this.isLoggingOut = true
-
-      try {
-        await $fetch(AUTH_API_ENDPOINTS.logout, { method: 'POST' })
-      } finally {
-        if (import.meta.client) {
-          localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
-        }
-
-        this.currentUser = null
-        this.hasCheckedSession = true
-        this.isLoggingOut = false
-      }
-    }
   }
 })
