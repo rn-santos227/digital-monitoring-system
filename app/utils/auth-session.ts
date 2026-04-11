@@ -30,3 +30,29 @@ export const getStoredSessionToken = (): string => {
   return sessionToken
 }
 
+export const saveSessionToken = (token?: string, expiresAt?: string): void => {
+  if (!import.meta.client) return
+
+  if (!token || !expiresAt) {
+    clearStoredSessionToken()
+    return
+  }
+
+  if (isExpired(expiresAt)) {
+    clearStoredSessionToken()
+    return
+  }
+
+  localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken, token)
+  localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.sessionTokenExpiresAt, expiresAt)
+
+  const msUntilExpiry = new Date(expiresAt).getTime() - Date.now()
+  if (msUntilExpiry > 0) {
+    window.setTimeout(() => {
+      const storedExpiry = localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionTokenExpiresAt) ?? ''
+      if (storedExpiry && isExpired(storedExpiry)) {
+        clearStoredSessionToken()
+      }
+    }, msUntilExpiry)
+  }
+}
