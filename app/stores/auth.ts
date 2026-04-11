@@ -51,6 +51,8 @@ export const useAuthStore = defineStore('auth', {
           ? {
               headers: sessionHeaders
           } : undefined)
+
+        this.currentUser = response.user
       } catch {
 
       } finally {
