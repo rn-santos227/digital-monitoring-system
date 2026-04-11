@@ -19,6 +19,11 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
+    getStoredSessionToken() {
+      if (!import.meta.client) return null
+      return localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
+    },
+
     async initializeSession() {
       if (this.isCheckingSession) return
 
