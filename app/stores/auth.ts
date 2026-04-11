@@ -34,6 +34,17 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
     },
 
+    buildSessionHeaders() {
+      const storedToken = this.getStoredSessionToken()
+      if (!storedToken) {
+        return undefined
+      }
+
+      return {
+        [AUTH_HEADERS.sessionToken]: storedToken
+      }
+    },
+
     async initializeSession() {
       if (this.isCheckingSession) return
 
