@@ -4,15 +4,20 @@ import {
   ArrowsRightLeftIcon,
   BellIcon,
   BuildingOffice2Icon,
+  CheckCircleIcon,
   ClipboardDocumentCheckIcon,
   ClockIcon,
   Cog6ToothIcon,
   CubeIcon,
   ExclamationTriangleIcon,
   HomeIcon,
+  InformationCircleIcon,
   MapIcon,
+  QuestionMarkCircleIcon,
   ShieldCheckIcon,
   Squares2X2Icon,
+  XCircleIcon,
+  XMarkIcon,
   UsersIcon
 } from '@heroicons/vue/24/outline'
 import type { Component } from 'vue'
