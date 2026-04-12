@@ -104,13 +104,15 @@ import {
   LOGIN_PAGE_FORM_PANEL_CLASSES,
   LOGIN_PAGE_LAYOUT_CLASSES,
 } from '~/constants/shared.constants'
-import { useLoginForm } from '~/composables/useLoginForm'
+import { useLoginForm } from '~/composables/useLogin'
+import { useLoginPageHandlers } from '~/handlers'
 
 const {
   formState,
   isSubmitting,
   loginError,
   isSubmitDisabled,
-  submitLoginForm,
 } = useLoginForm()
+
+const { submitLoginForm } = useLoginPageHandlers(formState, loginError)
 </script>
