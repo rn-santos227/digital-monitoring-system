@@ -8,7 +8,7 @@
         :aria-labelledby="`dialog-title-${dialog.id}`"
       >
         <div class="flex items-start gap-3 border-b border-slate-100 px-5 pb-4 pt-5">
-          <div class="mt-1 h-3 w-3 rounded-full" :class="indicatorClass" aria-hidden="true" />
+          <BaseIcon :name="dialogIconName" size="lg" :class="indicatorClass" />
           <div class="flex-1">
             <p
               :id="`dialog-title-${dialog.id}`"
@@ -26,7 +26,7 @@
             aria-label="Dismiss dialog"
             @click="handleCancel"
           >
-            ✕
+            <BaseIcon name="x-mark" />
           </button>
         </div>
         <form v-if="dialog.type === 'prompt'" class="px-5 pt-4" @submit.prevent="handleConfirm">
