@@ -1,21 +1,21 @@
 import { describe, expect, it } from 'vitest'
-
 import {
   normalizeAccountTypeIds,
   parseActivationPayload,
   parseCreateUserProfilePayload,
   parsePasswordUpdatePayload,
-} from '../../../../server/shared/validations/domain/user-management'
-
+} from '../../../../server/shared/validation/domain/user-management'
 
 describe('user endpoint payloads', () => {
   it('normalizes a new user and enforces one account type', () => {
-    expect(parseCreateUserProfilePayload({
-      email: ' OPERATOR@EXAMPLE.MIL ',
-      fullName: ' Juan Dela Cruz ',
-      password: ' secure-password ',
-      accountTypeIds: ['operator'],
-    })).toEqual({
+    expect(
+      parseCreateUserProfilePayload({
+        email: ' OPERATOR@EXAMPLE.MIL ',
+        fullName: ' Juan Dela Cruz ',
+        password: ' secure-password ',
+        accountTypeIds: ['operator'],
+      }),
+    ).toEqual({
       personnelId: null,
       email: 'operator@example.mil',
       fullName: 'Juan Dela Cruz',
@@ -32,10 +32,12 @@ describe('user endpoint payloads', () => {
   })
 
   it('validates password and activation mutation payloads', () => {
-    expect(parsePasswordUpdatePayload({
-      currentPassword: 'old-password',
-      newPassword: ' new-password ',
-    })).toEqual({
+    expect(
+      parsePasswordUpdatePayload({
+        currentPassword: 'old-password',
+        newPassword: ' new-password ',
+      }),
+    ).toEqual({
       currentPassword: 'old-password',
       newPassword: 'new-password',
     })
