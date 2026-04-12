@@ -2,8 +2,6 @@
 
 .modal-fade-enter-active,
 .modal-fade-leave-active,
-.dialog-fade-enter-active,
-.dialog-fade-leave-active,
 .dropdown-slide-enter-active,
 .dropdown-slide-leave-active {
   transition: all 0.2s ease;
@@ -17,10 +15,26 @@
 }
 
 .modal-fade-enter-from > div,
-.modal-fade-leave-to > div,
+.modal-fade-leave-to > div {
+  transform: translateY(8px) scale(0.98);
+}
+
+.dialog-fade-enter-active,
+.dialog-fade-leave-active {
+  transition: opacity 0.24s ease;
+}
+
+.dialog-fade-enter-active > div,
+.dialog-fade-leave-active > div {
+  transition:
+    transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.24s ease;
+}
+
 .dialog-fade-enter-from > div,
 .dialog-fade-leave-to > div {
-  transform: translateY(8px) scale(0.98);
+  opacity: 0;
+  transform: scale(0.9);
 }
 
 .dropdown-slide-enter-from,
