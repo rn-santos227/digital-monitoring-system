@@ -12,3 +12,9 @@ export const AUTH_LOCAL_STORAGE_KEYS = Object.freeze({
 export const AUTH_HEADERS = Object.freeze({
   sessionToken: 'x-dms-session-token'
 })
+
+export const API_LOADING_MESSAGES = Object.freeze({
+  authenticate: 'Signing in...',
+  fetchSession: 'Validating session...',
+  logout: 'Signing out...'
+})
