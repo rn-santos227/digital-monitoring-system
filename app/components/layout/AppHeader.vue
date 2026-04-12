@@ -31,11 +31,8 @@ import { storeToRefs } from 'pinia'
 import { HEADER_ACCOUNT_MENU_ITEMS } from '~/constants/navigation.constants'
 import { APP_HEADER_CLASSES } from '~/constants/ui.constants'
 import type { BaseMenuItem } from '~/types/domain/misc'
+import { useLogoutHandler } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
-
-const emit = defineEmits<{
-  (event: 'logout'): void
-}>()
 
 const authStore = useAuthStore()
 const { currentUser } = storeToRefs(authStore)
@@ -52,9 +49,11 @@ const userInitials = computed(() => {
     .join('')
 })
 
-const onMenuSelect = (item: BaseMenuItem) => {
+const { handleLogout } = useLogoutHandler()
+
+const onMenuSelect = async (item: BaseMenuItem) => {
   if (item.value === 'logout') {
-    emit('logout')
+    await handleLogout()
   }
 }
 </script>

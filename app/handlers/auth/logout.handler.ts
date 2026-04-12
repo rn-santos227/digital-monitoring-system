@@ -8,7 +8,7 @@ import {
 import { ROUTE_PATHS } from '~/constants/routes.constants'
 import { useAuthStore } from '~/stores/auth'
 
-export const useDefaultLayoutHandlers = () => {
+export const useLogoutHandler = () => {
   const { showDialog } = useDialog()
   const authStore = useAuthStore()
 
