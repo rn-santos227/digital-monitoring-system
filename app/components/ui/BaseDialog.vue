@@ -1,8 +1,8 @@
 <template>
   <Transition name="dialog-fade" appear>
-    <div class="fixed inset-0 z-60 flex items-center justify-center bg-slate-900/40 p-4">
+    <div class="fixed inset-0 z-60 flex items-center justify-center text-slate-900/40 p-4">
       <div
-        class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-xl ring-1 ring-slate-200"
+        class="w-full max-w-md overflow-hidden rounded-2xl text-white shadow-xl ring-1 ring-slate-200"
         role="dialog"
         aria-modal="true"
         :aria-labelledby="`dialog-title-${dialog.id}`"
@@ -68,7 +68,9 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import type { DialogState } from '../../composables/useDialog'
+import type { IconName } from '~/types/domain/misc'
 import BaseButton from './BaseButton.vue'
+import BaseIcon from './BaseIcon.vue'
 
 const props = defineProps<{
   dialog: DialogState
@@ -91,19 +93,37 @@ watch(
 const indicatorClass = computed(() => {
   switch (props.dialog.type) {
     case 'success':
-      return 'bg-emerald-500'
+      return 'text-emerald-500'
     case 'warning':
-      return 'bg-amber-500'
+      return 'text-amber-500'
     case 'error':
-      return 'bg-rose-500'
+      return 'text-rose-500'
     case 'info':
-      return 'bg-sky-500'
+      return 'text-sky-500'
     case 'question':
-      return 'bg-violet-500'
+      return 'text-violet-500'
     case 'prompt':
-      return 'bg-indigo-500'
+      return 'text-indigo-500'
     default:
-      return 'bg-sky-500'
+      return 'text-sky-500'
+  }
+})
+
+const dialogIconName = computed<IconName>(() => {
+  switch (props.dialog.type) {
+    case 'success':
+      return 'check-circle'
+    case 'warning':
+      return 'exclamation'
+    case 'error':
+      return 'x-circle'
+    case 'question':
+    case 'prompt':
+      return 'question-mark-circle'
+    case 'info':
+    case 'information':
+    default:
+      return 'information-circle'
   }
 })
 
