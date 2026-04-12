@@ -1,5 +1,6 @@
-import { AUTH_API_ENDPOINTS } from '~/constants/api.constants'
+import { AUTH_API_ENDPOINTS, API_LOADING_MESSAGES } from '~/constants/api.constants'
 import type { LoginPayload, SessionResponse } from '~/types/domain/auth-store'
+import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders, saveSessionToken } from '~/utils/auth-session'
 
 type SessionUserPayload = {
@@ -30,29 +31,35 @@ const normalizeSessionResponse = (response: SessionResponsePayload): SessionResp
 }
 
 export const loginWithPasswordEndpoint = async (payload: LoginPayload): Promise<SessionResponse> => {
-  const response = await $fetch<SessionResponsePayload>(AUTH_API_ENDPOINTS.login, {
-    method: 'POST',
-    body: payload,
-  })
+  const response = await withApiLoading(async () => {
+    return await $fetch<SessionResponsePayload>(AUTH_API_ENDPOINTS.login, {
+      method: 'POST',
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.authenticate)
 
   saveSessionToken(response.sessionToken, response.expiresAt)
   return normalizeSessionResponse(response)
 }
 
 export const getSessionEndpoint = async (): Promise<SessionResponse> => {
-  const response = await $fetch<SessionResponsePayload>(AUTH_API_ENDPOINTS.session, {
-    method: 'GET',
-    headers: createSessionHeaders(),
-  })
+  const response = await withApiLoading(async () => {
+    return await $fetch<SessionResponsePayload>(AUTH_API_ENDPOINTS.session, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchSession)
 
   return normalizeSessionResponse(response)
 }
 
 export const logoutEndpoint = async (): Promise<{ ok: boolean }> => {
-  const response = await $fetch<{ ok: boolean }>(AUTH_API_ENDPOINTS.logout, {
-    method: 'POST',
-    headers: createSessionHeaders(),
-  })
+  const response = await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(AUTH_API_ENDPOINTS.logout, {
+      method: 'POST',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.logout)
 
   saveSessionToken()
   return response
