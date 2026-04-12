@@ -10,4 +10,19 @@ import {
   BASE_TAB_LIST_CLASSES,
   type BaseTabItem
 } from '~/constants/ui.constants'
+
+withDefaults(
+  defineProps<{
+    modelValue: string
+    items: readonly BaseTabItem[]
+    ariaLabel?: string
+  }>(),
+  {
+    ariaLabel: 'Content tabs'
+  }
+)
+
+const emit = defineEmits<{
+  (event: 'update:modelValue', value: string): void
+}>()
 </script>
