@@ -1,22 +1,24 @@
 <template>
   <Transition name="dialog-fade" appear>
-    <div class="fixed inset-0 z-60 flex items-center justify-center text-slate-900/40 p-4">
+    <div class="fixed inset-0 z-60 flex items-center justify-center bg-slate-950/55 p-4 backdrop-blur-[2px]">
       <div
-        class="w-full max-w-md overflow-hidden rounded-2xl text-white shadow-xl ring-1 ring-slate-200"
+        class="w-full max-w-md overflow-hidden rounded-3xl bg-white text-slate-900 shadow-[0_18px_48px_rgba(15,23,42,0.26)] ring-1 ring-slate-200"
         role="dialog"
         aria-modal="true"
         :aria-labelledby="`dialog-title-${dialog.id}`"
       >
-        <div class="flex items-start gap-3 border-b border-slate-100 px-5 pb-4 pt-5">
-          <BaseIcon :name="dialogIconName" size="lg" :class="indicatorClass" />
-          <div class="flex-1">
+        <div class="flex items-start gap-4 px-6 pb-4 pt-6">
+          <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full" :class="indicatorContainerClass">
+            <BaseIcon :name="dialogIconName" size="lg" :class="indicatorClass" />
+          </div>
+          <div class="flex-1 pt-1">
             <p
               :id="`dialog-title-${dialog.id}`"
-              class="text-lg font-semibold text-slate-900"
+              class="text-xl font-bold text-slate-900"
             >
               {{ dialog.title }}
             </p>
-            <p v-if="dialog.message" class="mt-1 text-sm text-slate-600">
+            <p v-if="dialog.message" class="mt-2 text-sm leading-6 text-slate-600">
               {{ dialog.message }}
             </p>
           </div>
@@ -29,7 +31,7 @@
             <BaseIcon name="x-mark" />
           </button>
         </div>
-        <form v-if="dialog.type === 'prompt'" class="px-5 pt-4" @submit.prevent="handleConfirm">
+        <form v-if="dialog.type === 'prompt'" class="px-6 pb-2 pt-2" @submit.prevent="handleConfirm">
           <label class="text-sm font-medium text-slate-700" :for="`dialog-input-${dialog.id}`">
             Response
           </label>
@@ -41,7 +43,7 @@
             type="text"
           />
         </form>
-        <div class="flex items-center justify-end gap-3 px-5 pb-5 pt-4">
+        <div class="flex items-center justify-end gap-3 border-t border-slate-100 bg-slate-50 px-6 pb-6 pt-4">
           <BaseButton
             v-if="dialog.showCancel"
             variant="ghost"
@@ -93,19 +95,38 @@ watch(
 const indicatorClass = computed(() => {
   switch (props.dialog.type) {
     case 'success':
-      return 'text-emerald-500'
+      return 'text-emerald-600'
     case 'warning':
-      return 'text-amber-500'
+      return 'text-amber-600'
     case 'error':
-      return 'text-rose-500'
+      return 'text-rose-600'
     case 'info':
-      return 'text-sky-500'
+      return 'text-sky-600'
     case 'question':
-      return 'text-violet-500'
+      return 'text-violet-600'
     case 'prompt':
-      return 'text-indigo-500'
+      return 'text-indigo-600'
     default:
-      return 'text-sky-500'
+      return 'text-sky-600'
+  }
+})
+
+const indicatorContainerClass = computed(() => {
+  switch (props.dialog.type) {
+    case 'success':
+      return 'bg-emerald-100'
+    case 'warning':
+      return 'bg-amber-100'
+    case 'error':
+      return 'bg-rose-100'
+    case 'question':
+      return 'bg-violet-100'
+    case 'prompt':
+      return 'bg-indigo-100'
+    case 'info':
+    case 'information':
+    default:
+      return 'bg-sky-100'
   }
 })
 
