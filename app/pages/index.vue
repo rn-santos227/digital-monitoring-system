@@ -5,25 +5,26 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { ROUTE_PATHS } from '~/constants/routes.constants'
 import { useAuthStore } from '~/stores/auth'
 import { getStoredSessionToken } from '~/utils/auth-session'
 
 const authStore = useAuthStore()
 
-if (import.meta.client) {
-  const hasValidToken = Boolean(getStoredSessionToken())
+onMounted(async () => {
+  const hasStoredToken = Boolean(getStoredSessionToken())
 
-  if (!hasValidToken) {
+  if (!hasStoredToken) {
     await navigateTo(ROUTE_PATHS.login, { replace: true })
-  } else {
-    await authStore.fetchSession()
-
-    if (authStore.isAuthenticated) {
-      await navigateTo(ROUTE_PATHS.home, { replace: true })
-    } else {
-      await navigateTo(ROUTE_PATHS.login, { replace: true })
-    }
+    return
   }
-}
+
+  try {
+    await authStore.fetchSession()
+  } finally {
+    const destination = authStore.isAuthenticated ? ROUTE_PATHS.home : ROUTE_PATHS.login
+    await navigateTo(destination, { replace: true })
+  }
+})
 </script>
