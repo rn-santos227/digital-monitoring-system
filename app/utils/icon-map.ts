@@ -36,6 +36,11 @@ export const HERO_ICON_MAP: Record<IconName, Component> = {
   'archive': ArchiveBoxIcon,
   'arrow-path': ArrowsRightLeftIcon,
   'exclamation': ExclamationTriangleIcon,
+  'check-circle': CheckCircleIcon,
+  'information-circle': InformationCircleIcon,
+  'question-mark-circle': QuestionMarkCircleIcon,
+  'x-circle': XCircleIcon,
+  'x-mark': XMarkIcon,
   'clock': ClockIcon,
   'cog': Cog6ToothIcon,
   'bell': BellIcon
