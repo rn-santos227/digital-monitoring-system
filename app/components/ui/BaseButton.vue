@@ -81,7 +81,7 @@ const iconSizeByButtonSize: Record<UiSize, 'sm' | 'md' | 'lg'> = {
 }
 
 const variantClasses: Record<'primary' | 'secondary' | 'ghost' | 'danger', string> = {
-  primary: 'bg-indigo-600 text-white hover:bg-indigo-700',
+  primary: 'bg-emerald-700 text-white hover:bg-emerald-900',
   secondary: 'bg-white text-slate-900 border border-slate-300 hover:bg-slate-100',
   ghost: 'bg-transparent text-slate-700 hover:bg-slate-100',
   danger: 'bg-rose-600 text-white hover:bg-rose-700'

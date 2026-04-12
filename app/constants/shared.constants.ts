@@ -1,5 +1,5 @@
-export const LOGIN_PAGE_LAYOUT_CLASSES = 'min-h-screen bg-slate-100'
-export const LOGIN_PAGE_CONTAINER_CLASSES = 'mx-auto grid min-h-screen max-w-[1400px] lg:grid-cols-[1.05fr_1fr]'
+export const LOGIN_PAGE_LAYOUT_CLASSES = 'min-h-screen'
+export const LOGIN_PAGE_CONTAINER_CLASSES = 'grid min-h-screen w-full lg:grid-cols-2'
 export const LOGIN_PAGE_BRAND_PANEL_CLASSES =
   'relative flex flex-col justify-between overflow-hidden bg-gradient-to-b from-emerald-950 via-emerald-900 to-emerald-950 px-8 py-10 text-emerald-50 sm:px-12 sm:py-14'
 export const LOGIN_PAGE_BRAND_OVERLAY_CLASSES =

@@ -6,7 +6,7 @@
     </div>
 
     <BaseMenu
-      :items="HEADER_ACCOUNT_MENU_ITEMS"
+      :items="HEADER_ACCOUNT_MENU_ITEMS as BaseMenuItem[]"
       align="right"
       @select="onMenuSelect"
     >
