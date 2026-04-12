@@ -1,6 +1,6 @@
 import { useState } from "nuxt/app"
 
-export type DialogType = 'success' | 'warning' | 'error' | 'info' | 'question' | 'prompt'
+export type DialogType = 'success' | 'warning' | 'error' | 'info' | 'information' | 'question' | 'prompt'
 
 export type DialogResult = {
   confirmed: boolean
@@ -58,11 +58,13 @@ export const useDialog = () => {
         input.confirmLabel ??
         (input.type === 'question'
           ? 'Yes'
-          : input.type === 'warning'
-            ? 'Proceed'
-            : input.type === 'prompt'
-              ? 'Submit'
-              : 'OK'),
+            : input.type === 'warning'
+              ? 'Proceed'
+              : input.type === 'information' || input.type === 'info'
+                ? 'OK'
+              : input.type === 'prompt'
+                ? 'Submit'
+                : 'OK'),
       cancelLabel: input.cancelLabel ?? 'Cancel',
       ...input
     }
