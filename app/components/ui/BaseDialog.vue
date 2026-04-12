@@ -96,6 +96,8 @@ const indicatorClass = computed(() => {
       return 'bg-amber-500'
     case 'error':
       return 'bg-rose-500'
+    case 'info':
+      return 'bg-sky-500'
     case 'question':
       return 'bg-violet-500'
     case 'prompt':
