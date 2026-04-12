@@ -1,4 +1,25 @@
 export type UiSize = 'sm' | 'md' | 'lg'
+export type UiTone = 'neutral' | 'success' | 'warning' | 'danger' | 'info'
+
+export interface BaseTabItem {
+  id: string
+  label: string
+  disabled?: boolean
+}
+
+export interface DataTableColumn {
+  key: string
+  label: string
+  sortable?: boolean
+  align?: 'left' | 'center' | 'right'
+}
+
+export interface DataTableAction {
+  key: string
+  tooltip: string
+  iconName?: import('~/types/domain/misc').IconName
+  variant?: 'ghost' | 'danger'
+}
 
 export const UI_SIZE_LABELS: Record<UiSize, string> = {
   sm: 'sm',
