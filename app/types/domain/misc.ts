@@ -36,6 +36,11 @@ export type IconName =
   | 'clock'
   | 'cog'
   | 'bell'
+  | 'eye'
+  | 'pencil-square'
+  | 'trash'
+  | 'arrows-up-down'
+  | 'magnifying-glass'
 
 export type NavigationItem = {
   label: string

@@ -2,6 +2,7 @@ import {
   AcademicCapIcon,
   ArchiveBoxIcon,
   ArrowsRightLeftIcon,
+  ArrowsUpDownIcon,
   BellIcon,
   BuildingOffice2Icon,
   CheckCircleIcon,
@@ -10,12 +11,16 @@ import {
   Cog6ToothIcon,
   CubeIcon,
   ExclamationTriangleIcon,
+  EyeIcon,
   HomeIcon,
   InformationCircleIcon,
+  MagnifyingGlassIcon,
   MapIcon,
+  PencilSquareIcon,
   QuestionMarkCircleIcon,
   ShieldCheckIcon,
   Squares2X2Icon,
+  TrashIcon,
   XCircleIcon,
   XMarkIcon,
   UsersIcon
@@ -43,7 +48,12 @@ export const HERO_ICON_MAP: Record<IconName, Component> = {
   'x-mark': XMarkIcon,
   'clock': ClockIcon,
   'cog': Cog6ToothIcon,
-  'bell': BellIcon
+  'bell': BellIcon,
+  'eye': EyeIcon,
+  'pencil-square': PencilSquareIcon,
+  'trash': TrashIcon,
+  'arrows-up-down': ArrowsUpDownIcon,
+  'magnifying-glass': MagnifyingGlassIcon
 }
 
 export const getHeroIcon = (name: IconName): Component => HERO_ICON_MAP[name]
