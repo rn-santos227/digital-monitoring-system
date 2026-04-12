@@ -58,5 +58,6 @@
     - For API communication, provide one utility function per API endpoint (e.g., one function for login endpoint, one for logout endpoint, one for session endpoint) so store files stay concise and focused on state transitions.
 
 13. **Centralize page handlers**
-    - Create page-level handler modules under `app/handlers/*` and place page component event handlers there.
+    - Create page-level handler modules under `app/handlers/{feature}` and place page component event handlers there.
+    - Keep CRUD handler functions grouped by domain in one place (e.g., future personnel CRUD handlers should live together in a dedicated handler module under `app/handlers/{feature}`).
     - This rule applies only to files under `app/pages`; component-local handlers for reusable components do not need to move.
