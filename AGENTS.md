@@ -56,3 +56,7 @@
 12. **Keep store actions thin via endpoint utilities**
     - Supplementary logic used by store actions (for example session header building, token storage, request payload shaping) should be extracted into `app/utils` helpers instead of being declared inline inside stores.
     - For API communication, provide one utility function per API endpoint (e.g., one function for login endpoint, one for logout endpoint, one for session endpoint) so store files stay concise and focused on state transitions.
+
+13. **Centralize page handlers**
+    - Create page-level handler modules under `app/handlers/*` and place page component event handlers there.
+    - This rule applies only to files under `app/pages`; component-local handlers for reusable components do not need to move.
