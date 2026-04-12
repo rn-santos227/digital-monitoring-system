@@ -42,3 +42,9 @@ export const LOGIN_PAGE_FORGOT_LABEL = 'Forgot password?'
 export const LOGIN_PAGE_SIGN_IN_LABEL = 'Sign In'
 export const LOGIN_PAGE_SUPPORT_TEXT = 'Need assistance? Contact your battalion system administrator.'
 export const LOGIN_PAGE_FOOTER_NOTICE = 'This secure AFP system is for authorized access only.'
+
+export const DASHBOARD_LOGOUT_DIALOG_TITLE = 'Log out from dashboard?'
+export const DASHBOARD_LOGOUT_DIALOG_MESSAGE =
+  'You are about to end your authenticated session in the Digital AFP Personnel and Equipment Monitoring System.'
+export const DASHBOARD_LOGOUT_DIALOG_CONFIRM_LABEL = 'Log out'
+export const DASHBOARD_LOGOUT_DIALOG_CANCEL_LABEL = 'Stay signed in'
