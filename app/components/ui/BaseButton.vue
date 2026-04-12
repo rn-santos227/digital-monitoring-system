@@ -12,7 +12,7 @@
       disabled ? 'opacity-60 cursor-not-allowed' : ''
     ]"
   >
-    <UiBaseIcon
+    <BaseIcon
       v-if="iconName"
       :name="iconName"
       :size="iconSizeByButtonSize[size]"
@@ -31,6 +31,7 @@
 import { computed } from 'vue'
 import type { UiSize } from '../../constants/ui.constants'
 import type { IconName } from '~/types/domain/misc'
+import BaseIcon from './BaseIcon.vue'
 
 const props = withDefaults(
   defineProps<{
