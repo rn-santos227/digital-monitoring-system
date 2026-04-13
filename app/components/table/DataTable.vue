@@ -11,6 +11,18 @@
         />
       </div>
     </header>
+
+    <div class="mt-3" :class="BASE_TABLE_SCROLL_CLASSES">
+
+    </div>
+
+    <Pagination
+      v-if="!isLoading"
+      :current-page="currentPage"
+      :total-pages="totalPages"
+      :max-visible-pages="maxVisiblePages"
+      @update:current-page="emit('update:currentPage', $event)"
+    />
   </section>
 </template>
 
