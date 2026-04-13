@@ -38,3 +38,16 @@ export interface AuditLogActorDetail {
   avatarUrl: string | null
   isActive: boolean | null
 }
+
+export interface AuditLogDetail {
+  id: string
+  userId: string | null
+  action: string
+  tableName: string
+  recordId: string | null
+  oldData: Record<string, unknown> | null
+  newData: Record<string, unknown> | null
+  metadata: Record<string, unknown> | null
+  createdAt: string
+  actor: AuditLogActorDetail | null
+}
