@@ -2,7 +2,7 @@
 
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="TRow extends Record<string, string | number | boolean | null | undefined>">
 import { computed } from 'vue'
 import {
   BASE_TABLE_ACTIONS_CELL_CLASSES,
@@ -20,4 +20,34 @@ import {
   type DataTableColumn,
 } from '~/constants/ui.constants'
 import { resolveDataTableAlignClass, resolveDataTableRowKey } from '~/utils/data-table'
+
+const props = withDefaults(
+  defineProps<{
+    title: string
+    columns: readonly DataTableColumn[]
+    rows: readonly TRow[]
+    rowKey?: keyof TRow
+    actions?: readonly DataTableAction[]
+    searchQuery?: string
+    searchPlaceholder?: string
+    emptyMessage?: string
+    isLoading?: boolean
+    loadingLabel?: string
+    currentPage?: number
+    totalPages?: number
+    maxVisiblePages?: number
+  }>(),
+  {
+    rowKey: 'id',
+    actions: () => [],
+    searchQuery: '',
+    searchPlaceholder: 'Search records...',
+    emptyMessage: 'No records found.',
+    isLoading: false,
+    loadingLabel: 'Loading records...',
+    currentPage: 1,
+    totalPages: 1,
+    maxVisiblePages: 5
+  }
+)
 </script>
