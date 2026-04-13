@@ -45,6 +45,11 @@
               <BaseInlineLoader :label="loadingLabel" />
             </td>
           </tr>
+          <tr v-else-if="!rows.length">
+            <td :class="BASE_TABLE_EMPTY_STATE_CLASSES" :colspan="columns.length + (hasActions ? 1 : 0)">
+              {{ emptyMessage }}
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
