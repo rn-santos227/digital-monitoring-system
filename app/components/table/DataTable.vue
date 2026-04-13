@@ -1,5 +1,17 @@
 <template>
-
+  <section :class="BASE_TABLE_WINDOW_WRAPPER_CLASSES">
+    <header class="space-y-4">
+      <h2 :class="BASE_TABLE_HEADING_CLASSES">{{ title }}</h2>
+      <div :class="BASE_TABLE_SEARCH_WRAPPER_CLASSES">
+        <BaseTextField
+          :model-value="searchQuery"
+          type="search"
+          :placeholder="searchPlaceholder"
+          @update:model-value="emit('update:searchQuery', $event)"
+        />
+      </div>
+    </header>
+  </section>
 </template>
 
 <script setup lang="ts" generic="TRow extends Record<string, string | number | boolean | null | undefined>">
