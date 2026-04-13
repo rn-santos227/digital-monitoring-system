@@ -50,4 +50,13 @@ const props = withDefaults(
     maxVisiblePages: 5
   }
 )
+
+const emit = defineEmits<{
+  (event: 'action', payload: { actionKey: string; row: TRow }): void
+  (event: 'sort', key: string): void
+  (event: 'update:searchQuery', value: string): void
+  (event: 'update:currentPage', value: number): void
+}>()
+
+const hasActions = computed(() => props.actions.length > 0)
 </script>
