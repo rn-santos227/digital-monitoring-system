@@ -50,6 +50,25 @@
               {{ emptyMessage }}
             </td>
           </tr>
+          <tr
+            v-for="row in rows"
+            v-else
+            :key="resolveDataTableRowKey(row, rowKey)"
+            :class="BASE_TABLE_ROW_CLASSES"
+          >
+            <td
+              v-for="column in columns"
+              :key="`${resolveDataTableRowKey(row, rowKey)}-${column.key}`"
+              :class="[BASE_TABLE_BODY_CELL_CLASSES, resolveDataTableAlignClass(column.align)]"
+            >
+              <slot
+                :name="`cell-${column.key}`"
+                :row="row"
+              >
+                {{ row[column.key] }}
+              </slot>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
