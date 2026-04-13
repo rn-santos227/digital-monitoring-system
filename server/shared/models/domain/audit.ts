@@ -7,3 +7,8 @@ export interface LogActionInput {
   newData?: Record<string, unknown> | null
   metadata?: Record<string, unknown> | null
 }
+
+export interface AuditLogActorSummary {
+  fullName: string | null
+  email: string | null
+}
