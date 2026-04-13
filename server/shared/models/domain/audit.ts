@@ -22,3 +22,12 @@ export interface AuditLogListItem {
   actor: AuditLogActorSummary | null
 }
 
+
+export interface AuditLogListResponse {
+  items: AuditLogListItem[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
+
