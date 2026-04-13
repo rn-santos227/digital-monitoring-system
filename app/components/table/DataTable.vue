@@ -38,6 +38,14 @@
             </th>
           </tr>
         </thead>
+
+        <tbody>
+          <tr v-if="isLoading">
+            <td :class="BASE_TABLE_EMPTY_STATE_CLASSES" :colspan="columns.length + (hasActions ? 1 : 0)">
+              <BaseInlineLoader :label="loadingLabel" />
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
 
