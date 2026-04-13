@@ -13,7 +13,32 @@
     </header>
 
     <div class="mt-3" :class="BASE_TABLE_SCROLL_CLASSES">
-
+      <table :class="BASE_TABLE_CLASSES">
+        <thead :class="BASE_TABLE_HEAD_CLASSES">
+          <tr>
+            <th
+              v-for="column in columns"
+              :key="column.key"
+              :class="[BASE_TABLE_HEAD_CELL_CLASSES, resolveDataTableAlignClass(column.align)]"
+              scope="col"
+            >
+              <button
+                v-if="column.sortable"
+                type="button"
+                class="inline-flex items-center gap-1"
+                @click="emit('sort', column.key)"
+              >
+                <span>{{ column.label }}</span>
+                <BaseIcon name="arrows-up-down" size="sm" />
+              </button>
+              <span v-else>{{ column.label }}</span>
+            </th>
+            <th v-if="hasActions" :class="BASE_TABLE_HEAD_CELL_CLASSES" scope="col">
+              <span class="sr-only">Actions</span>
+            </th>
+          </tr>
+        </thead>
+      </table>
     </div>
 
     <Pagination
