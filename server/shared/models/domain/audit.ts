@@ -31,3 +31,10 @@ export interface AuditLogListResponse {
   totalPages: number
 }
 
+export interface AuditLogActorDetail {
+  id: string | null
+  fullName: string | null
+  email: string | null
+  avatarUrl: string | null
+  isActive: boolean | null
+}
