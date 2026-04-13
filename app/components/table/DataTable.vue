@@ -68,6 +68,23 @@
                 {{ row[column.key] }}
               </slot>
             </td>
+
+            <td v-if="hasActions" :class="BASE_TABLE_ACTIONS_CELL_CLASSES">
+              <div class="flex justify-end gap-1">
+                <BaseButton
+                  v-for="action in actions"
+                  :key="`${resolveDataTableRowKey(row, rowKey)}-${action.key}`"
+                  icon-only
+                  size="sm"
+                  :aria-label="action.tooltip"
+                  :title="action.tooltip"
+                  :variant="action.variant === 'danger' ? 'danger' : 'ghost'"
+                  :icon-name="action.iconName"
+                  @click="emit('action', { actionKey: action.key, row })"
+                />
+                <slot name="actions" :row="row" />
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
