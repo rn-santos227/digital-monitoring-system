@@ -2,7 +2,6 @@ import type { AuditLogActorDetail, AuditLogDetail, AuditLogListItem } from '../m
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../constants'
 import { parseNumber } from './parsers'
 
-
 interface AuditLogActorRow {
   id?: string | null
   full_name?: string | null
@@ -19,6 +18,8 @@ interface AuditLogListRow {
   created_at: string
   user: AuditLogActorRow | AuditLogActorRow[] | null
 }
+
+const AUDIT_EXCLUDED_HEADERS = new Set(['authorization', 'cookie'])
 
 interface AuditLogDetailRow {
   id: string
@@ -104,5 +105,26 @@ const mapAuditLogActorDetail = (actor: AuditLogActorRow): AuditLogActorDetail =>
     email: actor.email ?? null,
     avatarUrl: actor.avatar_url ?? null,
     isActive: actor.is_active ?? null,
+  }
+}
+
+export const normalizeAuditRequestHeaders = (headers: Record<string, string | string[] | undefined>): Record<string, string> => {
+  const normalizedHeaders: Record<string, string> = {}
+
+  for (const [headerName, headerValue] of Object.entries(headers)) {
+    if (!headerValue || AUDIT_EXCLUDED_HEADERS.has(headerName.toLowerCase())) {
+      continue
+    }
+
+    normalizedHeaders[headerName] = Array.isArray(headerValue) ? headerValue.join(', ') : headerValue
+  }
+
+  return normalizedHeaders
+}
+
+export const buildLoginAuditRequestData = (email?: string | null, password?: string | null): Record<string, unknown> => {
+  return {
+    email: email ?? null,
+    hasPassword: Boolean(password),
   }
 }
