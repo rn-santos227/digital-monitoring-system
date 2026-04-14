@@ -16,7 +16,7 @@ export default defineEventHandler(async (event): Promise<AuditLogDetail> => {
   const supabase = getServiceSupabaseClient()
   const { data, error } = await supabase
     .from('audit_logs')
-    .select('id, user_id, action, table_name, record_id, old_data, new_data, metadata, created_at, user:user_profiles(id, full_name, email, avatar_url, is_active)')
+    .select('id, user_id, action, table_name, record_id, old_data, new_data, request_data, response_data, request_headers, ip_address, status_code, metadata, created_at, user:user_profiles(id, full_name, email, avatar_url, is_active)')
     .eq('id', id)
     .maybeSingle()
 
