@@ -52,6 +52,11 @@ export interface AuditLogDetail {
   recordId: string | null
   oldData: Record<string, unknown> | null
   newData: Record<string, unknown> | null
+  requestData: Record<string, unknown> | null
+  responseData: Record<string, unknown> | null
+  requestHeaders: Record<string, string> | null
+  ipAddress: string | null
+  statusCode: number | null
   metadata: Record<string, unknown> | null
   createdAt: string
   actor: AuditLogActorDetail | null
