@@ -5,7 +5,8 @@ export const AUTH_API_ENDPOINTS = Object.freeze({
 })
 
 export const AUDIT_API_ENDPOINTS = Object.freeze({
-  logs: '/api/audit/logs'
+  logs: '/api/audit/logs',
+  logById: (id: string) => `/api/audit/logs/${id}`
 })
 
 export const AUTH_LOCAL_STORAGE_KEYS = Object.freeze({
@@ -21,5 +22,6 @@ export const API_LOADING_MESSAGES = Object.freeze({
   authenticate: 'Signing in...',
   fetchSession: 'Validating session...',
   logout: 'Signing out...',
-  fetchAuditLogs: 'Loading audit logs...'
+  fetchAuditLogs: 'Loading audit logs...',
+  fetchAuditLogDetail: 'Loading audit log details...'
 })
