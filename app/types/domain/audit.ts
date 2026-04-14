@@ -36,6 +36,33 @@ export interface AuditLogListResponse {
   totalPages: number
 }
 
+
+export interface AuditLogActorDetail {
+  id: string | null
+  fullName: string | null
+  email: string | null
+  avatarUrl: string | null
+  isActive: boolean | null
+}
+
+export interface AuditLogDetail {
+  id: UUID
+  userId: UUID | null
+  action: string
+  tableName: string
+  recordId: string | null
+  oldData: Record<string, unknown> | null
+  newData: Record<string, unknown> | null
+  requestData: Record<string, unknown> | null
+  responseData: Record<string, unknown> | null
+  requestHeaders: Record<string, string> | null
+  ipAddress: string | null
+  statusCode: number | null
+  metadata: Record<string, unknown> | null
+  createdAt: ISODateTime
+  actor: AuditLogActorDetail | null
+}
+
 export interface AuditLogListQuery {
   page: number
   pageSize: number
@@ -52,10 +79,13 @@ export interface AuditLogTableRow {
 
 export interface AuditState {
   items: AuditLogListItem[]
+  selectedAuditLog: AuditLogDetail | null
   page: number
   pageSize: number
   totalItems: number
   totalPages: number
   isLoading: boolean
+  isDetailLoading: boolean
   error: string
+  detailError: string
 }
