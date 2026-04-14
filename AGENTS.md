@@ -61,3 +61,7 @@
     - Create page-level handler modules under `app/handlers/{feature}` and place page component event handlers there.
     - Keep CRUD handler functions grouped by domain in one place (e.g., future personnel CRUD handlers should live together in a dedicated handler module under `app/handlers/{feature}`).
     - This rule applies only to files under `app/pages`; component-local handlers for reusable components do not need to move.
+
+14. **Standardize Pinia store structure**
+    - All files under `app/stores` should use the options-style Pinia pattern with explicit `state`, `getters`, and `actions` sections in that order.
+    - Keep getter names descriptive and ensure at least one getter exists for consistency across stores.
