@@ -9,7 +9,9 @@ const AUDIT_SORT_KEYS: readonly AuditLogSortKey[] = ['createdAt', 'actor', 'tabl
 export const useAuditTrailPageHandlers = (
   sortKey: Ref<AuditLogSortKey>,
   sortDirection: Ref<AuditSortDirection>,
-  searchQuery: Ref<string>
+  searchQuery: Ref<string>,
+  activeAuditLogId: Ref<string>,
+  isAuditModalOpen: Ref<boolean>
 ) => {
   const handleSort = (key: string) => {
     if (!AUDIT_SORT_KEYS.includes(key as AuditLogSortKey)) {
@@ -31,13 +33,24 @@ export const useAuditTrailPageHandlers = (
     searchQuery.value = value
   }
 
-  const handleAction = (_payload: { actionKey: DataTableAction['key']; row: AuditLogTableRow }) => {
-    // Intentional no-op: audit trail currently supports only a view button in the table actions.
+  const handleAction = (payload: { actionKey: DataTableAction['key']; row: AuditLogTableRow }) => {
+    if (payload.actionKey !== 'view') {
+      return
+    }
+
+    activeAuditLogId.value = payload.row.id
+    isAuditModalOpen.value = true
+  }
+
+  const handleModalClose = () => {
+    activeAuditLogId.value = ''
+    isAuditModalOpen.value = false
   }
 
   return {
     handleSort,
     handleSearch,
     handleAction,
+    handleModalClose,
   }
 }
