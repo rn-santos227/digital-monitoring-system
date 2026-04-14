@@ -29,6 +29,11 @@ interface AuditLogDetailRow {
   record_id: string | null
   old_data: Record<string, unknown> | null
   new_data: Record<string, unknown> | null
+  request_data: Record<string, unknown> | null
+  response_data: Record<string, unknown> | null
+  request_headers: Record<string, string> | null
+  ip_address: string | null
+  status_code: number | null
   metadata: Record<string, unknown> | null
   created_at: string
   user: AuditLogActorRow | AuditLogActorRow[] | null
@@ -92,6 +97,11 @@ export const mapAuditLogDetail = (row: AuditLogDetailRow): AuditLogDetail => {
     recordId: row.record_id,
     oldData: row.old_data,
     newData: row.new_data,
+    requestData: row.request_data,
+    responseData: row.response_data,
+    requestHeaders: row.request_headers,
+    ipAddress: row.ip_address,
+    statusCode: row.status_code,
     metadata: row.metadata,
     createdAt: row.created_at,
     actor: actor ? mapAuditLogActorDetail(actor) : null,
