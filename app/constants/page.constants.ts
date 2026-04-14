@@ -1,3 +1,4 @@
+import type { DataTableAction, DataTableColumn } from '~/constants/ui.constants'
 import type { DashboardMetric } from '~/types/domain/misc'
 
 export const DASHBOARD_PAGE_TITLE = 'Dashboard'
@@ -24,6 +25,30 @@ export const DASHBOARD_PLACEHOLDER_CARDS = Object.freeze([
   {
     title: 'Equipment Movement',
     subtitle: 'Use shared cards and tables for issuance and return tracking.'
+  }
+])
+
+export const AUDIT_PAGE_TITLE = 'Audit Trail'
+export const AUDIT_PAGE_SUBTITLE = 'Track recent activity across personnel and equipment monitoring records.'
+export const AUDIT_PAGE_SECTION_CLASSES = 'space-y-6'
+
+export const AUDIT_TABLE_TITLE = 'Recent Audit Logs'
+export const AUDIT_TABLE_SEARCH_PLACEHOLDER = 'Search actor, action, table, or record ID'
+export const AUDIT_TABLE_EMPTY_MESSAGE = 'No audit log entries found.'
+
+export const AUDIT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'createdAt', label: 'Timestamp', sortable: true },
+  { key: 'actor', label: 'Actor', sortable: true },
+  { key: 'tableName', label: 'Entity', sortable: true },
+  { key: 'recordId', label: 'Record ID', sortable: true }
+])
+
+export const AUDIT_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  {
+    key: 'view',
+    tooltip: 'View audit log',
+    iconName: 'eye',
+    variant: 'ghost'
   }
 ])
 
