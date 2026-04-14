@@ -34,4 +34,22 @@ const emit = defineEmits<{
   (event: 'close'): void
 }>()
 
+const actorLabel = computed(() => {
+  const actorName = props.auditLog?.actor?.fullName?.trim()
+
+  if (actorName) {
+    return actorName
+  }
+
+  const actorEmail = props.auditLog?.actor?.email?.trim()
+  return actorEmail || 'System'
+})
+
+const formattedTimestamp = computed(() => {
+  if (!props.auditLog?.createdAt) {
+    return 'N/A'
+  }
+
+  return formatAuditTimestamp(props.auditLog.createdAt)
+})
 </script>
