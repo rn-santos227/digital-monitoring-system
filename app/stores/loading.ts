@@ -37,4 +37,4 @@ const loadingStoreOption = {
   }
 }
 
-export const useLoadingStore = defineStore('auth', loadingStoreOption)
+export const useLoadingStore = defineStore('loading', loadingStoreOption)

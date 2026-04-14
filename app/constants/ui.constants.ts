@@ -102,3 +102,12 @@ export const BASE_ACCORDION_ROOT_CLASSES = 'rounded-xl border border-slate-200 b
 export const BASE_ACCORDION_TRIGGER_CLASSES =
   'flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-sm font-medium text-slate-800 transition hover:bg-slate-50'
 export const BASE_ACCORDION_CONTENT_CLASSES = 'border-t border-slate-200 px-4 py-3'
+
+export const BASE_ALERT_CLASSES = 'rounded-xl border px-4 py-3 text-sm'
+export const BASE_ALERT_TONE_CLASSES: Record<UiTone, string> = {
+  neutral: 'border-slate-200 bg-slate-50 text-slate-700',
+  success: 'border-emerald-200 bg-emerald-50 text-emerald-800',
+  warning: 'border-amber-200 bg-amber-50 text-amber-800',
+  danger: 'border-rose-200 bg-rose-50 text-rose-700',
+  info: 'border-sky-200 bg-sky-50 text-sky-700'
+}

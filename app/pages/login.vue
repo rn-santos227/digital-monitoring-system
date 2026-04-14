@@ -47,7 +47,6 @@
                 :placeholder="LOGIN_PAGE_PASSWORD_PLACEHOLDER"
                 required
                 :disabled="isSubmitting"
-                :error="loginError"
               />
 
               <div :class="LOGIN_PAGE_FORM_META_CLASSES">
@@ -66,6 +65,13 @@
               >
                 {{ isSubmitting ? 'Signing In...' : LOGIN_PAGE_SIGN_IN_LABEL }}
               </BaseButton>
+
+              <BaseAlert
+                v-if="loginError"
+                :title="LOGIN_PAGE_SIGN_IN_ERROR_TITLE"
+                :message="loginError"
+                tone="danger"
+              />
             </form>
           </BaseCard>
 
@@ -90,6 +96,7 @@ import {
   LOGIN_PAGE_PASSWORD_PLACEHOLDER,
   LOGIN_PAGE_REMEMBER_LABEL,
   LOGIN_PAGE_SIGN_IN_LABEL,
+  LOGIN_PAGE_SIGN_IN_ERROR_TITLE,
   LOGIN_PAGE_SUBTITLE,
   LOGIN_PAGE_SUPPORT_TEXT,
   LOGIN_PAGE_TITLE,

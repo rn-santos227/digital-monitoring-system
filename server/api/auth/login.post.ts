@@ -18,25 +18,56 @@ export default defineEventHandler(async (event) => {
   const password = body.password
   const requestData = buildLoginAuditRequestData(email, password)
 
+  const recordLoginAuditLog = async (
+    callback: () => Promise<void>
+  ): Promise<void> => {
+    try {
+      await callback()
+    } catch (auditError) {
+      console.error('Failed to persist auth login audit log.', auditError)
+    }
+  }
+
   const writeLoginAttempt = async (
     statusCode: number,
     outcome: (typeof AUDIT_LOG_OUTCOMES)[keyof typeof AUDIT_LOG_OUTCOMES],
     userId?: string | null,
     message?: string
   ) => {
-    await recordApiAuditLog(event, {
-      userId: userId ?? null,
-      action: AUDIT_LOG_ACTIONS.loginAttempt,
-      tableName: 'auth_sessions',
-      requestData,
-      responseData: {
-        outcome,
-        message: message ?? null,
-      },
-      statusCode,
-      metadata: {
-        endpoint: AUDIT_LOG_ENDPOINTS.authLogin,
-      },
+    await recordLoginAuditLog(async () => {
+      await recordApiAuditLog(event, {
+        userId: userId ?? null,
+        action: AUDIT_LOG_ACTIONS.loginAttempt,
+        tableName: 'auth_sessions',
+        requestData,
+        responseData: {
+          outcome,
+          message: message ?? null,
+        },
+        statusCode,
+        metadata: {
+          endpoint: AUDIT_LOG_ENDPOINTS.authLogin,
+        },
+      })
+    })
+  }
+
+  const writeLoginSuccess = async (userId: string) => {
+    await recordLoginAuditLog(async () => {
+      await recordApiAuditLog(event, {
+        userId,
+        action: AUDIT_LOG_ACTIONS.login,
+        tableName: 'auth_sessions',
+        requestData,
+        responseData: {
+          ok: true,
+          expiresAt: expiresAtDate.toISOString(),
+        },
+        statusCode: 200,
+        metadata: {
+          endpoint: AUDIT_LOG_ENDPOINTS.authLogin,
+        },
+      })
     })
   }
 
@@ -96,20 +127,7 @@ export default defineEventHandler(async (event) => {
   }
 
   await writeLoginAttempt(200, AUDIT_LOG_OUTCOMES.success, authenticatedUser.user_id, 'Authentication successful.')
-  await recordApiAuditLog(event, {
-    userId: authenticatedUser.user_id,
-    action: AUDIT_LOG_ACTIONS.login,
-    tableName: 'auth_sessions',
-    requestData,
-    responseData: {
-      ok: true,
-      expiresAt: expiresAtDate.toISOString(),
-    },
-    statusCode: 200,
-    metadata: {
-      endpoint: AUDIT_LOG_ENDPOINTS.authLogin,
-    },
-  })
+  await writeLoginSuccess(authenticatedUser.user_id)
 
   setCookie(event, SESSION_COOKIE_NAME, token, {
     httpOnly: true,

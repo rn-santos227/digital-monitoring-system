@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import type { AuthState, LoginPayload } from '~/types/domain/auth-store'
 import { getSessionEndpoint, loginWithPasswordEndpoint, logoutEndpoint } from '~/utils/auth-endpoints'
+import { extractApiErrorMessage } from '~/utils/api-request'
 
 const INITIAL_AUTH_STATE: AuthState = {
   currentUser: null,
@@ -29,7 +30,7 @@ const authStoreOptions = {
         this.hasCheckedSession = true
         return response
       } catch (error) {
-        this.loginError = error instanceof Error ? error.message : 'Unable to sign in right now.'
+        this.loginError = extractApiErrorMessage(error, 'Unable to sign in right now.')
         throw error
       } finally {
         this.isSubmitting = false
@@ -64,4 +65,3 @@ const authStoreOptions = {
 }
 
 export const useAuthStore = defineStore('auth', authStoreOptions)
- 

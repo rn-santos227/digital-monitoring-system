@@ -74,6 +74,7 @@ export const LOGIN_PAGE_PASSWORD_PLACEHOLDER = 'Enter your password'
 export const LOGIN_PAGE_REMEMBER_LABEL = 'Remember this secure device'
 export const LOGIN_PAGE_FORGOT_LABEL = 'Forgot password?'
 export const LOGIN_PAGE_SIGN_IN_LABEL = 'Sign In'
+export const LOGIN_PAGE_SIGN_IN_ERROR_TITLE = 'Sign-in failed'
 export const LOGIN_PAGE_SUPPORT_TEXT = 'Need assistance? Contact your battalion system administrator.'
 export const LOGIN_PAGE_FOOTER_NOTICE = 'This secure AFP system is for authorized access only.'
 

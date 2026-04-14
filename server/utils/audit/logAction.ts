@@ -1,9 +1,9 @@
 import type { H3Event } from 'h3'
-import { serverSupabaseClient } from '#supabase/server'
 import type { LogActionInput } from '../../shared/models'
+import { getServiceSupabaseClient } from '../auth/serviceClient'
 
-export async function logAction(event: H3Event, input: LogActionInput) {
-  const supabase = (await serverSupabaseClient(event)) as any
+export async function logAction(_event: H3Event, input: LogActionInput) {
+  const supabase = getServiceSupabaseClient()
 
   const { data, error } = await supabase
     .from('audit_logs')
