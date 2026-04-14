@@ -80,6 +80,23 @@ export const mapAuditLogListItem = (row: AuditLogListRow): AuditLogListItem => {
   }
 }
 
+export const mapAuditLogDetail = (row: AuditLogDetailRow): AuditLogDetail => {
+  const actor = toActor(row.user)
+
+  return {
+    id: row.id,
+    userId: row.user_id,
+    action: row.action,
+    tableName: row.table_name,
+    recordId: row.record_id,
+    oldData: row.old_data,
+    newData: row.new_data,
+    metadata: row.metadata,
+    createdAt: row.created_at,
+    actor: actor ? mapAuditLogActorDetail(actor) : null,
+  }
+}
+
 const mapAuditLogActorDetail = (actor: AuditLogActorRow): AuditLogActorDetail => {
   return {
     id: actor.id ?? null,
