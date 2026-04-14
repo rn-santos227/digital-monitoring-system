@@ -23,6 +23,14 @@
         @action="handleAction"
         @update:current-page="currentPage = $event"
       />
+
+      <AuditModal
+        v-if="isAuditModalOpen"
+        :audit-log="selectedAuditLog"
+        :is-loading="isDetailLoading"
+        :error="detailError"
+        @close="handleModalClose"
+      />
     </section>
   </main>
 </template>
