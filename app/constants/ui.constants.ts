@@ -97,3 +97,8 @@ export const BASE_MENU_PANEL_CLASSES = 'absolute z-40 mt-2 min-w-52 rounded-xl b
 export const BASE_MENU_ITEM_CLASSES = 'flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm transition hover:bg-slate-100'
 export const BASE_MENU_ITEM_DEFAULT_CLASSES = 'text-slate-700'
 export const BASE_MENU_ITEM_DANGER_CLASSES = 'text-rose-600 hover:bg-rose-50'
+
+export const BASE_ACCORDION_ROOT_CLASSES = 'rounded-xl border border-slate-200 bg-white'
+export const BASE_ACCORDION_TRIGGER_CLASSES =
+  'flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-sm font-medium text-slate-800 transition hover:bg-slate-50'
+export const BASE_ACCORDION_CONTENT_CLASSES = 'border-t border-slate-200 px-4 py-3'
