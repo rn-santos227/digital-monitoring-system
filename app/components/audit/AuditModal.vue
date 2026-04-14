@@ -23,4 +23,15 @@ import {
 } from '~/constants/shared.constants'
 import type { AuditLogDetail } from '~/types/domain/audit'
 import { formatAuditJson, formatAuditTimestamp } from '~/utils/audit'
+
+const props = defineProps<{
+  auditLog: AuditLogDetail | null
+  isLoading: boolean
+  error: string
+}>()
+
+const emit = defineEmits<{
+  (event: 'close'): void
+}>()
+
 </script>
