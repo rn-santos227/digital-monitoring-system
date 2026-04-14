@@ -1,4 +1,4 @@
-import type { AuditLogAction, AuditLogListItem, AuditLogTableRow } from '~/types/domain/audit'
+import type { AuditLogListItem, AuditLogTableRow } from '~/types/domain/audit'
 
 const AUDIT_DATETIME_FORMATTER = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
@@ -31,19 +31,11 @@ export const resolveAuditActorLabel = (item: AuditLogListItem): string => {
   return actorEmail || 'System'
 }
 
-export const normalizeAuditAction = (action: string): AuditLogAction => {
-  if (action === 'INSERT' || action === 'UPDATE' || action === 'DELETE') {
-    return action
-  }
-
-  return 'UPDATE'
-}
-
 export const mapAuditLogItemToTableRow = (item: AuditLogListItem): AuditLogTableRow => {
   return {
     id: item.id,
     actor: resolveAuditActorLabel(item),
-    action: normalizeAuditAction(item.action),
+    action: item.action,
     tableName: item.tableName,
     recordId: item.recordId ?? 'N/A',
     createdAt: formatAuditTimestamp(item.createdAt),

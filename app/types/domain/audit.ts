@@ -1,6 +1,5 @@
 export type UUID = string
 export type ISODateTime = string
-export type AuditLogAction = 'INSERT' | 'UPDATE' | 'DELETE'
 
 export interface AuditLog {
   id: UUID
@@ -44,7 +43,7 @@ export interface AuditLogListQuery {
 export interface AuditLogTableRow {
   id: UUID
   actor: string
-  action: AuditLogAction
+  action: string
   tableName: string
   recordId: string
   createdAt: string
