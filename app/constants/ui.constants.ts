@@ -75,6 +75,13 @@ export const BASE_TABLE_EMPTY_STATE_CLASSES = 'px-4 py-6 text-center text-slate-
 export const BASE_TABLE_PAGINATION_WRAPPER_CLASSES = 'mt-3 flex items-center justify-between gap-3 text-sm text-slate-600'
 export const BASE_TABLE_PAGINATION_BUTTONS_CLASSES = 'flex items-center gap-1'
 
+export const BASE_TABLE_ACTIONS_COLUMN_WIDTH_CLASSES = Object.freeze({
+  1: 'w-14',
+  2: 'w-24',
+  3: 'w-32',
+  4: 'w-40'
+})
+
 export const APP_SIDEBAR_CLASSES = 'sticky top-0 flex h-screen w-72 flex-col border-r border-emerald-800 bg-emerald-950 text-emerald-50'
 export const APP_SIDEBAR_SECTION_TITLE_CLASSES = 'px-2 text-xs font-semibold uppercase tracking-wide text-emerald-300/90'
 export const APP_SIDEBAR_ITEM_BASE_CLASSES = 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition'

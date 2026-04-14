@@ -33,8 +33,8 @@
               </button>
               <span v-else>{{ column.label }}</span>
             </th>
-            <th v-if="hasActions" :class="BASE_TABLE_HEAD_CELL_CLASSES" scope="col">
-              <span class="sr-only">Actions</span>
+            <th v-if="hasActions" :class="[BASE_TABLE_HEAD_CELL_CLASSES, actionColumnWidthClass]" scope="col">
+              <span>{{ actionsColumnLabel }}</span>
             </th>
           </tr>
         </thead>
@@ -104,6 +104,7 @@
 import { computed } from 'vue'
 import {
   BASE_TABLE_ACTIONS_CELL_CLASSES,
+  BASE_TABLE_ACTIONS_COLUMN_WIDTH_CLASSES,
   BASE_TABLE_BODY_CELL_CLASSES,
   BASE_TABLE_CLASSES,
   BASE_TABLE_EMPTY_STATE_CLASSES,
@@ -134,6 +135,8 @@ const props = withDefaults(
     currentPage?: number
     totalPages?: number
     maxVisiblePages?: number
+    actionButtonCount?: number
+    actionsColumnLabel?: string
   }>(),
   {
     rowKey: 'id',
@@ -145,7 +148,9 @@ const props = withDefaults(
     loadingLabel: 'Loading records...',
     currentPage: 1,
     totalPages: 1,
-    maxVisiblePages: 5
+    maxVisiblePages: 5,
+    actionButtonCount: 0,
+    actionsColumnLabel: 'Actions'
   }
 )
 
@@ -157,4 +162,11 @@ const emit = defineEmits<{
 }>()
 
 const hasActions = computed(() => props.actions.length > 0)
+
+const actionColumnWidthClass = computed(() => {
+  const requestedActionCount = props.actionButtonCount > 0 ? props.actionButtonCount : props.actions.length
+  const normalizedActionCount = Math.min(4, Math.max(1, requestedActionCount))
+
+  return BASE_TABLE_ACTIONS_COLUMN_WIDTH_CLASSES[normalizedActionCount as 1 | 2 | 3 | 4]
+})
 </script>
