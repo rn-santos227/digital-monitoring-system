@@ -1,5 +1,6 @@
 export type UUID = string
 export type ISODateTime = string
+export type AuditLogSortKey = 'createdAt' | 'actor' | 'tableName' | 'recordId'
 
 export interface AuditLog {
   id: UUID
