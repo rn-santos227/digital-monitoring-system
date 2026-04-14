@@ -6,7 +6,7 @@ import type { AuditLogSortKey } from '~/types/domain/audit'
 
 export const useAuditTrail = () => {
   const auditStore = useAuditStore()
-  const { items, page, totalPages, isLoading, error } = storeToRefs(auditStore)
+  const { items, page, totalPages, isLoading, error, selectedAuditLog, isDetailLoading, detailError } = storeToRefs(auditStore)
 
   const searchQuery = ref('')
   const sortKey = ref<AuditLogSortKey>('createdAt')
@@ -74,6 +74,11 @@ export const useAuditTrail = () => {
     currentPage: page,
     totalPages,
     isLoading,
+    selectedAuditLog,
+    isDetailLoading,
+    detailError,
     loadAuditLogs,
+    loadAuditLogById: auditStore.fetchAuditLogById,
+    clearSelectedAuditLog: auditStore.clearSelectedAuditLog,
   }
 }
