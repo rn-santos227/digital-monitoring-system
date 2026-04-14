@@ -70,6 +70,7 @@ const auditStoreOptions = {
         this.isDetailLoading = false
       }
     },
+
     clearSelectedAuditLog(this: AuditState) {
       this.selectedAuditLog = null
       this.detailError = ''

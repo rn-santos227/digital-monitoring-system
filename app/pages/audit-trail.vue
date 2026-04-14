@@ -69,4 +69,16 @@ const { handleSearch, handleSort, handleAction, handleModalClose } = useAuditTra
   isAuditModalOpen
 )
 
+watch(activeAuditLogId, async (nextAuditLogId) => {
+  if (!nextAuditLogId) {
+    clearSelectedAuditLog()
+    return
+  }
+
+  try {
+    await loadAuditLogById(nextAuditLogId)
+  } catch {
+    // Error state is exposed from the store.
+  }
+})
 </script>

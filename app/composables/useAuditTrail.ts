@@ -78,7 +78,7 @@ export const useAuditTrail = () => {
     isDetailLoading,
     detailError,
     loadAuditLogs,
-    loadAuditLogById: auditStore.fetchAuditLogById,
-    clearSelectedAuditLog: auditStore.clearSelectedAuditLog,
+    loadAuditLogById: (id: string) => auditStore.fetchAuditLogById(id),
+    clearSelectedAuditLog: () => auditStore.clearSelectedAuditLog(),
   }
 }
