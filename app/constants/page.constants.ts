@@ -52,6 +52,15 @@ export const AUDIT_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
   }
 ])
 
+export const AUDIT_MODAL_TITLE = 'Audit Log Details'
+export const AUDIT_MODAL_DESCRIPTION = 'Review request, response, headers, and metadata for this audit record.'
+export const AUDIT_MODAL_CLOSE_LABEL = 'Close'
+export const AUDIT_MODAL_EMPTY_LOG_MESSAGE = 'No audit log details are available for this record.'
+export const AUDIT_MODAL_REQUEST_SECTION_LABEL = 'Request'
+export const AUDIT_MODAL_RESPONSE_SECTION_LABEL = 'Response'
+export const AUDIT_MODAL_HEADERS_SECTION_LABEL = 'Headers'
+export const AUDIT_MODAL_METADATA_SECTION_LABEL = 'Metadata'
+
 export const LOGIN_PAGE_BADGE = 'AFP Digital Monitoring System'
 export const LOGIN_PAGE_TITLE = 'Digital Personnel and Equipment Monitoring'
 export const LOGIN_PAGE_SUBTITLE =

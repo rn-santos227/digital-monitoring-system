@@ -9,3 +9,10 @@ export const LOGIN_PAGE_FORM_CARD_WRAPPER_CLASSES = 'w-full max-w-lg space-y-7'
 export const LOGIN_PAGE_FORM_META_CLASSES = 'flex items-center justify-between gap-4'
 export const LOGIN_PAGE_FORGOT_LINK_CLASSES =
   'text-sm font-medium text-emerald-700 transition hover:text-emerald-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500'
+
+export const AUDIT_MODAL_CONTENT_CLASSES = 'space-y-4'
+export const AUDIT_MODAL_SUMMARY_GRID_CLASSES = 'grid gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 md:grid-cols-2'
+export const AUDIT_MODAL_SUMMARY_LABEL_CLASSES = 'text-xs font-semibold uppercase tracking-wide text-slate-500'
+export const AUDIT_MODAL_SUMMARY_VALUE_CLASSES = 'mt-1 text-sm text-slate-800'
+export const AUDIT_MODAL_CODE_BLOCK_CLASSES =
+  'max-h-64 overflow-auto rounded-lg bg-slate-950 p-3 text-xs leading-relaxed text-emerald-100'
