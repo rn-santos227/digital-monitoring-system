@@ -16,7 +16,7 @@ export default defineEventHandler(async (event): Promise<AuditLogListResponse> =
   const supabase = getServiceSupabaseClient()
   const { data, count, error } = await supabase
     .from('audit_logs')
-    .select('id, action, table_name, record_id, created_at, user:user_profiles(full_name, email)', {
+    .select('id, action, table_name, record_id, ip_address, status_code, created_at, user:user_profiles(full_name, email)', {
       count: 'exact',
     })
     .order('created_at', { ascending: false })
