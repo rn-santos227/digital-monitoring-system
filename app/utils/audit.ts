@@ -41,3 +41,11 @@ export const mapAuditLogItemToTableRow = (item: AuditLogListItem): AuditLogTable
     createdAt: formatAuditTimestamp(item.createdAt),
   }
 }
+
+export const formatAuditJson = (value: Record<string, unknown> | Record<string, string> | null): string => {
+  if (!value || Object.keys(value).length === 0) {
+    return 'No data captured.'
+  }
+
+  return JSON.stringify(value, null, 2)
+}
