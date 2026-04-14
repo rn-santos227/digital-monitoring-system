@@ -52,4 +52,9 @@ const formattedTimestamp = computed(() => {
 
   return formatAuditTimestamp(props.auditLog.createdAt)
 })
+
+const requestBlock = computed(() => formatAuditJson(props.auditLog?.requestData ?? null))
+const responseBlock = computed(() => formatAuditJson(props.auditLog?.responseData ?? null))
+const headersBlock = computed(() => formatAuditJson(props.auditLog?.requestHeaders ?? null))
+const metadataBlock = computed(() => formatAuditJson(props.auditLog?.metadata ?? null))
 </script>
