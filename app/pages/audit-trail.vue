@@ -28,6 +28,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref, watch } from 'vue'
 import {
   AUDIT_PAGE_SECTION_CLASSES,
   AUDIT_PAGE_SUBTITLE,
@@ -50,11 +51,22 @@ const {
   currentPage,
   totalPages,
   isLoading,
+  selectedAuditLog,
+  isDetailLoading,
+  detailError,
+  loadAuditLogById,
+  clearSelectedAuditLog,
 } = useAuditTrail()
 
-const { handleSearch, handleSort, handleAction } = useAuditTrailPageHandlers(
+const activeAuditLogId = ref('')
+const isAuditModalOpen = ref(false)
+
+const { handleSearch, handleSort, handleAction, handleModalClose } = useAuditTrailPageHandlers(
   sortKey,
   sortDirection,
-  searchQuery
+  searchQuery,
+  activeAuditLogId,
+  isAuditModalOpen
 )
+
 </script>
