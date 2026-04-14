@@ -1,13 +1,23 @@
 import { defineEventHandler, deleteCookie } from 'h3'
-import { SESSION_COOKIE_NAME } from '../../shared/constants'
+import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, SESSION_COOKIE_NAME } from '../../shared/constants'
 import { getSessionTokenFromEvent } from '../../shared/utils'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { recordApiAuditLog } from '../../utils/audit/recordApiAuditLog'
 
 export default defineEventHandler(async (event) => {
   const token = getSessionTokenFromEvent(event)
+  let userId: string | null = null
 
   if (token) {
     const supabase = getServiceSupabaseClient()
+    const { data: currentSession } = await supabase
+      .from('auth_sessions')
+      .select('user_id')
+      .eq('access_token', token)
+      .maybeSingle()
+
+    userId = currentSession?.user_id ?? null
+
     await supabase
       .from('auth_sessions')
       .update({ revoked_at: new Date().toISOString() })
@@ -16,5 +26,22 @@ export default defineEventHandler(async (event) => {
   }
 
   deleteCookie(event, SESSION_COOKIE_NAME, { path: '/' })
+
+  await recordApiAuditLog(event, {
+    userId,
+    action: AUDIT_LOG_ACTIONS.logout,
+    tableName: 'auth_sessions',
+    requestData: {
+      hasSessionToken: Boolean(token),
+    },
+    responseData: {
+      ok: true,
+    },
+    statusCode: 200,
+    metadata: {
+      endpoint: AUDIT_LOG_ENDPOINTS.authLogout,
+    },
+  })
+
   return { ok: true }
 })
