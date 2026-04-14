@@ -6,6 +6,8 @@ import {
   BellIcon,
   BuildingOffice2Icon,
   CheckCircleIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
   ClipboardDocumentCheckIcon,
   ClockIcon,
   Cog6ToothIcon,
@@ -53,7 +55,9 @@ export const HERO_ICON_MAP: Record<IconName, Component> = {
   'pencil-square': PencilSquareIcon,
   'trash': TrashIcon,
   'arrows-up-down': ArrowsUpDownIcon,
-  'magnifying-glass': MagnifyingGlassIcon
+  'magnifying-glass': MagnifyingGlassIcon,
+  'chevron-up': ChevronUpIcon,
+  'chevron-down': ChevronDownIcon
 }
 
 export const getHeroIcon = (name: IconName): Component => HERO_ICON_MAP[name]

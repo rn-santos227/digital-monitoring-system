@@ -41,6 +41,8 @@ export type IconName =
   | 'trash'
   | 'arrows-up-down'
   | 'magnifying-glass'
+  | 'chevron-up'
+  | 'chevron-down'
 
 export type NavigationItem = {
   label: string
