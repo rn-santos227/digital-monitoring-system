@@ -79,3 +79,13 @@ export const mapAuditLogListItem = (row: AuditLogListRow): AuditLogListItem => {
       : null,
   }
 }
+
+const mapAuditLogActorDetail = (actor: AuditLogActorRow): AuditLogActorDetail => {
+  return {
+    id: actor.id ?? null,
+    fullName: actor.full_name ?? null,
+    email: actor.email ?? null,
+    avatarUrl: actor.avatar_url ?? null,
+    isActive: actor.is_active ?? null,
+  }
+}
