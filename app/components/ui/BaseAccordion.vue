@@ -3,7 +3,7 @@
     <button
       type="button"
       :class="BASE_ACCORDION_TRIGGER_CLASSES"
-      :aria-expanded="String(isOpen)"
+      :aria-expanded="isOpen"
       @click="toggle"
     >
       <span>{{ title }}</span>

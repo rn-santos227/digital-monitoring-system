@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import type { AuditLogListQuery, AuditState } from '~/types/domain/audit'
-import { getAuditLogsEndpoint } from '~/utils/audit-endpoints'
+import { getAuditLogByIdEndpoint, getAuditLogsEndpoint } from '~/utils/audit-endpoints'
 
 const DEFAULT_AUDIT_QUERY: AuditLogListQuery = {
   page: 1,
@@ -9,12 +9,15 @@ const DEFAULT_AUDIT_QUERY: AuditLogListQuery = {
 
 const INITIAL_AUDIT_STATE: AuditState = {
   items: [],
+  selectedAuditLog: null,
   page: DEFAULT_AUDIT_QUERY.page,
   pageSize: DEFAULT_AUDIT_QUERY.pageSize,
   totalItems: 0,
   totalPages: 0,
   isLoading: false,
+  isDetailLoading: false,
   error: '',
+  detailError: '',
 }
 
 const auditStoreOptions = {
@@ -22,6 +25,7 @@ const auditStoreOptions = {
 
   getters: {
     hasAuditLogs: (state: AuditState) => state.items.length > 0,
+    hasSelectedAuditLog: (state: AuditState) => Boolean(state.selectedAuditLog),
   },
 
   actions: {
@@ -50,6 +54,25 @@ const auditStoreOptions = {
       } finally {
         this.isLoading = false
       }
+    },
+
+    async fetchAuditLogById(this: AuditState, id: string) {
+      this.isDetailLoading = true
+      this.detailError = ''
+      this.selectedAuditLog = null
+
+      try {
+        this.selectedAuditLog = await getAuditLogByIdEndpoint(id)
+      } catch (requestError) {
+        this.detailError = requestError instanceof Error ? requestError.message : 'Unable to fetch audit log details.'
+        throw requestError
+      } finally {
+        this.isDetailLoading = false
+      }
+    },
+    clearSelectedAuditLog(this: AuditState) {
+      this.selectedAuditLog = null
+      this.detailError = ''
     },
   },
 }
