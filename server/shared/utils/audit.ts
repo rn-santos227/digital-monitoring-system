@@ -61,3 +61,21 @@ export const parsePaginationQuery = (query: { page?: unknown; pageSize?: unknown
     rangeTo,
   }
 }
+
+export const mapAuditLogListItem = (row: AuditLogListRow): AuditLogListItem => {
+  const actor = toActor(row.user)
+
+  return {
+    id: row.id,
+    action: row.action,
+    tableName: row.table_name,
+    recordId: row.record_id,
+    createdAt: row.created_at,
+    actor: actor
+      ? {
+          fullName: actor.full_name ?? null,
+          email: actor.email ?? null,
+        }
+      : null,
+  }
+}
