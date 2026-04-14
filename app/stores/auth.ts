@@ -11,15 +11,15 @@ const INITIAL_AUTH_STATE: AuthState = {
   loginError: '',
 }
 
-export const useAuthStore = defineStore('auth', {
+const authStoreOptions = {
   state: (): AuthState => ({ ...INITIAL_AUTH_STATE }),
 
   getters: {
-    isAuthenticated: (state) => Boolean(state.currentUser),
+    isAuthenticated: (state: AuthState) => Boolean(state.currentUser),
   },
 
   actions: {
-    async login(payload: LoginPayload) {
+    async login(this: AuthState, payload: LoginPayload) {
       this.isSubmitting = true
       this.loginError = ''
 
@@ -36,7 +36,7 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    async fetchSession() {
+    async fetchSession(this: AuthState) {
       this.isCheckingSession = true
 
       try {
@@ -50,7 +50,7 @@ export const useAuthStore = defineStore('auth', {
       }
     },
 
-    async logout() {
+    async logout(this: AuthState) {
       this.isLoggingOut = true
 
       try {
@@ -61,5 +61,7 @@ export const useAuthStore = defineStore('auth', {
       }
     },
   },
-})
+}
+
+export const useAuthStore = defineStore('auth', authStoreOptions)
  

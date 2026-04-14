@@ -17,15 +17,15 @@ const INITIAL_AUDIT_STATE: AuditState = {
   error: '',
 }
 
-export const useAuditStore = defineStore('audit', {
-  state: (): AuditState => ({ ...INITIAL_AUDIT_STATE }),
+const auditStoreOptions = {
+  state: (): AuditState => INITIAL_AUDIT_STATE,
 
   getters: {
-    hasAuditLogs: (state) => state.items.length > 0,
+    hasAuditLogs: (state: AuditState) => state.items.length > 0,
   },
 
   actions: {
-    async fetchAuditLogs(query: Partial<AuditLogListQuery> = {}) {
+    async fetchAuditLogs(this: AuditState, query: Partial<AuditLogListQuery> = {}) {
       this.isLoading = true
       this.error = ''
 
@@ -52,4 +52,6 @@ export const useAuditStore = defineStore('audit', {
       }
     },
   },
-})
+}
+
+export const useAuditStore = defineStore('audit', auditStoreOptions)

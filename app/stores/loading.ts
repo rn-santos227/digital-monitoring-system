@@ -5,25 +5,25 @@ type LoadingState = {
   message: string
 }
 
-export const useLoadingStore = defineStore('loading', {
+const loadingStoreOption = {
   state: (): LoadingState => ({
     activeRequests: 0,
     message: 'Processing request...'
   }),
 
   getters: {
-    isLoading: (state) => state.activeRequests > 0
+    isLoading: (state: LoadingState) => state.activeRequests > 0
   },
 
   actions: {
-    start(message?: string) {
+    start(this: LoadingState, message?: string) {
       this.activeRequests += 1
       if (message) {
         this.message = message
       }
     },
 
-    stop() {
+    stop(this: LoadingState,) {
       if (this.activeRequests === 0) {
         return
       }
@@ -35,4 +35,6 @@ export const useLoadingStore = defineStore('loading', {
       }
     }
   }
-})
+}
+
+export const useLoadingStore = defineStore('auth', loadingStoreOption)
