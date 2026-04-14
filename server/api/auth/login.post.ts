@@ -1,16 +1,47 @@
 import { createError, defineEventHandler, readBody, setCookie } from 'h3'
-import { SESSION_COOKIE_NAME, SESSION_DURATION_HOURS } from '../../shared/constants'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  SESSION_COOKIE_NAME,
+  SESSION_DURATION_HOURS,
+} from '../../shared/constants'
 import type { LoginBody } from '../../shared/models'
-import { getRequestIpAddress } from '../../shared/utils'
+import { buildLoginAuditRequestData, getRequestIpAddress } from '../../shared/utils'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { generateSessionToken } from '../../utils/auth/sessionToken'
+import { recordApiAuditLog } from '../../utils/audit/recordApiAuditLog'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<LoginBody>(event)
   const email = body.email?.trim().toLowerCase()
   const password = body.password
+  const requestData = buildLoginAuditRequestData(email, password)
+
+  const writeLoginAttempt = async (
+    statusCode: number,
+    outcome: (typeof AUDIT_LOG_OUTCOMES)[keyof typeof AUDIT_LOG_OUTCOMES],
+    userId?: string | null,
+    message?: string
+  ) => {
+    await recordApiAuditLog(event, {
+      userId: userId ?? null,
+      action: AUDIT_LOG_ACTIONS.loginAttempt,
+      tableName: 'auth_sessions',
+      requestData,
+      responseData: {
+        outcome,
+        message: message ?? null,
+      },
+      statusCode,
+      metadata: {
+        endpoint: AUDIT_LOG_ENDPOINTS.authLogin,
+      },
+    })
+  }
 
   if (!email || !password) {
+    await writeLoginAttempt(400, AUDIT_LOG_OUTCOMES.failed, null, 'Email and password are required.')
     throw createError({ statusCode: 400, statusMessage: 'Email and password are required.' })
   }
 
@@ -21,11 +52,13 @@ export default defineEventHandler(async (event) => {
   })
 
   if (authError) {
+    await writeLoginAttempt(500, AUDIT_LOG_OUTCOMES.failed, null, authError.message)
     throw createError({ statusCode: 500, statusMessage: `Login failed: ${authError.message}` })
   }
 
   const authenticatedUser = authData?.[0]
   if (!authenticatedUser) {
+    await writeLoginAttempt(401, AUDIT_LOG_OUTCOMES.failed, null, 'Invalid email or password.')
     throw createError({ statusCode: 401, statusMessage: 'Invalid email or password.' })
   }
 
@@ -42,6 +75,7 @@ export default defineEventHandler(async (event) => {
     .is('revoked_at', null)
 
   if (revokeError) {
+    await writeLoginAttempt(500, AUDIT_LOG_OUTCOMES.failed, authenticatedUser.user_id, revokeError.message)
     throw createError({ statusCode: 500, statusMessage: `Failed to clear prior session: ${revokeError.message}` })
   }
 
@@ -57,8 +91,25 @@ export default defineEventHandler(async (event) => {
     })
 
   if (sessionError) {
+    await writeLoginAttempt(500, AUDIT_LOG_OUTCOMES.failed, authenticatedUser.user_id, sessionError.message)
     throw createError({ statusCode: 500, statusMessage: `Failed to create session: ${sessionError.message}` })
   }
+
+  await writeLoginAttempt(200, AUDIT_LOG_OUTCOMES.success, authenticatedUser.user_id, 'Authentication successful.')
+  await recordApiAuditLog(event, {
+    userId: authenticatedUser.user_id,
+    action: AUDIT_LOG_ACTIONS.login,
+    tableName: 'auth_sessions',
+    requestData,
+    responseData: {
+      ok: true,
+      expiresAt: expiresAtDate.toISOString(),
+    },
+    statusCode: 200,
+    metadata: {
+      endpoint: AUDIT_LOG_ENDPOINTS.authLogin,
+    },
+  })
 
   setCookie(event, SESSION_COOKIE_NAME, token, {
     httpOnly: true,
