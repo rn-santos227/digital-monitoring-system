@@ -1,10 +1,10 @@
 import type { DataTableColumn } from '~/constants/ui.constants'
 
-export const resolveDataTableRowKey = <TRow extends Record<string, string | number | boolean | null | undefined>>(
+export const resolveDataTableRowKey = <TRow extends object>(
   row: TRow,
-  rowKey: keyof TRow,
+  rowKey: keyof TRow | string,
 ): string => {
-  const keyValue = row[rowKey]
+  const keyValue = (row as Record<string, unknown>)[rowKey as string]
   return keyValue === undefined || keyValue === null ? JSON.stringify(row) : String(keyValue)
 }
 

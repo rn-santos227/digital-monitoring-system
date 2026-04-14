@@ -65,7 +65,7 @@
                 :name="`cell-${column.key}`"
                 :row="row"
               >
-                {{ row[column.key] }}
+                {{ getRowValue(row, column.key) }}
               </slot>
             </td>
 
@@ -100,7 +100,7 @@
   </section>
 </template>
 
-<script setup lang="ts" generic="TRow extends Record<string, string | number | boolean | null | undefined>">
+<script setup lang="ts" generic="TRow extends object">
 import { computed } from 'vue'
 import {
   BASE_TABLE_ACTIONS_CELL_CLASSES,
@@ -125,7 +125,7 @@ const props = withDefaults(
     title: string
     columns: readonly DataTableColumn[]
     rows: readonly TRow[]
-    rowKey?: keyof TRow
+    rowKey?: keyof TRow | string
     actions?: readonly DataTableAction[]
     searchQuery?: string
     searchPlaceholder?: string
@@ -160,6 +160,9 @@ const emit = defineEmits<{
   (event: 'update:searchQuery', value: string): void
   (event: 'update:currentPage', value: number): void
 }>()
+
+const getRowValue = (row: TRow, key: string): string | number | boolean | null | undefined =>
+  (row as Record<string, string | number | boolean | null | undefined>)[key]
 
 const hasActions = computed(() => props.actions.length > 0)
 
