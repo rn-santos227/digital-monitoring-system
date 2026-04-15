@@ -92,3 +92,15 @@ export const validateFields = (rules: readonly FieldValidationRule[]) => {
     errors,
   }
 }
+
+export const validateEmailField = (field: string, label: string, value: string) => {
+  return validateField({
+    field,
+    label,
+    value,
+    required: true,
+    pattern: REGEX_PATTERNS.email,
+    patternMessage: `${label} must be a valid email address.`,
+  })
+}
+
