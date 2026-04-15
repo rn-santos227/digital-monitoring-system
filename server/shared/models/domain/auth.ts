@@ -7,6 +7,8 @@ export interface AuthenticatedUser {
   id: string
   email: string
   full_name: string | null
+  account_type_codes: string[]
+  permission_codes: string[]
 }
 
 export interface StoreSessionInput {
