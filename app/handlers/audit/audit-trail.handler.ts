@@ -1,6 +1,8 @@
 import type { Ref } from 'vue'
 import type { DataTableAction } from '~/constants/ui.constants'
 import type { AuditLogSearchQuery, AuditLogSortKey, AuditLogTableRow } from '~/types/domain/audit'
+import { validateDateRangeFields, validateField, validateFields } from '~/utils/field-validation'
+import { REGEX_PATTERNS } from '~/utils/regex'
 
 export type AuditSortDirection = 'asc' | 'desc'
 
@@ -47,13 +49,51 @@ export const useAuditTrailPageHandlers = (
     isAuditModalOpen.value = false
   }
 
-  const handleFilterApply = (value: Partial<AuditLogSearchQuery>): Partial<AuditLogSearchQuery> => {
+  const handleFilterApply = (value: Partial<AuditLogSearchQuery>) => {
+    const commonValidation = validateFields([
+      {
+        field: 'term',
+        label: 'Search term',
+        value: value.term ?? '',
+        maxLength: 120,
+      },
+      {
+        field: 'fields',
+        label: 'Search field',
+        value: value.fields ?? '',
+        maxLength: 64,
+      },
+    ])
+
+    const actorNameValidation = validateField({
+      field: 'userName',
+      label: 'Actor name',
+      value: value.userName ?? '',
+      maxLength: 80,
+      pattern: REGEX_PATTERNS.alphaNumericSpace,
+      patternMessage: 'Actor name allows letters, numbers, spaces, periods, underscores, and hyphens only.',
+    })
+
+    const dateRangeErrors = validateDateRangeFields(value.startDate ?? '', value.endDate ?? '')
+
+    const errors = {
+      ...commonValidation.errors,
+      ...(actorNameValidation.error ? { userName: actorNameValidation.error } : {}),
+      ...dateRangeErrors,
+    }
+
+    const sanitizedFilters: Partial<AuditLogSearchQuery> = {
+      term: commonValidation.values.term || undefined,
+      fields: commonValidation.values.fields || undefined,
+      userName: actorNameValidation.value || undefined,
+      startDate: (value.startDate ?? '').trim() || undefined,
+      endDate: (value.endDate ?? '').trim() || undefined,
+    }
+
     return {
-      term: value.term?.trim() || undefined,
-      fields: value.fields?.trim() || undefined,
-      userName: value.userName?.trim() || undefined,
-      startDate: value.startDate?.trim() || undefined,
-      endDate: value.endDate?.trim() || undefined,
+      filters: sanitizedFilters,
+      errors,
+      isValid: Object.keys(errors).length === 0,
     }
   }
 
