@@ -1,45 +1,45 @@
 <template>
-  <section class="rounded-xl border border-slate-200 bg-slate-50 p-4">
-    <header class="mb-4">
-      <h2 class="text-lg font-semibold text-slate-900">{{ AUDIT_FILTER_CARD_TITLE }}</h2>
-    </header>
+  <BaseAccordion :title="AUDIT_FILTER_CARD_TITLE" :initially-open="true">
+    <form :class="AUDIT_FILTER_FORM_CLASSES" @submit.prevent="emitApply">
+      <div :class="AUDIT_FILTER_FIELDS_GRID_CLASSES">
+        <BaseTextField
+          v-model="localValue.term"
+          type="search"
+          :label="AUDIT_FILTER_TERM_LABEL"
+          :placeholder="AUDIT_FILTER_TERM_PLACEHOLDER"
+        />
 
-    <form class="grid gap-3 md:grid-cols-2 lg:grid-cols-3" @submit.prevent="emitApply">
-      <BaseTextField
-        v-model="localValue.term"
-        type="search"
-        :label="AUDIT_FILTER_TERM_LABEL"
-        :placeholder="AUDIT_FILTER_TERM_PLACEHOLDER"
-      />
+        <BaseSelect
+          v-model="localValue.fields"
+          :label="AUDIT_FILTER_FIELDS_LABEL"
+          :options="auditFilterFieldOptions"
+        />
 
-      <BaseSelect
-        v-model="localValue.fields"
-        :label="AUDIT_FILTER_FIELDS_LABEL"
-        :options="auditFilterFieldOptions"
-      />
+        <BaseTextField
+          v-model="localValue.userName"
+          :label="AUDIT_FILTER_USER_LABEL"
+          :placeholder="AUDIT_FILTER_USER_PLACEHOLDER"
+        />
 
-      <BaseTextField
-        v-model="localValue.userName"
-        :label="AUDIT_FILTER_USER_LABEL"
-        :placeholder="AUDIT_FILTER_USER_PLACEHOLDER"
-      />
+        <BaseDatePicker
+          v-model="localValue.startDate"
+          :label="AUDIT_FILTER_START_DATE_LABEL"
+        />
 
-      <BaseDatePicker
-        v-model="localValue.startDate"
-        :label="AUDIT_FILTER_START_DATE_LABEL"
-      />
-
-      <BaseDatePicker
-        v-model="localValue.endDate"
-        :label="AUDIT_FILTER_END_DATE_LABEL"
-      />
-
-      <div class="flex items-end gap-2">
-        <BaseButton type="submit" size="sm">{{ AUDIT_FILTER_APPLY_LABEL }}</BaseButton>
-        <BaseButton type="button" variant="secondary" size="sm" @click="emitReset">{{ AUDIT_FILTER_RESET_LABEL }}</BaseButton>
+        <BaseDatePicker
+          v-model="localValue.endDate"
+          :label="AUDIT_FILTER_END_DATE_LABEL"
+        />
       </div>
+
+      <footer :class="AUDIT_FILTER_FOOTER_CLASSES">
+        <div :class="AUDIT_FILTER_ACTIONS_CLASSES">
+          <BaseButton type="submit" size="sm">{{ AUDIT_FILTER_APPLY_LABEL }}</BaseButton>
+          <BaseButton type="button" variant="secondary" size="sm" @click="emitReset">{{ AUDIT_FILTER_RESET_LABEL }}</BaseButton>
+        </div>
+      </footer>
     </form>
-  </section>
+  </BaseAccordion>
 </template>
 
 <script setup lang="ts">
@@ -58,6 +58,12 @@ import {
   AUDIT_FILTER_USER_LABEL,
   AUDIT_FILTER_USER_PLACEHOLDER,
 } from '~/constants/page.constants'
+import {
+  AUDIT_FILTER_ACTIONS_CLASSES,
+  AUDIT_FILTER_FIELDS_GRID_CLASSES,
+  AUDIT_FILTER_FOOTER_CLASSES,
+  AUDIT_FILTER_FORM_CLASSES,
+} from '~/constants/shared.constants'
 
 const props = withDefaults(defineProps<{
   modelValue: Partial<AuditLogSearchQuery>

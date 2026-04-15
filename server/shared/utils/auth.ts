@@ -13,7 +13,20 @@ export const getSessionTokenFromEvent = (event: H3Event): string | null => {
 }
 
 export const getRequestIpAddress = (event: H3Event): string | null => {
-  const forwardedFor = getHeader(event, 'x-forwarded-for')?.split(',')[0]?.trim()
+  const forwardedFor = getHeader(event, 'x-forwarded-for')?.split(',')[0]?.trim() || null
+  const realIp = getHeader(event, 'x-real-ip')?.trim() || null
+  const cfConnectingIp = getHeader(event, 'cf-connecting-ip')?.trim() || null
+  const socketIp = event.node.req.socket?.remoteAddress?.trim() || null
 
-  return forwardedFor || event.node.req.socket?.remoteAddress || null
+  const rawIp = forwardedFor || realIp || cfConnectingIp || socketIp
+
+  if (!rawIp) {
+    return null
+  }
+
+  if (rawIp.startsWith('::ffff:')) {
+    return rawIp.slice(7)
+  }
+
+  return rawIp
 }

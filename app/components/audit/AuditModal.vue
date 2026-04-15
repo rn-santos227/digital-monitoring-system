@@ -3,6 +3,7 @@
     :title="AUDIT_MODAL_TITLE"
     :description="AUDIT_MODAL_DESCRIPTION"
     size="xl"
+    scroll-body
     @close="emit('close')"
   >
     <div :class="AUDIT_MODAL_CONTENT_CLASSES">
@@ -79,7 +80,7 @@
     </div>
 
     <template #footer>
-      <div class="flex justify-end">
+      <div :class="AUDIT_MODAL_FOOTER_ROW_CLASSES">
         <BaseButton type="button" variant="ghost" @click="emit('close')">{{ AUDIT_MODAL_CLOSE_LABEL }}</BaseButton>
       </div>
     </template>
@@ -106,6 +107,7 @@ import {
   AUDIT_MODAL_SUMMARY_GRID_CLASSES,
   AUDIT_MODAL_SUMMARY_LABEL_CLASSES,
   AUDIT_MODAL_SUMMARY_VALUE_CLASSES,
+  AUDIT_MODAL_FOOTER_ROW_CLASSES,
 } from '~/constants/shared.constants'
 import type { AuditLogDetail } from '~/types/domain/audit'
 import { formatAuditJson, formatAuditTimestamp } from '~/utils/audit'

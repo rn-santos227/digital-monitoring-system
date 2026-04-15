@@ -78,6 +78,8 @@ export const mapAuditLogListItem = (row: AuditLogListRow): AuditLogListItem => {
     action: row.action,
     tableName: row.table_name,
     recordId: row.record_id,
+    ipAddress: row.ip_address,
+    statusCode: row.status_code,
     createdAt: row.created_at,
     actor: actor
       ? {
