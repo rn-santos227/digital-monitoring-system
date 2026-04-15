@@ -104,3 +104,20 @@ export const validateEmailField = (field: string, label: string, value: string) 
   })
 }
 
+export const validateDateRangeFields = (startDate: string, endDate: string): FieldValidationMap => {
+  const errors: FieldValidationMap = {}
+
+  if (startDate && !REGEX_PATTERNS.isoDate.test(startDate)) {
+    errors.startDate = 'Start date must use YYYY-MM-DD format.'
+  }
+
+  if (endDate && !REGEX_PATTERNS.isoDate.test(endDate)) {
+    errors.endDate = 'End date must use YYYY-MM-DD format.'
+  }
+
+  if (!errors.startDate && !errors.endDate && startDate && endDate && startDate > endDate) {
+    errors.endDate = 'End date must be on or after the start date.'
+  }
+
+  return errors
+}
