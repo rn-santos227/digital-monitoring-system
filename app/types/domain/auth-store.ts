@@ -2,6 +2,8 @@ export interface SessionUser {
   id: string
   email: string
   fullName: string | null
+  accountTypeCodes: string[]
+  permissionCodes: string[]
 }
 
 export interface SessionResponse {

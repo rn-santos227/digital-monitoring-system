@@ -8,6 +8,10 @@ type SessionUserPayload = {
   email: string
   fullName?: string | null
   full_name?: string | null
+  accountTypeCodes?: string[]
+  account_type_codes?: string[]
+  permissionCodes?: string[]
+  permission_codes?: string[]
 }
 
 type SessionResponsePayload = {
@@ -26,6 +30,8 @@ const normalizeSessionResponse = (response: SessionResponsePayload): SessionResp
       id: response.user.id,
       email: response.user.email,
       fullName: response.user.fullName ?? response.user.full_name ?? null,
+      accountTypeCodes: response.user.accountTypeCodes ?? response.user.account_type_codes ?? [],
+      permissionCodes: response.user.permissionCodes ?? response.user.permission_codes ?? [],
     },
   }
 }
