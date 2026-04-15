@@ -23,10 +23,11 @@ export interface AuditLogListItem {
   action: string
   tableName: string
   recordId: string | null
+  ipAddress: string | null
+  statusCode: number | null
   createdAt: string
   actor: AuditLogActorSummary | null
 }
-
 
 export interface AuditLogListResponse {
   items: AuditLogListItem[]

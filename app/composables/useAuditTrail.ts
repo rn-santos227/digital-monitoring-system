@@ -2,26 +2,21 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAuditStore } from '~/stores/audit'
 import { mapAuditLogItemToTableRow } from '~/utils/audit'
-import type { AuditLogSortKey } from '~/types/domain/audit'
+import type { AuditLogSearchQuery, AuditLogSortKey } from '~/types/domain/audit'
 
 export const useAuditTrail = () => {
   const auditStore = useAuditStore()
   const { items, page, totalPages, isLoading, error, selectedAuditLog, isDetailLoading, detailError } = storeToRefs(auditStore)
 
   const searchQuery = ref('')
+  const filters = ref<Partial<AuditLogSearchQuery>>({})
   const sortKey = ref<AuditLogSortKey>('createdAt')
   const sortDirection = ref<'asc' | 'desc'>('desc')
 
   const tableRows = computed(() => {
-    const normalizedQuery = searchQuery.value.trim().toLowerCase()
     const mappedRows = items.value.map(mapAuditLogItemToTableRow)
 
-    const filteredRows = !normalizedQuery
-      ? mappedRows
-      : mappedRows.filter((row) => [row.actor, row.action, row.tableName, row.recordId, row.createdAt]
-        .some((field) => field.toLowerCase().includes(normalizedQuery)))
-
-    return [...filteredRows].sort((leftRow, rightRow) => {
+   return [...mappedRows].sort((leftRow, rightRow) => {
       const leftValue = leftRow[sortKey.value] ?? ''
       const rightValue = rightRow[sortKey.value] ?? ''
 
@@ -45,9 +40,11 @@ export const useAuditTrail = () => {
     return 'No audit log entries found.'
   })
 
-  const loadAuditLogs = async (nextPage = page.value) => {
+  const loadAuditLogs = async (nextPage = page.value, nextFilters: Partial<AuditLogSearchQuery> = filters.value) => {
+    filters.value = { ...nextFilters }
+
     try {
-      await auditStore.fetchAuditLogs({ page: nextPage })
+      await auditStore.fetchAuditLogs({ page: nextPage, ...filters.value })
     } catch {
       // Error state is set in the store and exposed to the page.
     }
@@ -67,6 +64,7 @@ export const useAuditTrail = () => {
 
   return {
     searchQuery,
+    filters,
     sortKey,
     sortDirection,
     tableRows,

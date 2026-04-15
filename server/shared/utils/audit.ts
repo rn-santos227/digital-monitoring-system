@@ -15,6 +15,8 @@ interface AuditLogListRow {
   action: string
   table_name: string
   record_id: string | null
+  ip_address: string | null
+  status_code: number | null
   created_at: string
   user: AuditLogActorRow | AuditLogActorRow[] | null
 }

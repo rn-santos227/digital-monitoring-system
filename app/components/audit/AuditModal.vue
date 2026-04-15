@@ -3,6 +3,7 @@
     :title="AUDIT_MODAL_TITLE"
     :description="AUDIT_MODAL_DESCRIPTION"
     size="xl"
+    scroll-body
     @close="emit('close')"
   >
     <div :class="AUDIT_MODAL_CONTENT_CLASSES">
@@ -60,7 +61,9 @@
 
     <template #footer>
       <div class="flex justify-end">
-        <BaseButton type="button" variant="ghost" :label="AUDIT_MODAL_CLOSE_LABEL" @click="emit('close')" />
+        <BaseButton type="button" variant="ghost" @click="emit('close')">
+          {{ AUDIT_MODAL_CLOSE_LABEL }}
+        </BaseButton>
       </div>
     </template>
   </BaseModal>

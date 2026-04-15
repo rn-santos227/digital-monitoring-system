@@ -38,6 +38,8 @@ export const mapAuditLogItemToTableRow = (item: AuditLogListItem): AuditLogTable
     action: item.action,
     tableName: item.tableName,
     recordId: item.recordId ?? 'N/A',
+    ipAddress: item.ipAddress ?? 'N/A',
+    statusCode: item.statusCode === null ? 'N/A' : String(item.statusCode),
     createdAt: formatAuditTimestamp(item.createdAt),
   }
 }

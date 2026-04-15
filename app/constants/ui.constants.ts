@@ -18,7 +18,7 @@ export interface DataTableAction {
   key: string
   tooltip: string
   iconName?: import('~/types/domain/misc').IconName
-  variant?: 'ghost' | 'danger'
+  variant?: 'ghost' | 'danger' | 'info' | 'warning'
 }
 
 export const UI_SIZE_LABELS: Record<UiSize, string> = {

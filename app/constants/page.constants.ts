@@ -33,14 +33,17 @@ export const AUDIT_PAGE_SUBTITLE = 'Track recent activity across personnel and e
 export const AUDIT_PAGE_SECTION_CLASSES = 'space-y-6'
 
 export const AUDIT_TABLE_TITLE = 'Recent Audit Logs'
-export const AUDIT_TABLE_SEARCH_PLACEHOLDER = 'Search actor, action, table, or record ID'
+export const AUDIT_TABLE_SEARCH_PLACEHOLDER = 'Search audit logs'
 export const AUDIT_TABLE_EMPTY_MESSAGE = 'No audit log entries found.'
 
 export const AUDIT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'createdAt', label: 'Timestamp', sortable: true },
   { key: 'actor', label: 'Actor', sortable: true },
+  { key: 'action', label: 'Action', sortable: true },
   { key: 'tableName', label: 'Entity', sortable: true },
-  { key: 'recordId', label: 'Record ID', sortable: true }
+  { key: 'recordId', label: 'Record ID', sortable: true },
+  { key: 'ipAddress', label: 'IP Address', sortable: true },
+  { key: 'statusCode', label: 'Status Code', sortable: true }
 ])
 
 export const AUDIT_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
@@ -48,8 +51,28 @@ export const AUDIT_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
     key: 'view',
     tooltip: 'View audit log',
     iconName: 'eye',
-    variant: 'ghost'
+    variant: 'info'
   }
+])
+
+export const AUDIT_FILTER_CARD_TITLE = 'Filter Audit Logs'
+export const AUDIT_FILTER_TERM_LABEL = 'Search Term'
+export const AUDIT_FILTER_TERM_PLACEHOLDER = 'Search value'
+export const AUDIT_FILTER_FIELDS_LABEL = 'Search Field'
+export const AUDIT_FILTER_USER_LABEL = 'Actor Name'
+export const AUDIT_FILTER_USER_PLACEHOLDER = 'Search actor name'
+export const AUDIT_FILTER_START_DATE_LABEL = 'Start Date'
+export const AUDIT_FILTER_END_DATE_LABEL = 'End Date'
+export const AUDIT_FILTER_APPLY_LABEL = 'Apply Filters'
+export const AUDIT_FILTER_RESET_LABEL = 'Reset'
+
+export const AUDIT_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: '', label: 'All searchable fields' },
+  { value: 'action', label: 'Action' },
+  { value: 'tableName', label: 'Entity/Table Name' },
+  { value: 'recordId', label: 'Record ID' },
+  { value: 'ipAddress', label: 'IP Address' },
+  { value: 'statusCode', label: 'Status Code' }
 ])
 
 export const AUDIT_MODAL_TITLE = 'Audit Log Details'

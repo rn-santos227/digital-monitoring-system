@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import type { AuditLogListQuery, AuditState } from '~/types/domain/audit'
-import { getAuditLogByIdEndpoint, getAuditLogsEndpoint } from '~/utils/audit-endpoints'
+import type { AuditLogListQuery, AuditLogSearchQuery, AuditState } from '~/types/domain/audit'
+import { getAuditLogByIdEndpoint, getAuditLogsEndpoint, searchAuditLogsEndpoint } from '~/utils/audit-endpoints'
 
 const DEFAULT_AUDIT_QUERY: AuditLogListQuery = {
   page: 1,
@@ -29,17 +29,28 @@ const auditStoreOptions = {
   },
 
   actions: {
-    async fetchAuditLogs(this: AuditState, query: Partial<AuditLogListQuery> = {}) {
+    async fetchAuditLogs(this: AuditState, query: Partial<AuditLogSearchQuery> = {}) {
       this.isLoading = true
       this.error = ''
 
-      const requestQuery: AuditLogListQuery = {
+      const requestQuery: AuditLogSearchQuery = {
         page: query.page ?? this.page,
         pageSize: query.pageSize ?? this.pageSize,
+        term: query.term?.trim() || undefined,
+        fields: query.fields?.trim() || undefined,
+        userName: query.userName?.trim() || undefined,
+        startDate: query.startDate?.trim() || undefined,
+        endDate: query.endDate?.trim() || undefined,
       }
 
+      const hasSearchFilters = Boolean(
+        requestQuery.term || requestQuery.userName || requestQuery.startDate || requestQuery.endDate
+      )
+
       try {
-        const response = await getAuditLogsEndpoint(requestQuery)
+        const response = hasSearchFilters
+          ? await searchAuditLogsEndpoint(requestQuery)
+          : await getAuditLogsEndpoint(requestQuery as AuditLogListQuery)
         this.items = response.items
         this.page = response.page
         this.pageSize = response.pageSize

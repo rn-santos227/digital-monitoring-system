@@ -28,7 +28,12 @@
                 ✕
               </button>
             </div>
-            <div class="px-6 py-5">
+            <div
+              class="px-6 py-5"
+              :class="{
+                'max-h-[70vh] overflow-y-auto': scrollBody
+              }"
+            >
               <slot />
             </div>
             <div v-if="$slots.footer" class="border-t border-slate-100 px-6 py-4">
@@ -51,12 +56,14 @@ const props = withDefaults(
     description?: string
     size?: ModalSize
     closeOnBackdrop?: boolean
+    scrollBody?: boolean
   }>(),
   {
     title: '',
     description: '',
     size: 'md',
-    closeOnBackdrop: true
+    closeOnBackdrop: true,
+    scrollBody: false
   }
 )
 

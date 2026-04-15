@@ -1,6 +1,6 @@
 export type UUID = string
 export type ISODateTime = string
-export type AuditLogSortKey = 'createdAt' | 'actor' | 'tableName' | 'recordId'
+export type AuditLogSortKey = 'createdAt' | 'actor' | 'action' | 'tableName' | 'recordId' | 'ipAddress' | 'statusCode'
 
 export interface AuditLog {
   id: UUID
@@ -24,6 +24,8 @@ export interface AuditLogListItem {
   action: string
   tableName: string
   recordId: string | null
+  ipAddress: string | null
+  statusCode: number | null
   createdAt: string
   actor: AuditLogActorSummary | null
 }
@@ -68,12 +70,22 @@ export interface AuditLogListQuery {
   pageSize: number
 }
 
+export interface AuditLogSearchQuery extends AuditLogListQuery {
+  term?: string
+  fields?: string
+  userName?: string
+  startDate?: string
+  endDate?: string
+}
+
 export interface AuditLogTableRow {
   id: UUID
   actor: string
   action: string
   tableName: string
   recordId: string
+  ipAddress: string
+  statusCode: string
   createdAt: string
 }
 
