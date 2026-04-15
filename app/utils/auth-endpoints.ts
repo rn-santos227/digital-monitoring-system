@@ -3,6 +3,21 @@ import type { LoginPayload, SessionResponse } from '~/types/domain/auth-store'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders, saveSessionToken } from '~/utils/auth-session'
 
+const getServerSessionHeaders = (): Record<string, string> => {
+  if (!import.meta.server) {
+    return {}
+  }
+
+  const requestHeaders = useRequestHeaders(['cookie'])
+  const cookie = requestHeaders.cookie?.trim() ?? ''
+
+  if (!cookie) {
+    return {}
+  }
+
+  return { cookie }
+}
+
 type SessionUserPayload = {
   id: string
   email: string
@@ -52,7 +67,10 @@ export const getSessionEndpoint = async (): Promise<SessionResponse> => {
   const response = await withApiLoading(async () => {
     return await $fetch<SessionResponsePayload>(AUTH_API_ENDPOINTS.session, {
       method: 'GET',
-      headers: createSessionHeaders(),
+      headers: {
+        ...getServerSessionHeaders(),
+        ...createSessionHeaders(),
+      },
     })
   }, API_LOADING_MESSAGES.fetchSession)
 
@@ -63,7 +81,10 @@ export const logoutEndpoint = async (): Promise<{ ok: boolean }> => {
   const response = await withApiLoading(async () => {
     return await $fetch<{ ok: boolean }>(AUTH_API_ENDPOINTS.logout, {
       method: 'POST',
-      headers: createSessionHeaders(),
+      headers: {
+        ...getServerSessionHeaders(),
+        ...createSessionHeaders(),
+      },
     })
   }, API_LOADING_MESSAGES.logout)
 
