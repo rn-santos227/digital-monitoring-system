@@ -72,3 +72,23 @@ export const validateField = (rule: FieldValidationRule): FieldValidationResult 
     error: '',
   }
 }
+
+export const validateFields = (rules: readonly FieldValidationRule[]) => {
+  const errors: FieldValidationMap = {}
+  const values: Record<string, string> = {}
+
+  rules.forEach((rule) => {
+    const result = validateField(rule)
+    values[rule.field] = result.value
+
+    if (result.error) {
+      errors[rule.field] = result.error
+    }
+  })
+
+  return {
+    isValid: Object.keys(errors).length === 0,
+    values,
+    errors,
+  }
+}
