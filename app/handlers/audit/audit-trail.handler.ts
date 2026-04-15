@@ -1,10 +1,10 @@
 import type { Ref } from 'vue'
 import type { DataTableAction } from '~/constants/ui.constants'
-import type { AuditLogSortKey, AuditLogTableRow } from '~/types/domain/audit'
+import type { AuditLogSearchQuery, AuditLogSortKey, AuditLogTableRow } from '~/types/domain/audit'
 
 export type AuditSortDirection = 'asc' | 'desc'
 
-const AUDIT_SORT_KEYS: readonly AuditLogSortKey[] = ['createdAt', 'actor', 'tableName', 'recordId']
+const AUDIT_SORT_KEYS: readonly AuditLogSortKey[] = ['createdAt', 'actor', 'action', 'tableName', 'recordId', 'ipAddress', 'statusCode']
 
 export const useAuditTrailPageHandlers = (
   sortKey: Ref<AuditLogSortKey>,
@@ -47,10 +47,24 @@ export const useAuditTrailPageHandlers = (
     isAuditModalOpen.value = false
   }
 
+  const handleFilterApply = (value: Partial<AuditLogSearchQuery>): Partial<AuditLogSearchQuery> => {
+    return {
+      term: value.term?.trim() || undefined,
+      fields: value.fields?.trim() || undefined,
+      userName: value.userName?.trim() || undefined,
+      startDate: value.startDate?.trim() || undefined,
+      endDate: value.endDate?.trim() || undefined,
+    }
+  }
+
+  const handleFilterReset = (): Partial<AuditLogSearchQuery> => ({})
+
   return {
     handleSort,
     handleSearch,
     handleAction,
+    handleFilterApply,
+    handleFilterReset,
     handleModalClose,
   }
 }

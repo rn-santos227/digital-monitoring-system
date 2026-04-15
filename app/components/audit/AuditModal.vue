@@ -3,7 +3,6 @@
     :title="AUDIT_MODAL_TITLE"
     :description="AUDIT_MODAL_DESCRIPTION"
     size="xl"
-    scroll-body
     @close="emit('close')"
   >
     <div :class="AUDIT_MODAL_CONTENT_CLASSES">
@@ -32,14 +31,34 @@
             <p :class="AUDIT_MODAL_SUMMARY_VALUE_CLASSES">{{ auditLog.statusCode ?? 'N/A' }}</p>
           </div>
           <div>
+            <p :class="AUDIT_MODAL_SUMMARY_LABEL_CLASSES">IP Address</p>
+            <p :class="AUDIT_MODAL_SUMMARY_VALUE_CLASSES">{{ auditLog.ipAddress ?? 'N/A' }}</p>
+          </div>
+          <div>
             <p :class="AUDIT_MODAL_SUMMARY_LABEL_CLASSES">Actor</p>
             <p :class="AUDIT_MODAL_SUMMARY_VALUE_CLASSES">{{ actorLabel }}</p>
+          </div>
+          <div>
+            <p :class="AUDIT_MODAL_SUMMARY_LABEL_CLASSES">Actor Email</p>
+            <p :class="AUDIT_MODAL_SUMMARY_VALUE_CLASSES">{{ actorEmail }}</p>
+          </div>
+          <div>
+            <p :class="AUDIT_MODAL_SUMMARY_LABEL_CLASSES">User ID</p>
+            <p :class="AUDIT_MODAL_SUMMARY_VALUE_CLASSES">{{ auditLog.userId ?? 'N/A' }}</p>
           </div>
           <div>
             <p :class="AUDIT_MODAL_SUMMARY_LABEL_CLASSES">Timestamp</p>
             <p :class="AUDIT_MODAL_SUMMARY_VALUE_CLASSES">{{ formattedTimestamp }}</p>
           </div>
         </section>
+
+        <BaseAccordion :title="AUDIT_MODAL_OLD_DATA_SECTION_LABEL">
+          <pre :class="AUDIT_MODAL_CODE_BLOCK_CLASSES">{{ oldDataBlock }}</pre>
+        </BaseAccordion>
+
+        <BaseAccordion :title="AUDIT_MODAL_NEW_DATA_SECTION_LABEL">
+          <pre :class="AUDIT_MODAL_CODE_BLOCK_CLASSES">{{ newDataBlock }}</pre>
+        </BaseAccordion>
 
         <BaseAccordion :title="AUDIT_MODAL_REQUEST_SECTION_LABEL" :initially-open="true">
           <pre :class="AUDIT_MODAL_CODE_BLOCK_CLASSES">{{ requestBlock }}</pre>
@@ -61,9 +80,7 @@
 
     <template #footer>
       <div class="flex justify-end">
-        <BaseButton type="button" variant="ghost" @click="emit('close')">
-          {{ AUDIT_MODAL_CLOSE_LABEL }}
-        </BaseButton>
+        <BaseButton type="button" variant="ghost" @click="emit('close')">{{ AUDIT_MODAL_CLOSE_LABEL }}</BaseButton>
       </div>
     </template>
   </BaseModal>
@@ -77,6 +94,8 @@ import {
   AUDIT_MODAL_EMPTY_LOG_MESSAGE,
   AUDIT_MODAL_HEADERS_SECTION_LABEL,
   AUDIT_MODAL_METADATA_SECTION_LABEL,
+  AUDIT_MODAL_NEW_DATA_SECTION_LABEL,
+  AUDIT_MODAL_OLD_DATA_SECTION_LABEL,
   AUDIT_MODAL_REQUEST_SECTION_LABEL,
   AUDIT_MODAL_RESPONSE_SECTION_LABEL,
   AUDIT_MODAL_TITLE,
@@ -112,6 +131,8 @@ const actorLabel = computed(() => {
   return actorEmail || 'System'
 })
 
+const actorEmail = computed(() => props.auditLog?.actor?.email?.trim() || 'N/A')
+
 const formattedTimestamp = computed(() => {
   if (!props.auditLog?.createdAt) {
     return 'N/A'
@@ -120,6 +141,8 @@ const formattedTimestamp = computed(() => {
   return formatAuditTimestamp(props.auditLog.createdAt)
 })
 
+const oldDataBlock = computed(() => formatAuditJson(props.auditLog?.oldData ?? null))
+const newDataBlock = computed(() => formatAuditJson(props.auditLog?.newData ?? null))
 const requestBlock = computed(() => formatAuditJson(props.auditLog?.requestData ?? null))
 const responseBlock = computed(() => formatAuditJson(props.auditLog?.responseData ?? null))
 const headersBlock = computed(() => formatAuditJson(props.auditLog?.requestHeaders ?? null))

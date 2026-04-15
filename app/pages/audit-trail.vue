@@ -6,6 +6,12 @@
         <p class="text-sm text-slate-600">{{ AUDIT_PAGE_SUBTITLE }}</p>
       </header>
 
+      <AuditFilter
+        :model-value="filters"
+        @apply="handleApplyFilters"
+        @reset="handleResetFilters"
+      />
+
       <DataTable
         :title="AUDIT_TABLE_TITLE"
         :columns="AUDIT_TABLE_COLUMNS"
@@ -14,6 +20,7 @@
         row-key="id"
         :search-query="searchQuery"
         :search-placeholder="AUDIT_TABLE_SEARCH_PLACEHOLDER"
+        :show-search="false"
         :empty-message="tableEmptyMessage || AUDIT_TABLE_EMPTY_MESSAGE"
         :is-loading="isLoading"
         :current-page="currentPage"
@@ -37,6 +44,8 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import AuditFilter from '~/components/audit/AuditFilter.vue'
+import type { AuditLogSearchQuery } from '~/types/domain/audit'
 import {
   AUDIT_PAGE_SECTION_CLASSES,
   AUDIT_PAGE_SUBTITLE,
@@ -52,6 +61,7 @@ import { useAuditTrail } from '~/composables/useAuditTrail'
 
 const {
   searchQuery,
+  filters,
   sortKey,
   sortDirection,
   tableRows,
@@ -62,6 +72,7 @@ const {
   selectedAuditLog,
   isDetailLoading,
   detailError,
+  loadAuditLogs,
   loadAuditLogById,
   clearSelectedAuditLog,
 } = useAuditTrail()
@@ -69,13 +80,25 @@ const {
 const activeAuditLogId = ref('')
 const isAuditModalOpen = ref(false)
 
-const { handleSearch, handleSort, handleAction, handleModalClose } = useAuditTrailPageHandlers(
+const { handleSearch, handleSort, handleAction, handleFilterApply, handleFilterReset, handleModalClose } = useAuditTrailPageHandlers(
   sortKey,
   sortDirection,
   searchQuery,
   activeAuditLogId,
   isAuditModalOpen
 )
+
+const handleApplyFilters = async (value: Partial<AuditLogSearchQuery>) => {
+  const queryFilters = handleFilterApply(value)
+  currentPage.value = 1
+  await loadAuditLogs(1, queryFilters)
+}
+
+const handleResetFilters = async () => {
+  const queryFilters = handleFilterReset()
+  currentPage.value = 1
+  await loadAuditLogs(1, queryFilters)
+}
 
 watch(activeAuditLogId, async (nextAuditLogId) => {
   if (!nextAuditLogId) {

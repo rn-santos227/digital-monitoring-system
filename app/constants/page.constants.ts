@@ -83,6 +83,8 @@ export const AUDIT_MODAL_REQUEST_SECTION_LABEL = 'Request'
 export const AUDIT_MODAL_RESPONSE_SECTION_LABEL = 'Response'
 export const AUDIT_MODAL_HEADERS_SECTION_LABEL = 'Headers'
 export const AUDIT_MODAL_METADATA_SECTION_LABEL = 'Metadata'
+export const AUDIT_MODAL_OLD_DATA_SECTION_LABEL = 'Old Data'
+export const AUDIT_MODAL_NEW_DATA_SECTION_LABEL = 'New Data'
 
 export const LOGIN_PAGE_BADGE = 'AFP Digital Monitoring System'
 export const LOGIN_PAGE_TITLE = 'Digital Personnel and Equipment Monitoring'

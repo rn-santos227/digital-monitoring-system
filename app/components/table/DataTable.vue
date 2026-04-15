@@ -2,7 +2,7 @@
   <section :class="BASE_TABLE_WINDOW_WRAPPER_CLASSES">
     <header class="space-y-4">
       <h2 :class="BASE_TABLE_HEADING_CLASSES">{{ title }}</h2>
-      <div :class="BASE_TABLE_SEARCH_WRAPPER_CLASSES">
+      <div v-if="showSearch" :class="BASE_TABLE_SEARCH_WRAPPER_CLASSES">
         <BaseTextField
           :model-value="searchQuery"
           type="search"
@@ -78,7 +78,7 @@
                   size="sm"
                   :aria-label="action.tooltip"
                   :title="action.tooltip"
-                  :variant="action.variant === 'danger' ? 'danger' : 'ghost'"
+                  :variant="action.variant === 'danger' ? 'danger' : action.variant === 'info' ? 'info' : 'ghost'"
                   :icon-name="action.iconName"
                   @click="emit('action', { actionKey: action.key, row })"
                 />
@@ -137,6 +137,7 @@ const props = withDefaults(
     maxVisiblePages?: number
     actionButtonCount?: number
     actionsColumnLabel?: string
+    showSearch?: boolean
   }>(),
   {
     rowKey: 'id',
@@ -150,7 +151,8 @@ const props = withDefaults(
     totalPages: 1,
     maxVisiblePages: 5,
     actionButtonCount: 0,
-    actionsColumnLabel: 'Actions'
+    actionsColumnLabel: 'Actions',
+    showSearch: true
   }
 )
 
