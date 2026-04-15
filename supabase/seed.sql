@@ -200,10 +200,24 @@ values
   ('equipment.issue', 'Issue Equipment', 'equipment'),
   ('equipment.maintain', 'Maintain Equipment', 'equipment'),
   ('reports.view', 'View Reports', 'reports'),
-  ('audit.view', 'View Audit Logs', 'audit')
+  ('audit.view', 'View Audit Logs', 'audit'),
+  ('user.create', 'Create User', 'user_management'),
+  ('user.update', 'Update User', 'user_management'),
+  ('user.delete', 'Delete User', 'user_management'),
+  ('account_type.create', 'Create Account Type', 'account_type_management'),
+  ('account_type.update', 'Update Account Type', 'account_type_management'),
+  ('account_type.delete', 'Delete Account Type', 'account_type_management')
 on conflict (code) do update
 set name = excluded.name,
     module = excluded.module;
+
+-- Grant ADMIN account type all available permissions.
+insert into public.account_type_permissions (account_type_id, permission_id)
+select at.id, p.id
+from public.account_types at
+cross join public.permissions p
+where at.code = 'ADMIN'
+on conflict (account_type_id, permission_id) do nothing;
 
 -- Optional bootstrap account seeding.
 -- Configure DB settings before seed execution:
