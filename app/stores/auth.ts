@@ -17,9 +17,19 @@ const authStoreOptions = {
 
   getters: {
     isAuthenticated: (state: AuthState) => Boolean(state.currentUser),
+    accountTypeCodes: (state: AuthState) => state.currentUser?.accountTypeCodes ?? [],
+    permissionCodes: (state: AuthState) => state.currentUser?.permissionCodes ?? [],
   },
 
   actions: {
+    hasRole(this: AuthState & { accountTypeCodes: string[] }, accountTypeCode: string) {
+      return this.accountTypeCodes.includes(accountTypeCode)
+    },
+
+    hasPermission(this: AuthState & { permissionCodes: string[] }, permissionCode: string) {
+      return this.permissionCodes.includes(permissionCode)
+    },
+
     async login(this: AuthState, payload: LoginPayload) {
       this.isSubmitting = true
       this.loginError = ''
