@@ -36,6 +36,7 @@
                 type="email"
                 :label="LOGIN_PAGE_EMAIL_LABEL"
                 :placeholder="LOGIN_PAGE_EMAIL_PLACEHOLDER"
+                :error="formErrors.email"
                 required
                 :disabled="isSubmitting"
               />
@@ -45,6 +46,7 @@
                 type="password"
                 :label="LOGIN_PAGE_PASSWORD_LABEL"
                 :placeholder="LOGIN_PAGE_PASSWORD_PLACEHOLDER"
+                :error="formErrors.password"
                 required
                 :disabled="isSubmitting"
               />
@@ -116,10 +118,12 @@ import { useLoginPageHandlers } from '~/handlers'
 
 const {
   formState,
+  formErrors,
   isSubmitting,
   loginError,
   isSubmitDisabled,
+  validateForm,
 } = useLoginForm()
 
-const { submitLoginForm } = useLoginPageHandlers(formState, loginError)
+const { submitLoginForm } = useLoginPageHandlers(formState, loginError, validateForm)
 </script>
