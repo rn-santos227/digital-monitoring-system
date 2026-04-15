@@ -7,28 +7,33 @@
           type="search"
           :label="AUDIT_FILTER_TERM_LABEL"
           :placeholder="AUDIT_FILTER_TERM_PLACEHOLDER"
+          :error="validationErrors.term"
         />
 
         <BaseSelect
           v-model="localValue.fields"
           :label="AUDIT_FILTER_FIELDS_LABEL"
           :options="auditFilterFieldOptions"
+          :error="validationErrors.fields"
         />
 
         <BaseTextField
           v-model="localValue.userName"
           :label="AUDIT_FILTER_USER_LABEL"
           :placeholder="AUDIT_FILTER_USER_PLACEHOLDER"
+          :error="validationErrors.userName"
         />
 
         <BaseDatePicker
           v-model="localValue.startDate"
           :label="AUDIT_FILTER_START_DATE_LABEL"
+          :error="validationErrors.startDate"
         />
 
         <BaseDatePicker
           v-model="localValue.endDate"
           :label="AUDIT_FILTER_END_DATE_LABEL"
+          :error="validationErrors.endDate"
         />
       </div>
 
@@ -45,6 +50,7 @@
 <script setup lang="ts">
 import { reactive, watch } from 'vue'
 import type { AuditLogSearchQuery } from '~/types/domain/audit'
+import type { FieldValidationMap } from '~/utils/field-validation'
 import {
   AUDIT_FILTER_APPLY_LABEL,
   AUDIT_FILTER_CARD_TITLE,
@@ -67,8 +73,10 @@ import {
 
 const props = withDefaults(defineProps<{
   modelValue: Partial<AuditLogSearchQuery>
+  validationErrors?: FieldValidationMap
 }>(), {
-  modelValue: () => ({})
+  modelValue: () => ({}),
+  validationErrors: () => ({}),
 })
 
 const emit = defineEmits<{
