@@ -8,6 +8,7 @@
 
       <AuditFilter
         :model-value="filters"
+        :validation-errors="filterValidationErrors"
         @apply="handleApplyFilters"
         @reset="handleResetFilters"
       />
@@ -46,6 +47,7 @@
 import { ref, watch } from 'vue'
 import AuditFilter from '~/components/audit/AuditFilter.vue'
 import type { AuditLogSearchQuery } from '~/types/domain/audit'
+import type { FieldValidationMap } from '~/utils/field-validation'
 import {
   AUDIT_PAGE_SECTION_CLASSES,
   AUDIT_PAGE_SUBTITLE,
@@ -58,6 +60,7 @@ import {
 } from '~/constants/page.constants'
 import { useAuditTrailPageHandlers } from '~/handlers'
 import { useAuditTrail } from '~/composables/useAuditTrail'
+import { useToast } from '~/composables/useToast'
 
 const {
   searchQuery,
@@ -79,6 +82,8 @@ const {
 
 const activeAuditLogId = ref('')
 const isAuditModalOpen = ref(false)
+const filterValidationErrors = ref<FieldValidationMap>({})
+const { addToast } = useToast()
 
 const { handleSearch, handleSort, handleAction, handleFilterApply, handleFilterReset, handleModalClose } = useAuditTrailPageHandlers(
   sortKey,
@@ -89,13 +94,25 @@ const { handleSearch, handleSort, handleAction, handleFilterApply, handleFilterR
 )
 
 const handleApplyFilters = async (value: Partial<AuditLogSearchQuery>) => {
-  const queryFilters = handleFilterApply(value)
+  const { filters: queryFilters, errors, isValid } = handleFilterApply(value)
+  filterValidationErrors.value = errors
+
+  if (!isValid) {
+    addToast({
+      title: 'Invalid filter input',
+      message: 'Please correct the highlighted fields before applying filters.',
+      variant: 'error',
+    })
+    return
+  }
+
   currentPage.value = 1
   await loadAuditLogs(1, queryFilters)
 }
 
 const handleResetFilters = async () => {
   const queryFilters = handleFilterReset()
+  filterValidationErrors.value = {}
   currentPage.value = 1
   await loadAuditLogs(1, queryFilters)
 }
