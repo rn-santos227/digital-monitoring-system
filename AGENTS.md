@@ -69,3 +69,8 @@
 15. **Always apply RBAC privilege checks in APIs**
     - Every new or updated handler under `server/api` must explicitly enforce privileges via existing RBAC helpers (for example `requirePermission` / `requireAnyPermission`) before accessing protected data or mutations.
     - Map each API action to the correct permission codes and keep this privilege mapping visible in the route implementation.
+
+16. **Mutation API safety requirements**
+    - Every `POST`, `PATCH`, and `DELETE` handler under `server/api` must record API audit logs for both successful and failed outcomes.
+    - For destructive operations, enforce usage-safety checks first (e.g., do not delete account types that are still assigned to user profiles).
+    - Multi-step mutation handlers must implement transaction-like rollback behavior (via DB transaction or explicit compensation logic) and must record rollback errors.
