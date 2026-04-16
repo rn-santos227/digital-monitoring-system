@@ -10,6 +10,11 @@ export const AUDIT_API_ENDPOINTS = Object.freeze({
   logById: (id: string) => `/api/audit/logs/${id}`
 })
 
+export const USER_MANAGEMENT_API_ENDPOINTS = Object.freeze({
+  userProfiles: '/api/users',
+  accountTypes: '/api/account-types',
+})
+
 export const AUTH_LOCAL_STORAGE_KEYS = Object.freeze({
   sessionToken: 'dms_session_token',
   sessionTokenExpiresAt: 'dms_session_token_expires_at'
@@ -24,5 +29,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   fetchSession: 'Validating session...',
   logout: 'Signing out...',
   fetchAuditLogs: 'Loading audit logs...',
-  fetchAuditLogDetail: 'Loading audit log details...'
+  fetchAuditLogDetail: 'Loading audit log details...',
+  fetchUserProfiles: 'Loading user profiles...',
+  fetchUserAccounts: 'Loading user accounts...',
 })
