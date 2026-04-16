@@ -2,45 +2,7 @@ import type { H3Event } from 'h3'
 import type { AuthenticatedUser } from '../../shared/models'
 import { getSessionTokenFromEvent } from '../../shared/utils'
 import { getServiceSupabaseClient } from './serviceClient'
-
-interface UserAccountTypePermissionRow {
-  permissions: {
-    code: string
-  } | null
-}
-
-interface UserAccountTypeRow {
-  account_types: {
-    code: string
-    account_type_permissions: UserAccountTypePermissionRow[] | null
-  } | null
-}
-
-const buildUserPrivilegeClaims = (rows: UserAccountTypeRow[] | null) => {
-  const accountTypeCodes = new Set<string>()
-  const permissionCodes = new Set<string>()
-
-  rows?.forEach((row) => {
-    const accountTypeCode = row.account_types?.code
-
-    if (accountTypeCode) {
-      accountTypeCodes.add(accountTypeCode)
-    }
-
-    row.account_types?.account_type_permissions?.forEach((permissionRow) => {
-      const permissionCode = permissionRow.permissions?.code
-
-      if (permissionCode) {
-        permissionCodes.add(permissionCode)
-      }
-    })
-  })
-
-  return {
-    accountTypeCodes: [...accountTypeCodes],
-    permissionCodes: [...permissionCodes],
-  }
-}
+import { fetchUserPrivilegeClaims } from './privileges'
 
 export async function getUser(event: H3Event): Promise<AuthenticatedUser | null> {
   const sessionToken = getSessionTokenFromEvent(event)
@@ -65,14 +27,7 @@ export async function getUser(event: H3Event): Promise<AuthenticatedUser | null>
     return null
   }
 
-  const { data: accountTypeRows } = await supabase
-    .from('user_account_types')
-    .select('account_types!inner(code, account_type_permissions(permissions(code)))')
-    .eq('user_id', activeSession.user_id)
-    .returns<UserAccountTypeRow[]>()
-
-  const { accountTypeCodes, permissionCodes } = buildUserPrivilegeClaims(accountTypeRows ?? null)
-
+  const { accountTypeCodes, permissionCodes } = await fetchUserPrivilegeClaims(activeSession.user_id)
   const { data: profile } = await supabase
     .from('user_profiles')
     .select('id, email, full_name, is_active')
