@@ -19,6 +19,28 @@
         tone="danger"
       />
       
+      <template v-if="activeTab === 'user-profile'">
+        <div :class="USERS_TABLE_ACTIONS_ROW_CLASSES">
+          <BaseButton>
+            {{ USERS_PROFILE_CREATE_BUTTON_LABEL }}
+          </BaseButton>
+        </div>
+
+        <DataTable
+          :title="USERS_PROFILE_TABLE_TITLE"
+          :columns="USERS_PROFILE_TABLE_COLUMNS"
+          :rows="profileTableRows"
+          row-key="id"
+          :is-loading="isLoading"
+          :search-query="profileSearchQuery"
+          :search-placeholder="USERS_PROFILE_TABLE_SEARCH_PLACEHOLDER"
+          :empty-message="USERS_PROFILE_TABLE_EMPTY_MESSAGE"
+          :current-page="profilePagination.page"
+          :total-pages="profilePagination.totalPages"
+          @update:search-query="onProfileSearch"
+          @update:current-page="onProfilePageChange"
+        />
+      </template>
     </section>
   </main>
 </template>
@@ -26,6 +48,7 @@
 <script setup lang="ts">
 import {
   USERS_ACCOUNT_TABLE_COLUMNS,
+  USERS_ACCOUNT_CREATE_BUTTON_LABEL,
   USERS_ACCOUNT_TABLE_EMPTY_MESSAGE,
   USERS_ACCOUNT_TABLE_SEARCH_PLACEHOLDER,
   USERS_ACCOUNT_TABLE_TITLE,
@@ -35,11 +58,12 @@ import {
   USERS_PAGE_TABS_ARIA_LABEL,
   USERS_PAGE_TITLE,
   USERS_PROFILE_TABLE_COLUMNS,
+  USERS_PROFILE_CREATE_BUTTON_LABEL,
   USERS_PROFILE_TABLE_EMPTY_MESSAGE,
   USERS_PROFILE_TABLE_SEARCH_PLACEHOLDER,
   USERS_PROFILE_TABLE_TITLE,
 } from '~/constants/page.constants'
-import { USERS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
+import { USERS_PAGE_HEADER_CLASSES, USERS_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
 import { useUsers } from '~/composables/useUsers'
 import { useUsersPageHandlers } from '~/handlers'
 

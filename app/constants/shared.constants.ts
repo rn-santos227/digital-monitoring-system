@@ -23,3 +23,4 @@ export const AUDIT_FILTER_FOOTER_CLASSES = 'border-t border-slate-200 pt-4'
 export const AUDIT_FILTER_ACTIONS_CLASSES = 'flex justify-end gap-2'
 
 export const USERS_PAGE_HEADER_CLASSES = 'space-y-2'
+export const USERS_TABLE_ACTIONS_ROW_CLASSES = 'flex items-center justify-start'

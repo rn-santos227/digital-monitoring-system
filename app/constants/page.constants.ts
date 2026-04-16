@@ -109,6 +109,7 @@ export const DASHBOARD_LOGOUT_DIALOG_MESSAGE =
 export const DASHBOARD_LOGOUT_DIALOG_CONFIRM_LABEL = 'Log out'
 export const DASHBOARD_LOGOUT_DIALOG_CANCEL_LABEL = 'Stay signed in'
 
+
 export const USERS_PAGE_TITLE = 'Users Management'
 export const USERS_PAGE_SUBTITLE =
   'Manage AFP monitoring user profiles and account access details in a single operational workspace.'
@@ -127,6 +128,8 @@ export const USERS_PROFILE_TABLE_EMPTY_MESSAGE = 'No user profile records found.
 export const USERS_ACCOUNT_TABLE_EMPTY_MESSAGE = 'No user account records found.'
 export const USERS_PROFILE_TABLE_SEARCH_PLACEHOLDER = 'Search user profiles'
 export const USERS_ACCOUNT_TABLE_SEARCH_PLACEHOLDER = 'Search user accounts'
+export const USERS_PROFILE_CREATE_BUTTON_LABEL = 'Create User Profile'
+export const USERS_ACCOUNT_CREATE_BUTTON_LABEL = 'Create User Account'
 
 export const USERS_PROFILE_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'fullName', label: 'Full Name', sortable: true },
