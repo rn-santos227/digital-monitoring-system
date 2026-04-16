@@ -65,3 +65,7 @@
 14. **Standardize Pinia store structure**
     - All files under `app/stores` should use the options-style Pinia pattern with explicit `state`, `getters`, and `actions` sections in that order.
     - Keep getter names descriptive and ensure at least one getter exists for consistency across stores.
+
+15. **Always apply RBAC privilege checks in APIs**
+    - Every new or updated handler under `server/api` must explicitly enforce privileges via existing RBAC helpers (for example `requirePermission` / `requireAnyPermission`) before accessing protected data or mutations.
+    - Map each API action to the correct permission codes and keep this privilege mapping visible in the route implementation.
