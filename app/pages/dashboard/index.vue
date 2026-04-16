@@ -1,5 +1,5 @@
 <template>
-  <main class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+  <main :class="APP_MAIN_CONTENT_CLASSES">
     <section :class="DASHBOARD_PAGE_SECTION_CLASSES">
       <header class="space-y-2">
         <h1 class="text-3xl font-semibold text-slate-900">{{ DASHBOARD_PAGE_TITLE }}</h1>
@@ -30,4 +30,5 @@ import {
   DASHBOARD_PAGE_SUBTITLE,
   DASHBOARD_PAGE_TITLE,
 } from '~/constants/page.constants'
+import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 </script>

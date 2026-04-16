@@ -1,5 +1,5 @@
 <template>
-  <main class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+  <main :class="APP_MAIN_CONTENT_CLASSES">
     <section :class="USERS_PAGE_SECTION_CLASSES">
       <header :class="USERS_PAGE_HEADER_CLASSES">
         <h1 class="text-3xl font-semibold text-slate-900">{{ USERS_PAGE_TITLE }}</h1>
@@ -96,6 +96,7 @@ import {
   USERS_PROFILE_TABLE_SEARCH_PLACEHOLDER,
   USERS_PROFILE_TABLE_TITLE,
 } from '~/constants/page.constants'
+import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 import { USERS_PAGE_HEADER_CLASSES, USERS_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
 import { useUsers } from '~/composables/useUsers'
 import { useUsersPageHandlers } from '~/handlers'

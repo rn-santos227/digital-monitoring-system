@@ -60,10 +60,10 @@ export const BASE_TAB_ITEM_CLASSES =
 export const BASE_TAB_ACTIVE_CLASSES = 'bg-white text-slate-900 shadow-sm'
 export const BASE_TAB_INACTIVE_CLASSES = 'text-slate-600 hover:text-slate-900'
 
-export const BASE_TABLE_WINDOW_WRAPPER_CLASSES = 'rounded-xl border border-slate-200 bg-slate-50 p-4'
+export const BASE_TABLE_WINDOW_WRAPPER_CLASSES = 'w-full rounded-xl border border-slate-200 bg-slate-50 p-4'
 export const BASE_TABLE_HEADING_CLASSES = 'text-lg font-semibold text-slate-900'
 export const BASE_TABLE_SEARCH_WRAPPER_CLASSES = 'max-w-sm'
-export const BASE_TABLE_SCROLL_CLASSES = 'overflow-x-auto rounded-lg border border-slate-200 bg-white'
+export const BASE_TABLE_SCROLL_CLASSES = 'w-full overflow-x-auto rounded-lg border border-slate-200 bg-white'
 export const BASE_TABLE_CLASSES = 'min-w-full border-collapse text-left text-sm text-slate-700'
 export const BASE_TABLE_HEAD_CLASSES = 'border-b border-slate-200 bg-slate-50 text-slate-700'
 export const BASE_TABLE_HEAD_CELL_CLASSES = 'px-3 py-2.5 text-xs font-semibold uppercase tracking-wide whitespace-nowrap'

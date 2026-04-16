@@ -1,5 +1,5 @@
 <template>
-  <main class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+  <main :class="APP_MAIN_CONTENT_CLASSES">
     <section :class="AUDIT_PAGE_SECTION_CLASSES">
       <header class="space-y-2">
         <h1 class="text-3xl font-semibold text-slate-900">{{ AUDIT_PAGE_TITLE }}</h1>
@@ -58,6 +58,7 @@ import {
   AUDIT_TABLE_SEARCH_PLACEHOLDER,
   AUDIT_TABLE_TITLE,
 } from '~/constants/page.constants'
+import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 import { useAuditTrailPageHandlers } from '~/handlers'
 import { useAuditTrail } from '~/composables/useAuditTrail'
 import { useToast } from '~/composables/useToast'
