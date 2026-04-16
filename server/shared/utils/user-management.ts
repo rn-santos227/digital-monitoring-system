@@ -2,13 +2,15 @@ import type { AccountTypeListItem, PrivilegeListItem, UserProfileListItem } from
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../constants'
 import { parseNumber } from './parsers'
 
+interface AccountTypePermissionSummaryRow {
+  id: string
+  code: string
+  name: string
+  module: string
+}
+
 interface AccountTypePermissionRow {
-  permissions: {
-    id: string
-    code: string
-    name: string
-    module: string
-  } | null
+  permissions: AccountTypePermissionSummaryRow | AccountTypePermissionSummaryRow[] | null
 }
 
 interface AccountTypeListRow {
@@ -81,6 +83,21 @@ export const parseManagementPaginationQuery = (query: { page?: unknown; pageSize
   }
 }
 
+
+const toAccountTypePermissions = (permissionRow: AccountTypePermissionRow): AccountTypePermissionSummaryRow[] => {
+  const { permissions } = permissionRow
+
+  if (!permissions) {
+    return []
+  }
+
+  if (Array.isArray(permissions)) {
+    return permissions
+  }
+
+  return [permissions]
+}
+
 export const mapAccountTypeListItem = (row: AccountTypeListRow): AccountTypeListItem => {
   return {
     id: row.id,
@@ -90,9 +107,7 @@ export const mapAccountTypeListItem = (row: AccountTypeListRow): AccountTypeList
     isSystem: row.is_system,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
-    permissions: (row.account_type_permissions ?? [])
-      .map(permissionRow => permissionRow.permissions)
-      .filter((permission): permission is NonNullable<typeof permission> => Boolean(permission)),
+    permissions: (row.account_type_permissions ?? []).flatMap(toAccountTypePermissions),
   }
 }
 
