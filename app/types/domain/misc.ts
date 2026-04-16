@@ -48,6 +48,7 @@ export type NavigationItem = {
   label: string
   to: string
   icon: IconName
+  requiredPermissions?: readonly string[]
 }
 
 export type NavigationSection = {

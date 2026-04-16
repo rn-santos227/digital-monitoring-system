@@ -32,7 +32,12 @@ export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.
     title: 'Incidents & Audits',
     items: [
       { label: 'Incident Tracking', to: ROUTE_PATHS.incidents, icon: 'exclamation' },
-      { label: 'Audit Trail', to: ROUTE_PATHS.auditTrail, icon: 'clock' }
+      {
+        label: 'Audit Trail',
+        to: ROUTE_PATHS.auditTrail,
+        icon: 'clock',
+        requiredPermissions: Object.freeze(['audit.view']),
+      }
     ]
   }
 ])

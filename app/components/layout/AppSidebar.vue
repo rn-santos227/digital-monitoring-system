@@ -7,7 +7,7 @@
 
     <nav class="flex-1 overflow-y-auto px-3 py-4">
       <section
-        v-for="section in SIDEBAR_NAVIGATION_SECTIONS"
+        v-for="section in filteredSidebarNavigationSections"
         :key="section.title"
         class="mb-5 space-y-2"
       >
@@ -26,7 +26,7 @@
 
     <div class="border-t border-white/10 px-3 py-4">
       <NuxtLink
-        v-for="item in SIDEBAR_FOOTER_ITEMS"
+        v-for="item in filteredSidebarFooterItems"
         :key="item.to"
         :to="item.to"
         :class="resolveItemClasses(item.to)"
@@ -39,8 +39,11 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { SIDEBAR_FOOTER_ITEMS, SIDEBAR_NAVIGATION_SECTIONS } from '~/constants/navigation.constants'
+import { useAuthStore } from '~/stores/auth'
+import type { NavigationItem } from '~/types/domain/misc'
 import {
   APP_SIDEBAR_CLASSES,
   APP_SIDEBAR_ITEM_ACTIVE_CLASSES,
@@ -50,6 +53,34 @@ import {
 } from '~/constants/ui.constants'
 
 const route = useRoute()
+const authStore = useAuthStore()
+
+const hasPermissionAccess = (item: NavigationItem) => {
+  if (!item.requiredPermissions || item.requiredPermissions.length === 0) {
+    return true
+  }
+
+  return item.requiredPermissions.every((permissionCode) => {
+    return authStore.hasPermission(permissionCode)
+  })
+}
+
+const filteredSidebarNavigationSections = computed(() => {
+  return SIDEBAR_NAVIGATION_SECTIONS
+    .map((section) => {
+      const filteredItems = section.items.filter(hasPermissionAccess)
+
+      return {
+        ...section,
+        items: filteredItems,
+      }
+    })
+    .filter((section) => section.items.length > 0)
+})
+
+const filteredSidebarFooterItems = computed(() => {
+  return SIDEBAR_FOOTER_ITEMS.filter(hasPermissionAccess)
+})
 
 const resolveItemClasses = (path: string) => {
   const isActive = route.path === path
