@@ -24,12 +24,14 @@ interface AccountTypeListRow {
   account_type_permissions: AccountTypePermissionRow[] | null
 }
 
+interface UserAccountTypeSummaryRow {
+  id: string
+  code: string
+  name: string
+}
+
 interface UserAccountTypeRow {
-  account_types: {
-    id: string
-    code: string
-    name: string
-  } | null
+  account_types: UserAccountTypeSummaryRow | UserAccountTypeSummaryRow[] | null
 }
 
 interface UserProfileListRow {
@@ -111,6 +113,21 @@ export const mapAccountTypeListItem = (row: AccountTypeListRow): AccountTypeList
   }
 }
 
+
+const toUserAccountTypes = (accountTypeRow: UserAccountTypeRow): UserAccountTypeSummaryRow[] => {
+  const { account_types: accountTypes } = accountTypeRow
+
+  if (!accountTypes) {
+    return []
+  }
+
+  if (Array.isArray(accountTypes)) {
+    return accountTypes
+  }
+
+  return [accountTypes]
+}
+
 export const mapUserProfileListItem = (row: UserProfileListRow): UserProfileListItem => {
   return {
     id: row.id,
@@ -122,9 +139,7 @@ export const mapUserProfileListItem = (row: UserProfileListRow): UserProfileList
     lastLoginAt: row.last_login_at,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
-    accountTypes: (row.user_account_types ?? [])
-      .map(accountTypeRow => accountTypeRow.account_types)
-      .filter((accountType): accountType is NonNullable<typeof accountType> => Boolean(accountType)),
+    accountTypes: (row.user_account_types ?? []).flatMap(toUserAccountTypes),
   }
 }
 

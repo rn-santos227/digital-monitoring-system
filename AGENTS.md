@@ -23,6 +23,7 @@
 
 4. **Keep constants immutable and descriptive**
    - Export constants with explicit names (e.g., `DEFAULT_PAGE_SIZE`).
+   - New constant files should live under `server/shared/constants/lib/<constant>.ts`
    - Do not mutate imported constants.
 
 5. **Barrel exports for discoverability**
