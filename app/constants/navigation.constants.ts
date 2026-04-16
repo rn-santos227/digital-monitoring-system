@@ -6,6 +6,13 @@ export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.
     title: 'Personnel Monitoring',
     items: [
       { label: 'Dashboard', to: ROUTE_PATHS.home, icon: 'home' },
+      {
+        label: 'Users Management',
+        to: ROUTE_PATHS.users,
+        icon: 'users',
+        requiredPermissions: Object.freeze(['user.view']),
+      },
+
       { label: 'Personnel', to: ROUTE_PATHS.personnel, icon: 'users' },
       { label: 'Battalions & Companies', to: ROUTE_PATHS.battalions, icon: 'building' },
       { label: 'Service & Employment Status', to: ROUTE_PATHS.serviceStatuses, icon: 'clipboard' }

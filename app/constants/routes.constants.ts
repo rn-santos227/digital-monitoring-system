@@ -2,6 +2,7 @@ export const ROUTE_PATHS = Object.freeze({
   root: '/',
   login: '/login',
   home: '/dashboard',
+  users: '/users',
   personnel: '/personnel',
   battalions: '/battalions',
   serviceStatuses: '/service-statuses',

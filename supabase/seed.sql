@@ -201,9 +201,11 @@ values
   ('equipment.maintain', 'Maintain Equipment', 'equipment'),
   ('reports.view', 'View Reports', 'reports'),
   ('audit.view', 'View Audit Logs', 'audit'),
+  ('user.view', 'View User', 'user_management'),
   ('user.create', 'Create User', 'user_management'),
   ('user.update', 'Update User', 'user_management'),
   ('user.delete', 'Delete User', 'user_management'),
+  ('account_type.view', 'View Account Type', 'account_type_management'),
   ('account_type.create', 'Create Account Type', 'account_type_management'),
   ('account_type.update', 'Update Account Type', 'account_type_management'),
   ('account_type.delete', 'Delete Account Type', 'account_type_management')

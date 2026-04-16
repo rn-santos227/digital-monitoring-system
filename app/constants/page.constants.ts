@@ -1,4 +1,4 @@
-import type { DataTableAction, DataTableColumn } from '~/constants/ui.constants'
+import type { BaseTabItem, DataTableAction, DataTableColumn } from '~/constants/ui.constants'
 import type { DashboardMetric } from '~/types/domain/misc'
 
 export const DASHBOARD_PAGE_TITLE = 'Dashboard'
@@ -108,3 +108,37 @@ export const DASHBOARD_LOGOUT_DIALOG_MESSAGE =
   'You are about to end your authenticated session in the Digital AFP Personnel and Equipment Monitoring System.'
 export const DASHBOARD_LOGOUT_DIALOG_CONFIRM_LABEL = 'Log out'
 export const DASHBOARD_LOGOUT_DIALOG_CANCEL_LABEL = 'Stay signed in'
+
+export const USERS_PAGE_TITLE = 'Users Management'
+export const USERS_PAGE_SUBTITLE =
+  'Manage AFP monitoring user profiles and account access details in a single operational workspace.'
+export const USERS_PAGE_SECTION_CLASSES = 'space-y-6'
+export const USERS_PAGE_TABS_ARIA_LABEL = 'Users management tabs'
+export const USERS_PROFILE_TAB_LABEL = 'User Profile'
+export const USERS_ACCOUNT_TAB_LABEL = 'User Account'
+export const USERS_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
+  { id: 'user-profile', label: USERS_PROFILE_TAB_LABEL },
+  { id: 'user-account', label: USERS_ACCOUNT_TAB_LABEL },
+])
+
+export const USERS_PROFILE_TABLE_TITLE = 'User Profiles'
+export const USERS_ACCOUNT_TABLE_TITLE = 'User Accounts'
+export const USERS_PROFILE_TABLE_EMPTY_MESSAGE = 'No user profile records found.'
+export const USERS_ACCOUNT_TABLE_EMPTY_MESSAGE = 'No user account records found.'
+export const USERS_PROFILE_TABLE_SEARCH_PLACEHOLDER = 'Search user profiles'
+export const USERS_ACCOUNT_TABLE_SEARCH_PLACEHOLDER = 'Search user accounts'
+
+export const USERS_PROFILE_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'fullName', label: 'Full Name', sortable: true },
+  { key: 'email', label: 'Email', sortable: true },
+  { key: 'accountTypes', label: 'Account Types', sortable: false },
+  { key: 'status', label: 'Status', sortable: true },
+  { key: 'lastLoginAt', label: 'Last Login', sortable: true },
+])
+
+export const USERS_ACCOUNT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'code', label: 'Code', sortable: true },
+  { key: 'name', label: 'Name', sortable: true },
+  { key: 'description', label: 'Description', sortable: false },
+  { key: 'systemType', label: 'Type', sortable: true },
+])

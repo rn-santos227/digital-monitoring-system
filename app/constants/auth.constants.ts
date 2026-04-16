@@ -4,6 +4,7 @@ export const PUBLIC_ROUTE_PATHS = Object.freeze([ROUTE_PATHS.root, ROUTE_PATHS.l
 
 export const ROUTE_PERMISSION_MATRIX: Readonly<Record<string, readonly string[]>> = Object.freeze({
   [ROUTE_PATHS.auditTrail]: ['audit.view'],
+  [ROUTE_PATHS.users]: ['user.view'],
 })
 
 export const DEFAULT_AUTHENTICATED_REDIRECT_PATH = ROUTE_PATHS.home
