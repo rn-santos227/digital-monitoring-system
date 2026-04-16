@@ -41,6 +41,29 @@
           @update:current-page="onProfilePageChange"
         />
       </template>
+
+      <template v-else>
+        <div :class="USERS_TABLE_ACTIONS_ROW_CLASSES">
+          <BaseButton>
+            {{ USERS_ACCOUNT_CREATE_BUTTON_LABEL }}
+          </BaseButton>
+        </div>
+
+        <DataTable
+          :title="USERS_ACCOUNT_TABLE_TITLE"
+          :columns="USERS_ACCOUNT_TABLE_COLUMNS"
+          :rows="accountTableRows"
+          row-key="id"
+          :is-loading="isLoading"
+          :search-query="accountSearchQuery"
+          :search-placeholder="USERS_ACCOUNT_TABLE_SEARCH_PLACEHOLDER"
+          :empty-message="USERS_ACCOUNT_TABLE_EMPTY_MESSAGE"
+          :current-page="accountPagination.page"
+          :total-pages="accountPagination.totalPages"
+          @update:search-query="onAccountSearch"
+          @update:current-page="onAccountPageChange"
+        />
+      </template>
     </section>
   </main>
 </template>
