@@ -36,4 +36,31 @@ const {
   loadUserAccounts,
 } = useUsers()
 
+const { handleTabChange, handleProfileSearch, handleAccountSearch } = useUsersPageHandlers(
+  activeTab,
+  profileSearchQuery,
+  accountSearchQuery
+)
+
+const onTabChange = (nextTab: string) => {
+  handleTabChange(nextTab)
+}
+
+const onProfileSearch = (value: string) => {
+  handleProfileSearch(value)
+  void loadUserProfiles(1, value)
+}
+
+const onAccountSearch = (value: string) => {
+  handleAccountSearch(value)
+  void loadUserAccounts(1, value)
+}
+
+const onProfilePageChange = (nextPage: number) => {
+  void loadUserProfiles(nextPage)
+}
+
+const onAccountPageChange = (nextPage: number) => {
+  void loadUserAccounts(nextPage)
+}
 </script>
