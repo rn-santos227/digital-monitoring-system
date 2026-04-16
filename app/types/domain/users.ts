@@ -2,25 +2,35 @@ export type UserManagementTabId = 'user-profile' | 'user-account'
 
 export interface UserProfileRecord {
   id: string
+  email: string
   fullName: string
-  battalion: string
-  company: string
-  rank: string
-  status: 'Active' | 'Reserve'
+  isActive: boolean
+  lastLoginAt: string | null
+  accountTypeCodes: string[]
 }
 
 export interface UserAccountRecord {
   id: string
-  username: string
-  email: string
-  role: string
-  accountStatus: 'Enabled' | 'Locked'
+  code: string
+  name: string
+  description: string | null
+  isSystem: boolean
+}
+
+export interface UsersTablePagination {
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
 }
 
 export interface UsersState {
   profileItems: UserProfileRecord[]
   accountItems: UserAccountRecord[]
+  profilePagination: UsersTablePagination
+  accountPagination: UsersTablePagination
   isLoading: boolean
+  error: string
 }
 
 export interface UserProfilesEndpointQuery {
