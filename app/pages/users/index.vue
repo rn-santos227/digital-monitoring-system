@@ -6,7 +6,19 @@
         <p class="text-sm text-slate-600">{{ USERS_PAGE_SUBTITLE }}</p>
       </header>
 
+      <BaseTab
+        :model-value="activeTab"
+        :items="USERS_PAGE_TAB_ITEMS"
+        :aria-label="USERS_PAGE_TABS_ARIA_LABEL"
+        @update:model-value="onTabChange"
+      />
 
+      <BaseAlert
+        v-if="error"
+        :message="error"
+        tone="danger"
+      />
+      
     </section>
   </main>
 </template>
