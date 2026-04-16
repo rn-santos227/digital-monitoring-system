@@ -3,7 +3,7 @@ import type { UserManagementTabId } from '~/types/domain/users'
 
 export const USER_MANAGEMENT_TAB_IDS: readonly UserManagementTabId[] = ['user-profile', 'user-account']
 
-export const useUsersManagementPageHandlers = (
+export const useUsersPageHandlers = (
   activeTab: Ref<UserManagementTabId>,
   profileSearchQuery: Ref<string>,
   accountSearchQuery: Ref<string>

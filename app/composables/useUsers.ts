@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 import { useUsersStore } from '~/stores/users'
 import type { UserManagementTabId } from '~/types/domain/users'
 
-export const useUsersManagement = () => {
+export const useUsers = () => {
   const usersStore = useUsersStore()
   const { profileItems, accountItems, profilePagination, accountPagination, isLoading, error } = storeToRefs(usersStore)
 
