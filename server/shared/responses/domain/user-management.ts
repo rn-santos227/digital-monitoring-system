@@ -1,0 +1,44 @@
+export interface UserListAccountTypeSummary {
+  code: string
+}
+
+export interface UserProfileListItemCompact {
+  id: string
+  email: string
+  fullName: string
+  isActive: boolean
+  lastLoginAt: string | null
+  accountTypes: UserListAccountTypeSummary[]
+}
+
+export interface UserProfileListCompactResponse {
+  items: UserProfileListItemCompact[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
+
+export interface UserDetailAccountTypeSummary {
+  id: string
+  code: string
+  name: string
+}
+
+export interface UserProfileDetailResponse {
+  id: string
+  personnelId: string | null
+  email: string
+  fullName: string
+  avatarUrl: string | null
+  isActive: boolean
+  lastLoginAt: string | null
+  passwordUpdatedAt: string | null
+  createdAt: string
+  updatedAt: string
+  accountTypes: UserDetailAccountTypeSummary[]
+}
+
+export interface MutationSuccessResponse {
+  ok: true
+}

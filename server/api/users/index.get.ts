@@ -1,11 +1,11 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
-import type { UserProfileListResponse } from '../../shared/models'
+import type { UserProfileListCompactResponse } from '../../shared/responses'
 import { MANAGEMENT_PERMISSION_GROUPS } from '../../shared/constants'
-import { mapUserProfileListItem, parseManagementPaginationQuery } from '../../shared/utils'
+import { mapUserProfileCompactListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
-export default defineEventHandler(async (event): Promise<UserProfileListResponse> => {
+export default defineEventHandler(async (event): Promise<UserProfileListCompactResponse> => {
   await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.userProfileManagement)
 
   const query = getQuery(event)
@@ -20,7 +20,7 @@ export default defineEventHandler(async (event): Promise<UserProfileListResponse
   const supabase = getServiceSupabaseClient()
   let profileQuery = supabase
     .from('user_profiles')
-    .select('id, personnel_id, email, full_name, avatar_url, is_active, last_login_at, created_at, updated_at, user_account_types(account_types(id, code, name))', {
+    .select('id, email, full_name, is_active, last_login_at, user_account_types(account_types(code))', {
       count: 'exact',
     })
     .order('full_name', { ascending: true })
@@ -40,7 +40,7 @@ export default defineEventHandler(async (event): Promise<UserProfileListResponse
     throw createError({ statusCode: 500, statusMessage: `Failed to fetch user profiles: ${error.message}` })
   }
 
-  const items = (data ?? []).map(mapUserProfileListItem)
+  const items = (data ?? []).map(mapUserProfileCompactListItem)
   const totalItems = count ?? 0
   const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
 

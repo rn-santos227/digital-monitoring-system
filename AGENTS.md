@@ -13,65 +13,71 @@
    - Put reusable constants in `server/shared/constants`.
    - Put reusable helpers in `server/shared/utils`.
 
-2. **Preserve domain-first organization**
+2. **Centralize API contracts and validation in shared folders**
+   - Put reusable request interfaces in `server/shared/requests/domain/<domain-name>.ts`.
+   - Put reusable response interfaces in `server/shared/responses/domain/<domain-name>.ts`.
+   - Put reusable validation/parsing helpers in `server/shared/validation/domain/<domain-name>.ts`.
+   - Keep `request`/`response`/`validation` barrel exports updated for discoverability.
+
+3. **Preserve domain-first organization**
    - New model files should live under `server/shared/models/domain/<domain-name>.ts`.
    - Avoid mixing unrelated domain contracts in a single file.
 
-3. **Prefer pure utilities**
+4. **Prefer pure utilities**
    - Utility functions should avoid side effects whenever possible.
    - Parser/formatter helpers should be deterministic and unit-testable.
 
-4. **Keep constants immutable and descriptive**
+5. **Keep constants immutable and descriptive**
    - Export constants with explicit names (e.g., `DEFAULT_PAGE_SIZE`).
    - New constant files should live under `server/shared/constants/lib/<constant>.ts`
    - Do not mutate imported constants.
 
-5. **Barrel exports for discoverability**
+6. **Barrel exports for discoverability**
    - Update `index.ts` files in each shared folder when adding new modules.
 
-6. **Avoid duplication in API handlers**
+7. **Avoid duplication in API handlers**
    - If logic appears in multiple server routes, extract it into shared models/constants/utils.
 
-7. **File naming and style**
+8. **File naming and style**
    - Use lowercase kebab-case or simple descriptive names for files.
    - Keep TypeScript strict-friendly and avoid `any` when practical.
 
-8. **Use shared UI components in pages**
+9. **Use shared UI components in pages**
    - When constructing or updating pages, compose the page using existing `components/ui` building blocks.
    - Avoid writing one-off page-level markup/styles for controls that already exist as shared UI components.
    - If a needed UI building block does not exist, add it to `components/ui` first and then consume it from pages.
 
-9. **Centralize UI/page contracts and classes**
-   - Keep reusable UI interfaces/types and class-string constants in `app/constants/ui.constants.ts`.
-   - Keep reusable page-level labels, placeholders, and display configuration in `app/constants/pages.constants.ts`.
-   - Keep reusable class-string constants for custom components in `app/constants/shared.constants.ts`
-   - Avoid defining repeated interface/class strings directly inside page/component files when they can be shared through constants.
+10. **Centralize UI/page contracts and classes**
+    - Keep reusable UI interfaces/types and class-string constants in `app/constants/ui.constants.ts`.
+    - Keep reusable page-level labels, placeholders, and display configuration in `app/constants/pages.constants.ts`.
+    - Keep reusable class-string constants for custom components in `app/constants/shared.constants.ts`
+    - Avoid defining repeated interface/class strings directly inside page/component files when they can be shared through constants.
 
-10. **Icon standardization**
+11. **Icon standardization**
     - When adding UI icons, use `@heroicons/vue` (Heroicons) as the default icon set for consistency.
 
-11. **Keep API route files focused**
+12. **Keep API route files focused**
     - API route files under `server/api` should contain only one exported handler function.
     - Move reusable helper functions into shared/server utility modules instead of defining them inside route files.
 
-12. **Keep store actions thin via endpoint utilities**
+13. **Keep store actions thin via endpoint utilities**
     - Supplementary logic used by store actions (for example session header building, token storage, request payload shaping) should be extracted into `app/utils` helpers instead of being declared inline inside stores.
     - For API communication, provide one utility function per API endpoint (e.g., one function for login endpoint, one for logout endpoint, one for session endpoint) so store files stay concise and focused on state transitions.
 
-13. **Centralize page handlers**
+14. **Centralize page handlers**
     - Create page-level handler modules under `app/handlers/{feature}` and place page component event handlers there.
     - Keep CRUD handler functions grouped by domain in one place (e.g., future personnel CRUD handlers should live together in a dedicated handler module under `app/handlers/{feature}`).
     - This rule applies only to files under `app/pages`; component-local handlers for reusable components do not need to move.
 
-14. **Standardize Pinia store structure**
+15. **Standardize Pinia store structure**
     - All files under `app/stores` should use the options-style Pinia pattern with explicit `state`, `getters`, and `actions` sections in that order.
     - Keep getter names descriptive and ensure at least one getter exists for consistency across stores.
 
-15. **Always apply RBAC privilege checks in APIs**
+16. **Always apply RBAC privilege checks in APIs**
     - Every new or updated handler under `server/api` must explicitly enforce privileges via existing RBAC helpers (for example `requirePermission` / `requireAnyPermission`) before accessing protected data or mutations.
     - Map each API action to the correct permission codes and keep this privilege mapping visible in the route implementation.
 
-16. **Mutation API safety requirements**
+17. **Mutation API safety requirements**
     - Every `POST`, `PATCH`, and `DELETE` handler under `server/api` must record API audit logs for both successful and failed outcomes.
     - For destructive operations, enforce usage-safety checks first (e.g., do not delete account types that are still assigned to user profiles).
     - Multi-step mutation handlers must implement transaction-like rollback behavior (via DB transaction or explicit compensation logic) and must record rollback errors.

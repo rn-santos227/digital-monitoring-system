@@ -1,4 +1,5 @@
 import type { AccountTypeListItem, PrivilegeListItem, UserProfileListItem } from '../models'
+import type { UserProfileDetailResponse, UserProfileListItemCompact } from '../responses'
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../constants'
 import { parseNumber } from './parsers'
 
@@ -34,6 +35,14 @@ interface UserAccountTypeRow {
   account_types: UserAccountTypeSummaryRow | UserAccountTypeSummaryRow[] | null
 }
 
+interface UserAccountTypeCodeSummaryRow {
+  code: string
+}
+
+interface UserAccountTypeCodeRow {
+  account_types: UserAccountTypeCodeSummaryRow | UserAccountTypeCodeSummaryRow[] | null
+}
+
 interface UserProfileListRow {
   id: string
   personnel_id: string | null
@@ -47,6 +56,28 @@ interface UserProfileListRow {
   user_account_types: UserAccountTypeRow[] | null
 }
 
+interface UserProfileCompactRow {
+  id: string
+  email: string
+  full_name: string
+  is_active: boolean
+  last_login_at: string | null
+  user_account_types: UserAccountTypeCodeRow[] | null
+}
+
+interface UserProfileDetailRow {
+  id: string
+  personnel_id: string | null
+  email: string
+  full_name: string
+  avatar_url: string | null
+  is_active: boolean
+  last_login_at: string | null
+  password_updated_at: string | null
+  created_at: string
+  updated_at: string
+  user_account_types: UserAccountTypeRow[] | null
+}
 
 interface PrivilegeListRow {
   id: string
@@ -128,6 +159,20 @@ const toUserAccountTypes = (accountTypeRow: UserAccountTypeRow): UserAccountType
   return [accountTypes]
 }
 
+const toUserAccountTypeCodes = (accountTypeRow: UserAccountTypeCodeRow): UserAccountTypeCodeSummaryRow[] => {
+  const { account_types: accountTypes } = accountTypeRow
+
+  if (!accountTypes) {
+    return []
+  }
+
+  if (Array.isArray(accountTypes)) {
+    return accountTypes
+  }
+
+  return [accountTypes]
+}
+
 export const mapUserProfileListItem = (row: UserProfileListRow): UserProfileListItem => {
   return {
     id: row.id,
@@ -137,6 +182,35 @@ export const mapUserProfileListItem = (row: UserProfileListRow): UserProfileList
     avatarUrl: row.avatar_url,
     isActive: row.is_active,
     lastLoginAt: row.last_login_at,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+    accountTypes: (row.user_account_types ?? []).flatMap(toUserAccountTypes),
+  }
+}
+
+export const mapUserProfileCompactListItem = (row: UserProfileCompactRow): UserProfileListItemCompact => {
+  return {
+    id: row.id,
+    email: row.email,
+    fullName: row.full_name,
+    isActive: row.is_active,
+    lastLoginAt: row.last_login_at,
+    accountTypes: (row.user_account_types ?? []).flatMap(toUserAccountTypeCodes).map(accountType => ({
+      code: accountType.code,
+    })),
+  }
+}
+
+export const mapUserProfileDetail = (row: UserProfileDetailRow): UserProfileDetailResponse => {
+  return {
+    id: row.id,
+    personnelId: row.personnel_id,
+    email: row.email,
+    fullName: row.full_name,
+    avatarUrl: row.avatar_url,
+    isActive: row.is_active,
+    lastLoginAt: row.last_login_at,
+    passwordUpdatedAt: row.password_updated_at,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
     accountTypes: (row.user_account_types ?? []).flatMap(toUserAccountTypes),

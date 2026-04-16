@@ -19,5 +19,7 @@ export const AUDIT_LOG_ENDPOINTS = {
   accountTypesCreate: '/api/account-types',
   accountTypesUpdate: '/api/account-types/:id',
   accountTypesDelete: '/api/account-types/:id',
-  userProfilesUpdate: '/api/user-profiles/:id',
+  userProfilesUpdate: '/api/users/:id',
+  userProfilesPasswordUpdate: '/api/users/:id/password',
+  userProfilesActivationUpdate: '/api/users/:id/activation',
 } as const

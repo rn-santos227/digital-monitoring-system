@@ -1,54 +1,27 @@
 import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
-import type { UpdateUserProfileBody } from '../../shared/models'
+import type { UpdateUserProfileRequest } from '../../shared/requests'
+import type { MutationSuccessResponse } from '../../shared/responses'
 import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
-import { normalizeOptionalText } from '../../shared/utils'
+import { buildUserProfileUpdates, normalizeAccountTypeIds, requireRouteId } from '../../shared/validations'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../utils/db/executeWithRollback'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.userUpdate)
+  const id = requireRouteId(getRouterParam(event, 'id'), 'User profile id is required.')
+  const body = await readBody<UpdateUserProfileRequest>(event)
 
-  const id = getRouterParam(event, 'id')
-
-  if (!id) {
-    throw createError({ statusCode: 400, statusMessage: 'User profile id is required.' })
+  if ('isActive' in (body as Record<string, unknown>)) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Use PATCH /api/users/:id/activation to activate or deactivate a user profile.',
+    })
   }
 
-  const body = await readBody<UpdateUserProfileBody>(event)
-  const updates: {
-    personnel_id?: string | null
-    full_name?: string
-    avatar_url?: string | null
-    is_active?: boolean
-  } = {}
-
-  if (body.personnelId !== undefined) {
-    updates.personnel_id = body.personnelId
-  }
-
-  if (body.fullName !== undefined) {
-    const fullName = normalizeOptionalText(body.fullName)
-
-    if (!fullName) {
-      throw createError({ statusCode: 400, statusMessage: 'Full name cannot be empty.' })
-    }
-
-    updates.full_name = fullName
-  }
-
-  if (body.avatarUrl !== undefined) {
-    updates.avatar_url = typeof body.avatarUrl === 'string' ? normalizeOptionalText(body.avatarUrl) : null
-  }
-
-  if (body.isActive !== undefined) {
-    updates.is_active = Boolean(body.isActive)
-  }
-
-  const accountTypeIds = Array.isArray(body.accountTypeIds)
-    ? [...new Set(body.accountTypeIds.filter((accountTypeId): accountTypeId is string => typeof accountTypeId === 'string' && accountTypeId.length > 0))]
-    : null
+  const updates = buildUserProfileUpdates(body)
+  const accountTypeIds = normalizeAccountTypeIds(body.accountTypeIds)
 
   if (Object.keys(updates).length === 0 && accountTypeIds === null) {
     throw createError({ statusCode: 400, statusMessage: 'No updates were provided.' })
@@ -123,7 +96,7 @@ export default defineEventHandler(async (event) => {
           if (accountTypeIds.length > 0) {
             const { error: assignError } = await supabase
               .from('user_account_types')
-              .insert(accountTypeIds.map(accountTypeId => ({
+              .insert(accountTypeIds.map((accountTypeId: string) => ({
                 user_id: id,
                 account_type_id: accountTypeId,
               })))
@@ -141,7 +114,6 @@ export default defineEventHandler(async (event) => {
             personnel_id: existingProfile.personnel_id,
             full_name: existingProfile.full_name,
             avatar_url: existingProfile.avatar_url,
-            is_active: existingProfile.is_active,
           })
           .eq('id', id)
 
@@ -210,9 +182,7 @@ export default defineEventHandler(async (event) => {
       message: 'User profile updated successfully.',
     })
 
-    return {
-      ok: true,
-    }
+    return { ok: true }
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
 
