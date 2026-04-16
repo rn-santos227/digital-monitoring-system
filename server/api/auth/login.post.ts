@@ -11,6 +11,7 @@ import { buildLoginAuditRequestData, getRequestIpAddress } from '../../shared/ut
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { generateSessionToken } from '../../utils/auth/sessionToken'
 import { recordApiAuditLog } from '../../utils/audit/recordApiAuditLog'
+import { fetchUserPrivilegeClaims } from '../../utils/auth/privileges'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<LoginBody>(event)
@@ -128,6 +129,7 @@ export default defineEventHandler(async (event) => {
 
   await writeLoginAttempt(200, AUDIT_LOG_OUTCOMES.success, authenticatedUser.user_id, 'Authentication successful.')
   await writeLoginSuccess(authenticatedUser.user_id)
+  const { accountTypeCodes, permissionCodes } = await fetchUserPrivilegeClaims(authenticatedUser.user_id)
 
   setCookie(event, SESSION_COOKIE_NAME, token, {
     httpOnly: true,
@@ -144,6 +146,8 @@ export default defineEventHandler(async (event) => {
       id: authenticatedUser.user_id,
       email: authenticatedUser.email,
       fullName: authenticatedUser.full_name,
+      accountTypeCodes,
+      permissionCodes,
     },
     expiresAt: expiresAtDate.toISOString(),
   }
