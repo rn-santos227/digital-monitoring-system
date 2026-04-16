@@ -18,3 +18,14 @@ const INITIAL_USERS_STATE: UsersState = {
   isLoading: false,
   error: '',
 }
+
+const usersStoreOptions = {
+  state: (): UsersState => ({
+    ...INITIAL_USERS_STATE,
+    profilePagination: { ...DEFAULT_PAGINATION },
+    accountPagination: { ...DEFAULT_PAGINATION },
+  }),
+
+}
+
+export const useUsersStore = defineStore('users', usersStoreOptions)
