@@ -14,7 +14,7 @@ export default defineEventHandler(async (event): Promise<UserProfileDetailRespon
   const supabase = getServiceSupabaseClient()
   const { data, error } = await supabase
     .from('user_profiles')
-    .select('id, personnel_id, email, full_name, avatar_url, is_active, last_login_at, password_updated_at, created_at, updated_at, user_account_types(account_types(id, code, name))')
+    .select('id, personnel_id, email, full_name, avatar_url, is_active, last_login_at, password_updated_at, created_at, updated_at, user_account_types!user_account_types_user_id_fkey(account_types(id, code, name))')
     .eq('id', id)
     .maybeSingle()
 
