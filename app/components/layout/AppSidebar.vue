@@ -56,13 +56,7 @@ const route = useRoute()
 const authStore = useAuthStore()
 
 const hasPermissionAccess = (item: NavigationItem) => {
-  if (!item.requiredPermissions || item.requiredPermissions.length === 0) {
-    return true
-  }
-
-  return item.requiredPermissions.every((permissionCode) => {
-    return authStore.hasPermission(permissionCode)
-  })
+  return authStore.hasPermissionAccess(item.requiredPermissions)
 }
 
 const filteredSidebarNavigationSections = computed(() => {

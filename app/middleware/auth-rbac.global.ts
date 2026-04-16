@@ -32,13 +32,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
   }
 
   const requiredPermissions = ROUTE_PERMISSION_MATRIX[to.path]
-  if (!requiredPermissions || requiredPermissions.length === 0) {
-    return
-  }
-
-  const hasRouteAccess = requiredPermissions.every((permissionCode) => {
-    return authStore.hasPermission(permissionCode)
-  })
+  const hasRouteAccess = authStore.hasPermissionAccess(requiredPermissions)
 
   if (!hasRouteAccess) {
     return navigateTo(DEFAULT_UNAUTHORIZED_REDIRECT_PATH)
