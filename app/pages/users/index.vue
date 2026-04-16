@@ -31,6 +31,9 @@
           :columns="USERS_PROFILE_TABLE_COLUMNS"
           :rows="profileTableRows"
           row-key="id"
+          :actions="USERS_PROFILE_TABLE_ACTIONS"
+          :action-button-count="USERS_PROFILE_TABLE_ACTIONS.length"
+          :actions-column-label="USERS_PROFILE_TABLE_ACTIONS_COLUMN_LABEL"
           :is-loading="isLoading"
           :search-query="profileSearchQuery"
           :search-placeholder="USERS_PROFILE_TABLE_SEARCH_PLACEHOLDER"
@@ -54,6 +57,9 @@
           :columns="USERS_ACCOUNT_TABLE_COLUMNS"
           :rows="accountTableRows"
           row-key="id"
+          :actions="USERS_ACCOUNT_TABLE_ACTIONS"
+          :action-button-count="USERS_ACCOUNT_TABLE_ACTIONS.length"
+          :actions-column-label="USERS_ACCOUNT_TABLE_ACTIONS_COLUMN_LABEL"
           :is-loading="isLoading"
           :search-query="accountSearchQuery"
           :search-placeholder="USERS_ACCOUNT_TABLE_SEARCH_PLACEHOLDER"
@@ -70,6 +76,8 @@
 
 <script setup lang="ts">
 import {
+  USERS_ACCOUNT_TABLE_ACTIONS,
+  USERS_ACCOUNT_TABLE_ACTIONS_COLUMN_LABEL,
   USERS_ACCOUNT_TABLE_COLUMNS,
   USERS_ACCOUNT_CREATE_BUTTON_LABEL,
   USERS_ACCOUNT_TABLE_EMPTY_MESSAGE,
@@ -80,6 +88,8 @@ import {
   USERS_PAGE_TAB_ITEMS,
   USERS_PAGE_TABS_ARIA_LABEL,
   USERS_PAGE_TITLE,
+  USERS_PROFILE_TABLE_ACTIONS,
+  USERS_PROFILE_TABLE_ACTIONS_COLUMN_LABEL,
   USERS_PROFILE_TABLE_COLUMNS,
   USERS_PROFILE_CREATE_BUTTON_LABEL,
   USERS_PROFILE_TABLE_EMPTY_MESSAGE,
