@@ -1,11 +1,12 @@
 import { createError, defineEventHandler, getRouterParam } from 'h3'
 import type { AuditLogDetail } from '../../../shared/models'
+import { PERMISSION_CODES } from '../../../shared/constants'
 import { mapAuditLogDetail } from '../../../shared/utils'
-import { requireAuth } from '../../../utils/auth/requireAuth'
+import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 
 export default defineEventHandler(async (event): Promise<AuditLogDetail> => {
-  await requireAuth(event)
+  await requirePermission(event, PERMISSION_CODES.auditView)
 
   const id = getRouterParam(event, 'id')
 
