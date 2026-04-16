@@ -1,5 +1,14 @@
 <template>
+  <main class="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
+    <section :class="USERS_PAGE_SECTION_CLASSES">
+      <header :class="USERS_PAGE_HEADER_CLASSES">
+        <h1 class="text-3xl font-semibold text-slate-900">{{ USERS_PAGE_TITLE }}</h1>
+        <p class="text-sm text-slate-600">{{ USERS_PAGE_SUBTITLE }}</p>
+      </header>
 
+
+    </section>
+  </main>
 </template>
 
 <script setup lang="ts">
