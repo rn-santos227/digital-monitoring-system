@@ -6,7 +6,7 @@ import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
 export default defineEventHandler(async (event): Promise<UserProfileListCompactResponse> => {
-  await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.userProfileManagement)
+  const actor = await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.userProfileManagement)
 
   const query = getQuery(event)
   const search = typeof query.search === 'string' ? query.search.trim() : ''
@@ -20,9 +20,10 @@ export default defineEventHandler(async (event): Promise<UserProfileListCompactR
   const supabase = getServiceSupabaseClient()
   let profileQuery = supabase
     .from('user_profiles')
-    .select('id, email, full_name, is_active, last_login_at, user_account_types(account_types(code))', {
+    .select('id, email, full_name, is_active, last_login_at, user_account_types!user_account_types_user_id_fkey(account_types(code))', {
       count: 'exact',
     })
+    .neq('id', actor.id)
     .order('full_name', { ascending: true })
     .range(rangeFrom, rangeTo)
 
