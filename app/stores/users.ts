@@ -26,6 +26,10 @@ const usersStoreOptions = {
     accountPagination: { ...DEFAULT_PAGINATION },
   }),
 
+  getters: {
+    hasUserProfiles: (state: UsersState) => state.profileItems.length > 0,
+    hasUserAccounts: (state: UsersState) => state.accountItems.length > 0,
+  },
 }
 
 export const useUsersStore = defineStore('users', usersStoreOptions)
