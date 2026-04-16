@@ -66,6 +66,40 @@ const usersStoreOptions = {
         this.isLoading = false
       }
     },
+
+    async fetchUserAccounts(this: UsersState, page = 1, search = '') {
+      this.isLoading = true
+      this.error = ''
+
+      try {
+        const response = await getUserAccountsEndpoint({
+          page,
+          pageSize: this.accountPagination.pageSize,
+          search: search.trim() || undefined,
+        })
+
+        this.accountItems = response.items.map((item): UserAccountRecord => ({
+          id: item.id,
+          code: item.code,
+          name: item.name,
+          description: item.description,
+          isSystem: item.isSystem,
+        }))
+        this.accountPagination = {
+          page: response.page,
+          pageSize: response.pageSize,
+          totalItems: response.totalItems,
+          totalPages: response.totalPages,
+        }
+      } catch (error) {
+        this.accountItems = []
+        this.accountPagination = { ...DEFAULT_PAGINATION }
+        this.error = extractApiErrorMessage(error, 'Unable to fetch user accounts.')
+        throw error
+      } finally {
+        this.isLoading = false
+      }
+    },
   },
 }
 
