@@ -1,11 +1,12 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { AuditLogListResponse } from '../../shared/models'
 import { mapAuditLogListItem, parsePaginationQuery } from '../../shared/utils'
-import { requireAuth } from '../../utils/auth/requireAuth'
+import { PERMISSION_CODES } from '../../shared/constants'
+import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
 export default defineEventHandler(async (event): Promise<AuditLogListResponse> => {
-  await requireAuth(event)
+  await requirePermission(event, PERMISSION_CODES.auditView)
 
   const query = getQuery(event)
   const { page, pageSize, rangeFrom, rangeTo } = parsePaginationQuery({

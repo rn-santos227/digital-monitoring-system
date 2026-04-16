@@ -1,7 +1,8 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { AuditLogListResponse } from '../../shared/models'
+import { PERMISSION_CODES } from '../../shared/constants'
 import { mapAuditLogListItem, parsePaginationQuery } from '../../shared/utils'
-import { requireAuth } from '../../utils/auth/requireAuth'
+import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
 const SEARCHABLE_AUDIT_FIELDS = {
@@ -13,7 +14,7 @@ const SEARCHABLE_AUDIT_FIELDS = {
 } as const
 
 export default defineEventHandler(async (event): Promise<AuditLogListResponse> => {
-  await requireAuth(event)
+ await requirePermission(event, PERMISSION_CODES.auditView)
 
   const query = getQuery(event)
   const term = typeof query.term === 'string' ? query.term.trim() : ''
