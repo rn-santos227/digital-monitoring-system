@@ -130,6 +130,8 @@ export const USERS_PROFILE_TABLE_SEARCH_PLACEHOLDER = 'Search user profiles'
 export const USERS_ACCOUNT_TABLE_SEARCH_PLACEHOLDER = 'Search user accounts'
 export const USERS_PROFILE_CREATE_BUTTON_LABEL = 'Create User Profile'
 export const USERS_ACCOUNT_CREATE_BUTTON_LABEL = 'Create User Account'
+export const USERS_PROFILE_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
+export const USERS_ACCOUNT_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
 
 export const USERS_PROFILE_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'fullName', label: 'Full Name', sortable: true },
@@ -139,9 +141,39 @@ export const USERS_PROFILE_TABLE_COLUMNS: readonly DataTableColumn[] = Object.fr
   { key: 'lastLoginAt', label: 'Last Login', sortable: true },
 ])
 
+export const USERS_PROFILE_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  {
+    key: 'edit-user-profile',
+    tooltip: 'Edit user profile',
+    iconName: 'pencil-square',
+    variant: 'info',
+  },
+  {
+    key: 'delete-user-profile',
+    tooltip: 'Delete user profile',
+    iconName: 'trash',
+    variant: 'danger',
+  },
+])
+
 export const USERS_ACCOUNT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'code', label: 'Code', sortable: true },
   { key: 'name', label: 'Name', sortable: true },
   { key: 'description', label: 'Description', sortable: false },
   { key: 'systemType', label: 'Type', sortable: true },
+])
+
+export const USERS_ACCOUNT_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  {
+    key: 'edit-account-type',
+    tooltip: 'Edit account type',
+    iconName: 'pencil-square',
+    variant: 'info',
+  },
+  {
+    key: 'delete-account-type',
+    tooltip: 'Delete account type',
+    iconName: 'trash',
+    variant: 'danger',
+  },
 ])
