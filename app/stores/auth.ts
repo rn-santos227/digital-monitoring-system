@@ -30,6 +30,16 @@ const authStoreOptions = {
       return this.permissionCodes.includes(permissionCode)
     },
 
+    hasPermissionAccess(this: AuthState & { permissionCodes: string[]; hasPermission: (code: string) => boolean }, requiredPermissions?: readonly string[]) {
+      if (!requiredPermissions || requiredPermissions.length === 0) {
+        return true
+      }
+
+      return requiredPermissions.every((permissionCode) => {
+        return this.hasPermission(permissionCode)
+      })
+    },
+
     async login(this: AuthState, payload: LoginPayload) {
       this.isSubmitting = true
       this.loginError = ''
