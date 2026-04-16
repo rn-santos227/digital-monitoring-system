@@ -21,4 +21,19 @@ import {
 import { USERS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
 import { useUsers } from '~/composables/useUsers'
 import { useUsersPageHandlers } from '~/handlers'
+
+const {
+  activeTab,
+  profileSearchQuery,
+  accountSearchQuery,
+  profileTableRows,
+  accountTableRows,
+  profilePagination,
+  accountPagination,
+  isLoading,
+  error,
+  loadUserProfiles,
+  loadUserAccounts,
+} = useUsers()
+
 </script>
