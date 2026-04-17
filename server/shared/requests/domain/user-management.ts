@@ -5,6 +5,22 @@ export interface UpdateUserProfileRequest {
   accountTypeIds?: string[]
 }
 
+export interface CreateUserProfileRequest {
+  email?: string
+  fullName?: string
+  avatarUrl?: string | null
+  password?: string
+  accountTypeIds?: string[]
+}
+
+export interface CreateAccountTypeRequest {
+  code?: string
+  name?: string
+  description?: string | null
+  isSystem?: boolean
+  permissionIds?: string[]
+}
+
 export interface UpdateUserPasswordRequest {
   currentPassword?: string
   newPassword?: string

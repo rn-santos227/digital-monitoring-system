@@ -1,5 +1,12 @@
 import { createError } from 'h3'
-import type { UpdateUserActivationRequest, UpdateUserPasswordRequest, UpdateUserProfileRequest } from '../../requests/domain/user-management'
+import type {
+  CreateAccountTypeRequest,
+  CreateUserProfileRequest,
+  UpdateUserActivationRequest,
+  UpdateUserPasswordRequest,
+  UpdateUserProfileRequest,
+} from '../../requests/domain/user-management'
+import { MANAGEMENT_REGEX_PATTERNS } from '../../constants'
 import { normalizeOptionalText } from '../../utils'
 
 const PASSWORD_MIN_LENGTH = 8
@@ -41,11 +48,15 @@ export const buildUserProfileUpdates = (body: UpdateUserProfileRequest) => {
 }
 
 export const normalizeAccountTypeIds = (accountTypeIds: unknown): string[] | null => {
-  if (!Array.isArray(accountTypeIds)) {
+  return normalizeUniqueStringArray(accountTypeIds)
+}
+
+const normalizeUniqueStringArray = (value: unknown): string[] | null => {
+  if (!Array.isArray(value)) {
     return null
   }
 
-  return [...new Set(accountTypeIds.filter((accountTypeId): accountTypeId is string => typeof accountTypeId === 'string' && accountTypeId.length > 0))]
+  return [...new Set(value.filter((item): item is string => typeof item === 'string' && item.length > 0))]
 }
 
 export const parsePasswordUpdatePayload = (body: UpdateUserPasswordRequest) => {
@@ -68,4 +79,63 @@ export const parseActivationPayload = (body: UpdateUserActivationRequest): boole
   }
 
   return body.isActive
+}
+
+export const parseCreateAccountTypePayload = (body: CreateAccountTypeRequest) => {
+  const code = normalizeOptionalText(body.code)?.toLowerCase()
+  const name = normalizeOptionalText(body.name)
+  const description = body.description === undefined
+    ? null
+    : typeof body.description === 'string'
+      ? normalizeOptionalText(body.description)
+      : null
+  const permissionIds = normalizeUniqueStringArray(body.permissionIds) ?? []
+
+  if (!code) {
+    throw createError({ statusCode: 400, statusMessage: 'Account type code is required.' })
+  }
+
+  if (!name) {
+    throw createError({ statusCode: 400, statusMessage: 'Account type name is required.' })
+  }
+
+  return {
+    code,
+    name,
+    description,
+    isSystem: body.isSystem === true,
+    permissionIds,
+  }
+}
+
+export const parseCreateUserProfilePayload = (body: CreateUserProfileRequest) => {
+  const email = normalizeOptionalText(body.email)?.toLowerCase()
+  const fullName = normalizeOptionalText(body.fullName)
+  const avatarUrl = body.avatarUrl === undefined
+    ? null
+    : typeof body.avatarUrl === 'string'
+      ? normalizeOptionalText(body.avatarUrl)
+      : null
+  const password = typeof body.password === 'string' ? body.password.trim() : ''
+  const accountTypeIds = normalizeAccountTypeIds(body.accountTypeIds) ?? []
+
+  if (!email || !MANAGEMENT_REGEX_PATTERNS.email.test(email)) {
+    throw createError({ statusCode: 400, statusMessage: 'A valid email is required.' })
+  }
+
+  if (!fullName) {
+    throw createError({ statusCode: 400, statusMessage: 'Full name is required.' })
+  }
+
+  if (!password || password.length < PASSWORD_MIN_LENGTH) {
+    throw createError({ statusCode: 400, statusMessage: `Password must be at least ${PASSWORD_MIN_LENGTH} characters.` })
+  }
+
+  return {
+    email,
+    fullName,
+    avatarUrl,
+    password,
+    accountTypeIds,
+  }
 }
