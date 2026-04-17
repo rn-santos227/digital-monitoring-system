@@ -5,6 +5,7 @@ export const AUDIT_LOG_ACTIONS = {
   accountTypeCreate: 'ACCOUNT_TYPE_CREATE',
   accountTypeUpdate: 'ACCOUNT_TYPE_UPDATE',
   accountTypeDelete: 'ACCOUNT_TYPE_DELETE',
+  userProfileCreate: 'USER_PROFILE_CREATE',
   userProfileUpdate: 'USER_PROFILE_UPDATE',
 } as const
 
@@ -19,6 +20,7 @@ export const AUDIT_LOG_ENDPOINTS = {
   accountTypesCreate: '/api/account-types',
   accountTypesUpdate: '/api/account-types/:id',
   accountTypesDelete: '/api/account-types/:id',
+  userProfilesCreate: '/api/users',
   userProfilesUpdate: '/api/users/:id',
   userProfilesPasswordUpdate: '/api/users/:id/password',
   userProfilesActivationUpdate: '/api/users/:id/activation',

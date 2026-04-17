@@ -4,6 +4,20 @@ export const MANAGEMENT_MODULES = {
 } as const
 
 export const MANAGEMENT_PERMISSION_GROUPS = {
-  userProfileManagement: ['user.create', 'user.update', 'user.delete'],
-  accountTypeManagement: ['account_type.create', 'account_type.update', 'account_type.delete'],
+  userProfileManagement: [
+    'user.view',
+    'user.create',
+    'user.update',
+    'user.delete',
+  ],
+  accountTypeManagement: [
+    'account_type.view',
+    'account_type.create',
+    'account_type.update',
+    'account_type.delete',
+  ],
+} as const
+
+export const MANAGEMENT_REGEX_PATTERNS = {
+  email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
 } as const
