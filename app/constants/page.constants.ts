@@ -130,6 +130,9 @@ export const USERS_PROFILE_TABLE_SEARCH_PLACEHOLDER = 'Search user profiles'
 export const USERS_ACCOUNT_TABLE_SEARCH_PLACEHOLDER = 'Search user accounts'
 export const USERS_PROFILE_CREATE_BUTTON_LABEL = 'Create User Profile'
 export const USERS_ACCOUNT_CREATE_BUTTON_LABEL = 'Create User Account'
+export const USERS_MODAL_CREATE_LABEL = 'Create'
+export const USERS_MODAL_CANCEL_LABEL = 'Cancel'
+
 export const USERS_PROFILE_CREATE_MODAL_TITLE = 'Create User Profile'
 export const USERS_PROFILE_CREATE_MODAL_DESCRIPTION =
   'Register a new user profile and assign account type access for monitoring operations.'

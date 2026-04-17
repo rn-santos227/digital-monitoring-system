@@ -1,7 +1,7 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUsersStore } from '~/stores/users'
-import type { UserManagementTabId } from '~/types/domain/users'
+import type { UserManagementTabId, CreateAccountTypePayload, CreateUserProfilePayload } from '~/types/domain/users'
 
 export const useUsers = () => {
   const usersStore = useUsersStore()
@@ -32,12 +32,27 @@ export const useUsers = () => {
     }))
   })
 
+  const accountTypeOptions = computed(() => {
+    return accountItems.value.map((item) => ({
+      value: item.id,
+      label: `${item.name} (${item.code})`,
+    }))
+  })
+
   const loadUserProfiles = async (page = profilePagination.value.page, search = profileSearchQuery.value) => {
     try {
       await usersStore.fetchUserProfiles(page, search)
     } catch {
       // Error state is exposed from the store.
     }
+  }
+
+  const createUserProfile = async (payload: CreateUserProfilePayload) => {
+    await usersStore.createUserProfile(payload)
+  }
+
+  const createAccountType = async (payload: CreateAccountTypePayload) => {
+    await usersStore.createAccountType(payload)
   }
 
   const loadUserAccounts = async (page = accountPagination.value.page, search = accountSearchQuery.value) => {
@@ -73,5 +88,8 @@ export const useUsers = () => {
     error,
     loadUserProfiles,
     loadUserAccounts,
+    accountTypeOptions,
+    createUserProfile,
+    createAccountType,
   }
 }
