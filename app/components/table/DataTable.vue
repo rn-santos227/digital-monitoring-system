@@ -78,7 +78,15 @@
                   size="sm"
                   :aria-label="action.tooltip"
                   :title="action.tooltip"
-                  :variant="action.variant === 'danger' ? 'danger' : action.variant === 'info' ? 'info' : 'ghost'"
+                  :variant="
+                    action.variant === 'danger'
+                      ? 'danger'
+                      : action.variant === 'info'
+                        ? 'info'
+                        : action.variant === 'warning'
+                          ? 'warning'
+                          : 'ghost'
+                  "
                   :icon-name="action.iconName"
                   @click="emit('action', { actionKey: action.key, row })"
                 />
