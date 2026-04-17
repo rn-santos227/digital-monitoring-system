@@ -1,7 +1,19 @@
 import { defineStore } from 'pinia'
-import type { UserAccountRecord, UserProfileRecord, UsersState, UsersTablePagination } from '~/types/domain/users'
+import type {
+  CreateAccountTypePayload,
+  CreateUserProfilePayload,
+  UserAccountRecord,
+  UserProfileRecord,
+  UsersState,
+  UsersTablePagination,
+} from '~/types/domain/users'
 import { extractApiErrorMessage } from '~/utils/api-request'
-import { getUserAccountsEndpoint, getUserProfilesEndpoint } from '~/utils/users-endpoints'
+import {
+  createAccountTypeEndpoint,
+  createUserProfileEndpoint,
+  getUserAccountsEndpoint,
+  getUserProfilesEndpoint,
+} from '~/utils/users-endpoints'
 
 const DEFAULT_PAGINATION: UsersTablePagination = {
   page: 1,
@@ -98,6 +110,26 @@ const usersStoreOptions = {
         throw error
       } finally {
         this.isLoading = false
+      }
+    },
+
+    async createUserProfile(this: UsersState, payload: CreateUserProfilePayload) {
+      this.error = ''
+      try {
+        await createUserProfileEndpoint(payload)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to create user profile.')
+        throw error
+      }
+    },
+
+    async createAccountType(this: UsersState, payload: CreateAccountTypePayload) {
+      this.error = ''
+      try {
+        await createAccountTypeEndpoint(payload)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to create account type.')
+        throw error
       }
     },
   },
