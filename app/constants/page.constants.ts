@@ -130,6 +130,35 @@ export const USERS_PROFILE_TABLE_SEARCH_PLACEHOLDER = 'Search user profiles'
 export const USERS_ACCOUNT_TABLE_SEARCH_PLACEHOLDER = 'Search user accounts'
 export const USERS_PROFILE_CREATE_BUTTON_LABEL = 'Create User Profile'
 export const USERS_ACCOUNT_CREATE_BUTTON_LABEL = 'Create User Account'
+export const USERS_PROFILE_CREATE_MODAL_TITLE = 'Create User Profile'
+export const USERS_PROFILE_CREATE_MODAL_DESCRIPTION =
+  'Register a new user profile and assign account type access for monitoring operations.'
+export const USERS_PROFILE_EMAIL_LABEL = 'Email'
+export const USERS_PROFILE_EMAIL_PLACEHOLDER = 'Enter email address'
+export const USERS_PROFILE_FULL_NAME_LABEL = 'Full Name'
+export const USERS_PROFILE_FULL_NAME_PLACEHOLDER = 'Enter full name'
+export const USERS_PROFILE_PASSWORD_LABEL = 'Password'
+export const USERS_PROFILE_PASSWORD_PLACEHOLDER = 'Set initial password'
+export const USERS_PROFILE_CONFIRM_PASSWORD_LABEL = 'Confirm Password'
+export const USERS_PROFILE_CONFIRM_PASSWORD_PLACEHOLDER = 'Re-enter password'
+export const USERS_PROFILE_AVATAR_LABEL = 'Avatar Upload'
+export const USERS_PROFILE_AVATAR_HELPER = 'Upload an optional profile image.'
+export const USERS_PROFILE_AVATAR_URL_LABEL = 'Avatar URL'
+export const USERS_PROFILE_AVATAR_URL_PLACEHOLDER = 'https://example.com/avatar.jpg'
+export const USERS_PROFILE_ACCOUNT_TYPES_LABEL = 'Account Types'
+export const USERS_PROFILE_ACCOUNT_TYPES_EMPTY_MESSAGE = 'No account types available. Create an account type first.'
+
+export const USERS_ACCOUNT_CREATE_MODAL_TITLE = 'Create Account Type'
+export const USERS_ACCOUNT_CREATE_MODAL_DESCRIPTION =
+  'Define a new account type for user access control and privilege grouping.'
+export const USERS_ACCOUNT_CODE_LABEL = 'Code'
+export const USERS_ACCOUNT_CODE_PLACEHOLDER = 'e.g., company_admin'
+export const USERS_ACCOUNT_NAME_LABEL = 'Name'
+export const USERS_ACCOUNT_NAME_PLACEHOLDER = 'e.g., Company Administrator'
+export const USERS_ACCOUNT_DESCRIPTION_LABEL = 'Description'
+export const USERS_ACCOUNT_DESCRIPTION_PLACEHOLDER = 'Add optional account type description'
+export const USERS_ACCOUNT_IS_SYSTEM_LABEL = 'System Account Type'
+export const USERS_ACCOUNT_IS_SYSTEM_DESCRIPTION = 'Mark this account type as system-managed.'
 export const USERS_PROFILE_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
 export const USERS_ACCOUNT_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
 
@@ -146,7 +175,7 @@ export const USERS_PROFILE_TABLE_ACTIONS: readonly DataTableAction[] = Object.fr
     key: 'edit-user-profile',
     tooltip: 'Edit user profile',
     iconName: 'pencil-square',
-    variant: 'info',
+    variant: 'warning',
   },
   {
     key: 'delete-user-profile',
@@ -168,7 +197,7 @@ export const USERS_ACCOUNT_TABLE_ACTIONS: readonly DataTableAction[] = Object.fr
     key: 'edit-account-type',
     tooltip: 'Edit account type',
     iconName: 'pencil-square',
-    variant: 'info',
+    variant: 'warning',
   },
   {
     key: 'delete-account-type',
