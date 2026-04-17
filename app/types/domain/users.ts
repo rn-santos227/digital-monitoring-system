@@ -79,3 +79,18 @@ export interface UserAccountsEndpointResponse {
   totalItems: number
   totalPages: number
 }
+
+export interface CreateUserProfilePayload {
+  email: string
+  fullName: string
+  avatarUrl: string | null
+  password: string
+  accountTypeIds: string[]
+}
+
+export interface CreateAccountTypePayload {
+  code: string
+  name: string
+  description: string | null
+  isSystem: boolean
+}

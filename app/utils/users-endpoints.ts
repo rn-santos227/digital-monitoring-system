@@ -1,5 +1,7 @@
 import { API_LOADING_MESSAGES, USER_MANAGEMENT_API_ENDPOINTS } from '~/constants/api.constants'
 import type {
+  CreateAccountTypePayload,
+  CreateUserProfilePayload,
   UserProfilesEndpointQuery,
   UserProfilesEndpointResponse,
   UserAccountsEndpointQuery,
@@ -26,4 +28,24 @@ export const getUserAccountsEndpoint = async (query: UserAccountsEndpointQuery):
       query,
     })
   }, API_LOADING_MESSAGES.fetchUserAccounts)
+}
+
+export const createUserProfileEndpoint = async (payload: CreateUserProfilePayload): Promise<{ ok: true; id: string | null }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: true; id: string | null }>(USER_MANAGEMENT_API_ENDPOINTS.userProfiles, {
+      method: 'POST',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.createUserProfile)
+}
+
+export const createAccountTypeEndpoint = async (payload: CreateAccountTypePayload): Promise<{ ok: true; id: string | null }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: true; id: string | null }>(USER_MANAGEMENT_API_ENDPOINTS.accountTypes, {
+      method: 'POST',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.createAccountType)
 }
