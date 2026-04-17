@@ -35,7 +35,7 @@ import BaseIcon from './BaseIcon.vue'
 
 const props = withDefaults(
   defineProps<{
-    variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'info'
+    variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'info' | 'warning'
     size?: UiSize
     type?: 'button' | 'submit' | 'reset'
     disabled?: boolean
@@ -81,11 +81,12 @@ const iconSizeByButtonSize: Record<UiSize, 'sm' | 'md' | 'lg'> = {
   lg: 'lg'
 }
 
-const variantClasses: Record<'primary' | 'secondary' | 'ghost' | 'danger' | 'info', string> = {
+const variantClasses: Record<'primary' | 'secondary' | 'ghost' | 'danger' | 'info' | 'warning', string> = {
   primary: 'bg-emerald-700 text-white hover:bg-emerald-900',
   secondary: 'bg-white text-slate-900 border border-slate-300 hover:bg-slate-100',
   ghost: 'bg-transparent text-slate-700 hover:bg-slate-100',
   danger: 'bg-rose-600 text-white hover:bg-rose-700',
-  info: 'bg-sky-500 text-white hover:bg-sky-600'
+  info: 'bg-sky-500 text-white hover:bg-sky-600',
+  warning: 'bg-amber-400 text-slate-900 hover:bg-amber-500'
 }
 </script>

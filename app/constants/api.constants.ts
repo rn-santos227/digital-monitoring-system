@@ -32,4 +32,6 @@ export const API_LOADING_MESSAGES = Object.freeze({
   fetchAuditLogDetail: 'Loading audit log details...',
   fetchUserProfiles: 'Loading user profiles...',
   fetchUserAccounts: 'Loading user accounts...',
+  createUserProfile: 'Creating user profile...',
+  createAccountType: 'Creating account type...',
 })
