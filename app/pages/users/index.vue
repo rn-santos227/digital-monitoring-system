@@ -105,11 +105,25 @@
         @submit="onUpdateUserPassword"
       />
 
+      <ViewUserProfileModal
+        v-if="isViewUserProfileModalOpen && selectedUserProfileView"
+        :profile="selectedUserProfileView"
+        @close="onCloseViewUserProfileModal"
+      />
+
       <CreateAccountTypeModal
         v-if="isAccountTypeModalOpen"
         :privilege-options="privilegeOptions"
         @close="isAccountTypeModalOpen = false"
         @submit="onCreateAccountType"
+      />
+
+      <UpdateAccountTypeModal
+        v-if="isUpdateAccountTypeModalOpen && selectedAccountType"
+        :initial-values="selectedAccountType"
+        :privilege-options="privilegeOptions"
+        @close="onCloseUpdateAccountTypeModal"
+        @submit="onUpdateAccountType"
       />
     </section>
   </main>
@@ -150,9 +164,12 @@ import {
   useCreateAccountTypeHandler,
   useCreateUserProfileHandler,
   useDeleteUserProfileHandler,
+  useDeleteAccountTypeHandler,
   useUserActivationHandler,
   useUserPasswordHandler,
   useUsersPageHandlers,
+  useViewUserProfileHandler,
+  useUpdateAccountTypeHandler,
   useUpdateUserProfileHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
@@ -174,7 +191,11 @@ const {
   accountTypeOptions,
   createUserProfile,
   createAccountType,
+  getAccountTypeById,
+  updateAccountType,
+  deleteAccountType,
   getUserProfileById,
+  getUserProfileViewById,
   updateUserProfile,
   updateUserPassword,
   updateUserActivation,
@@ -221,8 +242,19 @@ const isCreateUserProfileModalOpen = ref(false)
 const isUpdateUserProfileModalOpen = ref(false)
 const isUserPasswordModalOpen = ref(false)
 const isAccountTypeModalOpen = ref(false)
+const isUpdateAccountTypeModalOpen = ref(false)
+const isViewUserProfileModalOpen = ref(false)
 const selectedUserProfileId = ref('')
 const selectedUserProfile = ref<{ email: string; fullName: string; avatarUrl: string | null; accountTypeIds: string[] } | null>(null)
+const selectedUserProfileView = ref<Awaited<ReturnType<typeof getUserProfileViewById>> | null>(null)
+const selectedAccountTypeId = ref('')
+const selectedAccountType = ref<{
+  code: string
+  name: string
+  description: string | null
+  isSystem: boolean
+  permissionIds: string[]
+} | null>(null)
 const profileWarning = ref('')
 
 const canCreateUserProfile = computed(() => authStore.hasPermissionAccess(USERS_PROFILE_REQUIRED_PERMISSIONS.create))
@@ -272,6 +304,17 @@ const { onOpenCreateAccountTypeModal, onCreateAccountType } = useCreateAccountTy
 })
 
 const {
+  canHandleViewAction,
+  onViewProfileAction,
+  onCloseViewUserProfileModal,
+} = useViewUserProfileHandler({
+  selectedUserProfileId,
+  selectedUserProfileView,
+  isViewUserProfileModalOpen,
+  getUserProfileViewById,
+})
+
+const {
   canHandleUpdateProfileAction,
   onCloseUpdateUserProfileModal,
   onUpdateUserProfile,
@@ -317,14 +360,48 @@ const { canHandleDeleteAction, onDeleteAction } = useDeleteUserProfileHandler({
   profileWarning,
 })
 
-const { onAccountTypeAction } = useAccountTypeActionHandler()
+const {
+  canHandleUpdateAccountTypeAction,
+  onEditAccountTypeAction,
+  onUpdateAccountType,
+  onCloseUpdateAccountTypeModal,
+} = useUpdateAccountTypeHandler({
+  selectedAccountTypeId,
+  selectedAccountType,
+  isUpdateAccountTypeModalOpen,
+  getAccountTypeById,
+  updateAccountType,
+  loadUserAccounts,
+  accountPagination,
+  accountSearchQuery,
+})
 
-const onAccountAction = (payload: { actionKey: string; row: Record<string, unknown> }) => {
-  onAccountTypeAction(payload)
+const { canHandleDeleteAccountTypeAction, onDeleteAccountTypeAction } = useDeleteAccountTypeHandler({
+  showDialog,
+  deleteAccountType,
+  loadUserAccounts,
+  accountPagination,
+  accountSearchQuery,
+})
+
+const { onAccountTypeAction } = useAccountTypeActionHandler({
+  canHandleUpdateAccountTypeAction,
+  onEditAccountTypeAction,
+  canHandleDeleteAccountTypeAction,
+  onDeleteAccountTypeAction,
+})
+
+const onAccountAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
+  await onAccountTypeAction(payload)
 }
 
 const onProfileAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
   profileWarning.value = ''
+
+  if (canHandleViewAction(payload.actionKey)) {
+    await onViewProfileAction(payload.row)
+    return
+  }
 
   if (canHandleUpdateProfileAction(payload.actionKey)) {
     await onEditProfileAction(payload.row)
@@ -346,8 +423,8 @@ const onProfileAction = async (payload: { actionKey: string; row: Record<string,
   }
 }
 
-watch(isAccountTypeModalOpen, (isOpen) => {
-  if (isOpen) {
+watch([isAccountTypeModalOpen, isUpdateAccountTypeModalOpen], ([isCreateOpen, isUpdateOpen]) => {
+  if (isCreateOpen || isUpdateOpen) {
     void loadPrivileges()
   }
 })
