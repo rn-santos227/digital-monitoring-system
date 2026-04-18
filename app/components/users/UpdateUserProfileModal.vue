@@ -50,5 +50,32 @@ const form = reactive({
   accountTypeIds: [...props.initialValues.accountTypeIds],
 })
 
+const errors = reactive<Record<string, string>>({})
 
+const isSelected = (accountTypeId: string) => form.accountTypeIds.includes(accountTypeId)
+
+const onAccountTypeToggle = (accountTypeId: string, checked: boolean) => {
+  if (checked) {
+    form.accountTypeIds = [...form.accountTypeIds, accountTypeId]
+    return
+  }
+
+  form.accountTypeIds = form.accountTypeIds.filter((existingId) => existingId !== accountTypeId)
+}
+
+const onSubmit = () => {
+  const result = validateUpdateUserProfileForm(form)
+
+  Object.keys(errors).forEach((key) => {
+    delete errors[key]
+  })
+
+  Object.assign(errors, result.errors)
+
+  if (!result.payload) {
+    return
+  }
+
+  emit('submit', result.payload)
+}
 </script>
