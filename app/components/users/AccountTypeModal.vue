@@ -43,4 +43,22 @@ const emit = defineEmits<{
   (event: 'close'): void
   (event: 'submit', payload: CreateAccountTypePayload): void
 }>()
+
+const form = reactive<{
+  code: string
+  name: string
+  description: string
+  isSystem: boolean
+  permissionIds: string[]
+}>({
+  code: '',
+  name: '',
+  description: '',
+  isSystem: false,
+  permissionIds: [],
+})
+
+const onSubmit = () => {
+
+}
 </script>
