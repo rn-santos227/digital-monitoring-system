@@ -6,6 +6,7 @@ import type {
   UpdateUserPasswordPayload,
   UpdateUserProfilePayload,
   UserProfileDetailEndpointResponse,
+  UserProfileViewEndpointResponse,
   UserProfilesEndpointQuery,
   UserProfilesEndpointResponse,
   UserAccountsEndpointQuery,
@@ -56,9 +57,9 @@ export const getUserProfileByIdEndpoint = async (id: string): Promise<UserProfil
   }, API_LOADING_MESSAGES.fetchUserProfiles)
 }
 
-export const getUserProfileViewByIdEndpoint = async (id: string): Promise<UserProfileDetailEndpointResponse> => {
+export const getUserProfileViewByIdEndpoint = async (id: string): Promise<UserProfileViewEndpointResponse> => {
   return await withApiLoading(async () => {
-    return await $fetch<UserProfileDetailEndpointResponse>(USER_MANAGEMENT_API_ENDPOINTS.userProfileById(id), {
+    return await $fetch<UserProfileViewEndpointResponse>(USER_MANAGEMENT_API_ENDPOINTS.userProfileById(id), {
       method: 'GET',
       headers: createSessionHeaders(),
     })
@@ -131,6 +132,7 @@ export const createAccountTypeEndpoint = async (payload: CreateAccountTypePayloa
     })
   }, API_LOADING_MESSAGES.createAccountType)
 }
+
 
 export const getAccountTypeByIdEndpoint = async (id: string): Promise<UserAccountDetailEndpointResponse> => {
   return await withApiLoading(async () => {

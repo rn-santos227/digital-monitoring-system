@@ -31,7 +31,6 @@ export interface UserProfileViewRecord {
   updatedAt: string
   accountTypes: Array<{ id: string; code: string; name: string }>
 }
-
 export interface UserAccountRecord {
   id: string
   code: string
@@ -104,6 +103,20 @@ export interface UserProfileDetailEndpointResponse {
   fullName: string
   avatarUrl: string | null
   isActive: boolean
+  accountTypes: Array<{ id: string; code: string; name: string }>
+}
+
+export interface UserProfileViewEndpointResponse {
+  id: string
+  personnelId: string | null
+  email: string
+  fullName: string
+  avatarUrl: string | null
+  isActive: boolean
+  lastLoginAt: string | null
+  passwordUpdatedAt: string | null
+  createdAt: string
+  updatedAt: string
   accountTypes: Array<{ id: string; code: string; name: string }>
 }
 

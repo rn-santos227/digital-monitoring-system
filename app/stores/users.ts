@@ -2,11 +2,14 @@ import { defineStore } from 'pinia'
 import type {
   CreateAccountTypePayload,
   CreateUserProfilePayload,
+  UpdateAccountTypePayload,
   UpdateUserActivationPayload,
   UpdateUserPasswordPayload,
   UpdateUserProfilePayload,
+  UserAccountDetailRecord,
   UserAccountRecord,
   UserProfileDetailRecord,
+  UserProfileViewRecord,
   PrivilegeRecord,
   UserProfileRecord,
   UsersState,
@@ -16,11 +19,15 @@ import { extractApiErrorMessage } from '~/utils/api-request'
 import {
   createAccountTypeEndpoint,
   createUserProfileEndpoint,
+  deleteAccountTypeEndpoint,
   deleteUserProfileEndpoint,
+  getAccountTypeByIdEndpoint,
   getPrivilegesEndpoint,
   getUserProfileByIdEndpoint,
+  getUserProfileViewByIdEndpoint,
   getUserAccountsEndpoint,
   getUserProfilesEndpoint,
+  updateAccountTypeEndpoint,
   updateUserActivationEndpoint,
   updateUserPasswordEndpoint,
   updateUserProfileEndpoint,
@@ -146,6 +153,23 @@ const usersStoreOptions = {
       }
     },
 
+    async getAccountTypeById(this: UsersState, id: string): Promise<UserAccountDetailRecord> {
+      this.error = ''
+      try {
+        const response = await getAccountTypeByIdEndpoint(id)
+        return {
+          id: response.id,
+          code: response.code,
+          name: response.name,
+          description: response.description,
+          isSystem: response.isSystem,
+          permissionIds: response.permissions.map(permission => permission.id),
+        }
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to load account type details.')
+        throw error
+      }
+    },
 
     async getUserProfileById(this: UsersState, id: string): Promise<UserProfileDetailRecord> {
       this.error = ''
@@ -158,6 +182,33 @@ const usersStoreOptions = {
           avatarUrl: response.avatarUrl,
           isActive: response.isActive,
           accountTypeIds: response.accountTypes.map((accountType) => accountType.id),
+        }
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to load user profile details.')
+        throw error
+      }
+    },
+
+    async getUserProfileViewById(this: UsersState, id: string): Promise<UserProfileViewRecord> {
+      this.error = ''
+      try {
+        const response = await getUserProfileViewByIdEndpoint(id)
+        return {
+          id: response.id,
+          personnelId: response.personnelId,
+          email: response.email,
+          fullName: response.fullName,
+          avatarUrl: response.avatarUrl,
+          isActive: response.isActive,
+          lastLoginAt: response.lastLoginAt,
+          passwordUpdatedAt: response.passwordUpdatedAt,
+          createdAt: response.createdAt,
+          updatedAt: response.updatedAt,
+          accountTypes: response.accountTypes.map(accountType => ({
+            id: accountType.id,
+            code: accountType.code,
+            name: accountType.name,
+          })),
         }
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to load user profile details.')
@@ -201,6 +252,26 @@ const usersStoreOptions = {
         await deleteUserProfileEndpoint(id)
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to delete user profile.')
+        throw error
+      }
+    },
+
+    async updateAccountType(this: UsersState, id: string, payload: UpdateAccountTypePayload) {
+      this.error = ''
+      try {
+        await updateAccountTypeEndpoint(id, payload)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to update account type.')
+        throw error
+      }
+    },
+
+    async deleteAccountType(this: UsersState, id: string) {
+      this.error = ''
+      try {
+        await deleteAccountTypeEndpoint(id)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to delete account type.')
         throw error
       }
     },
