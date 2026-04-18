@@ -137,6 +137,7 @@ export const USERS_ACCOUNT_TABLE_SEARCH_PLACEHOLDER = 'Search user accounts'
 export const USERS_PROFILE_CREATE_BUTTON_LABEL = 'Create User Profile'
 export const USERS_ACCOUNT_CREATE_BUTTON_LABEL = 'Create User Account'
 export const USERS_MODAL_CREATE_LABEL = 'Create'
+export const USERS_MODAL_UPDATE_LABEL = 'Update'
 export const USERS_MODAL_CANCEL_LABEL = 'Cancel'
 
 export const USERS_PROFILE_CREATE_MODAL_TITLE = 'Create User Profile'
@@ -156,6 +157,11 @@ export const USERS_PROFILE_AVATAR_URL_LABEL = 'Avatar URL'
 export const USERS_PROFILE_AVATAR_URL_PLACEHOLDER = 'https://example.com/avatar.jpg'
 export const USERS_PROFILE_ACCOUNT_TYPES_LABEL = 'Account Types'
 export const USERS_PROFILE_ACCOUNT_TYPES_EMPTY_MESSAGE = 'No account types available. Create an account type first.'
+export const USERS_PROFILE_UPDATE_MODAL_TITLE = 'Update User Profile'
+export const USERS_PROFILE_UPDATE_MODAL_DESCRIPTION = 'Update profile details and account type assignments.'
+export const USERS_PROFILE_PASSWORD_MODAL_TITLE = 'Change User Password'
+export const USERS_PROFILE_PASSWORD_MODAL_DESCRIPTION = 'Set a new password for this user profile.'
+export const USERS_PROFILE_GENERATE_PASSWORD_LABEL = 'Generate Password'
 
 export const USERS_ACCOUNT_CREATE_MODAL_TITLE = 'Create Account Type'
 export const USERS_ACCOUNT_CREATE_MODAL_DESCRIPTION =
@@ -194,6 +200,18 @@ export const USERS_PROFILE_TABLE_ACTIONS: readonly DataTableAction[] = Object.fr
     tooltip: 'Edit user profile',
     iconName: 'pencil-square',
     variant: 'warning',
+  },
+  {
+    key: 'change-user-password',
+    tooltip: 'Change password',
+    iconName: 'cog',
+    variant: 'info',
+  },
+  {
+    key: 'toggle-user-activation',
+    tooltip: 'Activate or deactivate user',
+    iconName: 'arrow-path',
+    variant: 'info',
   },
   {
     key: 'delete-user-profile',

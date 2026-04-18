@@ -177,4 +177,11 @@ const onSubmit = () => {
 
   emit('submit', result.payload)
 }
+
+
+const onGeneratePassword = () => {
+  const generatedPassword = generateUserPassword()
+  form.password = generatedPassword
+  form.confirmPassword = generatedPassword
+}
 </script>
