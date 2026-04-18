@@ -1,11 +1,12 @@
 import type { Ref } from 'vue'
+import type { CreateUserProfilePayload } from '~/types/domain/users'
 
 interface UseCreateUserProfileHandlerOptions {
   accountTypeOptions: Ref<Array<{ value: string; label: string }>>
   isCreateUserProfileModalOpen: Ref<boolean>
   profileWarning: Ref<string>
   loadUserAccounts: (page?: number, search?: string) => Promise<void>
-  createUserProfile: (payload: { email: string; fullName: string; accountTypeIds: string[] }) => Promise<void>
+  createUserProfile: (payload: CreateUserProfilePayload) => Promise<void>
   loadUserProfiles: (page?: number, search?: string) => Promise<void>
 }
 

@@ -1,8 +1,9 @@
 import type { Ref } from 'vue'
+import type { CreateAccountTypePayload } from '~/types/domain/users'
 
 interface UseCreateAccountTypeHandlerOptions {
   isAccountTypeModalOpen: Ref<boolean>
-  createAccountType: (payload: { code: string; name: string; description: string | null; privilegeIds: string[] }) => Promise<void>
+  createAccountType: (payload: CreateAccountTypePayload) => Promise<void>
   loadUserAccounts: (page?: number, search?: string) => Promise<void>
 }
 
