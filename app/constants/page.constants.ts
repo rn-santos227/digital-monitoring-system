@@ -1,4 +1,5 @@
 import type { BaseTabItem, DataTableAction, DataTableColumn } from '~/constants/ui.constants'
+import { ACCOUNT_TYPE_PRIVILEGES, USER_PROFILE_PRIVILEGES } from '~/constants/privileges.constants'
 import type { DashboardMetric } from '~/types/domain/misc'
 
 export const DASHBOARD_PAGE_TITLE = 'Dashboard'
@@ -162,8 +163,16 @@ export const USERS_ACCOUNT_DESCRIPTION_LABEL = 'Description'
 export const USERS_ACCOUNT_DESCRIPTION_PLACEHOLDER = 'Add optional account type description'
 export const USERS_ACCOUNT_IS_SYSTEM_LABEL = 'System Account Type'
 export const USERS_ACCOUNT_IS_SYSTEM_DESCRIPTION = 'Mark this account type as system-managed.'
+export const USERS_ACCOUNT_PRIVILEGES_LABEL = 'Privileges'
+export const USERS_ACCOUNT_PRIVILEGES_DESCRIPTION = 'Select privileges to include in this account type.'
+export const USERS_ACCOUNT_PRIVILEGES_EMPTY_MESSAGE = 'No privileges are currently available.'
+export const USERS_ACCOUNT_PRIVILEGES_CODE_PREFIX = 'Code'
 export const USERS_PROFILE_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
 export const USERS_ACCOUNT_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
+
+export const USERS_PROFILE_REQUIRED_PERMISSIONS = USER_PROFILE_PRIVILEGES
+
+export const USERS_ACCOUNT_REQUIRED_PERMISSIONS = ACCOUNT_TYPE_PRIVILEGES
 
 export const USERS_PROFILE_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'fullName', label: 'Full Name', sortable: true },
