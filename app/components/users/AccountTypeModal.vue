@@ -74,4 +74,16 @@ const onSubmit = () => {
   }
   emit('submit', result.payload)
 }
+
+const toModuleLabel = (moduleName: string) => {
+  return moduleName
+    .split('_')
+    .filter((segment) => segment.length > 0)
+    .map((segment) => {
+      return `${segment[0]?.toUpperCase() ?? ''}${segment.slice(1)}`
+    })
+    .join(' ')
+}
+
+
 </script>
