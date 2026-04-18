@@ -24,4 +24,6 @@ export const ACCOUNT_TYPE_PRIVILEGES = Object.freeze({
   delete: Object.freeze([PRIVILEGE_CODES.accountTypeDelete]),
 })
 
-
+export const AUDIT_PRIVILEGES = Object.freeze({
+  view: Object.freeze([PRIVILEGE_CODES.auditView]),
+})
