@@ -156,7 +156,6 @@ import {
   useUpdateUserProfileHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
-import type { UpdateUserPasswordPayload, UpdateUserProfilePayload } from '~/types/domain/users'
 
 const {
   activeTab,
