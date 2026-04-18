@@ -1,5 +1,48 @@
 <template>
+  <div class="space-y-1">
+    <label v-if="label" :for="inputId" :class="FIELD_LABEL_CLASSES">
+      {{ label }}
+      <span v-if="required" :class="FIELD_REQUIRED_MARKER_CLASSES">*</span>
+    </label>
 
+    <div :class="SUGGESTION_FIELD_CONTAINER_CLASSES">
+      <input
+        :id="inputId"
+        v-model="query"
+        type="text"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        :class="inputClasses"
+        @focus="isPanelOpen = true"
+        @blur="onBlur"
+      />
+
+      <div v-if="isPanelVisible" :class="SUGGESTION_FIELD_PANEL_CLASSES">
+        <button
+          v-for="option in filteredOptions"
+          :key="option.value"
+          type="button"
+          :class="[SUGGESTION_FIELD_ITEM_CLASSES, isSelected(option.value) ? SUGGESTION_FIELD_ITEM_ACTIVE_CLASSES : '']"
+          @mousedown.prevent
+          @click="onSelect(option.value)"
+        >
+          <span class="block font-medium">{{ option.label }}</span>
+          <span v-if="option.description" class="block text-xs text-slate-500">{{ option.description }}</span>
+        </button>
+
+        <p v-if="filteredOptions.length === 0" :class="SUGGESTION_FIELD_EMPTY_CLASSES">
+          {{ emptyMessage }}
+        </p>
+      </div>
+    </div>
+
+    <p v-if="error" :class="FIELD_ERROR_TEXT_CLASSES">
+      {{ error }}
+    </p>
+    <p v-else-if="helperText" :class="FIELD_HELPER_TEXT_CLASSES">
+      {{ helperText }}
+    </p>
+  </div>
 </template>
 
 <script setup lang="ts">
