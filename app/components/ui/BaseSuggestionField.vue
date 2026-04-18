@@ -20,4 +20,32 @@ import {
 } from '~/constants/ui.constants'
 
 type SuggestionValue = string | string[] | null
+
+const props = withDefaults(
+  defineProps<{
+    modelValue?: SuggestionValue
+    options: readonly SuggestionFieldOption[]
+    label?: string
+    placeholder?: string
+    helperText?: string
+    error?: string
+    emptyMessage?: string
+    required?: boolean
+    disabled?: boolean
+    multiple?: boolean
+    id?: string
+  }>(),
+  {
+    modelValue: null,
+    label: '',
+    placeholder: 'Type to search options',
+    helperText: '',
+    error: '',
+    emptyMessage: 'No options found.',
+    required: false,
+    disabled: false,
+    multiple: false,
+    id: undefined,
+  }
+)
 </script>
