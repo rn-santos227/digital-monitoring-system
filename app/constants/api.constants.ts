@@ -16,6 +16,7 @@ export const USER_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   userProfilePassword: (id: string) => `/api/users/${id}/password`,
   userProfileActivation: (id: string) => `/api/users/${id}/activation`,
   accountTypes: '/api/account-types',
+  accountTypeById: (id: string) => `/api/account-types/${id}`,
   privileges: '/api/privileges',
 })
 
@@ -43,4 +44,6 @@ export const API_LOADING_MESSAGES = Object.freeze({
   updateUserActivation: 'Updating user status...',
   deleteUserProfile: 'Deleting user profile...',
   createAccountType: 'Creating account type...',
+  updateAccountType: 'Updating account type...',
+  deleteAccountType: 'Deleting account type...',
 })

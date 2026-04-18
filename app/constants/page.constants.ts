@@ -161,11 +161,18 @@ export const USERS_PROFILE_UPDATE_MODAL_TITLE = 'Update User Profile'
 export const USERS_PROFILE_UPDATE_MODAL_DESCRIPTION = 'Update profile details and account type assignments.'
 export const USERS_PROFILE_PASSWORD_MODAL_TITLE = 'Change User Password'
 export const USERS_PROFILE_PASSWORD_MODAL_DESCRIPTION = 'Set a new password for this user profile.'
+export const USERS_PROFILE_VIEW_MODAL_TITLE = 'User Profile Details'
+export const USERS_PROFILE_VIEW_MODAL_DESCRIPTION = 'Review account details and access assignments.'
 export const USERS_PROFILE_GENERATE_PASSWORD_LABEL = 'Generate Password'
+export const USERS_PROFILE_VIEW_EMPTY_ACCOUNT_TYPES = 'No account type assigned.'
+export const USERS_MODAL_CLOSE_LABEL = 'Close'
 
 export const USERS_ACCOUNT_CREATE_MODAL_TITLE = 'Create Account Type'
 export const USERS_ACCOUNT_CREATE_MODAL_DESCRIPTION =
   'Define a new account type for user access control and privilege grouping.'
+export const USERS_ACCOUNT_UPDATE_MODAL_TITLE = 'Update Account Type'
+export const USERS_ACCOUNT_UPDATE_MODAL_DESCRIPTION =
+  'Update account type details and assigned privileges.'
 export const USERS_ACCOUNT_CODE_LABEL = 'Code'
 export const USERS_ACCOUNT_CODE_PLACEHOLDER = 'e.g., company_admin'
 export const USERS_ACCOUNT_NAME_LABEL = 'Name'
@@ -195,6 +202,12 @@ export const USERS_PROFILE_TABLE_COLUMNS: readonly DataTableColumn[] = Object.fr
 ])
 
 export const USERS_PROFILE_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  {
+    key: 'view-user-profile',
+    tooltip: 'View user profile',
+    iconName: 'eye',
+    variant: 'info',
+  },
   {
     key: 'edit-user-profile',
     tooltip: 'Edit user profile',
