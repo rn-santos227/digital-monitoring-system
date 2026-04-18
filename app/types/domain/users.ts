@@ -18,12 +18,35 @@ export interface UserProfileDetailRecord {
   accountTypeIds: string[]
 }
 
+export interface UserProfileViewRecord {
+  id: string
+  personnelId: string | null
+  email: string
+  fullName: string
+  avatarUrl: string | null
+  isActive: boolean
+  lastLoginAt: string | null
+  passwordUpdatedAt: string | null
+  createdAt: string
+  updatedAt: string
+  accountTypes: Array<{ id: string; code: string; name: string }>
+}
+
 export interface UserAccountRecord {
   id: string
   code: string
   name: string
   description: string | null
   isSystem: boolean
+}
+
+export interface UserAccountDetailRecord {
+  id: string
+  code: string
+  name: string
+  description: string | null
+  isSystem: boolean
+  permissionIds: string[]
 }
 
 export interface PrivilegeRecord {
@@ -138,6 +161,23 @@ export interface CreateAccountTypePayload {
   permissionIds: string[]
 }
 
+export interface UpdateAccountTypePayload {
+  code: string
+  name: string
+  description: string | null
+  isSystem: boolean
+  permissionIds: string[]
+}
+
 export interface PrivilegesEndpointResponse {
   items: PrivilegeRecord[]
+}
+
+export interface UserAccountDetailEndpointResponse {
+  id: string
+  code: string
+  name: string
+  description: string | null
+  isSystem: boolean
+  permissions: Array<{ id: string; code: string; name: string; module: string }>
 }
