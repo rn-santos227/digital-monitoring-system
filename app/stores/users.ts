@@ -136,6 +136,24 @@ const usersStoreOptions = {
         throw error
       }
     },
+
+    async fetchPrivileges(this: UsersState) {
+      this.error = ''
+      try {
+        const response = await getPrivilegesEndpoint()
+        this.privilegeItems = response.items.map((item): PrivilegeRecord => ({
+          id: item.id,
+          code: item.code,
+          name: item.name,
+          module: item.module,
+          isAssigned: item.isAssigned,
+        }))
+      } catch (error) {
+        this.privilegeItems = []
+        this.error = extractApiErrorMessage(error, 'Unable to fetch privileges.')
+        throw error
+      }
+    },
   },
 }
 
