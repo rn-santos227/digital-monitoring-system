@@ -1,6 +1,6 @@
 import { createError, defineEventHandler, getRouterParam } from 'h3'
 import type { AuditLogDetail } from '../../../shared/models'
-import { PERMISSION_CODES } from '../../../shared/constants'
+import { AUDIT_LOG_DETAIL_SELECT_COLUMNS, PERMISSION_CODES } from '../../../shared/constants'
 import { mapAuditLogDetail } from '../../../shared/utils'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event): Promise<AuditLogDetail> => {
   const supabase = getServiceSupabaseClient()
   const { data, error } = await supabase
     .from('audit_logs')
-    .select('id, user_id, action, table_name, record_id, old_data, new_data, request_data, response_data, request_headers, ip_address, status_code, metadata, created_at, user:user_profiles(id, full_name, email, avatar_url, is_active)')
+    .select(AUDIT_LOG_DETAIL_SELECT_COLUMNS)
     .eq('id', id)
     .maybeSingle()
 

@@ -1,5 +1,10 @@
 import { defineEventHandler, deleteCookie } from 'h3'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, SESSION_COOKIE_NAME } from '../../shared/constants'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUTH_SESSION_USER_ID_SELECT_COLUMNS,
+  SESSION_COOKIE_NAME,
+} from '../../shared/constants'
 import { getSessionTokenFromEvent } from '../../shared/utils'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { recordApiAuditLog } from '../../utils/audit/recordApiAuditLog'
@@ -12,7 +17,7 @@ export default defineEventHandler(async (event) => {
     const supabase = getServiceSupabaseClient()
     const { data: currentSession } = await supabase
       .from('auth_sessions')
-      .select('user_id')
+      .select(AUTH_SESSION_USER_ID_SELECT_COLUMNS)
       .eq('access_token', token)
       .maybeSingle()
 

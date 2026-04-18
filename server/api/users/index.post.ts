@@ -1,6 +1,12 @@
 import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreateUserProfileRequest } from '../../shared/requests'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  ID_ONLY_SELECT_COLUMNS,
+  PERMISSION_CODES,
+} from '../../shared/constants'
 import { parseCreateUserProfilePayload } from '../../shared/validations'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
@@ -49,7 +55,7 @@ export default defineEventHandler(async (event) => {
         if (payload.accountTypeIds.length > 0) {
           const { data: accountTypeMatches, error: accountTypeLookupError } = await supabase
             .from('account_types')
-            .select('id')
+            .select(ID_ONLY_SELECT_COLUMNS)
             .in('id', payload.accountTypeIds)
 
           if (accountTypeLookupError) {

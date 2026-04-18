@@ -1,6 +1,6 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { AuditLogListResponse } from '../../shared/models'
-import { PERMISSION_CODES } from '../../shared/constants'
+import { AUDIT_LOG_LIST_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
 import { mapAuditLogListItem, parsePaginationQuery } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
@@ -14,7 +14,7 @@ const SEARCHABLE_AUDIT_FIELDS = {
 } as const
 
 export default defineEventHandler(async (event): Promise<AuditLogListResponse> => {
- await requirePermission(event, PERMISSION_CODES.auditView)
+  await requirePermission(event, PERMISSION_CODES.auditView)
 
   const query = getQuery(event)
   const term = typeof query.term === 'string' ? query.term.trim() : ''
@@ -68,7 +68,7 @@ export default defineEventHandler(async (event): Promise<AuditLogListResponse> =
   const supabase = getServiceSupabaseClient()
   let auditSearchQuery = supabase
     .from('audit_logs')
-    .select('id, action, table_name, record_id, ip_address, status_code, created_at, user:user_profiles(full_name, email)', {
+    .select(AUDIT_LOG_LIST_SELECT_COLUMNS, {
       count: 'exact',
     })
     .order('created_at', { ascending: false })

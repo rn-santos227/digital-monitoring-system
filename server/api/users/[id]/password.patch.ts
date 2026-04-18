@@ -1,7 +1,13 @@
 import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
 import type { UpdateUserPasswordRequest } from '../../../shared/requests'
 import type { MutationSuccessResponse } from '../../../shared/responses'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../../shared/constants'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  PERMISSION_CODES,
+  USER_PROFILE_PASSWORD_SELECT_COLUMNS,
+} from '../../../shared/constants'
 import { parsePasswordUpdatePayload, requireRouteId } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requireAuth } from '../../../utils/auth/requireAuth'
@@ -23,7 +29,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
 
   const { data: targetProfile, error: targetProfileError } = await supabase
     .from('user_profiles')
-    .select('id, email, is_active, password_updated_at')
+    .select(USER_PROFILE_PASSWORD_SELECT_COLUMNS)
     .eq('id', id)
     .maybeSingle()
 

@@ -1,0 +1,48 @@
+export const ACCOUNT_TYPE_PERMISSION_EMBEDDED_SELECT_COLUMNS =
+  'permissions(id, code, name, module)'
+
+export const ACCOUNT_TYPE_PERMISSIONS_SELECT_COLUMNS =
+  `account_type_permissions(${ACCOUNT_TYPE_PERMISSION_EMBEDDED_SELECT_COLUMNS})`
+
+export const ACCOUNT_TYPE_BASE_SELECT_COLUMNS =
+  'id, code, name, description, is_system, created_at, updated_at'
+
+export const ACCOUNT_TYPE_DETAIL_SELECT_COLUMNS =
+  `id, code, name, description, is_system, ${ACCOUNT_TYPE_PERMISSIONS_SELECT_COLUMNS}`
+
+export const ACCOUNT_TYPE_LIST_SELECT_COLUMNS =
+  `${ACCOUNT_TYPE_BASE_SELECT_COLUMNS}, ${ACCOUNT_TYPE_PERMISSIONS_SELECT_COLUMNS}`
+
+export const ACCOUNT_TYPE_PERMISSION_ID_SELECT_COLUMNS = 'permission_id'
+
+export const ACCOUNT_TYPE_ASSIGNED_USER_COUNT_SELECT_COLUMNS =
+  'id, user_profiles!inner(is_active)'
+
+export const ID_ONLY_SELECT_COLUMNS = 'id'
+
+export const USER_ACCOUNT_TYPE_ID_SELECT_COLUMNS = 'account_type_id'
+
+export const USER_PROFILE_COMPACT_SELECT_COLUMNS =
+  'id, email, full_name, is_active, last_login_at, user_account_types!user_account_types_user_id_fkey(account_types(code))'
+
+export const USER_PROFILE_SUMMARY_SELECT_COLUMNS =
+  'id, personnel_id, email, full_name, avatar_url, is_active, updated_at'
+
+export const USER_PROFILE_DETAIL_SELECT_COLUMNS =
+  'id, personnel_id, email, full_name, avatar_url, is_active, last_login_at, password_updated_at, created_at, updated_at, user_account_types!user_account_types_user_id_fkey(account_types(id, code, name))'
+
+export const USER_PROFILE_PASSWORD_SELECT_COLUMNS =
+  'id, email, is_active, password_updated_at'
+
+export const USER_PROFILE_ACTIVATION_SELECT_COLUMNS =
+  'id, email, full_name, is_active'
+
+export const AUTH_SESSION_USER_ID_SELECT_COLUMNS = 'user_id'
+
+export const PRIVILEGE_BASE_SELECT_COLUMNS = 'id, code, name, module'
+
+export const AUDIT_LOG_LIST_SELECT_COLUMNS =
+  'id, action, table_name, record_id, ip_address, status_code, created_at, user:user_profiles(full_name, email)'
+
+export const AUDIT_LOG_DETAIL_SELECT_COLUMNS =
+  'id, user_id, action, table_name, record_id, old_data, new_data, request_data, response_data, request_headers, ip_address, status_code, metadata, created_at, user:user_profiles(id, full_name, email, avatar_url, is_active)'

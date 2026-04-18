@@ -1,12 +1,20 @@
 import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
-import type { UpdateUserProfileRequest } from '../../shared/requests'
-import type { MutationSuccessResponse } from '../../shared/responses'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
-import { buildUserProfileUpdates, normalizeAccountTypeIds, requireRouteId } from '../../shared/validations'
-import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
-import { requirePermission } from '../../utils/auth/requirePermission'
-import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
-import { executeWithRollback } from '../../utils/db/executeWithRollback'
+import type { UpdateUserProfileRequest } from '../../../shared/requests'
+import type { MutationSuccessResponse } from '../../../shared/responses'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  ID_ONLY_SELECT_COLUMNS,
+  PERMISSION_CODES,
+  USER_ACCOUNT_TYPE_ID_SELECT_COLUMNS,
+  USER_PROFILE_SUMMARY_SELECT_COLUMNS,
+} from '../../../shared/constants'
+import { buildUserProfileUpdates, normalizeAccountTypeIds, requireRouteId } from '../../../shared/validations'
+import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
+import { requirePermission } from '../../../utils/auth/requirePermission'
+import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { executeWithRollback } from '../../../utils/db/executeWithRollback'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.userUpdate)
@@ -31,7 +39,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
 
   const { data: existingProfile, error: existingProfileError } = await supabase
     .from('user_profiles')
-    .select('id, personnel_id, email, full_name, avatar_url, is_active, updated_at')
+    .select(USER_PROFILE_SUMMARY_SELECT_COLUMNS)
     .eq('id', id)
     .maybeSingle()
 
@@ -45,7 +53,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
 
   const { data: existingAccountTypeRows, error: existingAccountTypesError } = await supabase
     .from('user_account_types')
-    .select('account_type_id')
+    .select(USER_ACCOUNT_TYPE_ID_SELECT_COLUMNS)
     .eq('user_id', id)
 
   if (existingAccountTypesError) {
@@ -73,7 +81,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
 
           const { data: accountTypeMatches, error: accountTypeLookupError } = await supabase
             .from('account_types')
-            .select('id')
+            .select(ID_ONLY_SELECT_COLUMNS)
             .in('id', accountTypeIds)
 
           if (accountTypeLookupError) {
@@ -150,13 +158,13 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
 
     const { data: updatedProfile } = await supabase
       .from('user_profiles')
-      .select('id, personnel_id, email, full_name, avatar_url, is_active, updated_at')
+      .select(USER_PROFILE_SUMMARY_SELECT_COLUMNS)
       .eq('id', id)
       .maybeSingle()
 
     const { data: updatedAccountTypeRows } = await supabase
       .from('user_account_types')
-      .select('account_type_id')
+      .select(USER_ACCOUNT_TYPE_ID_SELECT_COLUMNS)
       .eq('user_id', id)
 
     await recordManagementAuditLog(event, {

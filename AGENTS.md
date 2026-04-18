@@ -100,3 +100,8 @@
     - When reading indexed values (for example typed arrays, array access, map lookups), always provide a safe fallback to satisfy strict null/undefined checks.
     - Prefer explicit normalization such as `const value = arr[index] ?? defaultValue` before reuse in expressions.
     - Do not silence these errors with unsafe casts when a deterministic fallback can be provided.
+
+21. **Centralize API select column definitions**
+    - Avoid inline Supabase `.select(...)` column strings in `server/api` handlers when the selection is reused or non-trivial.
+    - Store reusable select strings in dedicated constants under `server/shared/constants/lib/<domain>.ts` and reuse via imports.
+    - Keep select constant names explicit (for example `ACCOUNT_TYPE_LIST_SELECT_COLUMNS`) and expose them through barrel exports.

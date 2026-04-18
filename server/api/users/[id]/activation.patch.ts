@@ -1,7 +1,13 @@
 import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
 import type { UpdateUserActivationRequest } from '../../../shared/requests'
 import type { MutationSuccessResponse } from '../../../shared/responses'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../../shared/constants'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  PERMISSION_CODES,
+  USER_PROFILE_ACTIVATION_SELECT_COLUMNS,
+} from '../../../shared/constants'
 import { parseActivationPayload, requireRouteId } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
@@ -16,7 +22,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   const supabase = getServiceSupabaseClient()
   const { data: existingProfile, error: existingProfileError } = await supabase
     .from('user_profiles')
-    .select('id, email, full_name, is_active')
+    .select(USER_PROFILE_ACTIVATION_SELECT_COLUMNS)
     .eq('id', id)
     .maybeSingle()
 

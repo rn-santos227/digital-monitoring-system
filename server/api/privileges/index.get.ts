@@ -1,6 +1,10 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { PrivilegeListResponse } from '../../shared/models'
-import { MANAGEMENT_PERMISSION_GROUPS } from '../../shared/constants'
+import {
+  ACCOUNT_TYPE_PERMISSION_ID_SELECT_COLUMNS,
+  MANAGEMENT_PERMISSION_GROUPS,
+  PRIVILEGE_BASE_SELECT_COLUMNS,
+} from '../../shared/constants'
 import { mapPrivilegeListItem } from '../../shared/utils'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
@@ -17,7 +21,7 @@ export default defineEventHandler(async (event): Promise<PrivilegeListResponse> 
   if (accountTypeId) {
     const { data: assignedPermissions, error: assignedPermissionsError } = await supabase
       .from('account_type_permissions')
-      .select('permission_id')
+      .select(ACCOUNT_TYPE_PERMISSION_ID_SELECT_COLUMNS)
       .eq('account_type_id', accountTypeId)
 
     if (assignedPermissionsError) {
@@ -33,7 +37,7 @@ export default defineEventHandler(async (event): Promise<PrivilegeListResponse> 
 
   const { data: permissions, error: permissionsError } = await supabase
     .from('permissions')
-    .select('id, code, name, module')
+    .select(PRIVILEGE_BASE_SELECT_COLUMNS)
     .order('module', { ascending: true })
     .order('name', { ascending: true })
 

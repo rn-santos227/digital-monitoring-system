@@ -1,11 +1,18 @@
 import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
-import type { UpdateAccountTypeRequest } from '../../shared/requests'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
-import { normalizeOptionalText } from '../../shared/utils'
-import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
-import { requirePermission } from '../../utils/auth/requirePermission'
-import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
-import { executeWithRollback } from '../../utils/db/executeWithRollback'
+import type { UpdateAccountTypeRequest } from '../../../shared/requests'
+import {
+  ACCOUNT_TYPE_BASE_SELECT_COLUMNS,
+  ACCOUNT_TYPE_PERMISSION_ID_SELECT_COLUMNS,
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  PERMISSION_CODES,
+} from '../../../shared/constants'
+import { normalizeOptionalText } from '../../../shared/utils'
+import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
+import { requirePermission } from '../../../utils/auth/requirePermission'
+import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { executeWithRollback } from '../../../utils/db/executeWithRollback'
 
 export default defineEventHandler(async (event) => {
   const actor = await requirePermission(event, PERMISSION_CODES.accountTypeUpdate)
@@ -64,7 +71,7 @@ export default defineEventHandler(async (event) => {
 
   const { data: existingAccountType, error: existingAccountTypeError } = await supabase
     .from('account_types')
-    .select('id, code, name, description, is_system, created_at, updated_at')
+    .select(ACCOUNT_TYPE_BASE_SELECT_COLUMNS)
     .eq('id', id)
     .maybeSingle()
 
@@ -78,7 +85,7 @@ export default defineEventHandler(async (event) => {
 
   const { data: existingPermissionRows, error: existingPermissionsError } = await supabase
     .from('account_type_permissions')
-    .select('permission_id')
+    .select(ACCOUNT_TYPE_PERMISSION_ID_SELECT_COLUMNS)
     .eq('account_type_id', id)
 
   if (existingPermissionsError) {
@@ -176,13 +183,13 @@ export default defineEventHandler(async (event) => {
 
     const { data: updatedAccountType } = await supabase
       .from('account_types')
-      .select('id, code, name, description, is_system, created_at, updated_at')
+      .select(ACCOUNT_TYPE_BASE_SELECT_COLUMNS)
       .eq('id', id)
       .maybeSingle()
 
     const { data: updatedPermissionRows } = await supabase
       .from('account_type_permissions')
-      .select('permission_id')
+      .select(ACCOUNT_TYPE_PERMISSION_ID_SELECT_COLUMNS)
       .eq('account_type_id', id)
 
     await recordManagementAuditLog(event, {

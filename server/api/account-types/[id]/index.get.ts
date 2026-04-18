@@ -1,9 +1,9 @@
 import { createError, defineEventHandler, getRouterParam } from 'h3'
-import type { AccountTypeDetailResponse } from '../../shared/responses'
-import { MANAGEMENT_PERMISSION_GROUPS } from '../../shared/constants'
-import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
-import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
-import { requireRouteId } from '../../shared/validations'
+import type { AccountTypeDetailResponse } from '../../../shared/responses'
+import { ACCOUNT_TYPE_DETAIL_SELECT_COLUMNS, MANAGEMENT_PERMISSION_GROUPS } from '../../../shared/constants'
+import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
+import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { requireRouteId } from '../../../shared/validations'
 
 export default defineEventHandler(async (event): Promise<AccountTypeDetailResponse> => {
   await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.accountTypeManagement)
@@ -13,7 +13,7 @@ export default defineEventHandler(async (event): Promise<AccountTypeDetailRespon
   const supabase = getServiceSupabaseClient()
   const { data, error } = await supabase
     .from('account_types')
-    .select('id, code, name, description, is_system, account_type_permissions(permissions(id, code, name, module))')
+    .select(ACCOUNT_TYPE_DETAIL_SELECT_COLUMNS)
     .eq('id', id)
     .maybeSingle()
 
