@@ -66,7 +66,11 @@
 
 14. **Centralize page handlers**
     - Create page-level handler modules under `app/handlers/{feature}` and place page component event handlers there.
-    - Keep CRUD handler functions grouped by domain in one place (e.g., future personnel CRUD handlers should live together in a dedicated handler module under `app/handlers/{feature}`).
+    - Break down large CRUD flows into action-specific handler files to keep page `index.vue` files small and maintainable.
+    - Use action-based handler naming per feature such as `create.handler.ts`, `update.handler.ts`, `password.handler.ts`, `activate.handler.ts`, and `delete.handler.ts` whenever those actions exist.
+    - Keep each feature isolated (for example, user handlers in `app/handlers/users/*` and account type handlers in `app/handlers/account-types/*`), and do not mix unrelated domain handlers in the same feature folder.
+    - If a feature already has one large handler file, refactor it into action-specific modules and add/update a barrel export (`index.ts`) for discoverability.
+
     - This rule applies only to files under `app/pages`; component-local handlers for reusable components do not need to move.
 
 15. **Standardize Pinia store structure**
