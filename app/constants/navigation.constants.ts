@@ -1,4 +1,5 @@
 import { ROUTE_PATHS } from '~/constants/routes.constants'
+import { AUDIT_PRIVILEGES, USER_PROFILE_PRIVILEGES } from '~/constants/privileges.constants'
 import type { BaseMenuItem, NavigationItem, NavigationSection } from '~/types/domain/misc'
 
 export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.freeze([
@@ -10,7 +11,7 @@ export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.
         label: 'Users Management',
         to: ROUTE_PATHS.users,
         icon: 'users',
-        requiredPermissions: Object.freeze(['user.view']),
+        requiredPermissions: USER_PROFILE_PRIVILEGES.view,
       },
 
       { label: 'Personnel', to: ROUTE_PATHS.personnel, icon: 'users' },
@@ -43,7 +44,7 @@ export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.
         label: 'Audit Trail',
         to: ROUTE_PATHS.auditTrail,
         icon: 'clock',
-        requiredPermissions: Object.freeze(['audit.view']),
+        requiredPermissions: AUDIT_PRIVILEGES.view,
       }
     ]
   }
