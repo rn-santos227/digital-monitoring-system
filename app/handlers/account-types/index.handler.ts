@@ -8,9 +8,28 @@ interface AccountTypeActionPayload {
   row: Record<string, unknown>
 }
 
-export const useAccountTypeActionHandler = () => {
-  const onAccountTypeAction = (_payload: AccountTypeActionPayload) => {
-    // Account type edit/delete handlers remain pending.
+interface UseAccountTypeActionHandlerOptions {
+  onEditAccountTypeAction: (row: Record<string, unknown>) => Promise<boolean>
+  onDeleteAccountTypeAction: (row: Record<string, unknown>) => Promise<boolean>
+  canHandleUpdateAccountTypeAction: (actionKey: string) => boolean
+  canHandleDeleteAccountTypeAction: (actionKey: string) => boolean
+}
+
+export const useAccountTypeActionHandler = ({
+  onEditAccountTypeAction,
+  onDeleteAccountTypeAction,
+  canHandleUpdateAccountTypeAction,
+  canHandleDeleteAccountTypeAction,
+}: UseAccountTypeActionHandlerOptions) => {
+  const onAccountTypeAction = async (payload: AccountTypeActionPayload) => {
+    if (canHandleUpdateAccountTypeAction(payload.actionKey)) {
+      await onEditAccountTypeAction(payload.row)
+      return
+    }
+
+    if (canHandleDeleteAccountTypeAction(payload.actionKey)) {
+      await onDeleteAccountTypeAction(payload.row)
+    }
   }
 
   return {
