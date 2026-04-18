@@ -171,6 +171,37 @@ const onAccountPageChange = (nextPage: number) => {
 const isUserProfileModalOpen = ref(false)
 const isAccountTypeModalOpen = ref(false)
 
+const canCreateUserProfile = computed(() => authStore.hasPermissionAccess(USERS_PROFILE_REQUIRED_PERMISSIONS.create))
+const canCreateAccountType = computed(() => authStore.hasPermissionAccess(USERS_ACCOUNT_REQUIRED_PERMISSIONS.create))
+
+const profileTableActions = computed(() => {
+  return USERS_PROFILE_TABLE_ACTIONS.filter((action) => {
+    if (action.key === 'edit-user-profile') {
+      return authStore.hasPermissionAccess(USERS_PROFILE_REQUIRED_PERMISSIONS.edit)
+    }
+
+    if (action.key === 'delete-user-profile') {
+      return authStore.hasPermissionAccess(USERS_PROFILE_REQUIRED_PERMISSIONS.delete)
+    }
+
+    return true
+  })
+})
+
+const accountTableActions = computed(() => {
+  return USERS_ACCOUNT_TABLE_ACTIONS.filter((action) => {
+    if (action.key === 'edit-account-type') {
+      return authStore.hasPermissionAccess(USERS_ACCOUNT_REQUIRED_PERMISSIONS.edit)
+    }
+
+    if (action.key === 'delete-account-type') {
+      return authStore.hasPermissionAccess(USERS_ACCOUNT_REQUIRED_PERMISSIONS.delete)
+    }
+
+    return true
+  })
+})
+
 const onOpenUserProfileModal = async () => {
   if (accountTypeOptions.value.length === 0) {
     await loadUserAccounts(1)
