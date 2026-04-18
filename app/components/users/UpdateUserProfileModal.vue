@@ -1,5 +1,21 @@
 <template>
+  <BaseModal
+    :title="USERS_PROFILE_UPDATE_MODAL_TITLE"
+    :description="USERS_PROFILE_UPDATE_MODAL_DESCRIPTION"
+    size="lg"
+    @close="emit('close')"
+  >
+    <form class="space-y-4" @submit.prevent="onSubmit">
 
+    </form>
+
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        <BaseButton variant="ghost" @click="emit('close')">{{ USERS_MODAL_CANCEL_LABEL }}</BaseButton>
+        <BaseButton :disabled="isSubmitting" @click="onSubmit">{{ USERS_MODAL_UPDATE_LABEL }}</BaseButton>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
