@@ -30,19 +30,32 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, statusMessage: 'Account type not found.' })
   }
 
-  const { count: assignedUserCount, error: assignedUserCountError } = await supabase
+  const { count: assignedActiveUserCount, error: assignedUserCountError } = await supabase
     .from('user_account_types')
-    .select('id', { count: 'exact', head: true })
+    .select('id, user_profiles!inner(is_active)', { count: 'exact', head: true })
     .eq('account_type_id', id)
+    .eq('user_profiles.is_active', true)
 
   if (assignedUserCountError) {
     throw createError({ statusCode: 500, statusMessage: `Failed to validate account type usage: ${assignedUserCountError.message}` })
   }
 
-  if ((assignedUserCount ?? 0) > 0) {
+  if ((assignedActiveUserCount ?? 0) > 0) {
+    await recordManagementAuditLog(event, {
+      userId: actor.id,
+      action: AUDIT_LOG_ACTIONS.accountTypeDelete,
+      tableName: 'account_types',
+      endpoint: AUDIT_LOG_ENDPOINTS.accountTypesDelete,
+      recordId: id,
+      oldData: existingAccountType,
+      statusCode: 409,
+      outcome: AUDIT_LOG_OUTCOMES.failed,
+      message: 'Account type cannot be deleted because it is assigned to active user profiles.',
+    })
+
     throw createError({
       statusCode: 409,
-      statusMessage: 'Account type cannot be deleted because it is assigned to existing user profiles.',
+      statusMessage: 'Account type cannot be deleted because it is assigned to active user profiles.',
     })
   }
 
