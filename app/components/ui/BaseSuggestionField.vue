@@ -83,4 +83,41 @@ const filteredOptions = computed(() => {
   })
 })
 
+
+const isPanelVisible = computed(() => isPanelOpen.value && !props.disabled)
+
+const inputClasses = computed(() => [
+  FORM_CONTROL_BASE_CLASSES,
+  props.error ? FORM_CONTROL_STATE_CLASSES.error : FORM_CONTROL_STATE_CLASSES.default,
+  props.disabled ? FORM_CONTROL_STATE_CLASSES.disabled : FORM_CONTROL_STATE_CLASSES.enabled,
+])
+
+const isSelected = (value: string) => selectedValues.value.includes(value)
+
+const onSelect = (value: string) => {
+  if (props.disabled) {
+    return
+  }
+
+  if (props.multiple) {
+    if (isSelected(value)) {
+      emit('update:modelValue', selectedValues.value.filter((item) => item !== value))
+    } else {
+      emit('update:modelValue', [...selectedValues.value, value])
+    }
+    query.value = ''
+    return
+  }
+
+  emit('update:modelValue', value)
+  const selectedOption = props.options.find((option) => option.value === value)
+  query.value = selectedOption?.label ?? ''
+  isPanelOpen.value = false
+}
+
+const onBlur = () => {
+  setTimeout(() => {
+    isPanelOpen.value = false
+  }, 100)
+}
 </script>
