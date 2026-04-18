@@ -20,7 +20,7 @@
       />
       
       <template v-if="activeTab === 'user-profile'">
-        <div :class="USERS_TABLE_ACTIONS_ROW_CLASSES">
+        <div v-if="canCreateUserProfile" :class="USERS_TABLE_ACTIONS_ROW_CLASSES">
           <BaseButton @click="onOpenUserProfileModal">
             {{ USERS_PROFILE_CREATE_BUTTON_LABEL }}
           </BaseButton>
@@ -31,8 +31,8 @@
           :columns="USERS_PROFILE_TABLE_COLUMNS"
           :rows="profileTableRows"
           row-key="id"
-          :actions="USERS_PROFILE_TABLE_ACTIONS"
-          :action-button-count="USERS_PROFILE_TABLE_ACTIONS.length"
+          :actions="profileTableActions"
+          :action-button-count="profileTableActions.length"
           :actions-column-label="USERS_PROFILE_TABLE_ACTIONS_COLUMN_LABEL"
           :is-loading="isLoading"
           :search-query="profileSearchQuery"
@@ -47,7 +47,7 @@
       </template>
 
       <template v-else>
-        <div :class="USERS_TABLE_ACTIONS_ROW_CLASSES">
+        <div v-if="canCreateAccountType" :class="USERS_TABLE_ACTIONS_ROW_CLASSES">
           <BaseButton @click="isAccountTypeModalOpen = true">
             {{ USERS_ACCOUNT_CREATE_BUTTON_LABEL }}
           </BaseButton>
@@ -58,8 +58,8 @@
           :columns="USERS_ACCOUNT_TABLE_COLUMNS"
           :rows="accountTableRows"
           row-key="id"
-          :actions="USERS_ACCOUNT_TABLE_ACTIONS"
-          :action-button-count="USERS_ACCOUNT_TABLE_ACTIONS.length"
+          :actions="profileTableActions"
+          :action-button-count="profileTableActions.length"
           :actions-column-label="USERS_ACCOUNT_TABLE_ACTIONS_COLUMN_LABEL"
           :is-loading="isLoading"
           :search-query="accountSearchQuery"
@@ -82,6 +82,7 @@
 
       <AccountTypeModal
         v-if="isAccountTypeModalOpen"
+        :privilege-options="privilegeOptions"
         @close="isAccountTypeModalOpen = false"
         @submit="onCreateAccountType"
       />
