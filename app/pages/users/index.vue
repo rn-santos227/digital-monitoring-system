@@ -191,6 +191,12 @@ const onCreateAccountType = async (payload: Parameters<typeof createAccountType>
   await loadUserAccounts(1)
 }
 
+watch(isAccountTypeModalOpen, (isOpen) => {
+  if (isOpen) {
+    void loadPrivileges()
+  }
+})
+
 const onProfileAction = (_payload: { actionKey: string; row: Record<string, unknown> }) => {
   // Modal create functionality added in this update; edit/delete handlers will be implemented next.
 }
