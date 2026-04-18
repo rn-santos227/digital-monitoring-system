@@ -8,7 +8,7 @@
 
       <BaseTab
         :model-value="activeTab"
-        :items="USERS_PAGE_TAB_ITEMS"
+        :items="visibleTabItems"
         :aria-label="USERS_PAGE_TABS_ARIA_LABEL"
         @update:model-value="onTabChange"
       />
@@ -58,8 +58,8 @@
           :columns="USERS_ACCOUNT_TABLE_COLUMNS"
           :rows="accountTableRows"
           row-key="id"
-          :actions="profileTableActions"
-          :action-button-count="profileTableActions.length"
+          :actions="accountTableActions"
+          :action-button-count="accountTableActions.length"
           :actions-column-label="USERS_ACCOUNT_TABLE_ACTIONS_COLUMN_LABEL"
           :is-loading="isLoading"
           :search-query="accountSearchQuery"
@@ -104,6 +104,7 @@ import {
   USERS_PAGE_SECTION_CLASSES,
   USERS_PAGE_SUBTITLE,
   USERS_PAGE_TAB_ITEMS,
+  USERS_PAGE_TAB_REQUIRED_PERMISSIONS,
   USERS_PAGE_TABS_ARIA_LABEL,
   USERS_PAGE_TITLE,
   USERS_PROFILE_TABLE_ACTIONS,
@@ -140,6 +141,13 @@ const {
   createAccountType,
 } = useUsers()
 const authStore = useAuthStore()
+
+const visibleTabItems = computed(() => {
+  return USERS_PAGE_TAB_ITEMS.filter((tabItem) => {
+    const requiredPermissions = USERS_PAGE_TAB_REQUIRED_PERMISSIONS[tabItem.id as keyof typeof USERS_PAGE_TAB_REQUIRED_PERMISSIONS]
+    return authStore.hasPermissionAccess(requiredPermissions)
+  })
+})
 
 const { handleTabChange, handleProfileSearch, handleAccountSearch } = useUsersPageHandlers(
   activeTab,
@@ -228,6 +236,21 @@ watch(isAccountTypeModalOpen, (isOpen) => {
     void loadPrivileges()
   }
 })
+
+watch(
+  visibleTabItems,
+  (items) => {
+    if (items.some(item => item.id === activeTab.value)) {
+      return
+    }
+
+    const firstVisibleTab = items.at(0)
+    if (firstVisibleTab) {
+      activeTab.value = firstVisibleTab.id as typeof activeTab.value
+    }
+  },
+  { immediate: true }
+)
 
 const onProfileAction = (_payload: { actionKey: string; row: Record<string, unknown> }) => {
   // Modal create functionality added in this update; edit/delete handlers will be implemented next.

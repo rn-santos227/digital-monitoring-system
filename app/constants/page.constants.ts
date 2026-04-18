@@ -1,6 +1,7 @@
 import type { BaseTabItem, DataTableAction, DataTableColumn } from '~/constants/ui.constants'
 import { ACCOUNT_TYPE_PRIVILEGES, USER_PROFILE_PRIVILEGES } from '~/constants/privileges.constants'
 import type { DashboardMetric } from '~/types/domain/misc'
+import type { UserManagementTabId } from '~/types/domain/users'
 
 export const DASHBOARD_PAGE_TITLE = 'Dashboard'
 export const DASHBOARD_PAGE_SUBTITLE = 'AFP personnel readiness and equipment handling overview.'
@@ -122,6 +123,10 @@ export const USERS_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
   { id: 'user-profile', label: USERS_PROFILE_TAB_LABEL },
   { id: 'user-account', label: USERS_ACCOUNT_TAB_LABEL },
 ])
+export const USERS_PAGE_TAB_REQUIRED_PERMISSIONS: Readonly<Record<UserManagementTabId, readonly string[]>> = Object.freeze({
+  'user-profile': USER_PROFILE_PRIVILEGES.view,
+  'user-account': ACCOUNT_TYPE_PRIVILEGES.view,
+})
 
 export const USERS_PROFILE_TABLE_TITLE = 'User Profiles'
 export const USERS_ACCOUNT_TABLE_TITLE = 'User Accounts'

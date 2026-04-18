@@ -2,7 +2,7 @@
   <BaseModal
     :title="USERS_ACCOUNT_CREATE_MODAL_TITLE"
     :description="USERS_ACCOUNT_CREATE_MODAL_DESCRIPTION"
-    size="md"
+    size="lg"
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
@@ -20,18 +20,6 @@
         :placeholder="USERS_ACCOUNT_NAME_PLACEHOLDER"
         :error="errors.name"
         required
-      />
-
-      <BaseTextArea
-        v-model="form.description"
-        :label="USERS_ACCOUNT_DESCRIPTION_LABEL"
-        :placeholder="USERS_ACCOUNT_DESCRIPTION_PLACEHOLDER"
-      />
-
-      <BaseCheckbox
-        v-model="form.isSystem"
-        :label="USERS_ACCOUNT_IS_SYSTEM_LABEL"
-        :description="USERS_ACCOUNT_IS_SYSTEM_DESCRIPTION"
       />
 
       <fieldset class="space-y-3">
@@ -54,6 +42,18 @@
           />
         </div>
       </fieldset>
+
+      <BaseTextArea
+        v-model="form.description"
+        :label="USERS_ACCOUNT_DESCRIPTION_LABEL"
+        :placeholder="USERS_ACCOUNT_DESCRIPTION_PLACEHOLDER"
+      />
+
+      <BaseCheckbox
+        v-model="form.isSystem"
+        :label="USERS_ACCOUNT_IS_SYSTEM_LABEL"
+        :description="USERS_ACCOUNT_IS_SYSTEM_DESCRIPTION"
+      />
     </form>
 
     <template #footer>

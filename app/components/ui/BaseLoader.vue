@@ -2,7 +2,7 @@
   <Transition name="modal-fade">
     <div
       v-if="loadingStore.isLoading"
-      class="fixed inset-0 z-100 flex items-center justify-center bg-slate-900/45 px-4"
+      class="fixed inset-0 z-100 flex items-center justify-center bg-slate-900/60 px-4"
       role="status"
       aria-live="polite"
       aria-busy="true"
