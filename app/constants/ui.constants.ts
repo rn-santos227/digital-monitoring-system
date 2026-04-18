@@ -21,6 +21,12 @@ export interface DataTableAction {
   variant?: 'ghost' | 'danger' | 'info' | 'warning'
 }
 
+export interface SuggestionFieldOption {
+  value: string
+  label: string
+  description?: string
+}
+
 export const UI_SIZE_LABELS: Record<UiSize, string> = {
   sm: 'sm',
   md: 'md',
@@ -111,3 +117,9 @@ export const BASE_ALERT_TONE_CLASSES: Record<UiTone, string> = {
   danger: 'border-rose-200 bg-rose-50 text-rose-700',
   info: 'border-sky-200 bg-sky-50 text-sky-700'
 }
+
+export const SUGGESTION_FIELD_CONTAINER_CLASSES = 'relative'
+export const SUGGESTION_FIELD_PANEL_CLASSES = 'absolute z-30 mt-1 max-h-56 w-full overflow-auto rounded-xl border border-slate-200 bg-white p-1 shadow-lg'
+export const SUGGESTION_FIELD_ITEM_CLASSES = 'w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 transition hover:bg-slate-100'
+export const SUGGESTION_FIELD_ITEM_ACTIVE_CLASSES = 'bg-emerald-50 text-emerald-800'
+export const SUGGESTION_FIELD_EMPTY_CLASSES = 'px-3 py-2 text-sm text-slate-500'
