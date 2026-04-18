@@ -1,7 +1,14 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUsersStore } from '~/stores/users'
-import type { UserManagementTabId, CreateAccountTypePayload, CreateUserProfilePayload } from '~/types/domain/users'
+import type {
+  UserManagementTabId,
+  CreateAccountTypePayload,
+  CreateUserProfilePayload,
+  UpdateUserActivationPayload,
+  UpdateUserPasswordPayload,
+  UpdateUserProfilePayload,
+} from '~/types/domain/users'
 
 export const useUsers = () => {
   const usersStore = useUsersStore()
@@ -64,6 +71,25 @@ export const useUsers = () => {
     await usersStore.createAccountType(payload)
   }
 
+  const getUserProfileById = async (id: string) => {
+    return await usersStore.getUserProfileById(id)
+  }
+
+  const updateUserProfile = async (id: string, payload: UpdateUserProfilePayload) => {
+    await usersStore.updateUserProfile(id, payload)
+  }
+
+  const updateUserPassword = async (id: string, payload: UpdateUserPasswordPayload) => {
+    await usersStore.updateUserPassword(id, payload)
+  }
+
+  const updateUserActivation = async (id: string, payload: UpdateUserActivationPayload) => {
+    await usersStore.updateUserActivation(id, payload)
+  }
+
+  const deleteUserProfile = async (id: string) => {
+    await usersStore.deleteUserProfile(id)
+  }
 
   const loadPrivileges = async () => {
     try {
@@ -111,5 +137,10 @@ export const useUsers = () => {
     privilegeOptions,
     createUserProfile,
     createAccountType,
+    getUserProfileById,
+    updateUserProfile,
+    updateUserPassword,
+    updateUserActivation,
+    deleteUserProfile,
   }
 }

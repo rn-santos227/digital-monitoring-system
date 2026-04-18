@@ -5,6 +5,9 @@ import { mapUserProfileCompactListItem, parseManagementPaginationQuery } from '.
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
+const USER_PROFILE_COMPACT_SELECT =
+  'id, email, full_name, is_active, last_login_at, user_account_types!user_account_types_user_id_fkey(account_types(code))'
+
 export default defineEventHandler(async (event): Promise<UserProfileListCompactResponse> => {
   const actor = await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.userProfileManagement)
 
@@ -20,7 +23,7 @@ export default defineEventHandler(async (event): Promise<UserProfileListCompactR
   const supabase = getServiceSupabaseClient()
   let profileQuery = supabase
     .from('user_profiles')
-    .select('id, email, full_name, is_active, last_login_at, user_account_types!user_account_types_user_id_fkey(account_types(code))', {
+    .select(USER_PROFILE_COMPACT_SELECT, {
       count: 'exact',
     })
     .neq('id', actor.id)

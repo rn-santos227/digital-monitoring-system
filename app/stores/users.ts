@@ -2,7 +2,11 @@ import { defineStore } from 'pinia'
 import type {
   CreateAccountTypePayload,
   CreateUserProfilePayload,
+  UpdateUserActivationPayload,
+  UpdateUserPasswordPayload,
+  UpdateUserProfilePayload,
   UserAccountRecord,
+  UserProfileDetailRecord,
   PrivilegeRecord,
   UserProfileRecord,
   UsersState,
@@ -12,9 +16,14 @@ import { extractApiErrorMessage } from '~/utils/api-request'
 import {
   createAccountTypeEndpoint,
   createUserProfileEndpoint,
+  deleteUserProfileEndpoint,
   getPrivilegesEndpoint,
+  getUserProfileByIdEndpoint,
   getUserAccountsEndpoint,
   getUserProfilesEndpoint,
+  updateUserActivationEndpoint,
+  updateUserPasswordEndpoint,
+  updateUserProfileEndpoint,
 } from '~/utils/users-endpoints'
 
 const DEFAULT_PAGINATION: UsersTablePagination = {
@@ -133,6 +142,65 @@ const usersStoreOptions = {
         await createAccountTypeEndpoint(payload)
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create account type.')
+        throw error
+      }
+    },
+
+
+    async getUserProfileById(this: UsersState, id: string): Promise<UserProfileDetailRecord> {
+      this.error = ''
+      try {
+        const response = await getUserProfileByIdEndpoint(id)
+        return {
+          id: response.id,
+          email: response.email,
+          fullName: response.fullName,
+          avatarUrl: response.avatarUrl,
+          isActive: response.isActive,
+          accountTypeIds: response.accountTypes.map((accountType) => accountType.id),
+        }
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to load user profile details.')
+        throw error
+      }
+    },
+
+    async updateUserProfile(this: UsersState, id: string, payload: UpdateUserProfilePayload) {
+      this.error = ''
+      try {
+        await updateUserProfileEndpoint(id, payload)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to update user profile.')
+        throw error
+      }
+    },
+
+    async updateUserPassword(this: UsersState, id: string, payload: UpdateUserPasswordPayload) {
+      this.error = ''
+      try {
+        await updateUserPasswordEndpoint(id, payload)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to update user password.')
+        throw error
+      }
+    },
+
+    async updateUserActivation(this: UsersState, id: string, payload: UpdateUserActivationPayload) {
+      this.error = ''
+      try {
+        await updateUserActivationEndpoint(id, payload)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to update user status.')
+        throw error
+      }
+    },
+
+    async deleteUserProfile(this: UsersState, id: string) {
+      this.error = ''
+      try {
+        await deleteUserProfileEndpoint(id)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to delete user profile.')
         throw error
       }
     },

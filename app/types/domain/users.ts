@@ -9,6 +9,15 @@ export interface UserProfileRecord {
   accountTypeCodes: string[]
 }
 
+export interface UserProfileDetailRecord {
+  id: string
+  email: string
+  fullName: string
+  avatarUrl: string | null
+  isActive: boolean
+  accountTypeIds: string[]
+}
+
 export interface UserAccountRecord {
   id: string
   code: string
@@ -66,6 +75,15 @@ export interface UserProfilesEndpointResponse {
   totalPages: number
 }
 
+export interface UserProfileDetailEndpointResponse {
+  id: string
+  email: string
+  fullName: string
+  avatarUrl: string | null
+  isActive: boolean
+  accountTypes: Array<{ id: string; code: string; name: string }>
+}
+
 export interface UserAccountsEndpointQuery {
   page?: number
   pageSize?: number
@@ -95,6 +113,21 @@ export interface CreateUserProfilePayload {
   avatarUrl: string | null
   password: string
   accountTypeIds: string[]
+}
+
+export interface UpdateUserProfilePayload {
+  email?: string
+  fullName?: string
+  avatarUrl?: string | null
+  accountTypeIds?: string[]
+}
+
+export interface UpdateUserPasswordPayload {
+  newPassword: string
+}
+
+export interface UpdateUserActivationPayload {
+  isActive: boolean
 }
 
 export interface CreateAccountTypePayload {

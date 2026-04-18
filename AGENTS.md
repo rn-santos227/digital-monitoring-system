@@ -91,3 +91,8 @@
     - Account type create/update forms must include a checklist of privileges sourced from the `permissions` table (through the privileges API), grouped for clear operator review.
     - Submitted account type payloads must include selected privilege identifiers so `account_type_permissions` stays aligned with UI selections.
     - Keep privilege checklist labels user-friendly while preserving schema-consistent privilege code mapping.
+
+20. **Guard against possibly undefined values in strict TypeScript**
+    - When reading indexed values (for example typed arrays, array access, map lookups), always provide a safe fallback to satisfy strict null/undefined checks.
+    - Prefer explicit normalization such as `const value = arr[index] ?? defaultValue` before reuse in expressions.
+    - Do not silence these errors with unsafe casts when a deterministic fallback can be provided.

@@ -1,4 +1,9 @@
-import type { CreateAccountTypePayload, CreateUserProfilePayload } from '~/types/domain/users'
+import type {
+  CreateAccountTypePayload,
+  CreateUserProfilePayload,
+  UpdateUserPasswordPayload,
+  UpdateUserProfilePayload,
+} from '~/types/domain/users'
 import { validateFields } from '~/utils/field-validation'
 import { REGEX_PATTERNS } from '~/utils/regex'
 
@@ -22,6 +27,13 @@ export interface AccountTypeFormState {
 export interface FormValidationResult<TPayload> {
   payload: TPayload | null
   errors: Record<string, string>
+}
+
+export interface UpdateUserProfileFormState {
+  email: string
+  fullName: string
+  avatarUrl: string
+  accountTypeIds: string[]
 }
 
 const PASSWORD_MIN_LENGTH = 8
@@ -80,6 +92,91 @@ export const validateUserProfileForm = (form: UserProfileFormState): FormValidat
       avatarUrl: avatarUrl || null,
       accountTypeIds: form.accountTypeIds,
     },
+    errors,
+  }
+}
+
+export const validateUpdateUserProfileForm = (
+  form: UpdateUserProfileFormState,
+): FormValidationResult<UpdateUserProfilePayload> => {
+  const normalizedEmail = form.email.trim().toLowerCase()
+  const fieldValidation = validateFields([
+    {
+      field: 'email',
+      label: 'Email',
+      value: normalizedEmail,
+      required: true,
+      pattern: REGEX_PATTERNS.email,
+      patternMessage: 'Please provide a valid email address.',
+    },
+    {
+      field: 'fullName',
+      label: 'Full name',
+      value: form.fullName,
+      required: true,
+    },
+  ] as const)
+
+  const errors: Record<string, string> = { ...fieldValidation.errors }
+  const fullName = fieldValidation.values.fullName ?? ''
+  const avatarUrl = form.avatarUrl.trim()
+
+  if (form.accountTypeIds.length === 0) {
+    errors.accountTypeIds = 'Select at least one account type.'
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return {
+      payload: null,
+      errors,
+    }
+  }
+
+  return {
+    payload: {
+      email: normalizedEmail,
+      fullName,
+      avatarUrl: avatarUrl || null,
+      accountTypeIds: form.accountTypeIds,
+    },
+    errors,
+  }
+}
+
+export interface UserPasswordFormState {
+  newPassword: string
+  confirmPassword: string
+}
+
+export const validateUserPasswordForm = (
+  form: UserPasswordFormState,
+): FormValidationResult<UpdateUserPasswordPayload> => {
+  const fieldValidation = validateFields([
+    {
+      field: 'newPassword',
+      label: 'Password',
+      value: form.newPassword,
+      required: true,
+      minLength: PASSWORD_MIN_LENGTH,
+    },
+  ] as const)
+
+  const errors: Record<string, string> = { ...fieldValidation.errors }
+  const newPassword = fieldValidation.values.newPassword ?? ''
+
+  if (form.confirmPassword.trim() !== newPassword) {
+    errors.confirmPassword = 'Password confirmation does not match.'
+  }
+
+  if (Object.keys(errors).length > 0) {
+    return {
+      payload: null,
+      errors,
+    }
+  }
+
+  return {
+    payload: { newPassword },
     errors,
   }
 }
