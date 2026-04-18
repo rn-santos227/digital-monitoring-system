@@ -11,6 +11,8 @@ import type {
   UserAccountsEndpointQuery,
   UserAccountsEndpointResponse,
   PrivilegesEndpointResponse,
+  UpdateAccountTypePayload,
+  UserAccountDetailEndpointResponse,
 } from '~/types/domain/users'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
@@ -46,6 +48,15 @@ export const createUserProfileEndpoint = async (payload: CreateUserProfilePayloa
 }
 
 export const getUserProfileByIdEndpoint = async (id: string): Promise<UserProfileDetailEndpointResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<UserProfileDetailEndpointResponse>(USER_MANAGEMENT_API_ENDPOINTS.userProfileById(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchUserProfiles)
+}
+
+export const getUserProfileViewByIdEndpoint = async (id: string): Promise<UserProfileDetailEndpointResponse> => {
   return await withApiLoading(async () => {
     return await $fetch<UserProfileDetailEndpointResponse>(USER_MANAGEMENT_API_ENDPOINTS.userProfileById(id), {
       method: 'GET',
@@ -119,4 +130,35 @@ export const createAccountTypeEndpoint = async (payload: CreateAccountTypePayloa
       body: payload,
     })
   }, API_LOADING_MESSAGES.createAccountType)
+}
+
+export const getAccountTypeByIdEndpoint = async (id: string): Promise<UserAccountDetailEndpointResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<UserAccountDetailEndpointResponse>(USER_MANAGEMENT_API_ENDPOINTS.accountTypeById(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchUserAccounts)
+}
+
+export const updateAccountTypeEndpoint = async (
+  id: string,
+  payload: UpdateAccountTypePayload,
+): Promise<{ ok: true }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: true }>(USER_MANAGEMENT_API_ENDPOINTS.accountTypeById(id), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updateAccountType)
+}
+
+export const deleteAccountTypeEndpoint = async (id: string): Promise<{ ok: true }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: true }>(USER_MANAGEMENT_API_ENDPOINTS.accountTypeById(id), {
+      method: 'DELETE',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.deleteAccountType)
 }
