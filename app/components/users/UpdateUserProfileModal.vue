@@ -6,7 +6,54 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
+      <div class="grid gap-4 md:grid-cols-2">
+        <BaseTextField
+          v-model="form.email"
+          type="email"
+          :label="USERS_PROFILE_EMAIL_LABEL"
+          :placeholder="USERS_PROFILE_EMAIL_PLACEHOLDER"
+          :error="errors.email"
+          required
+        />
 
+        <BaseTextField
+          v-model="form.fullName"
+          :label="USERS_PROFILE_FULL_NAME_LABEL"
+          :placeholder="USERS_PROFILE_FULL_NAME_PLACEHOLDER"
+          :error="errors.fullName"
+          required
+        />
+      </div>
+
+      <div class="space-y-2">
+        <BaseTextField
+          v-model="form.avatarUrl"
+          type="url"
+          :label="USERS_PROFILE_AVATAR_URL_LABEL"
+          :placeholder="USERS_PROFILE_AVATAR_URL_PLACEHOLDER"
+          helper-text="Optional fallback URL."
+        />
+      </div>
+
+      <fieldset class="space-y-2 rounded-xl border border-slate-200 bg-slate-50 p-4">
+        <legend class="px-1 text-sm font-semibold text-slate-700">{{ USERS_PROFILE_ACCOUNT_TYPES_LABEL }}</legend>
+
+        <p v-if="!accountTypeOptions.length" class="text-sm text-slate-500">
+          {{ USERS_PROFILE_ACCOUNT_TYPES_EMPTY_MESSAGE }}
+        </p>
+
+        <div v-else class="grid gap-3 md:grid-cols-2">
+          <BaseCheckbox
+            v-for="accountType in accountTypeOptions"
+            :key="accountType.value"
+            :model-value="isSelected(accountType.value)"
+            :label="accountType.label"
+            @update:model-value="onAccountTypeToggle(accountType.value, $event)"
+          />
+        </div>
+
+        <p v-if="errors.accountTypeIds" class="text-sm text-rose-600">{{ errors.accountTypeIds }}</p>
+      </fieldset>
     </form>
 
     <template #footer>
