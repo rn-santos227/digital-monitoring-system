@@ -48,4 +48,39 @@ const props = withDefaults(
     id: undefined,
   }
 )
+
+const emit = defineEmits<{
+  (event: 'update:modelValue', value: SuggestionValue): void
+}>()
+
+const generatedId = useId()
+const inputId = computed(() => props.id ?? `suggestion-field-${generatedId}`)
+const query = ref('')
+const isPanelOpen = ref(false)
+
+const selectedValues = computed(() => {
+  if (Array.isArray(props.modelValue)) {
+    return props.modelValue
+  }
+
+  if (typeof props.modelValue === 'string' && props.modelValue.length > 0) {
+    return [props.modelValue]
+  }
+
+  return []
+})
+
+const filteredOptions = computed(() => {
+  const normalizedQuery = query.value.trim().toLowerCase()
+
+  if (!normalizedQuery) {
+    return props.options
+  }
+
+  return props.options.filter((option) => {
+    const text = `${option.label} ${option.description ?? ''}`.toLowerCase()
+    return text.includes(normalizedQuery)
+  })
+})
+
 </script>
