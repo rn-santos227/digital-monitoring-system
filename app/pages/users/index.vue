@@ -72,6 +72,19 @@
           @update:current-page="onAccountPageChange"
         />
       </template>
+
+      <UserProfileModal
+        v-if="isUserProfileModalOpen"
+        :account-type-options="accountTypeOptions"
+        @close="isUserProfileModalOpen = false"
+        @submit="onCreateUserProfile"
+      />
+
+      <AccountTypeModal
+        v-if="isAccountTypeModalOpen"
+        @close="isAccountTypeModalOpen = false"
+        @submit="onCreateAccountType"
+      />
     </section>
   </main>
 </template>
