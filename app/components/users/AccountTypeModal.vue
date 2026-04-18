@@ -34,7 +34,7 @@ interface PrivilegeOption {
   module: string
 }
 
-const props = withDefaults(defineProps<{ isSubmitting?: boolean; privilegeOptions?: PrivilegeOption[] }>(), {
+const props = withDefaults(defineProps<{ isSubmitting?: boolean; privilegeOptions: PrivilegeOption[] }>(), {
   isSubmitting: false,
   privilegeOptions: () => [],
 })
@@ -85,5 +85,19 @@ const toModuleLabel = (moduleName: string) => {
     .join(' ')
 }
 
+const groupedPrivilegeOptions = computed(() => {
+  const grouped = (props.privilegeOptions ?? []).reduce<Record<string, PrivilegeOption[]>>((accumulator, option) => {
+    const moduleOptions = accumulator[option.module] ?? []
+    moduleOptions.push(option)
+    accumulator[option.module] = moduleOptions
+    return accumulator
+  }, {})
+
+  return Object.entries(grouped).map(([module, items]) => ({
+    module,
+    moduleLabel: toModuleLabel(module),
+    items,
+  }))
+})
 
 </script>
