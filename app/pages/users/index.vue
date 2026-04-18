@@ -281,6 +281,71 @@ const onUpdateUserPassword = async (payload: UpdateUserPasswordPayload) => {
   onCloseUserPasswordModal()
 }
 
+const onAccountAction = (_payload: { actionKey: string; row: Record<string, unknown> }) => {
+  // Account type edit/delete handlers remain pending.
+}
+
+const onProfileAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
+  profileWarning.value = ''
+
+  const selectedUserId = resolveProfileActionRowId(payload.row)
+  if (!selectedUserId) {
+    return
+  }
+
+  const isCurrentlyActive = resolveProfileActionRowIsActive(payload.row)
+
+  if (payload.actionKey === USER_PROFILE_ACTION_KEYS.edit) {
+    if (accountTypeOptions.value.length === 0) {
+      await loadUserAccounts(1)
+    }
+
+    const selected = await getUserProfileById(selectedUserId)
+    selectedUserProfileId.value = selectedUserId
+    selectedUserProfile.value = {
+      email: selected.email,
+      fullName: selected.fullName,
+      avatarUrl: selected.avatarUrl,
+      accountTypeIds: selected.accountTypeIds,
+    }
+    isUpdateUserProfileModalOpen.value = true
+    return
+  }
+
+  if (payload.actionKey === USER_PROFILE_ACTION_KEYS.password) {
+    selectedUserProfileId.value = selectedUserId
+    isUserPasswordModalOpen.value = true
+    return
+  }
+
+  if (payload.actionKey === USER_PROFILE_ACTION_KEYS.activation) {
+    const result = await showDialog(buildActivationDialog(isCurrentlyActive))
+
+    if (!result.confirmed) {
+      return
+    }
+
+    await updateUserActivation(selectedUserId, { isActive: !isCurrentlyActive })
+    await loadUserProfiles(profilePagination.value.page, profileSearchQuery.value)
+    return
+  }
+
+  if (payload.actionKey === USER_PROFILE_ACTION_KEYS.delete) {
+    const result = await showDialog(DELETE_PROFILE_DIALOG)
+
+    if (!result.confirmed) {
+      return
+    }
+
+    try {
+      await deleteUserProfile(selectedUserId)
+      await loadUserProfiles(profilePagination.value.page, profileSearchQuery.value)
+    } catch {
+      profileWarning.value = 'Delete endpoint is currently unavailable. Please use deactivate for access control.'
+    }
+  }
+}
+
 watch(isAccountTypeModalOpen, (isOpen) => {
   if (isOpen) {
     void loadPrivileges()
@@ -301,12 +366,4 @@ watch(
   },
   { immediate: true }
 )
-
-const onProfileAction = (_payload: { actionKey: string; row: Record<string, unknown> }) => {
-  // Modal create functionality added in this update; edit/delete handlers will be implemented next.
-}
-
-const onAccountAction = (_payload: { actionKey: string; row: Record<string, unknown> }) => {
-  // Modal create functionality added in this update; edit/delete handlers will be implemented next.
-}
 </script>
