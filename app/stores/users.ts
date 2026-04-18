@@ -3,6 +3,7 @@ import type {
   CreateAccountTypePayload,
   CreateUserProfilePayload,
   UserAccountRecord,
+  PrivilegeRecord,
   UserProfileRecord,
   UsersState,
   UsersTablePagination,
@@ -11,6 +12,7 @@ import { extractApiErrorMessage } from '~/utils/api-request'
 import {
   createAccountTypeEndpoint,
   createUserProfileEndpoint,
+  getPrivilegesEndpoint,
   getUserAccountsEndpoint,
   getUserProfilesEndpoint,
 } from '~/utils/users-endpoints'
@@ -25,6 +27,7 @@ const DEFAULT_PAGINATION: UsersTablePagination = {
 const INITIAL_USERS_STATE: UsersState = {
   profileItems: [],
   accountItems: [],
+  privilegeItems: [],
   profilePagination: { ...DEFAULT_PAGINATION },
   accountPagination: { ...DEFAULT_PAGINATION },
   isLoading: false,
@@ -41,6 +44,7 @@ const usersStoreOptions = {
   getters: {
     hasUserProfiles: (state: UsersState) => state.profileItems.length > 0,
     hasUserAccounts: (state: UsersState) => state.accountItems.length > 0,
+    hasPrivileges: (state: UsersState) => state.privilegeItems.length > 0,
   },
 
   actions: {

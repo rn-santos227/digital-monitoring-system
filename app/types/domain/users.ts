@@ -102,6 +102,7 @@ export interface CreateAccountTypePayload {
   name: string
   description: string | null
   isSystem: boolean
+  permissionIds: string[]
 }
 
 export interface PrivilegesEndpointResponse {
