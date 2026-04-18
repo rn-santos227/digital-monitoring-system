@@ -12,16 +12,20 @@
         :aria-label="USERS_PAGE_TABS_ARIA_LABEL"
         @update:model-value="onTabChange"
       />
-
-      <BaseAlert
-        v-if="error"
-        :message="error"
-        tone="danger"
-      />
       
       <template v-if="activeTab === 'user-profile'">
+        <div v-if="profileWarning" class="space-y-3">
+          <BaseAlert :message="profileWarning" tone="warning" />
+        </div>
+
+        <BaseAlert
+          v-if="error"
+          :message="error"
+          tone="danger"
+        />
+
         <div v-if="canCreateUserProfile" :class="USERS_TABLE_ACTIONS_ROW_CLASSES">
-          <BaseButton @click="onOpenUserProfileModal">
+         <BaseButton @click="onOpenCreateUserProfileModal">
             {{ USERS_PROFILE_CREATE_BUTTON_LABEL }}
           </BaseButton>
         </div>
@@ -47,6 +51,12 @@
       </template>
 
       <template v-else>
+        <BaseAlert
+          v-if="error"
+          :message="error"
+          tone="danger"
+        />
+
         <div v-if="canCreateAccountType" :class="USERS_TABLE_ACTIONS_ROW_CLASSES">
           <BaseButton @click="isAccountTypeModalOpen = true">
             {{ USERS_ACCOUNT_CREATE_BUTTON_LABEL }}
@@ -73,14 +83,29 @@
         />
       </template>
 
-      <UserProfileModal
-        v-if="isUserProfileModalOpen"
+      <CreateUserProfileModal
+        v-if="isCreateUserProfileModalOpen"
+        @close="isCreateUserProfileModalOpen = false"
         :account-type-options="accountTypeOptions"
-        @close="isUserProfileModalOpen = false"
         @submit="onCreateUserProfile"
       />
 
-      <AccountTypeModal
+
+      <UpdateUserProfileModal
+        v-if="isUpdateUserProfileModalOpen && selectedUserProfile"
+        :account-type-options="accountTypeOptions"
+        :initial-values="selectedUserProfile"
+        @close="onCloseUpdateUserProfileModal"
+        @submit="onUpdateUserProfile"
+      />
+
+      <UserPasswordModal
+        v-if="isUserPasswordModalOpen"
+        @close="onCloseUserPasswordModal"
+        @submit="onUpdateUserPassword"
+      />
+
+      <CreateAccountTypeModal
         v-if="isAccountTypeModalOpen"
         :privilege-options="privilegeOptions"
         @close="isAccountTypeModalOpen = false"
