@@ -58,7 +58,7 @@
         />
 
         <div v-if="canCreateAccountType" :class="USERS_TABLE_ACTIONS_ROW_CLASSES">
-          <BaseButton @click="isAccountTypeModalOpen = true">
+          <BaseButton @click="onOpenCreateAccountTypeModal">
             {{ USERS_ACCOUNT_CREATE_BUTTON_LABEL }}
           </BaseButton>
         </div>
@@ -146,12 +146,14 @@ import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 import { USERS_PAGE_HEADER_CLASSES, USERS_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
 import { useUsers } from '~/composables/useUsers'
 import {
-  buildActivationDialog,
-  DELETE_PROFILE_DIALOG,
-  resolveProfileActionRowId,
-  resolveProfileActionRowIsActive,
-  USER_PROFILE_ACTION_KEYS,
+  useAccountTypeActionHandler,
+  useCreateAccountTypeHandler,
+  useCreateUserProfileHandler,
+  useDeleteUserProfileHandler,
+  useUserActivationHandler,
+  useUserPasswordHandler,
   useUsersPageHandlers,
+  useUpdateUserProfileHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type { UpdateUserPasswordPayload, UpdateUserProfilePayload } from '~/types/domain/users'
@@ -255,119 +257,93 @@ const accountTableActions = computed(() => {
   })
 })
 
-const onOpenCreateUserProfileModal = async () => {
-  profileWarning.value = ''
-  if (accountTypeOptions.value.length === 0) {
-    await loadUserAccounts(1)
-  }
+const { onOpenCreateUserProfileModal, onCreateUserProfile } = useCreateUserProfileHandler({
+  accountTypeOptions,
+  isCreateUserProfileModalOpen,
+  profileWarning,
+  loadUserAccounts,
+  createUserProfile,
+  loadUserProfiles,
+})
 
-  isCreateUserProfileModalOpen.value = true
-}
+const { onOpenCreateAccountTypeModal, onCreateAccountType } = useCreateAccountTypeHandler({
+  isAccountTypeModalOpen,
+  createAccountType,
+  loadUserAccounts,
+})
 
-const onCreateUserProfile = async (payload: Parameters<typeof createUserProfile>[0]) => {
-  await createUserProfile(payload)
-  isCreateUserProfileModalOpen.value = false
-  await loadUserProfiles(1)
-}
+const {
+  canHandleUpdateProfileAction,
+  onCloseUpdateUserProfileModal,
+  onUpdateUserProfile,
+  onEditProfileAction,
+} = useUpdateUserProfileHandler({
+  accountTypeOptions,
+  selectedUserProfileId,
+  selectedUserProfile,
+  isUpdateUserProfileModalOpen,
+  profilePagination,
+  profileSearchQuery,
+  loadUserAccounts,
+  loadUserProfiles,
+  getUserProfileById,
+  updateUserProfile,
+})
 
-const onCreateAccountType = async (payload: Parameters<typeof createAccountType>[0]) => {
-  await createAccountType(payload)
-  isAccountTypeModalOpen.value = false
-  await loadUserAccounts(1)
-}
+const {
+  canHandlePasswordAction,
+  onCloseUserPasswordModal,
+  onUpdateUserPassword,
+  onPasswordAction,
+} = useUserPasswordHandler({
+  selectedUserProfileId,
+  isUserPasswordModalOpen,
+  updateUserPassword,
+})
 
-const onCloseUpdateUserProfileModal = () => {
-  isUpdateUserProfileModalOpen.value = false
-  selectedUserProfileId.value = ''
-  selectedUserProfile.value = null
-}
+const { canHandleActivationAction, onActivationAction } = useUserActivationHandler({
+  showDialog,
+  updateUserActivation,
+  loadUserProfiles,
+  profilePagination,
+  profileSearchQuery,
+})
 
-const onCloseUserPasswordModal = () => {
-  isUserPasswordModalOpen.value = false
-  selectedUserProfileId.value = ''
-}
+const { canHandleDeleteAction, onDeleteAction } = useDeleteUserProfileHandler({
+  showDialog,
+  deleteUserProfile,
+  loadUserProfiles,
+  profilePagination,
+  profileSearchQuery,
+  profileWarning,
+})
 
-const onUpdateUserProfile = async (payload: UpdateUserProfilePayload) => {
-  if (!selectedUserProfileId.value) {
-    return
-  }
+const { onAccountTypeAction } = useAccountTypeActionHandler()
 
-  await updateUserProfile(selectedUserProfileId.value, payload)
-  onCloseUpdateUserProfileModal()
-  await loadUserProfiles(profilePagination.value.page, profileSearchQuery.value)
-}
-
-const onUpdateUserPassword = async (payload: UpdateUserPasswordPayload) => {
-  if (!selectedUserProfileId.value) {
-    return
-  }
-
-  await updateUserPassword(selectedUserProfileId.value, payload)
-  onCloseUserPasswordModal()
-}
-
-const onAccountAction = (_payload: { actionKey: string; row: Record<string, unknown> }) => {
-  // Account type edit/delete handlers remain pending.
+const onAccountAction = (payload: { actionKey: string; row: Record<string, unknown> }) => {
+  onAccountTypeAction(payload)
 }
 
 const onProfileAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
   profileWarning.value = ''
 
-  const selectedUserId = resolveProfileActionRowId(payload.row)
-  if (!selectedUserId) {
+  if (canHandleUpdateProfileAction(payload.actionKey)) {
+    await onEditProfileAction(payload.row)
     return
   }
 
-  const isCurrentlyActive = resolveProfileActionRowIsActive(payload.row)
-
-  if (payload.actionKey === USER_PROFILE_ACTION_KEYS.edit) {
-    if (accountTypeOptions.value.length === 0) {
-      await loadUserAccounts(1)
-    }
-
-    const selected = await getUserProfileById(selectedUserId)
-    selectedUserProfileId.value = selectedUserId
-    selectedUserProfile.value = {
-      email: selected.email,
-      fullName: selected.fullName,
-      avatarUrl: selected.avatarUrl,
-      accountTypeIds: selected.accountTypeIds,
-    }
-    isUpdateUserProfileModalOpen.value = true
+  if (canHandlePasswordAction(payload.actionKey)) {
+    onPasswordAction(payload.row)
     return
   }
 
-  if (payload.actionKey === USER_PROFILE_ACTION_KEYS.password) {
-    selectedUserProfileId.value = selectedUserId
-    isUserPasswordModalOpen.value = true
+  if (canHandleActivationAction(payload.actionKey)) {
+    await onActivationAction(payload.row)
     return
   }
 
-  if (payload.actionKey === USER_PROFILE_ACTION_KEYS.activation) {
-    const result = await showDialog(buildActivationDialog(isCurrentlyActive))
-
-    if (!result.confirmed) {
-      return
-    }
-
-    await updateUserActivation(selectedUserId, { isActive: !isCurrentlyActive })
-    await loadUserProfiles(profilePagination.value.page, profileSearchQuery.value)
-    return
-  }
-
-  if (payload.actionKey === USER_PROFILE_ACTION_KEYS.delete) {
-    const result = await showDialog(DELETE_PROFILE_DIALOG)
-
-    if (!result.confirmed) {
-      return
-    }
-
-    try {
-      await deleteUserProfile(selectedUserId)
-      await loadUserProfiles(profilePagination.value.page, profileSearchQuery.value)
-    } catch {
-      profileWarning.value = 'Delete endpoint is currently unavailable. Please use deactivate for access control.'
-    }
+  if (canHandleDeleteAction(payload.actionKey)) {
+    await onDeleteAction(payload.row)
   }
 }
 
