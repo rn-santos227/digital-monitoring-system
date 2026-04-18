@@ -1,10 +1,11 @@
 import { ROUTE_PATHS } from '~/constants/routes.constants'
+import { AUDIT_PRIVILEGES, USER_PROFILE_PRIVILEGES } from '~/constants/privileges.constants'
 
 export const PUBLIC_ROUTE_PATHS = Object.freeze([ROUTE_PATHS.root, ROUTE_PATHS.login])
 
 export const ROUTE_PERMISSION_MATRIX: Readonly<Record<string, readonly string[]>> = Object.freeze({
-  [ROUTE_PATHS.auditTrail]: ['audit.view'],
-  [ROUTE_PATHS.users]: ['user.view'],
+  [ROUTE_PATHS.auditTrail]: AUDIT_PRIVILEGES.view,
+  [ROUTE_PATHS.users]: USER_PROFILE_PRIVILEGES.view,
 })
 
 export const DEFAULT_AUTHENTICATED_REDIRECT_PATH = ROUTE_PATHS.home

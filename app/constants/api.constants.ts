@@ -13,6 +13,7 @@ export const AUDIT_API_ENDPOINTS = Object.freeze({
 export const USER_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   userProfiles: '/api/users',
   accountTypes: '/api/account-types',
+  privileges: '/api/privileges',
 })
 
 export const AUTH_LOCAL_STORAGE_KEYS = Object.freeze({
@@ -32,6 +33,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   fetchAuditLogDetail: 'Loading audit log details...',
   fetchUserProfiles: 'Loading user profiles...',
   fetchUserAccounts: 'Loading user accounts...',
+  fetchPrivileges: 'Loading privileges...',
   createUserProfile: 'Creating user profile...',
   createAccountType: 'Creating account type...',
 })
