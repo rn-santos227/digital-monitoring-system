@@ -58,7 +58,20 @@ const form = reactive<{
   permissionIds: [],
 })
 
-const onSubmit = () => {
+const errors = reactive<Record<string, string>>({})
 
+const onSubmit = () => {
+  const result = validateAccountTypeForm(form)
+
+  Object.keys(errors).forEach((key) => {
+    delete errors[key]
+  })
+
+  Object.assign(errors, result.errors)
+
+  if (!result.payload) {
+    return
+  }
+  emit('submit', result.payload)
 }
 </script>
