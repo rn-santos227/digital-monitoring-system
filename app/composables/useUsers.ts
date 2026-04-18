@@ -5,7 +5,7 @@ import type { UserManagementTabId, CreateAccountTypePayload, CreateUserProfilePa
 
 export const useUsers = () => {
   const usersStore = useUsersStore()
-  const { profileItems, accountItems, profilePagination, accountPagination, isLoading, error } = storeToRefs(usersStore)
+  const { profileItems, accountItems, privilegeItems, profilePagination, accountPagination, isLoading, error } = storeToRefs(usersStore)
 
   const activeTab = ref<UserManagementTabId>('user-profile')
   const profileSearchQuery = ref('')
@@ -39,6 +39,15 @@ export const useUsers = () => {
     }))
   })
 
+  const privilegeOptions = computed(() => {
+    return privilegeItems.value.map((item) => ({
+      value: item.id,
+      code: item.code,
+      name: item.name,
+      module: item.module,
+    }))
+  })
+
   const loadUserProfiles = async (page = profilePagination.value.page, search = profileSearchQuery.value) => {
     try {
       await usersStore.fetchUserProfiles(page, search)
@@ -53,6 +62,15 @@ export const useUsers = () => {
 
   const createAccountType = async (payload: CreateAccountTypePayload) => {
     await usersStore.createAccountType(payload)
+  }
+
+
+  const loadPrivileges = async () => {
+    try {
+      await usersStore.fetchPrivileges()
+    } catch {
+      // Error state is exposed from the store.
+    }
   }
 
   const loadUserAccounts = async (page = accountPagination.value.page, search = accountSearchQuery.value) => {
@@ -88,7 +106,9 @@ export const useUsers = () => {
     error,
     loadUserProfiles,
     loadUserAccounts,
+    loadPrivileges,
     accountTypeOptions,
+    privilegeOptions,
     createUserProfile,
     createAccountType,
   }
