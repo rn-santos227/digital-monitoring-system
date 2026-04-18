@@ -6,6 +6,7 @@ import type {
   UserProfilesEndpointResponse,
   UserAccountsEndpointQuery,
   UserAccountsEndpointResponse,
+  PrivilegesEndpointResponse,
 } from '~/types/domain/users'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
@@ -38,6 +39,15 @@ export const createUserProfileEndpoint = async (payload: CreateUserProfilePayloa
       body: payload,
     })
   }, API_LOADING_MESSAGES.createUserProfile)
+}
+
+export const getPrivilegesEndpoint = async (): Promise<PrivilegesEndpointResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<PrivilegesEndpointResponse>(USER_MANAGEMENT_API_ENDPOINTS.privileges, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchPrivileges)
 }
 
 export const createAccountTypeEndpoint = async (payload: CreateAccountTypePayload): Promise<{ ok: true; id: string | null }> => {

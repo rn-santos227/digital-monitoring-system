@@ -16,6 +16,7 @@ export interface AccountTypeFormState {
   name: string
   description: string
   isSystem: boolean
+  permissionIds: string[]
 }
 
 export interface FormValidationResult<TPayload> {
@@ -118,6 +119,7 @@ export const validateAccountTypeForm = (form: AccountTypeFormState): FormValidat
       name,
       description: description || null,
       isSystem: form.isSystem,
+      permissionIds: form.permissionIds,
     },
     errors,
   }
