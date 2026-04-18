@@ -92,6 +92,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import {
   USERS_ACCOUNT_TABLE_ACTIONS,
   USERS_ACCOUNT_TABLE_ACTIONS_COLUMN_LABEL,
@@ -119,8 +120,16 @@ import {
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 import { USERS_PAGE_HEADER_CLASSES, USERS_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
 import { useUsers } from '~/composables/useUsers'
-import { useUsersPageHandlers } from '~/handlers'
+import {
+  buildActivationDialog,
+  DELETE_PROFILE_DIALOG,
+  resolveProfileActionRowId,
+  resolveProfileActionRowIsActive,
+  USER_PROFILE_ACTION_KEYS,
+  useUsersPageHandlers,
+} from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
+import type { UpdateUserPasswordPayload, UpdateUserProfilePayload } from '~/types/domain/users'
 
 const {
   activeTab,
@@ -139,8 +148,14 @@ const {
   accountTypeOptions,
   createUserProfile,
   createAccountType,
+  getUserProfileById,
+  updateUserProfile,
+  updateUserPassword,
+  updateUserActivation,
+  deleteUserProfile,
 } = useUsers()
 const authStore = useAuthStore()
+const { showDialog } = useDialog()
 
 const visibleTabItems = computed(() => {
   return USERS_PAGE_TAB_ITEMS.filter((tabItem) => {
@@ -176,16 +191,20 @@ const onProfilePageChange = (nextPage: number) => {
 const onAccountPageChange = (nextPage: number) => {
   void loadUserAccounts(nextPage)
 }
-
-const isUserProfileModalOpen = ref(false)
+const isCreateUserProfileModalOpen = ref(false)
+const isUpdateUserProfileModalOpen = ref(false)
+const isUserPasswordModalOpen = ref(false)
 const isAccountTypeModalOpen = ref(false)
+const selectedUserProfileId = ref('')
+const selectedUserProfile = ref<{ email: string; fullName: string; avatarUrl: string | null; accountTypeIds: string[] } | null>(null)
+const profileWarning = ref('')
 
 const canCreateUserProfile = computed(() => authStore.hasPermissionAccess(USERS_PROFILE_REQUIRED_PERMISSIONS.create))
 const canCreateAccountType = computed(() => authStore.hasPermissionAccess(USERS_ACCOUNT_REQUIRED_PERMISSIONS.create))
 
 const profileTableActions = computed(() => {
   return USERS_PROFILE_TABLE_ACTIONS.filter((action) => {
-    if (action.key === 'edit-user-profile') {
+    if (action.key === 'edit-user-profile' || action.key === 'change-user-password' || action.key === 'toggle-user-activation') {
       return authStore.hasPermissionAccess(USERS_PROFILE_REQUIRED_PERMISSIONS.edit)
     }
 
@@ -211,17 +230,18 @@ const accountTableActions = computed(() => {
   })
 })
 
-const onOpenUserProfileModal = async () => {
+const onOpenCreateUserProfileModal = async () => {
+  profileWarning.value = ''
   if (accountTypeOptions.value.length === 0) {
     await loadUserAccounts(1)
   }
 
-  isUserProfileModalOpen.value = true
+  isCreateUserProfileModalOpen.value = true
 }
 
 const onCreateUserProfile = async (payload: Parameters<typeof createUserProfile>[0]) => {
   await createUserProfile(payload)
-  isUserProfileModalOpen.value = false
+  isCreateUserProfileModalOpen.value = false
   await loadUserProfiles(1)
 }
 
