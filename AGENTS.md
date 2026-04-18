@@ -81,3 +81,13 @@
     - Every `POST`, `PATCH`, and `DELETE` handler under `server/api` must record API audit logs for both successful and failed outcomes.
     - For destructive operations, enforce usage-safety checks first (e.g., do not delete account types that are still assigned to user profiles).
     - Multi-step mutation handlers must implement transaction-like rollback behavior (via DB transaction or explicit compensation logic) and must record rollback errors.
+
+18. **Frontend privilege-gated actions are required**
+    - For every action button, modal trigger, or row action under `app/pages` and related feature components, hide or disable controls when the signed-in user lacks the required privilege code.
+    - Use permission codes consistent with RBAC schema entries in `public.permissions` (for example `user.view`, `user.create`, `user.update`, `user.delete`, `account_type.view`, `account_type.create`, `account_type.update`, `account_type.delete`).
+    - Keep permission checks centralized through store/composable helpers (e.g., auth store permission helpers) instead of duplicating ad-hoc checks in multiple templates.
+
+19. **Account type privilege checklist in forms**
+    - Account type create/update forms must include a checklist of privileges sourced from the `permissions` table (through the privileges API), grouped for clear operator review.
+    - Submitted account type payloads must include selected privilege identifiers so `account_type_permissions` stays aligned with UI selections.
+    - Keep privilege checklist labels user-friendly while preserving schema-consistent privilege code mapping.
