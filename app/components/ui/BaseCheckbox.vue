@@ -8,7 +8,7 @@
       :class="inputClasses"
       @change="onChange"
     />
-    <span>
+    <span class="flex-1">
       <span class="text-sm font-medium text-slate-700">{{ label }}</span>
       <span v-if="description" class="block text-sm text-slate-500">{{ description }}</span>
     </span>
@@ -44,7 +44,7 @@ const labelClasses = computed(() => {
   return props.description ? 'flex items-start gap-3' : 'flex items-center gap-3'
 })
 const inputClasses = computed(() => {
-  return props.description ? `${CHECK_CONTROL_CLASSES} mt-0.5` : CHECK_CONTROL_CLASSES
+  return props.description ? `${CHECK_CONTROL_CLASSES} mt-1 shrink-0` : `${CHECK_CONTROL_CLASSES} shrink-0`
 })
 
 const onChange = (event: Event) => {
