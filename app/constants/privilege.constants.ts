@@ -17,4 +17,11 @@ export const USER_PROFILE_PRIVILEGES = Object.freeze({
   delete: Object.freeze([PRIVILEGE_CODES.userDelete]),
 })
 
+export const ACCOUNT_TYPE_PRIVILEGES = Object.freeze({
+  view: Object.freeze([PRIVILEGE_CODES.accountTypeView]),
+  create: Object.freeze([PRIVILEGE_CODES.accountTypeCreate]),
+  edit: Object.freeze([PRIVILEGE_CODES.accountTypeUpdate]),
+  delete: Object.freeze([PRIVILEGE_CODES.accountTypeDelete]),
+})
+
 
