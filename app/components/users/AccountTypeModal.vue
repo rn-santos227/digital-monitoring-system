@@ -100,4 +100,20 @@ const groupedPrivilegeOptions = computed(() => {
   }))
 })
 
+const privilegeSuggestionOptions = computed<SuggestionFieldOption[]>(() => {
+  return groupedPrivilegeOptions.value.flatMap((group) => {
+    return group.items.map((privilege) => ({
+      value: privilege.value,
+      label: privilege.name,
+      description: `${group.moduleLabel} • ${USERS_ACCOUNT_PRIVILEGES_CODE_PREFIX}: ${privilege.code}`,
+    }))
+  })
+})
+
+const selectedPrivilegeItems = computed(() => {
+  const selectedIds = new Set(form.permissionIds)
+  return (props.privilegeOptions ?? []).filter((item) => selectedIds.has(item.value))
+})
+
+void props
 </script>
