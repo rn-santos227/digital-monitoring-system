@@ -1,5 +1,68 @@
 <template>
+  <BaseModal
+    :title="USERS_ACCOUNT_CREATE_MODAL_TITLE"
+    :description="USERS_ACCOUNT_CREATE_MODAL_DESCRIPTION"
+    size="md"
+    @close="emit('close')"
+  >
+    <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseTextField
+        v-model="form.code"
+        :label="USERS_ACCOUNT_CODE_LABEL"
+        :placeholder="USERS_ACCOUNT_CODE_PLACEHOLDER"
+        :error="errors.code"
+        required
+      />
 
+      <BaseTextField
+        v-model="form.name"
+        :label="USERS_ACCOUNT_NAME_LABEL"
+        :placeholder="USERS_ACCOUNT_NAME_PLACEHOLDER"
+        :error="errors.name"
+        required
+      />
+
+      <BaseTextArea
+        v-model="form.description"
+        :label="USERS_ACCOUNT_DESCRIPTION_LABEL"
+        :placeholder="USERS_ACCOUNT_DESCRIPTION_PLACEHOLDER"
+      />
+
+      <BaseCheckbox
+        v-model="form.isSystem"
+        :label="USERS_ACCOUNT_IS_SYSTEM_LABEL"
+        :description="USERS_ACCOUNT_IS_SYSTEM_DESCRIPTION"
+      />
+
+      <fieldset class="space-y-3">
+        <BaseSuggestionField
+          v-model="form.permissionIds"
+          :label="USERS_ACCOUNT_PRIVILEGES_LABEL"
+          :helper-text="USERS_ACCOUNT_PRIVILEGES_DESCRIPTION"
+          :placeholder="USERS_ACCOUNT_PRIVILEGES_PLACEHOLDER"
+          :empty-message="USERS_ACCOUNT_PRIVILEGES_EMPTY_MESSAGE"
+          :options="privilegeSuggestionOptions"
+          multiple
+        />
+
+        <div v-if="selectedPrivilegeItems.length" class="flex flex-wrap gap-2">
+          <BaseChip
+            v-for="selectedPrivilege in selectedPrivilegeItems"
+            :key="selectedPrivilege.value"
+            :label="`${selectedPrivilege.name} (${selectedPrivilege.code})`"
+            tone="info"
+          />
+        </div>
+      </fieldset>
+    </form>
+
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        <BaseButton variant="ghost" @click="emit('close')">{{ USERS_MODAL_CANCEL_LABEL }}</BaseButton>
+        <BaseButton :disabled="isSubmitting" @click="onSubmit">{{ USERS_MODAL_CREATE_LABEL }}</BaseButton>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
