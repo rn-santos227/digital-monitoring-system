@@ -21,7 +21,7 @@
       
       <template v-if="activeTab === 'user-profile'">
         <div :class="USERS_TABLE_ACTIONS_ROW_CLASSES">
-          <BaseButton>
+          <BaseButton @click="onOpenUserProfileModal">
             {{ USERS_PROFILE_CREATE_BUTTON_LABEL }}
           </BaseButton>
         </div>
@@ -40,6 +40,7 @@
           :empty-message="USERS_PROFILE_TABLE_EMPTY_MESSAGE"
           :current-page="profilePagination.page"
           :total-pages="profilePagination.totalPages"
+          @action="onProfileAction"
           @update:search-query="onProfileSearch"
           @update:current-page="onProfilePageChange"
         />
@@ -47,7 +48,7 @@
 
       <template v-else>
         <div :class="USERS_TABLE_ACTIONS_ROW_CLASSES">
-          <BaseButton>
+          <BaseButton @click="isAccountTypeModalOpen = true">
             {{ USERS_ACCOUNT_CREATE_BUTTON_LABEL }}
           </BaseButton>
         </div>
@@ -66,6 +67,7 @@
           :empty-message="USERS_ACCOUNT_TABLE_EMPTY_MESSAGE"
           :current-page="accountPagination.page"
           :total-pages="accountPagination.totalPages"
+          @action="onAccountAction"
           @update:search-query="onAccountSearch"
           @update:current-page="onAccountPageChange"
         />
@@ -96,6 +98,7 @@ import {
   USERS_PROFILE_TABLE_SEARCH_PLACEHOLDER,
   USERS_PROFILE_TABLE_TITLE,
 } from '~/constants/page.constants'
+import { ref } from 'vue'
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 import { USERS_PAGE_HEADER_CLASSES, USERS_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
 import { useUsers } from '~/composables/useUsers'
@@ -113,6 +116,9 @@ const {
   error,
   loadUserProfiles,
   loadUserAccounts,
+  accountTypeOptions,
+  createUserProfile,
+  createAccountType,
 } = useUsers()
 
 const { handleTabChange, handleProfileSearch, handleAccountSearch } = useUsersPageHandlers(
@@ -141,5 +147,36 @@ const onProfilePageChange = (nextPage: number) => {
 
 const onAccountPageChange = (nextPage: number) => {
   void loadUserAccounts(nextPage)
+}
+
+const isUserProfileModalOpen = ref(false)
+const isAccountTypeModalOpen = ref(false)
+
+const onOpenUserProfileModal = async () => {
+  if (accountTypeOptions.value.length === 0) {
+    await loadUserAccounts(1)
+  }
+
+  isUserProfileModalOpen.value = true
+}
+
+const onCreateUserProfile = async (payload: Parameters<typeof createUserProfile>[0]) => {
+  await createUserProfile(payload)
+  isUserProfileModalOpen.value = false
+  await loadUserProfiles(1)
+}
+
+const onCreateAccountType = async (payload: Parameters<typeof createAccountType>[0]) => {
+  await createAccountType(payload)
+  isAccountTypeModalOpen.value = false
+  await loadUserAccounts(1)
+}
+
+const onProfileAction = (_payload: { actionKey: string; row: Record<string, unknown> }) => {
+  // Modal create functionality added in this update; edit/delete handlers will be implemented next.
+}
+
+const onAccountAction = (_payload: { actionKey: string; row: Record<string, unknown> }) => {
+  // Modal create functionality added in this update; edit/delete handlers will be implemented next.
 }
 </script>
