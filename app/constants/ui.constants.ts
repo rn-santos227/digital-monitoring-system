@@ -49,7 +49,7 @@ export const FORM_CONTROL_STATE_CLASSES = {
 } as const
 
 export const CHECK_CONTROL_CLASSES =
-  'h-4 w-4 rounded border-slate-300 text-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:opacity-60'
+ 'h-4 w-4 rounded border-slate-300 accent-emerald-600 text-emerald-700 focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:opacity-60'
 
 export const BASE_CHIP_CLASSES = 'inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium'
 export const BASE_CHIP_TONE_CLASSES: Record<UiTone, string> = {

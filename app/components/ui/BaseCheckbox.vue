@@ -1,11 +1,11 @@
 <template>
-  <label class="flex items-start gap-3" :for="inputId">
+  <label :class="labelClasses" :for="inputId">
     <input
       :id="inputId"
       type="checkbox"
       :checked="modelValue"
       :disabled="disabled"
-      :class="CHECK_CONTROL_CLASSES"
+      :class="inputClasses"
       @change="onChange"
     />
     <span>
@@ -40,6 +40,12 @@ const emit = defineEmits<{
 
 const generatedId = useId()
 const inputId = computed(() => props.id ?? `checkbox-${generatedId}`)
+const labelClasses = computed(() => {
+  return props.description ? 'flex items-start gap-3' : 'flex items-center gap-3'
+})
+const inputClasses = computed(() => {
+  return props.description ? `${CHECK_CONTROL_CLASSES} mt-0.5` : CHECK_CONTROL_CLASSES
+})
 
 const onChange = (event: Event) => {
   const target = event.target as HTMLInputElement
