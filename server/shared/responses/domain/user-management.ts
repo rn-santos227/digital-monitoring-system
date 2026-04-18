@@ -42,3 +42,19 @@ export interface UserProfileDetailResponse {
 export interface MutationSuccessResponse {
   ok: true
 }
+
+export interface AccountTypeDetailPermissionResponse {
+  id: string
+  code: string
+  name: string
+  module: string
+}
+
+export interface AccountTypeDetailResponse {
+  id: string
+  code: string
+  name: string
+  description: string | null
+  isSystem: boolean
+  permissions: AccountTypeDetailPermissionResponse[]
+}

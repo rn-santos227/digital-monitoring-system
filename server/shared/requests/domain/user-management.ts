@@ -21,6 +21,14 @@ export interface CreateAccountTypeRequest {
   permissionIds?: string[]
 }
 
+export interface UpdateAccountTypeRequest {
+  code?: string
+  name?: string
+  description?: string | null
+  isSystem?: boolean
+  permissionIds?: string[]
+}
+
 export interface UpdateUserPasswordRequest {
   currentPassword?: string
   newPassword?: string

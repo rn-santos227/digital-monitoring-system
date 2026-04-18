@@ -1,5 +1,5 @@
 import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
-import type { UpdateAccountTypeBody } from '../../shared/models'
+import type { UpdateAccountTypeRequest } from '../../shared/requests'
 import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
 import { normalizeOptionalText } from '../../shared/utils'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: 'Account type id is required.' })
   }
 
-  const body = await readBody<UpdateAccountTypeBody>(event)
+  const body = await readBody<UpdateAccountTypeRequest>(event)
   const updates: {
     code?: string
     name?: string

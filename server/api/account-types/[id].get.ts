@@ -1,17 +1,9 @@
 import { createError, defineEventHandler, getRouterParam } from 'h3'
+import type { AccountTypeDetailResponse } from '../../shared/responses'
 import { MANAGEMENT_PERMISSION_GROUPS } from '../../shared/constants'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { requireRouteId } from '../../shared/validations'
-
-interface AccountTypeDetailResponse {
-  id: string
-  code: string
-  name: string
-  description: string | null
-  isSystem: boolean
-  permissions: Array<{ id: string; code: string; name: string; module: string }>
-}
 
 export default defineEventHandler(async (event): Promise<AccountTypeDetailResponse> => {
   await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.accountTypeManagement)
