@@ -73,6 +73,11 @@ export interface UsersState {
   error: string
 }
 
+export interface UserProfilesSearchQuery extends UserProfilesEndpointQuery {
+  term?: string
+  fields?: string
+}
+
 export interface UserProfilesEndpointQuery {
   page?: number
   pageSize?: number
@@ -125,6 +130,12 @@ export interface UserAccountsEndpointQuery {
   pageSize?: number
   search?: string
   includeSystem?: boolean
+}
+
+export interface UserAccountsSearchQuery extends UserAccountsEndpointQuery {
+  term?: string
+  fields?: string
+  isSystem?: boolean
 }
 
 export interface UserAccountEndpointResponseItem {

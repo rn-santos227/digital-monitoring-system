@@ -9,6 +9,8 @@ import type {
   UpdateAccountTypePayload,
   UpdateUserPasswordPayload,
   UpdateUserProfilePayload,
+  UserAccountsSearchQuery,
+  UserProfilesSearchQuery,
 } from '~/types/domain/users'
 
 export const useUsers = () => {
@@ -16,8 +18,8 @@ export const useUsers = () => {
   const { profileItems, accountItems, privilegeItems, profilePagination, accountPagination, isLoading, error } = storeToRefs(usersStore)
 
   const activeTab = ref<UserManagementTabId>('user-profile')
-  const profileSearchQuery = ref('')
-  const accountSearchQuery = ref('')
+  const profileFilters = ref<Partial<UserProfilesSearchQuery>>({})
+  const accountFilters = ref<Partial<UserAccountsSearchQuery>>({})
 
   const profileTableRows = computed(() => {
     return profileItems.value.map((item) => ({
@@ -56,9 +58,11 @@ export const useUsers = () => {
     }))
   })
 
-  const loadUserProfiles = async (page = profilePagination.value.page, search = profileSearchQuery.value) => {
+  const loadUserProfiles = async (page = profilePagination.value.page, filters: Partial<UserProfilesSearchQuery> = profileFilters.value) => {
+    profileFilters.value = { ...filters }
+
     try {
-      await usersStore.fetchUserProfiles(page, search)
+      await usersStore.fetchUserProfiles(page, profileFilters.value)
     } catch {
       // Error state is exposed from the store.
     }
@@ -116,9 +120,11 @@ export const useUsers = () => {
     }
   }
 
-  const loadUserAccounts = async (page = accountPagination.value.page, search = accountSearchQuery.value) => {
+  const loadUserAccounts = async (page = accountPagination.value.page, filters: Partial<UserAccountsSearchQuery> = accountFilters.value) => {
+    accountFilters.value = { ...filters }
+
     try {
-      await usersStore.fetchUserAccounts(page, search)
+      await usersStore.fetchUserAccounts(page, accountFilters.value)
     } catch {
       // Error state is exposed from the store.
     }
@@ -139,8 +145,8 @@ export const useUsers = () => {
 
   return {
     activeTab,
-    profileSearchQuery,
-    accountSearchQuery,
+    profileFilters,
+    accountFilters,
     profileTableRows,
     accountTableRows,
     profilePagination,

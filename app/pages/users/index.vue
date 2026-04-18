@@ -14,6 +14,13 @@
       />
       
       <template v-if="activeTab === 'user-profile'">
+        <UsersFilter
+          :model-value="profileFilters"
+          :validation-errors="profileFilterValidationErrors"
+          @apply="handleApplyProfileFilters"
+          @reset="handleResetProfileFilters"
+        />
+
         <div v-if="profileWarning" class="space-y-3">
           <BaseAlert :message="profileWarning" tone="warning" />
         </div>
@@ -39,18 +46,23 @@
           :action-button-count="profileTableActions.length"
           :actions-column-label="USERS_PROFILE_TABLE_ACTIONS_COLUMN_LABEL"
           :is-loading="isLoading"
-          :search-query="profileSearchQuery"
-          :search-placeholder="USERS_PROFILE_TABLE_SEARCH_PLACEHOLDER"
+          :show-search="false"
           :empty-message="USERS_PROFILE_TABLE_EMPTY_MESSAGE"
           :current-page="profilePagination.page"
           :total-pages="profilePagination.totalPages"
           @action="onProfileAction"
-          @update:search-query="onProfileSearch"
           @update:current-page="onProfilePageChange"
         />
       </template>
 
       <template v-else>
+        <AccountTypesFilter
+          :model-value="accountFilters"
+          :validation-errors="accountFilterValidationErrors"
+          @apply="handleApplyAccountFilters"
+          @reset="handleResetAccountFilters"
+        />
+
         <BaseAlert
           v-if="error"
           :message="error"
@@ -72,13 +84,11 @@
           :action-button-count="accountTableActions.length"
           :actions-column-label="USERS_ACCOUNT_TABLE_ACTIONS_COLUMN_LABEL"
           :is-loading="isLoading"
-          :search-query="accountSearchQuery"
-          :search-placeholder="USERS_ACCOUNT_TABLE_SEARCH_PLACEHOLDER"
+          :show-search="false"
           :empty-message="USERS_ACCOUNT_TABLE_EMPTY_MESSAGE"
           :current-page="accountPagination.page"
           :total-pages="accountPagination.totalPages"
           @action="onAccountAction"
-          @update:search-query="onAccountSearch"
           @update:current-page="onAccountPageChange"
         />
       </template>
@@ -131,6 +141,9 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import UsersFilter from '~/components/users/UsersFilter.vue'
+import AccountTypesFilter from '~/components/users/AccountTypesFilter.vue'
+import type { FieldValidationMap } from '~/utils/field-validation'
 import { useDialog } from '~/composables/useDialog'
 import {
   USERS_ACCOUNT_TABLE_ACTIONS,
@@ -138,7 +151,6 @@ import {
   USERS_ACCOUNT_TABLE_COLUMNS,
   USERS_ACCOUNT_CREATE_BUTTON_LABEL,
   USERS_ACCOUNT_TABLE_EMPTY_MESSAGE,
-  USERS_ACCOUNT_TABLE_SEARCH_PLACEHOLDER,
   USERS_ACCOUNT_TABLE_TITLE,
   USERS_ACCOUNT_REQUIRED_PERMISSIONS,
   USERS_PAGE_SECTION_CLASSES,
@@ -152,7 +164,6 @@ import {
   USERS_PROFILE_TABLE_COLUMNS,
   USERS_PROFILE_CREATE_BUTTON_LABEL,
   USERS_PROFILE_TABLE_EMPTY_MESSAGE,
-  USERS_PROFILE_TABLE_SEARCH_PLACEHOLDER,
   USERS_PROFILE_TABLE_TITLE,
   USERS_PROFILE_REQUIRED_PERMISSIONS,
 } from '~/constants/page.constants'
@@ -176,8 +187,8 @@ import { useAuthStore } from '~/stores/auth'
 
 const {
   activeTab,
-  profileSearchQuery,
-  accountSearchQuery,
+  profileFilters,
+  accountFilters,
   profileTableRows,
   accountTableRows,
   profilePagination,
@@ -211,32 +222,65 @@ const visibleTabItems = computed(() => {
   })
 })
 
-const { handleTabChange, handleProfileSearch, handleAccountSearch } = useUsersPageHandlers(
+const {
+  handleTabChange,
+  handleProfileFilterApply,
+  handleProfileFilterReset,
+  handleAccountFilterApply,
+  handleAccountFilterReset,
+} = useUsersPageHandlers(
   activeTab,
-  profileSearchQuery,
-  accountSearchQuery
+  profileFilters,
+  accountFilters
 )
 
 const onTabChange = (nextTab: string) => {
   handleTabChange(nextTab)
 }
 
-const onProfileSearch = (value: string) => {
-  handleProfileSearch(value)
-  void loadUserProfiles(1, value)
+const profileFilterValidationErrors = ref<FieldValidationMap>({})
+const accountFilterValidationErrors = ref<FieldValidationMap>({})
+
+const handleApplyProfileFilters = async (value: typeof profileFilters.value) => {
+  const { filters, errors, isValid } = handleProfileFilterApply(value)
+  profileFilterValidationErrors.value = errors
+
+  if (!isValid) {
+    return
+  }
+
+  await loadUserProfiles(1, filters)
 }
 
-const onAccountSearch = (value: string) => {
-  handleAccountSearch(value)
-  void loadUserAccounts(1, value)
+const handleResetProfileFilters = async () => {
+  profileFilterValidationErrors.value = {}
+  const filters = handleProfileFilterReset()
+  await loadUserProfiles(1, filters)
+}
+
+const handleApplyAccountFilters = async (value: typeof accountFilters.value) => {
+  const { filters, errors, isValid } = handleAccountFilterApply(value)
+  accountFilterValidationErrors.value = errors
+
+  if (!isValid) {
+    return
+  }
+
+  await loadUserAccounts(1, filters)
+}
+
+const handleResetAccountFilters = async () => {
+  accountFilterValidationErrors.value = {}
+  const filters = handleAccountFilterReset()
+  await loadUserAccounts(1, filters)
 }
 
 const onProfilePageChange = (nextPage: number) => {
-  void loadUserProfiles(nextPage)
+  void loadUserProfiles(nextPage, profileFilters.value)
 }
 
 const onAccountPageChange = (nextPage: number) => {
-  void loadUserAccounts(nextPage)
+  void loadUserAccounts(nextPage, accountFilters.value)
 }
 const isCreateUserProfileModalOpen = ref(false)
 const isUpdateUserProfileModalOpen = ref(false)
@@ -325,7 +369,7 @@ const {
   selectedUserProfile,
   isUpdateUserProfileModalOpen,
   profilePagination,
-  profileSearchQuery,
+  profileFilters,
   loadUserAccounts,
   loadUserProfiles,
   getUserProfileById,
@@ -348,7 +392,7 @@ const { canHandleActivationAction, onActivationAction } = useUserActivationHandl
   updateUserActivation,
   loadUserProfiles,
   profilePagination,
-  profileSearchQuery,
+  profileFilters,
 })
 
 const { canHandleDeleteAction, onDeleteAction } = useDeleteUserProfileHandler({
@@ -356,7 +400,7 @@ const { canHandleDeleteAction, onDeleteAction } = useDeleteUserProfileHandler({
   deleteUserProfile,
   loadUserProfiles,
   profilePagination,
-  profileSearchQuery,
+  profileFilters,
   profileWarning,
 })
 
@@ -373,7 +417,7 @@ const {
   updateAccountType,
   loadUserAccounts,
   accountPagination,
-  accountSearchQuery,
+  accountFilters,
 })
 
 const { canHandleDeleteAccountTypeAction, onDeleteAccountTypeAction } = useDeleteAccountTypeHandler({
@@ -381,7 +425,7 @@ const { canHandleDeleteAccountTypeAction, onDeleteAccountTypeAction } = useDelet
   deleteAccountType,
   loadUserAccounts,
   accountPagination,
-  accountSearchQuery,
+  accountFilters,
 })
 
 const { onAccountTypeAction } = useAccountTypeActionHandler({

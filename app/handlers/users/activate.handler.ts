@@ -1,6 +1,7 @@
 import type { Ref } from 'vue'
 import type { DialogInput } from '~/composables/useDialog'
 import { USER_PROFILE_ACTION_KEYS } from './constants'
+import type { UserProfilesSearchQuery } from '~/types/domain/users'
 
 type UserRow = Record<string, unknown>
 
@@ -25,9 +26,9 @@ export const buildActivationDialog = (isCurrentlyActive: boolean): DialogInput =
 interface UseUserActivationHandlerOptions {
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   updateUserActivation: (id: string, payload: { isActive: boolean }) => Promise<void>
-  loadUserProfiles: (page?: number, search?: string) => Promise<void>
+  loadUserProfiles: (page?: number, filters?: Partial<UserProfilesSearchQuery>) => Promise<void>
   profilePagination: Ref<{ page: number }>
-  profileSearchQuery: Ref<string>
+  profileFilters: Ref<Partial<UserProfilesSearchQuery>>
 }
 
 export const useUserActivationHandler = ({
@@ -35,7 +36,7 @@ export const useUserActivationHandler = ({
   updateUserActivation,
   loadUserProfiles,
   profilePagination,
-  profileSearchQuery,
+  profileFilters,
 }: UseUserActivationHandlerOptions) => {
   const onActivationAction = async (row: UserRow): Promise<boolean> => {
     const selectedUserId = resolveProfileActionRowId(row)
@@ -51,7 +52,7 @@ export const useUserActivationHandler = ({
     }
 
     await updateUserActivation(selectedUserId, { isActive: !isCurrentlyActive })
-    await loadUserProfiles(profilePagination.value.page, profileSearchQuery.value)
+    await loadUserProfiles(profilePagination.value.page, profileFilters.value)
     return true
   }
 

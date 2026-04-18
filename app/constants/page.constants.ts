@@ -134,6 +134,49 @@ export const USERS_PROFILE_TABLE_EMPTY_MESSAGE = 'No user profile records found.
 export const USERS_ACCOUNT_TABLE_EMPTY_MESSAGE = 'No user account records found.'
 export const USERS_PROFILE_TABLE_SEARCH_PLACEHOLDER = 'Search user profiles'
 export const USERS_ACCOUNT_TABLE_SEARCH_PLACEHOLDER = 'Search user accounts'
+
+
+export const USERS_PROFILE_FILTER_CARD_TITLE = 'Filter User Profiles'
+export const USERS_PROFILE_FILTER_TERM_LABEL = 'Search Term'
+export const USERS_PROFILE_FILTER_TERM_PLACEHOLDER = 'Search profile value'
+export const USERS_PROFILE_FILTER_FIELDS_LABEL = 'Search Field'
+export const USERS_PROFILE_FILTER_STATUS_LABEL = 'Profile Status'
+export const USERS_PROFILE_FILTER_APPLY_LABEL = 'Apply Filters'
+export const USERS_PROFILE_FILTER_RESET_LABEL = 'Reset'
+
+export const USERS_PROFILE_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: '', label: 'All searchable fields' },
+  { value: 'email', label: 'Email' },
+  { value: 'fullName', label: 'Full Name' },
+])
+
+export const USERS_PROFILE_FILTER_STATUS_OPTIONS = Object.freeze([
+  { value: '', label: 'All statuses' },
+  { value: 'active', label: 'Active' },
+  { value: 'inactive', label: 'Inactive' },
+])
+
+export const USERS_ACCOUNT_FILTER_CARD_TITLE = 'Filter Account Types'
+export const USERS_ACCOUNT_FILTER_TERM_LABEL = 'Search Term'
+export const USERS_ACCOUNT_FILTER_TERM_PLACEHOLDER = 'Search account type value'
+export const USERS_ACCOUNT_FILTER_FIELDS_LABEL = 'Search Field'
+export const USERS_ACCOUNT_FILTER_SYSTEM_TYPE_LABEL = 'Account Type'
+export const USERS_ACCOUNT_FILTER_APPLY_LABEL = 'Apply Filters'
+export const USERS_ACCOUNT_FILTER_RESET_LABEL = 'Reset'
+
+export const USERS_ACCOUNT_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: '', label: 'All searchable fields' },
+  { value: 'code', label: 'Code' },
+  { value: 'name', label: 'Name' },
+  { value: 'description', label: 'Description' },
+])
+
+export const USERS_ACCOUNT_FILTER_SYSTEM_TYPE_OPTIONS = Object.freeze([
+  { value: '', label: 'All account types' },
+  { value: 'system', label: 'System' },
+  { value: 'custom', label: 'Custom' },
+])
+
 export const USERS_PROFILE_CREATE_BUTTON_LABEL = 'Create User Profile'
 export const USERS_ACCOUNT_CREATE_BUTTON_LABEL = 'Create User Account'
 export const USERS_MODAL_CREATE_LABEL = 'Create'

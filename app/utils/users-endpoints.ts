@@ -8,8 +8,10 @@ import type {
   UserProfileDetailEndpointResponse,
   UserProfileViewEndpointResponse,
   UserProfilesEndpointQuery,
+  UserProfilesSearchQuery,
   UserProfilesEndpointResponse,
   UserAccountsEndpointQuery,
+  UserAccountsSearchQuery,
   UserAccountsEndpointResponse,
   PrivilegesEndpointResponse,
   UpdateAccountTypePayload,
@@ -17,6 +19,16 @@ import type {
 } from '~/types/domain/users'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
+
+export const searchUserProfilesEndpoint = async (query: UserProfilesSearchQuery): Promise<UserProfilesEndpointResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<UserProfilesEndpointResponse>(USER_MANAGEMENT_API_ENDPOINTS.userProfilesSearch, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchUserProfiles)
+}
 
 export const getUserProfilesEndpoint = async (query: UserProfilesEndpointQuery): Promise<UserProfilesEndpointResponse> => {
   return await withApiLoading(async () => {
@@ -26,6 +38,16 @@ export const getUserProfilesEndpoint = async (query: UserProfilesEndpointQuery):
       query,
     })
   }, API_LOADING_MESSAGES.fetchUserProfiles)
+}
+
+export const searchUserAccountsEndpoint = async (query: UserAccountsSearchQuery): Promise<UserAccountsEndpointResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<UserAccountsEndpointResponse>(USER_MANAGEMENT_API_ENDPOINTS.accountTypesSearch, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchUserAccounts)
 }
 
 export const getUserAccountsEndpoint = async (query: UserAccountsEndpointQuery): Promise<UserAccountsEndpointResponse> => {

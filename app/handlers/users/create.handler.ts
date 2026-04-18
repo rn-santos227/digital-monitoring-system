@@ -1,21 +1,21 @@
 import type { Ref } from 'vue'
-import type { CreateUserProfilePayload } from '~/types/domain/users'
+import type { CreateUserProfilePayload, UserAccountsSearchQuery, UserProfilesSearchQuery } from '~/types/domain/users'
 
 interface UseCreateUserProfileHandlerOptions {
   accountTypeOptions: Ref<Array<{ value: string; label: string }>>
   isCreateUserProfileModalOpen: Ref<boolean>
   profileWarning: Ref<string>
-  loadUserAccounts: (page?: number, search?: string) => Promise<void>
   createUserProfile: (payload: CreateUserProfilePayload) => Promise<void>
-  loadUserProfiles: (page?: number, search?: string) => Promise<void>
+  loadUserAccounts: (page?: number, filters?: Partial<UserAccountsSearchQuery>) => Promise<void>
+  loadUserProfiles: (page?: number, filters?: Partial<UserProfilesSearchQuery>) => Promise<void>
 }
 
 export const useCreateUserProfileHandler = ({
   accountTypeOptions,
   isCreateUserProfileModalOpen,
   profileWarning,
-  loadUserAccounts,
   createUserProfile,
+  loadUserAccounts,
   loadUserProfiles,
 }: UseCreateUserProfileHandlerOptions) => {
   const onOpenCreateUserProfileModal = async () => {

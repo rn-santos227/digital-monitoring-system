@@ -1,6 +1,7 @@
 import type { Ref } from 'vue'
 import type { DialogInput } from '~/composables/useDialog'
 import { USER_PROFILE_ACTION_KEYS } from './constants'
+import type { UserProfilesSearchQuery } from '~/types/domain/users'
 
 type UserRow = Record<string, unknown>
 
@@ -19,9 +20,9 @@ export const DELETE_PROFILE_DIALOG: DialogInput = Object.freeze({
 interface UseDeleteUserProfileHandlerOptions {
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   deleteUserProfile: (id: string) => Promise<void>
-  loadUserProfiles: (page?: number, search?: string) => Promise<void>
+  loadUserProfiles: (page?: number, filters?: Partial<UserProfilesSearchQuery>) => Promise<void>
   profilePagination: Ref<{ page: number }>
-  profileSearchQuery: Ref<string>
+  profileFilters: Ref<Partial<UserProfilesSearchQuery>>
   profileWarning: Ref<string>
 }
 
@@ -30,7 +31,7 @@ export const useDeleteUserProfileHandler = ({
   deleteUserProfile,
   loadUserProfiles,
   profilePagination,
-  profileSearchQuery,
+  profileFilters,
   profileWarning,
 }: UseDeleteUserProfileHandlerOptions) => {
   const onDeleteAction = async (row: UserRow): Promise<boolean> => {
@@ -46,7 +47,7 @@ export const useDeleteUserProfileHandler = ({
 
     try {
       await deleteUserProfile(selectedUserId)
-      await loadUserProfiles(profilePagination.value.page, profileSearchQuery.value)
+      await loadUserProfiles(profilePagination.value.page, profileFilters.value)
     } catch {
       profileWarning.value = 'Delete endpoint is currently unavailable. Please use deactivate for access control.'
     }

@@ -12,10 +12,12 @@ export const AUDIT_API_ENDPOINTS = Object.freeze({
 
 export const USER_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   userProfiles: '/api/users',
+  userProfilesSearch: '/api/users/search',
   userProfileById: (id: string) => `/api/users/${id}`,
   userProfilePassword: (id: string) => `/api/users/${id}/password`,
   userProfileActivation: (id: string) => `/api/users/${id}/activation`,
   accountTypes: '/api/account-types',
+  accountTypesSearch: '/api/account-types/search',
   accountTypeById: (id: string) => `/api/account-types/${id}`,
   privileges: '/api/privileges',
 })

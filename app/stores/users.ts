@@ -14,6 +14,10 @@ import type {
   UserProfileRecord,
   UsersState,
   UsersTablePagination,
+  UserAccountsSearchQuery,
+  UserProfilesSearchQuery,
+  UserAccountsEndpointQuery,
+  UserProfilesEndpointQuery,
 } from '~/types/domain/users'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import {
@@ -27,6 +31,8 @@ import {
   getUserProfileViewByIdEndpoint,
   getUserAccountsEndpoint,
   getUserProfilesEndpoint,
+  searchUserAccountsEndpoint,
+  searchUserProfilesEndpoint,
   updateAccountTypeEndpoint,
   updateUserActivationEndpoint,
   updateUserPasswordEndpoint,
@@ -64,16 +70,24 @@ const usersStoreOptions = {
   },
 
   actions: {
-    async fetchUserProfiles(this: UsersState, page = 1, search = '') {
+    async fetchUserProfiles(this: UsersState, page = 1, filters: Partial<UserProfilesSearchQuery> = {}) {
       this.isLoading = true
       this.error = ''
 
+      const requestQuery: UserProfilesSearchQuery = {
+        page,
+        pageSize: this.profilePagination.pageSize,
+        term: filters.term?.trim() || undefined,
+        fields: filters.fields?.trim() || undefined,
+        isActive: filters.isActive,
+      }
+
+      const hasSearchFilters = Boolean(requestQuery.term || typeof requestQuery.isActive === 'boolean')
+
       try {
-        const response = await getUserProfilesEndpoint({
-          page,
-          pageSize: this.profilePagination.pageSize,
-          search: search.trim() || undefined,
-        })
+        const response = hasSearchFilters
+          ? await searchUserProfilesEndpoint(requestQuery)
+          : await getUserProfilesEndpoint(requestQuery as UserProfilesEndpointQuery)
 
         this.profileItems = response.items.map((item): UserProfileRecord => ({
           id: item.id,
@@ -99,16 +113,24 @@ const usersStoreOptions = {
       }
     },
 
-    async fetchUserAccounts(this: UsersState, page = 1, search = '') {
+    async fetchUserAccounts(this: UsersState, page = 1, filters: Partial<UserAccountsSearchQuery> = {}) {
       this.isLoading = true
       this.error = ''
 
+      const requestQuery: UserAccountsSearchQuery = {
+        page,
+        pageSize: this.accountPagination.pageSize,
+        term: filters.term?.trim() || undefined,
+        fields: filters.fields?.trim() || undefined,
+        isSystem: typeof filters.isSystem === 'boolean' ? filters.isSystem : undefined,
+      }
+
+      const hasSearchFilters = Boolean(requestQuery.term || typeof requestQuery.isSystem === 'boolean')
+
       try {
-        const response = await getUserAccountsEndpoint({
-          page,
-          pageSize: this.accountPagination.pageSize,
-          search: search.trim() || undefined,
-        })
+        const response = hasSearchFilters
+          ? await searchUserAccountsEndpoint(requestQuery)
+          : await getUserAccountsEndpoint(requestQuery as UserAccountsEndpointQuery)
 
         this.accountItems = response.items.map((item): UserAccountRecord => ({
           id: item.id,
