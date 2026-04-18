@@ -21,4 +21,20 @@ import {
 import type { SelectOption } from '~/types/domain/misc'
 import type { UpdateUserProfilePayload } from '~/types/domain/users'
 import { validateUpdateUserProfileForm } from '~/utils/users-validation'
+
+const props = withDefaults(
+  defineProps<{
+    accountTypeOptions: SelectOption[]
+    initialValues: {
+      email: string
+      fullName: string
+      avatarUrl: string | null
+      accountTypeIds: string[]
+    }
+    isSubmitting?: boolean
+  }>(),
+  {
+    isSubmitting: false,
+  },
+)
 </script>
