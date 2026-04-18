@@ -17,6 +17,14 @@ export interface UserAccountRecord {
   isSystem: boolean
 }
 
+export interface PrivilegeRecord {
+  id: string
+  code: string
+  name: string
+  module: string
+  isAssigned: boolean
+}
+
 export interface UsersTablePagination {
   page: number
   pageSize: number
@@ -27,6 +35,7 @@ export interface UsersTablePagination {
 export interface UsersState {
   profileItems: UserProfileRecord[]
   accountItems: UserAccountRecord[]
+  privilegeItems: PrivilegeRecord[]
   profilePagination: UsersTablePagination
   accountPagination: UsersTablePagination
   isLoading: boolean
@@ -93,4 +102,8 @@ export interface CreateAccountTypePayload {
   name: string
   description: string | null
   isSystem: boolean
+}
+
+export interface PrivilegesEndpointResponse {
+  items: PrivilegeRecord[]
 }
