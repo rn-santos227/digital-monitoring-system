@@ -6,6 +6,7 @@ import type {
   CreateAccountTypePayload,
   CreateUserProfilePayload,
   UpdateUserActivationPayload,
+  UpdateAccountTypePayload,
   UpdateUserPasswordPayload,
   UpdateUserProfilePayload,
 } from '~/types/domain/users'
@@ -75,6 +76,10 @@ export const useUsers = () => {
     return await usersStore.getUserProfileById(id)
   }
 
+  const getUserProfileViewById = async (id: string) => {
+    return await usersStore.getUserProfileViewById(id)
+  }
+
   const updateUserProfile = async (id: string, payload: UpdateUserProfilePayload) => {
     await usersStore.updateUserProfile(id, payload)
   }
@@ -89,6 +94,18 @@ export const useUsers = () => {
 
   const deleteUserProfile = async (id: string) => {
     await usersStore.deleteUserProfile(id)
+  }
+
+  const getAccountTypeById = async (id: string) => {
+    return await usersStore.getAccountTypeById(id)
+  }
+
+  const updateAccountType = async (id: string, payload: UpdateAccountTypePayload) => {
+    await usersStore.updateAccountType(id, payload)
+  }
+
+  const deleteAccountType = async (id: string) => {
+    await usersStore.deleteAccountType(id)
   }
 
   const loadPrivileges = async () => {
@@ -137,7 +154,11 @@ export const useUsers = () => {
     privilegeOptions,
     createUserProfile,
     createAccountType,
+    getAccountTypeById,
+    updateAccountType,
+    deleteAccountType,
     getUserProfileById,
+    getUserProfileViewById,
     updateUserProfile,
     updateUserPassword,
     updateUserActivation,
