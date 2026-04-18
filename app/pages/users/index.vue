@@ -90,6 +90,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref, watch } from 'vue'
 import {
   USERS_ACCOUNT_TABLE_ACTIONS,
   USERS_ACCOUNT_TABLE_ACTIONS_COLUMN_LABEL,
@@ -98,6 +99,7 @@ import {
   USERS_ACCOUNT_TABLE_EMPTY_MESSAGE,
   USERS_ACCOUNT_TABLE_SEARCH_PLACEHOLDER,
   USERS_ACCOUNT_TABLE_TITLE,
+  USERS_ACCOUNT_REQUIRED_PERMISSIONS,
   USERS_PAGE_SECTION_CLASSES,
   USERS_PAGE_SUBTITLE,
   USERS_PAGE_TAB_ITEMS,
@@ -110,12 +112,13 @@ import {
   USERS_PROFILE_TABLE_EMPTY_MESSAGE,
   USERS_PROFILE_TABLE_SEARCH_PLACEHOLDER,
   USERS_PROFILE_TABLE_TITLE,
+  USERS_PROFILE_REQUIRED_PERMISSIONS,
 } from '~/constants/page.constants'
-import { ref } from 'vue'
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 import { USERS_PAGE_HEADER_CLASSES, USERS_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
 import { useUsers } from '~/composables/useUsers'
 import { useUsersPageHandlers } from '~/handlers'
+import { useAuthStore } from '~/stores/auth'
 
 const {
   activeTab,
@@ -129,10 +132,13 @@ const {
   error,
   loadUserProfiles,
   loadUserAccounts,
+  loadPrivileges,
+  privilegeOptions,
   accountTypeOptions,
   createUserProfile,
   createAccountType,
 } = useUsers()
+const authStore = useAuthStore()
 
 const { handleTabChange, handleProfileSearch, handleAccountSearch } = useUsersPageHandlers(
   activeTab,
