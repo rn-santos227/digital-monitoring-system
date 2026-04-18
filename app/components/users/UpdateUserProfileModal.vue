@@ -37,4 +37,18 @@ const props = withDefaults(
     isSubmitting: false,
   },
 )
+
+const emit = defineEmits<{
+  (event: 'close'): void
+  (event: 'submit', payload: UpdateUserProfilePayload): void
+}>()
+
+const form = reactive({
+  email: props.initialValues.email,
+  fullName: props.initialValues.fullName,
+  avatarUrl: props.initialValues.avatarUrl ?? '',
+  accountTypeIds: [...props.initialValues.accountTypeIds],
+})
+
+
 </script>
