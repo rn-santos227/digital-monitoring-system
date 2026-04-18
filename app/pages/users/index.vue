@@ -251,6 +251,36 @@ const onCreateAccountType = async (payload: Parameters<typeof createAccountType>
   await loadUserAccounts(1)
 }
 
+const onCloseUpdateUserProfileModal = () => {
+  isUpdateUserProfileModalOpen.value = false
+  selectedUserProfileId.value = ''
+  selectedUserProfile.value = null
+}
+
+const onCloseUserPasswordModal = () => {
+  isUserPasswordModalOpen.value = false
+  selectedUserProfileId.value = ''
+}
+
+const onUpdateUserProfile = async (payload: UpdateUserProfilePayload) => {
+  if (!selectedUserProfileId.value) {
+    return
+  }
+
+  await updateUserProfile(selectedUserProfileId.value, payload)
+  onCloseUpdateUserProfileModal()
+  await loadUserProfiles(profilePagination.value.page, profileSearchQuery.value)
+}
+
+const onUpdateUserPassword = async (payload: UpdateUserPasswordPayload) => {
+  if (!selectedUserProfileId.value) {
+    return
+  }
+
+  await updateUserPassword(selectedUserProfileId.value, payload)
+  onCloseUserPasswordModal()
+}
+
 watch(isAccountTypeModalOpen, (isOpen) => {
   if (isOpen) {
     void loadPrivileges()
