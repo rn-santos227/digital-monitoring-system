@@ -45,6 +45,12 @@
         />
       </div>
 
+      <div class="flex justify-end">
+        <BaseButton variant="ghost" @click="onGeneratePassword">
+          {{ USERS_PROFILE_GENERATE_PASSWORD_LABEL }}
+        </BaseButton>
+      </div>
+
       <div class="space-y-2">
         <BaseFileUpload
           :label="USERS_PROFILE_AVATAR_LABEL"
@@ -110,6 +116,7 @@ import {
   USERS_PROFILE_EMAIL_PLACEHOLDER,
   USERS_PROFILE_FULL_NAME_LABEL,
   USERS_PROFILE_FULL_NAME_PLACEHOLDER,
+  USERS_PROFILE_GENERATE_PASSWORD_LABEL,
   USERS_PROFILE_PASSWORD_LABEL,
   USERS_PROFILE_PASSWORD_PLACEHOLDER,
 } from '~/constants/page.constants'
