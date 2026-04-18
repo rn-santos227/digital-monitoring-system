@@ -26,4 +26,21 @@ import {
 import type { SuggestionFieldOption } from '~/constants/ui.constants'
 import type { CreateAccountTypePayload } from '~/types/domain/users'
 import { validateAccountTypeForm } from '~/utils/users-validation'
+
+interface PrivilegeOption {
+  value: string
+  code: string
+  name: string
+  module: string
+}
+
+const props = withDefaults(defineProps<{ isSubmitting?: boolean; privilegeOptions?: PrivilegeOption[] }>(), {
+  isSubmitting: false,
+  privilegeOptions: () => [],
+})
+
+const emit = defineEmits<{
+  (event: 'close'): void
+  (event: 'submit', payload: CreateAccountTypePayload): void
+}>()
 </script>
