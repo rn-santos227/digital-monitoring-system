@@ -7,6 +7,9 @@ export const AUDIT_LOG_ACTIONS = {
   accountTypeDelete: 'ACCOUNT_TYPE_DELETE',
   userProfileCreate: 'USER_PROFILE_CREATE',
   userProfileUpdate: 'USER_PROFILE_UPDATE',
+  personnelCreate: 'PERSONNEL_CREATE',
+  personnelUpdate: 'PERSONNEL_UPDATE',
+  personnelDelete: 'PERSONNEL_DELETE',
 } as const
 
 export const AUDIT_LOG_OUTCOMES = {
@@ -24,4 +27,7 @@ export const AUDIT_LOG_ENDPOINTS = {
   userProfilesUpdate: '/api/users/:id',
   userProfilesPasswordUpdate: '/api/users/:id/password',
   userProfilesActivationUpdate: '/api/users/:id/activation',
+  personnelCreate: '/api/personnel',
+  personnelUpdate: '/api/personnel/:id',
+  personnelDelete: '/api/personnel/:id',
 } as const

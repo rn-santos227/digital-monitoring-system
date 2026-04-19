@@ -46,3 +46,18 @@ export const AUDIT_LOG_LIST_SELECT_COLUMNS =
 
 export const AUDIT_LOG_DETAIL_SELECT_COLUMNS =
   'id, user_id, action, table_name, record_id, old_data, new_data, request_data, response_data, request_headers, ip_address, status_code, metadata, created_at, user:user_profiles(id, full_name, email, avatar_url, is_active)'
+
+export const PERSONNEL_PROFILE_COMPACT_SELECT_COLUMNS =
+  'id, personnel_code, service_number, full_name, rank_name, company_name, battalion_name, service_status'
+
+export const PERSONNEL_PROFILE_LIST_SELECT_COLUMNS =
+  'id, personnel_code, service_number, full_name, sex, rank_name, company_name, battalion_name, employment_status, service_status, created_at, updated_at'
+
+export const PERSONNEL_PROFILE_DETAIL_SELECT_COLUMNS =
+  'id, personnel_code, service_number, last_name, first_name, middle_name, sex, birthdate, rank_id, rank_code, rank_name, company_id, company_code, company_name, battalion_id, battalion_code, battalion_name, employment_status_id, employment_status, service_status_id, service_status, contact_number, date_enlisted, created_at, updated_at'
+
+export const PERSONNEL_PROFILE_SUMMARY_SELECT_COLUMNS =
+  'id, personnel_code, service_number, last_name, first_name, middle_name, sex, birthdate, rank_id, company_id, battalion_id, employment_status_id, service_status_id, contact_number, date_enlisted, created_at, updated_at'
+
+export const PERSONNEL_REFERENCE_ID_SELECT_COLUMNS = 'id'
+  
