@@ -9,6 +9,7 @@ export type PersonnelCreateInput = PersonnelInsert
 export type PersonnelUpdateInput = PersonnelUpdate
 
 export interface PersonnelProfile extends PersonnelRow {
+  full_name: string
   rank_code: string
   rank_name: string
   company_code: string | null

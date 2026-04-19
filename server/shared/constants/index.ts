@@ -1,5 +1,6 @@
 export * from './lib/api'
+export * from './lib/api-columns'
 export * from './lib/auth'
 export * from './lib/audit'
+export * from './lib/personnel-management'
 export * from './lib/user-management'
-export * from './lib/api-columns'

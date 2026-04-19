@@ -9,7 +9,7 @@ interface PersonnelProfileRow {
   last_name: string
   first_name: string
   middle_name: string | null
-  full_name: string
+  full_name?: string
   sex: 'Male' | 'Female'
   rank_id: string
   rank_code: string
@@ -31,12 +31,18 @@ interface PersonnelProfileRow {
   updated_at: string
 }
 
+const buildPersonnelFullName = (row: Pick<PersonnelProfileRow, 'last_name' | 'first_name' | 'middle_name'>): string => {
+  const middleName = row.middle_name ? ` ${row.middle_name}` : ''
+
+  return `${row.last_name}, ${row.first_name}${middleName}`
+}
+
 export const mapPersonnelListItem = (row: PersonnelProfileRow): PersonnelListItem => {
   return {
     id: row.id,
     personnelCode: row.personnel_code,
     serviceNumber: row.service_number,
-    fullName: row.full_name,
+    fullName: row.full_name ?? buildPersonnelFullName(row),
     sex: row.sex,
     rankName: row.rank_name,
     companyName: row.company_name,
@@ -53,7 +59,7 @@ export const mapPersonnelCompactListItem = (row: PersonnelProfileRow): Personnel
     id: row.id,
     personnelCode: row.personnel_code,
     serviceNumber: row.service_number,
-    fullName: row.full_name,
+    fullName: row.full_name ?? buildPersonnelFullName(row),
     rankName: row.rank_name,
     companyName: row.company_name,
     battalionName: row.battalion_name,
