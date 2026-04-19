@@ -1,5 +1,5 @@
 import type { BaseTabItem, DataTableAction, DataTableColumn } from '~/constants/ui.constants'
-import { ACCOUNT_TYPE_PRIVILEGES, USER_PROFILE_PRIVILEGES } from '~/constants/privileges.constants'
+import { ACCOUNT_TYPE_PRIVILEGES, PERSONNEL_PRIVILEGES, USER_PROFILE_PRIVILEGES } from '~/constants/privileges.constants'
 import type { DashboardMetric } from '~/types/domain/misc'
 import type { UserManagementTabId } from '~/types/domain/users'
 
@@ -111,6 +111,38 @@ export const DASHBOARD_LOGOUT_DIALOG_MESSAGE =
 export const DASHBOARD_LOGOUT_DIALOG_CONFIRM_LABEL = 'Log out'
 export const DASHBOARD_LOGOUT_DIALOG_CANCEL_LABEL = 'Stay signed in'
 
+export const PERSONNEL_PAGE_TITLE = 'Personnel'
+export const PERSONNEL_PAGE_SUBTITLE =
+  'Monitor AFP personnel records, unit assignments, and service status in a centralized operational view.'
+export const PERSONNEL_PAGE_SECTION_CLASSES = 'space-y-6'
+export const PERSONNEL_PAGE_REQUIRED_PERMISSIONS = PERSONNEL_PRIVILEGES
+export const PERSONNEL_TABLE_TITLE = 'Personnel Records'
+export const PERSONNEL_TABLE_EMPTY_MESSAGE = 'No personnel records found.'
+export const PERSONNEL_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
+
+export const PERSONNEL_FILTER_CARD_TITLE = 'Filter Personnel'
+export const PERSONNEL_FILTER_TERM_LABEL = 'Search Term'
+export const PERSONNEL_FILTER_TERM_PLACEHOLDER = 'Search personnel value'
+export const PERSONNEL_FILTER_FIELDS_LABEL = 'Search Field'
+export const PERSONNEL_FILTER_APPLY_LABEL = 'Apply Filters'
+export const PERSONNEL_FILTER_RESET_LABEL = 'Reset'
+export const PERSONNEL_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: '', label: 'All searchable fields' },
+  { value: 'personnelCode', label: 'Personnel Code' },
+  { value: 'serviceNumber', label: 'Service Number' },
+  { value: 'lastName', label: 'Last Name' },
+  { value: 'firstName', label: 'First Name' },
+  { value: 'rankName', label: 'Rank' },
+])
+
+export const PERSONNEL_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'fullName', label: 'Personnel', sortable: true },
+  { key: 'personnelCode', label: 'Personnel Code', sortable: true },
+  { key: 'serviceNumber', label: 'Service Number', sortable: true },
+  { key: 'rankName', label: 'Rank', sortable: true },
+  { key: 'assignment', label: 'Assignment', sortable: false },
+  { key: 'serviceStatus', label: 'Service Status', sortable: true },
+])
 
 export const USERS_PAGE_TITLE = 'Users Management'
 export const USERS_PAGE_SUBTITLE =

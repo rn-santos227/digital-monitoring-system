@@ -31,3 +31,9 @@ export const APP_MAIN_CONTENT_CLASSES = 'w-full px-4 py-8 sm:px-6 lg:px-8 xl:px-
 
 export const USERS_PAGE_HEADER_CLASSES = 'space-y-2'
 export const USERS_TABLE_ACTIONS_ROW_CLASSES = 'flex items-center justify-end'
+
+export const PERSONNEL_PAGE_HEADER_CLASSES = 'space-y-2'
+export const PERSONNEL_FILTER_FORM_CLASSES = 'space-y-4'
+export const PERSONNEL_FILTER_FIELDS_GRID_CLASSES = 'grid gap-3 md:grid-cols-2'
+export const PERSONNEL_FILTER_FOOTER_CLASSES = 'border-t border-slate-200 pt-4'
+export const PERSONNEL_FILTER_ACTIONS_CLASSES = 'flex justify-end gap-2'

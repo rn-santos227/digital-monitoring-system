@@ -37,6 +37,9 @@ export const FIELD_LABEL_CLASSES = 'text-sm font-medium text-slate-700'
 export const FIELD_REQUIRED_MARKER_CLASSES = 'text-rose-600'
 export const FIELD_HELPER_TEXT_CLASSES = 'text-sm text-slate-500'
 export const FIELD_ERROR_TEXT_CLASSES = 'text-sm text-rose-600'
+export const BASE_IMAGE_CLASSES = 'inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-200 text-slate-600'
+export const BASE_IMAGE_FALLBACK_CLASSES = 'font-medium uppercase'
+export const BASE_IMAGE_ELEMENT_CLASSES = 'h-full w-full object-cover'
 
 export const FORM_CONTROL_BASE_CLASSES =
   'w-full rounded-xl border px-3 py-2.5 text-sm text-slate-900 shadow-sm transition focus-visible:outline-none focus-visible:ring-2'

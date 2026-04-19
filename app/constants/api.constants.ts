@@ -22,6 +22,12 @@ export const USER_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   privileges: '/api/privileges',
 })
 
+export const PERSONNEL_API_ENDPOINTS = Object.freeze({
+  personnel: '/api/personnel',
+  personnelSearch: '/api/personnel/search',
+  personnelById: (id: string) => `/api/personnel/${id}`,
+})
+
 export const AUTH_LOCAL_STORAGE_KEYS = Object.freeze({
   sessionToken: 'dms_session_token',
   sessionTokenExpiresAt: 'dms_session_token_expires_at'
@@ -48,4 +54,5 @@ export const API_LOADING_MESSAGES = Object.freeze({
   createAccountType: 'Creating account type...',
   updateAccountType: 'Updating account type...',
   deleteAccountType: 'Deleting account type...',
+  fetchPersonnel: 'Loading personnel records...',
 })
