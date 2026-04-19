@@ -1,4 +1,6 @@
-create or replace view public.vw_personnel_profile
+drop view if exists public.vw_personnel_profile;
+
+create view public.vw_personnel_profile
 with (security_invoker = true) as
 select
   p.id,
