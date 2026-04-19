@@ -92,22 +92,26 @@ export const mapPersonnelDetail = (row: PersonnelProfileRow): PersonnelDetailRes
 }
 
 
-export const getPersonnelReferenceCount = async (args: {
-  supabase: {
-    from: (table: string) => {
-      select: (
-        columns: string,
-        options: { count: 'exact'; head: true },
-      ) => {
-        eq: (column: string, value: string) => Promise<{ count: number | null; error: { message: string } | null }>
-      }
+interface ReferenceCountSupabaseClient {
+  from: (table: string) => {
+    select: (
+      columns: string,
+      options: { count: 'exact'; head: true },
+    ) => {
+      eq: (column: string, value: string) => Promise<{ count: number | null; error: { message: string } | null }>
     }
   }
+}
+
+export const getPersonnelReferenceCount = async (args: {
+  supabase: unknown
   table: string
   column: string
   id: string
 }): Promise<number> => {
-  const { count, error } = await args.supabase
+  const supabaseClient = args.supabase as ReferenceCountSupabaseClient
+
+  const { count, error } = await supabaseClient
     .from(args.table)
     .select('id', { count: 'exact', head: true })
     .eq(args.column, args.id)
