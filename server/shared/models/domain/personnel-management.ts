@@ -54,3 +54,47 @@ export interface UpdatePersonnelBody {
   contactNumber?: string | null
   dateEnlisted?: string | null
 }
+
+export interface PersonnelProfileBaseRow {
+  id: string
+  personnel_code: string
+  service_number: string
+  full_name?: string
+  rank_name: string
+  company_name: string | null
+  battalion_name: string | null
+  service_status: string
+}
+
+export interface PersonnelProfileListRow extends PersonnelProfileBaseRow {
+  full_name: string
+  sex: 'Male' | 'Female'
+  employment_status: string
+  created_at: string
+  updated_at: string
+}
+
+export interface PersonnelProfileCompactRow extends PersonnelProfileBaseRow {
+  full_name: string
+}
+
+export interface PersonnelProfileDetailRow extends PersonnelProfileBaseRow {
+  last_name: string
+  first_name: string
+  middle_name: string | null
+  sex: 'Male' | 'Female'
+  rank_id: string
+  rank_code: string
+  company_id: string | null
+  company_code: string | null
+  battalion_id: string | null
+  battalion_code: string | null
+  employment_status_id: string
+  employment_status: string
+  service_status_id: string
+  contact_number: string | null
+  birthdate: string | null
+  date_enlisted: string | null
+  created_at: string
+  updated_at: string
+}

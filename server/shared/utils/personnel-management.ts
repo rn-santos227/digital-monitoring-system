@@ -1,48 +1,18 @@
 import { createError } from 'h3'
-import type { PersonnelListItem } from '../models'
+import type { 
+  PersonnelListItem,
+  PersonnelProfileListRow,
+  PersonnelProfileCompactRow,
+  PersonnelProfileDetailRow,
+} from '../models'
 import type { PersonnelDetailResponse, PersonnelListItemCompact } from '../responses'
 
-interface PersonnelProfileRow {
-  id: string
-  personnel_code: string
-  service_number: string
-  last_name: string
-  first_name: string
-  middle_name: string | null
-  full_name?: string
-  sex: 'Male' | 'Female'
-  rank_id: string
-  rank_code: string
-  rank_name: string
-  company_id: string | null
-  company_code: string | null
-  company_name: string | null
-  battalion_id: string | null
-  battalion_code: string | null
-  battalion_name: string | null
-  employment_status_id: string
-  employment_status: string
-  service_status_id: string
-  service_status: string
-  contact_number: string | null
-  birthdate: string | null
-  date_enlisted: string | null
-  created_at: string
-  updated_at: string
-}
-
-const buildPersonnelFullName = (row: Pick<PersonnelProfileRow, 'last_name' | 'first_name' | 'middle_name'>): string => {
-  const middleName = row.middle_name ? ` ${row.middle_name}` : ''
-
-  return `${row.last_name}, ${row.first_name}${middleName}`
-}
-
-export const mapPersonnelListItem = (row: PersonnelProfileRow): PersonnelListItem => {
+export const mapPersonnelListItem = (row: PersonnelProfileListRow): PersonnelListItem => {
   return {
     id: row.id,
     personnelCode: row.personnel_code,
     serviceNumber: row.service_number,
-    fullName: row.full_name ?? buildPersonnelFullName(row),
+    fullName: row.full_name,
     sex: row.sex,
     rankName: row.rank_name,
     companyName: row.company_name,
@@ -54,12 +24,12 @@ export const mapPersonnelListItem = (row: PersonnelProfileRow): PersonnelListIte
   }
 }
 
-export const mapPersonnelCompactListItem = (row: PersonnelProfileRow): PersonnelListItemCompact => {
+export const mapPersonnelCompactListItem = (row: PersonnelProfileCompactRow): PersonnelListItemCompact => {
   return {
     id: row.id,
     personnelCode: row.personnel_code,
     serviceNumber: row.service_number,
-    fullName: row.full_name ?? buildPersonnelFullName(row),
+    fullName: row.full_name,
     rankName: row.rank_name,
     companyName: row.company_name,
     battalionName: row.battalion_name,
@@ -67,7 +37,7 @@ export const mapPersonnelCompactListItem = (row: PersonnelProfileRow): Personnel
   }
 }
 
-export const mapPersonnelDetail = (row: PersonnelProfileRow): PersonnelDetailResponse => {
+export const mapPersonnelDetail = (row: PersonnelProfileDetailRow): PersonnelDetailResponse => {
   return {
     id: row.id,
     personnelCode: row.personnel_code,
@@ -96,7 +66,6 @@ export const mapPersonnelDetail = (row: PersonnelProfileRow): PersonnelDetailRes
     updatedAt: row.updated_at,
   }
 }
-
 
 interface ReferenceCountSupabaseClient {
   from: (table: string) => {
