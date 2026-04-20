@@ -1,6 +1,9 @@
 import { API_LOADING_MESSAGES, PERSONNEL_API_ENDPOINTS } from '~/constants/api.constants'
 import type {
   PersonnelEndpointQuery,
+  CreatePersonnelPayload,
+  CreatePersonnelResponse,
+  PersonnelDetail,
   PersonnelListCompactResponse,
   PersonnelListResponse,
   PersonnelSearchQuery,
@@ -26,4 +29,23 @@ export const searchPersonnelEndpoint = async (query: PersonnelSearchQuery): Prom
       query,
     })
   }, API_LOADING_MESSAGES.fetchPersonnel)
+}
+
+export const createPersonnelEndpoint = async (payload: CreatePersonnelPayload): Promise<CreatePersonnelResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<CreatePersonnelResponse>(PERSONNEL_API_ENDPOINTS.personnel, {
+      method: 'POST',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.createPersonnel)
+}
+
+export const getPersonnelByIdEndpoint = async (id: string): Promise<PersonnelDetail> => {
+  return await withApiLoading(async () => {
+    return await $fetch<PersonnelDetail>(PERSONNEL_API_ENDPOINTS.personnelById(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchPersonnelDetails)
 }

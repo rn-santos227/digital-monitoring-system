@@ -55,4 +55,6 @@ export const API_LOADING_MESSAGES = Object.freeze({
   updateAccountType: 'Updating account type...',
   deleteAccountType: 'Deleting account type...',
   fetchPersonnel: 'Loading personnel records...',
+  fetchPersonnelDetails: 'Loading personnel profile...',
+  createPersonnel: 'Creating personnel record...',
 })
