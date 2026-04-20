@@ -90,7 +90,6 @@ export interface PersonnelTablePagination {
 
 export interface PersonnelTableRow {
   id: string
-  avatarAlt: string
   personnelCode: string
   serviceNumber: string
   fullName: string
@@ -105,3 +104,56 @@ export interface PersonnelState {
   isLoading: boolean
   error: string
 }
+
+
+export interface CreatePersonnelPayload {
+  personnelCode: string
+  serviceNumber: string
+  lastName: string
+  firstName: string
+  middleName: string | null
+  sex: 'Male' | 'Female'
+  birthdate: string | null
+  rankId: string
+  companyId: string | null
+  battalionId: string | null
+  employmentStatusId: string
+  serviceStatusId: string
+  contactNumber: string | null
+  dateEnlisted: string | null
+}
+
+export interface CreatePersonnelResponse {
+  ok: boolean
+  id: string
+}
+
+export interface PersonnelDetail {
+  id: string
+  personnelCode: string
+  serviceNumber: string
+  lastName: string
+  firstName: string
+  middleName: string | null
+  sex: 'Male' | 'Female'
+  birthdate: string | null
+  rankId: string
+  rankCode: string
+  rankName: string
+  companyId: string | null
+  companyCode: string | null
+  companyName: string | null
+  battalionId: string | null
+  battalionCode: string | null
+  battalionName: string | null
+  employmentStatusId: string
+  employmentStatus: string
+  serviceStatusId: string
+  serviceStatus: string
+  contactNumber: string | null
+  dateEnlisted: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export type PersonnelProfileTabId = 'core' | 'training' | 'deployment' | 'engagement' | 'equipment-assignment'
