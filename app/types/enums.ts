@@ -1,4 +1,5 @@
-export type Sex = 'Male' | 'Female'
+export const SEX_VALUES = Object.freeze(['Male', 'Female'] as const)
+export type Sex = (typeof SEX_VALUES)[number]
 
 export type ServiceStatusName =
   | 'Active Duty'
