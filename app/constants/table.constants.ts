@@ -14,4 +14,15 @@ export const AUDIT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'statusCode', label: 'Status Code', sortable: true },
 ])
 
+export const AUDIT_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  {
+    key: 'view',
+    tooltip: 'View audit log',
+    iconName: 'eye',
+    variant: 'info'
+  }
+])
 
+export const PERSONNEL_TABLE_TITLE = 'Personnel Records'
+export const PERSONNEL_TABLE_EMPTY_MESSAGE = 'No personnel records found.'
+export const PERSONNEL_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
