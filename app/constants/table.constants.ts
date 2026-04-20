@@ -53,3 +53,32 @@ export const PERSONNEL_TRAINING_TABLE_COLUMNS: readonly DataTableColumn[] = Obje
   { key: 'completedAt', label: 'Completed Date', sortable: true },
   { key: 'remarks', label: 'Remarks', sortable: false },
 ])
+
+export const PERSONNEL_DEPLOYMENT_TABLE_TITLE = 'Deployment Records'
+export const PERSONNEL_DEPLOYMENT_TABLE_EMPTY_MESSAGE = 'No deployment records available.'
+export const PERSONNEL_DEPLOYMENT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'location', label: 'Location', sortable: true },
+  { key: 'operationName', label: 'Operation', sortable: true },
+  { key: 'startedAt', label: 'Start Date', sortable: true },
+  { key: 'endedAt', label: 'End Date', sortable: true },
+  { key: 'status', label: 'Status', sortable: true },
+])
+
+export const PERSONNEL_ENGAGEMENT_TABLE_TITLE = 'Engagement Records'
+export const PERSONNEL_ENGAGEMENT_TABLE_EMPTY_MESSAGE = 'No engagement records available.'
+export const PERSONNEL_ENGAGEMENT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'eventType', label: 'Event Type', sortable: true },
+  { key: 'location', label: 'Location', sortable: true },
+  { key: 'recordedAt', label: 'Recorded Date', sortable: true },
+  { key: 'outcome', label: 'Outcome', sortable: true },
+])
+
+export const PERSONNEL_EQUIPMENT_ASSIGNMENT_TABLE_TITLE = 'Equipment Assignments'
+export const PERSONNEL_EQUIPMENT_ASSIGNMENT_TABLE_EMPTY_MESSAGE = 'No equipment assignments available.'
+export const PERSONNEL_EQUIPMENT_ASSIGNMENT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'assetCode', label: 'Asset Code', sortable: true },
+  { key: 'itemName', label: 'Item', sortable: true },
+  { key: 'issuedAt', label: 'Issued Date', sortable: true },
+  { key: 'returnedAt', label: 'Returned Date', sortable: true },
+  { key: 'assignmentStatus', label: 'Assignment Status', sortable: true },
+])
