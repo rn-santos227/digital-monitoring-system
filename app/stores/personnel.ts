@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import type {
+  CreatePersonnelPayload,
+  PersonnelDetail,
   PersonnelEndpointQuery,
   PersonnelListCompactItem,
   PersonnelSearchQuery,
@@ -7,7 +9,12 @@ import type {
   PersonnelTablePagination,
 } from '~/types/domain/personnel'
 import { extractApiErrorMessage } from '~/utils/api-request'
-import { getPersonnelEndpoint, searchPersonnelEndpoint } from '~/utils/personnel-endpoints'
+import {
+  createPersonnelEndpoint,
+  getPersonnelByIdEndpoint,
+  getPersonnelEndpoint,
+  searchPersonnelEndpoint,
+} from '~/utils/personnel-endpoints'
 
 const DEFAULT_PAGINATION: PersonnelTablePagination = {
   page: 1,
@@ -90,6 +97,34 @@ const personnelStoreOptions = {
         this.items = []
         this.pagination = { ...DEFAULT_PAGINATION }
         this.error = extractApiErrorMessage(error, 'Unable to fetch personnel records.')
+        throw error
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    async createPersonnel(this: PersonnelState, payload: CreatePersonnelPayload) {
+      this.isLoading = true
+      this.error = ''
+
+      try {
+        return await createPersonnelEndpoint(payload)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to create personnel record.')
+        throw error
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    async fetchPersonnelById(this: PersonnelState, id: string): Promise<PersonnelDetail> {
+      this.isLoading = true
+      this.error = ''
+
+      try {
+        return await getPersonnelByIdEndpoint(id)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to fetch personnel profile details.')
         throw error
       } finally {
         this.isLoading = false

@@ -47,7 +47,7 @@ const props = withDefaults(
     helperText?: string
     error?: string
     id?: string
-    options: SelectOption[]
+    options: readonly SelectOption[]
     required?: boolean
     disabled?: boolean
   }>(),
