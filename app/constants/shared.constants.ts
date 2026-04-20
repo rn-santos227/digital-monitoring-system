@@ -37,3 +37,8 @@ export const PERSONNEL_FILTER_FORM_CLASSES = 'space-y-4'
 export const PERSONNEL_FILTER_FIELDS_GRID_CLASSES = 'grid gap-3 md:grid-cols-2'
 export const PERSONNEL_FILTER_FOOTER_CLASSES = 'border-t border-slate-200 pt-4'
 export const PERSONNEL_FILTER_ACTIONS_CLASSES = 'flex justify-end gap-2'
+
+export const PERSONNEL_TABLE_ACTIONS_ROW_CLASSES = 'flex items-center justify-end'
+export const PERSONNEL_PROFILE_PAGE_HEADER_CLASSES = 'space-y-2'
+export const PERSONNEL_PROFILE_PAGE_SECTION_CLASSES = 'space-y-6'
+export const PERSONNEL_PROFILE_GRID_CLASSES = 'grid gap-3 md:grid-cols-2'

@@ -4,6 +4,7 @@ import type {
   PersonnelUpdate,
   UUID,
 } from '../database.tables'
+import type { Sex } from '../enums'
 
 export type PersonnelCreateInput = PersonnelInsert
 export type PersonnelUpdateInput = PersonnelUpdate
@@ -25,7 +26,7 @@ export interface PersonnelSearchFilters {
   rank_id?: UUID
   employment_status_id?: UUID
   service_status_id?: UUID
-  sex?: PersonnelRow['sex']
+  sex?: Sex
   is_active_only?: boolean
 }
 
@@ -34,7 +35,7 @@ export interface PersonnelListItem {
   personnelCode: string
   serviceNumber: string
   fullName: string
-  sex: 'Male' | 'Female'
+  sex: Sex
   rankName: string
   companyName: string | null
   battalionName: string | null
@@ -105,14 +106,13 @@ export interface PersonnelState {
   error: string
 }
 
-
 export interface CreatePersonnelPayload {
   personnelCode: string
   serviceNumber: string
   lastName: string
   firstName: string
   middleName: string | null
-  sex: 'Male' | 'Female'
+  sex: Sex
   birthdate: string | null
   rankId: string
   companyId: string | null
@@ -135,7 +135,7 @@ export interface PersonnelDetail {
   lastName: string
   firstName: string
   middleName: string | null
-  sex: 'Male' | 'Female'
+  sex: Sex
   birthdate: string | null
   rankId: string
   rankCode: string

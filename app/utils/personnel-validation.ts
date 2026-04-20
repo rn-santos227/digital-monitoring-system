@@ -58,7 +58,7 @@ export const validateCreatePersonnelForm = (form: CreatePersonnelForm) => {
 
   const normalizedSex = form.sex.trim()
 
-  const errors = {
+  const errors: Record<string, string> = {
     ...validation.errors,
     ...(normalizedSex ? {} : { sex: 'Sex is required.' }),
   }
@@ -77,18 +77,18 @@ export const validateCreatePersonnelForm = (form: CreatePersonnelForm) => {
   const payload: CreatePersonnelPayload | null = Object.keys(errors).length > 0
     ? null
     : {
-        personnelCode: validation.values.personnelCode,
-        serviceNumber: validation.values.serviceNumber,
-        lastName: validation.values.lastName,
-        firstName: validation.values.firstName,
+        personnelCode: validation.values.personnelCode!,
+        serviceNumber: validation.values.serviceNumber!,
+        lastName: validation.values.lastName!,
+        firstName: validation.values.firstName!,
         middleName: validation.values.middleName || null,
         sex: normalizedSex as (typeof SEX_VALUES)[number],
         birthdate: validation.values.birthdate || null,
-        rankId: validation.values.rankId,
+        rankId: validation.values.rankId!,
         companyId: validation.values.companyId || null,
         battalionId: validation.values.battalionId || null,
-        employmentStatusId: validation.values.employmentStatusId,
-        serviceStatusId: validation.values.serviceStatusId,
+        employmentStatusId: validation.values.employmentStatusId!,
+        serviceStatusId: validation.values.serviceStatusId!,
         contactNumber: validation.values.contactNumber || null,
         dateEnlisted: validation.values.dateEnlisted || null,
       }
