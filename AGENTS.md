@@ -48,6 +48,7 @@
 2. **Centralize UI/page contracts and classes**
    - Keep reusable UI interfaces/types and class-string constants in `app/constants/ui.constants.ts`.
    - Keep reusable page-level labels, placeholders, and display configuration in `app/constants/pages.constants.ts`.
+   - Keep reusable table titles, columns, action definitions, and table empty/search fixed values in `app/constants/table.constants.ts`.
    - Keep reusable class-string constants for custom components in `app/constants/shared.constants.ts`.
    - Avoid defining repeated interface/class strings directly inside page/component files when they can be shared through constants.
 
