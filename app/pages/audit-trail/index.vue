@@ -52,12 +52,14 @@ import {
   AUDIT_PAGE_SECTION_CLASSES,
   AUDIT_PAGE_SUBTITLE,
   AUDIT_PAGE_TITLE,
-  AUDIT_TABLE_COLUMNS,
+} from '~/constants/page.constants'
+import {
   AUDIT_TABLE_ACTIONS,
+  AUDIT_TABLE_COLUMNS,
   AUDIT_TABLE_EMPTY_MESSAGE,
   AUDIT_TABLE_SEARCH_PLACEHOLDER,
   AUDIT_TABLE_TITLE,
-} from '~/constants/page.constants'
+} from '~/constants/table.constants'
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 import { useAuditTrailPageHandlers } from '~/handlers'
 import { useAuditTrail } from '~/composables/useAuditTrail'
