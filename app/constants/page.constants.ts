@@ -1,6 +1,7 @@
-import type { BaseTabItem, DataTableAction, DataTableColumn } from '~/constants/ui.constants'
+import type { BaseTabItem } from '~/constants/ui.constants'
 import { ACCOUNT_TYPE_PRIVILEGES, PERSONNEL_PRIVILEGES, USER_PROFILE_PRIVILEGES } from '~/constants/privileges.constants'
 import type { DashboardMetric } from '~/types/domain/misc'
+import type { PersonnelProfileTabId } from '~/types/domain/personnel'
 import type { UserManagementTabId } from '~/types/domain/users'
 
 export const DASHBOARD_PAGE_TITLE = 'Dashboard'
@@ -37,25 +38,6 @@ export const AUDIT_PAGE_SECTION_CLASSES = 'space-y-6'
 export const AUDIT_TABLE_TITLE = 'Recent Audit Logs'
 export const AUDIT_TABLE_SEARCH_PLACEHOLDER = 'Search audit logs'
 export const AUDIT_TABLE_EMPTY_MESSAGE = 'No audit log entries found.'
-
-export const AUDIT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
-  { key: 'createdAt', label: 'Timestamp', sortable: true },
-  { key: 'actor', label: 'Actor', sortable: true },
-  { key: 'action', label: 'Action', sortable: true },
-  { key: 'tableName', label: 'Entity', sortable: true },
-  { key: 'recordId', label: 'Record ID', sortable: true },
-  { key: 'ipAddress', label: 'IP Address', sortable: true },
-  { key: 'statusCode', label: 'Status Code', sortable: true }
-])
-
-export const AUDIT_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
-  {
-    key: 'view',
-    tooltip: 'View audit log',
-    iconName: 'eye',
-    variant: 'info'
-  }
-])
 
 export const AUDIT_FILTER_CARD_TITLE = 'Filter Audit Logs'
 export const AUDIT_FILTER_TERM_LABEL = 'Search Term'
@@ -116,9 +98,61 @@ export const PERSONNEL_PAGE_SUBTITLE =
   'Monitor AFP personnel records, unit assignments, and service status in a centralized operational view.'
 export const PERSONNEL_PAGE_SECTION_CLASSES = 'space-y-6'
 export const PERSONNEL_PAGE_REQUIRED_PERMISSIONS = PERSONNEL_PRIVILEGES
-export const PERSONNEL_TABLE_TITLE = 'Personnel Records'
-export const PERSONNEL_TABLE_EMPTY_MESSAGE = 'No personnel records found.'
-export const PERSONNEL_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
+export const PERSONNEL_CREATE_BUTTON_LABEL = 'Create Personnel'
+export const PERSONNEL_MODAL_CREATE_LABEL = 'Create'
+export const PERSONNEL_MODAL_CANCEL_LABEL = 'Cancel'
+export const PERSONNEL_CREATE_MODAL_TITLE = 'Create Personnel Record'
+export const PERSONNEL_CREATE_MODAL_DESCRIPTION = 'Register a new personnel profile for battalion and company monitoring.'
+export const PERSONNEL_CREATE_PERSONNEL_CODE_LABEL = 'Personnel Code'
+export const PERSONNEL_CREATE_PERSONNEL_CODE_PLACEHOLDER = 'Enter personnel code'
+export const PERSONNEL_CREATE_SERVICE_NUMBER_LABEL = 'Service Number'
+export const PERSONNEL_CREATE_SERVICE_NUMBER_PLACEHOLDER = 'Enter service number'
+export const PERSONNEL_CREATE_LAST_NAME_LABEL = 'Last Name'
+export const PERSONNEL_CREATE_LAST_NAME_PLACEHOLDER = 'Enter last name'
+export const PERSONNEL_CREATE_FIRST_NAME_LABEL = 'First Name'
+export const PERSONNEL_CREATE_FIRST_NAME_PLACEHOLDER = 'Enter first name'
+export const PERSONNEL_CREATE_MIDDLE_NAME_LABEL = 'Middle Name'
+export const PERSONNEL_CREATE_MIDDLE_NAME_PLACEHOLDER = 'Enter middle name (optional)'
+export const PERSONNEL_CREATE_SEX_LABEL = 'Sex'
+export const PERSONNEL_CREATE_SEX_PLACEHOLDER = 'Select sex'
+export const PERSONNEL_CREATE_SEX_OPTIONS = Object.freeze([
+  { label: 'Male', value: 'Male' },
+  { label: 'Female', value: 'Female' },
+])
+export const PERSONNEL_CREATE_BIRTHDATE_LABEL = 'Birthdate'
+export const PERSONNEL_CREATE_DATE_ENLISTED_LABEL = 'Date Enlisted'
+export const PERSONNEL_CREATE_RANK_ID_LABEL = 'Rank ID'
+export const PERSONNEL_CREATE_RANK_ID_PLACEHOLDER = 'Enter rank id'
+export const PERSONNEL_CREATE_COMPANY_ID_LABEL = 'Company ID'
+export const PERSONNEL_CREATE_COMPANY_ID_PLACEHOLDER = 'Enter company id (optional)'
+export const PERSONNEL_CREATE_BATTALION_ID_LABEL = 'Battalion ID'
+export const PERSONNEL_CREATE_BATTALION_ID_PLACEHOLDER = 'Enter battalion id (optional)'
+export const PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_LABEL = 'Employment Status ID'
+export const PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_PLACEHOLDER = 'Enter employment status id'
+export const PERSONNEL_CREATE_SERVICE_STATUS_ID_LABEL = 'Service Status ID'
+export const PERSONNEL_CREATE_SERVICE_STATUS_ID_PLACEHOLDER = 'Enter service status id'
+export const PERSONNEL_CREATE_CONTACT_NUMBER_LABEL = 'Contact Number'
+export const PERSONNEL_CREATE_CONTACT_NUMBER_PLACEHOLDER = 'Enter contact number (optional)'
+
+
+export const PERSONNEL_PROFILE_PAGE_TITLE = 'Personnel Dossier'
+export const PERSONNEL_PROFILE_PAGE_SUBTITLE = 'Profile details, assignments, and readiness context for operational review.'
+export const PERSONNEL_PROFILE_TABS_ARIA_LABEL = 'Personnel dossier tabs'
+export const PERSONNEL_PROFILE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
+  { id: 'core', label: 'Core Profile' },
+  { id: 'training', label: 'Training Records' },
+  { id: 'deployment', label: 'Deployment Records' },
+  { id: 'engagement', label: 'Engagement Records' },
+  { id: 'equipment-assignment', label: 'Equipment Assignments' },
+])
+
+export const PERSONNEL_PROFILE_TAB_CARD_TITLES: Readonly<Record<PersonnelProfileTabId, string>> = Object.freeze({
+  core: 'Personal and Assignment Overview',
+  training: 'Training Records',
+  deployment: 'Deployment Records',
+  engagement: 'Engagement Records',
+  'equipment-assignment': 'Equipment Assignment Records',
+})
 
 export const PERSONNEL_FILTER_CARD_TITLE = 'Filter Personnel'
 export const PERSONNEL_FILTER_TERM_LABEL = 'Search Term'
@@ -133,15 +167,6 @@ export const PERSONNEL_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: 'lastName', label: 'Last Name' },
   { value: 'firstName', label: 'First Name' },
   { value: 'rankName', label: 'Rank' },
-])
-
-export const PERSONNEL_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
-  { key: 'fullName', label: 'Personnel', sortable: true },
-  { key: 'personnelCode', label: 'Personnel Code', sortable: true },
-  { key: 'serviceNumber', label: 'Service Number', sortable: true },
-  { key: 'rankName', label: 'Rank', sortable: true },
-  { key: 'assignment', label: 'Assignment', sortable: false },
-  { key: 'serviceStatus', label: 'Service Status', sortable: true },
 ])
 
 export const USERS_PAGE_TITLE = 'Users Management'
@@ -159,14 +184,6 @@ export const USERS_PAGE_TAB_REQUIRED_PERMISSIONS: Readonly<Record<UserManagement
   'user-profile': USER_PROFILE_PRIVILEGES.view,
   'user-account': ACCOUNT_TYPE_PRIVILEGES.view,
 })
-
-export const USERS_PROFILE_TABLE_TITLE = 'User Profiles'
-export const USERS_ACCOUNT_TABLE_TITLE = 'User Accounts'
-export const USERS_PROFILE_TABLE_EMPTY_MESSAGE = 'No user profile records found.'
-export const USERS_ACCOUNT_TABLE_EMPTY_MESSAGE = 'No user account records found.'
-export const USERS_PROFILE_TABLE_SEARCH_PLACEHOLDER = 'Search user profiles'
-export const USERS_ACCOUNT_TABLE_SEARCH_PLACEHOLDER = 'Search user accounts'
-
 
 export const USERS_PROFILE_FILTER_CARD_TITLE = 'Filter User Profiles'
 export const USERS_PROFILE_FILTER_TERM_LABEL = 'Search Term'
@@ -261,72 +278,6 @@ export const USERS_ACCOUNT_PRIVILEGES_DESCRIPTION = 'Select privileges to includ
 export const USERS_ACCOUNT_PRIVILEGES_PLACEHOLDER = 'Type privilege name, code, or module'
 export const USERS_ACCOUNT_PRIVILEGES_EMPTY_MESSAGE = 'No privileges are currently available.'
 export const USERS_ACCOUNT_PRIVILEGES_CODE_PREFIX = 'Code'
-export const USERS_PROFILE_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
-export const USERS_ACCOUNT_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
 
 export const USERS_PROFILE_REQUIRED_PERMISSIONS = USER_PROFILE_PRIVILEGES
-
 export const USERS_ACCOUNT_REQUIRED_PERMISSIONS = ACCOUNT_TYPE_PRIVILEGES
-
-export const USERS_PROFILE_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
-  { key: 'fullName', label: 'Full Name', sortable: true },
-  { key: 'email', label: 'Email', sortable: true },
-  { key: 'accountTypes', label: 'Account Types', sortable: false },
-  { key: 'status', label: 'Status', sortable: true },
-  { key: 'lastLoginAt', label: 'Last Login', sortable: true },
-])
-
-export const USERS_PROFILE_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
-  {
-    key: 'view-user-profile',
-    tooltip: 'View user profile',
-    iconName: 'eye',
-    variant: 'info',
-  },
-  {
-    key: 'edit-user-profile',
-    tooltip: 'Edit user profile',
-    iconName: 'pencil-square',
-    variant: 'warning',
-  },
-  {
-    key: 'change-user-password',
-    tooltip: 'Change password',
-    iconName: 'cog',
-    variant: 'info',
-  },
-  {
-    key: 'toggle-user-activation',
-    tooltip: 'Activate or deactivate user',
-    iconName: 'arrow-path',
-    variant: 'info',
-  },
-  {
-    key: 'delete-user-profile',
-    tooltip: 'Delete user profile',
-    iconName: 'trash',
-    variant: 'danger',
-  },
-])
-
-export const USERS_ACCOUNT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
-  { key: 'code', label: 'Code', sortable: true },
-  { key: 'name', label: 'Name', sortable: true },
-  { key: 'description', label: 'Description', sortable: false },
-  { key: 'systemType', label: 'Type', sortable: true },
-])
-
-export const USERS_ACCOUNT_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
-  {
-    key: 'edit-account-type',
-    tooltip: 'Edit account type',
-    iconName: 'pencil-square',
-    variant: 'warning',
-  },
-  {
-    key: 'delete-account-type',
-    tooltip: 'Delete account type',
-    iconName: 'trash',
-    variant: 'danger',
-  },
-])
