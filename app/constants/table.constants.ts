@@ -82,3 +82,75 @@ export const PERSONNEL_EQUIPMENT_ASSIGNMENT_TABLE_COLUMNS: readonly DataTableCol
   { key: 'returnedAt', label: 'Returned Date', sortable: true },
   { key: 'assignmentStatus', label: 'Assignment Status', sortable: true },
 ])
+
+export const USERS_PROFILE_TABLE_TITLE = 'User Profiles'
+export const USERS_ACCOUNT_TABLE_TITLE = 'User Accounts'
+export const USERS_PROFILE_TABLE_EMPTY_MESSAGE = 'No user profile records found.'
+export const USERS_ACCOUNT_TABLE_EMPTY_MESSAGE = 'No user account records found.'
+export const USERS_PROFILE_TABLE_SEARCH_PLACEHOLDER = 'Search user profiles'
+export const USERS_ACCOUNT_TABLE_SEARCH_PLACEHOLDER = 'Search user accounts'
+export const USERS_PROFILE_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
+export const USERS_ACCOUNT_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
+
+export const USERS_PROFILE_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'fullName', label: 'Full Name', sortable: true },
+  { key: 'email', label: 'Email', sortable: true },
+  { key: 'accountTypes', label: 'Account Types', sortable: false },
+  { key: 'status', label: 'Status', sortable: true },
+  { key: 'lastLoginAt', label: 'Last Login', sortable: true },
+])
+
+export const USERS_PROFILE_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  {
+    key: 'view-user-profile',
+    tooltip: 'View user profile',
+    iconName: 'eye',
+    variant: 'info',
+  },
+  {
+    key: 'edit-user-profile',
+    tooltip: 'Edit user profile',
+    iconName: 'pencil-square',
+    variant: 'warning',
+  },
+  {
+    key: 'change-user-password',
+    tooltip: 'Change password',
+    iconName: 'cog',
+    variant: 'info',
+  },
+  {
+    key: 'toggle-user-activation',
+    tooltip: 'Activate or deactivate user',
+    iconName: 'arrow-path',
+    variant: 'info',
+  },
+  {
+    key: 'delete-user-profile',
+    tooltip: 'Delete user profile',
+    iconName: 'trash',
+    variant: 'danger',
+  },
+])
+
+export const USERS_ACCOUNT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'code', label: 'Code', sortable: true },
+  { key: 'name', label: 'Name', sortable: true },
+  { key: 'description', label: 'Description', sortable: false },
+  { key: 'systemType', label: 'Type', sortable: true },
+])
+
+export const USERS_ACCOUNT_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  {
+    key: 'edit-account-type',
+    tooltip: 'Edit account type',
+    iconName: 'pencil-square',
+    variant: 'warning',
+  },
+  {
+    key: 'delete-account-type',
+    tooltip: 'Delete account type',
+    iconName: 'trash',
+    variant: 'danger',
+  },
+])
