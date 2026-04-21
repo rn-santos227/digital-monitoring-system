@@ -98,3 +98,32 @@ export interface PersonnelProfileDetailRow extends PersonnelProfileBaseRow {
   created_at: string
   updated_at: string
 }
+
+export type PersonnelRelationshipKey =
+  | 'trainingRecords'
+  | 'deploymentRecords'
+  | 'deploymentSupervisions'
+  | 'engagementRecords'
+  | 'assignedEquipmentAssets'
+  | 'equipmentIssuancesReceived'
+  | 'equipmentIssuancesIssued'
+  | 'qualificationRecords'
+  | 'medicalReadinessRecords'
+  | 'weaponAssignments'
+
+export interface PersonnelRelationshipReferenceDefinition {
+  key: PersonnelRelationshipKey
+  table: string
+  column: string
+  domain: string
+  relationship: string
+}
+
+export interface PersonnelRelationshipCount {
+  key: PersonnelRelationshipKey
+  table: string
+  column: string
+  domain: string
+  relationship: string
+  count: number
+}
