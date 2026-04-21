@@ -81,6 +81,11 @@
    - Submitted account type payloads must include selected privilege identifiers so `account_type_permissions` stays aligned with UI selections.
    - Keep privilege checklist labels user-friendly while preserving schema-consistent privilege code mapping.
 
+9. **Table views must be extracted into feature components**
+   - For table-heavy views under `app/pages`, implement feature table components (for example `UsersTable` and `AccountTypesTable`) instead of defining full table setup directly in page files.
+   - Keep table column/action wiring, table-specific display behavior, and table event passthrough inside the table component to keep page script sections focused on orchestration.
+   - Prefer reusable table components so they can be managed consistently across related pages and reduce page-level script bloat.
+
 ## Backend Rules
 
 1. **Centralize API contracts and validation in shared folders**
