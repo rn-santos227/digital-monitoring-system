@@ -37,17 +37,9 @@
           </BaseButton>
         </div>
 
-        <DataTable
-          :title="USERS_PROFILE_TABLE_TITLE"
-          :columns="USERS_PROFILE_TABLE_COLUMNS"
+        <UsersTable
           :rows="profileTableRows"
-          row-key="id"
-          :actions="profileTableActions"
-          :action-button-count="profileTableActions.length"
-          :actions-column-label="USERS_PROFILE_TABLE_ACTIONS_COLUMN_LABEL"
           :is-loading="isLoading"
-          :show-search="false"
-          :empty-message="USERS_PROFILE_TABLE_EMPTY_MESSAGE"
           :current-page="profilePagination.page"
           :total-pages="profilePagination.totalPages"
           @action="onProfileAction"
@@ -75,17 +67,9 @@
           </BaseButton>
         </div>
 
-        <DataTable
-          :title="USERS_ACCOUNT_TABLE_TITLE"
-          :columns="USERS_ACCOUNT_TABLE_COLUMNS"
+        <AccountTypesTable
           :rows="accountTableRows"
-          row-key="id"
-          :actions="accountTableActions"
-          :action-button-count="accountTableActions.length"
-          :actions-column-label="USERS_ACCOUNT_TABLE_ACTIONS_COLUMN_LABEL"
           :is-loading="isLoading"
-          :show-search="false"
-          :empty-message="USERS_ACCOUNT_TABLE_EMPTY_MESSAGE"
           :current-page="accountPagination.page"
           :total-pages="accountPagination.totalPages"
           @action="onAccountAction"
@@ -143,6 +127,8 @@
 import { computed, ref, watch } from 'vue'
 import UsersFilter from '~/components/users/UsersFilter.vue'
 import AccountTypesFilter from '~/components/users/AccountTypesFilter.vue'
+import UsersTable from '~/components/users/UsersTable.vue'
+import AccountTypesTable from '~/components/users/AccountTypesTable.vue'
 import type { FieldValidationMap } from '~/utils/field-validation'
 import { useDialog } from '~/composables/useDialog'
 import {
@@ -157,18 +143,6 @@ import {
   USERS_PROFILE_CREATE_BUTTON_LABEL,
   USERS_PROFILE_REQUIRED_PERMISSIONS,
 } from '~/constants/page.constants'
-import {
- USERS_ACCOUNT_TABLE_ACTIONS,
-  USERS_ACCOUNT_TABLE_ACTIONS_COLUMN_LABEL,
-  USERS_ACCOUNT_TABLE_COLUMNS,
-  USERS_ACCOUNT_TABLE_EMPTY_MESSAGE,
-  USERS_ACCOUNT_TABLE_TITLE,
-  USERS_PROFILE_TABLE_ACTIONS,
-  USERS_PROFILE_TABLE_ACTIONS_COLUMN_LABEL,
-  USERS_PROFILE_TABLE_COLUMNS,
-  USERS_PROFILE_TABLE_EMPTY_MESSAGE,
-  USERS_PROFILE_TABLE_TITLE,
-} from '~/constants/table.constants'
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 import { USERS_PAGE_HEADER_CLASSES, USERS_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
 import { useUsers } from '~/composables/useUsers'
@@ -305,34 +279,6 @@ const profileWarning = ref('')
 
 const canCreateUserProfile = computed(() => authStore.hasPermissionAccess(USERS_PROFILE_REQUIRED_PERMISSIONS.create))
 const canCreateAccountType = computed(() => authStore.hasPermissionAccess(USERS_ACCOUNT_REQUIRED_PERMISSIONS.create))
-
-const profileTableActions = computed(() => {
-  return USERS_PROFILE_TABLE_ACTIONS.filter((action) => {
-    if (action.key === 'edit-user-profile' || action.key === 'change-user-password' || action.key === 'toggle-user-activation') {
-      return authStore.hasPermissionAccess(USERS_PROFILE_REQUIRED_PERMISSIONS.edit)
-    }
-
-    if (action.key === 'delete-user-profile') {
-      return authStore.hasPermissionAccess(USERS_PROFILE_REQUIRED_PERMISSIONS.delete)
-    }
-
-    return true
-  })
-})
-
-const accountTableActions = computed(() => {
-  return USERS_ACCOUNT_TABLE_ACTIONS.filter((action) => {
-    if (action.key === 'edit-account-type') {
-      return authStore.hasPermissionAccess(USERS_ACCOUNT_REQUIRED_PERMISSIONS.edit)
-    }
-
-    if (action.key === 'delete-account-type') {
-      return authStore.hasPermissionAccess(USERS_ACCOUNT_REQUIRED_PERMISSIONS.delete)
-    }
-
-    return true
-  })
-})
 
 const { onOpenCreateUserProfileModal, onCreateUserProfile } = useCreateUserProfileHandler({
   accountTypeOptions,
