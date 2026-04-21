@@ -7,10 +7,12 @@ import {
   AUDIT_LOG_OUTCOMES,
   ID_ONLY_SELECT_COLUMNS,
   PERMISSION_CODES,
+  USER_PROFILE_PERSONNEL_LOOKUP_SELECT_COLUMNS,
   USER_ACCOUNT_TYPE_ID_SELECT_COLUMNS,
   USER_PROFILE_SUMMARY_SELECT_COLUMNS,
 } from '../../../shared/constants'
 import { buildUserProfileUpdates, normalizeAccountTypeIds, requireRouteId } from '../../../shared/validations'
+import { assertPersonnelExists, buildAssignedPersonnelProfileMap } from '../../../shared/utils'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
@@ -65,6 +67,30 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   try {
     await executeWithRollback({
       operation: async () => {
+        if (updates.personnel_id) {
+          await assertPersonnelExists({
+            supabase,
+            personnelId: updates.personnel_id,
+            idSelectColumns: ID_ONLY_SELECT_COLUMNS,
+          })
+
+          const { data: assignedProfiles, error: assignedProfilesError } = await supabase
+            .from('user_profiles')
+            .select(USER_PROFILE_PERSONNEL_LOOKUP_SELECT_COLUMNS)
+            .eq('personnel_id', updates.personnel_id)
+
+          if (assignedProfilesError) {
+            throw createError({ statusCode: 500, statusMessage: `Failed to validate personnel assignment: ${assignedProfilesError.message}` })
+          }
+
+          const assignedByPersonnelId = buildAssignedPersonnelProfileMap(assignedProfiles ?? [])
+          const assignedProfile = assignedByPersonnelId.get(updates.personnel_id)
+
+          if (assignedProfile && assignedProfile.id !== id) {
+            throw createError({ statusCode: 409, statusMessage: 'Selected personnel is already assigned to another user profile.' })
+          }
+        }
+
         if (Object.keys(updates).length > 0) {
           const { error: updateError } = await supabase
             .from('user_profiles')

@@ -5,9 +5,11 @@ import {
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
   ID_ONLY_SELECT_COLUMNS,
+  USER_PROFILE_PERSONNEL_LOOKUP_SELECT_COLUMNS,
   PERMISSION_CODES,
 } from '../../shared/constants'
 import { parseCreateUserProfilePayload } from '../../shared/validations'
+import { assertPersonnelExists, buildAssignedPersonnelProfileMap } from '../../shared/utils'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
@@ -24,6 +26,29 @@ export default defineEventHandler(async (event) => {
   try {
     await executeWithRollback({
       operation: async () => {
+        if (payload.personnelId) {
+          await assertPersonnelExists({
+            supabase,
+            personnelId: payload.personnelId,
+            idSelectColumns: ID_ONLY_SELECT_COLUMNS,
+          })
+
+          const { data: assignedProfiles, error: assignedProfilesError } = await supabase
+            .from('user_profiles')
+            .select(USER_PROFILE_PERSONNEL_LOOKUP_SELECT_COLUMNS)
+            .eq('personnel_id', payload.personnelId)
+
+          if (assignedProfilesError) {
+            throw createError({ statusCode: 500, statusMessage: `Failed to validate personnel assignment: ${assignedProfilesError.message}` })
+          }
+
+          const assignedByPersonnelId = buildAssignedPersonnelProfileMap(assignedProfiles ?? [])
+
+          if (assignedByPersonnelId.has(payload.personnelId)) {
+            throw createError({ statusCode: 409, statusMessage: 'Selected personnel is already assigned to another user profile.' })
+          }
+        }
+
         const { data: createdAuthUser, error: createAuthUserError } = await supabase.auth.admin.createUser({
           email: payload.email,
           password: payload.password,
@@ -43,6 +68,7 @@ export default defineEventHandler(async (event) => {
           .from('user_profiles')
           .insert({
             id: createdUserId,
+            personnel_id: payload.personnelId,
             email: payload.email,
             full_name: payload.fullName,
             avatar_url: payload.avatarUrl,
@@ -78,6 +104,7 @@ export default defineEventHandler(async (event) => {
             throw createError({ statusCode: 500, statusMessage: `Failed to assign user account types: ${userAccountTypesError.message}` })
           }
         }
+
       },
       rollback: async () => {
         if (!createdUserId) {
@@ -103,12 +130,14 @@ export default defineEventHandler(async (event) => {
       recordId: createdUserId,
       requestData: {
         email: payload.email,
+        personnelId: payload.personnelId,
         fullName: payload.fullName,
         avatarUrl: payload.avatarUrl,
         accountTypeIds: payload.accountTypeIds,
       },
       newData: {
         id: createdUserId,
+        personnelId: payload.personnelId,
         email: payload.email,
         fullName: payload.fullName,
         avatarUrl: payload.avatarUrl,
@@ -133,6 +162,7 @@ export default defineEventHandler(async (event) => {
       endpoint: AUDIT_LOG_ENDPOINTS.userProfilesCreate,
       requestData: {
         email: payload.email,
+        personnelId: payload.personnelId,
         fullName: payload.fullName,
         avatarUrl: payload.avatarUrl,
         accountTypeIds: payload.accountTypeIds,
