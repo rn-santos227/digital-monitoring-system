@@ -31,6 +31,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import type { DataTableAction } from '~/constants/ui.constants'
 import { ROUTE_PATHS } from '~/constants/routes.constants'
 import {
   PERSONNEL_TABLE_ACTIONS,
@@ -39,9 +40,10 @@ import {
   PERSONNEL_TABLE_EMPTY_MESSAGE,
   PERSONNEL_TABLE_TITLE,
 } from '~/constants/table.constants'
+import type { PersonnelTableRow } from '~/types/domain/personnel'
 
 const props = withDefaults(defineProps<{
-  rows: readonly Record<string, unknown>[]
+  rows: readonly PersonnelTableRow[]
   isLoading?: boolean
   currentPage?: number
   totalPages?: number
@@ -54,7 +56,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  (event: 'action', payload: { actionKey: string; row: Record<string, unknown> }): void
+  (event: 'action', payload: { actionKey: DataTableAction['key']; row: PersonnelTableRow }): void
   (event: 'update:currentPage', value: number): void
 }>()
 

@@ -32,34 +32,16 @@
           </BaseButton>
         </div>
 
-        <DataTable
-          :title="PERSONNEL_TABLE_TITLE"
-          :columns="PERSONNEL_TABLE_COLUMNS"
+        <PersonnelTable
           :rows="tableRows"
           row-key="id"
-          :actions="personnelTableActions"
-          :action-button-count="personnelTableActions.length"
-          :actions-column-label="PERSONNEL_TABLE_ACTIONS_COLUMN_LABEL"
-          :show-search="false"
-          :empty-message="PERSONNEL_TABLE_EMPTY_MESSAGE"
           :is-loading="isLoading"
           :current-page="pagination.page"
           :total-pages="pagination.totalPages"
+          :can-view-personnel="canViewPersonnel"
           @update:current-page="handlePageChange"
           @action="handleTableAction"
-        >
-          <template #cell-fullName="{ row }">
-            <NuxtLink :to="ROUTE_PATHS.personnelProfile(row.id)" class="text-emerald-700 hover:text-emerald-900 hover:underline">
-              {{ row.fullName }}
-            </NuxtLink>
-          </template>
-
-          <template #cell-serviceStatus="{ row }">
-            <BaseChip :tone="row.serviceStatus === 'Active' ? 'success' : 'warning'">
-              {{ row.serviceStatus }}
-            </BaseChip>
-          </template>
-        </DataTable>
+        />
       </template>
 
       <CreatePersonnelModal
@@ -75,6 +57,7 @@
 import { computed, ref, watch } from 'vue'
 import CreatePersonnelModal from '~/components/personnel/CreatePersonnelModal.vue'
 import PersonnelFilter from '~/components/personnel/PersonnelFilter.vue'
+import PersonnelTable from '~/components/personnel/PersonnelTable.vue'
 import {
   PERSONNEL_CREATE_BUTTON_LABEL,
   PERSONNEL_PAGE_REQUIRED_PERMISSIONS,
@@ -82,14 +65,6 @@ import {
   PERSONNEL_PAGE_SUBTITLE,
   PERSONNEL_PAGE_TITLE,
 } from '~/constants/page.constants'
-import {
-  PERSONNEL_TABLE_ACTIONS,
-  PERSONNEL_TABLE_ACTIONS_COLUMN_LABEL,
-  PERSONNEL_TABLE_COLUMNS,
-  PERSONNEL_TABLE_EMPTY_MESSAGE,
-  PERSONNEL_TABLE_TITLE,
-} from '~/constants/table.constants'
-import { ROUTE_PATHS } from '~/constants/routes.constants'
 import {
   APP_MAIN_CONTENT_CLASSES,
   PERSONNEL_PAGE_HEADER_CLASSES,
@@ -118,14 +93,6 @@ const canViewPersonnel = computed(() => {
 
 const canCreatePersonnel = computed(() => {
   return authStore.hasPermissionAccess(PERSONNEL_PAGE_REQUIRED_PERMISSIONS.create)
-})
-
-const personnelTableActions = computed(() => {
-  if (!canViewPersonnel.value) {
-    return []
-  }
-
-  return PERSONNEL_TABLE_ACTIONS
 })
 
 watch(canViewPersonnel, (hasAccess) => {
