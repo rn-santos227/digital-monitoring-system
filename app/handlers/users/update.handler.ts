@@ -5,6 +5,7 @@ import type { UpdateUserProfilePayload, UserAccountsSearchQuery, UserProfilesSea
 type UserRow = Record<string, unknown>
 
 interface SelectedUserProfile {
+  personnelId: string | null
   email: string
   fullName: string
   avatarUrl: string | null
@@ -69,6 +70,7 @@ export const useUpdateUserProfileHandler = ({
     const selected = await getUserProfileById(selectedUserId)
     selectedUserProfileId.value = selectedUserId
     selectedUserProfile.value = {
+      personnelId: selected.personnelId,
       email: selected.email,
       fullName: selected.fullName,
       avatarUrl: selected.avatarUrl,

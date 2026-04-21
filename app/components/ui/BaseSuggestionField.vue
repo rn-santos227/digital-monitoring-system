@@ -15,6 +15,7 @@
         :class="inputClasses"
         @focus="isPanelOpen = true"
         @blur="onBlur"
+        @input="onInput"
       />
 
       <div v-if="isPanelVisible" :class="SUGGESTION_FIELD_PANEL_CLASSES">
@@ -94,6 +95,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   (event: 'update:modelValue', value: SuggestionValue): void
+  (event: 'query-change', value: string): void
 }>()
 
 const generatedId = useId()
@@ -162,5 +164,9 @@ const onBlur = () => {
   setTimeout(() => {
     isPanelOpen.value = false
   }, 100)
+}
+
+const onInput = () => {
+  emit('query-change', query.value)
 }
 </script>
