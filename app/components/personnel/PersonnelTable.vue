@@ -1,0 +1,68 @@
+<template>
+  <DataTable
+    :title="PERSONNEL_TABLE_TITLE"
+    :columns="PERSONNEL_TABLE_COLUMNS"
+    :rows="rows"
+    row-key="id"
+    :actions="visibleActions"
+    :action-button-count="visibleActions.length"
+    :actions-column-label="PERSONNEL_TABLE_ACTIONS_COLUMN_LABEL"
+    :show-search="false"
+    :empty-message="PERSONNEL_TABLE_EMPTY_MESSAGE"
+    :is-loading="isLoading"
+    :current-page="currentPage"
+    :total-pages="totalPages"
+    @update:current-page="emit('update:currentPage', $event)"
+    @action="emit('action', $event)"
+  >
+    <template #cell-fullName="{ row }">
+      <NuxtLink :to="ROUTE_PATHS.personnelProfile(String(row.id ?? ''))" class="text-emerald-700 hover:text-emerald-900 hover:underline">
+        {{ row.fullName }}
+      </NuxtLink>
+    </template>
+
+    <template #cell-serviceStatus="{ row }">
+      <BaseChip :tone="row.serviceStatus === 'Active' ? 'success' : 'warning'">
+        {{ row.serviceStatus }}
+      </BaseChip>
+    </template>
+  </DataTable>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { ROUTE_PATHS } from '~/constants/routes.constants'
+import {
+  PERSONNEL_TABLE_ACTIONS,
+  PERSONNEL_TABLE_ACTIONS_COLUMN_LABEL,
+  PERSONNEL_TABLE_COLUMNS,
+  PERSONNEL_TABLE_EMPTY_MESSAGE,
+  PERSONNEL_TABLE_TITLE,
+} from '~/constants/table.constants'
+
+const props = withDefaults(defineProps<{
+  rows: readonly Record<string, unknown>[]
+  isLoading?: boolean
+  currentPage?: number
+  totalPages?: number
+  canViewPersonnel?: boolean
+}>(), {
+  isLoading: false,
+  currentPage: 1,
+  totalPages: 1,
+  canViewPersonnel: false,
+})
+
+const emit = defineEmits<{
+  (event: 'action', payload: { actionKey: string; row: Record<string, unknown> }): void
+  (event: 'update:currentPage', value: number): void
+}>()
+
+const visibleActions = computed(() => {
+  if (!props.canViewPersonnel) {
+    return []
+  }
+
+  return PERSONNEL_TABLE_ACTIONS
+})
+</script>
