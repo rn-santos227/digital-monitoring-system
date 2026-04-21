@@ -33,6 +33,13 @@
           multiple
         />
 
+        <BaseCheckbox
+          :model-value="isAllPrivilegesSelected"
+          :label="USERS_ACCOUNT_PRIVILEGES_SELECT_ALL_LABEL"
+          :description="USERS_ACCOUNT_PRIVILEGES_SELECT_ALL_DESCRIPTION"
+          @update:model-value="onSelectAllPrivileges"
+        />
+
         <div v-if="selectedPrivilegeItems.length" class="flex flex-wrap gap-2">
           <BaseChip
             v-for="selectedPrivilege in selectedPrivilegeItems"
@@ -83,6 +90,8 @@ import {
   USERS_ACCOUNT_PRIVILEGES_EMPTY_MESSAGE,
   USERS_ACCOUNT_PRIVILEGES_LABEL,
   USERS_ACCOUNT_PRIVILEGES_PLACEHOLDER,
+  USERS_ACCOUNT_PRIVILEGES_SELECT_ALL_DESCRIPTION,
+  USERS_ACCOUNT_PRIVILEGES_SELECT_ALL_LABEL,
   USERS_MODAL_CANCEL_LABEL,
   USERS_MODAL_CREATE_LABEL,
 } from '~/constants/page.constants'
@@ -177,6 +186,30 @@ const selectedPrivilegeItems = computed(() => {
   const selectedIds = new Set(form.permissionIds)
   return (props.privilegeOptions ?? []).filter((item) => selectedIds.has(item.value))
 })
+
+const allPrivilegeIds = computed(() => {
+  return (props.privilegeOptions ?? []).map((privilege) => privilege.value)
+})
+
+const isAllPrivilegesSelected = computed(() => {
+  const totalPrivileges = allPrivilegeIds.value.length
+
+  if (totalPrivileges === 0) {
+    return false
+  }
+
+  const selectedPrivilegeIds = new Set(form.permissionIds)
+  return allPrivilegeIds.value.every((privilegeId) => selectedPrivilegeIds.has(privilegeId))
+})
+
+const onSelectAllPrivileges = (isChecked: boolean) => {
+  if (!isChecked) {
+    form.permissionIds = []
+    return
+  }
+
+  form.permissionIds = [...allPrivilegeIds.value]
+}
 
 void props
 </script>
