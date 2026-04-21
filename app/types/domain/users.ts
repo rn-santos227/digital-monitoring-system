@@ -11,6 +11,7 @@ export interface UserProfileRecord {
 
 export interface UserProfileDetailRecord {
   id: string
+  personnelId: string | null
   email: string
   fullName: string
   avatarUrl: string | null
@@ -104,6 +105,7 @@ export interface UserProfilesEndpointResponse {
 
 export interface UserProfileDetailEndpointResponse {
   id: string
+  personnelId: string | null
   email: string
   fullName: string
   avatarUrl: string | null
@@ -155,6 +157,7 @@ export interface UserAccountsEndpointResponse {
 }
 
 export interface CreateUserProfilePayload {
+  personnelId: string | null
   email: string
   fullName: string
   avatarUrl: string | null
@@ -163,10 +166,33 @@ export interface CreateUserProfilePayload {
 }
 
 export interface UpdateUserProfilePayload {
+  personnelId: string | null
   email?: string
   fullName?: string
   avatarUrl?: string | null
   accountTypeIds?: string[]
+}
+
+export interface UserPersonnelSuggestion {
+  id: string
+  personnelCode: string
+  serviceNumber: string
+  fullName: string
+  rankName: string
+  companyName: string | null
+  battalionName: string | null
+  serviceStatus: string
+  suggestedEmail: string | null
+}
+
+export interface UserPersonnelSuggestionsQuery {
+  term?: string
+  pageSize?: number
+  selectedPersonnelId?: string
+}
+
+export interface UserPersonnelSuggestionsEndpointResponse {
+  items: UserPersonnelSuggestion[]
 }
 
 export interface UpdateUserPasswordPayload {

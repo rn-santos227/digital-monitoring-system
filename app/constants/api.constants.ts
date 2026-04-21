@@ -50,6 +50,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   updateUserProfile: 'Updating user profile...',
   updateUserPassword: 'Updating user password...',
   updateUserActivation: 'Updating user status...',
+  userPersonnelSuggestions: '/api/users/personnel-suggestions',
   deleteUserProfile: 'Deleting user profile...',
   createAccountType: 'Creating account type...',
   updateAccountType: 'Updating account type...',
