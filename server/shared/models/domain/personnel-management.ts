@@ -127,3 +127,29 @@ export interface PersonnelRelationshipCount {
   relationship: string
   count: number
 }
+
+export interface PersonnelLinkedReferenceRow {
+  name?: string | null
+}
+
+export interface PersonnelTrainingRecordListRow {
+  id: string
+  training_title: string
+  start_date: string | null
+  end_date: string | null
+  valid_until: string | null
+  remarks: string | null
+  training_category: PersonnelLinkedReferenceRow | PersonnelLinkedReferenceRow[] | null
+  training_status: PersonnelLinkedReferenceRow | PersonnelLinkedReferenceRow[] | null
+}
+
+export interface PersonnelDeploymentRecordListRow {
+  id: string
+  deployment_area: string
+  operation_name: string | null
+  location: string | null
+  assignment_role: string | null
+  start_date: string
+  end_date: string | null
+  deployment_status: PersonnelLinkedReferenceRow | PersonnelLinkedReferenceRow[] | null
+}
