@@ -1,9 +1,8 @@
-import { createError } from 'h3'
-import type { 
+import type {
   PersonnelListItem,
-  PersonnelProfileListRow,
   PersonnelProfileCompactRow,
   PersonnelProfileDetailRow,
+  PersonnelProfileListRow,
 } from '../models'
 import type { PersonnelDetailResponse, PersonnelListItemCompact } from '../responses'
 
@@ -67,33 +66,3 @@ export const mapPersonnelDetail = (row: PersonnelProfileDetailRow): PersonnelDet
   }
 }
 
-interface ReferenceCountSupabaseClient {
-  from: (table: string) => {
-    select: (
-      columns: string,
-      options: { count: 'exact'; head: true },
-    ) => {
-      eq: (column: string, value: string) => Promise<{ count: number | null; error: { message: string } | null }>
-    }
-  }
-}
-
-export const getPersonnelReferenceCount = async (args: {
-  supabase: unknown
-  table: string
-  column: string
-  id: string
-}): Promise<number> => {
-  const supabaseClient = args.supabase as ReferenceCountSupabaseClient
-
-  const { count, error } = await supabaseClient
-    .from(args.table)
-    .select('id', { count: 'exact', head: true })
-    .eq(args.column, args.id)
-
-  if (error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to check ${args.table} references: ${error.message}` })
-  }
-
-  return count ?? 0
-}
