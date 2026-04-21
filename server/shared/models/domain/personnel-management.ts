@@ -153,3 +153,34 @@ export interface PersonnelDeploymentRecordListRow {
   end_date: string | null
   deployment_status: PersonnelLinkedReferenceRow | PersonnelLinkedReferenceRow[] | null
 }
+
+export interface PersonnelEngagementRecordListRow {
+  id: string
+  engagement_title: string
+  date_start: string | null
+  date_end: string | null
+  remarks: string | null
+  engagement_type: PersonnelLinkedReferenceRow | PersonnelLinkedReferenceRow[] | null
+  engagement_status: PersonnelLinkedReferenceRow | PersonnelLinkedReferenceRow[] | null
+}
+
+export interface PersonnelEquipmentAssetItemRow {
+  name?: string | null
+}
+
+export interface PersonnelEquipmentAssetRow {
+  asset_tag?: string | null
+  equipment_item?: PersonnelEquipmentAssetItemRow | PersonnelEquipmentAssetItemRow[] | null
+}
+
+
+export interface PersonnelEquipmentIssuanceListRow {
+  id: string
+  issue_no: string
+  issue_date: string
+  expected_return_date: string | null
+  actual_return_date: string | null
+  issue_purpose: string | null
+  issuance_status: PersonnelLinkedReferenceRow | PersonnelLinkedReferenceRow[] | null
+  equipment_asset: PersonnelEquipmentAssetRow | PersonnelEquipmentAssetRow[] | null
+}
