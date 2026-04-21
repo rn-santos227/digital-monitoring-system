@@ -1,3 +1,5 @@
+import type { PersonnelRelationshipKey } from '../../models'
+
 export interface PersonnelListItemCompact {
   id: string
   personnelCode: string
@@ -43,4 +45,106 @@ export interface PersonnelDetailResponse {
   dateEnlisted: string | null
   createdAt: string
   updatedAt: string
+}
+
+export interface PersonnelRelationshipCountsResponse {
+  breakdown: PersonnelRelationshipBreakdownItem[]
+  trainingRecords: number
+  deploymentRecords: number
+  deploymentSupervisions: number
+  engagementRecords: number
+  assignedEquipmentAssets: number
+  equipmentIssuancesReceived: number
+  equipmentIssuancesIssued: number
+  qualificationRecords: number
+  medicalReadinessRecords: number
+  weaponAssignments: number
+  totalReferences: number
+  hasReferences: boolean
+}
+
+export interface PersonnelRelationshipBreakdownItem {
+  key: PersonnelRelationshipKey
+  table: string
+  column: string
+  domain: string
+  relationship: string
+  count: number
+  isReferenced: boolean
+}
+
+export interface PersonnelTrainingRecordListItem {
+  id: string
+  title: string
+  category: string | null
+  status: string
+  startDate: string | null
+  endDate: string | null
+  validUntil: string | null
+  remarks: string | null
+}
+
+export interface PersonnelTrainingRecordListResponse {
+  items: PersonnelTrainingRecordListItem[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
+
+export interface PersonnelDeploymentRecordListItem {
+  id: string
+  deploymentArea: string
+  operationName: string | null
+  location: string | null
+  assignmentRole: string | null
+  status: string
+  startDate: string
+  endDate: string | null
+}
+
+export interface PersonnelDeploymentRecordListResponse {
+  items: PersonnelDeploymentRecordListItem[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
+
+export interface PersonnelEngagementRecordListItem {
+  id: string
+  title: string
+  type: string
+  status: string
+  dateStart: string | null
+  dateEnd: string | null
+  remarks: string | null
+}
+
+export interface PersonnelEngagementRecordListResponse {
+  items: PersonnelEngagementRecordListItem[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
+
+export interface PersonnelEquipmentIssuanceListItem {
+  id: string
+  issueNo: string
+  assetTag: string
+  equipmentItemName: string
+  status: string
+  issueDate: string
+  expectedReturnDate: string | null
+  actualReturnDate: string | null
+  issuePurpose: string | null
+}
+
+export interface PersonnelEquipmentIssuanceListResponse {
+  items: PersonnelEquipmentIssuanceListItem[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
 }
