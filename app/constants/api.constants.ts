@@ -13,6 +13,7 @@ export const AUDIT_API_ENDPOINTS = Object.freeze({
 export const USER_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   userProfiles: '/api/users',
   userProfilesSearch: '/api/users/search',
+  userPersonnelSuggestions: '/api/users/personnel-suggestions',
   userProfileById: (id: string) => `/api/users/${id}`,
   userProfilePassword: (id: string) => `/api/users/${id}/password`,
   userProfileActivation: (id: string) => `/api/users/${id}/activation`,
@@ -50,7 +51,6 @@ export const API_LOADING_MESSAGES = Object.freeze({
   updateUserProfile: 'Updating user profile...',
   updateUserPassword: 'Updating user password...',
   updateUserActivation: 'Updating user status...',
-  userPersonnelSuggestions: '/api/users/personnel-suggestions',
   deleteUserProfile: 'Deleting user profile...',
   createAccountType: 'Creating account type...',
   updateAccountType: 'Updating account type...',

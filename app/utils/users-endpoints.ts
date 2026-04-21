@@ -10,6 +10,8 @@ import type {
   UserProfilesEndpointQuery,
   UserProfilesSearchQuery,
   UserProfilesEndpointResponse,
+  UserPersonnelSuggestionsEndpointResponse,
+  UserPersonnelSuggestionsQuery,
   UserAccountsEndpointQuery,
   UserAccountsSearchQuery,
   UserAccountsEndpointResponse,
@@ -68,6 +70,18 @@ export const createUserProfileEndpoint = async (payload: CreateUserProfilePayloa
       body: payload,
     })
   }, API_LOADING_MESSAGES.createUserProfile)
+}
+
+export const getUserPersonnelSuggestionsEndpoint = async (
+  query: UserPersonnelSuggestionsQuery
+): Promise<UserPersonnelSuggestionsEndpointResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<UserPersonnelSuggestionsEndpointResponse>(USER_MANAGEMENT_API_ENDPOINTS.userPersonnelSuggestions, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchPersonnel)
 }
 
 export const getUserProfileByIdEndpoint = async (id: string): Promise<UserProfileDetailEndpointResponse> => {

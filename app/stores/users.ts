@@ -199,6 +199,7 @@ const usersStoreOptions = {
         const response = await getUserProfileByIdEndpoint(id)
         return {
           id: response.id,
+          personnelId: response.personnelId,
           email: response.email,
           fullName: response.fullName,
           avatarUrl: response.avatarUrl,

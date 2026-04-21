@@ -8,6 +8,7 @@ import { validateFields } from '~/utils/field-validation'
 import { REGEX_PATTERNS } from '~/utils/regex'
 
 export interface UserProfileFormState {
+  personnelId: string
   email: string
   fullName: string
   avatarUrl: string
@@ -30,6 +31,7 @@ export interface FormValidationResult<TPayload> {
 }
 
 export interface UpdateUserProfileFormState {
+  personnelId: string
   email: string
   fullName: string
   avatarUrl: string
@@ -86,6 +88,7 @@ export const validateUserProfileForm = (form: UserProfileFormState): FormValidat
 
   return {
     payload: {
+      personnelId: form.personnelId.trim() || null,
       email: normalizedEmail,
       fullName,
       password,
@@ -134,6 +137,7 @@ export const validateUpdateUserProfileForm = (
 
   return {
     payload: {
+      personnelId: form.personnelId.trim() || null,
       email: normalizedEmail,
       fullName,
       avatarUrl: avatarUrl || null,
