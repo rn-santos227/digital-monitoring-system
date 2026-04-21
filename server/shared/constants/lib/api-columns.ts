@@ -60,4 +60,15 @@ export const PERSONNEL_PROFILE_SUMMARY_SELECT_COLUMNS =
   'id, personnel_code, service_number, last_name, first_name, middle_name, sex, birthdate, rank_id, company_id, battalion_id, employment_status_id, service_status_id, contact_number, date_enlisted, created_at, updated_at'
 
 export const PERSONNEL_REFERENCE_ID_SELECT_COLUMNS = 'id'
-  
+
+export const PERSONNEL_TRAINING_RECORD_LIST_SELECT_COLUMNS =
+  'id, training_title, start_date, end_date, valid_until, remarks, training_category:training_categories(name), training_status:training_statuses(name)'
+
+export const PERSONNEL_DEPLOYMENT_RECORD_LIST_SELECT_COLUMNS =
+  'id, deployment_area, operation_name, start_date, end_date, location, assignment_role, deployment_status:deployment_statuses(name)'
+
+export const PERSONNEL_ENGAGEMENT_RECORD_LIST_SELECT_COLUMNS =
+  'id, engagement_title, date_start, date_end, remarks, engagement_type:engagement_types(name), engagement_status:engagement_statuses(name)'
+
+export const PERSONNEL_EQUIPMENT_ISSUANCE_LIST_SELECT_COLUMNS =
+  'id, issue_no, issue_date, expected_return_date, actual_return_date, issue_purpose, issuance_status:issuance_statuses(name), equipment_asset:equipment_assets(asset_tag, equipment_item:equipment_items(name))'
