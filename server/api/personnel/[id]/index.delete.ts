@@ -8,7 +8,7 @@ import {
   PERSONNEL_PROFILE_SUMMARY_SELECT_COLUMNS,
 } from '../../../shared/constants'
 import { requireRouteId } from '../../../shared/validations'
-import { getPersonnelReferenceCount } from '../../../shared/utils'
+import { getPersonnelRelationshipCounts, mapPersonnelRelationshipCountsResponse } from '../../../shared/utils'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
@@ -34,54 +34,13 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   }
 
   try {
-    const [
-      trainingRecordCount,
-      deploymentRecordCount,
-      deploymentSupervisorCount,
-      engagementRecordCount,
-      assignedAssetCount,
-      issuanceRecipientCount,
-      issuanceIssuerCount,
-      qualificationCount,
-      medicalReadinessCount,
-      weaponAssignmentCount,
-    ] = await Promise.all([
-      getPersonnelReferenceCount({
-        supabase, table: 'training_records', column: 'personnel_id', id }),
-      getPersonnelReferenceCount({
-        supabase, table: 'deployment_records', column: 'personnel_id', id }),
-      getPersonnelReferenceCount({
-        supabase, table: 'deployment_records', column: 'supervisor_id', id }),
-      getPersonnelReferenceCount({
-        supabase, table: 'engagement_records', column: 'personnel_id', id }),
-      getPersonnelReferenceCount({
-        supabase, table: 'equipment_assets', column: 'assigned_personnel_id', id }),
-      getPersonnelReferenceCount({
-        supabase, table: 'equipment_issuances', column: 'issued_to_personnel_id', id }),
-      getPersonnelReferenceCount({
-        supabase, table: 'equipment_issuances', column: 'issued_by_personnel_id', id }),
-      getPersonnelReferenceCount({
-        supabase, table: 'personnel_qualifications', column: 'personnel_id', id }),
-      getPersonnelReferenceCount({
-        supabase, table: 'personnel_medical_readiness', column: 'personnel_id', id }),
-      getPersonnelReferenceCount({
-        supabase, table: 'personnel_weapon_assignments', column: 'personnel_id', id }),
-    ])
+    const relationships = await getPersonnelRelationshipCounts({
+      supabase,
+      personnelId: id,
+    })
+    const relationshipSummary = mapPersonnelRelationshipCountsResponse(relationships)
 
-    const hasReferences = [
-      trainingRecordCount,
-      deploymentRecordCount,
-      deploymentSupervisorCount,
-      engagementRecordCount,
-      assignedAssetCount,
-      issuanceRecipientCount,
-      issuanceIssuerCount,
-      qualificationCount,
-      medicalReadinessCount,
-      weaponAssignmentCount,
-    ].some(count => count > 0)
-
-    if (hasReferences) {
+    if (relationshipSummary.hasReferences) {
       throw createError({
         statusCode: 409,
         statusMessage: 'Personnel record is in use and cannot be deleted.',
