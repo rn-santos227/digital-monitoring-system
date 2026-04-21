@@ -6,6 +6,11 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
+      <PersonnelSuggestionField
+        v-model="form.personnelId"
+        @select="onPersonnelSelected"
+      />
+
       <div class="grid gap-4 md:grid-cols-2">
         <BaseTextField
           v-model="form.email"
@@ -123,6 +128,7 @@ import {
 import type { SelectOption } from '~/types/domain/misc'
 import type { CreateUserProfilePayload } from '~/types/domain/users'
 import { validateUserProfileForm } from '~/utils/users-validation'
+import type { UserPersonnelSuggestion } from '~/types/domain/users'
 
 const props = withDefaults(
   defineProps<{
@@ -140,6 +146,7 @@ const emit = defineEmits<{
 }>()
 
 const form = reactive({
+  personnelId: '',
   email: '',
   fullName: '',
   avatarUrl: '',
@@ -167,6 +174,18 @@ const onAvatarFileSelected = (file: File | null) => {
   }
 
   form.avatarUrl = URL.createObjectURL(file)
+}
+
+const onPersonnelSelected = (personnel: UserPersonnelSuggestion | null) => {
+  if (!personnel) {
+    return
+  }
+
+  form.fullName = personnel.fullName
+
+  if (personnel.suggestedEmail) {
+    form.email = personnel.suggestedEmail
+  }
 }
 
 const onSubmit = () => {

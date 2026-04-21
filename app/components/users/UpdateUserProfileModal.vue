@@ -6,6 +6,12 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
+      <PersonnelSuggestionField
+        v-model="form.personnelId"
+        :selected-personnel-id="props.initialValues.personnelId"
+        @select="onPersonnelSelected"
+      />
+
       <div class="grid gap-4 md:grid-cols-2">
         <BaseTextField
           v-model="form.email"
@@ -83,12 +89,14 @@ import {
 } from '~/constants/page.constants'
 import type { SelectOption } from '~/types/domain/misc'
 import type { UpdateUserProfilePayload } from '~/types/domain/users'
+import type { UserPersonnelSuggestion } from '~/types/domain/users'
 import { validateUpdateUserProfileForm } from '~/utils/users-validation'
 
 const props = withDefaults(
   defineProps<{
     accountTypeOptions: SelectOption[]
     initialValues: {
+      personnelId: string | null
       email: string
       fullName: string
       avatarUrl: string | null
@@ -107,6 +115,7 @@ const emit = defineEmits<{
 }>()
 
 const form = reactive({
+  personnelId: props.initialValues.personnelId ?? '',
   email: props.initialValues.email,
   fullName: props.initialValues.fullName,
   avatarUrl: props.initialValues.avatarUrl ?? '',
@@ -140,5 +149,17 @@ const onSubmit = () => {
   }
 
   emit('submit', result.payload)
+}
+
+const onPersonnelSelected = (personnel: UserPersonnelSuggestion | null) => {
+  if (!personnel) {
+    return
+  }
+
+  form.fullName = personnel.fullName
+
+  if (personnel.suggestedEmail) {
+    form.email = personnel.suggestedEmail
+  }
 }
 </script>
