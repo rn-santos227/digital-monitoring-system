@@ -20,6 +20,7 @@
 </template>
 
 <script setup lang="ts">
+import type { DataTableAction } from '~/constants/ui.constants'
 import {
   AUDIT_TABLE_ACTIONS,
   AUDIT_TABLE_COLUMNS,
@@ -27,9 +28,10 @@ import {
   AUDIT_TABLE_SEARCH_PLACEHOLDER,
   AUDIT_TABLE_TITLE,
 } from '~/constants/table.constants'
+import type { AuditLogTableRow } from '~/types/domain/audit'
 
 withDefaults(defineProps<{
-  rows: readonly Record<string, unknown>[]
+  rows: readonly AuditLogTableRow[]
   searchQuery?: string
   emptyMessage?: string
   isLoading?: boolean
@@ -46,7 +48,7 @@ withDefaults(defineProps<{
 const emit = defineEmits<{
   (event: 'sort', key: string): void
   (event: 'update:searchQuery', value: string): void
-  (event: 'action', payload: { actionKey: string; row: Record<string, unknown> }): void
+  (event: 'action', payload: { actionKey: DataTableAction['key']; row: AuditLogTableRow }): void
   (event: 'update:currentPage', value: number): void
 }>()
 </script>

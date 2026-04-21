@@ -13,14 +13,10 @@
         @reset="handleResetFilters"
       />
 
-      <DataTable
-        :title="AUDIT_TABLE_TITLE"
-        :columns="AUDIT_TABLE_COLUMNS"
+      <AuditTable
         :rows="tableRows"
-        :actions="AUDIT_TABLE_ACTIONS"
         row-key="id"
         :search-query="searchQuery"
-        :search-placeholder="AUDIT_TABLE_SEARCH_PLACEHOLDER"
         :show-search="false"
         :empty-message="tableEmptyMessage || AUDIT_TABLE_EMPTY_MESSAGE"
         :is-loading="isLoading"
@@ -46,6 +42,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import AuditFilter from '~/components/audit/AuditFilter.vue'
+import AuditTable from '~/components/audit/AuditTable.vue'
 import type { AuditLogSearchQuery } from '~/types/domain/audit'
 import type { FieldValidationMap } from '~/utils/field-validation'
 import {
@@ -54,11 +51,7 @@ import {
   AUDIT_PAGE_TITLE,
 } from '~/constants/page.constants'
 import {
-  AUDIT_TABLE_ACTIONS,
-  AUDIT_TABLE_COLUMNS,
   AUDIT_TABLE_EMPTY_MESSAGE,
-  AUDIT_TABLE_SEARCH_PLACEHOLDER,
-  AUDIT_TABLE_TITLE,
 } from '~/constants/table.constants'
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 import { useAuditTrailPageHandlers } from '~/handlers'
