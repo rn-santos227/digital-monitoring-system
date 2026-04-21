@@ -37,6 +37,12 @@ export const USER_PROFILE_PASSWORD_SELECT_COLUMNS =
 export const USER_PROFILE_ACTIVATION_SELECT_COLUMNS =
   'id, email, full_name, is_active'
 
+export const USER_PERSONNEL_SUGGESTION_SELECT_COLUMNS =
+  'id, personnel_code, service_number, full_name, rank_name, company_name, battalion_name, service_status'
+
+export const USER_PROFILE_PERSONNEL_LOOKUP_SELECT_COLUMNS =
+  'id, personnel_id, email'
+
 export const AUTH_SESSION_USER_ID_SELECT_COLUMNS = 'user_id'
 
 export const PRIVILEGE_BASE_SELECT_COLUMNS = 'id, code, name, module'

@@ -6,11 +6,18 @@ export interface UpdateUserProfileRequest {
 }
 
 export interface CreateUserProfileRequest {
+  personnelId?: string | null
   email?: string
   fullName?: string
   avatarUrl?: string | null
   password?: string
   accountTypeIds?: string[]
+}
+
+export interface UserPersonnelSuggestionsRequest {
+  term?: string
+  pageSize?: number
+  selectedPersonnelId?: string
 }
 
 export interface CreateAccountTypeRequest {

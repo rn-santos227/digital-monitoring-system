@@ -43,6 +43,22 @@ export interface MutationSuccessResponse {
   ok: true
 }
 
+export interface UserPersonnelSuggestionItem {
+  id: string
+  personnelCode: string
+  serviceNumber: string
+  fullName: string
+  rankName: string
+  companyName: string | null
+  battalionName: string | null
+  serviceStatus: string
+  suggestedEmail: string | null
+}
+
+export interface UserPersonnelSuggestionsResponse {
+  items: UserPersonnelSuggestionItem[]
+}
+
 export interface AccountTypeDetailPermissionResponse {
   id: string
   code: string

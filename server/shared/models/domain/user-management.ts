@@ -86,3 +86,15 @@ export interface UpdateUserProfileBody {
   isActive?: boolean
   accountTypeIds?: string[]
 }
+
+export interface UserPersonnelSuggestionModel {
+  id: string
+  personnelCode: string
+  serviceNumber: string
+  fullName: string
+  rankName: string
+  companyName: string | null
+  battalionName: string | null
+  serviceStatus: string
+  suggestedEmail: string | null
+}
