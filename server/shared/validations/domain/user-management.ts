@@ -109,6 +109,9 @@ export const parseCreateAccountTypePayload = (body: CreateAccountTypeRequest) =>
 }
 
 export const parseCreateUserProfilePayload = (body: CreateUserProfileRequest) => {
+  const personnelId = typeof body.personnelId === 'string'
+    ? normalizeOptionalText(body.personnelId)
+    : null
   const email = normalizeOptionalText(body.email)?.toLowerCase()
   const fullName = normalizeOptionalText(body.fullName)
   const avatarUrl = body.avatarUrl === undefined
@@ -132,6 +135,7 @@ export const parseCreateUserProfilePayload = (body: CreateUserProfileRequest) =>
   }
 
   return {
+    personnelId,
     email,
     fullName,
     avatarUrl,
