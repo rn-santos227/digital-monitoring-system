@@ -66,3 +66,26 @@ export const mapCompanyListItem = (row: CompanyRow): CompanyListItem => {
   }
 }
 
+
+export const mapBattalionSuggestionItem = (row: Pick<BattalionRow, 'id' | 'code' | 'name' | 'is_active'>): BattalionSuggestionItem => ({
+  id: row.id,
+  code: row.code,
+  name: row.name,
+  isActive: row.is_active,
+})
+
+export const mapCompanySuggestionItem = (
+  row: Pick<CompanyRow, 'id' | 'battalion_id' | 'battalion' | 'code' | 'name' | 'is_active'>,
+): CompanySuggestionItem => {
+  const battalion = toBattalionReference(row.battalion)
+
+  return {
+    id: row.id,
+    battalionId: row.battalion_id,
+    battalionCode: battalion?.code ?? null,
+    battalionName: battalion?.name ?? null,
+    code: row.code,
+    name: row.name,
+    isActive: row.is_active,
+  }
+}
