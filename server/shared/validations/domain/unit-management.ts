@@ -61,3 +61,24 @@ export const buildBattalionUpdates = (body: UpdateBattalionRequest) => {
   return updates
 }
 
+export const parseCreateCompanyPayload = (body: CreateCompanyRequest) => {
+  const battalionId = body.battalionId === undefined ? null : normalizeOptionalText(body.battalionId)
+  const code = normalizeOptionalText(body.code)?.toUpperCase()
+  const name = normalizeOptionalText(body.name)
+
+  if (!code) {
+    throw createError({ statusCode: 400, statusMessage: 'Company code is required.' })
+  }
+
+  if (!name) {
+    throw createError({ statusCode: 400, statusMessage: 'Company name is required.' })
+  }
+
+  return {
+    battalion_id: battalionId,
+    code,
+    name,
+    is_active: body.isActive ?? true,
+  }
+}
+
