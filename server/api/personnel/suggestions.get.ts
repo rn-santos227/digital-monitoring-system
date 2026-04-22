@@ -17,9 +17,6 @@ const SEARCHABLE_PERSONNEL_FIELDS = [
   'personnel_code',
   'service_number',
   'full_name',
-  'rank_name',
-  'company_name',
-  'battalion_name',
 ] as const
 
 export default defineEventHandler(async (event): Promise<UserPersonnelSuggestionsResponse> => {
