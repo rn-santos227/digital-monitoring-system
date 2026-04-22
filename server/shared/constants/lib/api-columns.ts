@@ -37,9 +37,6 @@ export const USER_PROFILE_PASSWORD_SELECT_COLUMNS =
 export const USER_PROFILE_ACTIVATION_SELECT_COLUMNS =
   'id, email, full_name, is_active'
 
-export const USER_PERSONNEL_SUGGESTION_SELECT_COLUMNS =
-  'id, personnel_code, service_number, full_name, rank_name, company_name, battalion_name, service_status'
-
 export const USER_PROFILE_PERSONNEL_LOOKUP_SELECT_COLUMNS =
   'id, personnel_id, email'
 
@@ -78,6 +75,9 @@ export const PERSONNEL_ENGAGEMENT_RECORD_LIST_SELECT_COLUMNS =
 
 export const PERSONNEL_EQUIPMENT_ISSUANCE_LIST_SELECT_COLUMNS =
   'id, issue_no, issue_date, expected_return_date, actual_return_date, issue_purpose, issuance_status:issuance_statuses(name), equipment_asset:equipment_assets(asset_tag, equipment_item:equipment_items(name))'
+
+export const PERSONNEL_SUGGESTION_SELECT_COLUMNS =
+  'id, personnel_code, service_number, full_name, rank_name, company_name, battalion_name, service_status'
 
 export const BATTALION_SELECT_COLUMNS = 'id, code, name, is_active, created_at, updated_at'
 export const BATTALION_SUGGESTION_SELECT_COLUMNS = 'id, code, name, is_active'

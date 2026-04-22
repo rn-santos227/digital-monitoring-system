@@ -89,7 +89,7 @@ import {
 } from '~/constants/page.constants'
 import type { SelectOption } from '~/types/domain/misc'
 import type { UpdateUserProfilePayload } from '~/types/domain/users'
-import type { UserPersonnelSuggestion } from '~/types/domain/users'
+import type { PersonnelSuggestion } from '~/types/domain/personnel'
 import { validateUpdateUserProfileForm } from '~/utils/users-validation'
 
 const props = withDefaults(
@@ -151,7 +151,7 @@ const onSubmit = () => {
   emit('submit', result.payload)
 }
 
-const onPersonnelSelected = (personnel: UserPersonnelSuggestion | null) => {
+const onPersonnelSelected = (personnel: PersonnelSuggestion | null) => {
   if (!personnel) {
     return
   }

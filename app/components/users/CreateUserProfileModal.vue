@@ -128,7 +128,7 @@ import {
 import type { SelectOption } from '~/types/domain/misc'
 import type { CreateUserProfilePayload } from '~/types/domain/users'
 import { validateUserProfileForm } from '~/utils/users-validation'
-import type { UserPersonnelSuggestion } from '~/types/domain/users'
+import type { PersonnelSuggestion } from '~/types/domain/personnel'
 
 const props = withDefaults(
   defineProps<{
@@ -176,7 +176,7 @@ const onAvatarFileSelected = (file: File | null) => {
   form.avatarUrl = URL.createObjectURL(file)
 }
 
-const onPersonnelSelected = (personnel: UserPersonnelSuggestion | null) => {
+const onPersonnelSelected = (personnel: PersonnelSuggestion | null) => {
   if (!personnel) {
     return
   }

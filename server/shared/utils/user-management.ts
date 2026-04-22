@@ -1,6 +1,6 @@
 import { createError } from 'h3'
 import type { AccountTypeListItem, PrivilegeListItem, UserProfileListItem } from '../models'
-import type { UserPersonnelSuggestionItem, UserProfileDetailResponse, UserProfileListItemCompact } from '../responses'
+import type { UserProfileDetailResponse, UserProfileListItemCompact } from '../responses'
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../constants'
 import { parseNumber } from './parsers'
 
@@ -30,17 +30,6 @@ interface UserAccountTypeSummaryRow {
   id: string
   code: string
   name: string
-}
-
-interface UserPersonnelSuggestionRow {
-  id: string
-  personnel_code: string
-  service_number: string
-  full_name: string
-  rank_name: string
-  company_name: string | null
-  battalion_name: string | null
-  service_status: string
 }
 
 interface UserAccountTypeRow {
@@ -128,25 +117,6 @@ export const parseManagementPaginationQuery = (query: { page?: unknown; pageSize
   }
 }
 
-export const parseUserPersonnelSuggestionQuery = (query: {
-  term?: unknown
-  pageSize?: unknown
-  selectedPersonnelId?: unknown
-}) => {
-  const term = typeof query.term === 'string' ? query.term.trim() : ''
-  const selectedPersonnelId = typeof query.selectedPersonnelId === 'string' && query.selectedPersonnelId.length > 0
-    ? query.selectedPersonnelId
-    : null
-  const rawPageSize = Math.trunc(parseNumber(query.pageSize, 10))
-  const pageSize = Math.min(Math.max(rawPageSize, 1), 20)
-
-  return {
-    term,
-    pageSize,
-    selectedPersonnelId,
-  }
-}
-
 const toAccountTypePermissions = (permissionRow: AccountTypePermissionRow): AccountTypePermissionSummaryRow[] => {
   const { permissions } = permissionRow
 
@@ -215,23 +185,6 @@ export const mapUserProfileListItem = (row: UserProfileListRow): UserProfileList
     createdAt: row.created_at,
     updatedAt: row.updated_at,
     accountTypes: (row.user_account_types ?? []).flatMap(toUserAccountTypes),
-  }
-}
-
-export const mapUserPersonnelSuggestionItem = (
-  row: UserPersonnelSuggestionRow,
-  suggestedEmail: string | null
-): UserPersonnelSuggestionItem => {
-  return {
-    id: row.id,
-    personnelCode: row.personnel_code,
-    serviceNumber: row.service_number,
-    fullName: row.full_name,
-    rankName: row.rank_name,
-    companyName: row.company_name,
-    battalionName: row.battalion_name,
-    serviceStatus: row.service_status,
-    suggestedEmail,
   }
 }
 

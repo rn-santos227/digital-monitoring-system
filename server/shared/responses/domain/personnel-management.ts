@@ -148,3 +148,19 @@ export interface PersonnelEquipmentIssuanceListResponse {
   totalItems: number
   totalPages: number
 }
+
+export interface PersonnelSuggestionItem {
+  id: string
+  personnelCode: string
+  serviceNumber: string
+  fullName: string
+  rankName: string
+  companyName: string | null
+  battalionName: string | null
+  serviceStatus: string
+  suggestedEmail: string | null
+}
+
+export interface PersonnelSuggestionsResponse {
+  items: PersonnelSuggestionItem[]
+}

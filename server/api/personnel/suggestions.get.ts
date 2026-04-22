@@ -1,14 +1,14 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
-import type { UserPersonnelSuggestionsResponse } from '../../shared/responses'
+import type { PersonnelSuggestionsResponse } from '../../shared/responses'
 import {
   MANAGEMENT_PERMISSION_GROUPS,
-  USER_PERSONNEL_SUGGESTION_SELECT_COLUMNS,
+  PERSONNEL_SUGGESTION_SELECT_COLUMNS,
   USER_PROFILE_PERSONNEL_LOOKUP_SELECT_COLUMNS,
 } from '../../shared/constants'
 import {
   buildAssignedPersonnelProfileMap,
-  mapUserPersonnelSuggestionItem,
-  parseUserPersonnelSuggestionQuery,
+  mapPersonnelSuggestionItem,
+  parsePersonnelSuggestionQuery,
 } from '../../shared/utils'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
@@ -19,11 +19,11 @@ const SEARCHABLE_PERSONNEL_FIELDS = [
   'full_name',
 ] as const
 
-export default defineEventHandler(async (event): Promise<UserPersonnelSuggestionsResponse> => {
+export default defineEventHandler(async (event): Promise<PersonnelSuggestionsResponse> => {
   await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.userProfileManagement)
 
   const query = getQuery(event)
-  const { pageSize, selectedPersonnelId, term } = parseUserPersonnelSuggestionQuery({
+  const { pageSize, selectedPersonnelId, term } = parsePersonnelSuggestionQuery({
     term: query.term,
     pageSize: query.pageSize,
     selectedPersonnelId: query.selectedPersonnelId,
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event): Promise<UserPersonnelSuggestion
   const supabase = getServiceSupabaseClient()
   let personnelQuery = supabase
     .from('vw_personnel_profile')
-    .select(USER_PERSONNEL_SUGGESTION_SELECT_COLUMNS)
+    .select(PERSONNEL_SUGGESTION_SELECT_COLUMNS)
     .order('last_name', { ascending: true })
     .order('first_name', { ascending: true })
     .limit(pageSize)
@@ -58,7 +58,7 @@ export default defineEventHandler(async (event): Promise<UserPersonnelSuggestion
   if (selectedPersonnelId && !mergedRows.some(row => row.id === selectedPersonnelId)) {
     const { data: selectedRow, error: selectedRowError } = await supabase
       .from('vw_personnel_profile')
-      .select(USER_PERSONNEL_SUGGESTION_SELECT_COLUMNS)
+      .select(PERSONNEL_SUGGESTION_SELECT_COLUMNS)
       .eq('id', selectedPersonnelId)
       .maybeSingle()
 
@@ -102,7 +102,7 @@ export default defineEventHandler(async (event): Promise<UserPersonnelSuggestion
     })
     .map((row) => {
       const assigned = assignedByPersonnelId.get(row.id)
-      return mapUserPersonnelSuggestionItem(row, assigned?.email ?? null)
+      return mapPersonnelSuggestionItem(row, assigned?.email ?? null)
     })
 
   return {

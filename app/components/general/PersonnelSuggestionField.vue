@@ -22,8 +22,8 @@ import {
   USERS_PROFILE_PERSONNEL_LABEL,
   USERS_PROFILE_PERSONNEL_PLACEHOLDER,
 } from '~/constants/page.constants'
-import type { UserPersonnelSuggestion } from '~/types/domain/users'
-import { getUserPersonnelSuggestionsEndpoint } from '~/utils/users-endpoints'
+import type { PersonnelSuggestion } from '~/types/domain/personnel'
+import { getPersonnelSuggestionsEndpoint } from '~/utils/personnel-endpoints'
 
 const props = withDefaults(
   defineProps<{
@@ -49,10 +49,10 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   (event: 'update:modelValue', value: string | null): void
-  (event: 'select', payload: UserPersonnelSuggestion | null): void
+  (event: 'select', payload: PersonnelSuggestion | null): void
 }>()
 
-const suggestions = ref<UserPersonnelSuggestion[]>([])
+const suggestions = ref<PersonnelSuggestion[]>([])
 const searchTerm = ref('')
 
 const suggestionOptions = computed<SuggestionFieldOption[]>(() => {
@@ -66,7 +66,7 @@ const suggestionOptions = computed<SuggestionFieldOption[]>(() => {
 let searchTimeout: ReturnType<typeof setTimeout> | null = null
 
 const fetchSuggestions = async () => {
-  const response = await getUserPersonnelSuggestionsEndpoint({
+  const response = await getPersonnelSuggestionsEndpoint({
     term: searchTerm.value,
     pageSize: 10,
     selectedPersonnelId: props.selectedPersonnelId ?? undefined,

@@ -87,7 +87,7 @@ export interface UpdateUserProfileBody {
   accountTypeIds?: string[]
 }
 
-export interface UserPersonnelSuggestionModel {
+export interface PersonnelSuggestionModel {
   id: string
   personnelCode: string
   serviceNumber: string

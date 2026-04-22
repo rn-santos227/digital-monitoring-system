@@ -4,7 +4,56 @@ import type {
   PersonnelProfileDetailRow,
   PersonnelProfileListRow,
 } from '../models'
-import type { PersonnelDetailResponse, PersonnelListItemCompact } from '../responses'
+import { parseNumber } from './parsers'
+import type { PersonnelDetailResponse, PersonnelListItemCompact, PersonnelSuggestionItem } from '../responses'
+
+
+interface PersonnelSuggestionRow {
+  id: string
+  personnel_code: string
+  service_number: string
+  full_name: string
+  rank_name: string
+  company_name: string | null
+  battalion_name: string | null
+  service_status: string
+}
+
+export const parsePersonnelSuggestionQuery = (query: {
+  term?: unknown
+  pageSize?: unknown
+  selectedPersonnelId?: unknown
+}) => {
+  const term = typeof query.term === 'string' ? query.term.trim() : ''
+  const selectedPersonnelId = typeof query.selectedPersonnelId === 'string' && query.selectedPersonnelId.length > 0
+    ? query.selectedPersonnelId
+    : null
+  const rawPageSize = Math.trunc(parseNumber(query.pageSize, 10))
+  const pageSize = Math.min(Math.max(rawPageSize, 1), 20)
+
+  return {
+    term,
+    pageSize,
+    selectedPersonnelId,
+  }
+}
+
+export const mapPersonnelSuggestionItem = (
+  row: PersonnelSuggestionRow,
+  suggestedEmail: string | null
+): PersonnelSuggestionItem => {
+  return {
+    id: row.id,
+    personnelCode: row.personnel_code,
+    serviceNumber: row.service_number,
+    fullName: row.full_name,
+    rankName: row.rank_name,
+    companyName: row.company_name,
+    battalionName: row.battalion_name,
+    serviceStatus: row.service_status,
+    suggestedEmail,
+  }
+}
 
 export const mapPersonnelListItem = (row: PersonnelProfileListRow): PersonnelListItem => {
   return {

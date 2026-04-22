@@ -7,6 +7,8 @@ import type {
   PersonnelListCompactResponse,
   PersonnelListResponse,
   PersonnelSearchQuery,
+  PersonnelSuggestionsEndpointResponse,
+  PersonnelSuggestionsQuery,
 } from '~/types/domain/personnel'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
@@ -24,6 +26,18 @@ export const getPersonnelEndpoint = async (query: PersonnelEndpointQuery): Promi
 export const searchPersonnelEndpoint = async (query: PersonnelSearchQuery): Promise<PersonnelListCompactResponse> => {
   return await withApiLoading(async () => {
     return await $fetch<PersonnelListCompactResponse>(PERSONNEL_API_ENDPOINTS.personnelSearch, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchPersonnel)
+}
+
+export const getPersonnelSuggestionsEndpoint = async (
+  query: PersonnelSuggestionsQuery
+): Promise<PersonnelSuggestionsEndpointResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<PersonnelSuggestionsEndpointResponse>(PERSONNEL_API_ENDPOINTS.personnelSuggestions, {
       method: 'GET',
       headers: createSessionHeaders(),
       query,

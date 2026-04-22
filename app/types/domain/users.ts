@@ -173,28 +173,6 @@ export interface UpdateUserProfilePayload {
   accountTypeIds?: string[]
 }
 
-export interface UserPersonnelSuggestion {
-  id: string
-  personnelCode: string
-  serviceNumber: string
-  fullName: string
-  rankName: string
-  companyName: string | null
-  battalionName: string | null
-  serviceStatus: string
-  suggestedEmail: string | null
-}
-
-export interface UserPersonnelSuggestionsQuery {
-  term?: string
-  pageSize?: number
-  selectedPersonnelId?: string
-}
-
-export interface UserPersonnelSuggestionsEndpointResponse {
-  items: UserPersonnelSuggestion[]
-}
-
 export interface UpdateUserPasswordPayload {
   newPassword: string
 }

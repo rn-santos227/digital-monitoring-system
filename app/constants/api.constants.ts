@@ -20,12 +20,12 @@ export const USER_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   accountTypesSearch: '/api/account-types/search',
   accountTypeById: (id: string) => `/api/account-types/${id}`,
   privileges: '/api/privileges',
-  personnelSuggestions: '/api/personnel/suggestions',
 })
 
 export const PERSONNEL_API_ENDPOINTS = Object.freeze({
   personnel: '/api/personnel',
   personnelSearch: '/api/personnel/search',
+  personnelSuggestions: '/api/personnel/suggestions',
   personnelById: (id: string) => `/api/personnel/${id}`,
 })
 

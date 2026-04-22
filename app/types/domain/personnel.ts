@@ -82,6 +82,28 @@ export interface PersonnelSearchQuery extends PersonnelEndpointQuery {
   fields?: string
 }
 
+export interface PersonnelSuggestion {
+  id: string
+  personnelCode: string
+  serviceNumber: string
+  fullName: string
+  rankName: string
+  companyName: string | null
+  battalionName: string | null
+  serviceStatus: string
+  suggestedEmail: string | null
+}
+
+export interface PersonnelSuggestionsQuery {
+  term?: string
+  pageSize?: number
+  selectedPersonnelId?: string
+}
+
+export interface PersonnelSuggestionsEndpointResponse {
+  items: PersonnelSuggestion[]
+}
+
 export interface PersonnelTablePagination {
   page: number
   pageSize: number
