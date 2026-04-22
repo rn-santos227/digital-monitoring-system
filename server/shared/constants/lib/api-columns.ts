@@ -78,3 +78,17 @@ export const PERSONNEL_ENGAGEMENT_RECORD_LIST_SELECT_COLUMNS =
 
 export const PERSONNEL_EQUIPMENT_ISSUANCE_LIST_SELECT_COLUMNS =
   'id, issue_no, issue_date, expected_return_date, actual_return_date, issue_purpose, issuance_status:issuance_statuses(name), equipment_asset:equipment_assets(asset_tag, equipment_item:equipment_items(name))'
+
+export const BATTALION_SELECT_COLUMNS = 'id, code, name, is_active, created_at, updated_at'
+export const BATTALION_SUGGESTION_SELECT_COLUMNS = 'id, code, name, is_active'
+export const BATTALION_REFERENCE_ID_SELECT_COLUMNS = 'id'
+
+export const COMPANY_BASE_SELECT_COLUMNS = 'id, battalion_id, code, name, is_active, created_at, updated_at'
+
+export const COMPANY_BATTALION_EMBEDDED_SELECT_COLUMNS = 'battalion:battalions(id, code, name)'
+
+export const COMPANY_SELECT_COLUMNS =
+  `${COMPANY_BASE_SELECT_COLUMNS}, ${COMPANY_BATTALION_EMBEDDED_SELECT_COLUMNS}`
+
+export const COMPANY_SUGGESTION_SELECT_COLUMNS =
+  `id, battalion_id, code, name, is_active, ${COMPANY_BATTALION_EMBEDDED_SELECT_COLUMNS}`

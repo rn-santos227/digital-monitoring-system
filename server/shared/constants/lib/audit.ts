@@ -10,6 +10,12 @@ export const AUDIT_LOG_ACTIONS = {
   personnelCreate: 'PERSONNEL_CREATE',
   personnelUpdate: 'PERSONNEL_UPDATE',
   personnelDelete: 'PERSONNEL_DELETE',
+  battalionCreate: 'BATTALION_CREATE',
+  battalionUpdate: 'BATTALION_UPDATE',
+  battalionDelete: 'BATTALION_DELETE',
+  companyCreate: 'COMPANY_CREATE',
+  companyUpdate: 'COMPANY_UPDATE',
+  companyDelete: 'COMPANY_DELETE',
 } as const
 
 export const AUDIT_LOG_OUTCOMES = {
@@ -30,4 +36,10 @@ export const AUDIT_LOG_ENDPOINTS = {
   personnelCreate: '/api/personnel',
   personnelUpdate: '/api/personnel/:id',
   personnelDelete: '/api/personnel/:id',
+  battalionsCreate: '/api/battalions',
+  battalionsUpdate: '/api/battalions/:id',
+  battalionsDelete: '/api/battalions/:id',
+  companiesCreate: '/api/companies',
+  companiesUpdate: '/api/companies/:id',
+  companiesDelete: '/api/companies/:id',
 } as const

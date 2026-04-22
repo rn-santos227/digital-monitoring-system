@@ -13,4 +13,10 @@ export const PERMISSION_CODES = {
   accountTypeCreate: 'account_type.create',
   accountTypeUpdate: 'account_type.update',
   accountTypeDelete: 'account_type.delete',
+  battalionCreate: 'battalion.create',
+  battalionUpdate: 'battalion.update',
+  battalionDelete: 'battalion.delete',
+  companyCreate: 'company.create',
+  companyUpdate: 'company.update',
+  companyDelete: 'company.delete',
 } as const
