@@ -82,3 +82,42 @@ export const parseCreateCompanyPayload = (body: CreateCompanyRequest) => {
   }
 }
 
+
+export const buildCompanyUpdates = (body: UpdateCompanyRequest) => {
+  const updates: {
+    battalion_id?: string | null
+    code?: string
+    name?: string
+    is_active?: boolean
+  } = {}
+
+  if (body.battalionId !== undefined) {
+    updates.battalion_id = normalizeOptionalText(body.battalionId)
+  }
+
+  if (body.code !== undefined) {
+    const code = normalizeOptionalText(body.code)?.toUpperCase()
+
+    if (!code) {
+      throw createError({ statusCode: 400, statusMessage: 'Company code cannot be empty.' })
+    }
+
+    updates.code = code
+  }
+
+  if (body.name !== undefined) {
+    const name = normalizeOptionalText(body.name)
+
+    if (!name) {
+      throw createError({ statusCode: 400, statusMessage: 'Company name cannot be empty.' })
+    }
+
+    updates.name = name
+  }
+
+  if (body.isActive !== undefined) {
+    updates.is_active = Boolean(body.isActive)
+  }
+
+  return updates
+}
