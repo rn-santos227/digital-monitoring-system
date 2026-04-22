@@ -40,3 +40,29 @@ export const parseUnitSuggestionQuery = (query: {
     battalionId,
   }
 }
+
+export const mapBattalionListItem = (row: BattalionRow): BattalionListItem => ({
+  id: row.id,
+  code: row.code,
+  name: row.name,
+  isActive: row.is_active,
+  createdAt: row.created_at,
+  updatedAt: row.updated_at,
+})
+
+export const mapCompanyListItem = (row: CompanyRow): CompanyListItem => {
+  const battalion = toBattalionReference(row.battalion)
+
+  return {
+    id: row.id,
+    battalionId: row.battalion_id,
+    battalionCode: battalion?.code ?? null,
+    battalionName: battalion?.name ?? null,
+    code: row.code,
+    name: row.name,
+    isActive: row.is_active,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  }
+}
+
