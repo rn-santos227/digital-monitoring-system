@@ -1,3 +1,4 @@
+import { createError } from 'h3'
 import { parseNumber } from './parsers'
 import type {
   BattalionListItem,
@@ -7,6 +8,10 @@ import type {
   CompanyListItem,
   CompanyRow,
   CompanySuggestionItem,
+  UnitEquipmentAssetListItem,
+  UnitEquipmentAssetRow,
+  UnitPersonnelListItem,
+  UnitPersonnelProfileRow,
 } from '../models'
 
 const toBattalionReference = (value: BattalionReferenceRow | BattalionReferenceRow[] | null): BattalionReferenceRow | null => {
