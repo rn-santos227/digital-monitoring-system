@@ -168,3 +168,31 @@ export const assertBattalionExists = async (args: {
     throw createError({ statusCode: 404, statusMessage: 'Battalion not found.' })
   }
 }
+
+export const assertCompanyExists = async (args: {
+  supabase: {
+    from: (table: string) => {
+      select: (columns: string) => {
+        eq: (column: string, value: string) => {
+          maybeSingle: () => Promise<{ data: { id: string } | null; error: { message: string } | null }>
+        }
+      }
+    }
+  }
+  companyId: string
+  idSelectColumns: string
+}) => {
+  const { data, error } = await args.supabase
+    .from('companies')
+    .select(args.idSelectColumns)
+    .eq('id', args.companyId)
+    .maybeSingle()
+
+  if (error) {
+    throw createError({ statusCode: 500, statusMessage: `Failed to validate company reference: ${error.message}` })
+  }
+
+  if (!data) {
+    throw createError({ statusCode: 404, statusMessage: 'Company not found.' })
+  }
+}
