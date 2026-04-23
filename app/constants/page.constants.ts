@@ -101,6 +101,7 @@ export const PERSONNEL_PAGE_SECTION_CLASSES = 'space-y-6'
 export const PERSONNEL_PAGE_REQUIRED_PERMISSIONS = PERSONNEL_PRIVILEGES
 export const PERSONNEL_CREATE_BUTTON_LABEL = 'Create Personnel'
 export const PERSONNEL_MODAL_CREATE_LABEL = 'Create'
+export const PERSONNEL_MODAL_UPDATE_LABEL = 'Update'
 export const PERSONNEL_MODAL_CANCEL_LABEL = 'Cancel'
 export const PERSONNEL_CREATE_MODAL_TITLE = 'Create Personnel Record'
 export const PERSONNEL_CREATE_MODAL_DESCRIPTION = 'Register a new personnel profile for battalion and company monitoring.'
@@ -134,7 +135,8 @@ export const PERSONNEL_CREATE_SERVICE_STATUS_ID_LABEL = 'Service Status ID'
 export const PERSONNEL_CREATE_SERVICE_STATUS_ID_PLACEHOLDER = 'Enter service status id'
 export const PERSONNEL_CREATE_CONTACT_NUMBER_LABEL = 'Contact Number'
 export const PERSONNEL_CREATE_CONTACT_NUMBER_PLACEHOLDER = 'Enter contact number (optional)'
-
+export const PERSONNEL_UPDATE_MODAL_TITLE = 'Update Personnel Record'
+export const PERSONNEL_UPDATE_MODAL_DESCRIPTION = 'Update personnel profile details and assignment information.'
 
 export const PERSONNEL_PROFILE_PAGE_TITLE = 'Personnel Dossier'
 export const PERSONNEL_PROFILE_PAGE_SUBTITLE = 'Profile details, assignments, and readiness context for operational review.'

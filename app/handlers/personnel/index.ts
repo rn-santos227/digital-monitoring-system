@@ -1,4 +1,5 @@
 export * from './constants'
 export * from './index.handler'
 export * from './create.handler'
+export * from './suggestions.handler'
 export * from './view.handler'

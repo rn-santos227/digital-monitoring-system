@@ -14,19 +14,12 @@
 </template>
 
 <script setup lang="ts">
-import {
-  USERS_PROFILE_PERSONNEL_EMPTY_MESSAGE,
-  USERS_PROFILE_PERSONNEL_HELPER_TEXT,
-  USERS_PROFILE_PERSONNEL_LABEL,
-  USERS_PROFILE_PERSONNEL_PLACEHOLDER,
-} from '~/constants/page.constants'
-import { usePersonnelSuggestionsHandler } from '~/handlers'
-import type { PersonnelSuggestion } from '~/types/domain/personnel'
+import type { BattalionListItem } from '~/types/domain/units'
+import { useBattalionSuggestionsHandler } from '~/handlers'
 
 const props = withDefaults(
   defineProps<{
     modelValue: string | null
-    selectedPersonnelId?: string | null
     label?: string
     placeholder?: string
     helperText?: string
@@ -35,11 +28,10 @@ const props = withDefaults(
     disabled?: boolean
   }>(),
   {
-    selectedPersonnelId: null,
-    label: USERS_PROFILE_PERSONNEL_LABEL,
-    placeholder: USERS_PROFILE_PERSONNEL_PLACEHOLDER,
-    helperText: USERS_PROFILE_PERSONNEL_HELPER_TEXT,
-    emptyMessage: USERS_PROFILE_PERSONNEL_EMPTY_MESSAGE,
+    label: 'Battalion',
+    placeholder: 'Search battalion by code or name',
+    helperText: 'Select a battalion assignment for this personnel record.',
+    emptyMessage: 'No battalion records found.',
     error: '',
     disabled: false,
   }
@@ -47,13 +39,10 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   (event: 'update:modelValue', value: string | null): void
-  (event: 'select', payload: PersonnelSuggestion | null): void
+  (event: 'select', payload: BattalionListItem | null): void
 }>()
 
-const { suggestionOptions, onModelValueUpdate: mapNextValue, onQueryChange, emitSelectedItem } = usePersonnelSuggestionsHandler(
-  () => props.selectedPersonnelId,
-  () => props.modelValue
-)
+const { suggestionOptions, onModelValueUpdate: mapNextValue, onQueryChange, emitSelectedItem } = useBattalionSuggestionsHandler(() => props.modelValue)
 
 const onModelValueUpdate = (value: string | string[] | null) => {
   if (Array.isArray(value)) {
@@ -64,5 +53,4 @@ const onModelValueUpdate = (value: string | string[] | null) => {
   emit('update:modelValue', nextValue)
   emit('select', emitSelectedItem(nextValue))
 }
-
 </script>

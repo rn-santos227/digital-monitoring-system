@@ -34,6 +34,18 @@ export const PERSONNEL_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze
     iconName: 'eye',
     variant: 'info',
   },
+  {
+    key: 'edit-personnel',
+    tooltip: 'Edit personnel record',
+    iconName: 'pencil-square',
+    variant: 'warning',
+  },
+  {
+    key: 'delete-personnel',
+    tooltip: 'Delete personnel record',
+    iconName: 'trash',
+    variant: 'danger',
+  },
 ])
 
 export const PERSONNEL_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([

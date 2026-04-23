@@ -90,14 +90,15 @@
       </div>
 
       <div class="grid gap-4 md:grid-cols-2">
-        <BaseTextField
+        <CompaniesSuggestionField
           v-model="form.companyId"
           :label="PERSONNEL_CREATE_COMPANY_ID_LABEL"
           :placeholder="PERSONNEL_CREATE_COMPANY_ID_PLACEHOLDER"
+          :battalion-id="form.battalionId"
           :error="errors.companyId"
         />
 
-        <BaseTextField
+        <BattalionsSuggestionField
           v-model="form.battalionId"
           :label="PERSONNEL_CREATE_BATTALION_ID_LABEL"
           :placeholder="PERSONNEL_CREATE_BATTALION_ID_PLACEHOLDER"
@@ -135,7 +136,10 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
+import BattalionsSuggestionField from '~/components/general/BattalionsSuggestionField.vue'
+import CompaniesSuggestionField from '~/components/general/CompaniesSuggestionField.vue'
 import {
+
   PERSONNEL_CREATE_BATTALION_ID_LABEL,
   PERSONNEL_CREATE_BATTALION_ID_PLACEHOLDER,
   PERSONNEL_CREATE_BIRTHDATE_LABEL,

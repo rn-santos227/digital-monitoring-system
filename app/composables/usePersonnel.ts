@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { usePersonnelStore } from '~/stores/personnel'
-import type { CreatePersonnelPayload, PersonnelSearchQuery } from '~/types/domain/personnel'
+import type { CreatePersonnelPayload, PersonnelSearchQuery, UpdatePersonnelPayload } from '~/types/domain/personnel'
 
 export const usePersonnel = () => {
   const personnelStore = usePersonnelStore()
@@ -36,6 +36,20 @@ export const usePersonnel = () => {
     await loadPersonnel(1, filters.value)
   }
 
+ const updatePersonnel = async (id: string, payload: UpdatePersonnelPayload) => {
+    await personnelStore.updatePersonnel(id, payload)
+    await loadPersonnel(pagination.value.page, filters.value)
+  }
+
+  const deletePersonnel = async (id: string) => {
+    await personnelStore.deletePersonnel(id)
+    await loadPersonnel(pagination.value.page, filters.value)
+  }
+
+  const getPersonnelById = async (id: string) => {
+    return await personnelStore.fetchPersonnelById(id)
+  }
+
   return {
     filters,
     tableRows,
@@ -44,5 +58,8 @@ export const usePersonnel = () => {
     error,
     loadPersonnel,
     createPersonnel,
+    updatePersonnel,
+    deletePersonnel,
+    getPersonnelById,
   }
 }

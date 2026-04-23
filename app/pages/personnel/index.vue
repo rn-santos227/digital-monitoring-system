@@ -39,6 +39,8 @@
           :current-page="pagination.page"
           :total-pages="pagination.totalPages"
           :can-view-personnel="canViewPersonnel"
+          :can-edit-personnel="canEditPersonnel"
+          :can-delete-personnel="canDeletePersonnel"
           @update:current-page="handlePageChange"
           @action="handleTableAction"
         />
@@ -49,6 +51,13 @@
         @close="closeCreatePersonnelModal"
         @submit="handleCreatePersonnel"
       />
+
+      <UpdatePersonnelModal
+        v-if="isUpdatePersonnelModalOpen && selectedPersonnel"
+        :initial-values="selectedPersonnel"
+        @close="closeUpdatePersonnelModal"
+        @submit="handleUpdatePersonnel"
+      />
     </section>
   </main>
 </template>
@@ -58,6 +67,7 @@ import { computed, ref, watch } from 'vue'
 import CreatePersonnelModal from '~/components/personnel/CreatePersonnelModal.vue'
 import PersonnelFilter from '~/components/personnel/PersonnelFilter.vue'
 import PersonnelTable from '~/components/personnel/PersonnelTable.vue'
+import UpdatePersonnelModal from '~/components/personnel/UpdatePersonnelModal.vue'
 import {
   PERSONNEL_CREATE_BUTTON_LABEL,
   PERSONNEL_PAGE_REQUIRED_PERMISSIONS,
@@ -70,21 +80,25 @@ import {
   PERSONNEL_PAGE_HEADER_CLASSES,
   PERSONNEL_TABLE_ACTIONS_ROW_CLASSES,
 } from '~/constants/shared.constants'
+import { useDialog } from '~/composables/useDialog'
 import { usePersonnel } from '~/composables/usePersonnel'
 import { useToast } from '~/composables/useToast'
 import { useCreatePersonnelModalHandler, usePersonnelPageHandlers, useViewPersonnelProfileHandler } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
-import type { CreatePersonnelPayload, PersonnelSearchQuery } from '~/types/domain/personnel'
+import type { CreatePersonnelPayload, PersonnelDetail, PersonnelSearchQuery, UpdatePersonnelPayload } from '~/types/domain/personnel'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
-const { filters, tableRows, pagination, isLoading, error, loadPersonnel, createPersonnel } = usePersonnel()
+const { filters, tableRows, pagination, isLoading, error, loadPersonnel, createPersonnel, updatePersonnel, deletePersonnel, getPersonnelById } = usePersonnel()
 const { handleFilterApply, handleFilterReset } = usePersonnelPageHandlers(filters)
 const { handleViewPersonnelProfile } = useViewPersonnelProfileHandler()
 const authStore = useAuthStore()
 const { addToast } = useToast()
+const { showDialog } = useDialog()
 
 const filterValidationErrors = ref<FieldValidationMap>({})
 const isCreatePersonnelModalOpen = ref(false)
+const isUpdatePersonnelModalOpen = ref(false)
+const selectedPersonnel = ref<PersonnelDetail | null>(null)
 const { openCreatePersonnelModal, closeCreatePersonnelModal } = useCreatePersonnelModalHandler(isCreatePersonnelModalOpen)
 
 const canViewPersonnel = computed(() => {
@@ -93,6 +107,14 @@ const canViewPersonnel = computed(() => {
 
 const canCreatePersonnel = computed(() => {
   return authStore.hasPermissionAccess(PERSONNEL_PAGE_REQUIRED_PERMISSIONS.create)
+})
+
+const canEditPersonnel = computed(() => {
+  return authStore.hasPermissionAccess(PERSONNEL_PAGE_REQUIRED_PERMISSIONS.edit)
+})
+
+const canDeletePersonnel = computed(() => {
+  return authStore.hasPermissionAccess(PERSONNEL_PAGE_REQUIRED_PERMISSIONS.delete)
 })
 
 watch(canViewPersonnel, (hasAccess) => {
@@ -147,11 +169,84 @@ const handleCreatePersonnel = async (payload: CreatePersonnelPayload) => {
   }
 }
 
-const handleTableAction = async (payload: { actionKey: string; row: { id: string } }) => {
-  if (payload.actionKey !== 'view-personnel-profile') {
+const closeUpdatePersonnelModal = () => {
+  isUpdatePersonnelModalOpen.value = false
+  selectedPersonnel.value = null
+}
+
+const handleUpdatePersonnel = async (payload: UpdatePersonnelPayload) => {
+  if (!selectedPersonnel.value) {
     return
   }
 
-  await handleViewPersonnelProfile(payload.row.id)
+  try {
+    await updatePersonnel(selectedPersonnel.value.id, payload)
+    closeUpdatePersonnelModal()
+    addToast({
+      title: 'Personnel updated',
+      message: 'Personnel record has been updated successfully.',
+      variant: 'success',
+    })
+  } catch {
+    addToast({
+      title: 'Personnel update failed',
+      message: 'Unable to update personnel record right now.',
+      variant: 'error',
+    })
+  }
+}
+
+const handleDeletePersonnel = async (id: string) => {
+  const result = await showDialog({
+    type: 'warning',
+    title: 'Delete personnel record?',
+    message: 'This action cannot be undone. Do you want to continue?',
+    confirmLabel: 'Delete',
+    cancelLabel: 'Cancel',
+  })
+
+  if (!result.confirmed) {
+    return
+  }
+
+  try {
+    await deletePersonnel(id)
+    addToast({
+      title: 'Personnel deleted',
+      message: 'Personnel record has been deleted successfully.',
+      variant: 'success',
+    })
+  } catch {
+    addToast({
+      title: 'Personnel deletion failed',
+      message: 'Unable to delete personnel record right now.',
+      variant: 'error',
+    })
+  }
+}
+
+const handleTableAction = async (payload: { actionKey: string; row: { id: string } }) => {
+  if (payload.actionKey === 'view-personnel-profile') {
+    await handleViewPersonnelProfile(payload.row.id)
+    return
+  }
+
+  if (payload.actionKey === 'edit-personnel') {
+    try {
+      selectedPersonnel.value = await getPersonnelById(payload.row.id)
+      isUpdatePersonnelModalOpen.value = Boolean(selectedPersonnel.value)
+    } catch {
+      addToast({
+        title: 'Personnel load failed',
+        message: 'Unable to load personnel details for editing.',
+        variant: 'error',
+      })
+    }
+    return
+  }
+
+  if (payload.actionKey === 'delete-personnel') {
+    await handleDeletePersonnel(payload.row.id)
+  }
 }
 </script>

@@ -150,6 +150,31 @@ export interface CreatePersonnelResponse {
   id: string
 }
 
+export interface UpdatePersonnelPayload {
+  personnelCode: string
+  serviceNumber: string
+  lastName: string
+  firstName: string
+  middleName: string | null
+  sex: Sex
+  birthdate: string | null
+  rankId: string
+  companyId: string | null
+  battalionId: string | null
+  employmentStatusId: string
+  serviceStatusId: string
+  contactNumber: string | null
+  dateEnlisted: string | null
+}
+
+export interface UpdatePersonnelResponse {
+  ok: boolean
+}
+
+export interface DeletePersonnelResponse {
+  ok: boolean
+}
+
 export interface PersonnelDetail {
   id: string
   personnelCode: string

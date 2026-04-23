@@ -48,11 +48,15 @@ const props = withDefaults(defineProps<{
   currentPage?: number
   totalPages?: number
   canViewPersonnel?: boolean
+  canEditPersonnel?: boolean
+  canDeletePersonnel?: boolean
 }>(), {
   isLoading: false,
   currentPage: 1,
   totalPages: 1,
   canViewPersonnel: false,
+  canEditPersonnel: false,
+  canDeletePersonnel: false,
 })
 
 const emit = defineEmits<{
@@ -65,6 +69,16 @@ const visibleActions = computed(() => {
     return []
   }
 
-  return PERSONNEL_TABLE_ACTIONS
+  return PERSONNEL_TABLE_ACTIONS.filter((action) => {
+    if (action.key === 'edit-personnel') {
+      return props.canEditPersonnel
+    }
+
+    if (action.key === 'delete-personnel') {
+      return props.canDeletePersonnel
+    }
+
+    return true
+  })
 })
 </script>

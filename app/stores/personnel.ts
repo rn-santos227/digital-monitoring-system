@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import type {
   CreatePersonnelPayload,
+  UpdatePersonnelPayload,
   PersonnelDetail,
   PersonnelEndpointQuery,
   PersonnelListCompactItem,
@@ -11,9 +12,11 @@ import type {
 import { extractApiErrorMessage } from '~/utils/api-request'
 import {
   createPersonnelEndpoint,
+  deletePersonnelEndpoint,
   getPersonnelByIdEndpoint,
   getPersonnelEndpoint,
   searchPersonnelEndpoint,
+  updatePersonnelEndpoint,
 } from '~/utils/personnel-endpoints'
 
 const DEFAULT_PAGINATION: PersonnelTablePagination = {
@@ -125,6 +128,34 @@ const personnelStoreOptions = {
         return await getPersonnelByIdEndpoint(id)
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to fetch personnel profile details.')
+        throw error
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    async updatePersonnel(this: PersonnelState, id: string, payload: UpdatePersonnelPayload) {
+      this.isLoading = true
+      this.error = ''
+
+      try {
+        return await updatePersonnelEndpoint(id, payload)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to update personnel record.')
+        throw error
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    async deletePersonnel(this: PersonnelState, id: string) {
+      this.isLoading = true
+      this.error = ''
+
+      try {
+        return await deletePersonnelEndpoint(id)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to delete personnel record.')
         throw error
       } finally {
         this.isLoading = false

@@ -3,12 +3,15 @@ import type {
   PersonnelEndpointQuery,
   CreatePersonnelPayload,
   CreatePersonnelResponse,
+  DeletePersonnelResponse,
   PersonnelDetail,
   PersonnelListCompactResponse,
   PersonnelListResponse,
   PersonnelSearchQuery,
   PersonnelSuggestionsEndpointResponse,
   PersonnelSuggestionsQuery,
+  UpdatePersonnelPayload,
+  UpdatePersonnelResponse,
 } from '~/types/domain/personnel'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
@@ -62,4 +65,26 @@ export const getPersonnelByIdEndpoint = async (id: string): Promise<PersonnelDet
       headers: createSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchPersonnelDetails)
+}
+
+export const updatePersonnelEndpoint = async (
+  id: string,
+  payload: UpdatePersonnelPayload
+): Promise<UpdatePersonnelResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<UpdatePersonnelResponse>(PERSONNEL_API_ENDPOINTS.personnelById(id), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updatePersonnel)
+}
+
+export const deletePersonnelEndpoint = async (id: string): Promise<DeletePersonnelResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<DeletePersonnelResponse>(PERSONNEL_API_ENDPOINTS.personnelById(id), {
+      method: 'DELETE',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.deletePersonnel)
 }
