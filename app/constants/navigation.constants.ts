@@ -15,7 +15,7 @@ export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.
       },
 
       { label: 'Personnel', to: ROUTE_PATHS.personnel, icon: 'users' },
-      { label: 'Battalions & Companies', to: ROUTE_PATHS.battalions, icon: 'building' },
+      { label: 'Battalions & Companies', to: ROUTE_PATHS.units, icon: 'building' },
       { label: 'Service & Employment Status', to: ROUTE_PATHS.serviceStatuses, icon: 'clipboard' }
     ]
   },

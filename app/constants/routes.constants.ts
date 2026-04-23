@@ -5,7 +5,7 @@ export const ROUTE_PATHS = Object.freeze({
   users: '/users',
   personnel: '/personnel',
   personnelProfile: (id: string) => `/personnel/${id}`,
-  battalions: '/battalions',
+  units: '/units',
   serviceStatuses: '/service-statuses',
   trainingRecords: '/training-records',
   deploymentRecords: '/deployment-records',
