@@ -25,5 +25,24 @@ export default defineEventHandler(async (event): Promise<CompanyDetailResponse> 
     throw createError({ statusCode: 404, statusMessage: 'Company not found.' })
   }
 
-  return mapCompanyListItem(data)
+  const [personnelResult, assetsResult] = await Promise.all([
+    supabase.from('vw_personnel_profile').select('id', { count: 'exact', head: true }).eq('company_id', id),
+    supabase.from('equipment_assets').select('id', { count: 'exact', head: true }).eq('assigned_company_id', id),
+  ])
+
+  if (personnelResult.error) {
+    throw createError({ statusCode: 500, statusMessage: `Failed to fetch company personnel count: ${personnelResult.error.message}` })
+  }
+
+  if (assetsResult.error) {
+    throw createError({ statusCode: 500, statusMessage: `Failed to fetch company equipment asset count: ${assetsResult.error.message}` })
+  }
+
+  const company = mapCompanyListItem(data)
+
+  return {
+    ...company,
+    personnelCount: personnelResult.count ?? 0,
+    equipmentAssetCount: assetsResult.count ?? 0,
+  }
 })
