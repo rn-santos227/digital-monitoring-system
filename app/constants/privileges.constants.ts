@@ -12,6 +12,14 @@ export const PRIVILEGE_CODES = Object.freeze({
   accountTypeCreate: 'account_type.create',
   accountTypeUpdate: 'account_type.update',
   accountTypeDelete: 'account_type.delete',
+  battalionView: 'battalion.view',
+  battalionCreate: 'battalion.create',
+  battalionUpdate: 'battalion.update',
+  battalionDelete: 'battalion.delete',
+  companyView: 'company.view',
+  companyCreate: 'company.create',
+  companyUpdate: 'company.update',
+  companyDelete: 'company.delete',
 })
 
 export const USER_PROFILE_PRIVILEGES = Object.freeze({
@@ -38,3 +46,18 @@ export const PERSONNEL_PRIVILEGES = Object.freeze({
   edit: Object.freeze([PRIVILEGE_CODES.personnelUpdate]),
   delete: Object.freeze([PRIVILEGE_CODES.personnelDelete]),
 })
+
+export const BATTALION_PRIVILEGES = Object.freeze({
+  view: Object.freeze([PRIVILEGE_CODES.battalionView]),
+  create: Object.freeze([PRIVILEGE_CODES.battalionCreate]),
+  edit: Object.freeze([PRIVILEGE_CODES.battalionUpdate]),
+  delete: Object.freeze([PRIVILEGE_CODES.battalionDelete]),
+})
+
+export const COMPANY_PRIVILEGES = Object.freeze({
+  view: Object.freeze([PRIVILEGE_CODES.companyView]),
+  create: Object.freeze([PRIVILEGE_CODES.companyCreate]),
+  edit: Object.freeze([PRIVILEGE_CODES.companyUpdate]),
+  delete: Object.freeze([PRIVILEGE_CODES.companyDelete]),
+})
+

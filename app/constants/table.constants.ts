@@ -154,3 +154,21 @@ export const USERS_ACCOUNT_TABLE_ACTIONS: readonly DataTableAction[] = Object.fr
     variant: 'danger',
   },
 ])
+
+export const BATTALIONS_TABLE_TITLE = 'Battalions'
+export const BATTALIONS_TABLE_EMPTY_MESSAGE = 'No battalion records found.'
+export const BATTALIONS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'code', label: 'Code', sortable: true },
+  { key: 'name', label: 'Name', sortable: true },
+  { key: 'status', label: 'Status', sortable: true },
+  { key: 'companyCount', label: 'Companies', sortable: true },
+])
+
+export const COMPANIES_TABLE_TITLE = 'Companies'
+export const COMPANIES_TABLE_EMPTY_MESSAGE = 'No company records found.'
+export const COMPANIES_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'code', label: 'Code', sortable: true },
+  { key: 'name', label: 'Name', sortable: true },
+  { key: 'battalion', label: 'Battalion', sortable: false },
+  { key: 'status', label: 'Status', sortable: true },
+])

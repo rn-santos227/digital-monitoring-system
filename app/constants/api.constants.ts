@@ -22,6 +22,13 @@ export const USER_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   privileges: '/api/privileges',
 })
 
+export const UNIT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
+  battalions: '/api/battalions',
+  battalionsSearch: '/api/battalions/search',
+  companies: '/api/companies',
+  companiesSearch: '/api/companies/search',
+})
+
 export const PERSONNEL_API_ENDPOINTS = Object.freeze({
   personnel: '/api/personnel',
   personnelSearch: '/api/personnel/search',
@@ -58,4 +65,6 @@ export const API_LOADING_MESSAGES = Object.freeze({
   fetchPersonnel: 'Loading personnel records...',
   fetchPersonnelDetails: 'Loading personnel profile...',
   createPersonnel: 'Creating personnel record...',
+  fetchBattalions: 'Loading battalion records...',
+  fetchCompanies: 'Loading company records...',
 })
