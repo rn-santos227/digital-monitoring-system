@@ -1,8 +1,9 @@
 import type { BaseTabItem } from '~/constants/ui.constants'
-import { ACCOUNT_TYPE_PRIVILEGES, PERSONNEL_PRIVILEGES, USER_PROFILE_PRIVILEGES } from '~/constants/privileges.constants'
+import { ACCOUNT_TYPE_PRIVILEGES, BATTALION_PRIVILEGES, COMPANY_PRIVILEGES, PERSONNEL_PRIVILEGES, USER_PROFILE_PRIVILEGES } from '~/constants/privileges.constants'
 import type { DashboardMetric } from '~/types/domain/misc'
 import type { PersonnelProfileTabId } from '~/types/domain/personnel'
 import type { UserManagementTabId } from '~/types/domain/users'
+import type { UnitManagementTabId } from '~/types/domain/units'
 
 export const DASHBOARD_PAGE_TITLE = 'Dashboard'
 export const DASHBOARD_PAGE_SUBTITLE = 'AFP personnel readiness and equipment handling overview.'
@@ -167,6 +168,60 @@ export const PERSONNEL_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: 'lastName', label: 'Last Name' },
   { value: 'firstName', label: 'First Name' },
   { value: 'rankName', label: 'Rank' },
+])
+
+export const UNITS_PAGE_TITLE = 'Battalions and Companies'
+export const UNITS_PAGE_SUBTITLE =
+  'Monitor battalion and company unit records with searchable operational tables.'
+export const UNITS_PAGE_SECTION_CLASSES = 'space-y-6'
+export const UNITS_PAGE_TABS_ARIA_LABEL = 'Battalions and companies tabs'
+export const UNITS_BATTALION_TAB_LABEL = 'Battalions'
+export const UNITS_COMPANY_TAB_LABEL = 'Companies'
+export const UNITS_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
+  { id: 'battalion', label: UNITS_BATTALION_TAB_LABEL },
+  { id: 'company', label: UNITS_COMPANY_TAB_LABEL },
+])
+export const UNITS_PAGE_TAB_REQUIRED_PERMISSIONS: Readonly<Record<UnitManagementTabId, readonly string[]>> = Object.freeze({
+  battalion: BATTALION_PRIVILEGES.view,
+  company: COMPANY_PRIVILEGES.view,
+})
+
+export const BATTALIONS_FILTER_CARD_TITLE = 'Filter Battalions'
+export const BATTALIONS_FILTER_TERM_LABEL = 'Search Term'
+export const BATTALIONS_FILTER_TERM_PLACEHOLDER = 'Search battalion value'
+export const BATTALIONS_FILTER_FIELDS_LABEL = 'Search Field'
+export const BATTALIONS_FILTER_STATUS_LABEL = 'Status'
+export const BATTALIONS_FILTER_APPLY_LABEL = 'Apply Filters'
+export const BATTALIONS_FILTER_RESET_LABEL = 'Reset'
+export const BATTALIONS_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: '', label: 'All searchable fields' },
+  { value: 'code', label: 'Code' },
+  { value: 'name', label: 'Name' },
+])
+export const BATTALIONS_FILTER_STATUS_OPTIONS = Object.freeze([
+  { value: '', label: 'All statuses' },
+  { value: 'active', label: 'Active' },
+  { value: 'inactive', label: 'Inactive' },
+])
+
+export const COMPANIES_FILTER_CARD_TITLE = 'Filter Companies'
+export const COMPANIES_FILTER_TERM_LABEL = 'Search Term'
+export const COMPANIES_FILTER_TERM_PLACEHOLDER = 'Search company value'
+export const COMPANIES_FILTER_FIELDS_LABEL = 'Search Field'
+export const COMPANIES_FILTER_STATUS_LABEL = 'Status'
+export const COMPANIES_FILTER_BATTALION_ID_LABEL = 'Battalion ID'
+export const COMPANIES_FILTER_BATTALION_ID_PLACEHOLDER = 'Enter battalion id'
+export const COMPANIES_FILTER_APPLY_LABEL = 'Apply Filters'
+export const COMPANIES_FILTER_RESET_LABEL = 'Reset'
+export const COMPANIES_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: '', label: 'All searchable fields' },
+  { value: 'code', label: 'Code' },
+  { value: 'name', label: 'Name' },
+])
+export const COMPANIES_FILTER_STATUS_OPTIONS = Object.freeze([
+  { value: '', label: 'All statuses' },
+  { value: 'active', label: 'Active' },
+  { value: 'inactive', label: 'Inactive' },
 ])
 
 export const USERS_PAGE_TITLE = 'Users Management'
