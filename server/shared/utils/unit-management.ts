@@ -116,3 +116,27 @@ const toPersonnelFullName = (row: UnitEquipmentAssetRow): string | null => {
   return fullName.length > 0 ? fullName : null
 }
 
+export const mapUnitEquipmentAssetListItem = (row: UnitEquipmentAssetRow): UnitEquipmentAssetListItem => {
+  return {
+    id: row.equipment_asset_id,
+    assetTag: row.asset_tag,
+    serialNo: row.serial_no,
+    equipmentCode: row.equipment_code,
+    itemName: row.item_name,
+    categoryCode: row.category_code,
+    categoryName: row.category_name,
+    assignedPersonnelCode: row.assigned_personnel_code,
+    assignedPersonnelName: toPersonnelFullName(row),
+    assignedCompanyCode: row.assigned_company_code,
+    assignedCompanyName: row.assigned_company_name,
+    assignedBattalionCode: row.assigned_battalion_code,
+    assignedBattalionName: row.assigned_battalion_name,
+    currentLocation: row.current_location,
+    conditionStatus: row.condition_status,
+    serviceabilityStatus: row.serviceability_status,
+    assetStatus: row.asset_status,
+    latestIssueNo: row.latest_issue_no,
+    latestIssueDate: row.latest_issue_date,
+    latestIssuanceStatus: row.latest_issuance_status,
+  }
+}
