@@ -23,3 +23,59 @@ const INITIAL_BATTALIONS_STATE: BattalionsState = {
   error: '',
 }
 
+const battalionsStoreOptions = {
+  state: (): BattalionsState => ({
+    ...INITIAL_BATTALIONS_STATE,
+    pagination: { ...DEFAULT_PAGINATION },
+  }),
+
+  getters: {
+    hasBattalions: (state: BattalionsState) => state.items.length > 0,
+  },
+
+  actions: {
+    async fetchBattalions(this: BattalionsState, page = 1, filters: Partial<BattalionSearchQuery> = {}) {
+      this.isLoading = true
+      this.error = ''
+
+      const requestQuery: BattalionSearchQuery = {
+        page,
+        pageSize: this.pagination.pageSize,
+        term: filters.term?.trim() || undefined,
+        fields: filters.fields?.trim() || undefined,
+        isActive: typeof filters.isActive === 'boolean' ? filters.isActive : undefined,
+      }
+
+      const hasSearchFilters = Boolean(requestQuery.term || typeof requestQuery.isActive === 'boolean')
+
+      try {
+        const response = hasSearchFilters
+          ? await searchBattalionsEndpoint(requestQuery)
+          : await getBattalionsEndpoint(requestQuery as BattalionEndpointQuery)
+
+        this.items = response.items.map((item): BattalionListItem => ({
+          id: item.id,
+          code: item.code,
+          name: item.name,
+          isActive: item.isActive,
+          companyCount: item.companyCount,
+        }))
+        this.pagination = {
+          page: response.page,
+          pageSize: response.pageSize,
+          totalItems: response.totalItems,
+          totalPages: response.totalPages,
+        }
+      } catch (error) {
+        this.items = []
+        this.pagination = { ...DEFAULT_PAGINATION }
+        this.error = extractApiErrorMessage(error, 'Unable to fetch battalions.')
+        throw error
+      } finally {
+        this.isLoading = false
+      }
+    },
+  },
+}
+
+export const useBattalionsStore = defineStore('battalions', battalionsStoreOptions)
