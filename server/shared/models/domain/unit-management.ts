@@ -27,6 +27,17 @@ export interface CompanyListItem {
   updatedAt: string
 }
 
+export interface BattalionDetailItem extends BattalionListItem {
+  companyCount: number
+  personnelCount: number
+  equipmentAssetCount: number
+}
+
+export interface CompanyDetailItem extends CompanyListItem {
+  personnelCount: number
+  equipmentAssetCount: number
+}
+
 export interface BattalionRow {
   id: string
   code: string
