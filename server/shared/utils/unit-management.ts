@@ -71,7 +71,6 @@ export const mapCompanyListItem = (row: CompanyRow): CompanyListItem => {
   }
 }
 
-
 export const mapBattalionSuggestionItem = (row: Pick<BattalionRow, 'id' | 'code' | 'name' | 'is_active'>): BattalionSuggestionItem => ({
   id: row.id,
   code: row.code,
@@ -142,7 +141,11 @@ export const mapUnitEquipmentAssetListItem = (row: UnitEquipmentAssetRow): UnitE
 }
 
 export const assertBattalionExists = async (args: {
-  supabase: {
+  supabase: unknown
+  battalionId: string
+  idSelectColumns: string
+}) => {
+  const supabaseClient = args.supabase as {
     from: (table: string) => {
       select: (columns: string) => {
         eq: (column: string, value: string) => {
@@ -151,10 +154,8 @@ export const assertBattalionExists = async (args: {
       }
     }
   }
-  battalionId: string
-  idSelectColumns: string
-}) => {
-  const { data, error } = await args.supabase
+
+  const { data, error } = await supabaseClient
     .from('battalions')
     .select(args.idSelectColumns)
     .eq('id', args.battalionId)
@@ -170,7 +171,11 @@ export const assertBattalionExists = async (args: {
 }
 
 export const assertCompanyExists = async (args: {
-  supabase: {
+  supabase: unknown
+  companyId: string
+  idSelectColumns: string
+}) => {
+  const supabaseClient = args.supabase as {
     from: (table: string) => {
       select: (columns: string) => {
         eq: (column: string, value: string) => {
@@ -179,10 +184,8 @@ export const assertCompanyExists = async (args: {
       }
     }
   }
-  companyId: string
-  idSelectColumns: string
-}) => {
-  const { data, error } = await args.supabase
+
+  const { data, error } = await supabaseClient
     .from('companies')
     .select(args.idSelectColumns)
     .eq('id', args.companyId)
