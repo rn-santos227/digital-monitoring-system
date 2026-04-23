@@ -94,3 +94,25 @@ export const mapCompanySuggestionItem = (
     isActive: row.is_active,
   }
 }
+
+export const mapUnitPersonnelListItem = (row: UnitPersonnelProfileRow): UnitPersonnelListItem => {
+  return {
+    id: row.id,
+    personnelCode: row.personnel_code,
+    serviceNumber: row.service_number,
+    fullName: row.full_name,
+    rankName: row.rank_name,
+    companyName: row.company_name,
+    battalionName: row.battalion_name,
+    serviceStatus: row.service_status,
+  }
+}
+
+const toPersonnelFullName = (row: UnitEquipmentAssetRow): string | null => {
+  const firstName = row.assigned_personnel_first_name?.trim() ?? ''
+  const lastName = row.assigned_personnel_last_name?.trim() ?? ''
+  const fullName = `${firstName} ${lastName}`.trim()
+
+  return fullName.length > 0 ? fullName : null
+}
+
