@@ -51,25 +51,32 @@ This document summarizes all API handlers currently under `server/api`.
 
 | Method | Endpoint | Request | Response |
 | --- | --- | --- | --- |
-| GET | `/api/battalions` | Query: pagination (`page`, `pageSize`) | `BattalionListResponse` |
-| GET | `/api/battalions/search` | Query: pagination (`page`, `pageSize`) and optional `search` | `BattalionListResponse` |
 | GET | `/api/battalions/suggestions` | Query: `term`, optional `pageSize`, optional `selectedId` | `BattalionSuggestionsResponse` |
 | GET | `/api/battalions/:id` | Path: `id` | `BattalionDetailResponse` |
+| GET | `/api/battalions/:id/companies` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search`, optional `includeInactive` | `BattalionCompanyListResponse` |
+| GET | `/api/battalions/:id/personnel` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search` | `BattalionPersonnelListResponse` |
+| GET | `/api/battalions/:id/equipment-assets` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search` | `BattalionEquipmentAssetListResponse` |
 | POST | `/api/battalions` | Body: `CreateBattalionRequest` | `{ ok: true, id }` |
 | PATCH | `/api/battalions/:id` | Path: `id`; Body: `UpdateBattalionRequest` | `MutationSuccessResponse` |
 | DELETE | `/api/battalions/:id` | Path: `id` | `MutationSuccessResponse` |
+
+`BattalionDetailResponse` includes summary counters: `companyCount`, `personnelCount`, and `equipmentAssetCount`.
 
 ## Companies
 
 | Method | Endpoint | Request | Response |
 | --- | --- | --- | --- |
-| GET | `/api/companies` | Query: pagination (`page`, `pageSize`) | `CompanyListResponse` |
 | GET | `/api/companies/search` | Query: pagination (`page`, `pageSize`) and optional `search` | `CompanyListResponse` |
 | GET | `/api/companies/suggestions` | Query: `term`, optional `pageSize`, optional `selectedId`, optional `battalionId` | `CompanySuggestionsResponse` |
 | GET | `/api/companies/:id` | Path: `id` | `CompanyDetailResponse` |
+| GET | `/api/companies/:id/personnel` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search` | `CompanyPersonnelListResponse` |
+| GET | `/api/companies/:id/equipment-assets` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search` | `CompanyEquipmentAssetListResponse` |
+| GET | `/api/companies/personnel` | Query: pagination (`page`, `pageSize`), optional `search`, optional `companyId`, optional `battalionId` | `CompanyPersonnelListResponse` |
 | POST | `/api/companies` | Body: `CreateCompanyRequest` | `{ ok: true, id }` |
 | PATCH | `/api/companies/:id` | Path: `id`; Body: `UpdateCompanyRequest` | `MutationSuccessResponse` |
 | DELETE | `/api/companies/:id` | Path: `id` | `MutationSuccessResponse` |
+
+`CompanyDetailResponse` includes summary counters: `personnelCount` and `equipmentAssetCount`.
 
 ## Personnel
 
