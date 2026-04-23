@@ -14,4 +14,56 @@ import { requireRouteId } from '../../../shared/validations'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 
+export default defineEventHandler(async (event): Promise<CompanyPersonnelListResponse> => {
+  await requireAnyPermission(event, UNIT_PERMISSION_GROUPS.companyManagement)
 
+  const companyId = requireRouteId(getRouterParam(event, 'id'), 'Company id is required.')
+  const query = getQuery(event)
+  const search = typeof query.search === 'string' ? query.search.trim() : ''
+  const { page, pageSize, rangeFrom, rangeTo } = parseManagementPaginationQuery({
+    page: query.page,
+    pageSize: query.pageSize,
+  })
+
+  const supabase = getServiceSupabaseClient()
+  await assertCompanyExists({
+    supabase,
+    companyId,
+    idSelectColumns: ID_ONLY_SELECT_COLUMNS,
+  })
+
+  let personnelQuery = supabase
+    .from('vw_personnel_profile')
+    .select(COMPANY_PERSONNEL_LIST_SELECT_COLUMNS, { count: 'exact' })
+    .eq('company_id', companyId)
+    .order('last_name', { ascending: true })
+    .order('first_name', { ascending: true })
+    .range(rangeFrom, rangeTo)
+
+  if (search.length > 0) {
+    personnelQuery = personnelQuery.or([
+      `personnel_code.ilike.%${search}%`,
+      `service_number.ilike.%${search}%`,
+      `last_name.ilike.%${search}%`,
+      `first_name.ilike.%${search}%`,
+    ].join(','))
+  }
+
+  const { data, count, error } = await personnelQuery
+
+  if (error) {
+    throw createError({ statusCode: 500, statusMessage: `Failed to fetch company personnel: ${error.message}` })
+  }
+
+  const items = (data ?? []).map(mapUnitPersonnelListItem)
+  const totalItems = count ?? 0
+  const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
+
+  return {
+    items,
+    page,
+    pageSize,
+    totalItems,
+    totalPages,
+  }
+})
