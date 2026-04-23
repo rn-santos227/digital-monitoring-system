@@ -140,3 +140,31 @@ export const mapUnitEquipmentAssetListItem = (row: UnitEquipmentAssetRow): UnitE
     latestIssuanceStatus: row.latest_issuance_status,
   }
 }
+
+export const assertBattalionExists = async (args: {
+  supabase: {
+    from: (table: string) => {
+      select: (columns: string) => {
+        eq: (column: string, value: string) => {
+          maybeSingle: () => Promise<{ data: { id: string } | null; error: { message: string } | null }>
+        }
+      }
+    }
+  }
+  battalionId: string
+  idSelectColumns: string
+}) => {
+  const { data, error } = await args.supabase
+    .from('battalions')
+    .select(args.idSelectColumns)
+    .eq('id', args.battalionId)
+    .maybeSingle()
+
+  if (error) {
+    throw createError({ statusCode: 500, statusMessage: `Failed to validate battalion reference: ${error.message}` })
+  }
+
+  if (!data) {
+    throw createError({ statusCode: 404, statusMessage: 'Battalion not found.' })
+  }
+}
