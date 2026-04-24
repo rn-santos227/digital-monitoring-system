@@ -36,7 +36,7 @@ import {
   getBattalionCount,
   getCompanyCount,
   getPersonnelCount,
-} from '~/utils/dashboard-endpoint'
+} from '~/utils/dashboard-endpoints'
 
 type DashboardKpiCard = (typeof DASHBOARD_KPI_CARDS)[number] & {
   loader: () => Promise<KpiCardLoaderResult>
