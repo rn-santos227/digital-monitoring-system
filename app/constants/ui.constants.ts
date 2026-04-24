@@ -1,6 +1,37 @@
 export type UiSize = 'sm' | 'md' | 'lg'
 export type UiTone = 'neutral' | 'success' | 'warning' | 'danger' | 'info'
 
+export type KpiTone = 'emerald' | 'sky' | 'violet' | 'amber'
+
+export interface KpiToneStyle {
+  iconWrapper: string
+  icon: string
+  context: string
+}
+
+export const KPI_TONE_STYLES: Record<KpiTone, KpiToneStyle> = {
+  emerald: {
+    iconWrapper: 'bg-emerald-100',
+    icon: 'text-emerald-700',
+    context: 'text-emerald-600',
+  },
+  sky: {
+    iconWrapper: 'bg-sky-100',
+    icon: 'text-sky-700',
+    context: 'text-sky-700',
+  },
+  violet: {
+    iconWrapper: 'bg-violet-100',
+    icon: 'text-violet-700',
+    context: 'text-violet-700',
+  },
+  amber: {
+    iconWrapper: 'bg-amber-100',
+    icon: 'text-amber-700',
+    context: 'text-amber-700',
+  },
+}
+
 export interface BaseTabItem {
   id: string
   label: string
