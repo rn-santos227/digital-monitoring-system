@@ -79,6 +79,10 @@ export const PERSONNEL_EQUIPMENT_ISSUANCE_LIST_SELECT_COLUMNS =
 export const PERSONNEL_SUGGESTION_SELECT_COLUMNS =
   'id, personnel_code, service_number, full_name, rank_name, company_name, battalion_name, service_status'
 
+export const RANK_LIST_SELECT_COLUMNS = 'id, code, name, sort_order, created_at, updated_at'
+export const RANK_SUGGESTION_SELECT_COLUMNS = 'id, code, name, sort_order'
+export const RANK_REFERENCE_ID_SELECT_COLUMNS = 'id'
+
 export const BATTALION_SELECT_COLUMNS = 'id, code, name, is_active, created_at, updated_at'
 export const BATTALION_SUGGESTION_SELECT_COLUMNS = 'id, code, name, is_active'
 export const BATTALION_REFERENCE_ID_SELECT_COLUMNS = 'id'
