@@ -199,9 +199,12 @@ export const UNITS_PAGE_TITLE = 'Battalions and Companies'
 export const UNITS_PAGE_SUBTITLE =
   'Monitor battalion and company unit records with searchable operational tables.'
 export const UNITS_PAGE_SECTION_CLASSES = 'space-y-6'
+export const UNITS_PAGE_KPI_GRID_CLASSES = 'grid gap-4 md:grid-cols-2 xl:grid-cols-3'
 export const UNITS_PAGE_TABS_ARIA_LABEL = 'Battalions and companies tabs'
 export const UNITS_BATTALION_TAB_LABEL = 'Battalions'
 export const UNITS_COMPANY_TAB_LABEL = 'Companies'
+export const UNITS_BATTALION_CREATE_BUTTON_LABEL = 'Create Battalion'
+export const UNITS_COMPANY_CREATE_BUTTON_LABEL = 'Create Company'
 export const UNITS_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
   { id: 'battalion', label: UNITS_BATTALION_TAB_LABEL },
   { id: 'company', label: UNITS_COMPANY_TAB_LABEL },
@@ -228,6 +231,29 @@ export const BATTALIONS_FILTER_STATUS_OPTIONS = Object.freeze([
   { value: 'active', label: 'Active' },
   { value: 'inactive', label: 'Inactive' },
 ])
+
+
+export const BATTALION_CREATE_MODAL_TITLE = 'Create Battalion Record'
+export const BATTALION_CREATE_MODAL_DESCRIPTION = 'Register a battalion unit for personnel and company assignment.'
+export const BATTALION_CREATE_CODE_LABEL = 'Battalion Code'
+export const BATTALION_CREATE_CODE_PLACEHOLDER = 'Enter battalion code'
+export const BATTALION_CREATE_NAME_LABEL = 'Battalion Name'
+export const BATTALION_CREATE_NAME_PLACEHOLDER = 'Enter battalion name'
+export const BATTALION_CREATE_ACTIVE_LABEL = 'Active Battalion'
+export const BATTALION_CREATE_ACTIVE_DESCRIPTION = 'Enable this battalion for assignment and operations.'
+
+export const COMPANY_CREATE_MODAL_TITLE = 'Create Company Record'
+export const COMPANY_CREATE_MODAL_DESCRIPTION = 'Register a company unit and optionally link it to a battalion.'
+export const COMPANY_CREATE_CODE_LABEL = 'Company Code'
+export const COMPANY_CREATE_CODE_PLACEHOLDER = 'Enter company code'
+export const COMPANY_CREATE_NAME_LABEL = 'Company Name'
+export const COMPANY_CREATE_NAME_PLACEHOLDER = 'Enter company name'
+export const COMPANY_CREATE_BATTALION_LABEL = 'Battalion'
+export const COMPANY_CREATE_BATTALION_PLACEHOLDER = 'Select battalion (optional)'
+export const COMPANY_CREATE_ACTIVE_LABEL = 'Active Company'
+export const COMPANY_CREATE_ACTIVE_DESCRIPTION = 'Enable this company for personnel assignment and operations.'
+export const UNITS_MODAL_CREATE_LABEL = 'Create'
+export const UNITS_MODAL_CANCEL_LABEL = 'Cancel'
 
 export const COMPANIES_FILTER_CARD_TITLE = 'Filter Companies'
 export const COMPANIES_FILTER_TERM_LABEL = 'Search Term'
