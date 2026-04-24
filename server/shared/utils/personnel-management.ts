@@ -4,9 +4,9 @@ import type {
   PersonnelProfileDetailRow,
   PersonnelProfileListRow,
 } from '../models'
+import { createError } from 'h3'
 import { parseNumber } from './parsers'
 import type { PersonnelDetailResponse, PersonnelListItemCompact, PersonnelSuggestionItem } from '../responses'
-
 
 interface PersonnelSuggestionRow {
   id: string
@@ -17,6 +17,20 @@ interface PersonnelSuggestionRow {
   company_name: string | null
   battalion_name: string | null
   service_status: string
+}
+
+
+const EMPLOYMENT_STATUS_NAMES = ['Regular', 'Contractual', 'Probationary', 'Separated'] as const
+const SERVICE_STATUS_NAMES = ['Active Duty', 'Reserve', 'Detached', 'On Leave', 'Retired'] as const
+
+interface PersonnelStatusLookupSupabaseClient {
+  from: (table: string) => {
+    select: (columns: string) => {
+      eq: (column: string, value: string) => {
+        maybeSingle: () => Promise<{ data: { id: string } | null; error: { message: string } | null }>
+      }
+    }
+  }
 }
 
 export const parsePersonnelSuggestionQuery = (query: {
@@ -115,3 +129,36 @@ export const mapPersonnelDetail = (row: PersonnelProfileDetailRow): PersonnelDet
   }
 }
 
+export const resolvePersonnelEmploymentStatusId = async (supabase: unknown, value: string): Promise<string> => {
+  const supabaseClient = supabase as PersonnelStatusLookupSupabaseClient
+  const isKnownName = EMPLOYMENT_STATUS_NAMES.includes(value as (typeof EMPLOYMENT_STATUS_NAMES)[number])
+  const filterField = isKnownName ? 'name' : 'id'
+  const { data, error } = await supabaseClient
+    .from('employment_statuses')
+    .select('id')
+    .eq(filterField, value)
+    .maybeSingle()
+
+  if (error || !data?.id) {
+    throw createError({ statusCode: 400, statusMessage: 'Invalid employment status value.' })
+  }
+
+  return data.id
+}
+
+export const resolvePersonnelServiceStatusId = async (supabase: unknown, value: string): Promise<string> => {
+  const supabaseClient = supabase as PersonnelStatusLookupSupabaseClient
+  const isKnownName = SERVICE_STATUS_NAMES.includes(value as (typeof SERVICE_STATUS_NAMES)[number])
+  const filterField = isKnownName ? 'name' : 'id'
+  const { data, error } = await supabaseClient
+    .from('service_statuses')
+    .select('id')
+    .eq(filterField, value)
+    .maybeSingle()
+
+  if (error || !data?.id) {
+    throw createError({ statusCode: 400, statusMessage: 'Invalid service status value.' })
+  }
+
+  return data.id
+}

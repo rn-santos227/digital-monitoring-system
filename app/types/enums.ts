@@ -1,12 +1,22 @@
 export const SEX_VALUES = Object.freeze(['Male', 'Female'] as const)
 export type Sex = (typeof SEX_VALUES)[number]
 
-export type ServiceStatusName =
-  | 'Active Duty'
-  | 'Reserve'
-  | 'Detached'
-  | 'On Leave'
-  | 'Retired'
+export const EMPLOYMENT_STATUS_VALUES = Object.freeze([
+  'Regular',
+  'Contractual',
+  'Probationary',
+  'Separated',
+] as const)
+export type EmploymentStatusName = (typeof EMPLOYMENT_STATUS_VALUES)[number]
+
+export const SERVICE_STATUS_VALUES = Object.freeze([
+  'Active Duty',
+  'Reserve',
+  'Detached',
+  'On Leave',
+  'Retired',
+] as const)
+export type ServiceStatusName = (typeof SERVICE_STATUS_VALUES)[number]
 
 export type TrainingStatusName = 'Planned' | 'Ongoing' | 'Completed' | 'Expired' | 'Cancelled'
 export type DeploymentStatusName = 'Planned' | 'Active' | 'Completed' | 'Cancelled'

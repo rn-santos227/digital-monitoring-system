@@ -8,6 +8,7 @@ import {
   PERSONNEL_REFERENCE_ID_SELECT_COLUMNS,
 } from '../../shared/constants'
 import { parseCreatePersonnelPayload } from '../../shared/validations'
+import { resolvePersonnelEmploymentStatusId, resolvePersonnelServiceStatusId } from '../../shared/utils'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
@@ -30,25 +31,8 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 400, statusMessage: 'Invalid rank id.' })
     }
 
-    const { data: employmentStatus, error: employmentStatusError } = await supabase
-      .from('employment_statuses')
-      .select(PERSONNEL_REFERENCE_ID_SELECT_COLUMNS)
-      .eq('id', payload.employment_status_id)
-      .maybeSingle()
-
-    if (employmentStatusError || !employmentStatus) {
-      throw createError({ statusCode: 400, statusMessage: 'Invalid employment status id.' })
-    }
-
-    const { data: serviceStatus, error: serviceStatusError } = await supabase
-      .from('service_statuses')
-      .select(PERSONNEL_REFERENCE_ID_SELECT_COLUMNS)
-      .eq('id', payload.service_status_id)
-      .maybeSingle()
-
-    if (serviceStatusError || !serviceStatus) {
-      throw createError({ statusCode: 400, statusMessage: 'Invalid service status id.' })
-    }
+    payload.employment_status_id = await resolvePersonnelEmploymentStatusId(supabase, payload.employment_status_id)
+    payload.service_status_id = await resolvePersonnelServiceStatusId(supabase, payload.service_status_id)
 
     if (payload.company_id) {
       const { data: company, error: companyError } = await supabase

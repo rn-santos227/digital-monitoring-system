@@ -10,6 +10,7 @@ import {
   PERSONNEL_REFERENCE_ID_SELECT_COLUMNS,
 } from '../../../shared/constants'
 import { buildPersonnelUpdates, ensurePersonnelUnitAssignmentAfterUpdate, requireRouteId } from '../../../shared/validations'
+import { resolvePersonnelEmploymentStatusId, resolvePersonnelServiceStatusId } from '../../../shared/utils'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
@@ -57,27 +58,11 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
     }
 
     if (typeof updates.employment_status_id === 'string') {
-      const { data: employmentStatus } = await supabase
-        .from('employment_statuses')
-        .select(PERSONNEL_REFERENCE_ID_SELECT_COLUMNS)
-        .eq('id', updates.employment_status_id)
-        .maybeSingle()
-
-      if (!employmentStatus) {
-        throw createError({ statusCode: 400, statusMessage: 'Invalid employment status id.' })
-      }
+      updates.employment_status_id = await resolvePersonnelEmploymentStatusId(supabase, updates.employment_status_id)
     }
 
     if (typeof updates.service_status_id === 'string') {
-      const { data: serviceStatus } = await supabase
-        .from('service_statuses')
-        .select(PERSONNEL_REFERENCE_ID_SELECT_COLUMNS)
-        .eq('id', updates.service_status_id)
-        .maybeSingle()
-
-      if (!serviceStatus) {
-        throw createError({ statusCode: 400, statusMessage: 'Invalid service status id.' })
-      }
+      updates.service_status_id = await resolvePersonnelServiceStatusId(supabase, updates.service_status_id)
     }
 
     if (typeof updates.company_id === 'string') {
