@@ -3,7 +3,7 @@ import {
   DEFAULT_SUPABASE_STORAGE_BUCKET,
   FILE_UPLOAD_BUCKET_ENV_KEYS,
   FILE_UPLOAD_PATH_PREFIX,
-} from '../constants'
+} from '../../config/storage-s3'
 import { normalizeFileName } from '../validations'
 
 export const resolveStorageBucketName = (): string => {
