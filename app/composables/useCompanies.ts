@@ -39,5 +39,6 @@ export const useCompanies = () => {
     isLoading,
     error,
     loadCompanies,
+    createCompany: companiesStore.createCompany,
   }
 }

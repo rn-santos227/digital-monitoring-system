@@ -39,5 +39,6 @@ export const useBattalions = () => {
     isLoading,
     error,
     loadBattalions,
+    createBattalion: battalionsStore.createBattalion,
   }
 }
