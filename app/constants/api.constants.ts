@@ -29,6 +29,10 @@ export const UNIT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   companiesSearch: '/api/companies/search',
 })
 
+export const DASHBOARD_API_ENDPOINTS = Object.freeze({
+  unitManagementKpis: '/api/dashboard/unit-management',
+})
+
 export const PERSONNEL_API_ENDPOINTS = Object.freeze({
   personnel: '/api/personnel',
   personnelSearch: '/api/personnel/search',
@@ -69,4 +73,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   deletePersonnel: 'Deleting personnel record...',
   fetchBattalions: 'Loading battalion records...',
   fetchCompanies: 'Loading company records...',
+  fetchUnitManagementKpis: 'Loading unit KPIs...',
+  createBattalion: 'Creating battalion record...',
+  createCompany: 'Creating company record...',
 })
