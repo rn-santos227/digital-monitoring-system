@@ -2,6 +2,7 @@ import { createError, defineEventHandler, readMultipartFormData } from 'h3'
 import type { FileUploadResponse } from '../../shared/responses'
 import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERSONNEL_PERMISSION_GROUPS } from '../../shared/constants'
 import { buildStorageObjectPath } from '../../shared/utils'
+import { parseAllowedMimePrefixes, validateUploadFilePart } from '../../shared/validations'
 import { FILE_UPLOAD_MAX_SIZE_BYTES } from '../../config/storage-s3'
 import { resolveSupabaseStorageS3Connection } from '../../config/storage-s3'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
@@ -21,15 +22,14 @@ export default defineEventHandler(async (event): Promise<FileUploadResponse> => 
     }
 
     const formData = await readMultipartFormData(event)
-    const filePart = (formData ?? []).find((part) => Boolean(part.filename))
+    const multipartParts = formData ?? []
+    const filePart = multipartParts.find((part) => Boolean(part.filename))
+    const allowedMimePrefixes = parseAllowedMimePrefixes(multipartParts)
 
-    if (!filePart?.data || !filePart.filename) {
-      throw createError({ statusCode: 400, statusMessage: 'File payload is required.' })
-    }
-
-    if (filePart.data.length > FILE_UPLOAD_MAX_SIZE_BYTES) {
-      throw createError({ statusCode: 413, statusMessage: 'File size exceeds the maximum allowed upload size.' })
-    }
+    validateUploadFilePart(filePart, {
+      maxSizeBytes: FILE_UPLOAD_MAX_SIZE_BYTES,
+      allowedMimePrefixes,
+    })
 
     const storagePath = buildStorageObjectPath(filePart.filename)
     const supabase = getServiceSupabaseClient()
@@ -38,6 +38,7 @@ export default defineEventHandler(async (event): Promise<FileUploadResponse> => 
     requestData.fileName = filePart.filename
     requestData.mimeType = filePart.type ?? null
     requestData.sizeBytes = filePart.data.length
+    requestData.allowedMimePrefixes = allowedMimePrefixes
 
     const { error: uploadError } = await supabase
       .storage
