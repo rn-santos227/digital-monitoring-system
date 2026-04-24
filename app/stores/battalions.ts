@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
 import { extractApiErrorMessage } from '~/utils/api-request'
-import { getBattalionsEndpoint, searchBattalionsEndpoint } from '~/utils/units-endpoints'
+import { createBattalionEndpoint, getBattalionsEndpoint, searchBattalionsEndpoint } from '~/utils/units-endpoints'
 import type {
   BattalionsState,
   BattalionEndpointQuery,
   BattalionListItem,
   BattalionSearchQuery,
+  CreateBattalionPayload,
   UnitsTablePagination,
 } from '~/types/domain/units'
 
@@ -73,6 +74,23 @@ const battalionsStoreOptions = {
         throw error
       } finally {
         this.isLoading = false
+      }
+    },
+
+    async createBattalion(
+      this: BattalionsState & {
+        fetchBattalions: (page?: number, filters?: Partial<BattalionSearchQuery>) => Promise<void>
+      },
+      payload: CreateBattalionPayload,
+    ) {
+      this.error = ''
+
+      try {
+        await createBattalionEndpoint(payload)
+        await this.fetchBattalions(1)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to create battalion.')
+        throw error
       }
     },
   },
