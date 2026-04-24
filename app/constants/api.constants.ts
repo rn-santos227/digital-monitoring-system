@@ -38,6 +38,9 @@ export const PERSONNEL_API_ENDPOINTS = Object.freeze({
   personnelSearch: '/api/personnel/search',
   personnelSuggestions: '/api/personnel/suggestions',
   personnelById: (id: string) => `/api/personnel/${id}`,
+  ranks: '/api/ranks',
+  rankSuggestions: '/api/ranks/suggestion',
+  rankById: (id: string) => `/api/ranks/${id}`,
 })
 
 export const FILE_MANAGEMENT_API_ENDPOINTS = Object.freeze({
@@ -80,6 +83,9 @@ export const API_LOADING_MESSAGES = Object.freeze({
   createPersonnel: 'Creating personnel record...',
   updatePersonnel: 'Updating personnel record...',
   deletePersonnel: 'Deleting personnel record...',
+  fetchRanks: 'Loading rank records...',
+  createRank: 'Creating rank record...',
+  deleteRank: 'Deleting rank record...',
   fetchBattalions: 'Loading battalion records...',
   fetchCompanies: 'Loading company records...',
   fetchUnitManagementKpis: 'Loading unit KPIs...',

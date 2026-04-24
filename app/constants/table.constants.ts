@@ -57,6 +57,22 @@ export const PERSONNEL_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze
   { key: 'serviceStatus', label: 'Service Status', sortable: true },
 ])
 
+export const RANK_TABLE_EMPTY_MESSAGE = 'No rank records found.'
+export const RANK_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'code', label: 'Code', sortable: true },
+  { key: 'name', label: 'Name', sortable: true },
+  { key: 'sortOrder', label: 'Sort Order', sortable: true },
+])
+
+export const RANK_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  {
+    key: 'delete-rank',
+    tooltip: 'Delete rank',
+    iconName: 'trash',
+    variant: 'danger',
+  },
+])
+
 export const PERSONNEL_TRAINING_TABLE_TITLE = 'Training Records'
 export const PERSONNEL_TRAINING_TABLE_EMPTY_MESSAGE = 'No training records available.'
 export const PERSONNEL_TRAINING_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([

@@ -1,8 +1,9 @@
 import type { BaseTabItem } from '~/constants/ui.constants'
 import { ACCOUNT_TYPE_PRIVILEGES, BATTALION_PRIVILEGES, COMPANY_PRIVILEGES, PERSONNEL_PRIVILEGES, USER_PROFILE_PRIVILEGES } from '~/constants/privileges.constants'
-import type { PersonnelProfileTabId } from '~/types/domain/personnel'
+import type { PersonnelManagementTabId, PersonnelProfileTabId } from '~/types/domain/personnel'
 import type { UserManagementTabId } from '~/types/domain/users'
 import type { UnitManagementTabId } from '~/types/domain/units'
+import { EMPLOYMENT_STATUS_VALUES, SERVICE_STATUS_VALUES } from '~/types/enums'
 
 export const DASHBOARD_PAGE_TITLE = 'Dashboard'
 export const DASHBOARD_PAGE_SUBTITLE = 'AFP personnel readiness and equipment handling overview.'
@@ -122,6 +123,15 @@ export const PERSONNEL_PAGE_SUBTITLE =
   'Monitor AFP personnel records, unit assignments, and service status in a centralized operational view.'
 export const PERSONNEL_PAGE_SECTION_CLASSES = 'space-y-6'
 export const PERSONNEL_PAGE_REQUIRED_PERMISSIONS = PERSONNEL_PRIVILEGES
+export const PERSONNEL_PAGE_TABS_ARIA_LABEL = 'Personnel and rank management tabs'
+export const PERSONNEL_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
+  { id: 'personnel-records', label: 'Personnel Records' },
+  { id: 'rank-management', label: 'Rank Management' },
+])
+export const PERSONNEL_PAGE_TAB_REQUIRED_PERMISSIONS: Readonly<Record<PersonnelManagementTabId, readonly string[]>> = Object.freeze({
+  'personnel-records': PERSONNEL_PRIVILEGES.view,
+  'rank-management': PERSONNEL_PRIVILEGES.view,
+})
 export const PERSONNEL_CREATE_BUTTON_LABEL = 'Create Personnel'
 export const PERSONNEL_MODAL_CREATE_LABEL = 'Create'
 export const PERSONNEL_MODAL_UPDATE_LABEL = 'Update'
@@ -146,20 +156,29 @@ export const PERSONNEL_CREATE_SEX_OPTIONS = Object.freeze([
 ])
 export const PERSONNEL_CREATE_BIRTHDATE_LABEL = 'Birthdate'
 export const PERSONNEL_CREATE_DATE_ENLISTED_LABEL = 'Date Enlisted'
-export const PERSONNEL_CREATE_RANK_ID_LABEL = 'Rank ID'
-export const PERSONNEL_CREATE_RANK_ID_PLACEHOLDER = 'Enter rank id'
+export const PERSONNEL_CREATE_RANK_ID_LABEL = 'Rank'
+export const PERSONNEL_CREATE_RANK_ID_PLACEHOLDER = 'Search rank code or name'
 export const PERSONNEL_CREATE_COMPANY_ID_LABEL = 'Company ID'
 export const PERSONNEL_CREATE_COMPANY_ID_PLACEHOLDER = 'Enter company id (optional)'
 export const PERSONNEL_CREATE_BATTALION_ID_LABEL = 'Battalion ID'
 export const PERSONNEL_CREATE_BATTALION_ID_PLACEHOLDER = 'Enter battalion id (optional)'
-export const PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_LABEL = 'Employment Status ID'
-export const PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_PLACEHOLDER = 'Enter employment status id'
-export const PERSONNEL_CREATE_SERVICE_STATUS_ID_LABEL = 'Service Status ID'
-export const PERSONNEL_CREATE_SERVICE_STATUS_ID_PLACEHOLDER = 'Enter service status id'
+export const PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_LABEL = 'Employment Status'
+export const PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_PLACEHOLDER = 'Select employment status'
+export const PERSONNEL_CREATE_EMPLOYMENT_STATUS_OPTIONS = Object.freeze(
+  EMPLOYMENT_STATUS_VALUES.map((value) => ({ label: value, value }))
+)
+export const PERSONNEL_CREATE_SERVICE_STATUS_ID_LABEL = 'Service Status'
+export const PERSONNEL_CREATE_SERVICE_STATUS_ID_PLACEHOLDER = 'Select service status'
+export const PERSONNEL_CREATE_SERVICE_STATUS_OPTIONS = Object.freeze(
+  SERVICE_STATUS_VALUES.map((value) => ({ label: value, value }))
+)
 export const PERSONNEL_CREATE_CONTACT_NUMBER_LABEL = 'Contact Number'
 export const PERSONNEL_CREATE_CONTACT_NUMBER_PLACEHOLDER = 'Enter contact number (optional)'
 export const PERSONNEL_UPDATE_MODAL_TITLE = 'Update Personnel Record'
 export const PERSONNEL_UPDATE_MODAL_DESCRIPTION = 'Update personnel profile details and assignment information.'
+export const RANK_CREATE_BUTTON_LABEL = 'Create Rank'
+export const RANK_CREATE_MODAL_TITLE = 'Create Rank Record'
+export const RANK_CREATE_MODAL_DESCRIPTION = 'Register a rank for personnel assignment and reporting.'
 
 export const PERSONNEL_PROFILE_PAGE_TITLE = 'Personnel Dossier'
 export const PERSONNEL_PROFILE_PAGE_SUBTITLE = 'Profile details, assignments, and readiness context for operational review.'
