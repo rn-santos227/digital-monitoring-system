@@ -56,6 +56,10 @@ const route = useRoute()
 const authStore = useAuthStore()
 
 const hasPermissionAccess = (item: NavigationItem) => {
+  if (item.requiredPermissionMode === 'any') {
+    return authStore.hasAnyPermissionAccess(item.requiredPermissions)
+  }
+
   return authStore.hasPermissionAccess(item.requiredPermissions)
 }
 

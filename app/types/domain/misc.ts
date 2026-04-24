@@ -49,12 +49,12 @@ export type NavigationItem = {
   to: string
   icon: IconName
   requiredPermissions?: readonly string[]
+  requiredPermissionMode?: 'all' | 'any'
 }
 
 export type NavigationSection = {
   title: string
   items: NavigationItem[]
-  requiredPermissionMode?: 'all' | 'any'
 }
 
 export type DashboardMetric = {
