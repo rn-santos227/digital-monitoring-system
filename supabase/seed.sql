@@ -192,9 +192,14 @@ values
   ('personnel.create', 'Create Personnel', 'personnel'),
   ('personnel.update', 'Update Personnel', 'personnel'),
   ('personnel.delete', 'Delete Personnel', 'personnel'),
+  ('training.view', 'View Training Records', 'training'),
   ('training.manage', 'Manage Training', 'training'),
+  ('deployment.view', 'View Deployment Records', 'deployment'),
   ('deployment.manage', 'Manage Deployment', 'deployment'),
+  ('engagement.view', 'View Engagement Records', 'engagement'),
   ('engagement.manage', 'Manage Engagement', 'engagement'),
+  ('battalion.view', 'View Battalion', 'unit_management'),
+  ('company.view', 'View Company', 'unit_management'),
   ('equipment.view', 'View Equipment', 'equipment'),
   ('equipment.manage', 'Manage Equipment', 'equipment'),
   ('equipment.issue', 'Issue Equipment', 'equipment'),
@@ -208,7 +213,6 @@ values
   ('account_type.view', 'View Account Type', 'account_type_management'),
   ('account_type.create', 'Create Account Type', 'account_type_management'),
   ('account_type.update', 'Update Account Type', 'account_type_management'),
-  ('account_type.delete', 'Delete Account Type', 'account_type_management')
 on conflict (code) do update
 set name = excluded.name,
     module = excluded.module;

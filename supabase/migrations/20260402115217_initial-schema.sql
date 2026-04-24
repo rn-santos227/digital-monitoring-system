@@ -209,6 +209,8 @@ create table if not exists public.deployment_records (
   record_no text not null unique,
   personnel_id uuid not null references public.personnel(id) on delete restrict,
   deployment_area text not null,
+  deployment_area_latitude numeric(9,6) null,
+  deployment_area_longitude numeric(9,6) null,
   assignment_role text null,
   operation_name text null,
   start_date date not null,
@@ -219,7 +221,13 @@ create table if not exists public.deployment_records (
   remarks text null,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
-  constraint deployment_records_date_check check (end_date is null or end_date >= start_date)
+  constraint deployment_records_date_check check (end_date is null or end_date >= start_date),
+  constraint deployment_records_deployment_area_latitude_check check (
+    deployment_area_latitude is null or (deployment_area_latitude >= -90 and deployment_area_latitude <= 90)
+  ),
+  constraint deployment_records_deployment_area_longitude_check check (
+    deployment_area_longitude is null or (deployment_area_longitude >= -180 and deployment_area_longitude <= 180)
+  )
 );
 
 -- ============================
@@ -368,12 +376,20 @@ create table if not exists public.equipment_incidents (
   incident_type_id uuid not null references public.incident_types(id) on delete restrict,
   incident_date date not null,
   location text null,
+  location_latitude numeric(9,6) null,
+  location_longitude numeric(9,6) null,
   description text not null,
   investigation_status_id uuid null references public.investigation_statuses(id) on delete restrict,
   resolution text null,
   remarks text null,
   created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
+  updated_at timestamptz not null default now(),
+  constraint equipment_incidents_location_latitude_check check (
+    location_latitude is null or (location_latitude >= -90 and location_latitude <= 90)
+  ),
+  constraint equipment_incidents_location_longitude_check check (
+    location_longitude is null or (location_longitude >= -180 and location_longitude <= 180)
+  )
 );
 
 -- ============================

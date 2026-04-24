@@ -278,6 +278,63 @@ export const COMPANIES_FILTER_STATUS_OPTIONS = Object.freeze([
 export const USERS_PAGE_TITLE = 'Users Management'
 export const USERS_PAGE_SUBTITLE =
   'Manage AFP monitoring user profiles and account access details in a single operational workspace.'
+
+
+export const TEMPORARY_ROUTE_PAGE_SECTION_CLASSES = 'space-y-6'
+
+export const TEMPORARY_ROUTE_PAGE_CONTENT = Object.freeze({
+  serviceStatuses: Object.freeze({
+    title: 'Service & Employment Status',
+    subtitle: 'Track service and employment status configurations for personnel monitoring operations.',
+    featureLabel: 'service and employment status',
+  }),
+  trainingRecords: Object.freeze({
+    title: 'Training Records',
+    subtitle: 'Maintain personnel training records and qualification readiness updates.',
+    featureLabel: 'training records',
+  }),
+  deploymentRecords: Object.freeze({
+    title: 'Deployment Records',
+    subtitle: 'Track personnel deployment assignments and operational area details.',
+    featureLabel: 'deployment records',
+  }),
+  engagementRecords: Object.freeze({
+    title: 'Engagement Records',
+    subtitle: 'Monitor personnel engagement activities and mission participation records.',
+    featureLabel: 'engagement records',
+  }),
+  equipmentCategories: Object.freeze({
+    title: 'Equipment Categories',
+    subtitle: 'Manage equipment category groupings used for inventory and issuance workflows.',
+    featureLabel: 'equipment categories',
+  }),
+  equipmentItems: Object.freeze({
+    title: 'Equipment Items',
+    subtitle: 'Manage standardized equipment item definitions across battalions and companies.',
+    featureLabel: 'equipment items',
+  }),
+  equipmentAssets: Object.freeze({
+    title: 'Equipment Assets',
+    subtitle: 'Track serialized equipment assets and assignment context in the monitoring system.',
+    featureLabel: 'equipment assets',
+  }),
+  equipmentIssuances: Object.freeze({
+    title: 'Equipment Issuances',
+    subtitle: 'Monitor equipment issuance and return records for accountable logistics handling.',
+    featureLabel: 'equipment issuances',
+  }),
+  incidents: Object.freeze({
+    title: 'Incident Tracking',
+    subtitle: 'Track equipment-related incidents, investigations, and resolution outcomes.',
+    featureLabel: 'incident tracking',
+  }),
+  settings: Object.freeze({
+    title: 'Settings',
+    subtitle: 'Configure system-level defaults and operational preferences for the monitoring platform.',
+    featureLabel: 'settings',
+  }),
+})
+
 export const USERS_PAGE_SECTION_CLASSES = 'space-y-6'
 export const USERS_PAGE_TABS_ARIA_LABEL = 'Users management tabs'
 export const USERS_PROFILE_TAB_LABEL = 'User Profile'
