@@ -1,4 +1,7 @@
+import { API_LOADING_MESSAGES, DASHBOARD_API_ENDPOINTS } from '~/constants/api.constants'
 import { createSessionHeaders } from '~/utils/auth-session'
+import { withApiLoading } from '~/utils/api-request'
+import type { UnitManagementKpis } from '~/types/domain/units'
 
 interface DashboardCountResponse {
   totalItems: number
@@ -47,4 +50,13 @@ export const getAccountTypeCount = async (): Promise<number> => {
   })
 
   return response.totalItems
+}
+
+export const getUnitManagementKpisEndpoint = async (): Promise<UnitManagementKpis> => {
+  return await withApiLoading(async () => {
+    return await $fetch<UnitManagementKpis>(DASHBOARD_API_ENDPOINTS.unitManagementKpis, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchUnitManagementKpis)
 }
