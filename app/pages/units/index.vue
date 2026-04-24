@@ -64,13 +64,20 @@ app/pages/units/index.vue<template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import KpiCard from '~/components/general/KpiCard.vue'
+import CreateBattalionModal from '~/components/units/CreateBattalionModal.vue'
+import CreateCompanyModal from '~/components/units/CreateCompanyModal.vue'
 import BattalionsFilter from '~/components/units/BattalionsFilter.vue'
 import BattalionsTable from '~/components/units/BattalionsTable.vue'
 import CompaniesFilter from '~/components/units/CompaniesFilter.vue'
 import CompaniesTable from '~/components/units/CompaniesTable.vue'
 import { useBattalions } from '~/composables/useBattalions'
 import { useCompanies } from '~/composables/useCompanies'
+import { useToast } from '~/composables/useToast'
 import {
+  UNITS_BATTALION_CREATE_BUTTON_LABEL,
+  UNITS_COMPANY_CREATE_BUTTON_LABEL,
+  UNITS_PAGE_KPI_GRID_CLASSES,
   UNITS_PAGE_SECTION_CLASSES,
   UNITS_PAGE_SUBTITLE,
   UNITS_PAGE_TAB_ITEMS,
@@ -78,14 +85,20 @@ import {
   UNITS_PAGE_TABS_ARIA_LABEL,
   UNITS_PAGE_TITLE,
 } from '~/constants/page.constants'
-import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
-import { useBattalionFilterHandlers, useCompanyFilterHandlers, useUnitsPageHandlers } from '~/handlers'
+import { BATTALION_PRIVILEGES, COMPANY_PRIVILEGES } from '~/constants/privileges.constants'
+import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES, UNITS_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
+import { useBattalionFilterHandlers, useCompanyFilterHandlers, useCreateBattalionHandler, useCreateCompanyHandler, useUnitsPageHandlers } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
-import type { UnitManagementTabId } from '~/types/domain/units'
+import type { CreateBattalionPayload, CreateCompanyPayload, UnitManagementTabId } from '~/types/domain/units'
+import { getUnitManagementKpisEndpoint } from '~/utils/dashboard-endpoints'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
 const activeTab = ref<UnitManagementTabId>('battalion')
 const authStore = useAuthStore()
+const { addToast } = useToast()
+const kpiRefreshKey = ref(0)
+const isCreateBattalionModalOpen = ref(false)
+const isCreateCompanyModalOpen = ref(false)
 
 const {
   filters: battalionFilters,
@@ -94,6 +107,7 @@ const {
   isLoading: isBattalionsLoading,
   error: battalionError,
   loadBattalions,
+  createBattalion,
 } = useBattalions()
 
 const {
@@ -103,9 +117,18 @@ const {
   isLoading: isCompaniesLoading,
   error: companyError,
   loadCompanies,
+  createCompany,
 } = useCompanies()
 
 const { handleTabChange } = useUnitsPageHandlers(activeTab)
+const { onOpenCreateBattalionModal, onCloseCreateBattalionModal, onCreateBattalion } = useCreateBattalionHandler({
+  isCreateBattalionModalOpen,
+  createBattalion,
+})
+const { onOpenCreateCompanyModal, onCloseCreateCompanyModal, onCreateCompany } = useCreateCompanyHandler({
+  isCreateCompanyModalOpen,
+  createCompany,
+})
 
 const { handleFilterApply: handleBattalionFilterApply, handleFilterReset: handleBattalionFilterReset } = useBattalionFilterHandlers(battalionFilters)
 const { handleFilterApply: handleCompanyFilterApply, handleFilterReset: handleCompanyFilterReset } = useCompanyFilterHandlers(companyFilters)
@@ -120,6 +143,19 @@ const visibleTabItems = computed(() => {
 const onTabChange = (nextTab: string) => {
   handleTabChange(nextTab)
 }
+
+const canCreateBattalion = computed(() => authStore.hasPermissionAccess(BATTALION_PRIVILEGES.create))
+const canCreateCompany = computed(() => authStore.hasPermissionAccess(COMPANY_PRIVILEGES.create))
+const createButtonLabel = computed(() => {
+  return activeTab.value === 'battalion' ? UNITS_BATTALION_CREATE_BUTTON_LABEL : UNITS_COMPANY_CREATE_BUTTON_LABEL
+})
+const showCreateButton = computed(() => {
+  if (activeTab.value === 'battalion') {
+    return canCreateBattalion.value
+  }
+
+  return canCreateCompany.value
+})
 
 const battalionFilterValidationErrors = ref<FieldValidationMap>({})
 const companyFilterValidationErrors = ref<FieldValidationMap>({})
@@ -164,6 +200,70 @@ const onBattalionPageChange = (nextPage: number) => {
 
 const onCompanyPageChange = (nextPage: number) => {
   void loadCompanies(nextPage, companyFilters.value)
+}
+
+const refreshUnitKpis = () => {
+  kpiRefreshKey.value += 1
+}
+
+const loadTotalCompanies = async () => {
+  const kpis = await getUnitManagementKpisEndpoint()
+  return { value: kpis.totalCompanies }
+}
+
+const loadTotalBattalions = async () => {
+  const kpis = await getUnitManagementKpisEndpoint()
+  return { value: kpis.totalBattalions }
+}
+
+const loadUnassignedPersonnel = async () => {
+  const kpis = await getUnitManagementKpisEndpoint()
+  return { value: kpis.totalUnassignedPersonnel }
+}
+
+const onCreateActionClick = () => {
+  if (activeTab.value === 'battalion') {
+    onOpenCreateBattalionModal()
+    return
+  }
+
+  onOpenCreateCompanyModal()
+}
+
+const handleCreateBattalion = async (payload: CreateBattalionPayload) => {
+  try {
+    await onCreateBattalion(payload)
+    addToast({
+      title: 'Battalion created',
+      message: 'Battalion record has been created successfully.',
+      variant: 'success',
+    })
+    refreshUnitKpis()
+  } catch {
+    addToast({
+      title: 'Battalion creation failed',
+      message: 'Unable to create battalion record right now.',
+      variant: 'error',
+    })
+  }
+}
+
+const handleCreateCompany = async (payload: CreateCompanyPayload) => {
+  try {
+    await onCreateCompany(payload)
+    addToast({
+      title: 'Company created',
+      message: 'Company record has been created successfully.',
+      variant: 'success',
+    })
+    refreshUnitKpis()
+  } catch {
+    addToast({
+      title: 'Company creation failed',
+      message: 'Unable to create company record right now.',
+      variant: 'error',
+    })
+  }
 }
 
 watch(
