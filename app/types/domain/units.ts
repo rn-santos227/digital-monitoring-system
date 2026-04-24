@@ -18,6 +18,25 @@ export interface CompanyListItem {
   isActive: boolean
 }
 
+export interface CreateBattalionPayload {
+  code: string
+  name: string
+  isActive: boolean
+}
+
+export interface CreateCompanyPayload {
+  battalionId: string | null
+  code: string
+  name: string
+  isActive: boolean
+}
+
+export interface UnitManagementKpis {
+  totalCompanies: number
+  totalBattalions: number
+  totalUnassignedPersonnel: number
+}
+
 export interface UnitListResponse<TItem> {
   items: TItem[]
   page: number
