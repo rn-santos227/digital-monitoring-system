@@ -204,3 +204,4 @@ export interface PersonnelDetail {
 }
 
 export type PersonnelProfileTabId = 'core' | 'training' | 'deployment' | 'engagement' | 'equipment-assignment'
+export type PersonnelManagementTabId = 'personnel-records' | 'rank-management'
