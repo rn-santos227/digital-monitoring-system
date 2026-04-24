@@ -16,6 +16,7 @@ export const AUDIT_LOG_ACTIONS = {
   companyCreate: 'COMPANY_CREATE',
   companyUpdate: 'COMPANY_UPDATE',
   companyDelete: 'COMPANY_DELETE',
+  fileAttachmentCreate: 'FILE_ATTACHMENT_CREATE',
 } as const
 
 export const AUDIT_LOG_OUTCOMES = {
@@ -42,4 +43,5 @@ export const AUDIT_LOG_ENDPOINTS = {
   companiesCreate: '/api/companies',
   companiesUpdate: '/api/companies/:id',
   companiesDelete: '/api/companies/:id',
+  fileUpload: '/api/files/upload',
 } as const
