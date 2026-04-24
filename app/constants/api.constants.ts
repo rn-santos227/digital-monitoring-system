@@ -40,6 +40,15 @@ export const PERSONNEL_API_ENDPOINTS = Object.freeze({
   personnelById: (id: string) => `/api/personnel/${id}`,
 })
 
+export const FILE_MANAGEMENT_API_ENDPOINTS = Object.freeze({
+  upload: '/api/files/upload',
+})
+
+export const FILE_UPLOAD_CONSTRAINTS = Object.freeze({
+  maxSizeBytes: 10 * 1024 * 1024,
+  imageMimePrefixes: ['image/'],
+})
+
 export const AUTH_LOCAL_STORAGE_KEYS = Object.freeze({
   sessionToken: 'dms_session_token',
   sessionTokenExpiresAt: 'dms_session_token_expires_at'
@@ -76,4 +85,5 @@ export const API_LOADING_MESSAGES = Object.freeze({
   fetchUnitManagementKpis: 'Loading unit KPIs...',
   createBattalion: 'Creating battalion record...',
   createCompany: 'Creating company record...',
+  uploadFile: 'Uploading file...',
 })

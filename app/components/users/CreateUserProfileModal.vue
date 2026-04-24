@@ -59,8 +59,12 @@
       <div class="space-y-2">
         <BaseFileUpload
           :label="USERS_PROFILE_AVATAR_LABEL"
-          :helper-text="USERS_PROFILE_AVATAR_HELPER"
+          :helper-text="avatarUploadHelperText"
+          :error="errors.avatarFile"
           accept="image/*"
+          :allowed-mime-prefixes="FILE_UPLOAD_CONSTRAINTS.imageMimePrefixes"
+          :max-size-bytes="FILE_UPLOAD_CONSTRAINTS.maxSizeBytes"
+          :disabled="isSubmitting || isAvatarUploading"
           @update:file="onAvatarFileSelected"
         />
         <BaseTextField
@@ -103,7 +107,8 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
+import { FILE_UPLOAD_CONSTRAINTS } from '~/constants/api.constants'
 import {
   USERS_MODAL_CANCEL_LABEL,
   USERS_MODAL_CREATE_LABEL,
@@ -127,8 +132,11 @@ import {
 } from '~/constants/page.constants'
 import type { SelectOption } from '~/types/domain/misc'
 import type { CreateUserProfilePayload } from '~/types/domain/users'
+import { uploadFileEndpoint } from '~/utils/file-management-endpoints'
+import { formatFileSizeLabel } from '~/utils/file-upload'
 import { validateUserProfileForm } from '~/utils/users-validation'
 import type { PersonnelSuggestion } from '~/types/domain/personnel'
+import { extractApiErrorMessage } from '~/utils/api-request'
 
 const props = withDefaults(
   defineProps<{
@@ -156,6 +164,12 @@ const form = reactive({
 })
 
 const errors = reactive<Record<string, string>>({})
+const isAvatarUploading = ref(false)
+
+const avatarUploadHelperText = computed(() => {
+  const maxSizeLabel = formatFileSizeLabel(FILE_UPLOAD_CONSTRAINTS.maxSizeBytes)
+  return `${USERS_PROFILE_AVATAR_HELPER} Max size: ${maxSizeLabel}.`
+})
 
 const isSelected = (accountTypeId: string) => form.accountTypeIds.includes(accountTypeId)
 
@@ -168,12 +182,26 @@ const onAccountTypeToggle = (accountTypeId: string, checked: boolean) => {
   form.accountTypeIds = form.accountTypeIds.filter((existingId) => existingId !== accountTypeId)
 }
 
-const onAvatarFileSelected = (file: File | null) => {
+const onAvatarFileSelected: (file: File | null) => Promise<void> = async (file: File | null) => {
+  delete errors.avatarFile
+
   if (!file) {
     return
   }
 
-  form.avatarUrl = URL.createObjectURL(file)
+  isAvatarUploading.value = true
+
+  try {
+    const response = await uploadFileEndpoint(file, {
+      allowedMimePrefixes: FILE_UPLOAD_CONSTRAINTS.imageMimePrefixes,
+    })
+
+    form.avatarUrl = response.attachment.publicUrl
+  } catch (error) {
+    errors.avatarFile = extractApiErrorMessage(error, 'Unable to upload avatar file.')
+  } finally {
+    isAvatarUploading.value = false
+  }
 }
 
 const onPersonnelSelected = (personnel: PersonnelSuggestion | null) => {
@@ -197,13 +225,17 @@ const onSubmit = () => {
 
   Object.assign(errors, result.errors)
 
+  if (isAvatarUploading.value) {
+    errors.avatarFile = 'Avatar upload is in progress. Please wait.'
+    return
+  }
+
   if (!result.payload) {
     return
   }
 
   emit('submit', result.payload)
 }
-
 
 const onGeneratePassword = () => {
   const generatedPassword = generateUserPassword()

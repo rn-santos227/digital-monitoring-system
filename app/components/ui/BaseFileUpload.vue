@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, useId } from 'vue'
+import { computed, ref, useId } from 'vue'
 import {
   FIELD_ERROR_TEXT_CLASSES,
   FIELD_HELPER_TEXT_CLASSES,
@@ -33,6 +33,7 @@ import {
   FORM_CONTROL_BASE_CLASSES,
   FORM_CONTROL_STATE_CLASSES,
 } from '~/constants/ui.constants'
+import { formatFileSizeLabel, isFileMimeTypeAllowed } from '~/utils/file-upload'
 
 const props = withDefaults(
   defineProps<{
@@ -43,6 +44,8 @@ const props = withDefaults(
     error?: string
     required?: boolean
     disabled?: boolean
+    maxSizeBytes?: number | null
+    allowedMimePrefixes?: string[]
   }>(),
   {
     label: '',
@@ -52,6 +55,8 @@ const props = withDefaults(
     error: '',
     required: false,
     disabled: false,
+    maxSizeBytes: null,
+    allowedMimePrefixes: () => [],
   },
 )
 
@@ -61,6 +66,7 @@ const emit = defineEmits<{
 
 const generatedId = useId()
 const inputId = computed(() => props.id ?? `file-upload-${generatedId}`)
+const internalError = ref('')
 
 const inputClasses = computed(() => [
   FORM_CONTROL_BASE_CLASSES,
@@ -69,8 +75,31 @@ const inputClasses = computed(() => [
   'file:mr-3 file:rounded-lg file:border-0 file:bg-emerald-700 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-white hover:file:bg-emerald-900',
 ])
 
+const resolvedError = computed(() => props.error || internalError.value)
 const onChange = (event: Event) => {
   const target = event.target as HTMLInputElement
-  emit('update:file', target.files?.[0] ?? null)
+  const selectedFile = target.files?.[0] ?? null
+  internalError.value = ''
+
+  if (!selectedFile) {
+    emit('update:file', null)
+    return
+  }
+
+  if (!isFileMimeTypeAllowed(selectedFile, props.allowedMimePrefixes)) {
+    internalError.value = 'Selected file type is not allowed.'
+    target.value = ''
+    emit('update:file', null)
+    return
+  }
+
+  if ((props.maxSizeBytes ?? 0) > 0 && selectedFile.size > (props.maxSizeBytes ?? 0)) {
+    internalError.value = `Selected file exceeds the ${formatFileSizeLabel(props.maxSizeBytes ?? 0)} size limit.`
+    target.value = ''
+    emit('update:file', null)
+    return
+  }
+
+  emit('update:file', selectedFile)
 }
 </script>
