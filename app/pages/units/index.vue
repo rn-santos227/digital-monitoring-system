@@ -6,12 +6,45 @@ app/pages/units/index.vue<template>
         <p class="text-sm text-slate-600">{{ UNITS_PAGE_SUBTITLE }}</p>
       </header>
 
+      <div :class="UNITS_PAGE_KPI_GRID_CLASSES">
+        <KpiCard
+          :key="`companies-${kpiRefreshKey}`"
+          title="Total Companies"
+          subtitle="Tracked company units in the registry."
+          icon-name="building"
+          tone="violet"
+          :loader="loadTotalCompanies"
+        />
+        <KpiCard
+          :key="`battalions-${kpiRefreshKey}`"
+          title="Total Battalions"
+          subtitle="Tracked battalion units in the registry."
+          icon-name="shield"
+          tone="sky"
+          :loader="loadTotalBattalions"
+        />
+        <KpiCard
+          :key="`unassigned-personnel-${kpiRefreshKey}`"
+          title="Unassigned Personnel"
+          subtitle="Personnel without company assignment."
+          icon-name="users"
+          tone="amber"
+          :loader="loadUnassignedPersonnel"
+        />
+      </div>
+
       <BaseTab
         :model-value="activeTab"
         :items="visibleTabItems"
         :aria-label="UNITS_PAGE_TABS_ARIA_LABEL"
         @update:model-value="onTabChange"
       />
+
+      <div v-if="showCreateButton" :class="UNITS_TABLE_ACTIONS_ROW_CLASSES">
+        <BaseButton @click="onCreateActionClick">
+          {{ createButtonLabel }}
+        </BaseButton>
+      </div>
 
       <template v-if="activeTab === 'battalion'">
         <BattalionsFilter
