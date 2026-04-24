@@ -1,5 +1,12 @@
 import { ROUTE_PATHS } from '~/constants/routes.constants'
-import { AUDIT_PRIVILEGES, USER_PROFILE_PRIVILEGES } from '~/constants/privileges.constants'
+import {
+  ACCOUNT_TYPE_PRIVILEGES,
+  AUDIT_PRIVILEGES,
+  BATTALION_PRIVILEGES,
+  COMPANY_PRIVILEGES,
+  PERSONNEL_PRIVILEGES,
+  USER_PROFILE_PRIVILEGES,
+} from '~/constants/privileges.constants'
 import type { BaseMenuItem, NavigationItem, NavigationSection } from '~/types/domain/misc'
 
 export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.freeze([
@@ -11,11 +18,22 @@ export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.
         label: 'Users Management',
         to: ROUTE_PATHS.users,
         icon: 'users',
-        requiredPermissions: USER_PROFILE_PRIVILEGES.view,
+        requiredPermissions: Object.freeze([...USER_PROFILE_PRIVILEGES.view, ...ACCOUNT_TYPE_PRIVILEGES.view]),
+        requiredPermissionMode: 'any',
       },
-
-      { label: 'Personnel', to: ROUTE_PATHS.personnel, icon: 'users' },
-      { label: 'Battalions & Companies', to: ROUTE_PATHS.units, icon: 'building' },
+      {
+        label: 'Personnel',
+        to: ROUTE_PATHS.personnel,
+        icon: 'users',
+        requiredPermissions: PERSONNEL_PRIVILEGES.view,
+      },
+      {
+        label: 'Battalions & Companies',
+        to: ROUTE_PATHS.units,
+        icon: 'building',
+        requiredPermissions: Object.freeze([...BATTALION_PRIVILEGES.view, ...COMPANY_PRIVILEGES.view]),
+        requiredPermissionMode: 'any',
+      },
       { label: 'Service & Employment Status', to: ROUTE_PATHS.serviceStatuses, icon: 'clipboard' }
     ]
   },
