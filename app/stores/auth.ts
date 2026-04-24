@@ -40,6 +40,16 @@ const authStoreOptions = {
       })
     },
 
+    hasAnyPermissionAccess(this: AuthState & { permissionCodes: string[]; hasPermission: (code: string) => boolean }, requiredPermissions?: readonly string[]) {
+      if (!requiredPermissions || requiredPermissions.length === 0) {
+        return true
+      }
+
+      return requiredPermissions.some((permissionCode) => {
+        return this.hasPermission(permissionCode)
+      })
+    },
+
     async login(this: AuthState, payload: LoginPayload) {
       this.isSubmitting = true
       this.loginError = ''

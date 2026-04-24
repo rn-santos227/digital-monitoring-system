@@ -54,6 +54,7 @@ export type NavigationItem = {
 export type NavigationSection = {
   title: string
   items: NavigationItem[]
+  requiredPermissionMode?: 'all' | 'any'
 }
 
 export type DashboardMetric = {
