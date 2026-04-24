@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
 import { extractApiErrorMessage } from '~/utils/api-request'
-import { getCompaniesEndpoint, searchCompaniesEndpoint } from '~/utils/units-endpoints'
+import { createCompanyEndpoint, getCompaniesEndpoint, searchCompaniesEndpoint } from '~/utils/units-endpoints'
 import type {
   CompaniesState,
+  CreateCompanyPayload,
   CompanyEndpointQuery,
   CompanyListItem,
   CompanySearchQuery,
@@ -80,6 +81,23 @@ const companiesStoreOptions = {
         throw error
       } finally {
         this.isLoading = false
+      }
+    },
+
+    async createCompany(
+      this: CompaniesState & {
+        fetchCompanies: (page?: number, filters?: Partial<CompanySearchQuery>) => Promise<void>
+      },
+      payload: CreateCompanyPayload,
+    ) {
+      this.error = ''
+
+      try {
+        await createCompanyEndpoint(payload)
+        await this.fetchCompanies(1)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to create company.')
+        throw error
       }
     },
   },
