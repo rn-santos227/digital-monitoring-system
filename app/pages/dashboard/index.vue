@@ -7,28 +7,59 @@
       </header>
 
       <div :class="DASHBOARD_METRICS_GRID_CLASSES">
-        <BaseCard
-          v-for="metric in DASHBOARD_METRICS"
-          :key="metric.label"
-          :title="metric.label"
-        >
-          <p :class="DASHBOARD_METRIC_VALUE_CLASSES">{{ metric.value }}</p>
-          <p :class="DASHBOARD_METRIC_CHANGE_CLASSES">{{ metric.change }}</p>
-        </BaseCard>
+        <KpiCard
+          v-for="card in dashboardKpis"
+          :key="card.key"
+          :title="card.title"
+          :loader="card.loader"
+          :icon-name="card.iconName"
+          :tone="card.tone"
+          :fallback-context="card.context"
+        />
       </div>
     </section>
   </main>
 </template>
 
 <script setup lang="ts">
+import KpiCard, { type KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import {
-  DASHBOARD_METRIC_CHANGE_CLASSES,
-  DASHBOARD_METRIC_VALUE_CLASSES,
-  DASHBOARD_METRICS,
+  DASHBOARD_KPI_CARDS,
   DASHBOARD_METRICS_GRID_CLASSES,
   DASHBOARD_PAGE_SECTION_CLASSES,
   DASHBOARD_PAGE_SUBTITLE,
   DASHBOARD_PAGE_TITLE,
 } from '~/constants/page.constants'
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
+import {
+  getAccountTypeCount,
+  getBattalionCount,
+  getCompanyCount,
+  getPersonnelCount,
+} from '~/utils/dashboard-endpoint'
+
+type DashboardKpiCard = (typeof DASHBOARD_KPI_CARDS)[number] & {
+  loader: () => Promise<KpiCardLoaderResult>
+}
+
+const dashboardKpiLoaders: Record<string, () => Promise<number>> = {
+  personnel: getPersonnelCount,
+  battalions: getBattalionCount,
+  companies: getCompanyCount,
+  'account-types': getAccountTypeCount,
+}
+
+const dashboardKpis: DashboardKpiCard[] = DASHBOARD_KPI_CARDS.map((card) => {
+  return {
+    ...card,
+    loader: async () => {
+      const loadCount = dashboardKpiLoaders[card.key] ?? (async () => 0)
+
+      return {
+        value: await loadCount(),
+        context: card.context,
+      }
+    },
+  }
+})
 </script>
