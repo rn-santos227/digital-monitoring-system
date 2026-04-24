@@ -1,6 +1,5 @@
 import type { BaseTabItem } from '~/constants/ui.constants'
 import { ACCOUNT_TYPE_PRIVILEGES, BATTALION_PRIVILEGES, COMPANY_PRIVILEGES, PERSONNEL_PRIVILEGES, USER_PROFILE_PRIVILEGES } from '~/constants/privileges.constants'
-import type { DashboardMetric } from '~/types/domain/misc'
 import type { PersonnelProfileTabId } from '~/types/domain/personnel'
 import type { UserManagementTabId } from '~/types/domain/users'
 import type { UnitManagementTabId } from '~/types/domain/units'
@@ -14,12 +13,36 @@ export const DASHBOARD_SECONDARY_GRID_CLASSES = 'grid gap-4 xl:grid-cols-2'
 export const DASHBOARD_METRIC_VALUE_CLASSES = 'text-3xl font-semibold text-slate-900'
 export const DASHBOARD_METRIC_CHANGE_CLASSES = 'mt-1 text-sm text-emerald-600'
 
-export const DASHBOARD_METRICS: readonly DashboardMetric[] = Object.freeze([
-  { label: 'Active Personnel', value: '3,254', change: '+2.1% from last month' },
-  { label: 'On Deployment', value: '418', change: '+12 newly assigned this week' },
-  { label: 'Equipment Issued', value: '1,126', change: '84 due for return' },
-  { label: 'Serviceable Assets', value: '92%', change: '+1.8% readiness improvement' }
-])
+export const DASHBOARD_KPI_CARDS = Object.freeze([
+  {
+    key: 'personnel',
+    title: 'Personnel',
+    context: 'Total personnel records currently tracked.',
+    iconName: 'users',
+    tone: 'emerald',
+  },
+  {
+    key: 'battalions',
+    title: 'Battalions',
+    context: 'Total battalion units currently tracked.',
+    iconName: 'shield',
+    tone: 'sky',
+  },
+  {
+    key: 'companies',
+    title: 'Companies',
+    context: 'Total company units currently tracked.',
+    iconName: 'building',
+    tone: 'violet',
+  },
+  {
+    key: 'account-types',
+    title: 'Account Types',
+    context: 'Total account types available for RBAC assignments.',
+    iconName: 'cog',
+    tone: 'amber',
+  },
+] as const)
 
 export const DASHBOARD_PLACEHOLDER_CARDS = Object.freeze([
   {
