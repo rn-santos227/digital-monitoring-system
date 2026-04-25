@@ -11,6 +11,7 @@ import {
 import type {
   BattalionsState,
   BattalionEndpointQuery,
+  BattalionDetailItem,
   BattalionListItem,
   BattalionSearchQuery,
   CreateBattalionPayload,
@@ -102,7 +103,7 @@ const battalionsStoreOptions = {
       }
     },
 
-    async getBattalionById(this: BattalionsState, id: string): Promise<BattalionListItem> {
+    async getBattalionById(this: BattalionsState, id: string): Promise<BattalionDetailItem> {
       this.error = ''
 
       try {

@@ -10,6 +10,7 @@ import {
 } from '~/utils/units-endpoints'
 import type {
   CompaniesState,
+  CompanyDetailItem,
   CreateCompanyPayload,
   CompanyEndpointQuery,
   CompanyListItem,
@@ -109,7 +110,7 @@ const companiesStoreOptions = {
       }
     },
 
-    async getCompanyById(this: CompaniesState, id: string): Promise<CompanyListItem> {
+    async getCompanyById(this: CompaniesState, id: string): Promise<CompanyDetailItem> {
       this.error = ''
 
       try {
