@@ -25,7 +25,7 @@
                   <p class="text-sm text-slate-600">{{ personnel.rankName }} · {{ personnel.personnelCode }}</p>
                 </div>
                 <div class="w-full space-y-2 rounded-xl bg-slate-50 p-3 text-left text-sm">
-                  <p><span class="font-semibold">Service Number:</span> {{ personnel.serviceNumber }}</p>
+                  <p><span class="font-semibold">Reference Number:</span> {{ personnel.serviceNumber }}</p>
                   <p><span class="font-semibold">Company:</span> {{ personnel.companyName ?? 'Unassigned' }}</p>
                   <p><span class="font-semibold">Battalion:</span> {{ personnel.battalionName ?? 'Unassigned' }}</p>
                   <p><span class="font-semibold">Service Status:</span> {{ personnel.serviceStatus }}</p>
@@ -36,7 +36,7 @@
             <BaseCard :title="PERSONNEL_PROFILE_TAB_CARD_TITLES.core">
               <div :class="PERSONNEL_PROFILE_GRID_CLASSES">
                 <p><span class="font-semibold">Personnel Code:</span> {{ personnel.personnelCode }}</p>
-                <p><span class="font-semibold">Service Number:</span> {{ personnel.serviceNumber }}</p>
+                <p><span class="font-semibold">Reference Number:</span> {{ personnel.serviceNumber }}</p>
                 <p><span class="font-semibold">Name:</span> {{ personnel.fullName }}</p>
                 <p><span class="font-semibold">Sex:</span> {{ personnel.sex }}</p>
                 <p><span class="font-semibold">Birthdate:</span> {{ personnel.birthdate ?? 'Not set' }}</p>

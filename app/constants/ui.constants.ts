@@ -153,7 +153,11 @@ export const BASE_ALERT_TONE_CLASSES: Record<UiTone, string> = {
 }
 
 export const SUGGESTION_FIELD_CONTAINER_CLASSES = 'relative'
-export const SUGGESTION_FIELD_PANEL_CLASSES = 'absolute z-30 mt-1 max-h-56 w-full overflow-auto rounded-xl border border-slate-200 bg-white p-1 shadow-lg'
+export const SUGGESTION_FIELD_PANEL_CLASSES = 'absolute z-30 max-h-56 w-full overflow-auto rounded-xl border border-slate-200 bg-white p-1 shadow-lg'
+export const SUGGESTION_FIELD_PANEL_POSITION_CLASSES = Object.freeze({
+  bottom: 'top-full mt-1',
+  top: 'bottom-full mb-1',
+})
 export const SUGGESTION_FIELD_ITEM_CLASSES = 'w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 transition hover:bg-slate-100'
 export const SUGGESTION_FIELD_ITEM_ACTIVE_CLASSES = 'bg-emerald-50 text-emerald-800'
 export const SUGGESTION_FIELD_EMPTY_CLASSES = 'px-3 py-2 text-sm text-slate-500'

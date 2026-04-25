@@ -140,8 +140,8 @@ export const PERSONNEL_CREATE_MODAL_TITLE = 'Create Personnel Record'
 export const PERSONNEL_CREATE_MODAL_DESCRIPTION = 'Register a new personnel profile for battalion and company monitoring.'
 export const PERSONNEL_CREATE_PERSONNEL_CODE_LABEL = 'Personnel Code'
 export const PERSONNEL_CREATE_PERSONNEL_CODE_PLACEHOLDER = 'Enter personnel code'
-export const PERSONNEL_CREATE_SERVICE_NUMBER_LABEL = 'Service Number'
-export const PERSONNEL_CREATE_SERVICE_NUMBER_PLACEHOLDER = 'Enter service number'
+export const PERSONNEL_CREATE_SERVICE_NUMBER_LABEL = 'Reference Number'
+export const PERSONNEL_CREATE_SERVICE_NUMBER_PLACEHOLDER = 'Enter reference number'
 export const PERSONNEL_CREATE_LAST_NAME_LABEL = 'Last Name'
 export const PERSONNEL_CREATE_LAST_NAME_PLACEHOLDER = 'Enter last name'
 export const PERSONNEL_CREATE_FIRST_NAME_LABEL = 'First Name'
@@ -208,7 +208,7 @@ export const PERSONNEL_FILTER_RESET_LABEL = 'Reset'
 export const PERSONNEL_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: '', label: 'All searchable fields' },
   { value: 'personnelCode', label: 'Personnel Code' },
-  { value: 'serviceNumber', label: 'Service Number' },
+  { value: 'serviceNumber', label: 'Reference Number' },
   { value: 'lastName', label: 'Last Name' },
   { value: 'firstName', label: 'First Name' },
   { value: 'rankName', label: 'Rank' },
@@ -422,7 +422,7 @@ export const USERS_PROFILE_EMAIL_PLACEHOLDER = 'Enter email address'
 export const USERS_PROFILE_FULL_NAME_LABEL = 'Full Name'
 export const USERS_PROFILE_FULL_NAME_PLACEHOLDER = 'Enter full name'
 export const USERS_PROFILE_PERSONNEL_LABEL = 'Personnel'
-export const USERS_PROFILE_PERSONNEL_PLACEHOLDER = 'Search personnel by code, service number, or name'
+export const USERS_PROFILE_PERSONNEL_PLACEHOLDER = 'Search personnel by code, reference number, or name'
 export const USERS_PROFILE_PERSONNEL_HELPER_TEXT = 'Assign personnel to link this user profile to personnel records.'
 export const USERS_PROFILE_PERSONNEL_EMPTY_MESSAGE = 'No personnel records found.'
 export const USERS_PROFILE_PASSWORD_LABEL = 'Password'

@@ -51,7 +51,7 @@ export const PERSONNEL_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze
 export const PERSONNEL_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'fullName', label: 'Personnel', sortable: true },
   { key: 'personnelCode', label: 'Personnel Code', sortable: true },
-  { key: 'serviceNumber', label: 'Service Number', sortable: true },
+  { key: 'serviceNumber', label: 'Reference Number', sortable: true },
   { key: 'rankName', label: 'Rank', sortable: true },
   { key: 'assignment', label: 'Assignment', sortable: false },
   { key: 'serviceStatus', label: 'Service Status', sortable: true },
