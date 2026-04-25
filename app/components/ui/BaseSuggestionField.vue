@@ -18,7 +18,7 @@
         @input="onInput"
       />
 
-      <div v-if="isPanelVisible" :class="SUGGESTION_FIELD_PANEL_CLASSES">
+      <div v-if="isPanelVisible" :class="panelClasses">
         <button
           v-for="option in filteredOptions"
           :key="option.value"
@@ -61,6 +61,7 @@ import {
   SUGGESTION_FIELD_ITEM_ACTIVE_CLASSES,
   SUGGESTION_FIELD_ITEM_CLASSES,
   SUGGESTION_FIELD_PANEL_CLASSES,
+  SUGGESTION_FIELD_PANEL_POSITION_CLASSES,
 } from '~/constants/ui.constants'
 
 type SuggestionValue = string | string[] | null
@@ -77,6 +78,7 @@ const props = withDefaults(
     required?: boolean
     disabled?: boolean
     multiple?: boolean
+    panelPosition?: 'top' | 'bottom'
     id?: string
   }>(),
   {
@@ -89,6 +91,7 @@ const props = withDefaults(
     required: false,
     disabled: false,
     multiple: false,
+    panelPosition: 'bottom',
     id: undefined,
   }
 )
@@ -135,6 +138,11 @@ const inputClasses = computed(() => [
   FORM_CONTROL_BASE_CLASSES,
   props.error ? FORM_CONTROL_STATE_CLASSES.error : FORM_CONTROL_STATE_CLASSES.default,
   props.disabled ? FORM_CONTROL_STATE_CLASSES.disabled : FORM_CONTROL_STATE_CLASSES.enabled,
+])
+
+const panelClasses = computed(() => [
+  SUGGESTION_FIELD_PANEL_CLASSES,
+  SUGGESTION_FIELD_PANEL_POSITION_CLASSES[props.panelPosition],
 ])
 
 const isSelected = (value: string) => selectedValues.value.includes(value)

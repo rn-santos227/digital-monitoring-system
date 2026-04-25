@@ -106,6 +106,7 @@
           :options="PERSONNEL_CREATE_EMPLOYMENT_STATUS_OPTIONS"
           :label="PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_LABEL"
           :placeholder="PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_PLACEHOLDER"
+          panel-position="top"
           :error="errors.employmentStatusId"
           required
         />
@@ -114,6 +115,7 @@
           :options="PERSONNEL_CREATE_SERVICE_STATUS_OPTIONS"
           :label="PERSONNEL_CREATE_SERVICE_STATUS_ID_LABEL"
           :placeholder="PERSONNEL_CREATE_SERVICE_STATUS_ID_PLACEHOLDER"
+          panel-position="top"
           :error="errors.serviceStatusId"
           required
         />
