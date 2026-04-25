@@ -10,7 +10,7 @@ import {
   PERSONNEL_REFERENCE_ID_SELECT_COLUMNS,
 } from '../../../shared/constants'
 import { buildPersonnelUpdates, ensurePersonnelUnitAssignmentAfterUpdate, requireRouteId } from '../../../shared/validations'
-import { resolvePersonnelEmploymentStatusId, resolvePersonnelServiceStatusId } from '../../../shared/utils'
+import { assertCompanyBelongsToBattalion, resolvePersonnelEmploymentStatusId, resolvePersonnelServiceStatusId } from '../../../shared/utils'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
@@ -87,6 +87,25 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       if (!battalion) {
         throw createError({ statusCode: 400, statusMessage: 'Invalid battalion id.' })
       }
+    }
+  
+    const resolvedCompanyId = typeof updates.company_id === 'string'
+      ? updates.company_id
+      : updates.company_id === null
+        ? null
+        : existingPersonnel.company_id
+    const resolvedBattalionId = typeof updates.battalion_id === 'string'
+      ? updates.battalion_id
+      : updates.battalion_id === null
+        ? null
+        : existingPersonnel.battalion_id
+
+    if (resolvedCompanyId && resolvedBattalionId) {
+      await assertCompanyBelongsToBattalion({
+        supabase,
+        companyId: resolvedCompanyId,
+        battalionId: resolvedBattalionId,
+      })
     }
 
     await executeWithRollback({

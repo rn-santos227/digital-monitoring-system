@@ -212,7 +212,7 @@ values
   ('user.delete', 'Delete User', 'user_management'),
   ('account_type.view', 'View Account Type', 'account_type_management'),
   ('account_type.create', 'Create Account Type', 'account_type_management'),
-  ('account_type.update', 'Update Account Type', 'account_type_management'),
+  ('account_type.update', 'Update Account Type', 'account_type_management')
 on conflict (code) do update
 set name = excluded.name,
     module = excluded.module;

@@ -95,6 +95,7 @@
           :label="PERSONNEL_CREATE_COMPANY_ID_LABEL"
           :placeholder="PERSONNEL_CREATE_COMPANY_ID_PLACEHOLDER"
           :battalion-id="form.battalionId"
+          :disabled="!form.battalionId"
           :error="errors.companyId"
         />
 
@@ -137,7 +138,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, watch } from 'vue'
 import BattalionsSuggestionField from '~/components/general/BattalionsSuggestionField.vue'
 import CompaniesSuggestionField from '~/components/general/CompaniesSuggestionField.vue'
 import RankSuggestionField from '~/components/general/RankSuggestionField.vue'
@@ -204,6 +205,15 @@ const form = reactive({
 })
 
 const errors = reactive<Record<string, string>>({})
+
+watch(
+  () => form.battalionId,
+  (nextBattalionId, previousBattalionId) => {
+    if (!nextBattalionId || (previousBattalionId && nextBattalionId !== previousBattalionId)) {
+      form.companyId = ''
+    }
+  }
+)
 
 const onSubmit = () => {
   const result = validateCreatePersonnelForm(form)

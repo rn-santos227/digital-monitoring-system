@@ -89,6 +89,7 @@
           :label="PERSONNEL_CREATE_COMPANY_ID_LABEL"
           :placeholder="PERSONNEL_CREATE_COMPANY_ID_PLACEHOLDER"
           :battalion-id="form.battalionId"
+          :disabled="!form.battalionId"
           :error="errors.companyId"
         />
         <BattalionsSuggestionField
@@ -215,6 +216,15 @@ const syncForm = (value: PersonnelDetail) => {
 watch(() => props.initialValues, syncForm, { immediate: true, deep: true })
 
 const errors = reactive<Record<string, string>>({})
+
+watch(
+  () => form.battalionId,
+  (nextBattalionId, previousBattalionId) => {
+    if (!nextBattalionId || (previousBattalionId && nextBattalionId !== previousBattalionId)) {
+      form.companyId = ''
+    }
+  }
+)
 
 const onSubmit = () => {
   const result = validateCreatePersonnelForm(form)

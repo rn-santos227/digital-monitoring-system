@@ -63,10 +63,11 @@ export const validateCreatePersonnelForm = (form: CreatePersonnelForm) => {
     ...(normalizedSex ? {} : { sex: 'Sex is required.' }),
   }
 
-  const hasUnitAssignment = Boolean(validation.values.companyId || validation.values.battalionId)
-  if (!hasUnitAssignment) {
-    errors.companyId = 'Provide at least one unit assignment (company or battalion).'
-    errors.battalionId = 'Provide at least one unit assignment (company or battalion).'
+  const hasCompanyAssignment = Boolean(validation.values.companyId)
+  const hasBattalionAssignment = Boolean(validation.values.battalionId)
+
+  if (hasCompanyAssignment && !hasBattalionAssignment) {
+    errors.battalionId = 'Select a battalion before assigning a company.'
   }
 
   const isValidSex = SEX_VALUES.includes(normalizedSex as (typeof SEX_VALUES)[number])

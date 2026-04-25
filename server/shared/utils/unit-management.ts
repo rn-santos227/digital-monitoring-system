@@ -199,3 +199,37 @@ export const assertCompanyExists = async (args: {
     throw createError({ statusCode: 404, statusMessage: 'Company not found.' })
   }
 }
+
+export const assertCompanyBelongsToBattalion = async (args: {
+  supabase: unknown
+  companyId: string
+  battalionId: string
+}) => {
+  const supabaseClient = args.supabase as {
+    from: (table: string) => {
+      select: (columns: string) => {
+        eq: (column: string, value: string) => {
+          maybeSingle: () => Promise<{ data: { battalion_id: string | null } | null; error: { message: string } | null }>
+        }
+      }
+    }
+  }
+
+  const { data, error } = await supabaseClient
+    .from('companies')
+    .select('battalion_id')
+    .eq('id', args.companyId)
+    .maybeSingle()
+
+  if (error) {
+    throw createError({ statusCode: 500, statusMessage: `Failed to validate company battalion assignment: ${error.message}` })
+  }
+
+  if (!data) {
+    throw createError({ statusCode: 404, statusMessage: 'Company not found.' })
+  }
+
+  if (data.battalion_id !== args.battalionId) {
+    throw createError({ statusCode: 400, statusMessage: 'Company must belong to the selected battalion.' })
+  }
+}

@@ -44,8 +44,8 @@ const validatePersonnelUnitAssignment = (companyId: string | null | undefined, b
   const normalizedCompanyId = companyId === undefined ? undefined : companyId
   const normalizedBattalionId = battalionId === undefined ? undefined : battalionId
 
-  if (normalizedCompanyId === null && normalizedBattalionId === null) {
-    throw createError({ statusCode: 400, statusMessage: 'Personnel must be assigned to at least one unit (company or battalion).' })
+  if (normalizedCompanyId && normalizedBattalionId === null) {
+    throw createError({ statusCode: 400, statusMessage: 'Battalion is required when assigning a company.' })
   }
 }
 

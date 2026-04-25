@@ -8,7 +8,7 @@ import {
   PERSONNEL_REFERENCE_ID_SELECT_COLUMNS,
 } from '../../shared/constants'
 import { parseCreatePersonnelPayload } from '../../shared/validations'
-import { resolvePersonnelEmploymentStatusId, resolvePersonnelServiceStatusId } from '../../shared/utils'
+import { assertCompanyBelongsToBattalion, resolvePersonnelEmploymentStatusId, resolvePersonnelServiceStatusId } from '../../shared/utils'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
@@ -56,6 +56,14 @@ export default defineEventHandler(async (event) => {
       if (battalionError || !battalion) {
         throw createError({ statusCode: 400, statusMessage: 'Invalid battalion id.' })
       }
+    }
+
+    if (payload.company_id && payload.battalion_id) {
+      await assertCompanyBelongsToBattalion({
+        supabase,
+        companyId: payload.company_id,
+        battalionId: payload.battalion_id,
+      })
     }
 
     const { data: createdPersonnel, error: insertError } = await supabase
