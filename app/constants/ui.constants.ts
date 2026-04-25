@@ -112,7 +112,9 @@ export const BASE_TABLE_BODY_CELL_CLASSES = 'px-3 py-2.5 align-middle whitespace
 export const BASE_TABLE_ACTIONS_CELL_CLASSES = 'px-3 py-2.5 text-right'
 export const BASE_TABLE_EMPTY_STATE_CLASSES = 'px-4 py-6 text-center text-slate-500'
 
-export const BASE_TABLE_PAGINATION_WRAPPER_CLASSES = 'mt-3 flex items-center justify-between gap-3 text-sm text-slate-600'
+export const BASE_TABLE_PAGINATION_WRAPPER_CLASSES = 'mt-3 flex flex-col gap-3 text-sm text-slate-600 xl:flex-row xl:items-center xl:justify-between'
+export const BASE_TABLE_PAGINATION_STATUS_CLASSES = 'space-y-1'
+export const BASE_TABLE_PAGINATION_CONTROLS_CLASSES = 'flex flex-wrap items-center gap-3'
 export const BASE_TABLE_PAGINATION_BUTTONS_CLASSES = 'flex items-center gap-1'
 
 export const BASE_TABLE_ACTIONS_COLUMN_WIDTH_CLASSES = Object.freeze({

@@ -1,4 +1,5 @@
 import type { DataTableAction, DataTableColumn } from '~/constants/ui.constants'
+export const TABLE_PAGE_SIZE_OPTIONS = Object.freeze([10, 25, 50, 100] as const)
 
 export const AUDIT_TABLE_TITLE = 'Recent Audit Logs'
 export const AUDIT_TABLE_SEARCH_PLACEHOLDER = 'Search audit logs'
