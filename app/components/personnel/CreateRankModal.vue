@@ -1,0 +1,45 @@
+<template>
+  <BaseModal
+    :title="RANK_CREATE_MODAL_TITLE"
+    :description="RANK_CREATE_MODAL_DESCRIPTION"
+    @close="emit('close')"
+  >
+    <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseTextField v-model="form.code" label="Rank Code" placeholder="Enter rank code" required />
+      <BaseTextField v-model="form.name" label="Rank Name" placeholder="Enter rank name" required />
+      <BaseTextField v-model="form.sortOrder" label="Sort Order" placeholder="0" type="number" required />
+    </form>
+
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton @click="onSubmit">Create</BaseButton>
+      </div>
+    </template>
+  </BaseModal>
+</template>
+
+<script setup lang="ts">
+import { reactive } from 'vue'
+import { RANK_CREATE_MODAL_DESCRIPTION, RANK_CREATE_MODAL_TITLE } from '~/constants/page.constants'
+import type { CreateRankPayload } from '~/types/domain/rank'
+
+const emit = defineEmits<{
+  (event: 'close'): void
+  (event: 'submit', payload: CreateRankPayload): void
+}>()
+
+const form = reactive({
+  code: '',
+  name: '',
+  sortOrder: '0',
+})
+
+const onSubmit = () => {
+  emit('submit', {
+    code: form.code.trim(),
+    name: form.name.trim(),
+    sortOrder: Number.parseInt(form.sortOrder, 10) || 0,
+  })
+}
+</script>
