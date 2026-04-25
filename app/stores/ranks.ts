@@ -6,6 +6,7 @@ import { createRankEndpoint, deleteRankEndpoint, getRanksEndpoint } from '~/util
 const DEFAULT_RANK_PAGINATION: RankTablePagination = {
   page: 1,
   pageSize: 10,
+  totalItems: 0,
   totalPages: 0,
 }
 
@@ -49,6 +50,7 @@ const rankStoreOptions = {
         this.pagination = {
           page: response.page,
           pageSize: response.pageSize,
+          totalItems: response.totalItems,
           totalPages: response.totalPages,
         }
       } catch (error) {

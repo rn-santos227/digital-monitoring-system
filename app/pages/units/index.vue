@@ -65,8 +65,11 @@
           :is-loading="isBattalionsLoading"
           :current-page="battalionPagination.page"
           :total-pages="battalionPagination.totalPages"
+          :total-items="battalionPagination.totalItems"
+          :page-size="battalionPagination.pageSize"
           @action="onBattalionAction"
           @update:current-page="onBattalionPageChange"
+          @update:page-size="onBattalionPageSizeChange"
         />
       </template>
 
@@ -89,8 +92,11 @@
           :is-loading="isCompaniesLoading"
           :current-page="companyPagination.page"
           :total-pages="companyPagination.totalPages"
+          :total-items="companyPagination.totalItems"
+          :page-size="companyPagination.pageSize"
           @action="onCompanyAction"
           @update:current-page="onCompanyPageChange"
+          @update:page-size="onCompanyPageSizeChange"
         />
       </template>
 
@@ -405,6 +411,14 @@ const onBattalionPageChange = (nextPage: number) => {
 
 const onCompanyPageChange = (nextPage: number) => {
   void loadCompanies(nextPage, companyFilters.value)
+}
+
+const onBattalionPageSizeChange = (nextPageSize: number) => {
+  void loadBattalions(1, battalionFilters.value, nextPageSize)
+}
+
+const onCompanyPageSizeChange = (nextPageSize: number) => {
+  void loadCompanies(1, companyFilters.value, nextPageSize)
 }
 
 const refreshUnitKpis = () => {

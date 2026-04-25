@@ -41,6 +41,7 @@ export interface CreateRankPayload {
 export interface RankTablePagination {
   page: number
   pageSize: number
+  totalItems: number
   totalPages: number
 }
 

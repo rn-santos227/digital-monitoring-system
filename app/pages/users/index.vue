@@ -42,8 +42,11 @@
           :is-loading="isLoading"
           :current-page="profilePagination.page"
           :total-pages="profilePagination.totalPages"
+          :total-items="profilePagination.totalItems"
+          :page-size="profilePagination.pageSize"
           @action="onProfileAction"
           @update:current-page="onProfilePageChange"
+          @update:page-size="onProfilePageSizeChange"
         />
       </template>
 
@@ -72,8 +75,12 @@
           :is-loading="isLoading"
           :current-page="accountPagination.page"
           :total-pages="accountPagination.totalPages"
+          :total-items="accountPagination.totalItems"
+          :page-size="accountPagination.pageSize"
           @action="onAccountAction"
           @update:current-page="onAccountPageChange"
+          @update:page-size="onAccountPageSizeChange"
+
         />
       </template>
 
@@ -258,6 +265,15 @@ const onProfilePageChange = (nextPage: number) => {
 const onAccountPageChange = (nextPage: number) => {
   void loadUserAccounts(nextPage, accountFilters.value)
 }
+
+const onProfilePageSizeChange = (nextPageSize: number) => {
+  void loadUserProfiles(1, profileFilters.value, nextPageSize)
+}
+
+const onAccountPageSizeChange = (nextPageSize: number) => {
+  void loadUserAccounts(1, accountFilters.value, nextPageSize)
+}
+
 const isCreateUserProfileModalOpen = ref(false)
 const isUpdateUserProfileModalOpen = ref(false)
 const isUserPasswordModalOpen = ref(false)

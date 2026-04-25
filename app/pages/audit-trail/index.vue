@@ -22,10 +22,13 @@
         :is-loading="isLoading"
         :current-page="currentPage"
         :total-pages="totalPages"
+        :total-items="totalItems"
+        :page-size="pageSize"
         @sort="handleSort"
         @update:search-query="handleSearch"
         @action="handleAction"
         @update:current-page="currentPage = $event"
+        @update:page-size="onPageSizeChange"
       />
 
       <AuditModal
@@ -66,6 +69,8 @@ const {
   tableRows,
   tableEmptyMessage,
   currentPage,
+  pageSize,
+  totalItems,
   totalPages,
   isLoading,
   selectedAuditLog,
@@ -111,6 +116,11 @@ const handleResetFilters = async () => {
   filterValidationErrors.value = {}
   currentPage.value = 1
   await loadAuditLogs(1, queryFilters)
+}
+
+const onPageSizeChange = (nextPageSize: number) => {
+  currentPage.value = 1
+  void loadAuditLogs(1, filters.value, nextPageSize)
 }
 
 watch(activeAuditLogId, async (nextAuditLogId) => {

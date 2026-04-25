@@ -343,6 +343,14 @@ const onRankPageChange = async (page: number) => {
   await loadRanks(page, rankSearchTerm.value)
 }
 
+const handlePageSizeChange = async (nextPageSize: number) => {
+  await loadPersonnel(1, filters.value, nextPageSize)
+}
+
+const onRankPageSizeChange = async (nextPageSize: number) => {
+  await loadRanks(1, rankSearchTerm.value, nextPageSize)
+}
+
 const handleCreateRank = async (payload: CreateRankPayload) => {
   try {
     await createRank(payload)
