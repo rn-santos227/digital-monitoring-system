@@ -18,11 +18,11 @@ export const useCompanies = () => {
     }))
   })
 
-  const loadCompanies = async (page = pagination.value.page, nextFilters: Partial<CompanySearchQuery> = filters.value) => {
+  const loadCompanies = async (page = pagination.value.page, nextFilters: Partial<CompanySearchQuery> = filters.value, pageSize = pagination.value.pageSize) => {
     filters.value = { ...nextFilters }
 
     try {
-      await companiesStore.fetchCompanies(page, filters.value)
+      await companiesStore.fetchCompanies(page, filters.value, pageSize)
     } catch {
       // Error state is exposed from the store.
     }

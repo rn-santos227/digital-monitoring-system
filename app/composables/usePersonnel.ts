@@ -21,11 +21,11 @@ export const usePersonnel = () => {
     }))
   })
 
-  const loadPersonnel = async (page = pagination.value.page, nextFilters: Partial<PersonnelSearchQuery> = filters.value) => {
+  const loadPersonnel = async (page = pagination.value.page, nextFilters: Partial<PersonnelSearchQuery> = filters.value, pageSize = pagination.value.pageSize) => {
     filters.value = { ...nextFilters }
 
     try {
-      await personnelStore.fetchPersonnel(page, filters.value)
+      await personnelStore.fetchPersonnel(page, filters.value, pageSize)
     } catch {
       // Error state is exposed from the store.
     }

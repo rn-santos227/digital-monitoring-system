@@ -6,7 +6,7 @@ import type { AuditLogSearchQuery, AuditLogSortKey } from '~/types/domain/audit'
 
 export const useAuditTrail = () => {
   const auditStore = useAuditStore()
-  const { items, page, totalPages, isLoading, error, selectedAuditLog, isDetailLoading, detailError } = storeToRefs(auditStore)
+  const { items, page, pageSize, totalItems, totalPages, isLoading, error, selectedAuditLog, isDetailLoading, detailError } = storeToRefs(auditStore)
 
   const searchQuery = ref('')
   const filters = ref<Partial<AuditLogSearchQuery>>({})
@@ -40,11 +40,11 @@ export const useAuditTrail = () => {
     return 'No audit log entries found.'
   })
 
-  const loadAuditLogs = async (nextPage = page.value, nextFilters: Partial<AuditLogSearchQuery> = filters.value) => {
+  const loadAuditLogs = async (nextPage = page.value, nextFilters: Partial<AuditLogSearchQuery> = filters.value, nextPageSize = pageSize.value) => {
     filters.value = { ...nextFilters }
 
     try {
-      await auditStore.fetchAuditLogs({ page: nextPage, ...filters.value })
+      await auditStore.fetchAuditLogs({ page: nextPage, pageSize: nextPageSize, ...filters.value })
     } catch {
       // Error state is set in the store and exposed to the page.
     }
@@ -70,6 +70,8 @@ export const useAuditTrail = () => {
     tableRows,
     tableEmptyMessage,
     currentPage: page,
+    pageSize,
+    totalItems,
     totalPages,
     isLoading,
     selectedAuditLog,

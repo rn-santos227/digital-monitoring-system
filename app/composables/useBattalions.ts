@@ -18,11 +18,11 @@ export const useBattalions = () => {
     }))
   })
 
-  const loadBattalions = async (page = pagination.value.page, nextFilters: Partial<BattalionSearchQuery> = filters.value) => {
+  const loadBattalions = async (page = pagination.value.page, nextFilters: Partial<BattalionSearchQuery> = filters.value, pageSize = pagination.value.pageSize) => {
     filters.value = { ...nextFilters }
 
     try {
-      await battalionsStore.fetchBattalions(page, filters.value)
+      await battalionsStore.fetchBattalions(page, filters.value, pageSize)
     } catch {
       // Error state is exposed from the store.
     }

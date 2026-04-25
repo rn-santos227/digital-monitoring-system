@@ -9,9 +9,9 @@ export const useRanks = () => {
 
   const tableRows = computed(() => items.value)
 
-  const loadRanks = async (page = pagination.value.page, queryTerm = searchTerm.value) => {
+  const loadRanks = async (page = pagination.value.page, queryTerm = searchTerm.value, pageSize = pagination.value.pageSize) => {
     try {
-      await rankStore.fetchRanks(page, queryTerm)
+      await rankStore.fetchRanks(page, queryTerm, pageSize)
     } catch {
       // Error state is exposed from the store.
     }

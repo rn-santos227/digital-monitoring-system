@@ -58,11 +58,11 @@ export const useUsers = () => {
     }))
   })
 
-  const loadUserProfiles = async (page = profilePagination.value.page, filters: Partial<UserProfilesSearchQuery> = profileFilters.value) => {
+  const loadUserProfiles = async (page = profilePagination.value.page, filters: Partial<UserProfilesSearchQuery> = profileFilters.value, pageSize = profilePagination.value.pageSize) => {
     profileFilters.value = { ...filters }
 
     try {
-      await usersStore.fetchUserProfiles(page, profileFilters.value)
+      await usersStore.fetchUserProfiles(page, profileFilters.value, pageSize)
     } catch {
       // Error state is exposed from the store.
     }
@@ -120,11 +120,11 @@ export const useUsers = () => {
     }
   }
 
-  const loadUserAccounts = async (page = accountPagination.value.page, filters: Partial<UserAccountsSearchQuery> = accountFilters.value) => {
+  const loadUserAccounts = async (page = accountPagination.value.page, filters: Partial<UserAccountsSearchQuery> = accountFilters.value, pageSize = accountPagination.value.pageSize) => {
     accountFilters.value = { ...filters }
 
     try {
-      await usersStore.fetchUserAccounts(page, accountFilters.value)
+      await usersStore.fetchUserAccounts(page, accountFilters.value, pageSize)
     } catch {
       // Error state is exposed from the store.
     }
