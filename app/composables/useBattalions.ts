@@ -40,5 +40,8 @@ export const useBattalions = () => {
     error,
     loadBattalions,
     createBattalion: battalionsStore.createBattalion,
+    getBattalionById: battalionsStore.getBattalionById,
+    updateBattalion: battalionsStore.updateBattalion,
+    deleteBattalion: battalionsStore.deleteBattalion,
   }
 }

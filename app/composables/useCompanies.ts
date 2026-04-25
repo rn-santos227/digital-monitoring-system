@@ -40,5 +40,8 @@ export const useCompanies = () => {
     error,
     loadCompanies,
     createCompany: companiesStore.createCompany,
+    getCompanyById: companiesStore.getCompanyById,
+    updateCompany: companiesStore.updateCompany,
+    deleteCompany: companiesStore.deleteCompany,
   }
 }
