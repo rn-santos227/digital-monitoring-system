@@ -103,7 +103,11 @@
       :current-page="currentPage"
       :total-pages="totalPages"
       :max-visible-pages="maxVisiblePages"
+      :total-items="totalItems"
+      :page-size="pageSize"
+      :page-size-options="pageSizeOptions"
       @update:current-page="emit('update:currentPage', $event)"
+      @update:page-size="emit('update:pageSize', $event)"
     />
   </section>
 </template>
@@ -143,6 +147,9 @@ const props = withDefaults(
     currentPage?: number
     totalPages?: number
     maxVisiblePages?: number
+    totalItems?: number
+    pageSize?: number
+    pageSizeOptions?: readonly number[]
     actionButtonCount?: number
     actionsColumnLabel?: string
     showSearch?: boolean
@@ -158,6 +165,9 @@ const props = withDefaults(
     currentPage: 1,
     totalPages: 1,
     maxVisiblePages: 5,
+    totalItems: 0,
+    pageSize: 10,
+    pageSizeOptions: () => [10, 25, 50, 100],
     actionButtonCount: 0,
     actionsColumnLabel: 'Actions',
     showSearch: true
@@ -169,6 +179,7 @@ const emit = defineEmits<{
   (event: 'sort', key: string): void
   (event: 'update:searchQuery', value: string): void
   (event: 'update:currentPage', value: number): void
+  (event: 'update:pageSize', value: number): void
 }>()
 
 const getRowValue = (row: TRow, key: string): string | number | boolean | null | undefined =>
