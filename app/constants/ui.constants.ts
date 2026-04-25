@@ -142,6 +142,14 @@ export const BASE_ACCORDION_ROOT_CLASSES = 'rounded-xl border border-slate-200 b
 export const BASE_ACCORDION_TRIGGER_CLASSES =
   'flex w-full items-center justify-between gap-3 px-4 py-3 text-left text-sm font-medium text-slate-800 transition hover:bg-slate-50'
 export const BASE_ACCORDION_CONTENT_CLASSES = 'border-t border-slate-200 px-4 py-3'
+export const BASE_ACCORDION_ICON_CLASSES = 'transition-transform duration-200 ease-out'
+export const BASE_ACCORDION_ICON_OPEN_CLASSES = 'rotate-180'
+export const BASE_ACCORDION_TRANSITION_ENTER_ACTIVE_CLASSES = 'transition-all duration-200 ease-out'
+export const BASE_ACCORDION_TRANSITION_ENTER_FROM_CLASSES = 'opacity-0 -translate-y-1'
+export const BASE_ACCORDION_TRANSITION_ENTER_TO_CLASSES = 'opacity-100 translate-y-0'
+export const BASE_ACCORDION_TRANSITION_LEAVE_ACTIVE_CLASSES = 'transition-all duration-150 ease-in'
+export const BASE_ACCORDION_TRANSITION_LEAVE_FROM_CLASSES = 'opacity-100 translate-y-0'
+export const BASE_ACCORDION_TRANSITION_LEAVE_TO_CLASSES = 'opacity-0 -translate-y-1'
 
 export const BASE_ALERT_CLASSES = 'rounded-xl border px-4 py-3 text-sm'
 export const BASE_ALERT_TONE_CLASSES: Record<UiTone, string> = {

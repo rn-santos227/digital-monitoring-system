@@ -64,7 +64,7 @@
               placeholder="Search rank code or name"
               @update:model-value="onRankSearchTermChange"
             />
-            <div v-if="canCreatePersonnel" class="flex items-end">
+            <div v-if="canCreateRanks" class="flex items-end">
               <BaseButton @click="isCreateRankModalOpen = true">{{ RANK_CREATE_BUTTON_LABEL }}</BaseButton>
             </div>
           </div>
@@ -74,7 +74,7 @@
             :is-loading="isRanksLoading"
             :current-page="rankPagination.page"
             :total-pages="rankPagination.totalPages"
-            :can-delete="canDeletePersonnel"
+            :can-delete="canDeleteRanks"
             @update:current-page="onRankPageChange"
             @action="onRankTableAction"
           />
