@@ -24,7 +24,20 @@ export interface CreateBattalionPayload {
   isActive: boolean
 }
 
+export interface UpdateBattalionPayload {
+  code: string
+  name: string
+  isActive: boolean
+}
+
 export interface CreateCompanyPayload {
+  battalionId: string | null
+  code: string
+  name: string
+  isActive: boolean
+}
+
+export interface UpdateCompanyPayload {
   battalionId: string | null
   code: string
   name: string

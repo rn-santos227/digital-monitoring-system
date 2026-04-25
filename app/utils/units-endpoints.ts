@@ -8,6 +8,8 @@ import type {
   CompanyEndpointQuery,
   CompanyListItem,
   CompanySearchQuery,
+  UpdateBattalionPayload,
+  UpdateCompanyPayload,
   UnitListResponse,
 } from '~/types/domain/units'
 import { withApiLoading } from '~/utils/api-request'
@@ -71,4 +73,60 @@ export const createCompanyEndpoint = async (payload: CreateCompanyPayload): Prom
       body: payload,
     })
   }, API_LOADING_MESSAGES.createCompany)
+}
+
+export const getBattalionByIdEndpoint = async (id: string): Promise<BattalionListItem> => {
+  return await withApiLoading(async () => {
+    return await $fetch<BattalionListItem>(UNIT_MANAGEMENT_API_ENDPOINTS.battalionById(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchBattalions)
+}
+
+export const updateBattalionEndpoint = async (id: string, payload: UpdateBattalionPayload): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(UNIT_MANAGEMENT_API_ENDPOINTS.battalionById(id), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updateBattalion)
+}
+
+export const deleteBattalionEndpoint = async (id: string): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(UNIT_MANAGEMENT_API_ENDPOINTS.battalionById(id), {
+      method: 'DELETE',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.deleteBattalion)
+}
+
+export const getCompanyByIdEndpoint = async (id: string): Promise<CompanyListItem> => {
+  return await withApiLoading(async () => {
+    return await $fetch<CompanyListItem>(UNIT_MANAGEMENT_API_ENDPOINTS.companyById(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchCompanies)
+}
+
+export const updateCompanyEndpoint = async (id: string, payload: UpdateCompanyPayload): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(UNIT_MANAGEMENT_API_ENDPOINTS.companyById(id), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updateCompany)
+}
+
+export const deleteCompanyEndpoint = async (id: string): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(UNIT_MANAGEMENT_API_ENDPOINTS.companyById(id), {
+      method: 'DELETE',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.deleteCompany)
 }

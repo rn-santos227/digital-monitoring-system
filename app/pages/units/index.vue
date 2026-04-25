@@ -1,4 +1,4 @@
-app/pages/units/index.vue<template>
+<template>
   <main :class="APP_MAIN_CONTENT_CLASSES">
     <section :class="UNITS_PAGE_SECTION_CLASSES">
       <header :class="UNITS_PAGE_HEADER_CLASSES">

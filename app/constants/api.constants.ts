@@ -25,8 +25,10 @@ export const USER_MANAGEMENT_API_ENDPOINTS = Object.freeze({
 export const UNIT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   battalions: '/api/battalions',
   battalionsSearch: '/api/battalions/search',
+  battalionById: (id: string) => `/api/battalions/${id}`,
   companies: '/api/companies',
   companiesSearch: '/api/companies/search',
+  companyById: (id: string) => `/api/companies/${id}`,
 })
 
 export const DASHBOARD_API_ENDPOINTS = Object.freeze({
@@ -90,6 +92,10 @@ export const API_LOADING_MESSAGES = Object.freeze({
   fetchCompanies: 'Loading company records...',
   fetchUnitManagementKpis: 'Loading unit KPIs...',
   createBattalion: 'Creating battalion record...',
+  updateBattalion: 'Updating battalion record...',
+  deleteBattalion: 'Deleting battalion record...',
   createCompany: 'Creating company record...',
+  updateCompany: 'Updating company record...',
+  deleteCompany: 'Deleting company record...',
   uploadFile: 'Uploading file...',
 })

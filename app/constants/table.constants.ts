@@ -51,7 +51,7 @@ export const PERSONNEL_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze
 export const PERSONNEL_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'fullName', label: 'Personnel', sortable: true },
   { key: 'personnelCode', label: 'Personnel Code', sortable: true },
-  { key: 'serviceNumber', label: 'Reference Number', sortable: true },
+  { key: 'serviceNumber', label: 'Serial Number', sortable: true },
   { key: 'rankName', label: 'Rank', sortable: true },
   { key: 'assignment', label: 'Assignment', sortable: false },
   { key: 'serviceStatus', label: 'Service Status', sortable: true },
@@ -192,8 +192,41 @@ export const BATTALIONS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freez
   { key: 'companyCount', label: 'Companies', sortable: true },
 ])
 
+export const BATTALIONS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
+export const BATTALIONS_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  {
+    key: 'edit-battalion',
+    tooltip: 'Edit battalion',
+    iconName: 'pencil-square',
+    variant: 'warning',
+  },
+  {
+    key: 'delete-battalion',
+    tooltip: 'Delete battalion',
+    iconName: 'trash',
+    variant: 'danger',
+  },
+])
+
 export const COMPANIES_TABLE_TITLE = 'Companies'
 export const COMPANIES_TABLE_EMPTY_MESSAGE = 'No company records found.'
+
+export const COMPANIES_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
+export const COMPANIES_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  {
+    key: 'edit-company',
+    tooltip: 'Edit company',
+    iconName: 'pencil-square',
+    variant: 'warning',
+  },
+  {
+    key: 'delete-company',
+    tooltip: 'Delete company',
+    iconName: 'trash',
+    variant: 'danger',
+  },
+])
+
 export const COMPANIES_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'code', label: 'Code', sortable: true },
   { key: 'name', label: 'Name', sortable: true },

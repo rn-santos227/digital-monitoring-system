@@ -140,8 +140,8 @@ export const PERSONNEL_CREATE_MODAL_TITLE = 'Create Personnel Record'
 export const PERSONNEL_CREATE_MODAL_DESCRIPTION = 'Register a new personnel profile for battalion and company monitoring.'
 export const PERSONNEL_CREATE_PERSONNEL_CODE_LABEL = 'Personnel Code'
 export const PERSONNEL_CREATE_PERSONNEL_CODE_PLACEHOLDER = 'Enter personnel code'
-export const PERSONNEL_CREATE_SERVICE_NUMBER_LABEL = 'Reference Number'
-export const PERSONNEL_CREATE_SERVICE_NUMBER_PLACEHOLDER = 'Enter reference number'
+export const PERSONNEL_CREATE_SERVICE_NUMBER_LABEL = 'Serial Number'
+export const PERSONNEL_CREATE_SERVICE_NUMBER_PLACEHOLDER = 'Enter Serial Number'
 export const PERSONNEL_CREATE_LAST_NAME_LABEL = 'Last Name'
 export const PERSONNEL_CREATE_LAST_NAME_PLACEHOLDER = 'Enter last name'
 export const PERSONNEL_CREATE_FIRST_NAME_LABEL = 'First Name'
@@ -208,7 +208,7 @@ export const PERSONNEL_FILTER_RESET_LABEL = 'Reset'
 export const PERSONNEL_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: '', label: 'All searchable fields' },
   { value: 'personnelCode', label: 'Personnel Code' },
-  { value: 'serviceNumber', label: 'Reference Number' },
+  { value: 'serviceNumber', label: 'Serial Number' },
   { value: 'lastName', label: 'Last Name' },
   { value: 'firstName', label: 'First Name' },
   { value: 'rankName', label: 'Rank' },
@@ -224,6 +224,7 @@ export const UNITS_BATTALION_TAB_LABEL = 'Battalions'
 export const UNITS_COMPANY_TAB_LABEL = 'Companies'
 export const UNITS_BATTALION_CREATE_BUTTON_LABEL = 'Create Battalion'
 export const UNITS_COMPANY_CREATE_BUTTON_LABEL = 'Create Company'
+export const UNITS_MODAL_UPDATE_LABEL = 'Update'
 export const UNITS_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
   { id: 'battalion', label: UNITS_BATTALION_TAB_LABEL },
   { id: 'company', label: UNITS_COMPANY_TAB_LABEL },
@@ -273,6 +274,17 @@ export const COMPANY_CREATE_ACTIVE_LABEL = 'Active Company'
 export const COMPANY_CREATE_ACTIVE_DESCRIPTION = 'Enable this company for personnel assignment and operations.'
 export const UNITS_MODAL_CREATE_LABEL = 'Create'
 export const UNITS_MODAL_CANCEL_LABEL = 'Cancel'
+
+export const BATTALION_UPDATE_MODAL_TITLE = 'Update Battalion Record'
+export const BATTALION_UPDATE_MODAL_DESCRIPTION = 'Update battalion profile details and assignment availability.'
+
+export const COMPANY_UPDATE_MODAL_TITLE = 'Update Company Record'
+export const COMPANY_UPDATE_MODAL_DESCRIPTION = 'Update company profile details and battalion assignment.'
+
+export const BATTALION_DELETE_DIALOG_TITLE = 'Delete battalion?'
+export const BATTALION_DELETE_DIALOG_MESSAGE = 'This action cannot be undone. Continue deleting this battalion record?'
+export const COMPANY_DELETE_DIALOG_TITLE = 'Delete company?'
+export const COMPANY_DELETE_DIALOG_MESSAGE = 'This action cannot be undone. Continue deleting this company record?'
 
 export const COMPANIES_FILTER_CARD_TITLE = 'Filter Companies'
 export const COMPANIES_FILTER_TERM_LABEL = 'Search Term'
@@ -422,7 +434,7 @@ export const USERS_PROFILE_EMAIL_PLACEHOLDER = 'Enter email address'
 export const USERS_PROFILE_FULL_NAME_LABEL = 'Full Name'
 export const USERS_PROFILE_FULL_NAME_PLACEHOLDER = 'Enter full name'
 export const USERS_PROFILE_PERSONNEL_LABEL = 'Personnel'
-export const USERS_PROFILE_PERSONNEL_PLACEHOLDER = 'Search personnel by code, reference number, or name'
+export const USERS_PROFILE_PERSONNEL_PLACEHOLDER = 'Search personnel by code, Serial Number, or name'
 export const USERS_PROFILE_PERSONNEL_HELPER_TEXT = 'Assign personnel to link this user profile to personnel records.'
 export const USERS_PROFILE_PERSONNEL_EMPTY_MESSAGE = 'No personnel records found.'
 export const USERS_PROFILE_PASSWORD_LABEL = 'Password'
