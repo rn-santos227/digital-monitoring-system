@@ -107,16 +107,18 @@
       </div>
 
       <div class="grid gap-4 md:grid-cols-2">
-        <BaseTextField
+        <BaseSuggestionField
           v-model="form.employmentStatusId"
+          :options="PERSONNEL_CREATE_EMPLOYMENT_STATUS_OPTIONS"
           :label="PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_LABEL"
           :placeholder="PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_PLACEHOLDER"
           :error="errors.employmentStatusId"
           required
         />
 
-        <BaseTextField
+        <BaseSuggestionField
           v-model="form.serviceStatusId"
+          :options="PERSONNEL_CREATE_SERVICE_STATUS_OPTIONS"
           :label="PERSONNEL_CREATE_SERVICE_STATUS_ID_LABEL"
           :placeholder="PERSONNEL_CREATE_SERVICE_STATUS_ID_PLACEHOLDER"
           :error="errors.serviceStatusId"
@@ -138,8 +140,8 @@
 import { reactive } from 'vue'
 import BattalionsSuggestionField from '~/components/general/BattalionsSuggestionField.vue'
 import CompaniesSuggestionField from '~/components/general/CompaniesSuggestionField.vue'
+import RankSuggestionField from '~/components/general/RankSuggestionField.vue'
 import {
-
   PERSONNEL_CREATE_BATTALION_ID_LABEL,
   PERSONNEL_CREATE_BATTALION_ID_PLACEHOLDER,
   PERSONNEL_CREATE_BIRTHDATE_LABEL,
@@ -149,6 +151,7 @@ import {
   PERSONNEL_CREATE_CONTACT_NUMBER_PLACEHOLDER,
   PERSONNEL_CREATE_DATE_ENLISTED_LABEL,
   PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_LABEL,
+  PERSONNEL_CREATE_EMPLOYMENT_STATUS_OPTIONS,
   PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_PLACEHOLDER,
   PERSONNEL_CREATE_FIRST_NAME_LABEL,
   PERSONNEL_CREATE_FIRST_NAME_PLACEHOLDER,
@@ -165,6 +168,7 @@ import {
   PERSONNEL_CREATE_SERVICE_NUMBER_LABEL,
   PERSONNEL_CREATE_SERVICE_NUMBER_PLACEHOLDER,
   PERSONNEL_CREATE_SERVICE_STATUS_ID_LABEL,
+  PERSONNEL_CREATE_SERVICE_STATUS_OPTIONS,
   PERSONNEL_CREATE_SERVICE_STATUS_ID_PLACEHOLDER,
   PERSONNEL_CREATE_SEX_LABEL,
   PERSONNEL_CREATE_SEX_OPTIONS,
