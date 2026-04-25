@@ -65,6 +65,7 @@
           :is-loading="isBattalionsLoading"
           :current-page="battalionPagination.page"
           :total-pages="battalionPagination.totalPages"
+          @action="onBattalionAction"
           @update:current-page="onBattalionPageChange"
         />
       </template>
@@ -88,18 +89,48 @@
           :is-loading="isCompaniesLoading"
           :current-page="companyPagination.page"
           :total-pages="companyPagination.totalPages"
+          @action="onCompanyAction"
           @update:current-page="onCompanyPageChange"
         />
       </template>
+
+      <CreateBattalionModal
+        v-if="isCreateBattalionModalOpen"
+        @close="onCloseCreateBattalionModal"
+        @submit="handleCreateBattalion"
+      />
+
+      <UpdateBattalionModal
+        v-if="isUpdateBattalionModalOpen && selectedBattalion"
+        :initial-values="selectedBattalion"
+        @close="onCloseUpdateBattalionModal"
+        @submit="handleUpdateBattalion"
+      />
+
+      <CreateCompanyModal
+        v-if="isCreateCompanyModalOpen"
+        @close="onCloseCreateCompanyModal"
+        @submit="handleCreateCompany"
+      />
+
+      <UpdateCompanyModal
+        v-if="isUpdateCompanyModalOpen && selectedCompany"
+        :initial-values="selectedCompany"
+        @close="onCloseUpdateCompanyModal"
+        @submit="handleUpdateCompany"
+      />
     </section>
   </main>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateBattalionModal from '~/components/units/CreateBattalionModal.vue'
+import UpdateBattalionModal from '~/components/units/UpdateBattalionModal.vue'
 import CreateCompanyModal from '~/components/units/CreateCompanyModal.vue'
+import UpdateCompanyModal from '~/components/units/UpdateCompanyModal.vue'
 import BattalionsFilter from '~/components/units/BattalionsFilter.vue'
 import BattalionsTable from '~/components/units/BattalionsTable.vue'
 import CompaniesFilter from '~/components/units/CompaniesFilter.vue'
@@ -120,18 +151,43 @@ import {
 } from '~/constants/page.constants'
 import { BATTALION_PRIVILEGES, COMPANY_PRIVILEGES } from '~/constants/privileges.constants'
 import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES, UNITS_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
-import { useBattalionFilterHandlers, useCompanyFilterHandlers, useCreateBattalionHandler, useCreateCompanyHandler, useUnitsPageHandlers } from '~/handlers'
+import {
+  useBattalionActionHandler,
+  useBattalionFilterHandlers,
+  useCompanyActionHandler,
+  useCompanyFilterHandlers,
+  useCreateBattalionHandler,
+  useCreateCompanyHandler,
+  useDeleteBattalionHandler,
+  useDeleteCompanyHandler,
+  useUnitsPageHandlers,
+  useUpdateBattalionHandler,
+  useUpdateCompanyHandler,
+} from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
-import type { CreateBattalionPayload, CreateCompanyPayload, UnitManagementTabId } from '~/types/domain/units'
+import type {
+  CreateBattalionPayload,
+  CreateCompanyPayload,
+  UnitManagementTabId,
+  UpdateBattalionPayload,
+  UpdateCompanyPayload,
+} from '~/types/domain/units'
 import { getUnitManagementKpisEndpoint } from '~/utils/dashboard-endpoints'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
 const activeTab = ref<UnitManagementTabId>('battalion')
 const authStore = useAuthStore()
 const { addToast } = useToast()
+const { showDialog } = useDialog()
 const kpiRefreshKey = ref(0)
 const isCreateBattalionModalOpen = ref(false)
+const isUpdateBattalionModalOpen = ref(false)
 const isCreateCompanyModalOpen = ref(false)
+const isUpdateCompanyModalOpen = ref(false)
+const selectedBattalionId = ref('')
+const selectedCompanyId = ref('')
+const selectedBattalion = ref<{ code: string; name: string; isActive: boolean } | null>(null)
+const selectedCompany = ref<{ battalionId: string | null; code: string; name: string; isActive: boolean } | null>(null)
 
 const {
   filters: battalionFilters,
@@ -141,6 +197,9 @@ const {
   error: battalionError,
   loadBattalions,
   createBattalion,
+  getBattalionById,
+  updateBattalion,
+  deleteBattalion,
 } = useBattalions()
 
 const {
@@ -151,6 +210,9 @@ const {
   error: companyError,
   loadCompanies,
   createCompany,
+  getCompanyById,
+  updateCompany,
+  deleteCompany,
 } = useCompanies()
 
 const { handleTabChange } = useUnitsPageHandlers(activeTab)
@@ -161,6 +223,68 @@ const { onOpenCreateBattalionModal, onCloseCreateBattalionModal, onCreateBattali
 const { onOpenCreateCompanyModal, onCloseCreateCompanyModal, onCreateCompany } = useCreateCompanyHandler({
   isCreateCompanyModalOpen,
   createCompany,
+})
+
+const {
+  canHandleUpdateBattalionAction,
+  onEditBattalionAction,
+  onUpdateBattalion,
+  onCloseUpdateBattalionModal,
+} = useUpdateBattalionHandler({
+  selectedBattalionId,
+  selectedBattalion,
+  isUpdateBattalionModalOpen,
+  getBattalionById,
+  updateBattalion,
+  loadBattalions,
+  battalionPagination,
+  battalionFilters,
+})
+
+const { canHandleDeleteBattalionAction, onDeleteBattalionAction } = useDeleteBattalionHandler({
+  showDialog,
+  deleteBattalion,
+  loadBattalions,
+  battalionPagination,
+  battalionFilters,
+})
+
+const { onBattalionAction } = useBattalionActionHandler({
+  onEditBattalionAction,
+  onDeleteBattalionAction,
+  canHandleUpdateBattalionAction,
+  canHandleDeleteBattalionAction,
+})
+
+const {
+  canHandleUpdateCompanyAction,
+  onEditCompanyAction,
+  onUpdateCompany,
+  onCloseUpdateCompanyModal,
+} = useUpdateCompanyHandler({
+  selectedCompanyId,
+  selectedCompany,
+  isUpdateCompanyModalOpen,
+  getCompanyById,
+  updateCompany,
+  loadCompanies,
+  companyPagination,
+  companyFilters,
+})
+
+const { canHandleDeleteCompanyAction, onDeleteCompanyAction } = useDeleteCompanyHandler({
+  showDialog,
+  deleteCompany,
+  loadCompanies,
+  companyPagination,
+  companyFilters,
+})
+
+const { onCompanyAction } = useCompanyActionHandler({
+  onEditCompanyAction,
+  onDeleteCompanyAction,
+  canHandleUpdateCompanyAction,
+  canHandleDeleteCompanyAction,
 })
 
 const { handleFilterApply: handleBattalionFilterApply, handleFilterReset: handleBattalionFilterReset } = useBattalionFilterHandlers(battalionFilters)
@@ -281,6 +405,24 @@ const handleCreateBattalion = async (payload: CreateBattalionPayload) => {
   }
 }
 
+const handleUpdateBattalion = async (payload: UpdateBattalionPayload) => {
+  try {
+    await onUpdateBattalion(payload)
+    addToast({
+      title: 'Battalion updated',
+      message: 'Battalion record has been updated successfully.',
+      variant: 'success',
+    })
+    refreshUnitKpis()
+  } catch {
+    addToast({
+      title: 'Battalion update failed',
+      message: 'Unable to update battalion record right now.',
+      variant: 'error',
+    })
+  }
+}
+
 const handleCreateCompany = async (payload: CreateCompanyPayload) => {
   try {
     await onCreateCompany(payload)
@@ -294,6 +436,24 @@ const handleCreateCompany = async (payload: CreateCompanyPayload) => {
     addToast({
       title: 'Company creation failed',
       message: 'Unable to create company record right now.',
+      variant: 'error',
+    })
+  }
+}
+
+const handleUpdateCompany = async (payload: UpdateCompanyPayload) => {
+  try {
+    await onUpdateCompany(payload)
+    addToast({
+      title: 'Company updated',
+      message: 'Company record has been updated successfully.',
+      variant: 'success',
+    })
+    refreshUnitKpis()
+  } catch {
+    addToast({
+      title: 'Company update failed',
+      message: 'Unable to update company record right now.',
       variant: 'error',
     })
   }
