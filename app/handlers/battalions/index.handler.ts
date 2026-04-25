@@ -5,6 +5,45 @@ import { REGEX_PATTERNS } from '~/utils/regex'
 
 const BATTALION_SEARCHABLE_FIELDS = ['code', 'name'] as const
 
+export const BATTALION_ACTION_KEYS = Object.freeze({
+  edit: 'edit-battalion',
+  delete: 'delete-battalion',
+})
+
+interface BattalionActionPayload {
+  actionKey: string
+  row: Record<string, unknown>
+}
+
+interface UseBattalionActionHandlerOptions {
+  onEditBattalionAction: (row: Record<string, unknown>) => Promise<boolean>
+  onDeleteBattalionAction: (row: Record<string, unknown>) => Promise<boolean>
+  canHandleUpdateBattalionAction: (actionKey: string) => boolean
+  canHandleDeleteBattalionAction: (actionKey: string) => boolean
+}
+
+export const useBattalionActionHandler = ({
+  onEditBattalionAction,
+  onDeleteBattalionAction,
+  canHandleUpdateBattalionAction,
+  canHandleDeleteBattalionAction,
+}: UseBattalionActionHandlerOptions) => {
+  const onBattalionAction = async (payload: BattalionActionPayload) => {
+    if (canHandleUpdateBattalionAction(payload.actionKey)) {
+      await onEditBattalionAction(payload.row)
+      return
+    }
+
+    if (canHandleDeleteBattalionAction(payload.actionKey)) {
+      await onDeleteBattalionAction(payload.row)
+    }
+  }
+
+  return {
+    onBattalionAction,
+  }
+}
+
 export const useBattalionFilterHandlers = (filters: Ref<Partial<BattalionSearchQuery>>) => {
   const handleFilterApply = (value: Partial<BattalionSearchQuery>) => {
     const commonValidation = validateFields([
