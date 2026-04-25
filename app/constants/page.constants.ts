@@ -280,6 +280,20 @@ export const BATTALION_UPDATE_MODAL_DESCRIPTION = 'Update battalion profile deta
 
 export const COMPANY_UPDATE_MODAL_TITLE = 'Update Company Record'
 export const COMPANY_UPDATE_MODAL_DESCRIPTION = 'Update company profile details and battalion assignment.'
+export const BATTALION_VIEW_MODAL_TITLE = 'Battalion Details'
+export const BATTALION_VIEW_MODAL_DESCRIPTION = 'Review battalion information, attached personnel, equipment, and companies.'
+export const COMPANY_VIEW_MODAL_TITLE = 'Company Details'
+export const COMPANY_VIEW_MODAL_DESCRIPTION = 'Review company information, attached personnel, equipment, and related companies.'
+export const UNITS_VIEW_MODAL_CLOSE_LABEL = 'Close'
+export const UNITS_VIEW_TAB_ARIA_LABEL = 'Unit detail tabs'
+export const BATTALION_VIEW_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
+  { id: 'equipment', label: 'Equipment' },
+  { id: 'companies', label: 'Companies' },
+])
+export const COMPANY_VIEW_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
+  { id: 'personnel', label: 'Personnel' },
+  { id: 'equipment', label: 'Equipment' },
+])
 
 export const BATTALION_DELETE_DIALOG_TITLE = 'Delete battalion?'
 export const BATTALION_DELETE_DIALOG_MESSAGE = 'This action cannot be undone. Continue deleting this battalion record?'

@@ -26,9 +26,14 @@ export const UNIT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   battalions: '/api/battalions',
   battalionsSearch: '/api/battalions/search',
   battalionById: (id: string) => `/api/battalions/${id}`,
+  battalionPersonnel: (id: string) => `/api/battalions/${id}/personnel`,
+  battalionEquipment: (id: string) => `/api/battalions/${id}/equipment`,
+  battalionCompanies: (id: string) => `/api/battalions/${id}/companies`,
   companies: '/api/companies',
   companiesSearch: '/api/companies/search',
   companyById: (id: string) => `/api/companies/${id}`,
+  companyPersonnel: (id: string) => `/api/companies/${id}/personnel`,
+  companyEquipment: (id: string) => `/api/companies/${id}/equipment`,
 })
 
 export const DASHBOARD_API_ENDPOINTS = Object.freeze({

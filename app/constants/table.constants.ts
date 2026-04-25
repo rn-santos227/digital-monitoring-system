@@ -195,6 +195,12 @@ export const BATTALIONS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freez
 export const BATTALIONS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
 export const BATTALIONS_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
   {
+    key: 'view-battalion',
+    tooltip: 'View battalion',
+    iconName: 'eye',
+    variant: 'info',
+  },
+  {
     key: 'edit-battalion',
     tooltip: 'Edit battalion',
     iconName: 'pencil-square',
@@ -214,6 +220,12 @@ export const COMPANIES_TABLE_EMPTY_MESSAGE = 'No company records found.'
 export const COMPANIES_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
 export const COMPANIES_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
   {
+    key: 'view-company',
+    tooltip: 'View company',
+    iconName: 'eye',
+    variant: 'info',
+  },
+  {
     key: 'edit-company',
     tooltip: 'Edit company',
     iconName: 'pencil-square',
@@ -231,5 +243,33 @@ export const COMPANIES_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze
   { key: 'code', label: 'Code', sortable: true },
   { key: 'name', label: 'Name', sortable: true },
   { key: 'battalion', label: 'Battalion', sortable: false },
+  { key: 'status', label: 'Status', sortable: true },
+])
+
+export const UNITS_PERSONNEL_TABLE_TITLE = 'Assigned Personnel'
+export const UNITS_PERSONNEL_TABLE_EMPTY_MESSAGE = 'No personnel records found.'
+export const UNITS_PERSONNEL_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'personnelCode', label: 'Personnel Code', sortable: true },
+  { key: 'serviceNumber', label: 'Serial Number', sortable: true },
+  { key: 'fullName', label: 'Name', sortable: true },
+  { key: 'rankName', label: 'Rank', sortable: true },
+  { key: 'serviceStatus', label: 'Service Status', sortable: true },
+])
+
+export const UNITS_EQUIPMENT_ASSIGNMENT_TABLE_TITLE = 'Equipment Assets'
+export const UNITS_EQUIPMENT_ASSIGNMENT_TABLE_EMPTY_MESSAGE = 'No equipment assignments found.'
+export const UNITS_EQUIPMENT_ASSIGNMENT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'assetTag', label: 'Asset Tag', sortable: true },
+  { key: 'equipmentCode', label: 'Equipment Code', sortable: true },
+  { key: 'itemName', label: 'Equipment Item', sortable: true },
+  { key: 'assignedPersonnel', label: 'Assigned Personnel', sortable: false },
+  { key: 'assetStatus', label: 'Asset Status', sortable: true },
+])
+
+export const UNITS_COMPANIES_TABLE_TITLE = 'Attached Companies'
+export const UNITS_COMPANIES_TABLE_EMPTY_MESSAGE = 'No company records found.'
+export const UNITS_COMPANIES_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'code', label: 'Code', sortable: true },
+  { key: 'name', label: 'Name', sortable: true },
   { key: 'status', label: 'Status', sortable: true },
 ])
