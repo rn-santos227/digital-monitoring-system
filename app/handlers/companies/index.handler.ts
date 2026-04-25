@@ -6,6 +6,7 @@ import { REGEX_PATTERNS } from '~/utils/regex'
 const COMPANY_SEARCHABLE_FIELDS = ['code', 'name'] as const
 
 export const COMPANY_ACTION_KEYS = Object.freeze({
+  view: 'view-company',
   edit: 'edit-company',
   delete: 'delete-company',
 })
@@ -16,19 +17,28 @@ interface CompanyActionPayload {
 }
 
 interface UseCompanyActionHandlerOptions {
+  onViewCompanyAction: (row: Record<string, unknown>) => Promise<boolean>
   onEditCompanyAction: (row: Record<string, unknown>) => Promise<boolean>
   onDeleteCompanyAction: (row: Record<string, unknown>) => Promise<boolean>
+  canHandleViewCompanyAction: (actionKey: string) => boolean
   canHandleUpdateCompanyAction: (actionKey: string) => boolean
   canHandleDeleteCompanyAction: (actionKey: string) => boolean
 }
 
 export const useCompanyActionHandler = ({
+  onViewCompanyAction,
   onEditCompanyAction,
   onDeleteCompanyAction,
+  canHandleViewCompanyAction,
   canHandleUpdateCompanyAction,
   canHandleDeleteCompanyAction,
 }: UseCompanyActionHandlerOptions) => {
   const onCompanyAction = async (payload: CompanyActionPayload) => {
+    if (canHandleViewCompanyAction(payload.actionKey)) {
+      await onViewCompanyAction(payload.row)
+      return
+    }
+
     if (canHandleUpdateCompanyAction(payload.actionKey)) {
       await onEditCompanyAction(payload.row)
       return
