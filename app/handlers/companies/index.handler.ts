@@ -5,6 +5,45 @@ import { REGEX_PATTERNS } from '~/utils/regex'
 
 const COMPANY_SEARCHABLE_FIELDS = ['code', 'name'] as const
 
+export const COMPANY_ACTION_KEYS = Object.freeze({
+  edit: 'edit-company',
+  delete: 'delete-company',
+})
+
+interface CompanyActionPayload {
+  actionKey: string
+  row: Record<string, unknown>
+}
+
+interface UseCompanyActionHandlerOptions {
+  onEditCompanyAction: (row: Record<string, unknown>) => Promise<boolean>
+  onDeleteCompanyAction: (row: Record<string, unknown>) => Promise<boolean>
+  canHandleUpdateCompanyAction: (actionKey: string) => boolean
+  canHandleDeleteCompanyAction: (actionKey: string) => boolean
+}
+
+export const useCompanyActionHandler = ({
+  onEditCompanyAction,
+  onDeleteCompanyAction,
+  canHandleUpdateCompanyAction,
+  canHandleDeleteCompanyAction,
+}: UseCompanyActionHandlerOptions) => {
+  const onCompanyAction = async (payload: CompanyActionPayload) => {
+    if (canHandleUpdateCompanyAction(payload.actionKey)) {
+      await onEditCompanyAction(payload.row)
+      return
+    }
+
+    if (canHandleDeleteCompanyAction(payload.actionKey)) {
+      await onDeleteCompanyAction(payload.row)
+    }
+  }
+
+  return {
+    onCompanyAction,
+  }
+}
+
 export const useCompanyFilterHandlers = (filters: Ref<Partial<CompanySearchQuery>>) => {
   const handleFilterApply = (value: Partial<CompanySearchQuery>) => {
     const commonValidation = validateFields([
