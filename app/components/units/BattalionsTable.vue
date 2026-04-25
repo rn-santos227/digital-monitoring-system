@@ -49,6 +49,10 @@ const authStore = useAuthStore()
 
 const visibleActions = computed(() => {
   return BATTALIONS_TABLE_ACTIONS.filter((action) => {
+    if (action.key === 'view-battalion') {
+      return authStore.hasPermissionAccess(BATTALION_PRIVILEGES.view)
+    }
+
     if (action.key === 'edit-battalion') {
       return authStore.hasPermissionAccess(BATTALION_PRIVILEGES.edit)
     }

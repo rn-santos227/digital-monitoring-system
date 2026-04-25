@@ -49,6 +49,10 @@ const authStore = useAuthStore()
 
 const visibleActions = computed(() => {
   return COMPANIES_TABLE_ACTIONS.filter((action) => {
+    if (action.key === 'view-company') {
+      return authStore.hasPermissionAccess(COMPANY_PRIVILEGES.view)
+    }
+
     if (action.key === 'edit-company') {
       return authStore.hasPermissionAccess(COMPANY_PRIVILEGES.edit)
     }
