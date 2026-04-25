@@ -119,6 +119,18 @@
         @close="onCloseUpdateCompanyModal"
         @submit="handleUpdateCompany"
       />
+
+      <ViewBattalionModal
+        v-if="isViewBattalionModalOpen && selectedBattalionView"
+        :battalion="selectedBattalionView"
+        @close="onCloseViewBattalionModal"
+      />
+
+      <ViewCompanyModal
+        v-if="isViewCompanyModalOpen && selectedCompanyView"
+        :company="selectedCompanyView"
+        @close="onCloseViewCompanyModal"
+      />
     </section>
   </main>
 </template>
@@ -131,6 +143,8 @@ import CreateBattalionModal from '~/components/units/CreateBattalionModal.vue'
 import UpdateBattalionModal from '~/components/units/UpdateBattalionModal.vue'
 import CreateCompanyModal from '~/components/units/CreateCompanyModal.vue'
 import UpdateCompanyModal from '~/components/units/UpdateCompanyModal.vue'
+import ViewBattalionModal from '~/components/units/ViewBattalionModal.vue'
+import ViewCompanyModal from '~/components/units/ViewCompanyModal.vue'
 import BattalionsFilter from '~/components/units/BattalionsFilter.vue'
 import BattalionsTable from '~/components/units/BattalionsTable.vue'
 import CompaniesFilter from '~/components/units/CompaniesFilter.vue'
@@ -163,12 +177,16 @@ import {
   useUnitsPageHandlers,
   useUpdateBattalionHandler,
   useUpdateCompanyHandler,
+  useViewBattalionHandler,
+  useViewCompanyHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type {
   CreateBattalionPayload,
   CreateCompanyPayload,
   UnitManagementTabId,
+  BattalionDetailItem,
+  CompanyDetailItem,
   UpdateBattalionPayload,
   UpdateCompanyPayload,
 } from '~/types/domain/units'
@@ -184,10 +202,14 @@ const isCreateBattalionModalOpen = ref(false)
 const isUpdateBattalionModalOpen = ref(false)
 const isCreateCompanyModalOpen = ref(false)
 const isUpdateCompanyModalOpen = ref(false)
+const isViewBattalionModalOpen = ref(false)
+const isViewCompanyModalOpen = ref(false)
 const selectedBattalionId = ref('')
 const selectedCompanyId = ref('')
 const selectedBattalion = ref<{ code: string; name: string; isActive: boolean } | null>(null)
 const selectedCompany = ref<{ battalionId: string | null; code: string; name: string; isActive: boolean } | null>(null)
+const selectedBattalionView = ref<BattalionDetailItem | null>(null)
+const selectedCompanyView = ref<CompanyDetailItem | null>(null)
 
 const {
   filters: battalionFilters,
@@ -241,6 +263,17 @@ const {
   battalionFilters,
 })
 
+const {
+  canHandleViewBattalionAction,
+  onViewBattalionAction,
+  onCloseViewBattalionModal,
+} = useViewBattalionHandler({
+  selectedBattalionId,
+  selectedBattalionView,
+  isViewBattalionModalOpen,
+  getBattalionById,
+})
+
 const { canHandleDeleteBattalionAction, onDeleteBattalionAction } = useDeleteBattalionHandler({
   showDialog,
   deleteBattalion,
@@ -250,8 +283,10 @@ const { canHandleDeleteBattalionAction, onDeleteBattalionAction } = useDeleteBat
 })
 
 const { onBattalionAction } = useBattalionActionHandler({
+  onViewBattalionAction,
   onEditBattalionAction,
   onDeleteBattalionAction,
+  canHandleViewBattalionAction,
   canHandleUpdateBattalionAction,
   canHandleDeleteBattalionAction,
 })
@@ -272,6 +307,17 @@ const {
   companyFilters,
 })
 
+const {
+  canHandleViewCompanyAction,
+  onViewCompanyAction,
+  onCloseViewCompanyModal,
+} = useViewCompanyHandler({
+  selectedCompanyId,
+  selectedCompanyView,
+  isViewCompanyModalOpen,
+  getCompanyById,
+})
+
 const { canHandleDeleteCompanyAction, onDeleteCompanyAction } = useDeleteCompanyHandler({
   showDialog,
   deleteCompany,
@@ -281,8 +327,10 @@ const { canHandleDeleteCompanyAction, onDeleteCompanyAction } = useDeleteCompany
 })
 
 const { onCompanyAction } = useCompanyActionHandler({
+  onViewCompanyAction,
   onEditCompanyAction,
   onDeleteCompanyAction,
+  canHandleViewCompanyAction,
   canHandleUpdateCompanyAction,
   canHandleDeleteCompanyAction,
 })
