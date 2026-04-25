@@ -12,8 +12,11 @@
     :empty-message="BATTALIONS_TABLE_EMPTY_MESSAGE"
    :current-page="props.currentPage"
     :total-pages="props.totalPages"
+    :total-items="props.totalItems"
+    :page-size="props.pageSize"
     @action="emit('action', $event)"
     @update:current-page="emit('update:currentPage', $event)"
+    @update:page-size="emit('update:pageSize', $event)"
   />
 </template>
 
@@ -34,15 +37,20 @@ const props = withDefaults(defineProps<{
   isLoading?: boolean
   currentPage?: number
   totalPages?: number
+  totalItems?: number
+  pageSize?: number
 }>(), {
   isLoading: false,
   currentPage: 1,
   totalPages: 1,
+  totalItems: 0,
+  pageSize: 10,
 })
 
 const emit = defineEmits<{
   (event: 'action', payload: { actionKey: string; row: Record<string, unknown> }): void
   (event: 'update:currentPage', value: number): void
+  (event: 'update:pageSize', value: number): void
 }>()
 
 const authStore = useAuthStore()

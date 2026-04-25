@@ -12,7 +12,10 @@
     :is-loading="isLoading"
     :current-page="currentPage"
     :total-pages="totalPages"
+    :total-items="totalItems"
+    :page-size="pageSize"
     @update:current-page="emit('update:currentPage', $event)"
+    @update:page-size="emit('update:pageSize', $event)"
     @action="emit('action', $event)"
   >
     <template #cell-fullName="{ row }">
@@ -42,11 +45,14 @@ import {
 } from '~/constants/table.constants'
 import type { PersonnelTableRow } from '~/types/domain/personnel'
 
+
 const props = withDefaults(defineProps<{
   rows: readonly PersonnelTableRow[]
   isLoading?: boolean
   currentPage?: number
   totalPages?: number
+  totalItems?: number
+  pageSize?: number
   canViewPersonnel?: boolean
   canEditPersonnel?: boolean
   canDeletePersonnel?: boolean
@@ -54,6 +60,8 @@ const props = withDefaults(defineProps<{
   isLoading: false,
   currentPage: 1,
   totalPages: 1,
+  totalItems: 0,
+  pageSize: 10,
   canViewPersonnel: false,
   canEditPersonnel: false,
   canDeletePersonnel: false,
@@ -62,6 +70,7 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   (event: 'action', payload: { actionKey: DataTableAction['key']; row: PersonnelTableRow }): void
   (event: 'update:currentPage', value: number): void
+  (event: 'update:pageSize', value: number): void
 }>()
 
 const visibleActions = computed(() => {

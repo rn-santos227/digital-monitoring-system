@@ -12,10 +12,13 @@
     :is-loading="isLoading"
     :current-page="currentPage"
     :total-pages="totalPages"
+    :total-items="totalItems"
+    :page-size="pageSize"
     @sort="emit('sort', $event)"
     @update:search-query="emit('update:searchQuery', $event)"
     @action="emit('action', $event)"
     @update:current-page="emit('update:currentPage', $event)"
+    @update:page-size="emit('update:pageSize', $event)"
   />
 </template>
 
@@ -37,12 +40,16 @@ withDefaults(defineProps<{
   isLoading?: boolean
   currentPage?: number
   totalPages?: number
+  totalItems?: number
+  pageSize?: number
 }>(), {
   searchQuery: '',
   emptyMessage: AUDIT_TABLE_EMPTY_MESSAGE,
   isLoading: false,
   currentPage: 1,
   totalPages: 1,
+  totalItems: 0,
+  pageSize: 10,
 })
 
 const emit = defineEmits<{
@@ -50,5 +57,6 @@ const emit = defineEmits<{
   (event: 'update:searchQuery', value: string): void
   (event: 'action', payload: { actionKey: DataTableAction['key']; row: AuditLogTableRow }): void
   (event: 'update:currentPage', value: number): void
+  (event: 'update:pageSize', value: number): void
 }>()
 </script>
