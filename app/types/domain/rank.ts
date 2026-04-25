@@ -37,3 +37,17 @@ export interface CreateRankPayload {
   name: string
   sortOrder: number
 }
+
+export interface RankTablePagination {
+  page: number
+  pageSize: number
+  totalPages: number
+}
+
+export interface RankState {
+  items: RankListItem[]
+  pagination: RankTablePagination
+  isLoading: boolean
+  error: string
+  searchTerm: string
+}

@@ -73,7 +73,7 @@
       </div>
 
       <div class="grid gap-4 md:grid-cols-2">
-        <BaseTextField
+        <RankSuggestionField
           v-model="form.rankId"
           :label="PERSONNEL_CREATE_RANK_ID_LABEL"
           :placeholder="PERSONNEL_CREATE_RANK_ID_PLACEHOLDER"
