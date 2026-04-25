@@ -70,13 +70,13 @@ const usersStoreOptions = {
   },
 
   actions: {
-    async fetchUserProfiles(this: UsersState, page = 1, filters: Partial<UserProfilesSearchQuery> = {}) {
+    async fetchUserProfiles(this: UsersState, page = 1, filters: Partial<UserProfilesSearchQuery> = {}, pageSize = this.profilePagination.pageSize) {
       this.isLoading = true
       this.error = ''
 
       const requestQuery: UserProfilesSearchQuery = {
         page,
-        pageSize: this.profilePagination.pageSize,
+        pageSize,
         term: filters.term?.trim() || undefined,
         fields: filters.fields?.trim() || undefined,
         isActive: filters.isActive,
@@ -113,13 +113,13 @@ const usersStoreOptions = {
       }
     },
 
-    async fetchUserAccounts(this: UsersState, page = 1, filters: Partial<UserAccountsSearchQuery> = {}) {
+    async fetchUserAccounts(this: UsersState, page = 1, filters: Partial<UserAccountsSearchQuery> = {}, pageSize = this.accountPagination.pageSize) {
       this.isLoading = true
       this.error = ''
 
       const requestQuery: UserAccountsSearchQuery = {
         page,
-        pageSize: this.accountPagination.pageSize,
+        pageSize,
         term: filters.term?.trim() || undefined,
         fields: filters.fields?.trim() || undefined,
         isSystem: typeof filters.isSystem === 'boolean' ? filters.isSystem : undefined,

@@ -44,13 +44,13 @@ const companiesStoreOptions = {
   },
 
   actions: {
-    async fetchCompanies(this: CompaniesState, page = 1, filters: Partial<CompanySearchQuery> = {}) {
+    async fetchCompanies(this: CompaniesState, page = 1, filters: Partial<CompanySearchQuery> = {}, pageSize = this.pagination.pageSize) {
       this.isLoading = true
       this.error = ''
 
       const requestQuery: CompanySearchQuery = {
         page,
-        pageSize: this.pagination.pageSize,
+        pageSize,
         term: filters.term?.trim() || undefined,
         fields: filters.fields?.trim() || undefined,
         isActive: typeof filters.isActive === 'boolean' ? filters.isActive : undefined,

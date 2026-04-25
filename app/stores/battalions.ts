@@ -44,13 +44,13 @@ const battalionsStoreOptions = {
   },
 
   actions: {
-    async fetchBattalions(this: BattalionsState, page = 1, filters: Partial<BattalionSearchQuery> = {}) {
+    async fetchBattalions(this: BattalionsState, page = 1, filters: Partial<BattalionSearchQuery> = {}, pageSize = this.pagination.pageSize) {
       this.isLoading = true
       this.error = ''
 
       const requestQuery: BattalionSearchQuery = {
         page,
-        pageSize: this.pagination.pageSize,
+        pageSize,
         term: filters.term?.trim() || undefined,
         fields: filters.fields?.trim() || undefined,
         isActive: typeof filters.isActive === 'boolean' ? filters.isActive : undefined,

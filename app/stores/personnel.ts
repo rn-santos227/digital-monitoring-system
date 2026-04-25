@@ -44,13 +44,13 @@ const personnelStoreOptions = {
   },
 
   actions: {
-    async fetchPersonnel(this: PersonnelState, page = 1, filters: Partial<PersonnelSearchQuery> = {}) {
+    async fetchPersonnel(this: PersonnelState, page = 1, filters: Partial<PersonnelSearchQuery> = {}, pageSize = this.pagination.pageSize) {
       this.isLoading = true
       this.error = ''
 
       const requestQuery: PersonnelSearchQuery = {
         page,
-        pageSize: this.pagination.pageSize,
+        pageSize,
         term: filters.term?.trim() || undefined,
         fields: filters.fields?.trim() || undefined,
       }

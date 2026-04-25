@@ -32,14 +32,14 @@ const rankStoreOptions = {
   },
 
   actions: {
-    async fetchRanks(this: RankStoreActionContext, page = 1, search = '') {
+    async fetchRanks(this: RankStoreActionContext, page = 1, search = '', pageSize = this.pagination.pageSize) {
       this.isLoading = true
       this.error = ''
       this.searchTerm = search
 
       const query: RankListQuery = {
         page,
-        pageSize: this.pagination.pageSize,
+        pageSize,
         search: search.trim() || undefined,
       }
 
