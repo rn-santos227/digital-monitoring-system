@@ -86,6 +86,10 @@
    - Keep table column/action wiring, table-specific display behavior, and table event passthrough inside the table component to keep page script sections focused on orchestration.
    - Prefer reusable table components so they can be managed consistently across related pages and reduce page-level script bloat.
 
+10. **View modals must support scrolling when content grows**
+    - All read-only/view modal variants must enable a vertical scrollbar when modal content exceeds the viewport height.
+    - Use the shared modal scroll behavior so scrollbars only appear when needed and remain hidden for shorter content.
+
 ## Backend Rules
 
 1. **Centralize API contracts and validation in shared folders**

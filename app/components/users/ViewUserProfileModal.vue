@@ -3,6 +3,7 @@
     :title="USERS_PROFILE_VIEW_MODAL_TITLE"
     :description="USERS_PROFILE_VIEW_MODAL_DESCRIPTION"
     size="lg"
+    scroll-body
     @close="emit('close')"
   >
     <div class="space-y-4">
