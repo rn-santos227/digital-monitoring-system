@@ -51,11 +51,13 @@ This document summarizes all API handlers currently under `server/api`.
 
 | Method | Endpoint | Request | Response |
 | --- | --- | --- | --- |
+| GET | `/api/battalions` | Query: pagination (`page`, `pageSize`), optional `search`, optional `includeInactive` | `BattalionListResponse` |
+| GET | `/api/battalions/search` | Query: pagination (`page`, `pageSize`), optional `term`, optional `isActive`, optional `fields` | `BattalionListResponse` |
 | GET | `/api/battalions/suggestions` | Query: `term`, optional `pageSize`, optional `selectedId` | `BattalionSuggestionsResponse` |
 | GET | `/api/battalions/:id` | Path: `id` | `BattalionDetailResponse` |
 | GET | `/api/battalions/:id/companies` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search`, optional `includeInactive` | `BattalionCompanyListResponse` |
 | GET | `/api/battalions/:id/personnel` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search` | `BattalionPersonnelListResponse` |
-| GET | `/api/battalions/:id/equipment-assets` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search` | `BattalionEquipmentAssetListResponse` |
+| GET | `/api/battalions/:id/equipment` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search` | `BattalionEquipmentAssetListResponse` |
 | POST | `/api/battalions` | Body: `CreateBattalionRequest` | `{ ok: true, id }` |
 | PATCH | `/api/battalions/:id` | Path: `id`; Body: `UpdateBattalionRequest` | `MutationSuccessResponse` |
 | DELETE | `/api/battalions/:id` | Path: `id` | `MutationSuccessResponse` |
@@ -66,11 +68,12 @@ This document summarizes all API handlers currently under `server/api`.
 
 | Method | Endpoint | Request | Response |
 | --- | --- | --- | --- |
+| GET | `/api/companies` | Query: pagination (`page`, `pageSize`), optional `search`, optional `includeInactive`, optional `battalionId` | `CompanyListResponse` |
 | GET | `/api/companies/search` | Query: pagination (`page`, `pageSize`) and optional `search` | `CompanyListResponse` |
 | GET | `/api/companies/suggestions` | Query: `term`, optional `pageSize`, optional `selectedId`, optional `battalionId` | `CompanySuggestionsResponse` |
 | GET | `/api/companies/:id` | Path: `id` | `CompanyDetailResponse` |
 | GET | `/api/companies/:id/personnel` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search` | `CompanyPersonnelListResponse` |
-| GET | `/api/companies/:id/equipment-assets` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search` | `CompanyEquipmentAssetListResponse` |
+| GET | `/api/companies/:id/equipment` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search` | `CompanyEquipmentAssetListResponse` |
 | GET | `/api/companies/personnel` | Query: pagination (`page`, `pageSize`), optional `search`, optional `companyId`, optional `battalionId` | `CompanyPersonnelListResponse` |
 | POST | `/api/companies` | Body: `CreateCompanyRequest` | `{ ok: true, id }` |
 | PATCH | `/api/companies/:id` | Path: `id`; Body: `UpdateCompanyRequest` | `MutationSuccessResponse` |
@@ -93,6 +96,27 @@ This document summarizes all API handlers currently under `server/api`.
 | GET | `/api/personnel/:id/deployment-records` | Path: `id`; Query: pagination (`page`, `pageSize`) | `PersonnelDeploymentRecordListResponse` |
 | GET | `/api/personnel/:id/engagement-records` | Path: `id`; Query: pagination (`page`, `pageSize`) | `PersonnelEngagementRecordListResponse` |
 | GET | `/api/personnel/:id/equipment-issuances` | Path: `id`; Query: pagination (`page`, `pageSize`) | `PersonnelEquipmentIssuanceListResponse` |
+
+## Dashboard
+
+| Method | Endpoint | Request | Response |
+| --- | --- | --- | --- |
+| GET | `/api/dashboard/unit-management` | No request body; caller must have at least one unit/personnel view privilege | `{ totalCompanies, totalBattalions, totalUnassignedPersonnel }` |
+
+## Files
+
+| Method | Endpoint | Request | Response |
+| --- | --- | --- | --- |
+| POST | `/api/files/upload` | Multipart form-data (`file` part + optional MIME prefix constraints) | `FileUploadResponse` |
+
+## Ranks
+
+| Method | Endpoint | Request | Response |
+| --- | --- | --- | --- |
+| GET | `/api/ranks` | Query: pagination (`page`, `pageSize`), optional `search` | `RankListApiResponse` |
+| GET | `/api/ranks/suggestion` | Query: `term`, optional `pageSize`, optional `selectedId` | `RankSuggestionApiResponse` |
+| POST | `/api/ranks` | Body: `CreateRankRequest` | `{ ok: true, id }` |
+| DELETE | `/api/ranks/:id` | Path: `id` | `MutationSuccessResponse` |
 
 ## Audit Logs
 
