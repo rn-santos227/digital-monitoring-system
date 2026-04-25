@@ -1,12 +1,20 @@
 import { defineStore } from 'pinia'
 import { extractApiErrorMessage } from '~/utils/api-request'
-import { createBattalionEndpoint, getBattalionsEndpoint, searchBattalionsEndpoint } from '~/utils/units-endpoints'
+import {
+  createBattalionEndpoint,
+  deleteBattalionEndpoint,
+  getBattalionByIdEndpoint,
+  getBattalionsEndpoint,
+  searchBattalionsEndpoint,
+  updateBattalionEndpoint,
+} from '~/utils/units-endpoints'
 import type {
   BattalionsState,
   BattalionEndpointQuery,
   BattalionListItem,
   BattalionSearchQuery,
   CreateBattalionPayload,
+  UpdateBattalionPayload,
   UnitsTablePagination,
 } from '~/types/domain/units'
 
@@ -90,6 +98,45 @@ const battalionsStoreOptions = {
         await this.fetchBattalions(1)
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create battalion.')
+        throw error
+      }
+    },
+
+    async getBattalionById(this: BattalionsState, id: string): Promise<BattalionListItem> {
+      this.error = ''
+
+      try {
+        return await getBattalionByIdEndpoint(id)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to load battalion details.')
+        throw error
+      }
+    },
+
+    async updateBattalion(
+      this: BattalionsState & {
+        fetchBattalions: (page?: number, filters?: Partial<BattalionSearchQuery>) => Promise<void>
+      },
+      id: string,
+      payload: UpdateBattalionPayload,
+    ) {
+      this.error = ''
+
+      try {
+        await updateBattalionEndpoint(id, payload)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to update battalion.')
+        throw error
+      }
+    },
+
+    async deleteBattalion(this: BattalionsState, id: string) {
+      this.error = ''
+
+      try {
+        await deleteBattalionEndpoint(id)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to delete battalion.')
         throw error
       }
     },

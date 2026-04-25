@@ -1,12 +1,20 @@
 import { defineStore } from 'pinia'
 import { extractApiErrorMessage } from '~/utils/api-request'
-import { createCompanyEndpoint, getCompaniesEndpoint, searchCompaniesEndpoint } from '~/utils/units-endpoints'
+import {
+  createCompanyEndpoint,
+  deleteCompanyEndpoint,
+  getCompaniesEndpoint,
+  getCompanyByIdEndpoint,
+  searchCompaniesEndpoint,
+  updateCompanyEndpoint,
+} from '~/utils/units-endpoints'
 import type {
   CompaniesState,
   CreateCompanyPayload,
   CompanyEndpointQuery,
   CompanyListItem,
   CompanySearchQuery,
+  UpdateCompanyPayload,
   UnitsTablePagination,
 } from '~/types/domain/units'
 
@@ -97,6 +105,43 @@ const companiesStoreOptions = {
         await this.fetchCompanies(1)
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create company.')
+        throw error
+      }
+    },
+
+    async getCompanyById(this: CompaniesState, id: string): Promise<CompanyListItem> {
+      this.error = ''
+
+      try {
+        return await getCompanyByIdEndpoint(id)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to load company details.')
+        throw error
+      }
+    },
+
+    async updateCompany(
+      this: CompaniesState,
+      id: string,
+      payload: UpdateCompanyPayload,
+    ) {
+      this.error = ''
+
+      try {
+        await updateCompanyEndpoint(id, payload)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to update company.')
+        throw error
+      }
+    },
+
+    async deleteCompany(this: CompaniesState, id: string) {
+      this.error = ''
+
+      try {
+        await deleteCompanyEndpoint(id)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to delete company.')
         throw error
       }
     },
