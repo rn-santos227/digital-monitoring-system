@@ -1,4 +1,5 @@
 export type UnitManagementTabId = 'battalion' | 'company'
+export type UnitViewTabId = 'information' | 'personnel' | 'equipment' | 'companies'
 
 export interface BattalionListItem {
   id: string
@@ -6,6 +7,11 @@ export interface BattalionListItem {
   name: string
   isActive: boolean
   companyCount: number
+}
+
+export interface BattalionDetailItem extends BattalionListItem {
+  personnelCount: number
+  equipmentAssetCount: number
 }
 
 export interface CompanyListItem {
@@ -16,6 +22,46 @@ export interface CompanyListItem {
   code: string
   name: string
   isActive: boolean
+}
+
+
+export interface CompanyDetailItem extends CompanyListItem {
+  personnelCount: number
+  equipmentAssetCount: number
+}
+
+export interface UnitPersonnelListItem {
+  id: string
+  personnelCode: string
+  serviceNumber: string
+  fullName: string
+  rankName: string
+  companyName: string | null
+  battalionName: string | null
+  serviceStatus: string
+}
+
+export interface UnitEquipmentAssetListItem {
+  id: string
+  assetTag: string
+  serialNo: string | null
+  equipmentCode: string
+  itemName: string
+  categoryCode: string
+  categoryName: string
+  assignedPersonnelCode: string | null
+  assignedPersonnelName: string | null
+  assignedCompanyCode: string | null
+  assignedCompanyName: string | null
+  assignedBattalionCode: string | null
+  assignedBattalionName: string | null
+  currentLocation: string | null
+  conditionStatus: string | null
+  serviceabilityStatus: string | null
+  assetStatus: string
+  latestIssueNo: string | null
+  latestIssueDate: string | null
+  latestIssuanceStatus: string | null
 }
 
 export interface CreateBattalionPayload {
