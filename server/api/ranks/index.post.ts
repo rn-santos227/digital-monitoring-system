@@ -7,7 +7,7 @@ import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
 export default defineEventHandler(async (event) => {
-  const actor = await requirePermission(event, PERMISSION_CODES.personnelCreate)
+  const actor = await requirePermission(event, PERMISSION_CODES.rankCreate)
   const body = await readBody<CreateRankRequest>(event)
   const payload = parseCreateRankPayload(body)
   const supabase = getServiceSupabaseClient()

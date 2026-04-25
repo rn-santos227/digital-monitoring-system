@@ -194,7 +194,6 @@ values
   ('personnel.delete', 'Delete Personnel', 'personnel'),
   ('ranks.view', 'View Rank', 'ranks'),
   ('ranks.create', 'Create Rank', 'ranks'),
-  ('ranks.update', 'Update Rank', 'ranks'),
   ('ranks.delete', 'Delete Rank', 'ranks'),
   ('training.view', 'View Training Records', 'training'),
   ('training.create', 'Create Training Records', 'training'),

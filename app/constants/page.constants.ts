@@ -1,5 +1,12 @@
 import type { BaseTabItem } from '~/constants/ui.constants'
-import { ACCOUNT_TYPE_PRIVILEGES, BATTALION_PRIVILEGES, COMPANY_PRIVILEGES, PERSONNEL_PRIVILEGES, USER_PROFILE_PRIVILEGES } from '~/constants/privileges.constants'
+import {
+  ACCOUNT_TYPE_PRIVILEGES,
+  BATTALION_PRIVILEGES,
+  COMPANY_PRIVILEGES,
+  PERSONNEL_PRIVILEGES,
+  RANK_PRIVILEGES,
+  USER_PROFILE_PRIVILEGES,
+} from '~/constants/privileges.constants'
 import type { PersonnelManagementTabId, PersonnelProfileTabId } from '~/types/domain/personnel'
 import type { UserManagementTabId } from '~/types/domain/users'
 import type { UnitManagementTabId } from '~/types/domain/units'

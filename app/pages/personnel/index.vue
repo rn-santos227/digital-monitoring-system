@@ -123,6 +123,7 @@ import {
   PERSONNEL_PAGE_TITLE,
   RANK_CREATE_BUTTON_LABEL,
 } from '~/constants/page.constants'
+import { RANK_PRIVILEGES } from '~/constants/privileges.constants'
 import {
   APP_MAIN_CONTENT_CLASSES,
   PERSONNEL_PAGE_HEADER_CLASSES,
@@ -175,12 +176,32 @@ const canDeletePersonnel = computed(() => {
   return authStore.hasPermissionAccess(PERSONNEL_PAGE_REQUIRED_PERMISSIONS.delete)
 })
 
+const canViewRanks = computed(() => {
+  return authStore.hasPermissionAccess(RANK_PRIVILEGES.view)
+})
+
+const canCreateRanks = computed(() => {
+  return authStore.hasPermissionAccess(RANK_PRIVILEGES.create)
+})
+
+const canDeleteRanks = computed(() => {
+  return authStore.hasPermissionAccess(RANK_PRIVILEGES.delete)
+})
+
 watch(canViewPersonnel, (hasAccess) => {
   if (!hasAccess) {
     return
   }
 
-  void Promise.all([loadPersonnel(1), loadRanks(1)])
+  void loadPersonnel(1)
+}, { immediate: true })
+
+watch(canViewRanks, (hasAccess) => {
+  if (!hasAccess) {
+    return
+  }
+
+  void loadRanks(1)
 }, { immediate: true })
 
 const onTabChange = (nextTab: string) => {

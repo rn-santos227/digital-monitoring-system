@@ -13,7 +13,7 @@ import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
-  const actor = await requirePermission(event, PERMISSION_CODES.personnelDelete)
+  const actor = await requirePermission(event, PERMISSION_CODES.rankDelete)
   const id = requireRouteId(getRouterParam(event, 'id'), 'Rank id is required.')
   const supabase = getServiceSupabaseClient()
 

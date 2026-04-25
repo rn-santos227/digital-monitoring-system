@@ -1,14 +1,14 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { RankSuggestionApiResponse } from '../../shared/responses'
-import { PERMISSION_CODES, RANK_SUGGESTION_SELECT_COLUMNS } from '../../shared/constants'
+import { PERSONNEL_PERMISSION_GROUPS, RANK_SUGGESTION_SELECT_COLUMNS } from '../../shared/constants'
 import { mapRankSuggestionItem, parseRankSuggestionQuery } from '../../shared/utils'
-import { requirePermission } from '../../utils/auth/requirePermission'
+import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
 const SEARCHABLE_FIELDS = ['code', 'name'] as const
 
 export default defineEventHandler(async (event): Promise<RankSuggestionApiResponse> => {
-  await requirePermission(event, PERMISSION_CODES.personnelView)
+  await requireAnyPermission(event, PERSONNEL_PERMISSION_GROUPS.personnelManagement)
 
   const query = getQuery(event)
   const { pageSize, selectedId, term } = parseRankSuggestionQuery({

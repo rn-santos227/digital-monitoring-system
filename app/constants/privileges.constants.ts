@@ -1,5 +1,8 @@
 export const PRIVILEGE_CODES = Object.freeze({
   auditView: 'audit.view',
+  rankView: 'rank.view',
+  rankCreate: 'rank.create',
+  rankDelete: 'rank.delete',
   personnelView: 'personnel.view',
   personnelCreate: 'personnel.create',
   personnelUpdate: 'personnel.update',
@@ -47,6 +50,12 @@ export const PERSONNEL_PRIVILEGES = Object.freeze({
   delete: Object.freeze([PRIVILEGE_CODES.personnelDelete]),
 })
 
+export const RANK_PRIVILEGES = Object.freeze({
+  view: Object.freeze([PRIVILEGE_CODES.rankView]),
+  create: Object.freeze([PRIVILEGE_CODES.rankCreate]),
+  delete: Object.freeze([PRIVILEGE_CODES.rankDelete]),
+})
+
 export const BATTALION_PRIVILEGES = Object.freeze({
   view: Object.freeze([PRIVILEGE_CODES.battalionView]),
   create: Object.freeze([PRIVILEGE_CODES.battalionCreate]),
@@ -60,4 +69,3 @@ export const COMPANY_PRIVILEGES = Object.freeze({
   edit: Object.freeze([PRIVILEGE_CODES.companyUpdate]),
   delete: Object.freeze([PRIVILEGE_CODES.companyDelete]),
 })
-
