@@ -1,16 +1,20 @@
 import { API_LOADING_MESSAGES, UNIT_MANAGEMENT_API_ENDPOINTS } from '~/constants/api.constants'
 import type {
+  BattalionDetailItem,
   BattalionEndpointQuery,
   BattalionListItem,
   BattalionSearchQuery,
   CreateBattalionPayload,
   CreateCompanyPayload,
+  CompanyDetailItem,
   CompanyEndpointQuery,
   CompanyListItem,
   CompanySearchQuery,
+  UnitEquipmentAssetListItem,
   UpdateBattalionPayload,
   UpdateCompanyPayload,
   UnitListResponse,
+  UnitPersonnelListItem,
 } from '~/types/domain/units'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
@@ -75,11 +79,41 @@ export const createCompanyEndpoint = async (payload: CreateCompanyPayload): Prom
   }, API_LOADING_MESSAGES.createCompany)
 }
 
-export const getBattalionByIdEndpoint = async (id: string): Promise<BattalionListItem> => {
+export const getBattalionByIdEndpoint = async (id: string): Promise<BattalionDetailItem> => {
   return await withApiLoading(async () => {
-    return await $fetch<BattalionListItem>(UNIT_MANAGEMENT_API_ENDPOINTS.battalionById(id), {
+    return await $fetch<BattalionDetailItem>(UNIT_MANAGEMENT_API_ENDPOINTS.battalionById(id), {
       method: 'GET',
       headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchBattalions)
+}
+
+export const getBattalionPersonnelEndpoint = async (id: string, query: BattalionEndpointQuery): Promise<UnitListResponse<UnitPersonnelListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<UnitListResponse<UnitPersonnelListItem>>(UNIT_MANAGEMENT_API_ENDPOINTS.battalionPersonnel(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchBattalions)
+}
+
+export const getBattalionEquipmentEndpoint = async (id: string, query: BattalionEndpointQuery): Promise<UnitListResponse<UnitEquipmentAssetListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<UnitListResponse<UnitEquipmentAssetListItem>>(UNIT_MANAGEMENT_API_ENDPOINTS.battalionEquipment(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchBattalions)
+}
+
+export const getBattalionCompaniesEndpoint = async (id: string, query: BattalionEndpointQuery): Promise<UnitListResponse<CompanyListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<UnitListResponse<CompanyListItem>>(UNIT_MANAGEMENT_API_ENDPOINTS.battalionCompanies(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
     })
   }, API_LOADING_MESSAGES.fetchBattalions)
 }
@@ -103,11 +137,31 @@ export const deleteBattalionEndpoint = async (id: string): Promise<{ ok: boolean
   }, API_LOADING_MESSAGES.deleteBattalion)
 }
 
-export const getCompanyByIdEndpoint = async (id: string): Promise<CompanyListItem> => {
+export const getCompanyByIdEndpoint = async (id: string): Promise<CompanyDetailItem> => {
   return await withApiLoading(async () => {
-    return await $fetch<CompanyListItem>(UNIT_MANAGEMENT_API_ENDPOINTS.companyById(id), {
+    return await $fetch<CompanyDetailItem>(UNIT_MANAGEMENT_API_ENDPOINTS.companyById(id), {
       method: 'GET',
       headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchCompanies)
+}
+
+export const getCompanyPersonnelEndpoint = async (id: string, query: CompanyEndpointQuery): Promise<UnitListResponse<UnitPersonnelListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<UnitListResponse<UnitPersonnelListItem>>(UNIT_MANAGEMENT_API_ENDPOINTS.companyPersonnel(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchCompanies)
+}
+
+export const getCompanyEquipmentEndpoint = async (id: string, query: CompanyEndpointQuery): Promise<UnitListResponse<UnitEquipmentAssetListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<UnitListResponse<UnitEquipmentAssetListItem>>(UNIT_MANAGEMENT_API_ENDPOINTS.companyEquipment(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
     })
   }, API_LOADING_MESSAGES.fetchCompanies)
 }
