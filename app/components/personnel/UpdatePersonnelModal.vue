@@ -7,35 +7,115 @@
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <div class="grid gap-4 md:grid-cols-2">
-        <BaseTextField v-model="form.personnelCode" :label="PERSONNEL_CREATE_PERSONNEL_CODE_LABEL" :placeholder="PERSONNEL_CREATE_PERSONNEL_CODE_PLACEHOLDER" :error="errors.personnelCode" required />
-        <BaseTextField v-model="form.serviceNumber" :label="PERSONNEL_CREATE_SERVICE_NUMBER_LABEL" :placeholder="PERSONNEL_CREATE_SERVICE_NUMBER_PLACEHOLDER" :error="errors.serviceNumber" required />
+        <BaseTextField
+          v-model="form.personnelCode"
+          :label="PERSONNEL_CREATE_PERSONNEL_CODE_LABEL"
+          :placeholder="PERSONNEL_CREATE_PERSONNEL_CODE_PLACEHOLDER"
+          :error="errors.personnelCode"
+          required
+        />
+        <BaseTextField
+          v-model="form.serviceNumber"
+          :label="PERSONNEL_CREATE_SERVICE_NUMBER_LABEL"
+          :placeholder="PERSONNEL_CREATE_SERVICE_NUMBER_PLACEHOLDER"
+          :error="errors.serviceNumber"
+          required
+        />
       </div>
 
       <div class="grid gap-4 md:grid-cols-3">
-        <BaseTextField v-model="form.lastName" :label="PERSONNEL_CREATE_LAST_NAME_LABEL" :placeholder="PERSONNEL_CREATE_LAST_NAME_PLACEHOLDER" :error="errors.lastName" required />
-        <BaseTextField v-model="form.firstName" :label="PERSONNEL_CREATE_FIRST_NAME_LABEL" :placeholder="PERSONNEL_CREATE_FIRST_NAME_PLACEHOLDER" :error="errors.firstName" required />
-        <BaseTextField v-model="form.middleName" :label="PERSONNEL_CREATE_MIDDLE_NAME_LABEL" :placeholder="PERSONNEL_CREATE_MIDDLE_NAME_PLACEHOLDER" :error="errors.middleName" />
+        <BaseTextField
+          v-model="form.lastName"
+          :label="PERSONNEL_CREATE_LAST_NAME_LABEL"
+          :placeholder="PERSONNEL_CREATE_LAST_NAME_PLACEHOLDER"
+          :error="errors.lastName"
+          required
+        />
+        <BaseTextField
+          v-model="form.firstName"
+          :label="PERSONNEL_CREATE_FIRST_NAME_LABEL"
+          :placeholder="PERSONNEL_CREATE_FIRST_NAME_PLACEHOLDER"
+          :error="errors.firstName"
+          required
+        />
+        <BaseTextField
+          v-model="form.middleName"
+          :label="PERSONNEL_CREATE_MIDDLE_NAME_LABEL"
+          :placeholder="PERSONNEL_CREATE_MIDDLE_NAME_PLACEHOLDER"
+          :error="errors.middleName"
+        />
       </div>
 
       <div class="grid gap-4 md:grid-cols-3">
-        <BaseSelect v-model="form.sex" :label="PERSONNEL_CREATE_SEX_LABEL" :placeholder="PERSONNEL_CREATE_SEX_PLACEHOLDER" :options="PERSONNEL_CREATE_SEX_OPTIONS" :error="errors.sex" required />
-        <BaseDatePicker v-model="form.birthdate" :label="PERSONNEL_CREATE_BIRTHDATE_LABEL" :error="errors.birthdate" />
-        <BaseDatePicker v-model="form.dateEnlisted" :label="PERSONNEL_CREATE_DATE_ENLISTED_LABEL" :error="errors.dateEnlisted" />
+        <BaseSelect
+          v-model="form.sex"
+          :label="PERSONNEL_CREATE_SEX_LABEL"
+          :placeholder="PERSONNEL_CREATE_SEX_PLACEHOLDER"
+          :options="PERSONNEL_CREATE_SEX_OPTIONS"
+          :error="errors.sex"
+          required
+        />
+        <BaseDatePicker
+          v-model="form.birthdate"
+          :label="PERSONNEL_CREATE_BIRTHDATE_LABEL"
+          :error="errors.birthdate"
+        />
+        <BaseDatePicker
+          v-model="form.dateEnlisted"
+          :label="PERSONNEL_CREATE_DATE_ENLISTED_LABEL"
+          :error="errors.dateEnlisted"
+        />
       </div>
 
       <div class="grid gap-4 md:grid-cols-2">
-        <BaseTextField v-model="form.rankId" :label="PERSONNEL_CREATE_RANK_ID_LABEL" :placeholder="PERSONNEL_CREATE_RANK_ID_PLACEHOLDER" :error="errors.rankId" required />
-        <BaseTextField v-model="form.contactNumber" :label="PERSONNEL_CREATE_CONTACT_NUMBER_LABEL" :placeholder="PERSONNEL_CREATE_CONTACT_NUMBER_PLACEHOLDER" :error="errors.contactNumber" />
+        <RankSuggestionField
+          v-model="form.rankId"
+          :label="PERSONNEL_CREATE_RANK_ID_LABEL"
+          :placeholder="PERSONNEL_CREATE_RANK_ID_PLACEHOLDER"
+          :error="errors.rankId"
+          required
+        />
+        <BaseTextField
+          v-model="form.contactNumber"
+          :label="PERSONNEL_CREATE_CONTACT_NUMBER_LABEL"
+          :placeholder="PERSONNEL_CREATE_CONTACT_NUMBER_PLACEHOLDER"
+          :error="errors.contactNumber"
+        />
       </div>
 
       <div class="grid gap-4 md:grid-cols-2">
-        <CompaniesSuggestionField v-model="form.companyId" :label="PERSONNEL_CREATE_COMPANY_ID_LABEL" :placeholder="PERSONNEL_CREATE_COMPANY_ID_PLACEHOLDER" :battalion-id="form.battalionId" :error="errors.companyId" />
-        <BattalionsSuggestionField v-model="form.battalionId" :label="PERSONNEL_CREATE_BATTALION_ID_LABEL" :placeholder="PERSONNEL_CREATE_BATTALION_ID_PLACEHOLDER" :error="errors.battalionId" />
+        <CompaniesSuggestionField
+          v-model="form.companyId"
+          :label="PERSONNEL_CREATE_COMPANY_ID_LABEL"
+          :placeholder="PERSONNEL_CREATE_COMPANY_ID_PLACEHOLDER"
+          :battalion-id="form.battalionId"
+          :error="errors.companyId"
+        />
+        <BattalionsSuggestionField
+          v-model="form.battalionId"
+          :label="PERSONNEL_CREATE_BATTALION_ID_LABEL"
+          :placeholder="PERSONNEL_CREATE_BATTALION_ID_PLACEHOLDER"
+          :error="errors.battalionId"
+        />
       </div>
 
       <div class="grid gap-4 md:grid-cols-2">
-        <BaseTextField v-model="form.employmentStatusId" :label="PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_LABEL" :placeholder="PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_PLACEHOLDER" :error="errors.employmentStatusId" required />
-        <BaseTextField v-model="form.serviceStatusId" :label="PERSONNEL_CREATE_SERVICE_STATUS_ID_LABEL" :placeholder="PERSONNEL_CREATE_SERVICE_STATUS_ID_PLACEHOLDER" :error="errors.serviceStatusId" required />
+        <BaseSuggestionField
+          v-model="form.employmentStatusId"
+          :options="PERSONNEL_CREATE_EMPLOYMENT_STATUS_OPTIONS"
+          :label="PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_LABEL"
+          :placeholder="PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_PLACEHOLDER"
+          :error="errors.employmentStatusId"
+          required
+        />
+        <BaseSuggestionField
+          v-model="form.serviceStatusId"
+          :options="PERSONNEL_CREATE_SERVICE_STATUS_OPTIONS"
+          :label="PERSONNEL_CREATE_SERVICE_STATUS_ID_LABEL"
+          :placeholder="PERSONNEL_CREATE_SERVICE_STATUS_ID_PLACEHOLDER"
+          :error="errors.serviceStatusId"
+          required
+        />
       </div>
     </form>
 
@@ -52,6 +132,7 @@
 import { reactive, watch } from 'vue'
 import BattalionsSuggestionField from '~/components/general/BattalionsSuggestionField.vue'
 import CompaniesSuggestionField from '~/components/general/CompaniesSuggestionField.vue'
+import RankSuggestionField from '~/components/general/RankSuggestionField.vue'
 import {
   PERSONNEL_CREATE_BATTALION_ID_LABEL,
   PERSONNEL_CREATE_BATTALION_ID_PLACEHOLDER,
@@ -62,6 +143,7 @@ import {
   PERSONNEL_CREATE_CONTACT_NUMBER_PLACEHOLDER,
   PERSONNEL_CREATE_DATE_ENLISTED_LABEL,
   PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_LABEL,
+  PERSONNEL_CREATE_EMPLOYMENT_STATUS_OPTIONS,
   PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_PLACEHOLDER,
   PERSONNEL_CREATE_FIRST_NAME_LABEL,
   PERSONNEL_CREATE_FIRST_NAME_PLACEHOLDER,
@@ -76,6 +158,7 @@ import {
   PERSONNEL_CREATE_SERVICE_NUMBER_LABEL,
   PERSONNEL_CREATE_SERVICE_NUMBER_PLACEHOLDER,
   PERSONNEL_CREATE_SERVICE_STATUS_ID_LABEL,
+  PERSONNEL_CREATE_SERVICE_STATUS_OPTIONS,
   PERSONNEL_CREATE_SERVICE_STATUS_ID_PLACEHOLDER,
   PERSONNEL_CREATE_SEX_LABEL,
   PERSONNEL_CREATE_SEX_OPTIONS,
