@@ -6,6 +6,7 @@ import { REGEX_PATTERNS } from '~/utils/regex'
 const BATTALION_SEARCHABLE_FIELDS = ['code', 'name'] as const
 
 export const BATTALION_ACTION_KEYS = Object.freeze({
+  view: 'view-battalion',
   edit: 'edit-battalion',
   delete: 'delete-battalion',
 })
@@ -16,19 +17,28 @@ interface BattalionActionPayload {
 }
 
 interface UseBattalionActionHandlerOptions {
+  onViewBattalionAction: (row: Record<string, unknown>) => Promise<boolean>
   onEditBattalionAction: (row: Record<string, unknown>) => Promise<boolean>
   onDeleteBattalionAction: (row: Record<string, unknown>) => Promise<boolean>
+  canHandleViewBattalionAction: (actionKey: string) => boolean
   canHandleUpdateBattalionAction: (actionKey: string) => boolean
   canHandleDeleteBattalionAction: (actionKey: string) => boolean
 }
 
 export const useBattalionActionHandler = ({
+  onViewBattalionAction,
   onEditBattalionAction,
   onDeleteBattalionAction,
+  canHandleViewBattalionAction,
   canHandleUpdateBattalionAction,
   canHandleDeleteBattalionAction,
 }: UseBattalionActionHandlerOptions) => {
   const onBattalionAction = async (payload: BattalionActionPayload) => {
+    if (canHandleViewBattalionAction(payload.actionKey)) {
+      await onViewBattalionAction(payload.row)
+      return
+    }
+
     if (canHandleUpdateBattalionAction(payload.actionKey)) {
       await onEditBattalionAction(payload.row)
       return
