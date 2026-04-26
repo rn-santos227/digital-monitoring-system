@@ -20,6 +20,7 @@ export type IconName =
   | 'users'
   | 'building'
   | 'clipboard'
+  | 'clipboard-document-list'
   | 'academic-cap'
   | 'map'
   | 'shield'
