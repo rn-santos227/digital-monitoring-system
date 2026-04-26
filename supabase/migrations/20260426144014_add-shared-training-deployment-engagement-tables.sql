@@ -109,3 +109,57 @@ where not exists (
     and t.default_remarks is not distinct from tr.remarks
 );
 
+update public.training_records tr
+set training_id = t.id
+from public.trainings t
+where tr.training_id is null
+  and t.training_title = tr.training_title
+  and t.training_category_id is not distinct from tr.training_category_id
+  and t.level_id is not distinct from tr.level_id
+  and t.start_date is not distinct from tr.start_date
+  and t.end_date is not distinct from tr.end_date
+  and t.status_id = tr.status_id
+  and t.default_remarks is not distinct from tr.remarks;
+
+insert into public.deployments (
+  deployment_area,
+  deployment_area_latitude,
+  deployment_area_longitude,
+  assignment_role,
+  operation_name,
+  start_date,
+  end_date,
+  status_id,
+  location,
+  supervisor_id,
+  default_remarks
+)
+select distinct
+  dr.deployment_area,
+  dr.deployment_area_latitude,
+  dr.deployment_area_longitude,
+  dr.assignment_role,
+  dr.operation_name,
+  dr.start_date,
+  dr.end_date,
+  dr.status_id,
+  dr.location,
+  dr.supervisor_id,
+  dr.remarks
+from public.deployment_records dr
+where not exists (
+  select 1
+  from public.deployments d
+  where d.deployment_area = dr.deployment_area
+    and d.deployment_area_latitude is not distinct from dr.deployment_area_latitude
+    and d.deployment_area_longitude is not distinct from dr.deployment_area_longitude
+    and d.assignment_role is not distinct from dr.assignment_role
+    and d.operation_name is not distinct from dr.operation_name
+    and d.start_date = dr.start_date
+    and d.end_date is not distinct from dr.end_date
+    and d.status_id = dr.status_id
+    and d.location is not distinct from dr.location
+    and d.supervisor_id is not distinct from dr.supervisor_id
+    and d.default_remarks is not distinct from dr.remarks
+);
+
