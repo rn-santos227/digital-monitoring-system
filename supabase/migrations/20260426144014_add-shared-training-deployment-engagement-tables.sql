@@ -53,3 +53,12 @@ create table if not exists public.engagements (
   constraint engagements_date_check check (date_end is null or date_start is null or date_end >= date_start)
 );
 
+alter table if exists public.training_records
+  add column if not exists training_id uuid null references public.trainings(id) on delete set null;
+
+alter table if exists public.deployment_records
+  add column if not exists deployment_id uuid null references public.deployments(id) on delete set null;
+
+alter table if exists public.engagement_records
+  add column if not exists engagement_id uuid null references public.engagements(id) on delete set null;
+
