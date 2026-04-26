@@ -36,7 +36,7 @@ export const usePersonnel = () => {
     await loadPersonnel(1, filters.value)
   }
 
- const updatePersonnel = async (id: string, payload: UpdatePersonnelPayload) => {
+  const updatePersonnel = async (id: string, payload: UpdatePersonnelPayload) => {
     await personnelStore.updatePersonnel(id, payload)
     await loadPersonnel(pagination.value.page, filters.value)
   }
@@ -50,6 +50,24 @@ export const usePersonnel = () => {
     return await personnelStore.fetchPersonnelById(id)
   }
 
+  const uploadPersonnelBatch = async (
+    file: File,
+    employmentStatusId: string,
+    serviceStatusId: string,
+    onProgress?: (processedCount: number, totalCount: number) => void,
+  ) => {
+    const response = await personnelStore.processPersonnelBatchUpload(
+      file,
+      employmentStatusId,
+      serviceStatusId,
+      onProgress,
+    )
+
+    await loadPersonnel(1, filters.value)
+
+    return response
+  }
+
   return {
     filters,
     tableRows,
@@ -61,5 +79,6 @@ export const usePersonnel = () => {
     updatePersonnel,
     deletePersonnel,
     getPersonnelById,
+    uploadPersonnelBatch,
   }
 }
