@@ -40,6 +40,8 @@
                 <p><span class="font-semibold">Name:</span> {{ personnel.fullName }}</p>
                 <p><span class="font-semibold">Sex:</span> {{ personnel.sex }}</p>
                 <p><span class="font-semibold">Birthdate:</span> {{ personnel.birthdate ?? 'Not set' }}</p>
+                <p><span class="font-semibold">Age:</span> {{ personnel.age ?? 'Not available' }}</p>
+                <p><span class="font-semibold">Position:</span> {{ personnel.position ?? 'Not set' }}</p>
                 <p><span class="font-semibold">Date Enlisted:</span> {{ personnel.dateEnlisted ?? 'Not set' }}</p>
                 <p><span class="font-semibold">Contact Number:</span> {{ personnel.contactNumber ?? 'Not set' }}</p>
                 <p><span class="font-semibold">Employment Status:</span> {{ personnel.employmentStatus }}</p>
