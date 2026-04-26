@@ -62,3 +62,19 @@ alter table if exists public.deployment_records
 alter table if exists public.engagement_records
   add column if not exists engagement_id uuid null references public.engagements(id) on delete set null;
 
+create index if not exists idx_training_records_training_id on public.training_records(training_id);
+create index if not exists idx_deployment_records_deployment_id on public.deployment_records(deployment_id);
+create index if not exists idx_engagement_records_engagement_id on public.engagement_records(engagement_id);
+
+create index if not exists idx_trainings_training_category_id on public.trainings(training_category_id);
+create index if not exists idx_trainings_level_id on public.trainings(level_id);
+create index if not exists idx_trainings_status_id on public.trainings(status_id);
+
+create index if not exists idx_deployments_status_id on public.deployments(status_id);
+create index if not exists idx_deployments_supervisor_id on public.deployments(supervisor_id);
+create index if not exists idx_deployments_start_date on public.deployments(start_date);
+
+create index if not exists idx_engagements_engagement_type_id on public.engagements(engagement_type_id);
+create index if not exists idx_engagements_level_id on public.engagements(level_id);
+create index if not exists idx_engagements_status_id on public.engagements(status_id);
+
