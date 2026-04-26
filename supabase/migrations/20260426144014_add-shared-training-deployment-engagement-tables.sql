@@ -220,3 +220,20 @@ where er.engagement_id is null
   and e.date_end is not distinct from er.date_end
   and e.status_id = er.status_id
   and e.default_remarks is not distinct from er.remarks;
+
+rant select, insert, update, delete on table public.trainings to service_role;
+grant select, insert, update, delete on table public.deployments to service_role;
+grant select, insert, update, delete on table public.engagements to service_role;
+
+grant select, insert, update, delete on table public.trainings to authenticated;
+grant select, insert, update, delete on table public.deployments to authenticated;
+grant select, insert, update, delete on table public.engagements to authenticated;
+
+alter table public.trainings enable row level security;
+alter table public.deployments enable row level security;
+alter table public.engagements enable row level security;
+
+alter table public.trainings force row level security;
+alter table public.deployments force row level security;
+alter table public.engagements force row level security;
+
