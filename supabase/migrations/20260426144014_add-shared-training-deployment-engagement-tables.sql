@@ -209,3 +209,14 @@ where not exists (
     and e.default_remarks is not distinct from er.remarks
 );
 
+update public.engagement_records er
+set engagement_id = e.id
+from public.engagements e
+where er.engagement_id is null
+  and e.engagement_title = er.engagement_title
+  and e.engagement_type_id = er.engagement_type_id
+  and e.level_id is not distinct from er.level_id
+  and e.date_start is not distinct from er.date_start
+  and e.date_end is not distinct from er.date_end
+  and e.status_id = er.status_id
+  and e.default_remarks is not distinct from er.remarks;
