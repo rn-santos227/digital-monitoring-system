@@ -74,8 +74,11 @@
             :is-loading="isRanksLoading"
             :current-page="rankPagination.page"
             :total-pages="rankPagination.totalPages"
+            :total-items="rankPagination.totalItems"
+            :page-size="rankPagination.pageSize"
             :can-delete="canDeleteRanks"
             @update:current-page="onRankPageChange"
+            @update:page-size="onRankPageSizeChange"
             @action="onRankTableAction"
           />
         </template>
