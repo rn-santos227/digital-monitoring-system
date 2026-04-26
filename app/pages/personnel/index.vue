@@ -36,6 +36,9 @@
           />
 
           <div v-if="canCreatePersonnel" :class="PERSONNEL_TABLE_ACTIONS_ROW_CLASSES">
+            <BaseButton variant="ghost" @click="isBatchUploadPersonnelModalOpen = true">
+              {{ PERSONNEL_BATCH_UPLOAD_BUTTON_LABEL }}
+            </BaseButton>
             <BaseButton @click="openCreatePersonnelModal">
               {{ PERSONNEL_CREATE_BUTTON_LABEL }}
             </BaseButton>
@@ -90,6 +93,15 @@
         @submit="handleCreatePersonnel"
       />
 
+      <BatchUploadPersonnelModal
+        v-if="isBatchUploadPersonnelModalOpen"
+        :is-submitting="isBatchUploadSubmitting"
+        :processed-count="batchProcessedCount"
+        :total-count="batchTotalCount"
+        @close="isBatchUploadPersonnelModalOpen = false"
+        @submit="handleBatchUploadPersonnel"
+      />
+
       <UpdatePersonnelModal
         v-if="isUpdatePersonnelModalOpen && selectedPersonnel"
         :initial-values="selectedPersonnel"
@@ -108,6 +120,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import BatchUploadPersonnelModal from '~/components/personnel/BatchUploadPersonnelModal.vue'
 import CreateRankModal from '~/components/personnel/CreateRankModal.vue'
 import CreatePersonnelModal from '~/components/personnel/CreatePersonnelModal.vue'
 import PersonnelFilter from '~/components/personnel/PersonnelFilter.vue'
@@ -116,6 +129,7 @@ import RanksTable from '~/components/personnel/RanksTable.vue'
 import UpdatePersonnelModal from '~/components/personnel/UpdatePersonnelModal.vue'
 import { useRanks } from '~/composables/useRanks'
 import {
+  PERSONNEL_BATCH_UPLOAD_BUTTON_LABEL,
   PERSONNEL_CREATE_BUTTON_LABEL,
   PERSONNEL_PAGE_REQUIRED_PERMISSIONS,
   PERSONNEL_PAGE_SECTION_CLASSES,
@@ -141,7 +155,7 @@ import type { CreatePersonnelPayload, PersonnelDetail, PersonnelSearchQuery, Upd
 import type { FieldValidationMap } from '~/utils/field-validation'
 import type { CreateRankPayload } from '~/types/domain/rank'
 
-const { filters, tableRows, pagination, isLoading, error, loadPersonnel, createPersonnel, updatePersonnel, deletePersonnel, getPersonnelById } = usePersonnel()
+const { filters, tableRows, pagination, isLoading, error, loadPersonnel, createPersonnel, updatePersonnel, deletePersonnel, getPersonnelById, uploadPersonnelBatch } = usePersonnel()
 const { tableRows: rankRows, pagination: rankPagination, isLoading: isRanksLoading, error: rankError, search: rankSearchTerm, loadRanks, createRank, deleteRank } = useRanks()
 const { handleFilterApply, handleFilterReset } = usePersonnelPageHandlers(filters)
 const { handleViewPersonnelProfile } = useViewPersonnelProfileHandler()
@@ -151,6 +165,10 @@ const { showDialog } = useDialog()
 
 const filterValidationErrors = ref<FieldValidationMap>({})
 const isCreatePersonnelModalOpen = ref(false)
+const isBatchUploadPersonnelModalOpen = ref(false)
+const isBatchUploadSubmitting = ref(false)
+const batchProcessedCount = ref(0)
+const batchTotalCount = ref(0)
 const isUpdatePersonnelModalOpen = ref(false)
 const isCreateRankModalOpen = ref(false)
 const selectedPersonnel = ref<PersonnelDetail | null>(null)
@@ -252,6 +270,41 @@ const handleCreatePersonnel = async (payload: CreatePersonnelPayload) => {
       message: 'Unable to create personnel record right now.',
       variant: 'error',
     })
+  }
+}
+
+const handleBatchUploadPersonnel = async (payload: { file: File, employmentStatusId: string, serviceStatusId: string }) => {
+  isBatchUploadSubmitting.value = true
+  batchProcessedCount.value = 0
+  batchTotalCount.value = 0
+
+  try {
+    const response = await uploadPersonnelBatch(
+      payload.file,
+      payload.employmentStatusId,
+      payload.serviceStatusId,
+      (processedCount, totalCount) => {
+        batchProcessedCount.value = processedCount
+        batchTotalCount.value = totalCount
+      },
+    )
+
+    isBatchUploadPersonnelModalOpen.value = false
+    await showDialog({
+      type: 'success',
+      title: 'Batch upload complete',
+      message: `${response.insertedCount} of ${response.totalCount} personnel records were inserted successfully.`,
+      confirmLabel: 'Close',
+      cancelLabel: 'Dismiss',
+    })
+  } catch {
+    addToast({
+      title: 'Personnel batch upload failed',
+      message: 'Unable to upload personnel batch right now.',
+      variant: 'error',
+    })
+  } finally {
+    isBatchUploadSubmitting.value = false
   }
 }
 
