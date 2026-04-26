@@ -38,3 +38,18 @@ create table if not exists public.deployments (
   )
 );
 
+create table if not exists public.engagements (
+  id uuid primary key default gen_random_uuid(),
+  engagement_title text not null,
+  engagement_type_id uuid not null references public.engagement_types(id) on delete restrict,
+  level_id uuid null references public.levels(id) on delete restrict,
+  date_start date null,
+  date_end date null,
+  status_id uuid not null references public.engagement_statuses(id) on delete restrict,
+  default_remarks text null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  created_by uuid null references public.user_profiles(id) on delete set null,
+  constraint engagements_date_check check (date_end is null or date_start is null or date_end >= date_start)
+);
+
