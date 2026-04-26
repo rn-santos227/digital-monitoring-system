@@ -78,3 +78,34 @@ create index if not exists idx_engagements_engagement_type_id on public.engageme
 create index if not exists idx_engagements_level_id on public.engagements(level_id);
 create index if not exists idx_engagements_status_id on public.engagements(status_id);
 
+-- Backfill shared tables from existing records.
+insert into public.trainings (
+  training_title,
+  training_category_id,
+  level_id,
+  start_date,
+  end_date,
+  status_id,
+  default_remarks
+)
+select distinct
+  tr.training_title,
+  tr.training_category_id,
+  tr.level_id,
+  tr.start_date,
+  tr.end_date,
+  tr.status_id,
+  tr.remarks
+from public.training_records tr
+where not exists (
+  select 1
+  from public.trainings t
+  where t.training_title = tr.training_title
+    and t.training_category_id is not distinct from tr.training_category_id
+    and t.level_id is not distinct from tr.level_id
+    and t.start_date is not distinct from tr.start_date
+    and t.end_date is not distinct from tr.end_date
+    and t.status_id = tr.status_id
+    and t.default_remarks is not distinct from tr.remarks
+);
+
