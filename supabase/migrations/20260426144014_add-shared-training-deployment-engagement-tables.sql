@@ -393,3 +393,32 @@ begin
 end;
 $$;
 
+drop trigger if exists set_trainings_updated_at on public.trainings;
+create trigger set_trainings_updated_at
+before update on public.trainings
+for each row execute function public.set_updated_at();
+
+drop trigger if exists set_deployments_updated_at on public.deployments;
+create trigger set_deployments_updated_at
+before update on public.deployments
+for each row execute function public.set_updated_at();
+
+drop trigger if exists set_engagements_updated_at on public.engagements;
+create trigger set_engagements_updated_at
+before update on public.engagements
+for each row execute function public.set_updated_at();
+
+drop trigger if exists tr_audit_trainings on public.trainings;
+create trigger tr_audit_trainings
+after insert or update or delete on public.trainings
+for each row execute function public.log_audit_changes();
+
+drop trigger if exists tr_audit_deployments on public.deployments;
+create trigger tr_audit_deployments
+after insert or update or delete on public.deployments
+for each row execute function public.log_audit_changes();
+
+drop trigger if exists tr_audit_engagements on public.engagements;
+create trigger tr_audit_engagements
+after insert or update or delete on public.engagements
+for each row execute function public.log_audit_changes();
