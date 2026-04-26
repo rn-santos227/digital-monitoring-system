@@ -6,6 +6,7 @@ import type {
   TrainingReferenceRow,
   TrainingListItem,
   TrainingRow,
+  TrainingSuggestionItem,
 } from '../models'
 
 const toSingleReference = (value: TrainingReferenceRow | TrainingReferenceRow[] | null): TrainingReferenceRow | null => {
@@ -73,5 +74,21 @@ export const mapTrainingListItem = (row: TrainingRow): TrainingListItem => {
     defaultRemarks: row.default_remarks,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
+  }
+}
+
+export const mapTrainingSuggestionItem = (row: Pick<TrainingRow, 'id' | 'training_title' | 'start_date' | 'end_date' | 'training_category' | 'level' | 'training_status'>): TrainingSuggestionItem => {
+  const trainingCategory = toSingleReference(row.training_category)
+  const level = toSingleReference(row.level)
+  const status = toSingleReference(row.training_status)
+
+  return {
+    id: row.id,
+    trainingTitle: row.training_title,
+    trainingCategoryName: trainingCategory?.name ?? null,
+    levelName: level?.name ?? null,
+    statusName: status?.name ?? null,
+    startDate: row.start_date,
+    endDate: row.end_date,
   }
 }

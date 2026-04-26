@@ -20,6 +20,16 @@ export interface TrainingCategorySuggestionItem {
   name: string
 }
 
+export interface TrainingSuggestionItem {
+  id: string
+  trainingTitle: string
+  trainingCategoryName: string | null
+  levelName: string | null
+  statusName: string | null
+  startDate: string | null
+  endDate: string | null
+}
+
 export interface TrainingListItem {
   id: string
   trainingTitle: string
