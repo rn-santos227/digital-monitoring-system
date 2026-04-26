@@ -274,3 +274,22 @@ export const UNITS_COMPANIES_TABLE_COLUMNS: readonly DataTableColumn[] = Object.
   { key: 'name', label: 'Name', sortable: true },
   { key: 'status', label: 'Status', sortable: true },
 ])
+
+export const TRAININGS_TABLE_TITLE = 'Trainings'
+export const TRAININGS_TABLE_EMPTY_MESSAGE = 'No training records found.'
+export const TRAININGS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'trainingTitle', label: 'Training', sortable: true },
+  { key: 'trainingCategoryName', label: 'Category', sortable: true },
+  { key: 'levelName', label: 'Level', sortable: true },
+  { key: 'statusName', label: 'Status', sortable: true },
+  { key: 'startDate', label: 'Start Date', sortable: true },
+  { key: 'endDate', label: 'End Date', sortable: true },
+])
+
+export const TRAINING_CATEGORIES_TABLE_TITLE = 'Training Categories'
+export const TRAINING_CATEGORIES_TABLE_EMPTY_MESSAGE = 'No training categories found.'
+export const TRAINING_CATEGORIES_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'code', label: 'Code', sortable: true },
+  { key: 'name', label: 'Name', sortable: true },
+  { key: 'updatedAt', label: 'Updated At', sortable: true },
+])

@@ -36,6 +36,13 @@ export const UNIT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   companyEquipment: (id: string) => `/api/companies/${id}/equipment`,
 })
 
+export const TRAINING_MANAGEMENT_API_ENDPOINTS = Object.freeze({
+  trainings: '/api/trainings',
+  trainingsSearch: '/api/trainings/search',
+  trainingCategories: '/api/training-categories',
+  trainingCategoriesSearch: '/api/training-categories/search',
+})
+
 export const DASHBOARD_API_ENDPOINTS = Object.freeze({
   unitManagementKpis: '/api/dashboard/unit-management',
 })
@@ -102,5 +109,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   createCompany: 'Creating company record...',
   updateCompany: 'Updating company record...',
   deleteCompany: 'Deleting company record...',
+  fetchTrainings: 'Loading training records...',
+  fetchTrainingCategories: 'Loading training categories...',
   uploadFile: 'Uploading file...',
 })
