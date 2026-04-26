@@ -10,6 +10,7 @@ import type {
   PersonnelTablePagination,
 } from '~/types/domain/personnel'
 import { extractApiErrorMessage } from '~/utils/api-request'
+import { mapParsedBatchRowToCreatePayload, parsePersonnelBatchExcelFile } from '~/utils/personnel-batch-upload'
 import {
   createPersonnelEndpoint,
   deletePersonnelEndpoint,
@@ -114,6 +115,47 @@ const personnelStoreOptions = {
         return await createPersonnelEndpoint(payload)
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create personnel record.')
+        throw error
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+    async processPersonnelBatchUpload(
+      this: PersonnelState,
+      file: File,
+      employmentStatusId: string,
+      serviceStatusId: string,
+      onProgress?: (processedCount: number, totalCount: number) => void,
+    ) {
+      this.isLoading = true
+      this.error = ''
+
+      try {
+        const parsedRows = await parsePersonnelBatchExcelFile(file)
+        let insertedCount = 0
+        let processedCount = 0
+
+        for (const row of parsedRows) {
+          const payload = mapParsedBatchRowToCreatePayload(row, employmentStatusId, serviceStatusId)
+
+          try {
+            await createPersonnelEndpoint(payload)
+            insertedCount += 1
+          } catch {
+            // Continue processing the remaining rows.
+          } finally {
+            processedCount += 1
+            onProgress?.(processedCount, parsedRows.length)
+          }
+        }
+
+        return {
+          insertedCount,
+          totalCount: parsedRows.length,
+        }
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to process personnel batch upload.')
         throw error
       } finally {
         this.isLoading = false
