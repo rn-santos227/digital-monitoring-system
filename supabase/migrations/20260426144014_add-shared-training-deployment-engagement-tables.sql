@@ -237,3 +237,13 @@ alter table public.trainings force row level security;
 alter table public.deployments force row level security;
 alter table public.engagements force row level security;
 
+drop policy if exists service_role_full_access on public.trainings;
+create policy service_role_full_access on public.trainings for all to service_role using (true) with check (true);
+
+drop policy if exists service_role_full_access on public.deployments;
+create policy service_role_full_access on public.deployments for all to service_role using (true) with check (true);
+
+drop policy if exists service_role_full_access on public.engagements;
+create policy service_role_full_access on public.engagements for all to service_role using (true) with check (true);
+
+
