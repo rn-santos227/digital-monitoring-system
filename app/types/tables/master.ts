@@ -51,6 +51,7 @@ export type PersonnelRow = AuditColumns & {
   employment_status_id: UUID
   service_status_id: UUID
   contact_number: string | null
+  position: string | null
   date_enlisted: ISODate | null
 }
 export type PersonnelInsert = AuditInsert & Omit<PersonnelRow, keyof AuditColumns | 'id'> & { id?: UUID }

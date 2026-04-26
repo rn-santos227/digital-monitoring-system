@@ -99,6 +99,7 @@ export const validateCreatePersonnelForm = (form: CreatePersonnelForm) => {
         employmentStatusId: validation.values.employmentStatusId!,
         serviceStatusId: validation.values.serviceStatusId!,
         contactNumber: validation.values.contactNumber || null,
+        position: null,
         dateEnlisted: validation.values.dateEnlisted || null,
       }
 

@@ -10,6 +10,7 @@ import type {
   PersonnelSearchQuery,
   PersonnelSuggestionsEndpointResponse,
   PersonnelSuggestionsQuery,
+  PersonnelBatchUploadResponse,
   UpdatePersonnelPayload,
   UpdatePersonnelResponse,
 } from '~/types/domain/personnel'
@@ -56,6 +57,19 @@ export const createPersonnelEndpoint = async (payload: CreatePersonnelPayload): 
       body: payload,
     })
   }, API_LOADING_MESSAGES.createPersonnel)
+}
+
+export const uploadPersonnelBatchEndpoint = async (file: File): Promise<PersonnelBatchUploadResponse> => {
+  return await withApiLoading(async () => {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    return await $fetch<PersonnelBatchUploadResponse>(PERSONNEL_API_ENDPOINTS.personnelBatchUpload, {
+      method: 'POST',
+      headers: createSessionHeaders(),
+      body: formData,
+    })
+  }, API_LOADING_MESSAGES.uploadPersonnelBatch)
 }
 
 export const getPersonnelByIdEndpoint = async (id: string): Promise<PersonnelDetail> => {

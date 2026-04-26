@@ -142,6 +142,7 @@ export interface CreatePersonnelPayload {
   employmentStatusId: string
   serviceStatusId: string
   contactNumber: string | null
+  position: string | null
   dateEnlisted: string | null
 }
 
@@ -164,6 +165,7 @@ export interface UpdatePersonnelPayload {
   employmentStatusId: string
   serviceStatusId: string
   contactNumber: string | null
+  position: string | null
   dateEnlisted: string | null
 }
 
@@ -173,6 +175,11 @@ export interface UpdatePersonnelResponse {
 
 export interface DeletePersonnelResponse {
   ok: boolean
+}
+
+export interface PersonnelBatchUploadResponse {
+  ok: boolean
+  insertedCount: number
 }
 
 export interface PersonnelDetail {
@@ -198,9 +205,11 @@ export interface PersonnelDetail {
   serviceStatusId: string
   serviceStatus: string
   contactNumber: string | null
+  position: string | null
   dateEnlisted: string | null
   createdAt: string
   updatedAt: string
+  age: number | null
 }
 
 export type PersonnelProfileTabId = 'core' | 'training' | 'deployment' | 'engagement' | 'equipment-assignment'
