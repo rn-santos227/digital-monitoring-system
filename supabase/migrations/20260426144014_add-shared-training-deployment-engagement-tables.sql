@@ -163,3 +163,49 @@ where not exists (
     and d.default_remarks is not distinct from dr.remarks
 );
 
+update public.deployment_records dr
+set deployment_id = d.id
+from public.deployments d
+where dr.deployment_id is null
+  and d.deployment_area = dr.deployment_area
+  and d.deployment_area_latitude is not distinct from dr.deployment_area_latitude
+  and d.deployment_area_longitude is not distinct from dr.deployment_area_longitude
+  and d.assignment_role is not distinct from dr.assignment_role
+  and d.operation_name is not distinct from dr.operation_name
+  and d.start_date = dr.start_date
+  and d.end_date is not distinct from dr.end_date
+  and d.status_id = dr.status_id
+  and d.location is not distinct from dr.location
+  and d.supervisor_id is not distinct from dr.supervisor_id
+  and d.default_remarks is not distinct from dr.remarks;
+
+insert into public.engagements (
+  engagement_title,
+  engagement_type_id,
+  level_id,
+  date_start,
+  date_end,
+  status_id,
+  default_remarks
+)
+select distinct
+  er.engagement_title,
+  er.engagement_type_id,
+  er.level_id,
+  er.date_start,
+  er.date_end,
+  er.status_id,
+  er.remarks
+from public.engagement_records er
+where not exists (
+  select 1
+  from public.engagements e
+  where e.engagement_title = er.engagement_title
+    and e.engagement_type_id = er.engagement_type_id
+    and e.level_id is not distinct from er.level_id
+    and e.date_start is not distinct from er.date_start
+    and e.date_end is not distinct from er.date_end
+    and e.status_id = er.status_id
+    and e.default_remarks is not distinct from er.remarks
+);
+
