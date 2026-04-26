@@ -39,6 +39,16 @@ export interface TrainingListItem {
   defaultRemarks: string | null
 }
 
+export interface TrainingSuggestionItem {
+  id: string
+  trainingTitle: string
+  trainingCategoryName: string | null
+  levelName: string | null
+  statusName: string | null
+  startDate: string | null
+  endDate: string | null
+}
+
 export interface TrainingCategoryListItem {
   id: string
   code: string
@@ -55,10 +65,29 @@ export interface TrainingManagementListResponse<TItem> {
   totalPages: number
 }
 
+export interface TrainingSuggestionResponse<TItem> {
+  items: TItem[]
+}
+
 export interface TrainingEndpointQuery {
   page?: number
   pageSize?: number
   search?: string
+}
+
+export interface CreateTrainingPayload {
+  trainingTitle: string
+  trainingCategoryId: string | null
+  statusId: string
+  levelId?: string | null
+  startDate?: string | null
+  endDate?: string | null
+  defaultRemarks?: string | null
+}
+
+export interface CreateTrainingCategoryPayload {
+  code: string
+  name: string
 }
 
 export interface TrainingSearchQuery extends TrainingEndpointQuery {
