@@ -18,6 +18,18 @@ export const AUDIT_LOG_ACTIONS = {
   companyCreate: 'COMPANY_CREATE',
   companyUpdate: 'COMPANY_UPDATE',
   companyDelete: 'COMPANY_DELETE',
+  trainingCreate: 'TRAINING_CREATE',
+  trainingUpdate: 'TRAINING_UPDATE',
+  trainingDelete: 'TRAINING_DELETE',
+  trainingCategoryCreate: 'TRAINING_CATEGORY_CREATE',
+  trainingCategoryUpdate: 'TRAINING_CATEGORY_UPDATE',
+  trainingCategoryDelete: 'TRAINING_CATEGORY_DELETE',
+  trainingsCreate: '/api/trainings',
+  trainingsUpdate: '/api/trainings/:id',
+  trainingsDelete: '/api/trainings/:id',
+  trainingCategoriesCreate: '/api/training-categories',
+  trainingCategoriesUpdate: '/api/training-categories/:id',
+  trainingCategoriesDelete: '/api/training-categories/:id',
   fileAttachmentCreate: 'FILE_ATTACHMENT_CREATE',
 } as const
 

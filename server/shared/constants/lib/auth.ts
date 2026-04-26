@@ -25,4 +25,8 @@ export const PERMISSION_CODES = {
   companyCreate: 'company.create',
   companyUpdate: 'company.update',
   companyDelete: 'company.delete',
+  trainingView: 'training.view',
+  trainingCreate: 'training.create',
+  trainingUpdate: 'training.update',
+  trainingDelete: 'training.delete',
 } as const

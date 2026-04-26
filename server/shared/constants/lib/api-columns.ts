@@ -103,3 +103,8 @@ export const COMPANY_PERSONNEL_LIST_SELECT_COLUMNS = PERSONNEL_PROFILE_COMPACT_S
 
 export const UNIT_EQUIPMENT_ASSET_LIST_SELECT_COLUMNS =
   'equipment_asset_id, asset_tag, serial_no, equipment_code, item_name, category_code, category_name, assigned_personnel_code, assigned_personnel_last_name, assigned_personnel_first_name, assigned_company_code, assigned_company_name, assigned_battalion_code, assigned_battalion_name, current_location, condition_status, serviceability_status, asset_status, latest_issue_no, latest_issue_date, latest_issuance_status'
+
+export const TRAINING_CATEGORY_SELECT_COLUMNS = 'id, code, name, created_at, updated_at'
+export const TRAINING_CATEGORY_SUGGESTION_SELECT_COLUMNS = 'id, code, name'
+export const TRAINING_REFERENCE_ID_SELECT_COLUMNS = 'id'
+export const TRAINING_SELECT_COLUMNS = 'id, training_title, training_category_id, level_id, start_date, end_date, status_id, default_remarks, created_at, updated_at, training_category:training_categories(id, code, name), level:levels(id, name), training_status:training_statuses(id, name)'

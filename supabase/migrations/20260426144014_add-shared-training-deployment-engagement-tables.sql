@@ -221,7 +221,7 @@ where er.engagement_id is null
   and e.status_id = er.status_id
   and e.default_remarks is not distinct from er.remarks;
 
-rant select, insert, update, delete on table public.trainings to service_role;
+grant select, insert, update, delete on table public.trainings to service_role;
 grant select, insert, update, delete on table public.deployments to service_role;
 grant select, insert, update, delete on table public.engagements to service_role;
 
