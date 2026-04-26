@@ -6,9 +6,11 @@ import {
   PERSONNEL_PRIVILEGES,
   RANK_PRIVILEGES,
   USER_PROFILE_PRIVILEGES,
+  TRAINING_PRIVILEGES,
 } from '~/constants/privileges.constants'
 import type { PersonnelManagementTabId, PersonnelProfileTabId } from '~/types/domain/personnel'
 import type { UserManagementTabId } from '~/types/domain/users'
+import type { TrainingManagementTabId } from '~/types/domain/training'
 import type { UnitManagementTabId } from '~/types/domain/units'
 import { EMPLOYMENT_STATUS_VALUES, SERVICE_STATUS_VALUES } from '~/types/enums'
 
@@ -137,7 +139,7 @@ export const PERSONNEL_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
 ])
 export const PERSONNEL_PAGE_TAB_REQUIRED_PERMISSIONS: Readonly<Record<PersonnelManagementTabId, readonly string[]>> = Object.freeze({
   'personnel-records': PERSONNEL_PRIVILEGES.view,
-  'rank-management': PERSONNEL_PRIVILEGES.view,
+  'rank-management': RANK_PRIVILEGES.view,
 })
 export const PERSONNEL_CREATE_BUTTON_LABEL = 'Create Personnel'
 export const PERSONNEL_MODAL_CREATE_LABEL = 'Create'
@@ -502,3 +504,46 @@ export const USERS_ACCOUNT_PRIVILEGES_CODE_PREFIX = 'Code'
 
 export const USERS_PROFILE_REQUIRED_PERMISSIONS = USER_PROFILE_PRIVILEGES
 export const USERS_ACCOUNT_REQUIRED_PERMISSIONS = ACCOUNT_TYPE_PRIVILEGES
+
+export const TRAINING_PAGE_TITLE = 'Training Management'
+export const TRAINING_PAGE_SUBTITLE = 'Monitor training records, training master list, and training categories for readiness planning.'
+export const TRAINING_PAGE_SECTION_CLASSES = 'space-y-6'
+export const TRAINING_PAGE_KPI_GRID_CLASSES = 'grid gap-4 md:grid-cols-2 xl:grid-cols-3'
+export const TRAINING_PAGE_TABS_ARIA_LABEL = 'Training management tabs'
+export const TRAINING_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
+  { id: 'records', label: 'Records' },
+  { id: 'trainings', label: 'Trainings' },
+  { id: 'categories', label: 'Categories' },
+])
+
+export const TRAINING_PAGE_TAB_REQUIRED_PERMISSIONS: Readonly<Record<TrainingManagementTabId, readonly string[]>> = Object.freeze({
+  records: TRAINING_PRIVILEGES.view,
+  trainings: TRAINING_PRIVILEGES.view,
+  categories: TRAINING_PRIVILEGES.view,
+})
+
+export const TRAININGS_FILTER_CARD_TITLE = 'Filter Trainings'
+export const TRAININGS_FILTER_TERM_LABEL = 'Search Term'
+export const TRAININGS_FILTER_TERM_PLACEHOLDER = 'Search training value'
+export const TRAININGS_FILTER_FIELDS_LABEL = 'Search Field'
+export const TRAININGS_FILTER_APPLY_LABEL = 'Apply Filters'
+export const TRAININGS_FILTER_RESET_LABEL = 'Reset'
+export const TRAININGS_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: '', label: 'All searchable fields' },
+  { value: 'trainingTitle', label: 'Training Title' },
+  { value: 'defaultRemarks', label: 'Default Remarks' },
+])
+
+export const TRAINING_CATEGORIES_FILTER_CARD_TITLE = 'Filter Training Categories'
+export const TRAINING_CATEGORIES_FILTER_TERM_LABEL = 'Search Term'
+export const TRAINING_CATEGORIES_FILTER_TERM_PLACEHOLDER = 'Search category value'
+export const TRAINING_CATEGORIES_FILTER_FIELDS_LABEL = 'Search Field'
+export const TRAINING_CATEGORIES_FILTER_APPLY_LABEL = 'Apply Filters'
+export const TRAINING_CATEGORIES_FILTER_RESET_LABEL = 'Reset'
+export const TRAINING_CATEGORIES_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: '', label: 'All searchable fields' },
+  { value: 'code', label: 'Code' },
+  { value: 'name', label: 'Name' },
+])
+
+export const TRAINING_RECORDS_PENDING_MESSAGE = 'Training records module will be added in the next iteration.'
