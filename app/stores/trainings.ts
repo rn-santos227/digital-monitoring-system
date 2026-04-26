@@ -1,12 +1,16 @@
 import { defineStore } from 'pinia'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import {
+  createTrainingCategoryEndpoint,
+  createTrainingEndpoint,
   getTrainingCategoriesEndpoint,
   getTrainingsEndpoint,
   searchTrainingCategoriesEndpoint,
   searchTrainingsEndpoint,
 } from '~/utils/training-endpoints'
 import type {
+  CreateTrainingCategoryPayload,
+  CreateTrainingPayload,
   TrainingCategoriesState,
   TrainingCategoryListItem,
   TrainingCategorySearchQuery,
@@ -146,6 +150,40 @@ const trainingsStoreOptions = {
         throw error
       } finally {
         this.categories.isLoading = false
+      }
+    },
+
+    async createTraining(
+      this: TrainingsStoreState & {
+        fetchTrainings: (page?: number, filters?: Partial<TrainingSearchQuery>) => Promise<void>
+      },
+      payload: CreateTrainingPayload,
+    ) {
+      this.trainings.error = ''
+
+      try {
+        await createTrainingEndpoint(payload)
+        await this.fetchTrainings(1)
+      } catch (error) {
+        this.trainings.error = extractApiErrorMessage(error, 'Unable to create training.')
+        throw error
+      }
+    },
+
+    async createTrainingCategory(
+      this: TrainingsStoreState & {
+        fetchTrainingCategories: (page?: number, filters?: Partial<TrainingCategorySearchQuery>) => Promise<void>
+      },
+      payload: CreateTrainingCategoryPayload,
+    ) {
+      this.categories.error = ''
+
+      try {
+        await createTrainingCategoryEndpoint(payload)
+        await this.fetchTrainingCategories(1)
+      } catch (error) {
+        this.categories.error = extractApiErrorMessage(error, 'Unable to create training category.')
+        throw error
       }
     },
   },
