@@ -42,5 +42,6 @@ export const useTrainings = () => {
     error: computed(() => trainings.value.error),
     totalItems: computed(() => trainings.value.pagination.totalItems),
     loadTrainings,
+    createTraining: trainingsStore.createTraining,
   }
 }

@@ -43,5 +43,6 @@ export const useTrainingCategories = () => {
     error: computed(() => categories.value.error),
     totalItems: computed(() => categories.value.pagination.totalItems),
     loadTrainingCategories,
+    createTrainingCategory: trainingsStore.createTrainingCategory,
   }
 }
