@@ -40,6 +40,12 @@
         @update:model-value="onTabChange"
       />
 
+      <div v-if="showCreateButton" :class="TRAINING_TABLE_ACTIONS_ROW_CLASSES">
+        <BaseButton @click="onCreateActionClick">
+          {{ createButtonLabel }}
+        </BaseButton>
+      </div>
+
       <template v-if="activeTab === 'records'">
         <BaseAlert :message="TRAINING_RECORDS_PENDING_MESSAGE" tone="info" />
       </template>
@@ -103,6 +109,8 @@
 import { computed, ref, watch } from 'vue'
 import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import KpiCard from '~/components/general/KpiCard.vue'
+import CreateTrainingModal from '~/components/trainings/CreateTrainingModal.vue'
+import CreateTrainingCategoryModal from '~/components/trainings/CreateTrainingCategoryModal.vue'
 import TrainingsFilter from '~/components/trainings/TrainingsFilter.vue'
 import TrainingCategoriesFilter from '~/components/trainings/TrainingCategoriesFilter.vue'
 import TrainingsTable from '~/components/trainings/TrainingsTable.vue'
@@ -110,6 +118,7 @@ import TrainingCategoriesTable from '~/components/trainings/TrainingCategoriesTa
 import { useTrainings } from '~/composables/useTrainings'
 import { useTrainingCategories } from '~/composables/useTrainingCategories'
 import {
+  TRAINING_CATEGORIES_CREATE_BUTTON_LABEL,
   TRAINING_PAGE_KPI_GRID_CLASSES,
   TRAINING_PAGE_SECTION_CLASSES,
   TRAINING_PAGE_SUBTITLE,
@@ -118,9 +127,11 @@ import {
   TRAINING_PAGE_TABS_ARIA_LABEL,
   TRAINING_PAGE_TITLE,
   TRAINING_RECORDS_PENDING_MESSAGE,
+  TRAININGS_CREATE_BUTTON_LABEL,
 } from '~/constants/page.constants'
-import { APP_MAIN_CONTENT_CLASSES, TRAINING_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
-import { useTrainingManagementPageHandlers } from '~/handlers'
+import { TRAINING_PRIVILEGES } from '~/constants/privileges.constants'
+import { APP_MAIN_CONTENT_CLASSES, TRAINING_PAGE_HEADER_CLASSES, TRAINING_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
+import { useCreateTrainingCategoryHandler, useCreateTrainingHandler, useTrainingManagementPageHandlers } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type { TrainingManagementTabId } from '~/types/domain/training'
 import type { FieldValidationMap } from '~/utils/field-validation'
@@ -128,6 +139,8 @@ import type { FieldValidationMap } from '~/utils/field-validation'
 const authStore = useAuthStore()
 const activeTab = ref<TrainingManagementTabId>('trainings')
 const kpiRefreshKey = ref(0)
+const isCreateTrainingModalOpen = ref(false)
+const isCreateTrainingCategoryModalOpen = ref(false)
 
 const {
   filters: trainingFilters,
@@ -137,6 +150,7 @@ const {
   error: trainingError,
   totalItems: totalTrainings,
   loadTrainings,
+  createTraining,
 } = useTrainings()
 
 const {
@@ -147,6 +161,7 @@ const {
   error: categoryError,
   totalItems: totalCategories,
   loadTrainingCategories,
+  createTrainingCategory,
 } = useTrainingCategories()
 
 const {
@@ -161,6 +176,30 @@ const {
   categoryFilters,
 )
 
+const {
+  onOpenCreateTrainingModal,
+  onCloseCreateTrainingModal,
+  onCreateTraining,
+} = useCreateTrainingHandler({
+  isCreateTrainingModalOpen,
+  createTraining,
+  loadTrainings,
+  trainingFilters,
+  kpiRefreshKey,
+})
+
+const {
+  onOpenCreateTrainingCategoryModal,
+  onCloseCreateTrainingCategoryModal,
+  onCreateTrainingCategory,
+} = useCreateTrainingCategoryHandler({
+  isCreateTrainingCategoryModalOpen,
+  createTrainingCategory,
+  loadTrainingCategories,
+  categoryFilters,
+  kpiRefreshKey,
+})
+
 const trainingFilterValidationErrors = ref<FieldValidationMap>({})
 const categoryFilterValidationErrors = ref<FieldValidationMap>({})
 
@@ -170,6 +209,34 @@ const visibleTabItems = computed(() => {
     return authStore.hasPermissionAccess(requiredPermissions)
   })
 })
+
+
+const showCreateButton = computed(() => {
+  if (!authStore.hasPermissionAccess(TRAINING_PRIVILEGES.create)) {
+    return false
+  }
+
+  return activeTab.value === 'trainings' || activeTab.value === 'categories'
+})
+
+const createButtonLabel = computed(() => {
+  if (activeTab.value === 'categories') {
+    return TRAINING_CATEGORIES_CREATE_BUTTON_LABEL
+  }
+
+  return TRAININGS_CREATE_BUTTON_LABEL
+})
+
+const onCreateActionClick = () => {
+  if (activeTab.value === 'categories') {
+    onOpenCreateTrainingCategoryModal()
+    return
+  }
+
+  if (activeTab.value === 'trainings') {
+    onOpenCreateTrainingModal()
+  }
+}
 
 const onTabChange = (nextTab: string) => {
   handleTabChange(nextTab)
