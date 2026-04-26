@@ -262,7 +262,6 @@ export const BATTALIONS_FILTER_STATUS_OPTIONS = Object.freeze([
   { value: 'inactive', label: 'Inactive' },
 ])
 
-
 export const BATTALION_CREATE_MODAL_TITLE = 'Create Battalion Record'
 export const BATTALION_CREATE_MODAL_DESCRIPTION = 'Register a battalion unit for personnel and company assignment.'
 export const BATTALION_CREATE_CODE_LABEL = 'Battalion Code'
@@ -548,3 +547,29 @@ export const TRAINING_CATEGORIES_FILTER_FIELD_OPTIONS = Object.freeze([
 ])
 
 export const TRAINING_RECORDS_PENDING_MESSAGE = 'Training records module will be added in the next iteration.'
+export const TRAININGS_CREATE_BUTTON_LABEL = 'Create Training'
+export const TRAINING_CATEGORIES_CREATE_BUTTON_LABEL = 'Create Training Category'
+export const TRAININGS_MODAL_CANCEL_LABEL = 'Cancel'
+export const TRAININGS_MODAL_CREATE_LABEL = 'Create'
+
+export const TRAININGS_CREATE_MODAL_TITLE = 'Create Training'
+export const TRAININGS_CREATE_MODAL_DESCRIPTION = 'Add a training record to the training management registry.'
+export const TRAININGS_CREATE_TITLE_LABEL = 'Training Title'
+export const TRAININGS_CREATE_TITLE_PLACEHOLDER = 'e.g., Basic Infantry Combat Course'
+export const TRAININGS_CREATE_CATEGORY_LABEL = 'Training Category ID'
+export const TRAININGS_CREATE_CATEGORY_PLACEHOLDER = 'Enter training category identifier'
+export const TRAININGS_CREATE_STATUS_LABEL = 'Training Status ID'
+export const TRAININGS_CREATE_STATUS_PLACEHOLDER = 'Enter training status identifier'
+export const TRAININGS_CREATE_LEVEL_LABEL = 'Level ID'
+export const TRAININGS_CREATE_LEVEL_PLACEHOLDER = 'Enter optional level identifier'
+export const TRAININGS_CREATE_START_DATE_LABEL = 'Start Date'
+export const TRAININGS_CREATE_END_DATE_LABEL = 'End Date'
+export const TRAININGS_CREATE_REMARKS_LABEL = 'Default Remarks'
+export const TRAININGS_CREATE_REMARKS_PLACEHOLDER = 'Add optional remarks for this training'
+
+export const TRAINING_CATEGORIES_CREATE_MODAL_TITLE = 'Create Training Category'
+export const TRAINING_CATEGORIES_CREATE_MODAL_DESCRIPTION = 'Add a training category for training classification.'
+export const TRAINING_CATEGORIES_CREATE_CODE_LABEL = 'Category Code'
+export const TRAINING_CATEGORIES_CREATE_CODE_PLACEHOLDER = 'e.g., COMBAT'
+export const TRAINING_CATEGORIES_CREATE_NAME_LABEL = 'Category Name'
+export const TRAINING_CATEGORIES_CREATE_NAME_PLACEHOLDER = 'e.g., Combat Training'

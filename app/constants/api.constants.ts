@@ -39,6 +39,7 @@ export const UNIT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
 export const TRAINING_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   trainings: '/api/trainings',
   trainingsSearch: '/api/trainings/search',
+  trainingsSuggestions: '/api/trainings/suggestions',
   trainingCategories: '/api/training-categories',
   trainingCategoriesSearch: '/api/training-categories/search',
 })
@@ -113,5 +114,8 @@ export const API_LOADING_MESSAGES = Object.freeze({
   deleteCompany: 'Deleting company record...',
   fetchTrainings: 'Loading training records...',
   fetchTrainingCategories: 'Loading training categories...',
+  createTraining: 'Creating training record...',
+  createTrainingCategory: 'Creating training category...',
+  fetchTrainingSuggestions: 'Loading training suggestions...',
   uploadFile: 'Uploading file...',
 })
