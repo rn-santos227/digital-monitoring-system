@@ -12,6 +12,7 @@ export interface CreatePersonnelRequest {
   employmentStatusId?: string
   serviceStatusId?: string
   contactNumber?: string | null
+  position?: string | null
   dateEnlisted?: string | null
 }
 
@@ -29,5 +30,25 @@ export interface UpdatePersonnelRequest {
   employmentStatusId?: string
   serviceStatusId?: string
   contactNumber?: string | null
+  position?: string | null
+  dateEnlisted?: string | null
+}
+
+
+export interface PersonnelBatchUploadRowRequest {
+  personnelCode?: string
+  serviceNumber?: string
+  lastName?: string
+  firstName?: string
+  middleName?: string | null
+  sex?: 'Male' | 'Female'
+  birthdate?: string | null
+  rankId?: string
+  companyId?: string | null
+  battalionId?: string | null
+  employmentStatusId?: string
+  serviceStatusId?: string
+  contactNumber?: string | null
+  position?: string | null
   dateEnlisted?: string | null
 }

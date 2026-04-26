@@ -63,6 +63,7 @@ export const parseCreatePersonnelPayload = (body: CreatePersonnelRequest) => {
   const employmentStatusId = normalizeOptionalText(body.employmentStatusId)
   const serviceStatusId = normalizeOptionalText(body.serviceStatusId)
   const contactNumber = body.contactNumber === undefined ? null : normalizeOptionalText(body.contactNumber)
+  const position = body.position === undefined ? null : normalizeOptionalText(body.position)
   const dateEnlisted = normalizeOptionalDate(body.dateEnlisted)
 
   if (!personnelCode) {
@@ -101,6 +102,7 @@ export const parseCreatePersonnelPayload = (body: CreatePersonnelRequest) => {
     employment_status_id: employmentStatusId,
     service_status_id: serviceStatusId,
     contact_number: contactNumber,
+    position,
     date_enlisted: dateEnlisted,
   }
 }
@@ -204,6 +206,10 @@ export const buildPersonnelUpdates = (body: UpdatePersonnelRequest) => {
 
   if (body.contactNumber !== undefined) {
     updates.contact_number = normalizeOptionalText(body.contactNumber)
+  }
+
+  if (body.position !== undefined) {
+    updates.position = normalizeOptionalText(body.position)
   }
 
   if (body.dateEnlisted !== undefined) {

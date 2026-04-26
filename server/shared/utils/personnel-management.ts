@@ -100,6 +100,10 @@ export const mapPersonnelCompactListItem = (row: PersonnelProfileCompactRow): Pe
 }
 
 export const mapPersonnelDetail = (row: PersonnelProfileDetailRow): PersonnelDetailResponse => {
+  const age = row.birthdate
+    ? Math.max(0, new Date().getUTCFullYear() - new Date(row.birthdate).getUTCFullYear() - (new Date().toISOString().slice(5, 10) < row.birthdate.slice(5, 10) ? 1 : 0))
+    : null
+
   return {
     id: row.id,
     personnelCode: row.personnel_code,
@@ -123,9 +127,11 @@ export const mapPersonnelDetail = (row: PersonnelProfileDetailRow): PersonnelDet
     serviceStatusId: row.service_status_id,
     serviceStatus: row.service_status,
     contactNumber: row.contact_number,
+    position: row.position,
     dateEnlisted: row.date_enlisted,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
+    age,
   }
 }
 

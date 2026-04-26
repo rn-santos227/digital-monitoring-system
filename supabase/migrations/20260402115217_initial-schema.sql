@@ -75,6 +75,7 @@ create table if not exists public.personnel (
   employment_status_id uuid not null references public.employment_statuses(id) on delete restrict,
   service_status_id uuid not null references public.service_statuses(id) on delete restrict,
   contact_number text null,
+  position text null,
   date_enlisted date null,
   constraint personnel_unit_assignment_check check (
     company_id is not null or battalion_id is not null
@@ -696,6 +697,7 @@ select
   es.name as employment_status,
   ss.name as service_status,
   p.contact_number,
+  p.position,
   p.date_enlisted,
   p.created_at,
   p.updated_at

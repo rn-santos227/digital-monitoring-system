@@ -35,6 +35,7 @@ export interface CreatePersonnelBody {
   employmentStatusId?: string
   serviceStatusId?: string
   contactNumber?: string | null
+  position?: string | null
   dateEnlisted?: string | null
 }
 
@@ -52,6 +53,7 @@ export interface UpdatePersonnelBody {
   employmentStatusId?: string
   serviceStatusId?: string
   contactNumber?: string | null
+  position?: string | null
   dateEnlisted?: string | null
 }
 
@@ -93,6 +95,7 @@ export interface PersonnelProfileDetailRow extends PersonnelProfileBaseRow {
   employment_status: string
   service_status_id: string
   contact_number: string | null
+  position: string | null
   birthdate: string | null
   date_enlisted: string | null
   created_at: string

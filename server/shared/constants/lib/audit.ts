@@ -43,6 +43,7 @@ export const AUDIT_LOG_ENDPOINTS = {
   userProfilesPasswordUpdate: '/api/users/:id/password',
   userProfilesActivationUpdate: '/api/users/:id/activation',
   personnelCreate: '/api/personnel',
+  personnelBatchUpload: '/api/personnel/batch-upload',
   personnelUpdate: '/api/personnel/:id',
   personnelDelete: '/api/personnel/:id',
   ranksCreate: '/api/ranks',

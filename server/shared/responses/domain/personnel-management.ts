@@ -42,9 +42,16 @@ export interface PersonnelDetailResponse {
   serviceStatusId: string
   serviceStatus: string
   contactNumber: string | null
+  position: string | null
   dateEnlisted: string | null
   createdAt: string
   updatedAt: string
+  age: number | null
+}
+
+export interface PersonnelBatchUploadResponse {
+  ok: boolean
+  insertedCount: number
 }
 
 export interface PersonnelRelationshipCountsResponse {
