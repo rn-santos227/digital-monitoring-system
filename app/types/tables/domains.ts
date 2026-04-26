@@ -1,16 +1,25 @@
 export type {
+  TrainingsInsert,
+  TrainingsRow,
+  TrainingsUpdate,
   TrainingRecordsInsert,
   TrainingRecordsRow,
   TrainingRecordsUpdate,
 } from './modules/training.domain'
 
 export type {
+  DeploymentsInsert,
+  DeploymentsRow,
+  DeploymentsUpdate,
   DeploymentRecordsInsert,
   DeploymentRecordsRow,
   DeploymentRecordsUpdate,
 } from './modules/deployment.domain'
 
 export type {
+  EngagementsInsert,
+  EngagementsRow,
+  EngagementsUpdate,
   EngagementRecordsInsert,
   EngagementRecordsRow,
   EngagementRecordsUpdate,

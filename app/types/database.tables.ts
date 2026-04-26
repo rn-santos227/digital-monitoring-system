@@ -64,9 +64,15 @@ export type {
 } from './tables/lookups'
 
 export type {
+  DeploymentsInsert,
+  DeploymentsRow,
+  DeploymentsUpdate,
   DeploymentRecordsInsert,
   DeploymentRecordsRow,
   DeploymentRecordsUpdate,
+  EngagementsInsert,
+  EngagementsRow,
+  EngagementsUpdate,
   EngagementRecordsInsert,
   EngagementRecordsRow,
   EngagementRecordsUpdate,
@@ -97,6 +103,9 @@ export type {
   PersonnelWeaponAssignmentsInsert,
   PersonnelWeaponAssignmentsRow,
   PersonnelWeaponAssignmentsUpdate,
+  TrainingsInsert,
+  TrainingsRow,
+  TrainingsUpdate,
   TrainingRecordsInsert,
   TrainingRecordsRow,
   TrainingRecordsUpdate,
@@ -165,9 +174,15 @@ import type {
   TrainingStatusesUpdate,
 } from './tables/lookups'
 import type {
+  DeploymentsInsert,
+  DeploymentsRow,
+  DeploymentsUpdate,
   DeploymentRecordsInsert,
   DeploymentRecordsRow,
   DeploymentRecordsUpdate,
+  EngagementsInsert,
+  EngagementsRow,
+  EngagementsUpdate,
   EngagementRecordsInsert,
   EngagementRecordsRow,
   EngagementRecordsUpdate,
@@ -198,6 +213,9 @@ import type {
   PersonnelWeaponAssignmentsInsert,
   PersonnelWeaponAssignmentsRow,
   PersonnelWeaponAssignmentsUpdate,
+  TrainingsInsert,
+  TrainingsRow,
+  TrainingsUpdate,
   TrainingRecordsInsert,
   TrainingRecordsRow,
   TrainingRecordsUpdate,
@@ -223,9 +241,11 @@ export interface DatabaseTables {
   maintenance_types: TableShape<MaintenanceTypesRow, MaintenanceTypesInsert, MaintenanceTypesUpdate>
   incident_types: TableShape<IncidentTypesRow, IncidentTypesInsert, IncidentTypesUpdate>
   investigation_statuses: TableShape<InvestigationStatusesRow, InvestigationStatusesInsert, InvestigationStatusesUpdate>
+  trainings: TableShape<TrainingsRow, TrainingsInsert, TrainingsUpdate>
   training_records: TableShape<TrainingRecordsRow, TrainingRecordsInsert, TrainingRecordsUpdate>
+  deployments: TableShape<DeploymentsRow, DeploymentsInsert, DeploymentsUpdate>
   deployment_records: TableShape<DeploymentRecordsRow, DeploymentRecordsInsert, DeploymentRecordsUpdate>
-  engagement_records: TableShape<EngagementRecordsRow, EngagementRecordsInsert, EngagementRecordsUpdate>
+  engagements: TableShape<EngagementsRow, EngagementsInsert, EngagementsUpdate>
   equipment_categories: TableShape<EquipmentCategoriesRow, EquipmentCategoriesInsert, EquipmentCategoriesUpdate>
   equipment_items: TableShape<EquipmentItemsRow, EquipmentItemsInsert, EquipmentItemsUpdate>
   equipment_assets: TableShape<EquipmentAssetsRow, EquipmentAssetsInsert, EquipmentAssetsUpdate>
