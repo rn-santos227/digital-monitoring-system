@@ -246,4 +246,90 @@ create policy service_role_full_access on public.deployments for all to service_
 drop policy if exists service_role_full_access on public.engagements;
 create policy service_role_full_access on public.engagements for all to service_role using (true) with check (true);
 
+drop policy if exists authenticated_select_policy on public.trainings;
+create policy authenticated_select_policy
+on public.trainings
+for select
+to authenticated
+using (public.has_table_privilege('trainings', 'select'));
+
+drop policy if exists authenticated_insert_policy on public.trainings;
+create policy authenticated_insert_policy
+on public.trainings
+for insert
+to authenticated
+with check (public.has_table_privilege('trainings', 'insert'));
+
+drop policy if exists authenticated_update_policy on public.trainings;
+create policy authenticated_update_policy
+on public.trainings
+for update
+to authenticated
+using (public.has_table_privilege('trainings', 'update'))
+with check (public.has_table_privilege('trainings', 'update'));
+
+drop policy if exists authenticated_delete_policy on public.trainings;
+create policy authenticated_delete_policy
+on public.trainings
+for delete
+to authenticated
+using (public.has_table_privilege('trainings', 'delete'));
+
+drop policy if exists authenticated_select_policy on public.deployments;
+create policy authenticated_select_policy
+on public.deployments
+for select
+to authenticated
+using (public.has_table_privilege('deployments', 'select'));
+
+drop policy if exists authenticated_insert_policy on public.deployments;
+create policy authenticated_insert_policy
+on public.deployments
+for insert
+to authenticated
+with check (public.has_table_privilege('deployments', 'insert'));
+
+drop policy if exists authenticated_update_policy on public.deployments;
+create policy authenticated_update_policy
+on public.deployments
+for update
+to authenticated
+using (public.has_table_privilege('deployments', 'update'))
+with check (public.has_table_privilege('deployments', 'update'));
+
+drop policy if exists authenticated_delete_policy on public.deployments;
+create policy authenticated_delete_policy
+on public.deployments
+for delete
+to authenticated
+using (public.has_table_privilege('deployments', 'delete'));
+
+drop policy if exists authenticated_select_policy on public.engagements;
+create policy authenticated_select_policy
+on public.engagements
+for select
+to authenticated
+using (public.has_table_privilege('engagements', 'select'));
+
+drop policy if exists authenticated_insert_policy on public.engagements;
+create policy authenticated_insert_policy
+on public.engagements
+for insert
+to authenticated
+with check (public.has_table_privilege('engagements', 'insert'));
+
+drop policy if exists authenticated_update_policy on public.engagements;
+create policy authenticated_update_policy
+on public.engagements
+for update
+to authenticated
+using (public.has_table_privilege('engagements', 'update'))
+with check (public.has_table_privilege('engagements', 'update'));
+
+drop policy if exists authenticated_delete_policy on public.engagements;
+create policy authenticated_delete_policy
+on public.engagements
+for delete
+to authenticated
+using (public.has_table_privilege('engagements', 'delete'));
 
