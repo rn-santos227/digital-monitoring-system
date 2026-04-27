@@ -47,7 +47,29 @@
       </div>
 
       <template v-if="activeTab === 'records'">
-        <BaseAlert :message="TRAINING_RECORDS_PENDING_MESSAGE" tone="info" />
+        <TrainingRecordsFilter
+          :model-value="trainingRecordsFilters"
+          :validation-errors="trainingRecordFilterValidationErrors"
+          @apply="handleApplyTrainingRecordFilters"
+          @reset="handleResetTrainingRecordFilters"
+        />
+
+        <BaseAlert
+          v-if="trainingRecordsError"
+          :message="trainingRecordsError"
+          tone="danger"
+        />
+
+        <TrainingRecordsTable
+          :rows="trainingRecordsTableRows"
+          :is-loading="isTrainingRecordsLoading"
+          :current-page="trainingRecordsPagination.page"
+          :total-pages="trainingRecordsPagination.totalPages"
+          :total-items="trainingRecordsPagination.totalItems"
+          :page-size="trainingRecordsPagination.pageSize"
+          @update:current-page="onTrainingRecordsPageChange"
+          @update:page-size="onTrainingRecordsPageSizeChange"
+        />
       </template>
 
       <template v-else-if="activeTab === 'trainings'">
@@ -149,9 +171,12 @@ import UpdateTrainingModal from '~/components/trainings/UpdateTrainingModal.vue'
 import ViewTrainingModal from '~/components/trainings/ViewTrainingModal.vue'
 import TrainingsFilter from '~/components/trainings/TrainingsFilter.vue'
 import TrainingCategoriesFilter from '~/components/trainings/TrainingCategoriesFilter.vue'
+import TrainingRecordsFilter from '~/components/trainings/TrainingRecordsFilter.vue'
 import TrainingsTable from '~/components/trainings/TrainingsTable.vue'
+import TrainingRecordsTable from '~/components/trainings/TrainingRecordsTable.vue'
 import TrainingCategoriesTable from '~/components/trainings/TrainingCategoriesTable.vue'
 import { useTrainings } from '~/composables/useTrainings'
+import { useTrainingRecords } from '~/composables/useTrainingRecords'
 import { useTrainingCategories } from '~/composables/useTrainingCategories'
 import {
   TRAINING_CATEGORIES_CREATE_BUTTON_LABEL,
@@ -162,7 +187,6 @@ import {
   TRAINING_PAGE_TAB_REQUIRED_PERMISSIONS,
   TRAINING_PAGE_TABS_ARIA_LABEL,
   TRAINING_PAGE_TITLE,
-  TRAINING_RECORDS_PENDING_MESSAGE,
   TRAININGS_CREATE_BUTTON_LABEL,
 } from '~/constants/page.constants'
 import { TRAINING_PRIVILEGES } from '~/constants/privileges.constants'
@@ -214,6 +238,16 @@ const {
 } = useTrainings()
 
 const {
+  filters: trainingRecordsFilters,
+  tableRows: trainingRecordsTableRows,
+  pagination: trainingRecordsPagination,
+  isLoading: isTrainingRecordsLoading,
+  error: trainingRecordsError,
+  totalItems: totalTrainingRecords,
+  loadTrainingRecords,
+} = useTrainingRecords()
+
+const {
   filters: categoryFilters,
   tableRows: categoryTableRows,
   pagination: categoryPagination,
@@ -227,14 +261,18 @@ const {
   getTrainingCategoryById,
 } = useTrainingCategories()
 
+
 const {
   handleTabChange,
+  handleRecordsFilterApply,
+  handleRecordsFilterReset,
   handleTrainingFilterApply,
   handleTrainingFilterReset,
   handleCategoryFilterApply,
   handleCategoryFilterReset,
 } = useTrainingManagementPageHandlers(
   activeTab,
+  trainingRecordsFilters,
   trainingFilters,
   categoryFilters,
 )
@@ -263,6 +301,7 @@ const {
   kpiRefreshKey,
 })
 
+const trainingRecordFilterValidationErrors = ref<FieldValidationMap>({})
 const trainingFilterValidationErrors = ref<FieldValidationMap>({})
 const categoryFilterValidationErrors = ref<FieldValidationMap>({})
 
@@ -273,6 +312,9 @@ const visibleTabItems = computed(() => {
   })
 })
 
+const canManageTrainingRecords = computed(() => {
+  return authStore.hasPermissionAccess(TRAINING_PRIVILEGES.manage)
+})
 
 const showCreateButton = computed(() => {
   if (!authStore.hasPermissionAccess(TRAINING_PRIVILEGES.create)) {
@@ -303,6 +345,25 @@ const onCreateActionClick = () => {
 
 const onTabChange = (nextTab: string) => {
   handleTabChange(nextTab)
+}
+
+const handleApplyTrainingRecordFilters = async (value: typeof trainingRecordsFilters.value) => {
+  const { filters, errors, isValid } = handleRecordsFilterApply(value)
+  trainingRecordFilterValidationErrors.value = errors
+
+  if (!isValid) {
+    return
+  }
+
+  await loadTrainingRecords(1, filters)
+  kpiRefreshKey.value += 1
+}
+
+const handleResetTrainingRecordFilters = async () => {
+  trainingRecordFilterValidationErrors.value = {}
+  const filters = handleRecordsFilterReset()
+  await loadTrainingRecords(1, filters)
+  kpiRefreshKey.value += 1
 }
 
 const handleApplyTrainingFilters = async (value: typeof trainingFilters.value) => {
@@ -341,6 +402,14 @@ const handleResetCategoryFilters = async () => {
   const filters = handleCategoryFilterReset()
   await loadTrainingCategories(1, filters)
   kpiRefreshKey.value += 1
+}
+
+const onTrainingRecordsPageChange = (nextPage: number) => {
+  void loadTrainingRecords(nextPage, trainingRecordsFilters.value, trainingRecordsPagination.value.pageSize)
+}
+
+const onTrainingRecordsPageSizeChange = (nextPageSize: number) => {
+  void loadTrainingRecords(1, trainingRecordsFilters.value, nextPageSize)
 }
 
 const onTrainingPageChange = (nextPage: number) => {
@@ -466,9 +535,13 @@ const onCategoryTableAction = async (payload: { actionKey: string; row: Record<s
 }
 
 const loadTotalRecords = async (): Promise<KpiCardLoaderResult> => {
+  if (canManageTrainingRecords.value) {
+    await loadTrainingRecords(1, trainingRecordsFilters.value, 10)
+  }
+
   return {
-    value: 0,
-    context: 'Records tab is reserved for personnel training records.',
+    value: totalTrainingRecords.value,
+    context: 'Personnel training records currently available in the training module.',
   }
 }
 
@@ -489,6 +562,22 @@ const loadTotalCategories = async (): Promise<KpiCardLoaderResult> => {
     context: 'Training categories currently available in the training module.',
   }
 }
+
+watch(
+  activeTab,
+  (tabId) => {
+    if (tabId !== 'records') {
+      return
+    }
+
+    if (!canManageTrainingRecords.value) {
+      return
+    }
+
+    void loadTrainingRecords(1, trainingRecordsFilters.value, trainingRecordsPagination.value.pageSize)
+  },
+  { immediate: true }
+)
 
 watch(
   visibleTabItems,

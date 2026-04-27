@@ -44,6 +44,7 @@ export const TRAINING_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   trainingCategories: '/api/training-categories',
   trainingCategoriesSearch: '/api/training-categories/search',
   trainingCategoryById: (id: string) => `/api/training-categories/${id}`,
+  trainingRecords: '/api/training-records',
   trainingRecordsSearch: '/api/training-records/search',
 })
 
@@ -116,6 +117,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   updateCompany: 'Updating company record...',
   deleteCompany: 'Deleting company record...',
   fetchTrainings: 'Loading training records...',
+  fetchTrainingRecords: 'Loading training records...',
   fetchTrainingCategories: 'Loading training categories...',
   createTraining: 'Creating training record...',
   updateTraining: 'Updating training record...',
@@ -123,7 +125,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   createTrainingCategory: 'Creating training category...',
   updateTrainingCategory: 'Updating training category...',
   deleteTrainingCategory: 'Deleting training category...',
-  fetchTrainingPersonnel: 'Loading training personnel records...',
+  fetchTrainingPersonnel: 'Loading assigned training personnel...',
   fetchTrainingSuggestions: 'Loading training suggestions...',
   uploadFile: 'Uploading file...',
 })

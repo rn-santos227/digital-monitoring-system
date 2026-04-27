@@ -3,6 +3,7 @@ import type {
   CreateTrainingCategoryPayload,
   CreateTrainingPayload,
   TrainingRecordListItem,
+  TrainingRecordSearchQuery,
   TrainingCategoryEndpointQuery,
   TrainingCategoryListItem,
   TrainingCategorySearchQuery,

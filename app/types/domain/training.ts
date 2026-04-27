@@ -115,6 +115,11 @@ export interface TrainingSearchQuery extends TrainingEndpointQuery {
   statusId?: string
 }
 
+export interface TrainingRecordSearchQuery extends TrainingEndpointQuery {
+  term?: string
+  fields?: string
+}
+
 export interface TrainingCategoryEndpointQuery {
   page?: number
   pageSize?: number

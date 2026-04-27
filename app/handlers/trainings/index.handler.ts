@@ -2,17 +2,20 @@ import type { Ref } from 'vue'
 import type {
   TrainingCategorySearchQuery,
   TrainingManagementTabId,
+  TrainingRecordSearchQuery,
   TrainingSearchQuery,
 } from '~/types/domain/training'
 import { validateFields } from '~/utils/field-validation'
 import { REGEX_PATTERNS } from '~/utils/regex'
 
 const TRAINING_MANAGEMENT_TAB_IDS: readonly TrainingManagementTabId[] = ['records', 'trainings', 'categories']
+const TRAINING_RECORD_SEARCHABLE_FIELDS = ['recordNo', 'trainingTitle', 'certificateNo', 'remarks'] as const
 const TRAINING_SEARCHABLE_FIELDS = ['trainingTitle', 'defaultRemarks'] as const
 const TRAINING_CATEGORY_SEARCHABLE_FIELDS = ['code', 'name'] as const
 
 export const useTrainingManagementPageHandlers = (
   activeTab: Ref<TrainingManagementTabId>,
+  recordsFilters: Ref<Partial<TrainingRecordSearchQuery>>,
   trainingFilters: Ref<Partial<TrainingSearchQuery>>,
   categoryFilters: Ref<Partial<TrainingCategorySearchQuery>>,
 ) => {
@@ -20,6 +23,52 @@ export const useTrainingManagementPageHandlers = (
     if (TRAINING_MANAGEMENT_TAB_IDS.includes(nextTab as TrainingManagementTabId)) {
       activeTab.value = nextTab as TrainingManagementTabId
     }
+  }
+
+
+  const handleRecordsFilterApply = (value: Partial<TrainingRecordSearchQuery>) => {
+    const commonValidation = validateFields([
+      {
+        field: 'term',
+        label: 'Search term',
+        value: value.term ?? '',
+        maxLength: 120,
+        pattern: REGEX_PATTERNS.alphaNumericSpace,
+        patternMessage: 'Search term allows letters, numbers, spaces, periods, underscores, and hyphens only.',
+      },
+      {
+        field: 'fields',
+        label: 'Search field',
+        value: value.fields ?? '',
+        maxLength: 64,
+      },
+    ])
+
+    const normalizedField = commonValidation.values.fields
+    const isFieldValid = !normalizedField || TRAINING_RECORD_SEARCHABLE_FIELDS.includes(normalizedField as (typeof TRAINING_RECORD_SEARCHABLE_FIELDS)[number])
+    const fieldError = isFieldValid ? '' : 'Selected training record field is invalid.'
+
+    const errors = {
+      ...commonValidation.errors,
+      ...(fieldError ? { fields: fieldError } : {}),
+    }
+
+    const sanitizedFilters: Partial<TrainingRecordSearchQuery> = {
+      term: commonValidation.values.term || undefined,
+      fields: normalizedField || undefined,
+    }
+
+    return {
+      filters: sanitizedFilters,
+      errors,
+      isValid: Object.keys(errors).length === 0,
+    }
+  }
+
+  const handleRecordsFilterReset = (): Partial<TrainingRecordSearchQuery> => {
+    const resetFilters: Partial<TrainingRecordSearchQuery> = {}
+    recordsFilters.value = resetFilters
+    return resetFilters
   }
 
   const handleTrainingFilterApply = (value: Partial<TrainingSearchQuery>) => {
@@ -114,6 +163,8 @@ export const useTrainingManagementPageHandlers = (
 
   return {
     handleTabChange,
+    handleRecordsFilterApply,
+    handleRecordsFilterReset,
     handleTrainingFilterApply,
     handleTrainingFilterReset,
     handleCategoryFilterApply,

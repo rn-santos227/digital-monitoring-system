@@ -517,11 +517,26 @@ export const TRAINING_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
 ])
 
 export const TRAINING_PAGE_TAB_REQUIRED_PERMISSIONS: Readonly<Record<TrainingManagementTabId, readonly string[]>> = Object.freeze({
-  records: TRAINING_PRIVILEGES.view,
+  records: TRAINING_PRIVILEGES.manage,
   trainings: TRAINING_PRIVILEGES.view,
   categories: TRAINING_PRIVILEGES.view,
 })
 export const TRAINING_PAGE_REQUIRED_PERMISSIONS = TRAINING_PRIVILEGES
+
+
+export const TRAINING_RECORDS_FILTER_CARD_TITLE = 'Filter Training Records'
+export const TRAINING_RECORDS_FILTER_TERM_LABEL = 'Search Term'
+export const TRAINING_RECORDS_FILTER_TERM_PLACEHOLDER = 'Search training record value'
+export const TRAINING_RECORDS_FILTER_FIELDS_LABEL = 'Search Field'
+export const TRAINING_RECORDS_FILTER_APPLY_LABEL = 'Apply Filters'
+export const TRAINING_RECORDS_FILTER_RESET_LABEL = 'Reset'
+export const TRAINING_RECORDS_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: '', label: 'All searchable fields' },
+  { value: 'recordNo', label: 'Record No.' },
+  { value: 'trainingTitle', label: 'Training' },
+  { value: 'certificateNo', label: 'Certificate No.' },
+  { value: 'remarks', label: 'Remarks' },
+])
 
 export const TRAININGS_FILTER_CARD_TITLE = 'Filter Trainings'
 export const TRAININGS_FILTER_TERM_LABEL = 'Search Term'

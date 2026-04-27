@@ -23,6 +23,7 @@ export const PRIVILEGE_CODES = Object.freeze({
   companyCreate: 'company.create',
   companyUpdate: 'company.update',
   companyDelete: 'company.delete',
+  trainingManage: 'training.manage',
   trainingView: 'training.view',
   trainingCreate: 'training.create',
   trainingUpdate: 'training.update',
@@ -75,6 +76,7 @@ export const COMPANY_PRIVILEGES = Object.freeze({
 })
 
 export const TRAINING_PRIVILEGES = Object.freeze({
+  manage: Object.freeze([PRIVILEGE_CODES.trainingManage]),
   view: Object.freeze([PRIVILEGE_CODES.trainingView]),
   create: Object.freeze([PRIVILEGE_CODES.trainingCreate]),
   edit: Object.freeze([PRIVILEGE_CODES.trainingUpdate]),
