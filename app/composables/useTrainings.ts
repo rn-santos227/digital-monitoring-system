@@ -43,5 +43,8 @@ export const useTrainings = () => {
     totalItems: computed(() => trainings.value.pagination.totalItems),
     loadTrainings,
     createTraining: trainingsStore.createTraining,
+    updateTraining: trainingsStore.updateTraining,
+    deleteTraining: trainingsStore.deleteTraining,
+    getTrainingById: trainingsStore.getTrainingById,
   }
 }

@@ -521,6 +521,7 @@ export const TRAINING_PAGE_TAB_REQUIRED_PERMISSIONS: Readonly<Record<TrainingMan
   trainings: TRAINING_PRIVILEGES.view,
   categories: TRAINING_PRIVILEGES.view,
 })
+export const TRAINING_PAGE_REQUIRED_PERMISSIONS = TRAINING_PRIVILEGES
 
 export const TRAININGS_FILTER_CARD_TITLE = 'Filter Trainings'
 export const TRAININGS_FILTER_TERM_LABEL = 'Search Term'
@@ -551,6 +552,10 @@ export const TRAININGS_CREATE_BUTTON_LABEL = 'Create Training'
 export const TRAINING_CATEGORIES_CREATE_BUTTON_LABEL = 'Create Training Category'
 export const TRAININGS_MODAL_CANCEL_LABEL = 'Cancel'
 export const TRAININGS_MODAL_CREATE_LABEL = 'Create'
+export const TRAININGS_MODAL_UPDATE_LABEL = 'Update'
+export const TRAININGS_VIEW_MODAL_TITLE = 'View Training'
+export const TRAININGS_VIEW_MODAL_DESCRIPTION = 'Review training details and assigned personnel records.'
+export const TRAININGS_VIEW_MODAL_CLOSE_LABEL = 'Close'
 
 export const TRAININGS_CREATE_MODAL_TITLE = 'Create Training'
 export const TRAININGS_CREATE_MODAL_DESCRIPTION = 'Add a training record to the training management registry.'
@@ -573,3 +578,7 @@ export const TRAINING_CATEGORIES_CREATE_CODE_LABEL = 'Category Code'
 export const TRAINING_CATEGORIES_CREATE_CODE_PLACEHOLDER = 'e.g., COMBAT'
 export const TRAINING_CATEGORIES_CREATE_NAME_LABEL = 'Category Name'
 export const TRAINING_CATEGORIES_CREATE_NAME_PLACEHOLDER = 'e.g., Combat Training'
+export const TRAININGS_UPDATE_MODAL_TITLE = 'Update Training'
+export const TRAININGS_UPDATE_MODAL_DESCRIPTION = 'Update training registry details.'
+export const TRAINING_CATEGORIES_UPDATE_MODAL_TITLE = 'Update Training Category'
+export const TRAINING_CATEGORIES_UPDATE_MODAL_DESCRIPTION = 'Update training category details.'

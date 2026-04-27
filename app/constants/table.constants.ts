@@ -277,6 +277,7 @@ export const UNITS_COMPANIES_TABLE_COLUMNS: readonly DataTableColumn[] = Object.
 
 export const TRAININGS_TABLE_TITLE = 'Trainings'
 export const TRAININGS_TABLE_EMPTY_MESSAGE = 'No training records found.'
+export const TRAININGS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
 export const TRAININGS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'trainingTitle', label: 'Training', sortable: true },
   { key: 'trainingCategoryName', label: 'Category', sortable: true },
@@ -285,11 +286,31 @@ export const TRAININGS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze
   { key: 'startDate', label: 'Start Date', sortable: true },
   { key: 'endDate', label: 'End Date', sortable: true },
 ])
+export const TRAININGS_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  { key: 'view-training', tooltip: 'View training', iconName: 'eye', variant: 'info' },
+  { key: 'edit-training', tooltip: 'Update training', iconName: 'pencil-square', variant: 'warning' },
+  { key: 'delete-training', tooltip: 'Delete training', iconName: 'trash', variant: 'danger' },
+])
 
 export const TRAINING_CATEGORIES_TABLE_TITLE = 'Training Categories'
 export const TRAINING_CATEGORIES_TABLE_EMPTY_MESSAGE = 'No training categories found.'
+export const TRAINING_CATEGORIES_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
 export const TRAINING_CATEGORIES_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'code', label: 'Code', sortable: true },
   { key: 'name', label: 'Name', sortable: true },
   { key: 'updatedAt', label: 'Updated At', sortable: true },
+])
+export const TRAINING_CATEGORIES_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  { key: 'edit-training-category', tooltip: 'Update training category', iconName: 'pencil-square', variant: 'warning' },
+  { key: 'delete-training-category', tooltip: 'Delete training category', iconName: 'trash', variant: 'danger' },
+])
+
+export const TRAINING_PERSONNEL_TABLE_TITLE = 'Assigned Personnel'
+export const TRAINING_PERSONNEL_TABLE_EMPTY_MESSAGE = 'No personnel are assigned to this training.'
+export const TRAINING_PERSONNEL_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'personnelCode', label: 'Personnel Code', sortable: true },
+  { key: 'personnelName', label: 'Personnel', sortable: true },
+  { key: 'recordNo', label: 'Training Record No.', sortable: true },
+  { key: 'certificateNo', label: 'Certificate No.', sortable: true },
+  { key: 'remarks', label: 'Remarks', sortable: false },
 ])

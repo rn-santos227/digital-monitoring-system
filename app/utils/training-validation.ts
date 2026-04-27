@@ -117,3 +117,7 @@ export const validateCreateTrainingForm = (form: {
     payload,
   }
 }
+
+export const validateUpdateTrainingForm = validateCreateTrainingForm
+export const validateUpdateTrainingCategoryForm = validateCreateTrainingCategoryForm
+

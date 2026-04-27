@@ -3,10 +3,16 @@ import { extractApiErrorMessage } from '~/utils/api-request'
 import {
   createTrainingCategoryEndpoint,
   createTrainingEndpoint,
+  deleteTrainingCategoryEndpoint,
+  deleteTrainingEndpoint,
+  getTrainingByIdEndpoint,
+  getTrainingCategoryByIdEndpoint,
   getTrainingCategoriesEndpoint,
   getTrainingsEndpoint,
   searchTrainingCategoriesEndpoint,
   searchTrainingsEndpoint,
+  updateTrainingCategoryEndpoint,
+  updateTrainingEndpoint,
 } from '~/utils/training-endpoints'
 import type {
   CreateTrainingCategoryPayload,
@@ -18,6 +24,8 @@ import type {
   TrainingsState,
   TrainingSearchQuery,
   TrainingTablePagination,
+  UpdateTrainingCategoryPayload,
+  UpdateTrainingPayload,
 } from '~/types/domain/training'
 
 const DEFAULT_PAGINATION: TrainingTablePagination = {
@@ -84,11 +92,15 @@ const trainingsStoreOptions = {
           ? await searchTrainingsEndpoint(requestQuery)
           : await getTrainingsEndpoint({ page, pageSize })
 
+
         this.trainings.items = response.items.map((item): TrainingListItem => ({
           id: item.id,
           trainingTitle: item.trainingTitle,
+          trainingCategoryId: item.trainingCategoryId,
           trainingCategoryName: item.trainingCategoryName,
+          levelId: item.levelId,
           levelName: item.levelName,
+          statusId: item.statusId,
           statusName: item.statusName,
           startDate: item.startDate,
           endDate: item.endDate,
@@ -183,6 +195,85 @@ const trainingsStoreOptions = {
         await this.fetchTrainingCategories(1)
       } catch (error) {
         this.categories.error = extractApiErrorMessage(error, 'Unable to create training category.')
+        throw error
+      }
+    },
+
+
+    async getTrainingById(this: TrainingsStoreState, id: string) {
+      return await getTrainingByIdEndpoint(id)
+    },
+
+    async updateTraining(
+      this: TrainingsStoreState & {
+        fetchTrainings: (page?: number, filters?: Partial<TrainingSearchQuery>) => Promise<void>
+      },
+      id: string,
+      payload: UpdateTrainingPayload,
+    ) {
+      this.trainings.error = ''
+
+      try {
+        await updateTrainingEndpoint(id, payload)
+        await this.fetchTrainings(1)
+      } catch (error) {
+        this.trainings.error = extractApiErrorMessage(error, 'Unable to update training.')
+        throw error
+      }
+    },
+
+    async deleteTraining(
+      this: TrainingsStoreState & {
+        fetchTrainings: (page?: number, filters?: Partial<TrainingSearchQuery>) => Promise<void>
+      },
+      id: string,
+    ) {
+      this.trainings.error = ''
+
+      try {
+        await deleteTrainingEndpoint(id)
+        await this.fetchTrainings(1)
+      } catch (error) {
+        this.trainings.error = extractApiErrorMessage(error, 'Unable to delete training.')
+        throw error
+      }
+    },
+
+    async getTrainingCategoryById(this: TrainingsStoreState, id: string) {
+      return await getTrainingCategoryByIdEndpoint(id)
+    },
+
+    async updateTrainingCategory(
+      this: TrainingsStoreState & {
+        fetchTrainingCategories: (page?: number, filters?: Partial<TrainingCategorySearchQuery>) => Promise<void>
+      },
+      id: string,
+      payload: UpdateTrainingCategoryPayload,
+    ) {
+      this.categories.error = ''
+
+      try {
+        await updateTrainingCategoryEndpoint(id, payload)
+        await this.fetchTrainingCategories(1)
+      } catch (error) {
+        this.categories.error = extractApiErrorMessage(error, 'Unable to update training category.')
+        throw error
+      }
+    },
+
+    async deleteTrainingCategory(
+      this: TrainingsStoreState & {
+        fetchTrainingCategories: (page?: number, filters?: Partial<TrainingCategorySearchQuery>) => Promise<void>
+      },
+      id: string,
+    ) {
+      this.categories.error = ''
+
+      try {
+        await deleteTrainingCategoryEndpoint(id)
+        await this.fetchTrainingCategories(1)
+      } catch (error) {
+        this.categories.error = extractApiErrorMessage(error, 'Unable to delete training category.')
         throw error
       }
     },

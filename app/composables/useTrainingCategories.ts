@@ -44,5 +44,8 @@ export const useTrainingCategories = () => {
     totalItems: computed(() => categories.value.pagination.totalItems),
     loadTrainingCategories,
     createTrainingCategory: trainingsStore.createTrainingCategory,
+    updateTrainingCategory: trainingsStore.updateTrainingCategory,
+    deleteTrainingCategory: trainingsStore.deleteTrainingCategory,
+    getTrainingCategoryById: trainingsStore.getTrainingCategoryById,
   }
 }

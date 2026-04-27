@@ -71,6 +71,7 @@
           :total-pages="trainingPagination.totalPages"
           :total-items="trainingPagination.totalItems"
           :page-size="trainingPagination.pageSize"
+          @action="onTrainingTableAction"
           @update:current-page="onTrainingPageChange"
           @update:page-size="onTrainingPageSizeChange"
         />
@@ -97,13 +98,45 @@
           :total-pages="categoryPagination.totalPages"
           :total-items="categoryPagination.totalItems"
           :page-size="categoryPagination.pageSize"
+          @action="onCategoryTableAction"
           @update:current-page="onCategoryPageChange"
           @update:page-size="onCategoryPageSizeChange"
         />
       </template>
     </section>
+
+    <CreateTrainingModal
+      v-if="isCreateTrainingModalOpen"
+      @close="onCloseCreateTrainingModal"
+      @submit="onCreateTraining"
+    />
+    <UpdateTrainingModal
+      v-if="isUpdateTrainingModalOpen && selectedTraining"
+      :initial-values="selectedTrainingFormValues"
+      @close="closeUpdateTrainingModal"
+      @submit="onUpdateTraining"
+    />
+    <ViewTrainingModal
+      v-if="isViewTrainingModalOpen && selectedTraining"
+      :training="selectedTraining"
+      :personnel-rows="trainingPersonnelRows"
+      :is-personnel-loading="isTrainingPersonnelLoading"
+      @close="closeViewTrainingModal"
+    />
+    <CreateTrainingCategoryModal
+      v-if="isCreateTrainingCategoryModalOpen"
+      @close="onCloseCreateTrainingCategoryModal"
+      @submit="onCreateTrainingCategory"
+    />
+    <UpdateTrainingCategoryModal
+      v-if="isUpdateTrainingCategoryModalOpen && selectedTrainingCategory"
+      :initial-values="selectedTrainingCategoryFormValues"
+      @close="closeUpdateTrainingCategoryModal"
+      @submit="onUpdateTrainingCategory"
+    />
   </main>
 </template>
+
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
@@ -111,6 +144,9 @@ import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateTrainingModal from '~/components/trainings/CreateTrainingModal.vue'
 import CreateTrainingCategoryModal from '~/components/trainings/CreateTrainingCategoryModal.vue'
+import UpdateTrainingCategoryModal from '~/components/trainings/UpdateTrainingCategoryModal.vue'
+import UpdateTrainingModal from '~/components/trainings/UpdateTrainingModal.vue'
+import ViewTrainingModal from '~/components/trainings/ViewTrainingModal.vue'
 import TrainingsFilter from '~/components/trainings/TrainingsFilter.vue'
 import TrainingCategoriesFilter from '~/components/trainings/TrainingCategoriesFilter.vue'
 import TrainingsTable from '~/components/trainings/TrainingsTable.vue'
@@ -131,16 +167,37 @@ import {
 } from '~/constants/page.constants'
 import { TRAINING_PRIVILEGES } from '~/constants/privileges.constants'
 import { APP_MAIN_CONTENT_CLASSES, TRAINING_PAGE_HEADER_CLASSES, TRAINING_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
-import { useCreateTrainingCategoryHandler, useCreateTrainingHandler, useTrainingManagementPageHandlers } from '~/handlers'
+import {
+  useCreateTrainingCategoryHandler,
+  useCreateTrainingHandler,
+  useDeleteTrainingCategoryHandler,
+  useDeleteTrainingHandler,
+  useTrainingManagementPageHandlers,
+  useUpdateTrainingCategoryHandler,
+  useUpdateTrainingHandler,
+  useViewTrainingHandler,
+} from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
-import type { TrainingManagementTabId } from '~/types/domain/training'
+import type { TrainingCategoryListItem, TrainingListItem, TrainingManagementTabId } from '~/types/domain/training'
 import type { FieldValidationMap } from '~/utils/field-validation'
+import { getTrainingPersonnelEndpoint } from '~/utils/training-endpoints'
+import { useDialog } from '~/composables/useDialog'
+import { useToast } from '~/composables/useToast'
 
 const authStore = useAuthStore()
+const { showDialog } = useDialog()
+const { addToast } = useToast()
 const activeTab = ref<TrainingManagementTabId>('trainings')
 const kpiRefreshKey = ref(0)
 const isCreateTrainingModalOpen = ref(false)
 const isCreateTrainingCategoryModalOpen = ref(false)
+const isUpdateTrainingModalOpen = ref(false)
+const isUpdateTrainingCategoryModalOpen = ref(false)
+const isViewTrainingModalOpen = ref(false)
+const isTrainingPersonnelLoading = ref(false)
+const selectedTraining = ref<TrainingListItem | null>(null)
+const selectedTrainingCategory = ref<TrainingCategoryListItem | null>(null)
+const trainingPersonnelRows = ref<Record<string, string>[]>([])
 
 const {
   filters: trainingFilters,
@@ -151,6 +208,9 @@ const {
   totalItems: totalTrainings,
   loadTrainings,
   createTraining,
+  updateTraining,
+  deleteTraining,
+  getTrainingById,
 } = useTrainings()
 
 const {
@@ -162,6 +222,9 @@ const {
   totalItems: totalCategories,
   loadTrainingCategories,
   createTrainingCategory,
+  updateTrainingCategory,
+  deleteTrainingCategory,
+  getTrainingCategoryById,
 } = useTrainingCategories()
 
 const {
@@ -294,6 +357,112 @@ const onCategoryPageChange = (nextPage: number) => {
 
 const onCategoryPageSizeChange = (nextPageSize: number) => {
   void loadTrainingCategories(1, categoryFilters.value, nextPageSize)
+}
+
+const {
+  closeUpdateTrainingModal,
+  onOpenUpdateTrainingModal,
+  onUpdateTraining,
+  selectedTrainingFormValues,
+} = useUpdateTrainingHandler({
+  isUpdateTrainingModalOpen,
+  selectedTraining,
+  getTrainingById,
+  updateTraining,
+  loadTrainings,
+  trainingFilters,
+  kpiRefreshKey,
+})
+
+const {
+  closeUpdateTrainingCategoryModal,
+  onOpenUpdateTrainingCategoryModal,
+  onUpdateTrainingCategory,
+  selectedTrainingCategoryFormValues,
+} = useUpdateTrainingCategoryHandler({
+  isUpdateTrainingCategoryModalOpen,
+  selectedTrainingCategory,
+  getTrainingCategoryById,
+  updateTrainingCategory,
+  loadTrainingCategories,
+  categoryFilters,
+  kpiRefreshKey,
+})
+
+const {
+  closeViewTrainingModal,
+  onViewTraining,
+} = useViewTrainingHandler({
+  isViewTrainingModalOpen,
+  isTrainingPersonnelLoading,
+  selectedTraining,
+  trainingPersonnelRows,
+  getTrainingById,
+  getTrainingPersonnel: getTrainingPersonnelEndpoint,
+})
+
+const { onDeleteTraining } = useDeleteTrainingHandler({
+  deleteTraining,
+  loadTrainings,
+  trainingFilters,
+  kpiRefreshKey,
+  showDialog,
+  onDeleteSuccess: () => {
+    addToast({
+      title: 'Training deleted',
+      message: 'Training record has been deleted successfully.',
+      variant: 'success',
+    })
+  },
+})
+
+const { onDeleteTrainingCategory } = useDeleteTrainingCategoryHandler({
+  deleteTrainingCategory,
+  loadTrainingCategories,
+  categoryFilters,
+  kpiRefreshKey,
+  showDialog,
+})
+
+const onTrainingTableAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
+  const rowId = String(payload.row.id ?? '')
+  if (!rowId) {
+    return
+  }
+
+  if (payload.actionKey === 'view-training') {
+    await onViewTraining(rowId)
+    return
+  }
+
+  if (payload.actionKey === 'edit-training') {
+    await onOpenUpdateTrainingModal(rowId)
+    return
+  }
+
+  if (payload.actionKey !== 'delete-training') {
+    return
+  }
+
+  await onDeleteTraining(rowId)
+}
+
+const onCategoryTableAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
+  const rowId = String(payload.row.id ?? '')
+  if (!rowId) {
+    return
+  }
+
+  if (payload.actionKey === 'edit-training-category') {
+    await onOpenUpdateTrainingCategoryModal(rowId)
+    return
+  }
+
+  if (payload.actionKey !== 'delete-training-category') {
+    return
+  }
+
+  await onDeleteTrainingCategory(rowId)
 }
 
 const loadTotalRecords = async (): Promise<KpiCardLoaderResult> => {

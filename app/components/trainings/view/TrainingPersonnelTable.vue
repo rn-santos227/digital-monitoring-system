@@ -1,0 +1,29 @@
+<template>
+  <DataTable
+    :title="TRAINING_PERSONNEL_TABLE_TITLE"
+    :columns="TRAINING_PERSONNEL_TABLE_COLUMNS"
+    :rows="props.rows"
+    :is-loading="props.isLoading"
+    :empty-message="TRAINING_PERSONNEL_TABLE_EMPTY_MESSAGE"
+    :show-search="false"
+    :current-page="1"
+    :total-pages="1"
+    :total-items="props.rows.length"
+    :page-size="props.rows.length || 1"
+  />
+</template>
+
+<script setup lang="ts">
+import {
+  TRAINING_PERSONNEL_TABLE_COLUMNS,
+  TRAINING_PERSONNEL_TABLE_EMPTY_MESSAGE,
+  TRAINING_PERSONNEL_TABLE_TITLE,
+} from '~/constants/table.constants'
+
+const props = withDefaults(defineProps<{
+  rows: readonly Record<string, unknown>[]
+  isLoading?: boolean
+}>(), {
+  isLoading: false,
+})
+</script>

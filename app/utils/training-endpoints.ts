@@ -2,6 +2,7 @@ import { API_LOADING_MESSAGES, TRAINING_MANAGEMENT_API_ENDPOINTS } from '~/const
 import type {
   CreateTrainingCategoryPayload,
   CreateTrainingPayload,
+  TrainingRecordListItem,
   TrainingCategoryEndpointQuery,
   TrainingCategoryListItem,
   TrainingCategorySearchQuery,
@@ -11,6 +12,8 @@ import type {
   TrainingSuggestionItem,
   TrainingSuggestionResponse,
   TrainingSearchQuery,
+  UpdateTrainingCategoryPayload,
+  UpdateTrainingPayload,
 } from '~/types/domain/training'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
@@ -73,6 +76,80 @@ export const createTrainingCategoryEndpoint = async (payload: CreateTrainingCate
       body: payload,
     })
   }, API_LOADING_MESSAGES.createTrainingCategory)
+}
+
+
+export const getTrainingByIdEndpoint = async (id: string): Promise<TrainingListItem> => {
+  return await withApiLoading(async () => {
+    return await $fetch<TrainingListItem>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingById(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchTrainings)
+}
+
+export const updateTrainingEndpoint = async (id: string, payload: UpdateTrainingPayload): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingById(id), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updateTraining)
+}
+
+export const deleteTrainingEndpoint = async (id: string): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingById(id), {
+      method: 'DELETE',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.deleteTraining)
+}
+
+export const getTrainingCategoryByIdEndpoint = async (id: string): Promise<TrainingCategoryListItem> => {
+  return await withApiLoading(async () => {
+    return await $fetch<TrainingCategoryListItem>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingCategoryById(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchTrainingCategories)
+}
+
+export const updateTrainingCategoryEndpoint = async (id: string, payload: UpdateTrainingCategoryPayload): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingCategoryById(id), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updateTrainingCategory)
+}
+
+export const deleteTrainingCategoryEndpoint = async (id: string): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingCategoryById(id), {
+      method: 'DELETE',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.deleteTrainingCategory)
+}
+
+export const getTrainingPersonnelEndpoint = async (
+  trainingId: string,
+  pageSize = 25,
+): Promise<TrainingManagementListResponse<TrainingRecordListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<TrainingManagementListResponse<TrainingRecordListItem>>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingRecordsSearch, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query: {
+        trainingId,
+        page: 1,
+        pageSize,
+      },
+    })
+  }, API_LOADING_MESSAGES.fetchTrainingPersonnel)
 }
 
 export const getTrainingSuggestionsEndpoint = async (

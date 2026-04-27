@@ -31,8 +31,11 @@ export type TrainingManagementTabId = 'records' | 'trainings' | 'categories'
 export interface TrainingListItem {
   id: string
   trainingTitle: string
+  trainingCategoryId?: string | null
   trainingCategoryName: string | null
+  levelId?: string | null
   levelName: string | null
+  statusId?: string
   statusName: string | null
   startDate: string | null
   endDate: string | null
@@ -90,6 +93,21 @@ export interface CreateTrainingCategoryPayload {
   name: string
 }
 
+export interface UpdateTrainingPayload {
+  trainingTitle?: string
+  trainingCategoryId?: string | null
+  statusId?: string
+  levelId?: string | null
+  startDate?: string | null
+  endDate?: string | null
+  defaultRemarks?: string | null
+}
+
+export interface UpdateTrainingCategoryPayload {
+  code?: string
+  name?: string
+}
+
 export interface TrainingSearchQuery extends TrainingEndpointQuery {
   term?: string
   fields?: string
@@ -106,6 +124,29 @@ export interface TrainingCategoryEndpointQuery {
 export interface TrainingCategorySearchQuery extends TrainingCategoryEndpointQuery {
   term?: string
   fields?: string
+}
+
+export interface TrainingRecordListItem {
+  id: string
+  recordNo: string
+  personnelId: string
+  personnelCode: string | null
+  personnelName: string | null
+  trainingId: string | null
+  trainingTitle: string
+  trainingCategoryId: string | null
+  trainingCategoryName: string | null
+  levelId: string | null
+  levelName: string | null
+  statusId: string
+  statusName: string | null
+  startDate: string | null
+  endDate: string | null
+  certificateNo: string | null
+  validUntil: string | null
+  remarks: string | null
+  createdAt: string
+  updatedAt: string
 }
 
 export interface TrainingTablePagination {
