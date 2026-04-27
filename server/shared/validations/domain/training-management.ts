@@ -1,7 +1,9 @@
 import { createError } from 'h3'
 import type {
   CreateTrainingCategoryRequest,
+  CreateTrainingRecordRequest,
   CreateTrainingRequest,
+  UpdateTrainingRecordRequest,
   UpdateTrainingCategoryRequest,
   UpdateTrainingRequest,
 } from '../../requests'
@@ -179,6 +181,74 @@ export const buildTrainingUpdates = (body: UpdateTrainingRequest) => {
 
   if (updates.start_date !== undefined || updates.end_date !== undefined) {
     ensureDateRange(effectiveStartDate, effectiveEndDate)
+  }
+
+  return updates
+}
+
+export const parseCreateTrainingRecordPayload = (body: CreateTrainingRecordRequest) => {
+  const trainingId = normalizeOptionalText(body.trainingId)
+  const personnelId = normalizeOptionalText(body.personnelId)
+  const certificateNo = body.certificateNo === undefined ? null : normalizeOptionalText(body.certificateNo)
+  const validUntil = normalizeOptionalDate(body.validUntil)
+  const remarks = body.remarks === undefined ? null : normalizeOptionalText(body.remarks)
+
+  if (!trainingId) {
+    throw createError({ statusCode: 400, statusMessage: 'Training id is required.' })
+  }
+
+  if (!personnelId) {
+    throw createError({ statusCode: 400, statusMessage: 'Personnel id is required.' })
+  }
+
+  return {
+    training_id: trainingId,
+    personnel_id: personnelId,
+    certificate_no: certificateNo,
+    valid_until: validUntil,
+    remarks,
+  }
+}
+
+export const buildTrainingRecordUpdates = (body: UpdateTrainingRecordRequest) => {
+  const updates: {
+    training_id?: string
+    personnel_id?: string
+    certificate_no?: string | null
+    valid_until?: string | null
+    remarks?: string | null
+  } = {}
+
+  if (body.trainingId !== undefined) {
+    const trainingId = normalizeOptionalText(body.trainingId)
+
+    if (!trainingId) {
+      throw createError({ statusCode: 400, statusMessage: 'Training id cannot be empty.' })
+    }
+
+    updates.training_id = trainingId
+  }
+
+  if (body.personnelId !== undefined) {
+    const personnelId = normalizeOptionalText(body.personnelId)
+
+    if (!personnelId) {
+      throw createError({ statusCode: 400, statusMessage: 'Personnel id cannot be empty.' })
+    }
+
+    updates.personnel_id = personnelId
+  }
+
+  if (body.certificateNo !== undefined) {
+    updates.certificate_no = normalizeOptionalText(body.certificateNo)
+  }
+
+  if (body.validUntil !== undefined) {
+    updates.valid_until = normalizeOptionalDate(body.validUntil)
+  }
+
+  if (body.remarks !== undefined) {
+    updates.remarks = normalizeOptionalText(body.remarks)
   }
 
   return updates

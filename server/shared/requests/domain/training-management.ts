@@ -27,3 +27,19 @@ export interface UpdateTrainingRequest {
   statusId?: string
   defaultRemarks?: string | null
 }
+
+export interface CreateTrainingRecordRequest {
+  trainingId?: string
+  personnelId?: string
+  certificateNo?: string | null
+  validUntil?: string | null
+  remarks?: string | null
+}
+
+export interface UpdateTrainingRecordRequest {
+  trainingId?: string | null
+  personnelId?: string
+  certificateNo?: string | null
+  validUntil?: string | null
+  remarks?: string | null
+}

@@ -47,6 +47,29 @@ export interface TrainingListItem {
   updatedAt: string
 }
 
+export interface TrainingRecordListItem {
+  id: string
+  recordNo: string
+  personnelId: string
+  personnelCode: string | null
+  personnelName: string | null
+  trainingId: string | null
+  trainingTitle: string
+  trainingCategoryId: string | null
+  trainingCategoryName: string | null
+  levelId: string | null
+  levelName: string | null
+  statusId: string
+  statusName: string | null
+  startDate: string | null
+  endDate: string | null
+  certificateNo: string | null
+  validUntil: string | null
+  remarks: string | null
+  createdAt: string
+  updatedAt: string
+}
+
 export interface TrainingReferenceRow {
   id: string
   code?: string
@@ -67,6 +90,47 @@ export interface TrainingRow {
   training_category: TrainingReferenceRow | TrainingReferenceRow[] | null
   level: TrainingReferenceRow | TrainingReferenceRow[] | null
   training_status: TrainingReferenceRow | TrainingReferenceRow[] | null
+}
+
+export interface TrainingRecordSourceRow {
+  id: string
+  training_title: string
+  training_category_id: string | null
+  level_id: string | null
+  start_date: string | null
+  end_date: string | null
+  status_id: string
+  default_remarks: string | null
+}
+
+export interface TrainingRecordReferenceRow {
+  id: string
+  code?: string
+  name?: string
+  personnel_code?: string
+  full_name?: string
+}
+
+export interface TrainingRecordRow {
+  id: string
+  record_no: string
+  personnel_id: string
+  training_id: string | null
+  training_title: string
+  training_category_id: string | null
+  level_id: string | null
+  start_date: string | null
+  end_date: string | null
+  status_id: string
+  certificate_no: string | null
+  valid_until: string | null
+  remarks: string | null
+  created_at: string
+  updated_at: string
+  personnel: TrainingRecordReferenceRow | TrainingRecordReferenceRow[] | null
+  training_category: TrainingRecordReferenceRow | TrainingRecordReferenceRow[] | null
+  level: TrainingRecordReferenceRow | TrainingRecordReferenceRow[] | null
+  training_status: TrainingRecordReferenceRow | TrainingRecordReferenceRow[] | null
 }
 
 export interface TrainingManagementListResponse<TItem> {

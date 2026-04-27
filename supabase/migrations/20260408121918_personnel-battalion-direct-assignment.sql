@@ -136,6 +136,7 @@ select
   es.name as employment_status,
   ss.name as service_status,
   p.contact_number,
+  p.position,
   p.date_enlisted,
   p.created_at,
   p.updated_at

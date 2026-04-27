@@ -3,6 +3,8 @@ import type {
   TrainingCategoryListItem,
   TrainingCategoryRow,
   TrainingCategorySuggestionItem,
+  TrainingRecordListItem,
+  TrainingRecordRow,
   TrainingReferenceRow,
   TrainingListItem,
   TrainingRow,
@@ -10,6 +12,20 @@ import type {
 } from '../models'
 
 const toSingleReference = (value: TrainingReferenceRow | TrainingReferenceRow[] | null): TrainingReferenceRow | null => {
+  if (!value) {
+    return null
+  }
+
+  if (Array.isArray(value)) {
+    return value[0] ?? null
+  }
+
+  return value
+}
+
+const toSingleTrainingRecordReference = (
+  value: TrainingRecordRow['personnel'] | TrainingRecordRow['training_category'] | TrainingRecordRow['level'] | TrainingRecordRow['training_status'],
+) => {
   if (!value) {
     return null
   }
@@ -91,4 +107,41 @@ export const mapTrainingSuggestionItem = (row: Pick<TrainingRow, 'id' | 'trainin
     startDate: row.start_date,
     endDate: row.end_date,
   }
+}
+
+export const mapTrainingRecordListItem = (row: TrainingRecordRow): TrainingRecordListItem => {
+  const personnel = toSingleTrainingRecordReference(row.personnel)
+  const trainingCategory = toSingleTrainingRecordReference(row.training_category)
+  const level = toSingleTrainingRecordReference(row.level)
+  const status = toSingleTrainingRecordReference(row.training_status)
+
+  return {
+    id: row.id,
+    recordNo: row.record_no,
+    personnelId: row.personnel_id,
+    personnelCode: personnel?.personnel_code ?? null,
+    personnelName: personnel?.full_name ?? null,
+    trainingId: row.training_id,
+    trainingTitle: row.training_title,
+    trainingCategoryId: row.training_category_id,
+    trainingCategoryName: trainingCategory?.name ?? null,
+    levelId: row.level_id,
+    levelName: level?.name ?? null,
+    statusId: row.status_id,
+    statusName: status?.name ?? null,
+    startDate: row.start_date,
+    endDate: row.end_date,
+    certificateNo: row.certificate_no,
+    validUntil: row.valid_until,
+    remarks: row.remarks,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  }
+}
+
+export const buildTrainingRecordNo = (): string => {
+  const timestamp = new Date().toISOString().replaceAll(/[^0-9]/g, '').slice(0, 14)
+  const suffix = crypto.randomUUID().replaceAll('-', '').slice(0, 8).toUpperCase()
+
+  return `TR-${timestamp}-${suffix}`
 }

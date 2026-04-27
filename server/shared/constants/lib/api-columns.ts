@@ -108,4 +108,8 @@ export const TRAINING_CATEGORY_SELECT_COLUMNS = 'id, code, name, created_at, upd
 export const TRAINING_CATEGORY_SUGGESTION_SELECT_COLUMNS = 'id, code, name'
 export const TRAINING_REFERENCE_ID_SELECT_COLUMNS = 'id'
 export const TRAINING_SELECT_COLUMNS = 'id, training_title, training_category_id, level_id, start_date, end_date, status_id, default_remarks, created_at, updated_at, training_category:training_categories(id, code, name), level:levels(id, name), training_status:training_statuses(id, name)'
+export const TRAINING_RECORD_SOURCE_SELECT_COLUMNS =
+  'id, training_title, training_category_id, level_id, start_date, end_date, status_id, default_remarks'
 export const TRAINING_SUGGESTION_SELECT_COLUMNS = 'id, training_title, start_date, end_date, training_category:training_categories(id, name), level:levels(id, name), training_status:training_statuses(id, name)'
+export const TRAINING_RECORD_SELECT_COLUMNS =
+  'id, record_no, personnel_id, training_id, training_title, training_category_id, level_id, start_date, end_date, status_id, certificate_no, valid_until, remarks, created_at, updated_at, personnel:personnel(id, personnel_code, full_name), training_category:training_categories(id, name), level:levels(id, name), training_status:training_statuses(id, name)'

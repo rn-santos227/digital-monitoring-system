@@ -1,9 +1,10 @@
 import type {
   TrainingCategoryListItem,
   TrainingCategorySuggestionItem,
-  TrainingListItem,
-  TrainingSuggestionItem,
   TrainingManagementListResponse,
+  TrainingListItem,
+  TrainingRecordListItem,
+  TrainingSuggestionItem,
   TrainingManagementSuggestionResponse,
 } from '../../models'
 
@@ -13,3 +14,12 @@ export type TrainingListResponse = TrainingManagementListResponse<TrainingListIt
 export type TrainingCategorySuggestionsResponse = TrainingManagementSuggestionResponse<TrainingCategorySuggestionItem>
 
 export type TrainingSuggestionsResponse = TrainingManagementSuggestionResponse<TrainingSuggestionItem>
+
+export type TrainingRecordListResponse = TrainingManagementListResponse<TrainingRecordListItem>
+
+export interface TrainingRecordDetailResponse extends TrainingRecordListItem {}
+
+export interface CreateTrainingRecordResponse {
+  ok: true
+  id: string
+}
