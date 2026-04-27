@@ -6,7 +6,7 @@ import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
 export default defineEventHandler(async (event): Promise<TrainingRecordListResponse> => {
-  await requirePermission(event, PERMISSION_CODES.trainingView)
+  await requirePermission(event, PERMISSION_CODES.trainingManage)
 
   const query = getQuery(event)
   const search = typeof query.search === 'string' ? query.search.trim() : ''

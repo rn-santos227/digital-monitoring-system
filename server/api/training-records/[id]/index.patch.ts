@@ -19,7 +19,7 @@ import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
-  const actor = await requirePermission(event, PERMISSION_CODES.trainingUpdate)
+  const actor = await requirePermission(event, PERMISSION_CODES.trainingManage)
   const id = requireRouteId(getRouterParam(event, 'id'), 'Training record id is required.')
   const body = await readBody<UpdateTrainingRecordRequest>(event)
   const updates = buildTrainingRecordUpdates(body)

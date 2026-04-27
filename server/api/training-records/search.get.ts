@@ -1,8 +1,8 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { TrainingRecordListResponse } from '../../shared/responses'
-import { TRAINING_PERMISSION_GROUPS, TRAINING_RECORD_SELECT_COLUMNS } from '../../shared/constants'
+import { PERMISSION_CODES, TRAINING_RECORD_SELECT_COLUMNS } from '../../shared/constants'
 import { mapTrainingRecordListItem, parseManagementPaginationQuery } from '../../shared/utils'
-import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
+import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
 const SEARCHABLE_FIELDS = {
@@ -13,7 +13,7 @@ const SEARCHABLE_FIELDS = {
 } as const
 
 export default defineEventHandler(async (event): Promise<TrainingRecordListResponse> => {
-  await requireAnyPermission(event, TRAINING_PERMISSION_GROUPS.trainingManagement)
+  await requirePermission(event, PERMISSION_CODES.trainingManage)
 
   const query = getQuery(event)
   const term = typeof query.term === 'string' ? query.term.trim() : ''

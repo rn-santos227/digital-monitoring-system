@@ -1,13 +1,13 @@
 import { createError, defineEventHandler, getRouterParam } from 'h3'
 import type { TrainingRecordDetailResponse } from '../../../shared/responses'
-import { TRAINING_PERMISSION_GROUPS, TRAINING_RECORD_SELECT_COLUMNS } from '../../../shared/constants'
+import { PERMISSION_CODES, TRAINING_RECORD_SELECT_COLUMNS } from '../../../shared/constants'
 import { mapTrainingRecordListItem } from '../../../shared/utils'
 import { requireRouteId } from '../../../shared/validations'
-import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
+import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 
 export default defineEventHandler(async (event): Promise<TrainingRecordDetailResponse> => {
-  await requireAnyPermission(event, TRAINING_PERMISSION_GROUPS.trainingManagement)
+  await requirePermission(event, PERMISSION_CODES.trainingManage)
 
   const id = requireRouteId(getRouterParam(event, 'id'), 'Training record id is required.')
   const supabase = getServiceSupabaseClient()

@@ -29,4 +29,5 @@ export const PERMISSION_CODES = {
   trainingCreate: 'training.create',
   trainingUpdate: 'training.update',
   trainingDelete: 'training.delete',
+  trainingManage: 'training.manage',
 } as const

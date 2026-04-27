@@ -20,7 +20,7 @@ import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
 export default defineEventHandler(async (event): Promise<CreateTrainingRecordResponse> => {
-  const actor = await requirePermission(event, PERMISSION_CODES.trainingCreate)
+  const actor = await requirePermission(event, PERMISSION_CODES.trainingManage)
   const body = await readBody<CreateTrainingRecordRequest>(event)
   const supabase = getServiceSupabaseClient()
 

@@ -97,6 +97,32 @@ This document summarizes all API handlers currently under `server/api`.
 | GET | `/api/personnel/:id/engagement-records` | Path: `id`; Query: pagination (`page`, `pageSize`) | `PersonnelEngagementRecordListResponse` |
 | GET | `/api/personnel/:id/equipment-issuances` | Path: `id`; Query: pagination (`page`, `pageSize`) | `PersonnelEquipmentIssuanceListResponse` |
 
+## Training
+
+| Method | Endpoint | Request | Response |
+| --- | --- | --- | --- |
+| GET | `/api/trainings` | Query: pagination (`page`, `pageSize`), optional `search` | `TrainingListResponse` |
+| GET | `/api/trainings/search` | Query: pagination (`page`, `pageSize`), optional `term`, optional `fields` | `TrainingListResponse` |
+| GET | `/api/trainings/suggestions` | Query: `term`, optional `pageSize`, optional `selectedId` | `TrainingSuggestionResponse` |
+| GET | `/api/trainings/:id` | Path: `id` | `TrainingDetailResponse` |
+| POST | `/api/trainings` | Body: `CreateTrainingRequest` | `{ ok: true, id }` |
+| PATCH | `/api/trainings/:id` | Path: `id`; Body: `UpdateTrainingRequest` | `MutationSuccessResponse` |
+| DELETE | `/api/trainings/:id` | Path: `id` | `MutationSuccessResponse` |
+| GET | `/api/training-categories` | Query: pagination (`page`, `pageSize`), optional `search` | `TrainingCategoryListResponse` |
+| GET | `/api/training-categories/search` | Query: pagination (`page`, `pageSize`), optional `term`, optional `fields` | `TrainingCategoryListResponse` |
+| GET | `/api/training-categories/:id` | Path: `id` | `TrainingCategoryDetailResponse` |
+| POST | `/api/training-categories` | Body: `CreateTrainingCategoryRequest` | `{ ok: true, id }` |
+| PATCH | `/api/training-categories/:id` | Path: `id`; Body: `UpdateTrainingCategoryRequest` | `MutationSuccessResponse` |
+| DELETE | `/api/training-categories/:id` | Path: `id` | `MutationSuccessResponse` |
+| GET | `/api/training-records` | Query: pagination (`page`, `pageSize`), optional `search` | `TrainingRecordListResponse` |
+| GET | `/api/training-records/search` | Query: pagination (`page`, `pageSize`), optional `term`, optional `fields`, optional `trainingId`, optional `personnelId`, optional `trainingCategoryId`, optional `statusId` | `TrainingRecordListResponse` |
+| GET | `/api/training-records/:id` | Path: `id` | `TrainingRecordDetailResponse` |
+| POST | `/api/training-records` | Body: `CreateTrainingRecordRequest` | `CreateTrainingRecordResponse` |
+| PATCH | `/api/training-records/:id` | Path: `id`; Body: `UpdateTrainingRecordRequest` | `MutationSuccessResponse` |
+| DELETE | `/api/training-records/:id` | Path: `id` | `MutationSuccessResponse` |
+
+Training record endpoints require the `training.manage` privilege.
+
 ## Dashboard
 
 | Method | Endpoint | Request | Response |
