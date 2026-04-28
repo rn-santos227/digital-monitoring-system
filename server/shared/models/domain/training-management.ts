@@ -109,6 +109,9 @@ export interface TrainingRecordReferenceRow {
   name?: string
   personnel_code?: string
   full_name?: string
+  last_name?: string
+  first_name?: string
+  middle_name?: string | null
 }
 
 export interface TrainingRecordRow {

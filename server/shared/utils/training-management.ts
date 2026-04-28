@@ -37,6 +37,28 @@ const toSingleTrainingRecordReference = (
   return value
 }
 
+const toTrainingRecordPersonnelName = (personnel: TrainingRecordRow['personnel']): string | null => {
+  const reference = toSingleTrainingRecordReference(personnel)
+
+  if (!reference) {
+    return null
+  }
+
+  const fullName = reference.full_name?.trim() ?? ''
+
+  if (fullName.length > 0) {
+    return fullName
+  }
+
+  const lastName = reference.last_name?.trim() ?? ''
+  const firstName = reference.first_name?.trim() ?? ''
+  const middleName = reference.middle_name?.trim() ?? ''
+  const firstMiddle = [firstName, middleName].filter(part => part.length > 0).join(' ')
+  const normalizedName = [lastName, firstMiddle].filter(part => part.length > 0).join(', ')
+
+  return normalizedName.length > 0 ? normalizedName : null
+}
+
 export const parseTrainingSuggestionQuery = (query: {
   term?: unknown
   pageSize?: unknown
