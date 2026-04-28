@@ -74,7 +74,6 @@ This document summarizes all API handlers currently under `server/api`.
 | GET | `/api/companies/:id` | Path: `id` | `CompanyDetailResponse` |
 | GET | `/api/companies/:id/personnel` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search` | `CompanyPersonnelListResponse` |
 | GET | `/api/companies/:id/equipment` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search` | `CompanyEquipmentAssetListResponse` |
-| GET | `/api/companies/personnel` | Query: pagination (`page`, `pageSize`), optional `search`, optional `companyId`, optional `battalionId` | `CompanyPersonnelListResponse` |
 | POST | `/api/companies` | Body: `CreateCompanyRequest` | `{ ok: true, id }` |
 | PATCH | `/api/companies/:id` | Path: `id`; Body: `UpdateCompanyRequest` | `MutationSuccessResponse` |
 | DELETE | `/api/companies/:id` | Path: `id` | `MutationSuccessResponse` |
@@ -92,6 +91,7 @@ This document summarizes all API handlers currently under `server/api`.
 | POST | `/api/personnel` | Body: `CreatePersonnelRequest` | `{ ok: true, id }` |
 | PATCH | `/api/personnel/:id` | Path: `id`; Body: `UpdatePersonnelRequest` | `MutationSuccessResponse` |
 | DELETE | `/api/personnel/:id` | Path: `id` | `MutationSuccessResponse` |
+| POST | `/api/personnel/batch-upload` | Multipart form-data (`file` part; `.xlsx`; max 10MB) | `PersonnelBatchUploadResponse` |
 | GET | `/api/personnel/:id/training-records` | Path: `id`; Query: pagination (`page`, `pageSize`) | `PersonnelTrainingRecordListResponse` |
 | GET | `/api/personnel/:id/deployment-records` | Path: `id`; Query: pagination (`page`, `pageSize`) | `PersonnelDeploymentRecordListResponse` |
 | GET | `/api/personnel/:id/engagement-records` | Path: `id`; Query: pagination (`page`, `pageSize`) | `PersonnelEngagementRecordListResponse` |
@@ -128,6 +128,14 @@ Training record endpoints require the `training.manage` privilege.
 | Method | Endpoint | Request | Response |
 | --- | --- | --- | --- |
 | GET | `/api/dashboard/unit-management` | No request body; caller must have at least one unit/personnel view privilege | `{ totalCompanies, totalBattalions, totalUnassignedPersonnel }` |
+| GET | `/api/dashboard/top-kpis` | No request body; caller must have personnel/deployment view privilege | `DashboardTopKpisResponse` |
+| GET | `/api/dashboard/critical-personnel` | No request body; caller must have personnel/deployment view privilege | `DashboardCriticalPersonnelResponse` |
+| GET | `/api/dashboard/personnel-deployment-summary` | No request body; caller must have personnel/deployment view privilege | `DashboardPersonnelDeploymentSummaryResponse` |
+| GET | `/api/dashboard/location-load-analysis` | No request body; caller must have personnel/deployment/battalion view privilege | `DashboardLocationLoadAnalysisResponse` |
+| GET | `/api/dashboard/personnel-deployment-history` | No request body; caller must have personnel/deployment view privilege | `DashboardPersonnelDeploymentHistoryResponse` |
+| GET | `/api/dashboard/near-rotation` | No request body; caller must have personnel/deployment view privilege | `DashboardNearRotationResponse` |
+| GET | `/api/dashboard/equipment-status-overview` | No request body; caller must have equipment view privilege | `DashboardEquipmentStatusOverviewResponse` |
+| GET | `/api/dashboard/critical-equipment` | No request body; caller must have equipment view privilege | `DashboardCriticalEquipmentResponse` |
 
 ## Files
 
