@@ -40,14 +40,6 @@ const normalizeOptionalId = (value: unknown): string | null | undefined => {
   return normalized
 }
 
-const validatePersonnelUnitAssignment = (companyId: string | null | undefined, battalionId: string | null | undefined): void => {
-  const normalizedCompanyId = companyId === undefined ? undefined : companyId
-  const normalizedBattalionId = battalionId === undefined ? undefined : battalionId
-
-  if (normalizedCompanyId && normalizedBattalionId === null) {
-    throw createError({ statusCode: 400, statusMessage: 'Battalion is required when assigning a company.' })
-  }
-}
 
 export const parseCreatePersonnelPayload = (body: CreatePersonnelRequest) => {
   const personnelCode = normalizeOptionalText(body.personnelCode)
@@ -85,8 +77,6 @@ export const parseCreatePersonnelPayload = (body: CreatePersonnelRequest) => {
   if (!rankId || !employmentStatusId || !serviceStatusId) {
     throw createError({ statusCode: 400, statusMessage: 'Rank, employment status, and service status are required.' })
   }
-
-  validatePersonnelUnitAssignment(companyId, battalionId)
 
   return {
     personnel_code: personnelCode,
@@ -217,15 +207,4 @@ export const buildPersonnelUpdates = (body: UpdatePersonnelRequest) => {
   }
 
   return updates
-}
-
-export const ensurePersonnelUnitAssignmentAfterUpdate = (
-  existingCompanyId: string | null,
-  existingBattalionId: string | null,
-  updates: Record<string, unknown>,
-): void => {
-  const companyId = updates.company_id === undefined ? existingCompanyId : (updates.company_id as string | null)
-  const battalionId = updates.battalion_id === undefined ? existingBattalionId : (updates.battalion_id as string | null)
-
-  validatePersonnelUnitAssignment(companyId, battalionId)
 }

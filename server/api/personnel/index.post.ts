@@ -37,12 +37,22 @@ export default defineEventHandler(async (event) => {
     if (payload.company_id) {
       const { data: company, error: companyError } = await supabase
         .from('companies')
-        .select(PERSONNEL_REFERENCE_ID_SELECT_COLUMNS)
+        .select('id,battalion_id')
         .eq('id', payload.company_id)
         .maybeSingle()
 
       if (companyError || !company) {
         throw createError({ statusCode: 400, statusMessage: 'Invalid company id.' })
+      }
+
+      if (payload.battalion_id) {
+        await assertCompanyBelongsToBattalion({
+          supabase,
+          companyId: payload.company_id,
+          battalionId: payload.battalion_id,
+        })
+      } else {
+        payload.battalion_id = company.battalion_id ?? null
       }
     }
 
@@ -56,14 +66,6 @@ export default defineEventHandler(async (event) => {
       if (battalionError || !battalion) {
         throw createError({ statusCode: 400, statusMessage: 'Invalid battalion id.' })
       }
-    }
-
-    if (payload.company_id && payload.battalion_id) {
-      await assertCompanyBelongsToBattalion({
-        supabase,
-        companyId: payload.company_id,
-        battalionId: payload.battalion_id,
-      })
     }
 
     const { data: createdPersonnel, error: insertError } = await supabase
