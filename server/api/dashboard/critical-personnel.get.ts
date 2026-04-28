@@ -11,6 +11,8 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
 interface ActiveDeploymentRow {
   personnel_id: string
+  location: string | null
+  deployment_area: string | null
 }
 
 export default defineEventHandler(async (event): Promise<DashboardCriticalPersonnelResponse> => {
@@ -44,8 +46,13 @@ export default defineEventHandler(async (event): Promise<DashboardCriticalPerson
 
   const personnelRows = (personnelResult.data ?? []) as DashboardPersonnelStatusRow[]
   const activeDeploymentRows = (activeDeploymentsResult.data ?? []) as ActiveDeploymentRow[]
-  const activeDeploymentPersonnelIds = new Set(activeDeploymentRows.map((item) => item.personnel_id))
-  const metrics = buildPersonnelSummaryMetrics(personnelRows, activeDeploymentPersonnelIds)
+  const activeDeploymentLocationByPersonnelId = new Map(
+    activeDeploymentRows.map((item) => ([
+      item.personnel_id,
+      item.location?.trim() || item.deployment_area?.trim() || 'Unknown Location',
+    ]))
+  )
+  const metrics = buildPersonnelSummaryMetrics(personnelRows, activeDeploymentLocationByPersonnelId)
 
   return {
     asOf: now.toISOString(),
