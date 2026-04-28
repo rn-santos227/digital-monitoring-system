@@ -17,7 +17,16 @@ export interface DashboardPersonnelStatusRow {
   first_name: string
   last_name: string
   company_name: string | null
-  service_status_name: string | null
+  service_status: string | null
+}
+
+export interface DashboardPersonnelStatusSourceRow {
+  id: string
+  first_name: string
+  last_name: string
+  company_name: string | null
+  service_status?: string | null
+  service_status_name?: string | null
 }
 
 export interface DashboardEquipmentStatusRow {
@@ -158,7 +167,7 @@ export const buildPersonnelSummaryMetrics = (
   const battalionCounters = new Map<string, { totalPersonnel: number; deployedPersonnel: number }>()
 
   for (const row of personnelRows) {
-    const statusName = row.service_status_name ?? ''
+    const statusName = row.service_status ?? ''
     const isDeployed = activeDeploymentLocationByPersonnelId.has(row.id)
     const locationName = activeDeploymentLocationByPersonnelId.get(row.id) ?? (row.company_name?.trim() || 'Unassigned Company')
 
@@ -250,6 +259,18 @@ export const buildPersonnelSummaryMetrics = (
     locationLoadAnalysis,
     criticalPersonnel,
   }
+}
+
+export const normalizeDashboardPersonnelStatusRows = (
+  rows: DashboardPersonnelStatusSourceRow[],
+): DashboardPersonnelStatusRow[] => {
+  return rows.map((row) => ({
+    id: row.id,
+    first_name: row.first_name,
+    last_name: row.last_name,
+    company_name: row.company_name,
+    service_status: row.service_status ?? row.service_status_name ?? null,
+  }))
 }
 
 export interface DashboardEquipmentMetrics {

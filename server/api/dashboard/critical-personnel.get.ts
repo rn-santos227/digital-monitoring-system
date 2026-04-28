@@ -5,7 +5,11 @@ import {
   PERMISSION_CODES,
 } from '../../shared/constants'
 import type { DashboardCriticalPersonnelResponse } from '../../shared/responses'
-import { buildPersonnelSummaryMetrics, type DashboardPersonnelStatusRow } from '../../shared/utils'
+import {
+  buildPersonnelSummaryMetrics,
+  normalizeDashboardPersonnelStatusRows,
+  type DashboardPersonnelStatusSourceRow,
+} from '../../shared/utils'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
@@ -44,7 +48,9 @@ export default defineEventHandler(async (event): Promise<DashboardCriticalPerson
     throw createError({ statusCode: 500, statusMessage: `Failed to load active deployment data for critical personnel: ${activeDeploymentsResult.error.message}` })
   }
 
-  const personnelRows = (personnelResult.data ?? []) as DashboardPersonnelStatusRow[]
+  const personnelRows = normalizeDashboardPersonnelStatusRows(
+    (personnelResult.data ?? []) as DashboardPersonnelStatusSourceRow[],
+  )
   const activeDeploymentRows = (activeDeploymentsResult.data ?? []) as ActiveDeploymentRow[]
   const activeDeploymentLocationByPersonnelId = new Map(
     activeDeploymentRows.map((item) => ([
