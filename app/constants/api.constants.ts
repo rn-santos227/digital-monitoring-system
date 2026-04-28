@@ -58,6 +58,7 @@ export const DASHBOARD_API_ENDPOINTS = Object.freeze({
   nearRotation: '/api/dashboard/near-rotation',
   locationLoadAnalysis: '/api/dashboard/location-load-analysis',
   personnelDeploymentHistory: '/api/dashboard/personnel-deployment-history',
+  operationalTimeMonitoring: '/api/dashboard/operational-time-monitoring',
 })
 
 export const PERSONNEL_API_ENDPOINTS = Object.freeze({
@@ -126,6 +127,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   fetchDashboardNearRotation: 'Loading dashboard near-rotation alerts...',
   fetchDashboardLocationLoadAnalysis: 'Loading dashboard location load analysis...',
   fetchDashboardPersonnelDeploymentHistory: 'Loading dashboard personnel deployment history...',
+  fetchDashboardOperationalTimeMonitoring: 'Loading dashboard operational time monitoring...',
   createBattalion: 'Creating battalion record...',
   updateBattalion: 'Updating battalion record...',
   deleteBattalion: 'Deleting battalion record...',
