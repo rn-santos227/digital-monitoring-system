@@ -6,6 +6,8 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
       <div class="grid gap-4 md:grid-cols-2">
         <BaseTextField
           v-model="form.personnelCode"
@@ -189,7 +191,11 @@ import {
 import type { CreatePersonnelPayload } from '~/types/domain/personnel'
 import { validateCreatePersonnelForm } from '~/utils/personnel-validation'
 
-withDefaults(defineProps<{ isSubmitting?: boolean }>(), { isSubmitting: false })
+withDefaults(defineProps<{ isSubmitting?: boolean; warningMessage?: string; errorMessage?: string }>(), {
+  isSubmitting: false,
+  warningMessage: '',
+  errorMessage: '',
+})
 
 const emit = defineEmits<{
   (event: 'close'): void

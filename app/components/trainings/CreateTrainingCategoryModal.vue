@@ -5,6 +5,8 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
       <BaseTextField
         v-model="form.code"
         :label="TRAINING_CATEGORIES_CREATE_CODE_LABEL"
@@ -46,7 +48,11 @@ import {
 import type { CreateTrainingCategoryPayload } from '~/types/domain/training'
 import { validateCreateTrainingCategoryForm } from '~/utils/training-validation'
 
-withDefaults(defineProps<{ isSubmitting?: boolean }>(), { isSubmitting: false })
+withDefaults(defineProps<{ isSubmitting?: boolean; warningMessage?: string; errorMessage?: string }>(), {
+  isSubmitting: false,
+  warningMessage: '',
+  errorMessage: '',
+})
 
 const emit = defineEmits<{
   (event: 'close'): void

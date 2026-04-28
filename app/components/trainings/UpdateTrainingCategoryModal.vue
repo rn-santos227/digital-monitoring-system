@@ -5,6 +5,8 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
       <BaseTextField
         v-model="form.code"
         :label="TRAINING_CATEGORIES_CREATE_CODE_LABEL"
@@ -52,8 +54,12 @@ const props = withDefaults(defineProps<{
     name: string
   }
   isSubmitting?: boolean
+  warningMessage?: string
+  errorMessage?: string
 }>(), {
   isSubmitting: false,
+  warningMessage: '',
+  errorMessage: '',
 })
 
 const emit = defineEmits<{

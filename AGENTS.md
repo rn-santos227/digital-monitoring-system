@@ -90,6 +90,11 @@
     - All read-only/view modal variants must enable a vertical scrollbar when modal content exceeds the viewport height.
     - Use the shared modal scroll behavior so scrollbars only appear when needed and remain hidden for shorter content.
 
+11. **Create/Update modal feedback is required**
+    - All create and update modals under `app/components` must support inline `warning` and `error` alerts near the top of the form body.
+    - Use shared alert components (for example `BaseAlert`) and optional props such as `warningMessage` / `errorMessage` so page handlers can pass runtime feedback.
+    - When create or update API activities fail, page handlers under `app/pages` must show an error dialog via shared dialog helpers in addition to inline error messaging.
+
 ## Backend Rules
 
 1. **Centralize API contracts and validation in shared folders**

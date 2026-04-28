@@ -5,6 +5,8 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
       <div class="grid gap-4 md:grid-cols-2">
         <BaseTextField
           v-model="form.code"
@@ -74,8 +76,12 @@ const props = withDefaults(defineProps<{
     isActive: boolean
   }
   isSubmitting?: boolean
+  warningMessage?: string
+  errorMessage?: string
 }>(), {
   isSubmitting: false,
+  warningMessage: '',
+  errorMessage: '',
 })
 
 const emit = defineEmits<{

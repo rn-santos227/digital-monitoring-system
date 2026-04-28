@@ -5,6 +5,8 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
       <BaseTextField v-model="form.code" label="Rank Code" placeholder="Enter rank code" required />
       <BaseTextField v-model="form.name" label="Rank Name" placeholder="Enter rank name" required />
       <BaseTextField v-model="form.sortOrder" label="Sort Order" placeholder="0" type="number" required />
@@ -23,6 +25,11 @@
 import { reactive } from 'vue'
 import { RANK_CREATE_MODAL_DESCRIPTION, RANK_CREATE_MODAL_TITLE } from '~/constants/page.constants'
 import type { CreateRankPayload } from '~/types/domain/rank'
+
+withDefaults(defineProps<{ warningMessage?: string; errorMessage?: string }>(), {
+  warningMessage: '',
+  errorMessage: '',
+})
 
 const emit = defineEmits<{
   (event: 'close'): void
