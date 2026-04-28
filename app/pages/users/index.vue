@@ -14,13 +14,6 @@
       />
       
       <template v-if="activeTab === 'user-profile'">
-        <UsersFilter
-          :model-value="profileFilters"
-          :validation-errors="profileFilterValidationErrors"
-          @apply="handleApplyProfileFilters"
-          @reset="handleResetProfileFilters"
-        />
-
         <div v-if="profileWarning" class="space-y-3">
           <BaseAlert :message="profileWarning" tone="warning" />
         </div>
@@ -37,6 +30,13 @@
           </BaseButton>
         </div>
 
+        <UsersFilter
+          :model-value="profileFilters"
+          :validation-errors="profileFilterValidationErrors"
+          @apply="handleApplyProfileFilters"
+          @reset="handleResetProfileFilters"
+        />
+
         <UsersTable
           :rows="profileTableRows"
           :is-loading="isLoading"
@@ -51,12 +51,6 @@
       </template>
 
       <template v-else>
-        <AccountTypesFilter
-          :model-value="accountFilters"
-          :validation-errors="accountFilterValidationErrors"
-          @apply="handleApplyAccountFilters"
-          @reset="handleResetAccountFilters"
-        />
 
         <BaseAlert
           v-if="error"
@@ -69,6 +63,13 @@
             {{ USERS_ACCOUNT_CREATE_BUTTON_LABEL }}
           </BaseButton>
         </div>
+
+        <AccountTypesFilter
+          :model-value="accountFilters"
+          :validation-errors="accountFilterValidationErrors"
+          @apply="handleApplyAccountFilters"
+          @reset="handleResetAccountFilters"
+        />
 
         <AccountTypesTable
           :rows="accountTableRows"

@@ -21,14 +21,6 @@
         />
 
         <template v-if="activeTab === 'personnel-records'">
-          <PersonnelFilter
-            :model-value="filters"
-            :validation-errors="filterValidationErrors"
-            @apply="handleApplyFilters"
-            @reset="handleResetFilters"
-          />
-
-
           <BaseAlert
             v-if="error"
             :message="error"
@@ -36,13 +28,20 @@
           />
 
           <div v-if="canCreatePersonnel" :class="PERSONNEL_TABLE_ACTIONS_ROW_CLASSES">
-            <BaseButton variant="ghost" @click="isBatchUploadPersonnelModalOpen = true">
+            <BaseButton class="mx-2" variant="secondary" @click="isBatchUploadPersonnelModalOpen = true">
               {{ PERSONNEL_BATCH_UPLOAD_BUTTON_LABEL }}
             </BaseButton>
             <BaseButton @click="openCreatePersonnelModal">
               {{ PERSONNEL_CREATE_BUTTON_LABEL }}
             </BaseButton>
           </div>
+
+          <PersonnelFilter
+            :model-value="filters"
+            :validation-errors="filterValidationErrors"
+            @apply="handleApplyFilters"
+            @reset="handleResetFilters"
+          />
 
           <PersonnelTable
             :rows="tableRows"
