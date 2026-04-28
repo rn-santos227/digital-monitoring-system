@@ -165,6 +165,7 @@ import { computed, ref, watch } from 'vue'
 import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateTrainingModal from '~/components/trainings/CreateTrainingModal.vue'
+import CreateTrainingRecordModal from '~/components/trainings/CreateTrainingRecordModal.vue'
 import CreateTrainingCategoryModal from '~/components/trainings/CreateTrainingCategoryModal.vue'
 import UpdateTrainingCategoryModal from '~/components/trainings/UpdateTrainingCategoryModal.vue'
 import UpdateTrainingModal from '~/components/trainings/UpdateTrainingModal.vue'
@@ -180,6 +181,7 @@ import { useTrainingRecords } from '~/composables/useTrainingRecords'
 import { useTrainingCategories } from '~/composables/useTrainingCategories'
 import {
   TRAINING_CATEGORIES_CREATE_BUTTON_LABEL,
+  TRAINING_RECORDS_CREATE_BUTTON_LABEL,
   TRAINING_PAGE_KPI_GRID_CLASSES,
   TRAINING_PAGE_SECTION_CLASSES,
   TRAINING_PAGE_SUBTITLE,
@@ -194,6 +196,7 @@ import { APP_MAIN_CONTENT_CLASSES, TRAINING_PAGE_HEADER_CLASSES, TRAINING_TABLE_
 import {
   useCreateTrainingCategoryHandler,
   useCreateTrainingHandler,
+  useCreateTrainingRecordHandler,
   useDeleteTrainingCategoryHandler,
   useDeleteTrainingHandler,
   useTrainingManagementPageHandlers,
@@ -215,6 +218,7 @@ const activeTab = ref<TrainingManagementTabId>('trainings')
 const kpiRefreshKey = ref(0)
 const isCreateTrainingModalOpen = ref(false)
 const isCreateTrainingCategoryModalOpen = ref(false)
+const isCreateTrainingRecordModalOpen = ref(false)
 const isUpdateTrainingModalOpen = ref(false)
 const isUpdateTrainingCategoryModalOpen = ref(false)
 const isViewTrainingModalOpen = ref(false)
@@ -245,6 +249,7 @@ const {
   error: trainingRecordsError,
   totalItems: totalTrainingRecords,
   loadTrainingRecords,
+  createTrainingRecord,
 } = useTrainingRecords()
 
 const {
@@ -290,6 +295,19 @@ const {
 })
 
 const {
+  onOpenCreateTrainingRecordModal,
+  onCloseCreateTrainingRecordModal,
+  onCreateTrainingRecord,
+} = useCreateTrainingRecordHandler({
+  isCreateTrainingRecordModalOpen,
+  createTrainingRecord,
+  loadTrainingRecords,
+  trainingRecordFilters: trainingRecordsFilters,
+  trainingRecordsPageSize: computed(() => trainingRecordsPagination.value.pageSize),
+  kpiRefreshKey,
+})
+
+const {
   onOpenCreateTrainingCategoryModal,
   onCloseCreateTrainingCategoryModal,
   onCreateTrainingCategory,
@@ -317,6 +335,10 @@ const canManageTrainingRecords = computed(() => {
 })
 
 const showCreateButton = computed(() => {
+  if (activeTab.value === 'records') {
+    return canManageTrainingRecords.value
+  }
+
   if (!authStore.hasPermissionAccess(TRAINING_PRIVILEGES.create)) {
     return false
   }
@@ -325,6 +347,10 @@ const showCreateButton = computed(() => {
 })
 
 const createButtonLabel = computed(() => {
+  if (activeTab.value === 'records') {
+    return TRAINING_RECORDS_CREATE_BUTTON_LABEL
+  }
+
   if (activeTab.value === 'categories') {
     return TRAINING_CATEGORIES_CREATE_BUTTON_LABEL
   }
@@ -333,6 +359,11 @@ const createButtonLabel = computed(() => {
 })
 
 const onCreateActionClick = () => {
+  if (activeTab.value === 'records') {
+    onOpenCreateTrainingRecordModal()
+    return
+  }
+
   if (activeTab.value === 'categories') {
     onOpenCreateTrainingCategoryModal()
     return
