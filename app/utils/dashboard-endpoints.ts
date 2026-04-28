@@ -2,6 +2,16 @@ import { API_LOADING_MESSAGES, DASHBOARD_API_ENDPOINTS } from '~/constants/api.c
 import { createSessionHeaders } from '~/utils/auth-session'
 import { withApiLoading } from '~/utils/api-request'
 import type { UnitManagementKpis } from '~/types/domain/units'
+import type {
+  DashboardCriticalEquipment,
+  DashboardCriticalPersonnel,
+  DashboardEquipmentStatusOverview,
+  DashboardLocationLoadAnalysis,
+  DashboardNearRotation,
+  DashboardPersonnelDeploymentHistory,
+  DashboardPersonnelDeploymentSummary,
+  DashboardTopKpis,
+} from '~/types/domain/dashboard'
 
 interface DashboardCountResponse {
   totalItems: number
@@ -59,4 +69,77 @@ export const getUnitManagementKpisEndpoint = async (): Promise<UnitManagementKpi
       headers: createSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchUnitManagementKpis)
+}
+
+
+export const getDashboardTopKpisEndpoint = async (): Promise<DashboardTopKpis> => {
+  return await withApiLoading(async () => {
+    return await $fetch<DashboardTopKpis>(DASHBOARD_API_ENDPOINTS.topKpis, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchDashboardTopKpis)
+}
+
+export const getDashboardPersonnelDeploymentSummaryEndpoint = async (): Promise<DashboardPersonnelDeploymentSummary> => {
+  return await withApiLoading(async () => {
+    return await $fetch<DashboardPersonnelDeploymentSummary>(DASHBOARD_API_ENDPOINTS.personnelDeploymentSummary, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchDashboardPersonnelDeploymentSummary)
+}
+
+export const getDashboardEquipmentStatusOverviewEndpoint = async (): Promise<DashboardEquipmentStatusOverview> => {
+  return await withApiLoading(async () => {
+    return await $fetch<DashboardEquipmentStatusOverview>(DASHBOARD_API_ENDPOINTS.equipmentStatusOverview, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchDashboardEquipmentStatusOverview)
+}
+
+export const getDashboardCriticalPersonnelEndpoint = async (): Promise<DashboardCriticalPersonnel> => {
+  return await withApiLoading(async () => {
+    return await $fetch<DashboardCriticalPersonnel>(DASHBOARD_API_ENDPOINTS.criticalPersonnel, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchDashboardCriticalPersonnel)
+}
+
+export const getDashboardCriticalEquipmentEndpoint = async (): Promise<DashboardCriticalEquipment> => {
+  return await withApiLoading(async () => {
+    return await $fetch<DashboardCriticalEquipment>(DASHBOARD_API_ENDPOINTS.criticalEquipment, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchDashboardCriticalEquipment)
+}
+
+export const getDashboardNearRotationEndpoint = async (): Promise<DashboardNearRotation> => {
+  return await withApiLoading(async () => {
+    return await $fetch<DashboardNearRotation>(DASHBOARD_API_ENDPOINTS.nearRotation, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchDashboardNearRotation)
+}
+
+export const getDashboardLocationLoadAnalysisEndpoint = async (): Promise<DashboardLocationLoadAnalysis> => {
+  return await withApiLoading(async () => {
+    return await $fetch<DashboardLocationLoadAnalysis>(DASHBOARD_API_ENDPOINTS.locationLoadAnalysis, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchDashboardLocationLoadAnalysis)
+}
+
+export const getDashboardPersonnelDeploymentHistoryEndpoint = async (): Promise<DashboardPersonnelDeploymentHistory> => {
+  return await withApiLoading(async () => {
+    return await $fetch<DashboardPersonnelDeploymentHistory>(DASHBOARD_API_ENDPOINTS.personnelDeploymentHistory, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchDashboardPersonnelDeploymentHistory)
 }
