@@ -17,6 +17,7 @@ interface CreatePersonnelForm {
   employmentStatusId: string
   serviceStatusId: string
   contactNumber: string
+  position: string
   dateEnlisted: string
 }
 
@@ -40,6 +41,7 @@ export const validateCreatePersonnelForm = (form: CreatePersonnelForm) => {
       pattern: REGEX_PATTERNS.numberOny,
       patternMessage: 'Contact number allows numbers, spaces, parentheses, plus signs, and hyphens only.',
     },
+    { field: 'position', label: 'Position / AFPPOS', value: form.position, maxLength: 120 },
     {
       field: 'birthdate',
       label: 'Birthdate',
@@ -99,7 +101,7 @@ export const validateCreatePersonnelForm = (form: CreatePersonnelForm) => {
         employmentStatusId: validation.values.employmentStatusId!,
         serviceStatusId: validation.values.serviceStatusId!,
         contactNumber: validation.values.contactNumber || null,
-        position: null,
+        position: validation.values.position || null,
         dateEnlisted: validation.values.dateEnlisted || null,
       }
 

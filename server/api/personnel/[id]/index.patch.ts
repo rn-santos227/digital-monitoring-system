@@ -134,6 +134,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
             employment_status_id: existingPersonnel.employment_status_id,
             service_status_id: existingPersonnel.service_status_id,
             contact_number: existingPersonnel.contact_number,
+            position: existingPersonnel.position,
             date_enlisted: existingPersonnel.date_enlisted,
           })
           .eq('id', id)

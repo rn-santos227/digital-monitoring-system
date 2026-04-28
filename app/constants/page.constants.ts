@@ -184,6 +184,8 @@ export const PERSONNEL_CREATE_SERVICE_STATUS_OPTIONS = Object.freeze(
 )
 export const PERSONNEL_CREATE_CONTACT_NUMBER_LABEL = 'Contact Number'
 export const PERSONNEL_CREATE_CONTACT_NUMBER_PLACEHOLDER = 'Enter contact number (optional)'
+export const PERSONNEL_CREATE_POSITION_LABEL = 'Position / AFPPOS'
+export const PERSONNEL_CREATE_POSITION_PLACEHOLDER = 'Enter Position or AFPPOS (optional)'
 export const PERSONNEL_UPDATE_MODAL_TITLE = 'Update Personnel Record'
 export const PERSONNEL_UPDATE_MODAL_DESCRIPTION = 'Update personnel profile details and assignment information.'
 export const RANK_CREATE_BUTTON_LABEL = 'Create Rank'

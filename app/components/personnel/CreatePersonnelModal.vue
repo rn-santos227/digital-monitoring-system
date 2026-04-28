@@ -80,12 +80,17 @@
           :error="errors.rankId"
           required
         />
-
         <BaseTextField
           v-model="form.contactNumber"
           :label="PERSONNEL_CREATE_CONTACT_NUMBER_LABEL"
           :placeholder="PERSONNEL_CREATE_CONTACT_NUMBER_PLACEHOLDER"
           :error="errors.contactNumber"
+        />
+        <BaseTextField
+          v-model="form.position"
+          :label="PERSONNEL_CREATE_POSITION_LABEL"
+          :placeholder="PERSONNEL_CREATE_POSITION_PLACEHOLDER"
+          :error="errors.position"
         />
       </div>
 
@@ -152,6 +157,8 @@ import {
   PERSONNEL_CREATE_COMPANY_ID_PLACEHOLDER,
   PERSONNEL_CREATE_CONTACT_NUMBER_LABEL,
   PERSONNEL_CREATE_CONTACT_NUMBER_PLACEHOLDER,
+  PERSONNEL_CREATE_POSITION_LABEL,
+  PERSONNEL_CREATE_POSITION_PLACEHOLDER,
   PERSONNEL_CREATE_DATE_ENLISTED_LABEL,
   PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_LABEL,
   PERSONNEL_CREATE_EMPLOYMENT_STATUS_OPTIONS,
@@ -203,6 +210,7 @@ const form = reactive({
   employmentStatusId: '',
   serviceStatusId: 'Active Duty',
   contactNumber: '',
+  position: '',
   dateEnlisted: '',
 })
 
