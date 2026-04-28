@@ -409,12 +409,6 @@ Table constraints
 | `updated_at` | Yes | `timestamptz` | default `now()` |
 | `created_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
 
-Table constraints
-
-- `constraint personnel_unit_assignment_check check (
-    company_id is not null or battalion_id is not null
-  )`
-
 ## `personnel_medical_readiness`
 
 | Field | Required | Type | Notes |

@@ -77,9 +77,6 @@ create table if not exists public.personnel (
   contact_number text null,
   position text null,
   date_enlisted date null,
-  constraint personnel_unit_assignment_check check (
-    company_id is not null or battalion_id is not null
-  ),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );

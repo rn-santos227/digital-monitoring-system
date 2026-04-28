@@ -7,13 +7,6 @@ alter table public.personnel
 alter table public.personnel
   alter column company_id drop not null;
 
-alter table public.personnel
-  drop constraint if exists personnel_unit_assignment_check;
-
-alter table public.personnel
-  add constraint personnel_unit_assignment_check
-  check (company_id is not null or battalion_id is not null);
-
 create or replace function public.validate_personnel_unit_assignment()
 returns trigger
 language plpgsql

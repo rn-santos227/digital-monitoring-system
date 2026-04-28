@@ -9,7 +9,7 @@ import {
   PERSONNEL_PROFILE_SUMMARY_SELECT_COLUMNS,
   PERSONNEL_REFERENCE_ID_SELECT_COLUMNS,
 } from '../../../shared/constants'
-import { buildPersonnelUpdates, ensurePersonnelUnitAssignmentAfterUpdate, requireRouteId } from '../../../shared/validations'
+import { buildPersonnelUpdates, requireRouteId } from '../../../shared/validations'
 import { assertCompanyBelongsToBattalion, resolvePersonnelEmploymentStatusId, resolvePersonnelServiceStatusId } from '../../../shared/utils'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
@@ -41,8 +41,6 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   if (!existingPersonnel) {
     throw createError({ statusCode: 404, statusMessage: 'Personnel record not found.' })
   }
-
-  ensurePersonnelUnitAssignmentAfterUpdate(existingPersonnel.company_id, existingPersonnel.battalion_id, updates)
 
   try {
     if (typeof updates.rank_id === 'string') {
