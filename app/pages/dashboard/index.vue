@@ -5,61 +5,72 @@
         <h1 class="text-3xl font-semibold text-slate-900">{{ DASHBOARD_PAGE_TITLE }}</h1>
         <p class="text-sm text-slate-600">{{ DASHBOARD_PAGE_SUBTITLE }}</p>
       </header>
+      <DashboardTopKpisWidget :data="topKpis" />
 
-      <div :class="DASHBOARD_METRICS_GRID_CLASSES">
-        <KpiCard
-          v-for="card in dashboardKpis"
-          :key="card.key"
-          :title="card.title"
-          :loader="card.loader"
-          :icon-name="card.iconName"
-          :tone="card.tone"
-          :fallback-context="card.context"
-        />
-      </div>
+      <section class="grid gap-4 xl:grid-cols-3">
+        <DashboardPersonnelDeploymentSummaryWidget :data="personnelDeploymentSummary" />
+        <DashboardEquipmentStatusOverviewWidget :data="equipmentStatusOverview" />
+        <DashboardCriticalPersonnelWidget :data="criticalPersonnel" />
+      </section>
+
+      <section class="grid gap-4 xl:grid-cols-2">
+        <DashboardCriticalEquipmentWidget :data="criticalEquipment" />
+        <DashboardNearRotationWidget :data="nearRotation" />
+      </section>
+
+      <section class="grid gap-4 xl:grid-cols-2">
+        <DashboardLocationLoadAnalysisWidget :data="locationLoadAnalysis" />
+        <DashboardPersonnelDeploymentHistoryWidget :data="personnelDeploymentHistory" />
+      </section>
+
+      <DashboardOperationalTimeMonitoringWidget :data="operationalTimeMonitoring" />
     </section>
   </main>
 </template>
 
 <script setup lang="ts">
-import KpiCard, { type KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
-import {
-  DASHBOARD_KPI_CARDS,
-  DASHBOARD_METRICS_GRID_CLASSES,
-  DASHBOARD_PAGE_SECTION_CLASSES,
-  DASHBOARD_PAGE_SUBTITLE,
-  DASHBOARD_PAGE_TITLE,
-} from '~/constants/page.constants'
+import DashboardCriticalEquipmentWidget from '~/components/dashboard/DashboardCriticalEquipmentWidget.vue'
+import DashboardCriticalPersonnelWidget from '~/components/dashboard/DashboardCriticalPersonnelWidget.vue'
+import DashboardEquipmentStatusOverviewWidget from '~/components/dashboard/DashboardEquipmentStatusOverviewWidget.vue'
+import DashboardLocationLoadAnalysisWidget from '~/components/dashboard/DashboardLocationLoadAnalysisWidget.vue'
+import DashboardNearRotationWidget from '~/components/dashboard/DashboardNearRotationWidget.vue'
+import DashboardOperationalTimeMonitoringWidget from '~/components/dashboard/DashboardOperationalTimeMonitoringWidget.vue'
+import DashboardPersonnelDeploymentHistoryWidget from '~/components/dashboard/DashboardPersonnelDeploymentHistoryWidget.vue'
+import DashboardPersonnelDeploymentSummaryWidget from '~/components/dashboard/DashboardPersonnelDeploymentSummaryWidget.vue'
+import DashboardTopKpisWidget from '~/components/dashboard/DashboardTopKpisWidget.vue'
+import { DASHBOARD_PAGE_SECTION_CLASSES, DASHBOARD_PAGE_SUBTITLE, DASHBOARD_PAGE_TITLE } from '~/constants/page.constants'
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 import {
-  getAccountTypeCount,
-  getBattalionCount,
-  getCompanyCount,
-  getPersonnelCount,
+  getDashboardCriticalEquipmentEndpoint,
+  getDashboardCriticalPersonnelEndpoint,
+  getDashboardEquipmentStatusOverviewEndpoint,
+  getDashboardLocationLoadAnalysisEndpoint,
+  getDashboardNearRotationEndpoint,
+  getDashboardOperationalTimeMonitoringEndpoint,
+  getDashboardPersonnelDeploymentHistoryEndpoint,
+  getDashboardPersonnelDeploymentSummaryEndpoint,
+  getDashboardTopKpisEndpoint,
 } from '~/utils/dashboard-endpoints'
 
-type DashboardKpiCard = (typeof DASHBOARD_KPI_CARDS)[number] & {
-  loader: () => Promise<KpiCardLoaderResult>
-}
-
-const dashboardKpiLoaders: Record<string, () => Promise<number>> = {
-  personnel: getPersonnelCount,
-  battalions: getBattalionCount,
-  companies: getCompanyCount,
-  'account-types': getAccountTypeCount,
-}
-
-const dashboardKpis: DashboardKpiCard[] = DASHBOARD_KPI_CARDS.map((card) => {
-  return {
-    ...card,
-    loader: async () => {
-      const loadCount = dashboardKpiLoaders[card.key] ?? (async () => 0)
-
-      return {
-        value: await loadCount(),
-        context: card.context,
-      }
-    },
-  }
-})
+const [
+  topKpis,
+  personnelDeploymentSummary,
+  equipmentStatusOverview,
+  criticalPersonnel,
+  criticalEquipment,
+  nearRotation,
+  locationLoadAnalysis,
+  personnelDeploymentHistory,
+  operationalTimeMonitoring,
+] = await Promise.all([
+  getDashboardTopKpisEndpoint(),
+  getDashboardPersonnelDeploymentSummaryEndpoint(),
+  getDashboardEquipmentStatusOverviewEndpoint(),
+  getDashboardCriticalPersonnelEndpoint(),
+  getDashboardCriticalEquipmentEndpoint(),
+  getDashboardNearRotationEndpoint(),
+  getDashboardLocationLoadAnalysisEndpoint(),
+  getDashboardPersonnelDeploymentHistoryEndpoint(),
+  getDashboardOperationalTimeMonitoringEndpoint(),
+])
 </script>
