@@ -2,6 +2,7 @@ import { API_LOADING_MESSAGES, TRAINING_MANAGEMENT_API_ENDPOINTS } from '~/const
 import type {
   CreateTrainingCategoryPayload,
   CreateTrainingPayload,
+  CreateTrainingRecordPayload,
   TrainingRecordListItem,
   TrainingRecordSearchQuery,
   TrainingCategoryEndpointQuery,
@@ -79,7 +80,6 @@ export const createTrainingCategoryEndpoint = async (payload: CreateTrainingCate
   }, API_LOADING_MESSAGES.createTrainingCategory)
 }
 
-
 export const getTrainingByIdEndpoint = async (id: string): Promise<TrainingListItem> => {
   return await withApiLoading(async () => {
     return await $fetch<TrainingListItem>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingById(id), {
@@ -136,6 +136,36 @@ export const deleteTrainingCategoryEndpoint = async (id: string): Promise<{ ok: 
   }, API_LOADING_MESSAGES.deleteTrainingCategory)
 }
 
+export const searchTrainingRecordsEndpoint = async (query: TrainingRecordSearchQuery): Promise<TrainingManagementListResponse<TrainingRecordListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<TrainingManagementListResponse<TrainingRecordListItem>>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingRecordsSearch, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchTrainingRecords)
+}
+
+export const getTrainingRecordsEndpoint = async (query: TrainingEndpointQuery): Promise<TrainingManagementListResponse<TrainingRecordListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<TrainingManagementListResponse<TrainingRecordListItem>>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingRecords, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchTrainingRecords)
+}
+
+export const createTrainingRecordEndpoint = async (payload: CreateTrainingRecordPayload): Promise<{ ok: boolean; id: string }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean; id: string }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingRecords, {
+      method: 'POST',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.createTrainingRecord)
+}
+
 export const getTrainingPersonnelEndpoint = async (
   trainingId: string,
   pageSize = 25,
@@ -164,4 +194,3 @@ export const getTrainingSuggestionsEndpoint = async (
     })
   }, API_LOADING_MESSAGES.fetchTrainingSuggestions)
 }
-

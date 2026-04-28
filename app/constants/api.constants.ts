@@ -122,6 +122,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   createTraining: 'Creating training record...',
   updateTraining: 'Updating training record...',
   deleteTraining: 'Deleting training record...',
+  createTrainingRecord: 'Creating training personnel record...',
   createTrainingCategory: 'Creating training category...',
   updateTrainingCategory: 'Updating training category...',
   deleteTrainingCategory: 'Deleting training category...',

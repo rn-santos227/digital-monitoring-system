@@ -563,6 +563,7 @@ export const TRAINING_CATEGORIES_FILTER_FIELD_OPTIONS = Object.freeze([
 ])
 
 export const TRAINING_RECORDS_PENDING_MESSAGE = 'Training records module will be added in the next iteration.'
+export const TRAINING_RECORDS_CREATE_BUTTON_LABEL = 'Create Training Record'
 export const TRAININGS_CREATE_BUTTON_LABEL = 'Create Training'
 export const TRAINING_CATEGORIES_CREATE_BUTTON_LABEL = 'Create Training Category'
 export const TRAININGS_MODAL_CANCEL_LABEL = 'Cancel'
@@ -586,6 +587,20 @@ export const TRAININGS_CREATE_START_DATE_LABEL = 'Start Date'
 export const TRAININGS_CREATE_END_DATE_LABEL = 'End Date'
 export const TRAININGS_CREATE_REMARKS_LABEL = 'Default Remarks'
 export const TRAININGS_CREATE_REMARKS_PLACEHOLDER = 'Add optional remarks for this training'
+
+export const TRAINING_RECORDS_CREATE_MODAL_TITLE = 'Create Training Record'
+export const TRAINING_RECORDS_CREATE_MODAL_DESCRIPTION = 'Assign a training to personnel and capture certificate details.'
+export const TRAINING_RECORDS_CREATE_TRAINING_LABEL = 'Training'
+export const TRAINING_RECORDS_CREATE_TRAINING_PLACEHOLDER = 'Search training title'
+export const TRAINING_RECORDS_CREATE_TRAINING_HELPER_TEXT = 'Select a training from the training registry.'
+export const TRAINING_RECORDS_CREATE_PERSONNEL_LABEL = 'Personnel'
+export const TRAINING_RECORDS_CREATE_PERSONNEL_PLACEHOLDER = 'Search personnel name or code'
+export const TRAINING_RECORDS_CREATE_PERSONNEL_HELPER_TEXT = 'Select personnel to assign this training record.'
+export const TRAINING_RECORDS_CREATE_CERTIFICATE_NO_LABEL = 'Certificate No.'
+export const TRAINING_RECORDS_CREATE_CERTIFICATE_NO_PLACEHOLDER = 'Enter certificate number'
+export const TRAINING_RECORDS_CREATE_VALID_UNTIL_LABEL = 'Valid Until'
+export const TRAINING_RECORDS_CREATE_REMARKS_LABEL = 'Remarks'
+export const TRAINING_RECORDS_CREATE_REMARKS_PLACEHOLDER = 'Add optional remarks'
 
 export const TRAINING_CATEGORIES_CREATE_MODAL_TITLE = 'Create Training Category'
 export const TRAINING_CATEGORIES_CREATE_MODAL_DESCRIPTION = 'Add a training category for training classification.'

@@ -93,6 +93,14 @@ export interface CreateTrainingCategoryPayload {
   name: string
 }
 
+export interface CreateTrainingRecordPayload {
+  trainingId: string
+  personnelId: string
+  certificateNo?: string | null
+  validUntil?: string | null
+  remarks?: string | null
+}
+
 export interface UpdateTrainingPayload {
   trainingTitle?: string
   trainingCategoryId?: string | null
