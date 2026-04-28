@@ -50,6 +50,14 @@ export const TRAINING_MANAGEMENT_API_ENDPOINTS = Object.freeze({
 
 export const DASHBOARD_API_ENDPOINTS = Object.freeze({
   unitManagementKpis: '/api/dashboard/unit-management',
+  topKpis: '/api/dashboard/top-kpis',
+  personnelDeploymentSummary: '/api/dashboard/personnel-deployment-summary',
+  equipmentStatusOverview: '/api/dashboard/equipment-status-overview',
+  criticalPersonnel: '/api/dashboard/critical-personnel',
+  criticalEquipment: '/api/dashboard/critical-equipment',
+  nearRotation: '/api/dashboard/near-rotation',
+  locationLoadAnalysis: '/api/dashboard/location-load-analysis',
+  personnelDeploymentHistory: '/api/dashboard/personnel-deployment-history',
 })
 
 export const PERSONNEL_API_ENDPOINTS = Object.freeze({
@@ -110,6 +118,14 @@ export const API_LOADING_MESSAGES = Object.freeze({
   fetchBattalions: 'Loading battalion records...',
   fetchCompanies: 'Loading company records...',
   fetchUnitManagementKpis: 'Loading unit KPIs...',
+  fetchDashboardTopKpis: 'Loading dashboard top KPI cards...',
+  fetchDashboardPersonnelDeploymentSummary: 'Loading dashboard personnel deployment summary...',
+  fetchDashboardEquipmentStatusOverview: 'Loading dashboard equipment status overview...',
+  fetchDashboardCriticalPersonnel: 'Loading dashboard critical personnel...',
+  fetchDashboardCriticalEquipment: 'Loading dashboard critical equipment...',
+  fetchDashboardNearRotation: 'Loading dashboard near-rotation alerts...',
+  fetchDashboardLocationLoadAnalysis: 'Loading dashboard location load analysis...',
+  fetchDashboardPersonnelDeploymentHistory: 'Loading dashboard personnel deployment history...',
   createBattalion: 'Creating battalion record...',
   updateBattalion: 'Updating battalion record...',
   deleteBattalion: 'Deleting battalion record...',
