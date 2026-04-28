@@ -1,6 +1,7 @@
 import { computed, ref } from 'vue'
-import { getTrainingRecordsEndpoint, searchTrainingRecordsEndpoint } from '~/utils/training-endpoints'
+import { createTrainingRecordEndpoint, getTrainingRecordsEndpoint, searchTrainingRecordsEndpoint } from '~/utils/training-endpoints'
 import type {
+  CreateTrainingRecordPayload,
   TrainingEndpointQuery,
   TrainingRecordListItem,
   TrainingRecordSearchQuery,
@@ -81,6 +82,10 @@ export const useTrainingRecords = () => {
     }
   }
 
+  const createTrainingRecord = async (payload: CreateTrainingRecordPayload) => {
+    await createTrainingRecordEndpoint(payload)
+  }
+
   return {
     filters,
     tableRows,
@@ -89,5 +94,6 @@ export const useTrainingRecords = () => {
     error: computed(() => error.value),
     totalItems: computed(() => pagination.value.totalItems),
     loadTrainingRecords,
+    createTrainingRecord,
   }
 }
