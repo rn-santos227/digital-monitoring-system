@@ -2,7 +2,9 @@ import type { Ref } from 'vue'
 import type {
   CreateTrainingCategoryPayload,
   CreateTrainingPayload,
+  CreateTrainingRecordPayload,
   TrainingCategorySearchQuery,
+  TrainingRecordSearchQuery,
   TrainingSearchQuery,
 } from '~/types/domain/training'
 
@@ -19,6 +21,15 @@ interface UseCreateTrainingCategoryHandlerOptions {
   createTrainingCategory: (payload: CreateTrainingCategoryPayload) => Promise<void>
   loadTrainingCategories: (page?: number, nextFilters?: Partial<TrainingCategorySearchQuery>, pageSize?: number) => Promise<void>
   categoryFilters: Ref<Partial<TrainingCategorySearchQuery>>
+  kpiRefreshKey: Ref<number>
+}
+
+interface UseCreateTrainingRecordHandlerOptions {
+  isCreateTrainingRecordModalOpen: Ref<boolean>
+  createTrainingRecord: (payload: CreateTrainingRecordPayload) => Promise<void>
+  loadTrainingRecords: (page?: number, nextFilters?: Partial<TrainingRecordSearchQuery>, pageSize?: number) => Promise<void>
+  trainingRecordFilters: Ref<Partial<TrainingRecordSearchQuery>>
+  trainingRecordsPageSize: Ref<number>
   kpiRefreshKey: Ref<number>
 }
 
@@ -77,5 +88,36 @@ export const useCreateTrainingCategoryHandler = ({
     onOpenCreateTrainingCategoryModal,
     onCloseCreateTrainingCategoryModal,
     onCreateTrainingCategory,
+  }
+}
+
+
+export const useCreateTrainingRecordHandler = ({
+  isCreateTrainingRecordModalOpen,
+  createTrainingRecord,
+  loadTrainingRecords,
+  trainingRecordFilters,
+  trainingRecordsPageSize,
+  kpiRefreshKey,
+}: UseCreateTrainingRecordHandlerOptions) => {
+  const onOpenCreateTrainingRecordModal = () => {
+    isCreateTrainingRecordModalOpen.value = true
+  }
+
+  const onCloseCreateTrainingRecordModal = () => {
+    isCreateTrainingRecordModalOpen.value = false
+  }
+
+  const onCreateTrainingRecord = async (payload: CreateTrainingRecordPayload) => {
+    await createTrainingRecord(payload)
+    onCloseCreateTrainingRecordModal()
+    await loadTrainingRecords(1, trainingRecordFilters.value, trainingRecordsPageSize.value)
+    kpiRefreshKey.value += 1
+  }
+
+  return {
+    onOpenCreateTrainingRecordModal,
+    onCloseCreateTrainingRecordModal,
+    onCreateTrainingRecord,
   }
 }
