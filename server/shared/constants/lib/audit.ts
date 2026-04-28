@@ -27,6 +27,9 @@ export const AUDIT_LOG_ACTIONS = {
   trainingCategoryCreate: 'TRAINING_CATEGORY_CREATE',
   trainingCategoryUpdate: 'TRAINING_CATEGORY_UPDATE',
   trainingCategoryDelete: 'TRAINING_CATEGORY_DELETE',
+  deploymentCreate: 'DEPLOYMENT_CREATE',
+  deploymentUpdate: 'DEPLOYMENT_UPDATE',
+  deploymentDelete: 'DEPLOYMENT_DELETE',
   fileAttachmentCreate: 'FILE_ATTACHMENT_CREATE',
 } as const
 
@@ -66,5 +69,8 @@ export const AUDIT_LOG_ENDPOINTS = {
   trainingCategoriesCreate: '/api/training-categories',
   trainingCategoriesUpdate: '/api/training-categories/:id',
   trainingCategoriesDelete: '/api/training-categories/:id',
+  deploymentCreate: '/api/deployments',
+  deploymentUpdate: '/api/deployments/:id',
+  deploymentDelete: '/api/deployments/:id',
   fileUpload: '/api/files/upload',
 } as const
