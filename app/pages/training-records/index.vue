@@ -126,7 +126,11 @@
         />
       </template>
     </section>
-
+    <CreateTrainingRecordModal
+      v-if="isCreateTrainingRecordModalOpen"
+      @close="onCloseCreateTrainingRecordModal"
+      @submit="onCreateTrainingRecord"
+    />
     <CreateTrainingModal
       v-if="isCreateTrainingModalOpen"
       @close="onCloseCreateTrainingModal"
