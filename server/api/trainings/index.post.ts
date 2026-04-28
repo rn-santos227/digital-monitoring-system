@@ -1,6 +1,7 @@
 import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreateTrainingRequest } from '../../shared/requests'
 import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
+import { resolveTrainingLevelId } from '../../shared/utils'
 import { parseCreateTrainingPayload } from '../../shared/validations'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
@@ -17,6 +18,10 @@ export default defineEventHandler(async (event) => {
   const supabase = getServiceSupabaseClient()
 
   try {
+    if (payload.level_id) {
+      payload.level_id = await resolveTrainingLevelId(supabase, payload.level_id)
+    }
+
     const { data: createdRow, error: insertError } = await supabase
       .from('trainings')
       .insert(payload)

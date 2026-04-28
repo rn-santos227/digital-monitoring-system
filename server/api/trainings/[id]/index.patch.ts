@@ -8,6 +8,7 @@ import {
   PERMISSION_CODES,
   TRAINING_SELECT_COLUMNS,
 } from '../../../shared/constants'
+import { resolveTrainingLevelId } from '../../../shared/utils'
 import { buildTrainingUpdates, requireRouteId } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
@@ -53,6 +54,10 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
     updates.start_date ?? existingRow.start_date,
     updates.end_date ?? existingRow.end_date,
   )
+
+  if (updates.level_id) {
+    updates.level_id = await resolveTrainingLevelId(supabase, updates.level_id)
+  }
 
   try {
     await executeWithRollback({

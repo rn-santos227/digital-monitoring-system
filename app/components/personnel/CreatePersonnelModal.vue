@@ -201,7 +201,7 @@ const form = reactive({
   companyId: '',
   battalionId: '',
   employmentStatusId: '',
-  serviceStatusId: '',
+  serviceStatusId: 'Active Duty',
   contactNumber: '',
   dateEnlisted: '',
 })

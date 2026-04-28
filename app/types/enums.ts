@@ -11,12 +11,26 @@ export type EmploymentStatusName = (typeof EMPLOYMENT_STATUS_VALUES)[number]
 
 export const SERVICE_STATUS_VALUES = Object.freeze([
   'Active Duty',
+  'Deployed',
+  'Unavailable',
+  'Standby-Alert',
+  'Injured',
+  'Dead',
   'Reserve',
   'Detached',
   'On Leave',
   'Retired',
 ] as const)
 export type ServiceStatusName = (typeof SERVICE_STATUS_VALUES)[number]
+
+export const TRAINING_LEVEL_VALUES = Object.freeze([
+  'Beginner',
+  'Intermediate',
+  'Advanced',
+  'Specialized',
+  'Instructor',
+] as const)
+export type TrainingLevelName = (typeof TRAINING_LEVEL_VALUES)[number]
 
 export type TrainingStatusName = 'Planned' | 'Ongoing' | 'Completed' | 'Expired' | 'Cancelled'
 export type DeploymentStatusName = 'Planned' | 'Active' | 'Completed' | 'Cancelled'

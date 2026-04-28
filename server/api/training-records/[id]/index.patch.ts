@@ -11,7 +11,9 @@ import {
   TRAINING_RECORD_SELECT_COLUMNS,
   TRAINING_RECORD_SOURCE_SELECT_COLUMNS,
 } from '../../../shared/constants'
-import { assertPersonnelExists } from '../../../shared/utils'
+import {
+  assertPersonnelExists,
+} from '../../../shared/utils'
 import { buildTrainingRecordUpdates, requireRouteId } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
@@ -69,7 +71,6 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
     personnelId: effectivePersonnelId,
     idSelectColumns: ID_ONLY_SELECT_COLUMNS,
   })
-
   const effectiveValidUntil = updates.valid_until === undefined ? existingRow.valid_until : updates.valid_until
 
   if (effectiveValidUntil && training.end_date) {
@@ -103,6 +104,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
         if (error) {
           throw createError({ statusCode: 500, statusMessage: `Failed to update training record: ${error.message}` })
         }
+
       },
       rollback: async () => {
         const { error } = await supabase
@@ -125,6 +127,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
         if (error) {
           throw error
         }
+
       },
       onRollbackError: (rollbackError) => {
         console.error('Failed to rollback training record patch API changes.', rollbackError)

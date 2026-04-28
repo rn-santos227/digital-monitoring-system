@@ -32,10 +32,11 @@
       </div>
 
       <div class="grid gap-4 md:grid-cols-2">
-        <BaseTextField
+        <BaseSelect
           v-model="form.levelId"
           :label="TRAININGS_CREATE_LEVEL_LABEL"
           :placeholder="TRAININGS_CREATE_LEVEL_PLACEHOLDER"
+          :options="TRAININGS_CREATE_LEVEL_OPTIONS"
           :error="errors.levelId"
         />
 
@@ -77,6 +78,7 @@ import {
   TRAININGS_CREATE_CATEGORY_PLACEHOLDER,
   TRAININGS_CREATE_END_DATE_LABEL,
   TRAININGS_CREATE_LEVEL_LABEL,
+  TRAININGS_CREATE_LEVEL_OPTIONS,
   TRAININGS_CREATE_LEVEL_PLACEHOLDER,
   TRAININGS_CREATE_MODAL_DESCRIPTION,
   TRAININGS_CREATE_MODAL_TITLE,

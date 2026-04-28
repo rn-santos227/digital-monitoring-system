@@ -21,7 +21,18 @@ interface PersonnelSuggestionRow {
 
 
 const EMPLOYMENT_STATUS_NAMES = ['Regular', 'Contractual', 'Probationary', 'Separated'] as const
-const SERVICE_STATUS_NAMES = ['Active Duty', 'Reserve', 'Detached', 'On Leave', 'Retired'] as const
+const SERVICE_STATUS_NAMES = [
+  'Active Duty',
+  'Deployed',
+  'Unavailable',
+  'Standby-Alert',
+  'Injured',
+  'Dead',
+  'Reserve',
+  'Detached',
+  'On Leave',
+  'Retired',
+] as const
 
 interface PersonnelStatusLookupSupabaseClient {
   from: (table: string) => {

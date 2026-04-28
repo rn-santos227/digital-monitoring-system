@@ -1,3 +1,4 @@
+import { createError } from 'h3'
 import { parseNumber } from './parsers'
 import type {
   TrainingCategoryListItem,
@@ -10,6 +11,23 @@ import type {
   TrainingRow,
   TrainingSuggestionItem,
 } from '../models'
+interface TrainingLevelLookupSupabaseClient {
+  from: (table: 'levels') => {
+    select: (columns: 'id') => {
+      eq: (column: 'id' | 'name', value: string) => {
+        maybeSingle: () => Promise<{ data: { id: string } | null, error: { message: string } | null }>
+      }
+    }
+  }
+}
+
+const TRAINING_LEVEL_NAMES = Object.freeze([
+  'Beginner',
+  'Intermediate',
+  'Advanced',
+  'Specialized',
+  'Instructor',
+])
 
 const toSingleReference = (value: TrainingReferenceRow | TrainingReferenceRow[] | null): TrainingReferenceRow | null => {
   if (!value) {
@@ -166,4 +184,21 @@ export const buildTrainingRecordNo = (): string => {
   const suffix = crypto.randomUUID().replaceAll('-', '').slice(0, 8).toUpperCase()
 
   return `TR-${timestamp}-${suffix}`
+}
+
+export const resolveTrainingLevelId = async (supabase: unknown, value: string): Promise<string> => {
+  const supabaseClient = supabase as TrainingLevelLookupSupabaseClient
+  const isKnownName = TRAINING_LEVEL_NAMES.includes(value as (typeof TRAINING_LEVEL_NAMES)[number])
+  const filterField: 'id' | 'name' = isKnownName ? 'name' : 'id'
+  const { data, error } = await supabaseClient
+    .from('levels')
+    .select('id')
+    .eq(filterField, value)
+    .maybeSingle()
+
+  if (error || !data?.id) {
+    throw createError({ statusCode: 400, statusMessage: 'Invalid training level value.' })
+  }
+
+  return data.id
 }

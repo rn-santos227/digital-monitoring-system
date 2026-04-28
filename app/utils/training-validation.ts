@@ -74,11 +74,9 @@ export const validateCreateTrainingForm = (form: {
     },
     {
       field: 'levelId',
-      label: 'Level ID',
+      label: 'Level',
       value: form.levelId,
       maxLength: 80,
-      pattern: REGEX_PATTERNS.uuid,
-      patternMessage: 'Level ID must be a valid UUID.',
     },
     {
       field: 'defaultRemarks',

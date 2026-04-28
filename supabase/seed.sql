@@ -13,6 +13,11 @@ on conflict (name) do nothing;
 insert into public.service_statuses (name)
 values
   ('Active Duty'),
+  ('Deployed'),
+  ('Unavailable'),
+  ('Standby-Alert'),
+  ('Injured'),
+  ('Dead'),
   ('Reserve'),
   ('Detached'),
   ('On Leave'),
@@ -22,9 +27,11 @@ on conflict (name) do nothing;
 -- Levels
 insert into public.levels (name)
 values
-  ('Local'),
-  ('National'),
-  ('International')
+  ('Beginner'),
+  ('Intermediate'),
+  ('Advanced'),
+  ('Specialized'),
+  ('Instructor')
 on conflict (name) do nothing;
 
 -- Training statuses

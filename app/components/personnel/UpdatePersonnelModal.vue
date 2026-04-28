@@ -209,7 +209,7 @@ const syncForm = (value: PersonnelDetail) => {
   form.rankId = value.rankId
   form.companyId = value.companyId ?? ''
   form.battalionId = value.battalionId ?? ''
-  form.employmentStatusId = value.employmentStatusId
+  form.serviceStatusId = value.serviceStatusId || 'Active Duty'
   form.serviceStatusId = value.serviceStatusId
   form.contactNumber = value.contactNumber ?? ''
   form.dateEnlisted = value.dateEnlisted ?? ''
