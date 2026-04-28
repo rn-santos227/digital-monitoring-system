@@ -69,8 +69,8 @@ export const AUDIT_LOG_ENDPOINTS = {
   trainingCategoriesCreate: '/api/training-categories',
   trainingCategoriesUpdate: '/api/training-categories/:id',
   trainingCategoriesDelete: '/api/training-categories/:id',
-  deploymentCreate: '/api/deployments',
-  deploymentUpdate: '/api/deployments/:id',
-  deploymentDelete: '/api/deployments/:id',
+  deploymentsCreate: '/api/deployments',
+  deploymentsUpdate: '/api/deployments/:id',
+  deploymentsDelete: '/api/deployments/:id',
   fileUpload: '/api/files/upload',
 } as const

@@ -65,10 +65,12 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
       userId: actor.id,
       action: AUDIT_LOG_ACTIONS.deploymentCreate,
       tableName: 'deployment_records',
-      endpoint: AUDIT_LOG_ENDPOINTS.deploymentCreate,
+      endpoint: AUDIT_LOG_ENDPOINTS.deploymentsCreate,
       recordId: createdRow.id,
       requestData: body as Record<string, unknown>,
-      newData: newRow ? mapDeploymentRecordListItem(newRow) : insertPayload,
+      newData: newRow
+        ? ({ ...mapDeploymentRecordListItem(newRow) } as Record<string, unknown>)
+        : insertPayload,
       statusCode: 201,
       outcome: AUDIT_LOG_OUTCOMES.success,
       message: 'Deployment record created successfully.',
@@ -83,7 +85,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
       userId: actor.id,
       action: AUDIT_LOG_ACTIONS.deploymentCreate,
       tableName: 'deployment_records',
-      endpoint: AUDIT_LOG_ENDPOINTS.deploymentCreate,
+      endpoint: AUDIT_LOG_ENDPOINTS.deploymentsCreate,
       requestData: body as Record<string, unknown>,
       statusCode,
       outcome: AUDIT_LOG_OUTCOMES.failed,
