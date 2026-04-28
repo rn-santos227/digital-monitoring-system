@@ -16,8 +16,7 @@ export interface DashboardPersonnelStatusRow {
   id: string
   first_name: string
   last_name: string
-  contact_number: string | null
-  battalion_name: string | null
+  company_name: string | null
   service_status_name: string | null
 }
 
@@ -74,6 +73,15 @@ export const isUnavailableStatus = (statusName: string): boolean => {
   const normalizedStatus = normalizeStatusName(statusName)
 
   return normalizedStatus.includes('leave') || normalizedStatus.includes('detached') || normalizedStatus.includes('retired')
+}
+
+export const isNoCommsStatus = (statusName: string): boolean => {
+  const normalizedStatus = normalizeStatusName(statusName)
+
+  return normalizedStatus.includes('mia')
+    || normalizedStatus.includes('no comms')
+    || normalizedStatus.includes('no-comms')
+    || normalizedStatus.includes('missing in action')
 }
 
 export const isOperationalEquipment = (statusName: string): boolean => {
@@ -135,7 +143,7 @@ export interface DashboardPersonnelSummaryMetrics {
 
 export const buildPersonnelSummaryMetrics = (
   personnelRows: DashboardPersonnelStatusRow[],
-  activeDeploymentPersonnelIds: Set<string>,
+  activeDeploymentLocationByPersonnelId: Map<string, string>,
 ): DashboardPersonnelSummaryMetrics => {
   const personnelDeploymentSummary: DashboardStatusCountSummary = {
     deployed: 0,
@@ -151,7 +159,8 @@ export const buildPersonnelSummaryMetrics = (
 
   for (const row of personnelRows) {
     const statusName = row.service_status_name ?? ''
-    const isDeployed = activeDeploymentPersonnelIds.has(row.id)
+    const isDeployed = activeDeploymentLocationByPersonnelId.has(row.id)
+    const locationName = activeDeploymentLocationByPersonnelId.get(row.id) ?? (row.company_name?.trim() || 'Unassigned Company')
 
     if (isDeployed) {
       personnelDeploymentSummary.deployed += 1
@@ -172,6 +181,8 @@ export const buildPersonnelSummaryMetrics = (
         criticalPersonnel.push({
           personnelId: row.id,
           fullName: toFullName(row.first_name, row.last_name),
+          locationName,
+          issueCode: 'INJURED',
           issue: 'Injured personnel status flagged.',
         })
       }
@@ -184,17 +195,29 @@ export const buildPersonnelSummaryMetrics = (
         criticalPersonnel.push({
           personnelId: row.id,
           fullName: toFullName(row.first_name, row.last_name),
+          locationName,
+          issueCode: 'DEAD',
           issue: 'Dead personnel status flagged.',
         })
       }
     }
 
-    if (!(row.contact_number?.trim())) {
+    if (isNoCommsStatus(statusName)) {
       noComms += 1
+
+      if (criticalPersonnel.length < PERSONNEL_CRITICAL_LIMIT) {
+        criticalPersonnel.push({
+          personnelId: row.id,
+          fullName: toFullName(row.first_name, row.last_name),
+          locationName,
+          issueCode: 'NO COMMS',
+          issue: 'Personnel status is tagged as MIA / no communications.',
+        })
+      }
     }
 
-    const battalionName = row.battalion_name?.trim() || 'Unassigned Battalion'
-    const battalionCounter = battalionCounters.get(battalionName) ?? {
+    const companyName = row.company_name?.trim() || 'Unassigned Company'
+    const battalionCounter = battalionCounters.get(companyName) ?? {
       totalPersonnel: 0,
       deployedPersonnel: 0,
     }
@@ -205,7 +228,7 @@ export const buildPersonnelSummaryMetrics = (
       battalionCounter.deployedPersonnel += 1
     }
 
-    battalionCounters.set(battalionName, battalionCounter)
+    battalionCounters.set(companyName, battalionCounter)
   }
 
   const locationLoadAnalysis: DashboardLocationLoadItem[] = Array.from(battalionCounters.entries())
