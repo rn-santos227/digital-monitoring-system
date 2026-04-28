@@ -23,10 +23,29 @@ const DASHBOARD_DEFAULT_QUERY = Object.freeze({
   pageSize: 1,
 })
 
+
+const getDashboardSessionHeaders = (): Record<string, string> => {
+  if (!import.meta.server) {
+    return createSessionHeaders()
+  }
+
+  const requestHeaders = useRequestHeaders(['cookie'])
+  const cookie = requestHeaders.cookie?.trim() ?? ''
+
+  if (!cookie) {
+    return createSessionHeaders()
+  }
+
+  return {
+    cookie,
+    ...createSessionHeaders(),
+  }
+}
+
 export const getPersonnelCount = async (): Promise<number> => {
   const response = await $fetch<DashboardCountResponse>('/api/personnel', {
     method: 'GET',
-    headers: createSessionHeaders(),
+    headers: getDashboardSessionHeaders(),
     query: DASHBOARD_DEFAULT_QUERY,
   })
 
@@ -36,7 +55,7 @@ export const getPersonnelCount = async (): Promise<number> => {
 export const getBattalionCount = async (): Promise<number> => {
   const response = await $fetch<DashboardCountResponse>('/api/battalions', {
     method: 'GET',
-    headers: createSessionHeaders(),
+    headers: getDashboardSessionHeaders(),
     query: DASHBOARD_DEFAULT_QUERY,
   })
 
@@ -46,7 +65,7 @@ export const getBattalionCount = async (): Promise<number> => {
 export const getCompanyCount = async (): Promise<number> => {
   const response = await $fetch<DashboardCountResponse>('/api/companies', {
     method: 'GET',
-    headers: createSessionHeaders(),
+    headers: getDashboardSessionHeaders(),
     query: DASHBOARD_DEFAULT_QUERY,
   })
 
@@ -56,7 +75,7 @@ export const getCompanyCount = async (): Promise<number> => {
 export const getAccountTypeCount = async (): Promise<number> => {
   const response = await $fetch<DashboardCountResponse>('/api/account-types', {
     method: 'GET',
-    headers: createSessionHeaders(),
+    headers: getDashboardSessionHeaders(),
     query: DASHBOARD_DEFAULT_QUERY,
   })
 
@@ -67,7 +86,7 @@ export const getUnitManagementKpisEndpoint = async (): Promise<UnitManagementKpi
   return await withApiLoading(async () => {
     return await $fetch<UnitManagementKpis>(DASHBOARD_API_ENDPOINTS.unitManagementKpis, {
       method: 'GET',
-      headers: createSessionHeaders(),
+      headers: getDashboardSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchUnitManagementKpis)
 }
@@ -77,7 +96,7 @@ export const getDashboardTopKpisEndpoint = async (): Promise<DashboardTopKpis> =
   return await withApiLoading(async () => {
     return await $fetch<DashboardTopKpis>(DASHBOARD_API_ENDPOINTS.topKpis, {
       method: 'GET',
-      headers: createSessionHeaders(),
+      headers: getDashboardSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchDashboardTopKpis)
 }
@@ -86,7 +105,7 @@ export const getDashboardPersonnelDeploymentSummaryEndpoint = async (): Promise<
   return await withApiLoading(async () => {
     return await $fetch<DashboardPersonnelDeploymentSummary>(DASHBOARD_API_ENDPOINTS.personnelDeploymentSummary, {
       method: 'GET',
-      headers: createSessionHeaders(),
+      headers: getDashboardSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchDashboardPersonnelDeploymentSummary)
 }
@@ -95,7 +114,7 @@ export const getDashboardEquipmentStatusOverviewEndpoint = async (): Promise<Das
   return await withApiLoading(async () => {
     return await $fetch<DashboardEquipmentStatusOverview>(DASHBOARD_API_ENDPOINTS.equipmentStatusOverview, {
       method: 'GET',
-      headers: createSessionHeaders(),
+      headers: getDashboardSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchDashboardEquipmentStatusOverview)
 }
@@ -104,7 +123,7 @@ export const getDashboardCriticalPersonnelEndpoint = async (): Promise<Dashboard
   return await withApiLoading(async () => {
     return await $fetch<DashboardCriticalPersonnel>(DASHBOARD_API_ENDPOINTS.criticalPersonnel, {
       method: 'GET',
-      headers: createSessionHeaders(),
+      headers: getDashboardSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchDashboardCriticalPersonnel)
 }
@@ -113,7 +132,7 @@ export const getDashboardCriticalEquipmentEndpoint = async (): Promise<Dashboard
   return await withApiLoading(async () => {
     return await $fetch<DashboardCriticalEquipment>(DASHBOARD_API_ENDPOINTS.criticalEquipment, {
       method: 'GET',
-      headers: createSessionHeaders(),
+      headers: getDashboardSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchDashboardCriticalEquipment)
 }
@@ -122,7 +141,7 @@ export const getDashboardNearRotationEndpoint = async (): Promise<DashboardNearR
   return await withApiLoading(async () => {
     return await $fetch<DashboardNearRotation>(DASHBOARD_API_ENDPOINTS.nearRotation, {
       method: 'GET',
-      headers: createSessionHeaders(),
+      headers: getDashboardSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchDashboardNearRotation)
 }
@@ -131,7 +150,7 @@ export const getDashboardLocationLoadAnalysisEndpoint = async (): Promise<Dashbo
   return await withApiLoading(async () => {
     return await $fetch<DashboardLocationLoadAnalysis>(DASHBOARD_API_ENDPOINTS.locationLoadAnalysis, {
       method: 'GET',
-      headers: createSessionHeaders(),
+      headers: getDashboardSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchDashboardLocationLoadAnalysis)
 }
@@ -140,7 +159,7 @@ export const getDashboardPersonnelDeploymentHistoryEndpoint = async (): Promise<
   return await withApiLoading(async () => {
     return await $fetch<DashboardPersonnelDeploymentHistory>(DASHBOARD_API_ENDPOINTS.personnelDeploymentHistory, {
       method: 'GET',
-      headers: createSessionHeaders(),
+      headers: getDashboardSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchDashboardPersonnelDeploymentHistory)
 }
@@ -149,7 +168,7 @@ export const getDashboardOperationalTimeMonitoringEndpoint = async (): Promise<D
   return await withApiLoading(async () => {
     return await $fetch<DashboardOperationalTimeMonitoring>(DASHBOARD_API_ENDPOINTS.operationalTimeMonitoring, {
       method: 'GET',
-      headers: createSessionHeaders(),
+      headers: getDashboardSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchDashboardOperationalTimeMonitoring)
 }

@@ -44,8 +44,13 @@ export default defineEventHandler(async (event): Promise<DashboardTopKpisRespons
 
   const personnelRows = (personnelResult.data ?? []) as DashboardPersonnelStatusRow[]
   const activeDeploymentRows = (activeDeploymentsResult.data ?? []) as ActiveDeploymentRow[]
-  const activeDeploymentPersonnelIds = new Set(activeDeploymentRows.map((item) => item.personnel_id))
-  const metrics = buildPersonnelSummaryMetrics(personnelRows, activeDeploymentPersonnelIds)
+  const activeDeploymentLocationByPersonnelId = new Map(
+    activeDeploymentRows.map((item) => ([
+      item.personnel_id,
+      '',
+    ]))
+  )
+  const metrics = buildPersonnelSummaryMetrics(personnelRows, activeDeploymentLocationByPersonnelId)
 
   return {
     asOf: now.toISOString(),
