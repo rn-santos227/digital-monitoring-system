@@ -8,6 +8,7 @@ import type {
   DashboardEquipmentStatusOverview,
   DashboardLocationLoadAnalysis,
   DashboardNearRotation,
+  DashboardOperationalTimeMonitoring,
   DashboardPersonnelDeploymentHistory,
   DashboardPersonnelDeploymentSummary,
   DashboardTopKpis,
@@ -142,4 +143,13 @@ export const getDashboardPersonnelDeploymentHistoryEndpoint = async (): Promise<
       headers: createSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchDashboardPersonnelDeploymentHistory)
+}
+
+export const getDashboardOperationalTimeMonitoringEndpoint = async (): Promise<DashboardOperationalTimeMonitoring> => {
+  return await withApiLoading(async () => {
+    return await $fetch<DashboardOperationalTimeMonitoring>(DASHBOARD_API_ENDPOINTS.operationalTimeMonitoring, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchDashboardOperationalTimeMonitoring)
 }

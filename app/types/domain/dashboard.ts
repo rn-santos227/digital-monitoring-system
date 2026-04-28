@@ -34,6 +34,8 @@ export interface DashboardDeploymentHistoryItem {
 export interface DashboardCriticalPersonnelItem {
   personnelId: string
   fullName: string
+  locationName: string
+  issueCode: string
   issue: string
 }
 
@@ -94,4 +96,15 @@ export interface DashboardCriticalEquipment {
 export interface DashboardNearRotation {
   asOf: string
   items: DashboardRotationAlertItem[]
+}
+
+export interface DashboardOperationalTimeMetric {
+  activeDeploymentCount: number
+  averageActiveDays: number
+  longestActiveDays: number
+}
+
+export interface DashboardOperationalTimeMonitoring {
+  asOf: string
+  metric: DashboardOperationalTimeMetric
 }
