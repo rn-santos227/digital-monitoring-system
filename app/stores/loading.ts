@@ -33,6 +33,11 @@ const loadingStoreOption = {
       if (this.activeRequests === 0) {
         this.message = 'Processing request...'
       }
+    },
+
+    reset(this: LoadingState) {
+      this.activeRequests = 0
+      this.message = 'Processing request...'
     }
   }
 }

@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, useId } from 'vue'
+import { computed, ref, useId, watch } from 'vue'
 import type { SuggestionFieldOption } from '~/constants/ui.constants'
 import {
   FIELD_ERROR_TEXT_CLASSES,
@@ -177,4 +177,23 @@ const onBlur = () => {
 const onInput = () => {
   emit('query-change', query.value)
 }
+
+watch(
+  () => [props.modelValue, props.options] as const,
+  ([modelValue]) => {
+    if (props.multiple) {
+      query.value = ''
+      return
+    }
+
+    if (typeof modelValue !== 'string' || !modelValue) {
+      query.value = ''
+      return
+    }
+
+    const selectedOption = props.options.find((option) => option.value === modelValue)
+    query.value = selectedOption?.label ?? ''
+  },
+  { immediate: true }
+)
 </script>
