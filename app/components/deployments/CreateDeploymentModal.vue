@@ -9,58 +9,75 @@
       <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
       <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
 
-      <div class="grid gap-4 md:grid-cols-2">
-        <BaseTextField
-          v-model="form.deploymentArea"
-          :label="DEPLOYMENTS_CREATE_DEPLOYMENT_AREA_LABEL"
-          :placeholder="DEPLOYMENTS_CREATE_DEPLOYMENT_AREA_PLACEHOLDER"
-          :error="errors.deploymentArea"
-          required
-        />
-        <BaseTextField
-          v-model="form.assignmentRole"
-          :label="DEPLOYMENTS_CREATE_ASSIGNMENT_ROLE_LABEL"
-          :placeholder="DEPLOYMENTS_CREATE_ASSIGNMENT_ROLE_PLACEHOLDER"
-          :error="errors.assignmentRole"
-        />
-      </div>
+      <div class="grid gap-4 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-start">
+        <div class="space-y-4">
+          <div class="grid gap-4 md:grid-cols-2">
+            <BaseTextField
+              v-model="form.deploymentArea"
+              :label="DEPLOYMENTS_CREATE_DEPLOYMENT_AREA_LABEL"
+              :placeholder="DEPLOYMENTS_CREATE_DEPLOYMENT_AREA_PLACEHOLDER"
+              :error="errors.deploymentArea"
+              required
+            />
+            <BaseTextField
+              v-model="form.assignmentRole"
+              :label="DEPLOYMENTS_CREATE_ASSIGNMENT_ROLE_LABEL"
+              :placeholder="DEPLOYMENTS_CREATE_ASSIGNMENT_ROLE_PLACEHOLDER"
+              :error="errors.assignmentRole"
+            />
+          </div>
 
-      <div class="grid gap-4 md:grid-cols-2">
-        <BaseTextField
-          v-model="form.operationName"
-          :label="DEPLOYMENTS_CREATE_OPERATION_NAME_LABEL"
-          :placeholder="DEPLOYMENTS_CREATE_OPERATION_NAME_PLACEHOLDER"
-          :error="errors.operationName"
-        />
-        <BaseSelect
-          v-model="form.statusId"
-          :label="DEPLOYMENTS_CREATE_STATUS_ID_LABEL"
-          :placeholder="DEPLOYMENTS_CREATE_STATUS_ID_PLACEHOLDER"
-          :options="DEPLOYMENTS_CREATE_STATUS_OPTIONS"
-          :error="errors.statusId"
-          required
-        />
-      </div>
+          <div class="grid gap-4 md:grid-cols-2">
+            <BaseTextField
+              v-model="form.operationName"
+              :label="DEPLOYMENTS_CREATE_OPERATION_NAME_LABEL"
+              :placeholder="DEPLOYMENTS_CREATE_OPERATION_NAME_PLACEHOLDER"
+              :error="errors.operationName"
+            />
+            <BaseSelect
+              v-model="form.statusId"
+              :label="DEPLOYMENTS_CREATE_STATUS_ID_LABEL"
+              :placeholder="DEPLOYMENTS_CREATE_STATUS_ID_PLACEHOLDER"
+              :options="DEPLOYMENTS_CREATE_STATUS_OPTIONS"
+              :error="errors.statusId"
+              required
+            />
+          </div>
 
-      <div class="grid gap-4 md:grid-cols-2">
-        <BaseDatePicker v-model="form.startDate" :label="DEPLOYMENTS_CREATE_START_DATE_LABEL" :error="errors.startDate" />
-        <BaseDatePicker v-model="form.endDate" :label="DEPLOYMENTS_CREATE_END_DATE_LABEL" :error="errors.endDate" />
-      </div>
+          <div class="grid gap-4 md:grid-cols-2">
+            <BaseDatePicker v-model="form.startDate" :label="DEPLOYMENTS_CREATE_START_DATE_LABEL" :error="errors.startDate" />
+            <BaseDatePicker v-model="form.endDate" :label="DEPLOYMENTS_CREATE_END_DATE_LABEL" :error="errors.endDate" />
+          </div>
 
-      <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] lg:items-start">
-        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-1">
-          <BaseTextField
-            v-model="form.deploymentAreaLatitude"
-            :label="DEPLOYMENTS_CREATE_LATITUDE_LABEL"
-            :placeholder="DEPLOYMENTS_CREATE_LATITUDE_PLACEHOLDER"
-            :error="errors.deploymentAreaLatitude"
-          />
-          <BaseTextField
-            v-model="form.deploymentAreaLongitude"
-            :label="DEPLOYMENTS_CREATE_LONGITUDE_LABEL"
-            :placeholder="DEPLOYMENTS_CREATE_LONGITUDE_PLACEHOLDER"
-            :error="errors.deploymentAreaLongitude"
-          />
+          <div class="grid gap-4 md:grid-cols-2">
+            <BaseTextField
+              v-model="form.deploymentAreaLatitude"
+              :label="DEPLOYMENTS_CREATE_LATITUDE_LABEL"
+              :placeholder="DEPLOYMENTS_CREATE_LATITUDE_PLACEHOLDER"
+              :error="errors.deploymentAreaLatitude"
+            />
+            <BaseTextField
+              v-model="form.deploymentAreaLongitude"
+              :label="DEPLOYMENTS_CREATE_LONGITUDE_LABEL"
+              :placeholder="DEPLOYMENTS_CREATE_LONGITUDE_PLACEHOLDER"
+              :error="errors.deploymentAreaLongitude"
+            />
+          </div>
+
+          <div class="grid gap-4 md:grid-cols-2">
+            <BaseTextField
+              v-model="form.location"
+              :label="DEPLOYMENTS_CREATE_LOCATION_LABEL"
+              :placeholder="DEPLOYMENTS_CREATE_LOCATION_PLACEHOLDER"
+              :error="errors.location"
+            />
+            <BaseTextField
+              v-model="form.supervisorId"
+              :label="DEPLOYMENTS_CREATE_SUPERVISOR_ID_LABEL"
+              :placeholder="DEPLOYMENTS_CREATE_SUPERVISOR_ID_PLACEHOLDER"
+              :error="errors.supervisorId"
+            />
+          </div>
         </div>
 
         <BaseGeoMap
@@ -68,21 +85,9 @@
           :subtitle="DEPLOYMENTS_CREATE_MAP_SUBTITLE"
           :latitude="Number.parseFloat(form.deploymentAreaLatitude)"
           :longitude="Number.parseFloat(form.deploymentAreaLongitude)"
-        />
-      </div>
-
-      <div class="grid gap-4 md:grid-cols-2">
-        <BaseTextField
-          v-model="form.location"
-          :label="DEPLOYMENTS_CREATE_LOCATION_LABEL"
-          :placeholder="DEPLOYMENTS_CREATE_LOCATION_PLACEHOLDER"
-          :error="errors.location"
-        />
-        <BaseTextField
-          v-model="form.supervisorId"
-          :label="DEPLOYMENTS_CREATE_SUPERVISOR_ID_LABEL"
-          :placeholder="DEPLOYMENTS_CREATE_SUPERVISOR_ID_PLACEHOLDER"
-          :error="errors.supervisorId"
+          mode="input"
+          @update:latitude="onMapLatitudeUpdate"
+          @update:longitude="onMapLongitudeUpdate"
         />
       </div>
 
@@ -164,6 +169,14 @@ const form = reactive({
 })
 
 const errors = reactive<Record<string, string>>({})
+
+const onMapLatitudeUpdate = (value: number) => {
+  form.deploymentAreaLatitude = value.toFixed(6)
+}
+
+const onMapLongitudeUpdate = (value: number) => {
+  form.deploymentAreaLongitude = value.toFixed(6)
+}
 
 const onSubmit = () => {
   const result = validateCreateDeploymentForm(form)
