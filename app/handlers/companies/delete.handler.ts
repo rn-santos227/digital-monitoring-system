@@ -5,6 +5,7 @@ import {
   COMPANY_DELETE_DIALOG_TITLE,
   UNITS_MODAL_CANCEL_LABEL,
 } from '~/constants/page.constants'
+import { showErrorDialog } from '~/utils/error-handling'
 import type { CompanySearchQuery } from '~/types/domain/units'
 import { COMPANY_ACTION_KEYS } from './index.handler'
 
@@ -53,9 +54,18 @@ export const useDeleteCompanyHandler = ({
       return true
     }
 
-    await deleteCompany(selectedCompanyRowId)
-    await loadCompanies(companyPagination.value.page, companyFilters.value)
-    await onDeleteSuccess?.()
+    try {
+      await deleteCompany(selectedCompanyRowId)
+      await loadCompanies(companyPagination.value.page, companyFilters.value)
+      await onDeleteSuccess?.()
+    } catch (error) {
+      await showErrorDialog({
+        showDialog,
+        title: 'Company deletion failed',
+        error,
+        fallbackMessage: 'Unable to delete company right now.',
+      })
+    }
     return true
   }
 

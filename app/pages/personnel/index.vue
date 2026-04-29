@@ -148,7 +148,13 @@ import {
 import { useDialog } from '~/composables/useDialog'
 import { useToast } from '~/composables/useToast'
 import { usePersonnel } from '~/composables/usePersonnel'
-import { useCreatePersonnelModalHandler, usePersonnelPageHandlers, useViewPersonnelProfileHandler } from '~/handlers'
+import {
+  useCreatePersonnelModalHandler,
+  useDeletePersonnelHandler,
+  useDeleteRankHandler,
+  usePersonnelPageHandlers,
+  useViewPersonnelProfileHandler,
+} from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type { CreatePersonnelPayload, PersonnelDetail, PersonnelSearchQuery, UpdatePersonnelPayload } from '~/types/domain/personnel'
 import type { FieldValidationMap } from '~/utils/field-validation'
@@ -173,6 +179,57 @@ const isCreateRankModalOpen = ref(false)
 const selectedPersonnel = ref<PersonnelDetail | null>(null)
 const activeTab = ref<'personnel-records' | 'rank-management'>('personnel-records')
 const { openCreatePersonnelModal, closeCreatePersonnelModal } = useCreatePersonnelModalHandler(isCreatePersonnelModalOpen)
+const createDeleteDialogCallbacks = (
+  onRefresh: () => Promise<void>,
+  successTitle: string,
+  successMessage: string,
+  cancelledMessage: string,
+) => {
+  return {
+    onDeleteSuccess: async () => {
+      await onRefresh()
+      await showDialog({
+        type: 'success',
+        title: successTitle,
+        message: successMessage,
+        confirmLabel: 'OK',
+      })
+    },
+    onDeleteCancelled: async () => {
+      await showDialog({
+        type: 'warning',
+        title: 'Delete cancelled',
+        message: cancelledMessage,
+        confirmLabel: 'OK',
+      })
+    },
+  }
+}
+
+const { onDeletePersonnel } = useDeletePersonnelHandler({
+  showDialog,
+  deletePersonnel,
+  ...createDeleteDialogCallbacks(
+    async () => {
+      await loadPersonnel(1, filters.value)
+    },
+    'Personnel deleted',
+    'Personnel record has been deleted successfully.',
+    'Personnel deletion was cancelled.',
+  ),
+})
+const { onDeleteRank } = useDeleteRankHandler({
+  showDialog,
+  deleteRank,
+  ...createDeleteDialogCallbacks(
+    async () => {
+      await loadRanks(rankPagination.value.page, rankSearchTerm.value)
+    },
+    'Rank deleted',
+    'Rank record has been deleted successfully.',
+    'Rank deletion was cancelled.',
+  ),
+})
 const visibleTabItems = computed(() => {
   return PERSONNEL_PAGE_TAB_ITEMS.filter((tabItem) => {
     const requiredPermissions = PERSONNEL_PAGE_TAB_REQUIRED_PERMISSIONS[tabItem.id as keyof typeof PERSONNEL_PAGE_TAB_REQUIRED_PERMISSIONS]
@@ -342,43 +399,6 @@ const handleUpdatePersonnel = async (payload: UpdatePersonnelPayload) => {
   }
 }
 
-const handleDeletePersonnel = async (id: string) => {
-  const result = await showDialog({
-    type: 'warning',
-    title: 'Delete personnel record?',
-    message: 'This action cannot be undone. Do you want to continue?',
-    confirmLabel: 'Delete',
-    cancelLabel: 'Cancel',
-  })
-
-  if (!result.confirmed) {
-    await showDialog({
-      type: 'warning',
-      title: 'Delete cancelled',
-      message: 'Personnel deletion was cancelled.',
-      confirmLabel: 'OK',
-    })
-  }
-
-  try {
-    await deletePersonnel(id)
-    await showDialog({
-      type: 'success',
-      title: 'Personnel deleted',
-      message: 'Personnel record has been deleted successfully.',
-      confirmLabel: 'OK',
-    })
-
-  } catch {
-    await showDialog({
-      type: 'error',
-      title: 'Personnel deletion failed',
-      message: 'Unable to delete personnel record right now.',
-      confirmLabel: 'OK',
-    })
-  }
-}
-
 const handleTableAction = async (payload: { actionKey: string; row: { id: string } }) => {
   if (payload.actionKey === 'view-personnel-profile') {
     await handleViewPersonnelProfile(payload.row.id)
@@ -400,10 +420,9 @@ const handleTableAction = async (payload: { actionKey: string; row: { id: string
   }
 
   if (payload.actionKey === 'delete-personnel') {
-    await handleDeletePersonnel(payload.row.id)
+    await onDeletePersonnel(payload.row.id)
   }
 }
-
 
 const onRankSearchTermChange = async (value: string | number) => {
   const searchTerm = String(value ?? '')
@@ -446,40 +465,6 @@ const onRankTableAction = async (payload: { actionKey: string; row: { id: string
   if (payload.actionKey !== 'delete-rank') {
     return
   }
-
-  const result = await showDialog({
-    type: 'warning',
-    title: 'Delete rank record?',
-    message: 'This action cannot be undone. Do you want to continue?',
-    confirmLabel: 'Delete',
-    cancelLabel: 'Cancel',
-  })
-
-  if (!result.confirmed) {
-    await showDialog({
-      type: 'warning',
-      title: 'Delete cancelled',
-      message: 'Rank deletion was cancelled.',
-      confirmLabel: 'OK',
-    })
-    return
-  }
-
-  try {
-    await deleteRank(payload.row.id)
-    await showDialog({
-      type: 'success',
-      title: 'Rank deleted',
-      message: 'Rank record has been deleted successfully.',
-      confirmLabel: 'OK',
-    })
-  } catch {
-    await showDialog({
-      type: 'error',
-      title: 'Rank deletion failed',
-      message: 'Unable to delete rank record right now.',
-      confirmLabel: 'OK',
-    })
-  }
+  await onDeleteRank(payload.row.id)
 }
 </script>

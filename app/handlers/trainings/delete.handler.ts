@@ -1,18 +1,13 @@
 import type { Ref } from 'vue'
 import type { TrainingCategorySearchQuery, TrainingSearchQuery } from '~/types/domain/training'
+import { showErrorDialog } from '~/utils/error-handling'
 
 interface UseDeleteTrainingHandlerOptions {
   deleteTraining: (id: string) => Promise<void>
   loadTrainings: (page?: number, nextFilters?: Partial<TrainingSearchQuery>, pageSize?: number) => Promise<void>
   trainingFilters: Ref<Partial<TrainingSearchQuery>>
   kpiRefreshKey: Ref<number>
-  showDialog: (dialog: {
-    type: 'warning'
-    title: string
-    message: string
-    confirmLabel: string
-    cancelLabel: string
-  }) => Promise<{ confirmed: boolean }>
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   onDeleteSuccess?: () => void
   onDeleteCancelled?: () => void
 }
@@ -22,13 +17,7 @@ interface UseDeleteTrainingCategoryHandlerOptions {
   loadTrainingCategories: (page?: number, nextFilters?: Partial<TrainingCategorySearchQuery>, pageSize?: number) => Promise<void>
   categoryFilters: Ref<Partial<TrainingCategorySearchQuery>>
   kpiRefreshKey: Ref<number>
-  showDialog: (dialog: {
-    type: 'warning'
-    title: string
-    message: string
-    confirmLabel: string
-    cancelLabel: string
-  }) => Promise<{ confirmed: boolean }>
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   onDeleteSuccess?: () => void
   onDeleteCancelled?: () => void
 }
@@ -56,10 +45,19 @@ export const useDeleteTrainingHandler = ({
       return
     }
 
-    await deleteTraining(trainingId)
-    await loadTrainings(1, trainingFilters.value)
-    kpiRefreshKey.value += 1
-    onDeleteSuccess?.()
+    try {
+      await deleteTraining(trainingId)
+      await loadTrainings(1, trainingFilters.value)
+      kpiRefreshKey.value += 1
+      onDeleteSuccess?.()
+    } catch (error) {
+      await showErrorDialog({
+        showDialog,
+        title: 'Training deletion failed',
+        error,
+        fallbackMessage: 'Unable to delete training record right now.',
+      })
+    }
   }
 
   return {
@@ -90,10 +88,19 @@ export const useDeleteTrainingCategoryHandler = ({
       return
     }
 
-    await deleteTrainingCategory(categoryId)
-    await loadTrainingCategories(1, categoryFilters.value)
-    kpiRefreshKey.value += 1
-    onDeleteSuccess?.()
+    try {
+      await deleteTrainingCategory(categoryId)
+      await loadTrainingCategories(1, categoryFilters.value)
+      kpiRefreshKey.value += 1
+      onDeleteSuccess?.()
+    } catch (error) {
+      await showErrorDialog({
+        showDialog,
+        title: 'Training category deletion failed',
+        error,
+        fallbackMessage: 'Unable to delete training category right now.',
+      })
+    }
   }
 
   return {

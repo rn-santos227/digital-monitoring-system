@@ -5,6 +5,7 @@ import {
   BATTALION_DELETE_DIALOG_TITLE,
   UNITS_MODAL_CANCEL_LABEL,
 } from '~/constants/page.constants'
+import { showErrorDialog } from '~/utils/error-handling'
 import type { BattalionSearchQuery } from '~/types/domain/units'
 import { BATTALION_ACTION_KEYS } from './index.handler'
 
@@ -53,9 +54,18 @@ export const useDeleteBattalionHandler = ({
       return true
     }
 
-    await deleteBattalion(selectedBattalionRowId)
-    await loadBattalions(battalionPagination.value.page, battalionFilters.value)
-    await onDeleteSuccess?.()
+    try {
+      await deleteBattalion(selectedBattalionRowId)
+      await loadBattalions(battalionPagination.value.page, battalionFilters.value)
+      await onDeleteSuccess?.()
+    } catch (error) {
+      await showErrorDialog({
+        showDialog,
+        title: 'Battalion deletion failed',
+        error,
+        fallbackMessage: 'Unable to delete battalion right now.',
+      })
+    }
     return true
   }
 

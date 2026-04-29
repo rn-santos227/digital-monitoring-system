@@ -2,6 +2,7 @@ import type { Ref } from 'vue'
 import type { DialogInput } from '~/composables/useDialog'
 import { USER_PROFILE_ACTION_KEYS } from './constants'
 import type { UserProfilesSearchQuery } from '~/types/domain/users'
+import { showErrorDialog } from '~/utils/error-handling'
 
 type UserRow = Record<string, unknown>
 
@@ -55,8 +56,13 @@ export const useDeleteUserProfileHandler = ({
       await deleteUserProfile(selectedUserId)
       await loadUserProfiles(profilePagination.value.page, profileFilters.value)
       await onDeleteSuccess?.()
-    } catch {
-      profileWarning.value = 'Delete endpoint is currently unavailable. Please use deactivate for access control.'
+    } catch (error) {
+      profileWarning.value = await showErrorDialog({
+        showDialog,
+        title: 'User deletion failed',
+        error,
+        fallbackMessage: 'Delete endpoint is currently unavailable. Please use deactivate for access control.',
+      })
     }
 
     return true

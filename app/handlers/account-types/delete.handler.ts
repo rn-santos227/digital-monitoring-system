@@ -2,6 +2,7 @@ import type { Ref } from 'vue'
 import type { DialogInput } from '~/composables/useDialog'
 import type { UserAccountsSearchQuery } from '~/types/domain/users'
 import { ACCOUNT_TYPE_ACTION_KEYS } from './index.handler'
+import { showErrorDialog } from '~/utils/error-handling'
 
 type AccountTypeRow = Record<string, unknown>
 
@@ -48,9 +49,18 @@ export const useDeleteAccountTypeHandler = ({
       return true
     }
 
-    await deleteAccountType(selectedAccountTypeRowId)
-    await loadUserAccounts(accountPagination.value.page, accountFilters.value)
-    await onDeleteSuccess?.()
+    try {
+      await deleteAccountType(selectedAccountTypeRowId)
+      await loadUserAccounts(accountPagination.value.page, accountFilters.value)
+      await onDeleteSuccess?.()
+    } catch (error) {
+      await showErrorDialog({
+        showDialog,
+        title: 'Account type deletion failed',
+        error,
+        fallbackMessage: 'Unable to delete account type right now.',
+      })
+    }
     return true
   }
 
