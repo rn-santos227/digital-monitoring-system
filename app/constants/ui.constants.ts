@@ -58,6 +58,13 @@ export interface SuggestionFieldOption {
   description?: string
 }
 
+export interface BaseGeoMapPin {
+  id?: string | number
+  latitude: number
+  longitude: number
+  label?: string
+}
+
 export const UI_SIZE_LABELS: Record<UiSize, string> = {
   sm: 'sm',
   md: 'md',
@@ -161,6 +168,19 @@ export const BASE_ALERT_TONE_CLASSES: Record<UiTone, string> = {
   danger: 'border-rose-200 bg-rose-50 text-rose-700',
   info: 'border-sky-200 bg-sky-50 text-sky-700'
 }
+
+export const BASE_GEO_MAP_CONTAINER_CLASSES = 'rounded-2xl border border-slate-200 bg-white p-4 shadow-sm'
+export const BASE_GEO_MAP_HEADER_CLASSES = 'mb-3 flex items-center justify-between gap-3'
+export const BASE_GEO_MAP_TITLE_CLASSES = 'text-sm font-semibold text-slate-900'
+export const BASE_GEO_MAP_SUBTITLE_CLASSES = 'text-xs text-slate-500'
+export const BASE_GEO_MAP_LINK_CLASSES = 'text-xs font-medium text-blue-600 transition hover:text-blue-700'
+export const BASE_GEO_MAP_FRAME_WRAPPER_CLASSES = 'overflow-hidden rounded-xl border border-slate-200 bg-slate-100'
+export const BASE_GEO_MAP_FRAME_CLASSES = 'h-[26rem] w-full'
+export const BASE_GEO_MAP_EMPTY_STATE_CLASSES =
+  'flex h-[26rem] w-full items-center justify-center bg-slate-100 px-6 text-center text-sm text-slate-500'
+export const BASE_GEO_MAP_META_WRAPPER_CLASSES = 'mt-3 space-y-2 text-xs text-slate-600'
+export const BASE_GEO_MAP_META_VALUE_CLASSES = 'font-medium text-slate-800'
+export const BASE_GEO_MAP_META_COUNT_CLASSES = 'font-semibold text-slate-800'
 
 export const SUGGESTION_FIELD_CONTAINER_CLASSES = 'relative'
 export const SUGGESTION_FIELD_PANEL_CLASSES = 'absolute z-30 max-h-56 w-full overflow-auto rounded-xl border border-slate-200 bg-white p-1 shadow-lg'
