@@ -617,3 +617,27 @@ export const TRAININGS_UPDATE_MODAL_TITLE = 'Update Training'
 export const TRAININGS_UPDATE_MODAL_DESCRIPTION = 'Update training registry details.'
 export const TRAINING_CATEGORIES_UPDATE_MODAL_TITLE = 'Update Training Category'
 export const TRAINING_CATEGORIES_UPDATE_MODAL_DESCRIPTION = 'Update training category details.'
+
+export const DEPLOYMENTS_PAGE_TITLE = 'Deployments Management'
+export const DEPLOYMENTS_PAGE_SUBTITLE = 'Monitor deployments and deployment records for active personnel operations.'
+export const DEPLOYMENTS_PAGE_SECTION_CLASSES = 'space-y-6'
+export const DEPLOYMENTS_PAGE_TABS_ARIA_LABEL = 'Deployments management tabs'
+export const DEPLOYMENTS_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
+  { id: 'deployments', label: 'Deployments' },
+  { id: 'records', label: 'Records' },
+])
+
+export const DEPLOYMENTS_FILTER_CARD_TITLE = 'Filter Deployments'
+export const DEPLOYMENTS_FILTER_TERM_LABEL = 'Search Term'
+export const DEPLOYMENTS_FILTER_TERM_PLACEHOLDER = 'Search deployment value'
+export const DEPLOYMENTS_FILTER_FIELDS_LABEL = 'Search Field'
+export const DEPLOYMENTS_FILTER_APPLY_LABEL = 'Apply Filters'
+export const DEPLOYMENTS_FILTER_RESET_LABEL = 'Reset'
+export const DEPLOYMENTS_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: '', label: 'All searchable fields' },
+  { value: 'operationName', label: 'Operation' },
+  { value: 'deploymentArea', label: 'Deployment Area' },
+  { value: 'status', label: 'Status' },
+])
+
+export const DEPLOYMENTS_RECORDS_PENDING_MESSAGE = 'Deployment records tab will be added in the next iteration.'
