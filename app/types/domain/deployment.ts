@@ -2,11 +2,27 @@
 export type DeploymentManagementTabId = 'deployments' | 'records'
 
 import type {
+  DeploymentsInsert,
   DeploymentRecordsInsert,
   DeploymentRecordsRow,
   DeploymentRecordsUpdate,
   UUID,
 } from '../database.tables'
+
+export type CreateDeploymentPayload = Pick<
+  DeploymentsInsert,
+  | 'deployment_area'
+  | 'deployment_area_latitude'
+  | 'deployment_area_longitude'
+  | 'assignment_role'
+  | 'operation_name'
+  | 'start_date'
+  | 'end_date'
+  | 'status_id'
+  | 'location'
+  | 'supervisor_id'
+  | 'default_remarks'
+>
 
 export type DeploymentRecordCreateInput = DeploymentRecordsInsert
 export type DeploymentRecordUpdateInput = DeploymentRecordsUpdate
@@ -37,6 +53,8 @@ export interface DeploymentManagementListItem {
   id: UUID
   operationName: string
   deploymentArea: string
+  deploymentAreaLatitude: number | null
+  deploymentAreaLongitude: number | null
   startDate: string | null
   endDate: string | null
   status: string | null
