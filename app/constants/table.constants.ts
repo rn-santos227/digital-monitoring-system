@@ -327,3 +327,13 @@ export const TRAINING_PERSONNEL_TABLE_COLUMNS: readonly DataTableColumn[] = Obje
   { key: 'certificateNo', label: 'Certificate No.', sortable: true },
   { key: 'remarks', label: 'Remarks', sortable: false },
 ])
+
+export const DEPLOYMENTS_TABLE_TITLE = 'Deployments'
+export const DEPLOYMENTS_TABLE_EMPTY_MESSAGE = 'No deployment records found.'
+export const DEPLOYMENTS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'operationName', label: 'Operation', sortable: true },
+  { key: 'deploymentArea', label: 'Deployment Area', sortable: true },
+  { key: 'startDate', label: 'Start Date', sortable: true },
+  { key: 'endDate', label: 'End Date', sortable: true },
+  { key: 'status', label: 'Status', sortable: true },
+])
