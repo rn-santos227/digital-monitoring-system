@@ -28,6 +28,11 @@ export const PRIVILEGE_CODES = Object.freeze({
   trainingCreate: 'training.create',
   trainingUpdate: 'training.update',
   trainingDelete: 'training.delete',
+  deploymentManage: 'deployment.manage',
+  deploymentView: 'deployment.view',
+  deploymentCreate: 'deployment.create',
+  deploymentUpdate: 'deployment.update',
+  deploymentDelete: 'deployment.delete',
 })
 
 export const USER_PROFILE_PRIVILEGES = Object.freeze({
@@ -81,4 +86,12 @@ export const TRAINING_PRIVILEGES = Object.freeze({
   create: Object.freeze([PRIVILEGE_CODES.trainingCreate]),
   edit: Object.freeze([PRIVILEGE_CODES.trainingUpdate]),
   delete: Object.freeze([PRIVILEGE_CODES.trainingDelete]),
+})
+
+export const DEPLOYMENT_PRIVILEGES = Object.freeze({
+  manage: Object.freeze([PRIVILEGE_CODES.deploymentManage]),
+  view: Object.freeze([PRIVILEGE_CODES.deploymentView]),
+  create: Object.freeze([PRIVILEGE_CODES.deploymentCreate]),
+  edit: Object.freeze([PRIVILEGE_CODES.deploymentUpdate]),
+  delete: Object.freeze([PRIVILEGE_CODES.deploymentDelete]),
 })
