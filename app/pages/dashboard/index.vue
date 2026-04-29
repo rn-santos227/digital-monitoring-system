@@ -4,6 +4,7 @@
       <header class="space-y-2">
         <h1 class="text-3xl font-semibold text-slate-900">{{ DASHBOARD_PAGE_TITLE }}</h1>
         <p class="text-sm text-slate-600">{{ DASHBOARD_PAGE_SUBTITLE }}</p>
+        <ClockDateWidget />
       </header>
       <DashboardTopKpisWidget :data="topKpis" />
 
@@ -38,6 +39,7 @@ import DashboardOperationalTimeMonitoringWidget from '~/components/dashboard/Das
 import DashboardPersonnelDeploymentHistoryWidget from '~/components/dashboard/DashboardPersonnelDeploymentHistoryWidget.vue'
 import DashboardPersonnelDeploymentSummaryWidget from '~/components/dashboard/DashboardPersonnelDeploymentSummaryWidget.vue'
 import DashboardTopKpisWidget from '~/components/dashboard/DashboardTopKpisWidget.vue'
+import ClockDateWidget from '~/components/general/ClockDateWidget.vue'
 import { DASHBOARD_PAGE_SECTION_CLASSES, DASHBOARD_PAGE_SUBTITLE, DASHBOARD_PAGE_TITLE } from '~/constants/page.constants'
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 import {
