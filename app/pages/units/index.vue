@@ -155,6 +155,7 @@ import BattalionsFilter from '~/components/units/BattalionsFilter.vue'
 import BattalionsTable from '~/components/units/BattalionsTable.vue'
 import CompaniesFilter from '~/components/units/CompaniesFilter.vue'
 import CompaniesTable from '~/components/units/CompaniesTable.vue'
+import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 import { useBattalions } from '~/composables/useBattalions'
 import { useCompanies } from '~/composables/useCompanies'
 import { useToast } from '~/composables/useToast'
@@ -481,83 +482,33 @@ const loadUnassignedPersonnel = async () => {
   return { value: kpis.totalUnassignedPersonnel }
 }
 
-const handleCreateBattalion = async (payload: CreateBattalionPayload) => {
-  try {
-    await handleCreateUnitBattalion(payload)
-    await showDialog({
-      type: 'success',
-      title: 'Battalion created',
-      message: 'Battalion record has been created successfully.',
-      confirmLabel: 'OK',
-    })
-    refreshUnitKpis()
-  } catch {
-    await showDialog({
-      type: 'error',
-      title: 'Battalion creation failed',
-      message: 'Unable to create battalion record right now.',
-      confirmLabel: 'OK',
-    })
-  }
-}
+const handleCreateBattalion = createModalFeedbackHandler(handleCreateUnitBattalion, showDialog, {
+  successTitle: 'Battalion created',
+  successMessage: 'Battalion record has been created successfully.',
+  errorTitle: 'Battalion creation failed',
+  errorMessage: 'Unable to create battalion record right now.',
+}, refreshUnitKpis)
 
-const handleUpdateBattalion = async (payload: UpdateBattalionPayload) => {
-  try {
-    await handleUpdateUnitBattalion(payload)
-    await showDialog({
-      type: 'success',
-      title: 'Battalion updated',
-      message: 'Battalion record has been updated successfully.',
-      confirmLabel: 'OK',
-    })
-    refreshUnitKpis()
-  } catch {
-    await showDialog({
-      type: 'error',
-      title: 'Battalion update failed',
-      message: 'Unable to update battalion record right now.',
-      confirmLabel: 'OK',
-    })
-  }
-}
+const handleUpdateBattalion = createModalFeedbackHandler(handleUpdateUnitBattalion, showDialog, {
+  successTitle: 'Battalion updated',
+  successMessage: 'Battalion record has been updated successfully.',
+  errorTitle: 'Battalion update failed',
+  errorMessage: 'Unable to update battalion record right now.',
+}, refreshUnitKpis)
 
-const handleCreateCompany = async (payload: CreateCompanyPayload) => {
-  try {
-    await handleCreateUnitCompany(payload)
-    addToast({
-      title: 'Company created',
-      message: 'Company record has been created successfully.',
-      variant: 'success',
-    })
-    refreshUnitKpis()
-  } catch {
-    addToast({
-      title: 'Company creation failed',
-      message: 'Unable to create company record right now.',
-      variant: 'error',
-    })
-  }
-}
+const handleCreateCompany = createModalFeedbackHandler(handleCreateUnitCompany, showDialog, {
+  successTitle: 'Company created',
+  successMessage: 'Company record has been created successfully.',
+  errorTitle: 'Company creation failed',
+  errorMessage: 'Unable to create company record right now.',
+}, refreshUnitKpis)
 
-const handleUpdateCompany = async (payload: UpdateCompanyPayload) => {
-  try {
-    await handleUpdateUnitCompany(payload)
-    await showDialog({
-      type: 'success',
-      title: 'Company updated',
-      message: 'Company record has been created successfully.',
-      confirmLabel: 'OK',
-    })
-    refreshUnitKpis()
-  } catch {
-    await showDialog({
-      type: 'error',
-      title: 'Company updated failed',
-      message: 'Unable to create company record right now.',
-      confirmLabel: 'OK',
-    })
-  }
-}
+const handleUpdateCompany = createModalFeedbackHandler(handleUpdateUnitCompany, showDialog, {
+  successTitle: 'Company updated',
+  successMessage: 'Company record has been updated successfully.',
+  errorTitle: 'Company update failed',
+  errorMessage: 'Unable to update company record right now.',
+}, refreshUnitKpis)
 
 watch(
   visibleTabItems,

@@ -138,6 +138,7 @@ import AccountTypesFilter from '~/components/users/AccountTypesFilter.vue'
 import UsersTable from '~/components/users/UsersTable.vue'
 import AccountTypesTable from '~/components/users/AccountTypesTable.vue'
 import type { FieldValidationMap } from '~/utils/field-validation'
+import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 import { useDialog } from '~/composables/useDialog'
 import { useToast } from '~/composables/useToast'
 import {
@@ -417,41 +418,33 @@ const { canHandleDeleteAccountTypeAction, onDeleteAccountTypeAction } = useDelet
   }) },
 })
 
-const onCreateUserProfileWithFeedback = async (payload: Parameters<typeof onCreateUserProfile>[0]) => {
-  try {
-    await onCreateUserProfile(payload)
-    await showDialog({ type: 'success', title: 'User profile created', message: 'User profile has been created successfully.', confirmLabel: 'OK' })
-  } catch {
-    await showDialog({ type: 'error', title: 'Create failed', message: 'Unable to create user profile right now.', confirmLabel: 'OK' })
-  }
-}
+const onCreateUserProfileWithFeedback = createModalFeedbackHandler(onCreateUserProfile, showDialog, {
+  successTitle: 'User profile created',
+  successMessage: 'User profile has been created successfully.',
+  errorTitle: 'Create failed',
+  errorMessage: 'Unable to create user profile right now.',
+})
 
-const onUpdateUserProfileWithFeedback = async (payload: Parameters<typeof onUpdateUserProfile>[0]) => {
-  try {
-    await onUpdateUserProfile(payload)
-    await showDialog({ type: 'success', title: 'User profile updated', message: 'User profile has been updated successfully.', confirmLabel: 'OK' })
-  } catch {
-    await showDialog({ type: 'error', title: 'Update failed', message: 'Unable to update user profile right now.', confirmLabel: 'OK' })
-  }
-}
+const onUpdateUserProfileWithFeedback = createModalFeedbackHandler(onUpdateUserProfile, showDialog, {
+  successTitle: 'User profile updated',
+  successMessage: 'User profile has been updated successfully.',
+  errorTitle: 'Update failed',
+  errorMessage: 'Unable to update user profile right now.',
+})
 
-const onCreateAccountTypeWithFeedback = async (payload: Parameters<typeof onCreateAccountType>[0]) => {
-  try {
-    await onCreateAccountType(payload)
-    await showDialog({ type: 'success', title: 'Account type created', message: 'Account type has been created successfully.', confirmLabel: 'OK' })
-  } catch {
-    await showDialog({ type: 'error', title: 'Create failed', message: 'Unable to create account type right now.', confirmLabel: 'OK' })
-  }
-}
+const onCreateAccountTypeWithFeedback = createModalFeedbackHandler(onCreateAccountType, showDialog, {
+  successTitle: 'Account type created',
+  successMessage: 'Account type has been created successfully.',
+  errorTitle: 'Create failed',
+  errorMessage: 'Unable to create account type right now.',
+})
 
-const onUpdateAccountTypeWithFeedback = async (payload: Parameters<typeof onUpdateAccountType>[0]) => {
-  try {
-    await onUpdateAccountType(payload)
-    await showDialog({ type: 'success', title: 'Account type updated', message: 'Account type has been updated successfully.', confirmLabel: 'OK' })
-  } catch {
-    await showDialog({ type: 'error', title: 'Update failed', message: 'Unable to update account type right now.', confirmLabel: 'OK' })
-  }
-}
+const onUpdateAccountTypeWithFeedback = createModalFeedbackHandler(onUpdateAccountType, showDialog, {
+  successTitle: 'Account type updated',
+  successMessage: 'Account type has been updated successfully.',
+  errorTitle: 'Update failed',
+  errorMessage: 'Unable to update account type right now.',
+})
 
 const { onAccountTypeAction } = useAccountTypeActionHandler({
   canHandleUpdateAccountTypeAction,

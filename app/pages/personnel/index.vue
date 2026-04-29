@@ -49,10 +49,13 @@
             :is-loading="isLoading"
             :current-page="pagination.page"
             :total-pages="pagination.totalPages"
+            :total-items="pagination.totalItems"
+            :page-size="pagination.pageSize"
             :can-view-personnel="canViewPersonnel"
             :can-edit-personnel="canEditPersonnel"
             :can-delete-personnel="canDeletePersonnel"
             @update:current-page="handlePageChange"
+            @update:page-size="handlePageSizeChange"
             @action="handleTableAction"
           />
         </template>
@@ -158,9 +161,9 @@ import {
   useViewPersonnelProfileHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
-import type { CreatePersonnelPayload, PersonnelDetail, PersonnelSearchQuery, UpdatePersonnelPayload } from '~/types/domain/personnel'
+import { createModalFeedbackHandler } from '~/utils/modal-feedback'
+import type { PersonnelDetail, PersonnelSearchQuery, UpdatePersonnelPayload } from '~/types/domain/personnel'
 import type { FieldValidationMap } from '~/utils/field-validation'
-import type { CreateRankPayload } from '~/types/domain/rank'
 
 const { filters, tableRows, pagination, isLoading, error, loadPersonnel, createPersonnel, updatePersonnel, deletePersonnel, getPersonnelById, uploadPersonnelBatch } = usePersonnel()
 const { tableRows: rankRows, pagination: rankPagination, isLoading: isRanksLoading, error: rankError, search: rankSearchTerm, loadRanks, createRank, deleteRank } = useRanks()
@@ -318,26 +321,12 @@ const handlePageChange = async (page: number) => {
   await loadPersonnel(page)
 }
 
-const handleCreatePersonnel = async (payload: CreatePersonnelPayload) => {
-  try {
-    await createPersonnel(payload)
-    closeCreatePersonnelModal()
-    await showDialog({
-      type: 'success',
-      title: 'Personnel created',
-      message: 'Personnel record has been created successfully.',
-      confirmLabel: 'OK',
-    })
-
-  } catch {
-    await showDialog({
-      type: 'error',
-      title: 'Personnel creation failed',
-      message: 'Unable to create personnel record right now.',
-      confirmLabel: 'OK',
-    })
-  }
-}
+const handleCreatePersonnel = createModalFeedbackHandler(createPersonnel, showDialog, {
+  successTitle: 'Personnel created',
+  successMessage: 'Personnel record has been created successfully.',
+  errorTitle: 'Personnel creation failed',
+  errorMessage: 'Unable to create personnel record right now.',
+}, closeCreatePersonnelModal)
 
 const handleBatchUploadPersonnel = async (payload: { file: File, employmentStatusId: string, serviceStatusId: string }) => {
   isBatchUploadSubmitting.value = true
@@ -421,25 +410,14 @@ const onRankPageSizeChange = async (nextPageSize: number) => {
   await loadRanks(1, rankSearchTerm.value, nextPageSize)
 }
 
-const handleCreateRank = async (payload: CreateRankPayload) => {
-  try {
-    await createRank(payload)
-    isCreateRankModalOpen.value = false
-    await showDialog({
-      type: 'success',
-      title: 'Rank created',
-      message: 'Rank record has been created successfully.',
-      confirmLabel: 'OK',
-    })
-  } catch {
-    await showDialog({
-      type: 'error',
-      title: 'Rank creation failed',
-      message: 'Unable to create rank record right now.',
-      confirmLabel: 'OK',
-    })
-  }
-}
+const handleCreateRank = createModalFeedbackHandler(createRank, showDialog, {
+  successTitle: 'Rank created',
+  successMessage: 'Rank record has been created successfully.',
+  errorTitle: 'Rank creation failed',
+  errorMessage: 'Unable to create rank record right now.',
+}, () => {
+  isCreateRankModalOpen.value = false
+})
 
 const onRankTableAction = async (payload: { actionKey: string; row: { id: string } }) => {
   if (payload.actionKey !== 'delete-rank') {

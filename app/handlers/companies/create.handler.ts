@@ -4,11 +4,15 @@ import type { CreateCompanyPayload } from '~/types/domain/units'
 interface UseCreateCompanyHandlerOptions {
   isCreateCompanyModalOpen: Ref<boolean>
   createCompany: (payload: CreateCompanyPayload) => Promise<void>
+  onCreateSuccess?: () => void
+  onCreateError?: () => void
 }
 
 export const useCreateCompanyHandler = ({
   isCreateCompanyModalOpen,
   createCompany,
+  onCreateSuccess,
+  onCreateError,
 }: UseCreateCompanyHandlerOptions) => {
   const onOpenCreateCompanyModal = () => {
     isCreateCompanyModalOpen.value = true
@@ -19,8 +23,14 @@ export const useCreateCompanyHandler = ({
   }
 
   const onCreateCompany = async (payload: CreateCompanyPayload) => {
-    await createCompany(payload)
-    onCloseCreateCompanyModal()
+    try {
+      await createCompany(payload)
+      onCloseCreateCompanyModal()
+      onCreateSuccess?.()
+    } catch (error) {
+      onCreateError?.()
+      throw error
+    }
   }
 
   return {

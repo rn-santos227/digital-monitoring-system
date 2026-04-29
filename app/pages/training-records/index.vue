@@ -211,6 +211,7 @@ import {
 import { useAuthStore } from '~/stores/auth'
 import type { TrainingCategoryListItem, TrainingListItem, TrainingManagementTabId } from '~/types/domain/training'
 import type { FieldValidationMap } from '~/utils/field-validation'
+import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 import { getTrainingPersonnelEndpoint } from '~/utils/training-endpoints'
 import { useDialog } from '~/composables/useDialog'
 import { useToast } from '~/composables/useToast'
@@ -584,41 +585,33 @@ const onCategoryTableAction = async (payload: { actionKey: string; row: Record<s
   await onDeleteTrainingCategory(rowId)
 }
 
-const onCreateTrainingWithFeedback = async (payload: Parameters<typeof onCreateTraining>[0]) => {
-  try {
-    await onCreateTraining(payload)
-    await showDialog({ type: 'success', title: 'Training created', message: 'Training record has been created successfully.', confirmLabel: 'OK' })
-  } catch {
-    await showDialog({ type: 'error', title: 'Create failed', message: 'Unable to create training record right now.', confirmLabel: 'OK' })
-  }
-}
+const onCreateTrainingWithFeedback = createModalFeedbackHandler(onCreateTraining, showDialog, {
+  successTitle: 'Training created',
+  successMessage: 'Training record has been created successfully.',
+  errorTitle: 'Create failed',
+  errorMessage: 'Unable to create training record right now.',
+})
 
-const onUpdateTrainingWithFeedback = async (payload: Parameters<typeof onUpdateTraining>[0]) => {
-  try {
-    await onUpdateTraining(payload)
-    await showDialog({ type: 'success', title: 'Training updated', message: 'Training record has been updated successfully.', confirmLabel: 'OK' })
-  } catch {
-    await showDialog({ type: 'error', title: 'Update failed', message: 'Unable to update training record right now.', confirmLabel: 'OK' })
-  }
-}
+const onUpdateTrainingWithFeedback = createModalFeedbackHandler(onUpdateTraining, showDialog, {
+  successTitle: 'Training updated',
+  successMessage: 'Training record has been updated successfully.',
+  errorTitle: 'Update failed',
+  errorMessage: 'Unable to update training record right now.',
+})
 
-const onCreateTrainingCategoryWithFeedback = async (payload: Parameters<typeof onCreateTrainingCategory>[0]) => {
-  try {
-    await onCreateTrainingCategory(payload)
-    await showDialog({ type: 'success', title: 'Training category created', message: 'Training category has been created successfully.', confirmLabel: 'OK' })
-  } catch {
-    await showDialog({ type: 'error', title: 'Create failed', message: 'Unable to create training category right now.', confirmLabel: 'OK' })
-  }
-}
+const onCreateTrainingCategoryWithFeedback = createModalFeedbackHandler(onCreateTrainingCategory, showDialog, {
+  successTitle: 'Training category created',
+  successMessage: 'Training category has been created successfully.',
+  errorTitle: 'Create failed',
+  errorMessage: 'Unable to create training category right now.',
+})
 
-const onUpdateTrainingCategoryWithFeedback = async (payload: Parameters<typeof onUpdateTrainingCategory>[0]) => {
-  try {
-    await onUpdateTrainingCategory(payload)
-    await showDialog({ type: 'success', title: 'Training category updated', message: 'Training category has been updated successfully.', confirmLabel: 'OK' })
-  } catch {
-    await showDialog({ type: 'error', title: 'Update failed', message: 'Unable to update training category right now.', confirmLabel: 'OK' })
-  }
-}
+const onUpdateTrainingCategoryWithFeedback = createModalFeedbackHandler(onUpdateTrainingCategory, showDialog, {
+  successTitle: 'Training category updated',
+  successMessage: 'Training category has been updated successfully.',
+  errorTitle: 'Update failed',
+  errorMessage: 'Unable to update training category right now.',
+})
 
 const loadTotalRecords = async (): Promise<KpiCardLoaderResult> => {
   if (canManageTrainingRecords.value) {
