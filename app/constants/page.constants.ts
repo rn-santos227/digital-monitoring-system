@@ -12,7 +12,7 @@ import type { PersonnelManagementTabId, PersonnelProfileTabId } from '~/types/do
 import type { UserManagementTabId } from '~/types/domain/users'
 import type { TrainingManagementTabId } from '~/types/domain/training'
 import type { UnitManagementTabId } from '~/types/domain/units'
-import { EMPLOYMENT_STATUS_VALUES, SERVICE_STATUS_VALUES, TRAINING_LEVEL_VALUES } from '~/types/enums'
+import { DEPLOYMENT_STATUS_VALUES, EMPLOYMENT_STATUS_VALUES, SERVICE_STATUS_VALUES, TRAINING_LEVEL_VALUES } from '~/types/enums'
 
 export const DASHBOARD_PAGE_TITLE = 'Dashboard'
 export const DASHBOARD_PAGE_SUBTITLE = 'AFP personnel readiness and equipment handling overview.'
@@ -639,7 +639,6 @@ export const DEPLOYMENTS_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: 'deploymentArea', label: 'Deployment Area' },
   { value: 'status', label: 'Status' },
 ])
-
 export const DEPLOYMENTS_CREATE_MODAL_TITLE = 'Create Deployment'
 export const DEPLOYMENTS_CREATE_MODAL_DESCRIPTION = 'Register a new deployment profile for operational tracking.'
 export const DEPLOYMENTS_CREATE_DEPLOYMENT_AREA_LABEL = 'Deployment Area'
@@ -648,8 +647,11 @@ export const DEPLOYMENTS_CREATE_ASSIGNMENT_ROLE_LABEL = 'Assignment Role'
 export const DEPLOYMENTS_CREATE_ASSIGNMENT_ROLE_PLACEHOLDER = 'e.g., Platoon Support'
 export const DEPLOYMENTS_CREATE_OPERATION_NAME_LABEL = 'Operation Name'
 export const DEPLOYMENTS_CREATE_OPERATION_NAME_PLACEHOLDER = 'e.g., Operation Sentinel Watch'
-export const DEPLOYMENTS_CREATE_STATUS_ID_LABEL = 'Deployment Status ID'
-export const DEPLOYMENTS_CREATE_STATUS_ID_PLACEHOLDER = 'Enter deployment status identifier'
+export const DEPLOYMENTS_CREATE_STATUS_ID_LABEL = 'Deployment Status'
+export const DEPLOYMENTS_CREATE_STATUS_ID_PLACEHOLDER = 'Select deployment status'
+export const DEPLOYMENTS_CREATE_STATUS_OPTIONS = Object.freeze(
+  DEPLOYMENT_STATUS_VALUES.map((value) => ({ label: value, value })),
+)
 export const DEPLOYMENTS_CREATE_START_DATE_LABEL = 'Start Date'
 export const DEPLOYMENTS_CREATE_END_DATE_LABEL = 'End Date'
 export const DEPLOYMENTS_CREATE_LOCATION_LABEL = 'Location'
