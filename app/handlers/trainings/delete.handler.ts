@@ -14,6 +14,7 @@ interface UseDeleteTrainingHandlerOptions {
     cancelLabel: string
   }) => Promise<{ confirmed: boolean }>
   onDeleteSuccess?: () => void
+  onDeleteCancelled?: () => void
 }
 
 interface UseDeleteTrainingCategoryHandlerOptions {
@@ -28,6 +29,8 @@ interface UseDeleteTrainingCategoryHandlerOptions {
     confirmLabel: string
     cancelLabel: string
   }) => Promise<{ confirmed: boolean }>
+  onDeleteSuccess?: () => void
+  onDeleteCancelled?: () => void
 }
 
 export const useDeleteTrainingHandler = ({
@@ -37,6 +40,7 @@ export const useDeleteTrainingHandler = ({
   kpiRefreshKey,
   showDialog,
   onDeleteSuccess,
+  onDeleteCancelled,
 }: UseDeleteTrainingHandlerOptions) => {
   const onDeleteTraining = async (trainingId: string) => {
     const result = await showDialog({
@@ -48,6 +52,7 @@ export const useDeleteTrainingHandler = ({
     })
 
     if (!result.confirmed) {
+      onDeleteCancelled?.()
       return
     }
 
@@ -68,6 +73,8 @@ export const useDeleteTrainingCategoryHandler = ({
   categoryFilters,
   kpiRefreshKey,
   showDialog,
+  onDeleteSuccess,
+  onDeleteCancelled,
 }: UseDeleteTrainingCategoryHandlerOptions) => {
   const onDeleteTrainingCategory = async (categoryId: string) => {
     const result = await showDialog({
@@ -79,12 +86,14 @@ export const useDeleteTrainingCategoryHandler = ({
     })
 
     if (!result.confirmed) {
+      onDeleteCancelled?.()
       return
     }
 
     await deleteTrainingCategory(categoryId)
     await loadTrainingCategories(1, categoryFilters.value)
     kpiRefreshKey.value += 1
+    onDeleteSuccess?.()
   }
 
   return {

@@ -23,6 +23,8 @@ interface UseDeleteAccountTypeHandlerOptions {
   loadUserAccounts: (page?: number, filters?: Partial<UserAccountsSearchQuery>) => Promise<void>
   accountPagination: Ref<{ page: number }>
   accountFilters: Ref<Partial<UserAccountsSearchQuery>>
+  onDeleteSuccess?: () => void | Promise<void>
+  onDeleteCancelled?: () => void | Promise<void>
 }
 
 export const useDeleteAccountTypeHandler = ({
@@ -31,6 +33,8 @@ export const useDeleteAccountTypeHandler = ({
   loadUserAccounts,
   accountPagination,
   accountFilters,
+  onDeleteSuccess,
+  onDeleteCancelled,
 }: UseDeleteAccountTypeHandlerOptions) => {
   const onDeleteAccountTypeAction = async (row: AccountTypeRow): Promise<boolean> => {
     const selectedAccountTypeRowId = resolveAccountTypeActionRowId(row)
@@ -40,11 +44,13 @@ export const useDeleteAccountTypeHandler = ({
 
     const result = await showDialog(DELETE_ACCOUNT_TYPE_DIALOG)
     if (!result.confirmed) {
+      await onDeleteCancelled?.()
       return true
     }
 
     await deleteAccountType(selectedAccountTypeRowId)
     await loadUserAccounts(accountPagination.value.page, accountFilters.value)
+    await onDeleteSuccess?.()
     return true
   }
 

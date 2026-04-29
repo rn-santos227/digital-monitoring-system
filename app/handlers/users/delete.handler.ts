@@ -17,6 +17,7 @@ export const DELETE_PROFILE_DIALOG: DialogInput = Object.freeze({
   cancelLabel: 'Cancel',
 })
 
+
 interface UseDeleteUserProfileHandlerOptions {
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   deleteUserProfile: (id: string) => Promise<void>
@@ -24,6 +25,8 @@ interface UseDeleteUserProfileHandlerOptions {
   profilePagination: Ref<{ page: number }>
   profileFilters: Ref<Partial<UserProfilesSearchQuery>>
   profileWarning: Ref<string>
+  onDeleteSuccess?: () => void | Promise<void>
+  onDeleteCancelled?: () => void | Promise<void>
 }
 
 export const useDeleteUserProfileHandler = ({
@@ -33,6 +36,8 @@ export const useDeleteUserProfileHandler = ({
   profilePagination,
   profileFilters,
   profileWarning,
+  onDeleteSuccess,
+  onDeleteCancelled,
 }: UseDeleteUserProfileHandlerOptions) => {
   const onDeleteAction = async (row: UserRow): Promise<boolean> => {
     const selectedUserId = resolveProfileActionRowId(row)
@@ -42,12 +47,14 @@ export const useDeleteUserProfileHandler = ({
 
     const result = await showDialog(DELETE_PROFILE_DIALOG)
     if (!result.confirmed) {
+      await onDeleteCancelled?.()
       return true
     }
 
     try {
       await deleteUserProfile(selectedUserId)
       await loadUserProfiles(profilePagination.value.page, profileFilters.value)
+      await onDeleteSuccess?.()
     } catch {
       profileWarning.value = 'Delete endpoint is currently unavailable. Please use deactivate for access control.'
     }

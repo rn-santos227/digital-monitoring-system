@@ -28,6 +28,8 @@ interface UseDeleteBattalionHandlerOptions {
   loadBattalions: (page?: number, filters?: Partial<BattalionSearchQuery>) => Promise<void>
   battalionPagination: Ref<{ page: number }>
   battalionFilters: Ref<Partial<BattalionSearchQuery>>
+  onDeleteSuccess?: () => void | Promise<void>
+  onDeleteCancelled?: () => void | Promise<void>
 }
 
 export const useDeleteBattalionHandler = ({
@@ -36,6 +38,8 @@ export const useDeleteBattalionHandler = ({
   loadBattalions,
   battalionPagination,
   battalionFilters,
+  onDeleteSuccess,
+  onDeleteCancelled,
 }: UseDeleteBattalionHandlerOptions) => {
   const onDeleteBattalionAction = async (row: BattalionRow): Promise<boolean> => {
     const selectedBattalionRowId = resolveBattalionActionRowId(row)
@@ -45,11 +49,13 @@ export const useDeleteBattalionHandler = ({
 
     const result = await showDialog(DELETE_BATTALION_DIALOG)
     if (!result.confirmed) {
+      await onDeleteCancelled?.()
       return true
     }
 
     await deleteBattalion(selectedBattalionRowId)
     await loadBattalions(battalionPagination.value.page, battalionFilters.value)
+    await onDeleteSuccess?.()
     return true
   }
 

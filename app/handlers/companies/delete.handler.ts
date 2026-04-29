@@ -28,6 +28,8 @@ interface UseDeleteCompanyHandlerOptions {
   loadCompanies: (page?: number, filters?: Partial<CompanySearchQuery>) => Promise<void>
   companyPagination: Ref<{ page: number }>
   companyFilters: Ref<Partial<CompanySearchQuery>>
+  onDeleteSuccess?: () => void | Promise<void>
+  onDeleteCancelled?: () => void | Promise<void>
 }
 
 export const useDeleteCompanyHandler = ({
@@ -36,6 +38,8 @@ export const useDeleteCompanyHandler = ({
   loadCompanies,
   companyPagination,
   companyFilters,
+  onDeleteSuccess,
+  onDeleteCancelled,
 }: UseDeleteCompanyHandlerOptions) => {
   const onDeleteCompanyAction = async (row: CompanyRow): Promise<boolean> => {
     const selectedCompanyRowId = resolveCompanyActionRowId(row)
@@ -45,11 +49,13 @@ export const useDeleteCompanyHandler = ({
 
     const result = await showDialog(DELETE_COMPANY_DIALOG)
     if (!result.confirmed) {
+      await onDeleteCancelled?.()
       return true
     }
 
     await deleteCompany(selectedCompanyRowId)
     await loadCompanies(companyPagination.value.page, companyFilters.value)
+    await onDeleteSuccess?.()
     return true
   }
 
