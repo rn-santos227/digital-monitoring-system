@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue'
-import type { DeploymentManagementSearchQuery } from '~/types/domain/deployment'
+import type { CreateDeploymentPayload, DeploymentManagementSearchQuery } from '~/types/domain/deployment'
 import { useDeploymentsStore } from '~/stores/deployments'
 
 export const useDeployments = () => {
@@ -10,6 +10,8 @@ export const useDeployments = () => {
     id: item.id,
     operationName: item.operationName,
     deploymentArea: item.deploymentArea,
+    deploymentAreaLatitude: item.deploymentAreaLatitude,
+    deploymentAreaLongitude: item.deploymentAreaLongitude,
     startDate: item.startDate ?? '—',
     endDate: item.endDate ?? '—',
     status: item.status ?? '—',
@@ -20,5 +22,9 @@ export const useDeployments = () => {
     await store.fetchDeployments(page, filters.value, pageSize)
   }
 
-  return { filters, tableRows, pagination: computed(() => store.deployments.pagination), isLoading: computed(() => store.deployments.isLoading), error: computed(() => store.deployments.error), loadDeployments }
+  const createDeployment = async (payload: CreateDeploymentPayload) => {
+    await store.createDeployment(payload)
+  }
+
+  return { filters, tableRows, pagination: computed(() => store.deployments.pagination), isLoading: computed(() => store.deployments.isLoading), error: computed(() => store.deployments.error), loadDeployments, createDeployment }
 }
