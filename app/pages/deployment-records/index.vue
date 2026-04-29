@@ -2,8 +2,10 @@
   <main :class="APP_MAIN_CONTENT_CLASSES">
     <section :class="DEPLOYMENTS_PAGE_SECTION_CLASSES">
       <header :class="DEPLOYMENTS_PAGE_HEADER_CLASSES">
-        <h1 class="text-3xl font-semibold text-slate-900">{{ DEPLOYMENTS_PAGE_TITLE }}</h1>
-        <p class="text-sm text-slate-600">{{ DEPLOYMENTS_PAGE_SUBTITLE }}</p>
+        <div>
+          <h1 class="text-3xl font-semibold text-slate-900">{{ DEPLOYMENTS_PAGE_TITLE }}</h1>
+          <p class="text-sm text-slate-600">{{ DEPLOYMENTS_PAGE_SUBTITLE }}</p>
+        </div>
       </header>
 
       <BaseTab
@@ -14,6 +16,7 @@
       />
 
       <template v-if="activeTab === 'deployments'">
+        <BaseButton v-if="activeTab === 'deployments'" @click="onOpenCreateDeploymentModal">Create Deployment</BaseButton>
         <DeploymentsFilter
           :model-value="deploymentsFilters"
           :validation-errors="deploymentFilterValidationErrors"
@@ -49,6 +52,14 @@
           @update:page-size="onDeploymentRecordsPageSizeChange"
         />
       </template>
+
+      <CreateDeploymentModal
+        v-if="isCreateDeploymentModalOpen"
+        :is-submitting="isDeploymentsLoading"
+        :error-message="createDeploymentErrorMessage"
+        @close="onCloseCreateDeploymentModal"
+        @submit="onSubmitCreateDeployment"
+      />
     </section>
   </main>
 </template>
@@ -57,6 +68,7 @@
 import { ref, watch } from 'vue'
 import DeploymentsFilter from '~/components/deployments/DeploymentsFilter.vue'
 import DeploymentsTable from '~/components/deployments/DeploymentsTable.vue'
+import CreateDeploymentModal from '~/components/deployments/CreateDeploymentModal.vue'
 import { useDeploymentRecords } from '~/composables/useDeploymentRecords'
 import { useDeployments } from '~/composables/useDeployments'
 import {
@@ -67,12 +79,14 @@ import {
   DEPLOYMENTS_PAGE_TITLE,
 } from '~/constants/page.constants'
 import { APP_MAIN_CONTENT_CLASSES, DEPLOYMENTS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
-import { useDeploymentManagementPageHandlers } from '~/handlers'
+import { useCreateDeploymentHandler, useDeploymentManagementPageHandlers } from '~/handlers'
 import type { DeploymentManagementTabId } from '~/types/domain/deployment'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
 const activeTab = ref<DeploymentManagementTabId>('deployments')
 const deploymentFilterValidationErrors = ref<FieldValidationMap>({})
+const createDeploymentErrorMessage = ref('')
+const { showDialog } = useDialog()
 
 const {
   filters: deploymentsFilters,
@@ -81,6 +95,7 @@ const {
   isLoading: isDeploymentsLoading,
   error: deploymentsError,
   loadDeployments,
+  createDeployment,
 } = useDeployments()
 
 const {
@@ -96,6 +111,12 @@ const {
   handleDeploymentFilterApply,
   handleDeploymentFilterReset,
 } = useDeploymentManagementPageHandlers(activeTab, deploymentsFilters)
+const isCreateDeploymentModalOpen = ref(false)
+const {
+  onOpenCreateDeploymentModal,
+  onCloseCreateDeploymentModal,
+  onSubmitCreateDeployment,
+} = useCreateDeploymentHandler(isCreateDeploymentModalOpen, createDeployment, showDialog, createDeploymentErrorMessage)
 
 const onApplyDeploymentsFilter = async (value: Partial<{ term?: string; fields?: string }>) => {
   const result = handleDeploymentFilterApply(value)
