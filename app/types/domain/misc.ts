@@ -23,6 +23,7 @@ export type IconName =
   | 'clipboard-document-list'
   | 'academic-cap'
   | 'map'
+  | 'map-pin'
   | 'shield'
   | 'squares'
   | 'cube'

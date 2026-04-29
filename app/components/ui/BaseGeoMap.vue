@@ -153,10 +153,10 @@ const embedMapLink = computed(() => {
     return ''
   }
 
-  const markers = normalizedPins.value.length > 0
-    ? normalizedPins.value.map((pin) => `${pin.latitude},${pin.longitude}`).join('|')
-    : `${activeCenter.value.latitude},${activeCenter.value.longitude}`
+  const primaryPin = normalizedPins.value[0] ?? activeCenter.value
+  const markerLabel = primaryPin.label ?? 'Deployment Pin'
+  const markerQuery = `${primaryPin.latitude},${primaryPin.longitude} (${markerLabel})`
 
-  return `https://maps.google.com/maps?output=embed&q=${encodeURIComponent(markers)}`
+  return `https://www.google.com/maps?output=embed&q=${encodeURIComponent(markerQuery)}`
 })
 </script>
