@@ -669,6 +669,6 @@ export const DEPLOYMENTS_CREATE_LATITUDE_PLACEHOLDER = 'e.g., 14.599512'
 export const DEPLOYMENTS_CREATE_LONGITUDE_LABEL = 'Deployment Longitude'
 export const DEPLOYMENTS_CREATE_LONGITUDE_PLACEHOLDER = 'e.g., 120.984222'
 export const DEPLOYMENTS_CREATE_MAP_TITLE = 'Deployment Area Map Preview'
-export const DEPLOYMENTS_CREATE_MAP_SUBTITLE = 'Map preview updates using deployment longitude and latitude.'
+export const DEPLOYMENTS_CREATE_MAP_SUBTITLE = 'Drag the map pin to set deployment latitude and longitude.'
 
 export const DEPLOYMENTS_RECORDS_PENDING_MESSAGE = 'Deployment records tab will be added in the next iteration.'
