@@ -5,12 +5,13 @@
     size="xl"
     @close="emit('close')"
   >
-    <form class="space-y-4" @submit.prevent="onSubmit">
+    <form :class="DEPLOYMENTS_CREATE_MODAL_FORM_CLASSES" @submit.prevent="onSubmit">
       <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
       <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
 
-      <div class="grid gap-4 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-start">
-        <div class="space-y-4">
+      <div :class="DEPLOYMENTS_CREATE_MODAL_LAYOUT_CLASSES">
+        <div :class="DEPLOYMENTS_CREATE_MODAL_FORM_PANE_CLASSES">
+          <p :class="DEPLOYMENTS_CREATE_MODAL_FORM_SECTION_LABEL_CLASSES">Deployment Details</p>
           <div class="grid gap-4 md:grid-cols-2">
             <BaseTextField
               v-model="form.deploymentArea"
@@ -78,25 +79,28 @@
               :error="errors.supervisorId"
             />
           </div>
+
+          <BaseTextArea
+            v-model="form.defaultRemarks"
+            :label="DEPLOYMENTS_CREATE_REMARKS_LABEL"
+            :placeholder="DEPLOYMENTS_CREATE_REMARKS_PLACEHOLDER"
+            :error="errors.defaultRemarks"
+          />
         </div>
 
-        <BaseGeoMap
-          :title="DEPLOYMENTS_CREATE_MAP_TITLE"
-          :subtitle="DEPLOYMENTS_CREATE_MAP_SUBTITLE"
-          :latitude="Number.parseFloat(form.deploymentAreaLatitude)"
-          :longitude="Number.parseFloat(form.deploymentAreaLongitude)"
-          mode="input"
-          @update:latitude="onMapLatitudeUpdate"
-          @update:longitude="onMapLongitudeUpdate"
-        />
+        <div :class="DEPLOYMENTS_CREATE_MODAL_MAP_PANE_CLASSES">
+          <BaseGeoMap
+            :title="DEPLOYMENTS_CREATE_MAP_TITLE"
+            :subtitle="DEPLOYMENTS_CREATE_MAP_SUBTITLE"
+            :latitude="Number.parseFloat(form.deploymentAreaLatitude)"
+            :longitude="Number.parseFloat(form.deploymentAreaLongitude)"
+            mode="input"
+            class="h-full"
+            @update:latitude="onMapLatitudeUpdate"
+            @update:longitude="onMapLongitudeUpdate"
+          />
+        </div>
       </div>
-
-      <BaseTextArea
-        v-model="form.defaultRemarks"
-        :label="DEPLOYMENTS_CREATE_REMARKS_LABEL"
-        :placeholder="DEPLOYMENTS_CREATE_REMARKS_PLACEHOLDER"
-        :error="errors.defaultRemarks"
-      />
     </form>
 
     <template #footer>
@@ -142,6 +146,13 @@ import {
 import type { CreateDeploymentPayload } from '~/types/domain/deployment'
 import { validateCreateDeploymentForm } from '~/utils/deployment-validation'
 import BaseGeoMap from '~/components/ui/BaseGeoMap.vue'
+import {
+  DEPLOYMENTS_CREATE_MODAL_FORM_CLASSES,
+  DEPLOYMENTS_CREATE_MODAL_FORM_PANE_CLASSES,
+  DEPLOYMENTS_CREATE_MODAL_FORM_SECTION_LABEL_CLASSES,
+  DEPLOYMENTS_CREATE_MODAL_LAYOUT_CLASSES,
+  DEPLOYMENTS_CREATE_MODAL_MAP_PANE_CLASSES,
+} from '~/constants/shared.constants'
 
 withDefaults(defineProps<{ isSubmitting?: boolean; warningMessage?: string; errorMessage?: string }>(), {
   isSubmitting: false,

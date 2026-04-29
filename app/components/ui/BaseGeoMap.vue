@@ -24,7 +24,6 @@
         · Latitude: <span :class="BASE_GEO_MAP_META_VALUE_CLASSES">{{ activeCenter.latitude.toFixed(6) }}</span>
       </p>
       <p v-if="isInputMode" class="text-emerald-700">Drag the map pin to update coordinates.</p>
-      <p v-else class="text-slate-500">Read-only tactical map preview.</p>
     </div>
   </div>
 </template>
