@@ -153,6 +153,8 @@ import {
   useDeletePersonnelHandler,
   useDeleteRankHandler,
   usePersonnelPageHandlers,
+  useRanksPageHandlers,
+  useUpdatePersonnelHandler,
   useViewPersonnelProfileHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
@@ -281,9 +283,12 @@ watch(canViewRanks, (hasAccess) => {
   void loadRanks(1)
 }, { immediate: true })
 
+const { handleRankTabChange } = useRanksPageHandlers(activeTab)
+
 const onTabChange = (nextTab: string) => {
-  activeTab.value = nextTab === 'rank-management' ? 'rank-management' : 'personnel-records'
+  handleRankTabChange(nextTab)
 }
+
 
 const handleApplyFilters = async (value: Partial<PersonnelSearchQuery>) => {
   const { filters: queryFilters, errors, isValid } = handleFilterApply(value)
@@ -370,33 +375,17 @@ const handleBatchUploadPersonnel = async (payload: { file: File, employmentStatu
   }
 }
 
-const closeUpdatePersonnelModal = () => {
-  isUpdatePersonnelModalOpen.value = false
-  selectedPersonnel.value = null
-}
+const { closeUpdatePersonnelModal, onEditPersonnelAction, onUpdatePersonnel } = useUpdatePersonnelHandler({
+  selectedPersonnel,
+  isUpdatePersonnelModalOpen,
+  getPersonnelById,
+  updatePersonnel,
+  showDialog,
+  addToast,
+})
 
 const handleUpdatePersonnel = async (payload: UpdatePersonnelPayload) => {
-  if (!selectedPersonnel.value) {
-    return
-  }
-
-  try {
-    await updatePersonnel(selectedPersonnel.value.id, payload)
-    closeUpdatePersonnelModal()
-    await showDialog({
-      type: 'success',
-      title: 'Personnel updated',
-      message: 'Personnel record has been updated successfully.',
-      confirmLabel: 'OK',
-    })
-  } catch {
-    await showDialog({
-      type: 'error',
-      title: 'Personnel update failed',
-      message: 'Unable to update personnel record right now.',
-      confirmLabel: 'OK',
-    })
-  }
+  await onUpdatePersonnel(payload)
 }
 
 const handleTableAction = async (payload: { actionKey: string; row: { id: string } }) => {
@@ -406,16 +395,7 @@ const handleTableAction = async (payload: { actionKey: string; row: { id: string
   }
 
   if (payload.actionKey === 'edit-personnel') {
-    try {
-      selectedPersonnel.value = await getPersonnelById(payload.row.id)
-      isUpdatePersonnelModalOpen.value = Boolean(selectedPersonnel.value)
-    } catch {
-      addToast({
-        title: 'Personnel load failed',
-        message: 'Unable to load personnel details for editing.',
-        variant: 'error',
-      })
-    }
+    await onEditPersonnelAction(payload.row.id)
     return
   }
 

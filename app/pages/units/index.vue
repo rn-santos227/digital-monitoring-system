@@ -178,11 +178,14 @@ import {
   useCompanyFilterHandlers,
   useCreateBattalionHandler,
   useCreateCompanyHandler,
+  useCreateUnitHandler,
   useDeleteBattalionHandler,
   useDeleteCompanyHandler,
+  useDeleteUnitHandler,
   useUnitsPageHandlers,
   useUpdateBattalionHandler,
   useUpdateCompanyHandler,
+  useUpdateUnitHandler,
   useViewBattalionHandler,
   useViewCompanyHandler,
 } from '~/handlers'
@@ -299,15 +302,6 @@ const { canHandleDeleteBattalionAction, onDeleteBattalionAction } = useDeleteBat
   })},
 })
 
-const { onBattalionAction } = useBattalionActionHandler({
-  onViewBattalionAction,
-  onEditBattalionAction,
-  onDeleteBattalionAction,
-  canHandleViewBattalionAction,
-  canHandleUpdateBattalionAction,
-  canHandleDeleteBattalionAction,
-})
-
 const {
   canHandleUpdateCompanyAction,
   onEditCompanyAction,
@@ -346,18 +340,43 @@ const { canHandleDeleteCompanyAction, onDeleteCompanyAction } = useDeleteCompany
     title: 'Company deleted',
     message: 'Company record has been deleted successfully.',
     confirmLabel: 'OK',
-  }) },
+  })},
   onDeleteCancelled: async () => { addToast({
     variant: 'warning',
     title: 'Delete cancelled',
     message: 'Company deletion was cancelled.',
-  }) },
+  })},
 })
 
+const { onCreateActionClick, handleCreateUnitBattalion, handleCreateUnitCompany } = useCreateUnitHandler({
+  activeTab,
+  onOpenCreateBattalionModal,
+  onOpenCreateCompanyModal,
+  onCreateBattalion,
+  onCreateCompany,
+})
+
+const { handleUpdateUnitBattalion, handleUpdateUnitCompany } = useUpdateUnitHandler({
+  onUpdateBattalion,
+  onUpdateCompany,
+})
+
+const unitDeleteHandlers = useDeleteUnitHandler({
+  onDeleteBattalionAction,
+  onDeleteCompanyAction,
+})
+const { onBattalionAction } = useBattalionActionHandler({
+  onViewBattalionAction,
+  onEditBattalionAction,
+  onDeleteBattalionAction: unitDeleteHandlers.handleDeleteUnitBattalion,
+  canHandleViewBattalionAction,
+  canHandleUpdateBattalionAction,
+  canHandleDeleteBattalionAction,
+})
 const { onCompanyAction } = useCompanyActionHandler({
   onViewCompanyAction,
   onEditCompanyAction,
-  onDeleteCompanyAction,
+  onDeleteCompanyAction: unitDeleteHandlers.handleDeleteUnitCompany,
   canHandleViewCompanyAction,
   canHandleUpdateCompanyAction,
   canHandleDeleteCompanyAction,
@@ -462,18 +481,9 @@ const loadUnassignedPersonnel = async () => {
   return { value: kpis.totalUnassignedPersonnel }
 }
 
-const onCreateActionClick = () => {
-  if (activeTab.value === 'battalion') {
-    onOpenCreateBattalionModal()
-    return
-  }
-
-  onOpenCreateCompanyModal()
-}
-
 const handleCreateBattalion = async (payload: CreateBattalionPayload) => {
   try {
-    await onCreateBattalion(payload)
+    await handleCreateUnitBattalion(payload)
     await showDialog({
       type: 'success',
       title: 'Battalion created',
@@ -493,7 +503,7 @@ const handleCreateBattalion = async (payload: CreateBattalionPayload) => {
 
 const handleUpdateBattalion = async (payload: UpdateBattalionPayload) => {
   try {
-    await onUpdateBattalion(payload)
+    await handleUpdateUnitBattalion(payload)
     await showDialog({
       type: 'success',
       title: 'Battalion updated',
@@ -513,7 +523,7 @@ const handleUpdateBattalion = async (payload: UpdateBattalionPayload) => {
 
 const handleCreateCompany = async (payload: CreateCompanyPayload) => {
   try {
-    await onCreateCompany(payload)
+    await handleCreateUnitCompany(payload)
     addToast({
       title: 'Company created',
       message: 'Company record has been created successfully.',
@@ -531,7 +541,7 @@ const handleCreateCompany = async (payload: CreateCompanyPayload) => {
 
 const handleUpdateCompany = async (payload: UpdateCompanyPayload) => {
   try {
-    await onUpdateCompany(payload)
+    await handleUpdateUnitCompany(payload)
     await showDialog({
       type: 'success',
       title: 'Company updated',
