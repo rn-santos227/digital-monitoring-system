@@ -1,5 +1,6 @@
 import { API_LOADING_MESSAGES, DEPLOYMENT_MANAGEMENT_API_ENDPOINTS } from '~/constants/api.constants'
 import type {
+  CreateDeploymentPayload,
   DeploymentManagementListItem,
   DeploymentManagementListResponse,
   DeploymentManagementSearchQuery,
@@ -35,4 +36,14 @@ export const getDeploymentRecordsEndpoint = async (query: DeploymentManagementSe
       query,
     })
   }, API_LOADING_MESSAGES.fetchDeploymentRecords)
+}
+
+export const createDeploymentEndpoint = async (payload: CreateDeploymentPayload): Promise<{ ok: boolean; id: string }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean; id: string }>(DEPLOYMENT_MANAGEMENT_API_ENDPOINTS.deployments, {
+      method: 'POST',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.createDeployment)
 }
