@@ -155,5 +155,6 @@ export const API_LOADING_MESSAGES = Object.freeze({
   fetchTrainingSuggestions: 'Loading training suggestions...',
   fetchDeployments: 'Loading deployments...',
   fetchDeploymentRecords: 'Loading deployment records...',
+  createDeployment: 'Creating deployment record...',
   uploadFile: 'Uploading file...',
 })
