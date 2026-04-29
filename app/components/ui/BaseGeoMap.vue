@@ -62,6 +62,12 @@ import {
   type BaseGeoMapPin
 } from '~/constants/ui.constants'
 
+const AFP_HEADQUARTERS_COORDINATES = Object.freeze({
+  latitude: 14.5886,
+  longitude: 120.9742,
+  label: 'AFP General Headquarters, Camp Aguinaldo'
+})
+
 const props = withDefaults(
   defineProps<{
     latitude?: number | null
@@ -117,7 +123,7 @@ const activeCenter = computed<BaseGeoMapPin | null>(() => {
   const firstPin = normalizedPins.value[0] ?? null
 
   if (!firstPin) {
-    return null
+    return AFP_HEADQUARTERS_COORDINATES
   }
 
   return {
@@ -136,7 +142,7 @@ const subtitleText = computed(() => {
     return `Showing ${normalizedPins.value.length} deployment pin(s).`
   }
 
-  return 'Load Google Map using longitude and latitude coordinates.'
+  return 'Centered on AFP General Headquarters, Camp Aguinaldo (Philippines).'
 })
 
 const mapLink = computed(() => {

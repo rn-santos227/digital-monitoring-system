@@ -2,7 +2,7 @@
   <BaseModal
     :title="DEPLOYMENTS_CREATE_MODAL_TITLE"
     :description="DEPLOYMENTS_CREATE_MODAL_DESCRIPTION"
-    size="lg"
+    size="xl"
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
@@ -47,27 +47,29 @@
         <BaseDatePicker v-model="form.endDate" :label="DEPLOYMENTS_CREATE_END_DATE_LABEL" :error="errors.endDate" />
       </div>
 
-      <div class="grid gap-4 md:grid-cols-2">
-        <BaseTextField
-          v-model="form.deploymentAreaLatitude"
-          :label="DEPLOYMENTS_CREATE_LATITUDE_LABEL"
-          :placeholder="DEPLOYMENTS_CREATE_LATITUDE_PLACEHOLDER"
-          :error="errors.deploymentAreaLatitude"
-        />
-        <BaseTextField
-          v-model="form.deploymentAreaLongitude"
-          :label="DEPLOYMENTS_CREATE_LONGITUDE_LABEL"
-          :placeholder="DEPLOYMENTS_CREATE_LONGITUDE_PLACEHOLDER"
-          :error="errors.deploymentAreaLongitude"
+      <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] lg:items-start">
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-1">
+          <BaseTextField
+            v-model="form.deploymentAreaLatitude"
+            :label="DEPLOYMENTS_CREATE_LATITUDE_LABEL"
+            :placeholder="DEPLOYMENTS_CREATE_LATITUDE_PLACEHOLDER"
+            :error="errors.deploymentAreaLatitude"
+          />
+          <BaseTextField
+            v-model="form.deploymentAreaLongitude"
+            :label="DEPLOYMENTS_CREATE_LONGITUDE_LABEL"
+            :placeholder="DEPLOYMENTS_CREATE_LONGITUDE_PLACEHOLDER"
+            :error="errors.deploymentAreaLongitude"
+          />
+        </div>
+
+        <BaseGeoMap
+          :title="DEPLOYMENTS_CREATE_MAP_TITLE"
+          :subtitle="DEPLOYMENTS_CREATE_MAP_SUBTITLE"
+          :latitude="Number.parseFloat(form.deploymentAreaLatitude)"
+          :longitude="Number.parseFloat(form.deploymentAreaLongitude)"
         />
       </div>
-
-      <BaseGeoMap
-        :title="DEPLOYMENTS_CREATE_MAP_TITLE"
-        :subtitle="DEPLOYMENTS_CREATE_MAP_SUBTITLE"
-        :latitude="Number.parseFloat(form.deploymentAreaLatitude)"
-        :longitude="Number.parseFloat(form.deploymentAreaLongitude)"
-      />
 
       <div class="grid gap-4 md:grid-cols-2">
         <BaseTextField
