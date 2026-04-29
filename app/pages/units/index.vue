@@ -286,6 +286,17 @@ const { canHandleDeleteBattalionAction, onDeleteBattalionAction } = useDeleteBat
   loadBattalions,
   battalionPagination,
   battalionFilters,
+  onDeleteSuccess: async () => { await showDialog({
+    type: 'success',
+    title: 'Battalion deleted',
+    message: 'Battalion record has been deleted successfully.',
+    confirmLabel: 'OK',
+  }) },
+  onDeleteCancelled: () => { addToast({
+    variant: 'warning',
+    title: 'Delete cancelled',
+    message: 'Battalion deletion was cancelled.',
+  })},
 })
 
 const { onBattalionAction } = useBattalionActionHandler({
@@ -330,6 +341,17 @@ const { canHandleDeleteCompanyAction, onDeleteCompanyAction } = useDeleteCompany
   loadCompanies,
   companyPagination,
   companyFilters,
+  onDeleteSuccess: async () => { await showDialog({
+    type: 'success',
+    title: 'Company deleted',
+    message: 'Company record has been deleted successfully.',
+    confirmLabel: 'OK',
+  }) },
+  onDeleteCancelled: async () => { addToast({
+    variant: 'warning',
+    title: 'Delete cancelled',
+    message: 'Company deletion was cancelled.',
+  }) },
 })
 
 const { onCompanyAction } = useCompanyActionHandler({
@@ -452,17 +474,19 @@ const onCreateActionClick = () => {
 const handleCreateBattalion = async (payload: CreateBattalionPayload) => {
   try {
     await onCreateBattalion(payload)
-    addToast({
+    await showDialog({
+      type: 'success',
       title: 'Battalion created',
       message: 'Battalion record has been created successfully.',
-      variant: 'success',
+      confirmLabel: 'OK',
     })
     refreshUnitKpis()
   } catch {
-    addToast({
+    await showDialog({
+      type: 'error',
       title: 'Battalion creation failed',
       message: 'Unable to create battalion record right now.',
-      variant: 'error',
+      confirmLabel: 'OK',
     })
   }
 }
@@ -470,17 +494,19 @@ const handleCreateBattalion = async (payload: CreateBattalionPayload) => {
 const handleUpdateBattalion = async (payload: UpdateBattalionPayload) => {
   try {
     await onUpdateBattalion(payload)
-    addToast({
+    await showDialog({
+      type: 'success',
       title: 'Battalion updated',
       message: 'Battalion record has been updated successfully.',
-      variant: 'success',
+      confirmLabel: 'OK',
     })
     refreshUnitKpis()
   } catch {
-    addToast({
+    await showDialog({
+      type: 'error',
       title: 'Battalion update failed',
       message: 'Unable to update battalion record right now.',
-      variant: 'error',
+      confirmLabel: 'OK',
     })
   }
 }
@@ -506,17 +532,19 @@ const handleCreateCompany = async (payload: CreateCompanyPayload) => {
 const handleUpdateCompany = async (payload: UpdateCompanyPayload) => {
   try {
     await onUpdateCompany(payload)
-    addToast({
+    await showDialog({
+      type: 'success',
       title: 'Company updated',
-      message: 'Company record has been updated successfully.',
-      variant: 'success',
+      message: 'Company record has been created successfully.',
+      confirmLabel: 'OK',
     })
     refreshUnitKpis()
   } catch {
-    addToast({
-      title: 'Company update failed',
-      message: 'Unable to update company record right now.',
-      variant: 'error',
+    await showDialog({
+      type: 'error',
+      title: 'Company updated failed',
+      message: 'Unable to create company record right now.',
+      confirmLabel: 'OK',
     })
   }
 }

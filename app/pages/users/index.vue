@@ -139,6 +139,7 @@ import UsersTable from '~/components/users/UsersTable.vue'
 import AccountTypesTable from '~/components/users/AccountTypesTable.vue'
 import type { FieldValidationMap } from '~/utils/field-validation'
 import { useDialog } from '~/composables/useDialog'
+import { useToast } from '~/composables/useToast'
 import {
   USERS_ACCOUNT_CREATE_BUTTON_LABEL,
   USERS_ACCOUNT_REQUIRED_PERMISSIONS,
@@ -198,6 +199,7 @@ const {
 } = useUsers()
 const authStore = useAuthStore()
 const { showDialog } = useDialog()
+const { addToast } = useToast()
 
 const visibleTabItems = computed(() => {
   return USERS_PAGE_TAB_ITEMS.filter((tabItem) => {
@@ -367,6 +369,17 @@ const { canHandleDeleteAction, onDeleteAction } = useDeleteUserProfileHandler({
   profilePagination,
   profileFilters,
   profileWarning,
+  onDeleteSuccess: async () => { await showDialog({
+    type: 'success',
+    title: 'User profile deleted',
+    message: 'User profile has been deleted successfully.',
+    confirmLabel: 'OK',
+  }) },
+  onDeleteCancelled: async () => { addToast({
+    variant: 'warning',
+    title: 'Delete cancelled',
+    message: 'User profile deletion was cancelled.',
+  }) },
 })
 
 const {
@@ -391,7 +404,54 @@ const { canHandleDeleteAccountTypeAction, onDeleteAccountTypeAction } = useDelet
   loadUserAccounts,
   accountPagination,
   accountFilters,
+  onDeleteSuccess: async () => { await showDialog({
+    type: 'success',
+    title: 'Account type deleted',
+    message: 'Account type has been deleted successfully.',
+    confirmLabel: 'OK',
+  }) },
+  onDeleteCancelled: async () => { addToast({
+    variant: 'warning',
+    title: 'Delete cancelled',
+    message: 'Account type deletion was cancelled.',
+  }) },
 })
+
+const onCreateUserProfileWithFeedback = async (payload: Parameters<typeof onCreateUserProfile>[0]) => {
+  try {
+    await onCreateUserProfile(payload)
+    await showDialog({ type: 'success', title: 'User profile created', message: 'User profile has been created successfully.', confirmLabel: 'OK' })
+  } catch {
+    await showDialog({ type: 'error', title: 'Create failed', message: 'Unable to create user profile right now.', confirmLabel: 'OK' })
+  }
+}
+
+const onUpdateUserProfileWithFeedback = async (payload: Parameters<typeof onUpdateUserProfile>[0]) => {
+  try {
+    await onUpdateUserProfile(payload)
+    await showDialog({ type: 'success', title: 'User profile updated', message: 'User profile has been updated successfully.', confirmLabel: 'OK' })
+  } catch {
+    await showDialog({ type: 'error', title: 'Update failed', message: 'Unable to update user profile right now.', confirmLabel: 'OK' })
+  }
+}
+
+const onCreateAccountTypeWithFeedback = async (payload: Parameters<typeof onCreateAccountType>[0]) => {
+  try {
+    await onCreateAccountType(payload)
+    await showDialog({ type: 'success', title: 'Account type created', message: 'Account type has been created successfully.', confirmLabel: 'OK' })
+  } catch {
+    await showDialog({ type: 'error', title: 'Create failed', message: 'Unable to create account type right now.', confirmLabel: 'OK' })
+  }
+}
+
+const onUpdateAccountTypeWithFeedback = async (payload: Parameters<typeof onUpdateAccountType>[0]) => {
+  try {
+    await onUpdateAccountType(payload)
+    await showDialog({ type: 'success', title: 'Account type updated', message: 'Account type has been updated successfully.', confirmLabel: 'OK' })
+  } catch {
+    await showDialog({ type: 'error', title: 'Update failed', message: 'Unable to update account type right now.', confirmLabel: 'OK' })
+  }
+}
 
 const { onAccountTypeAction } = useAccountTypeActionHandler({
   canHandleUpdateAccountTypeAction,

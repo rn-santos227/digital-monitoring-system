@@ -59,7 +59,7 @@ import {
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 import { useAuditTrailPageHandlers } from '~/handlers'
 import { useAuditTrail } from '~/composables/useAuditTrail'
-import { useToast } from '~/composables/useToast'
+import { useDialog } from '~/composables/useDialog'
 
 const {
   searchQuery,
@@ -84,7 +84,7 @@ const {
 const activeAuditLogId = ref('')
 const isAuditModalOpen = ref(false)
 const filterValidationErrors = ref<FieldValidationMap>({})
-const { addToast } = useToast()
+const { showDialog } = useDialog()
 
 const { handleSearch, handleSort, handleAction, handleFilterApply, handleFilterReset, handleModalClose } = useAuditTrailPageHandlers(
   sortKey,
@@ -99,10 +99,11 @@ const handleApplyFilters = async (value: Partial<AuditLogSearchQuery>) => {
   filterValidationErrors.value = errors
 
   if (!isValid) {
-    addToast({
+    await showDialog({
+      type: 'error',
       title: 'Invalid filter input',
       message: 'Please correct the highlighted fields before applying filters.',
-      variant: 'error',
+      confirmLabel: 'OK',
     })
     return
   }

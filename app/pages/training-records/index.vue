@@ -134,13 +134,13 @@
     <CreateTrainingModal
       v-if="isCreateTrainingModalOpen"
       @close="onCloseCreateTrainingModal"
-      @submit="onCreateTraining"
+      @submit="onCreateTrainingWithFeedback"
     />
     <UpdateTrainingModal
       v-if="isUpdateTrainingModalOpen && selectedTraining"
       :initial-values="selectedTrainingFormValues"
       @close="closeUpdateTrainingModal"
-      @submit="onUpdateTraining"
+      @submit="onUpdateTrainingWithFeedback"
     />
     <ViewTrainingModal
       v-if="isViewTrainingModalOpen && selectedTraining"
@@ -152,13 +152,13 @@
     <CreateTrainingCategoryModal
       v-if="isCreateTrainingCategoryModalOpen"
       @close="onCloseCreateTrainingCategoryModal"
-      @submit="onCreateTrainingCategory"
+      @submit="onCreateTrainingCategoryWithFeedback"
     />
     <UpdateTrainingCategoryModal
       v-if="isUpdateTrainingCategoryModalOpen && selectedTrainingCategory"
       :initial-values="selectedTrainingCategoryFormValues"
       @close="closeUpdateTrainingCategoryModal"
-      @submit="onUpdateTrainingCategory"
+      @submit="onUpdateTrainingCategoryWithFeedback"
     />
   </main>
 </template>
@@ -511,13 +511,17 @@ const { onDeleteTraining } = useDeleteTrainingHandler({
   trainingFilters,
   kpiRefreshKey,
   showDialog,
-  onDeleteSuccess: () => {
-    addToast({
-      title: 'Training deleted',
-      message: 'Training record has been deleted successfully.',
-      variant: 'success',
-    })
-  },
+  onDeleteSuccess: () => showDialog({
+    type: 'success',
+    title: 'Training deleted',
+    message: 'Training record has been deleted successfully.',
+    confirmLabel: 'OK',
+  }),
+  onDeleteCancelled: () => addToast({
+    title: 'Delete cancelled',
+    message: 'Training deletion was cancelled.',
+    variant: 'warning',
+  }),
 })
 
 const { onDeleteTrainingCategory } = useDeleteTrainingCategoryHandler({
@@ -526,6 +530,17 @@ const { onDeleteTrainingCategory } = useDeleteTrainingCategoryHandler({
   categoryFilters,
   kpiRefreshKey,
   showDialog,
+  onDeleteSuccess: () => showDialog({
+    type: 'success',
+    title: 'Training category deleted',
+    message: 'Training category has been deleted successfully.',
+    confirmLabel: 'OK',
+  }),
+  onDeleteCancelled: () => addToast({
+    variant: 'warning',
+    title: 'Delete cancelled',
+    message: 'Training category deletion was cancelled.',
+  }),
 })
 
 const onTrainingTableAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
@@ -567,6 +582,42 @@ const onCategoryTableAction = async (payload: { actionKey: string; row: Record<s
   }
 
   await onDeleteTrainingCategory(rowId)
+}
+
+const onCreateTrainingWithFeedback = async (payload: Parameters<typeof onCreateTraining>[0]) => {
+  try {
+    await onCreateTraining(payload)
+    await showDialog({ type: 'success', title: 'Training created', message: 'Training record has been created successfully.', confirmLabel: 'OK' })
+  } catch {
+    await showDialog({ type: 'error', title: 'Create failed', message: 'Unable to create training record right now.', confirmLabel: 'OK' })
+  }
+}
+
+const onUpdateTrainingWithFeedback = async (payload: Parameters<typeof onUpdateTraining>[0]) => {
+  try {
+    await onUpdateTraining(payload)
+    await showDialog({ type: 'success', title: 'Training updated', message: 'Training record has been updated successfully.', confirmLabel: 'OK' })
+  } catch {
+    await showDialog({ type: 'error', title: 'Update failed', message: 'Unable to update training record right now.', confirmLabel: 'OK' })
+  }
+}
+
+const onCreateTrainingCategoryWithFeedback = async (payload: Parameters<typeof onCreateTrainingCategory>[0]) => {
+  try {
+    await onCreateTrainingCategory(payload)
+    await showDialog({ type: 'success', title: 'Training category created', message: 'Training category has been created successfully.', confirmLabel: 'OK' })
+  } catch {
+    await showDialog({ type: 'error', title: 'Create failed', message: 'Unable to create training category right now.', confirmLabel: 'OK' })
+  }
+}
+
+const onUpdateTrainingCategoryWithFeedback = async (payload: Parameters<typeof onUpdateTrainingCategory>[0]) => {
+  try {
+    await onUpdateTrainingCategory(payload)
+    await showDialog({ type: 'success', title: 'Training category updated', message: 'Training category has been updated successfully.', confirmLabel: 'OK' })
+  } catch {
+    await showDialog({ type: 'error', title: 'Update failed', message: 'Unable to update training category right now.', confirmLabel: 'OK' })
+  }
 }
 
 const loadTotalRecords = async (): Promise<KpiCardLoaderResult> => {

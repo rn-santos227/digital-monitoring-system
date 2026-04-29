@@ -146,8 +146,8 @@ import {
   PERSONNEL_TABLE_ACTIONS_ROW_CLASSES,
 } from '~/constants/shared.constants'
 import { useDialog } from '~/composables/useDialog'
-import { usePersonnel } from '~/composables/usePersonnel'
 import { useToast } from '~/composables/useToast'
+import { usePersonnel } from '~/composables/usePersonnel'
 import { useCreatePersonnelModalHandler, usePersonnelPageHandlers, useViewPersonnelProfileHandler } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type { CreatePersonnelPayload, PersonnelDetail, PersonnelSearchQuery, UpdatePersonnelPayload } from '~/types/domain/personnel'
@@ -159,8 +159,8 @@ const { tableRows: rankRows, pagination: rankPagination, isLoading: isRanksLoadi
 const { handleFilterApply, handleFilterReset } = usePersonnelPageHandlers(filters)
 const { handleViewPersonnelProfile } = useViewPersonnelProfileHandler()
 const authStore = useAuthStore()
-const { addToast } = useToast()
 const { showDialog } = useDialog()
+const { addToast } = useToast()
 
 const filterValidationErrors = ref<FieldValidationMap>({})
 const isCreatePersonnelModalOpen = ref(false)
@@ -233,11 +233,13 @@ const handleApplyFilters = async (value: Partial<PersonnelSearchQuery>) => {
   filterValidationErrors.value = errors
 
   if (!isValid) {
-    addToast({
+    await showDialog({
+      type: 'error',
       title: 'Invalid filter input',
       message: 'Please correct the highlighted fields before applying filters.',
-      variant: 'error',
+      confirmLabel: 'OK',
     })
+
     return
   }
 
@@ -258,16 +260,19 @@ const handleCreatePersonnel = async (payload: CreatePersonnelPayload) => {
   try {
     await createPersonnel(payload)
     closeCreatePersonnelModal()
-    addToast({
+    await showDialog({
+      type: 'success',
       title: 'Personnel created',
       message: 'Personnel record has been created successfully.',
-      variant: 'success',
+      confirmLabel: 'OK',
     })
+
   } catch {
-    addToast({
+    await showDialog({
+      type: 'error',
       title: 'Personnel creation failed',
       message: 'Unable to create personnel record right now.',
-      variant: 'error',
+      confirmLabel: 'OK',
     })
   }
 }
@@ -297,10 +302,11 @@ const handleBatchUploadPersonnel = async (payload: { file: File, employmentStatu
       cancelLabel: 'Dismiss',
     })
   } catch {
-    addToast({
+    await showDialog({
+      type: 'error',
       title: 'Personnel batch upload failed',
       message: 'Unable to upload personnel batch right now.',
-      variant: 'error',
+      confirmLabel: 'OK',
     })
   } finally {
     isBatchUploadSubmitting.value = false
@@ -320,16 +326,18 @@ const handleUpdatePersonnel = async (payload: UpdatePersonnelPayload) => {
   try {
     await updatePersonnel(selectedPersonnel.value.id, payload)
     closeUpdatePersonnelModal()
-    addToast({
+    await showDialog({
+      type: 'success',
       title: 'Personnel updated',
       message: 'Personnel record has been updated successfully.',
-      variant: 'success',
+      confirmLabel: 'OK',
     })
   } catch {
-    addToast({
+    await showDialog({
+      type: 'error',
       title: 'Personnel update failed',
       message: 'Unable to update personnel record right now.',
-      variant: 'error',
+      confirmLabel: 'OK',
     })
   }
 }
@@ -344,21 +352,29 @@ const handleDeletePersonnel = async (id: string) => {
   })
 
   if (!result.confirmed) {
-    return
+    await showDialog({
+      type: 'warning',
+      title: 'Delete cancelled',
+      message: 'Personnel deletion was cancelled.',
+      confirmLabel: 'OK',
+    })
   }
 
   try {
     await deletePersonnel(id)
-    addToast({
+    await showDialog({
+      type: 'success',
       title: 'Personnel deleted',
       message: 'Personnel record has been deleted successfully.',
-      variant: 'success',
+      confirmLabel: 'OK',
     })
+
   } catch {
-    addToast({
+    await showDialog({
+      type: 'error',
       title: 'Personnel deletion failed',
       message: 'Unable to delete personnel record right now.',
-      variant: 'error',
+      confirmLabel: 'OK',
     })
   }
 }
@@ -410,16 +426,18 @@ const handleCreateRank = async (payload: CreateRankPayload) => {
   try {
     await createRank(payload)
     isCreateRankModalOpen.value = false
-    addToast({
+    await showDialog({
+      type: 'success',
       title: 'Rank created',
       message: 'Rank record has been created successfully.',
-      variant: 'success',
+      confirmLabel: 'OK',
     })
   } catch {
-    addToast({
+    await showDialog({
+      type: 'error',
       title: 'Rank creation failed',
       message: 'Unable to create rank record right now.',
-      variant: 'error',
+      confirmLabel: 'OK',
     })
   }
 }
@@ -438,21 +456,29 @@ const onRankTableAction = async (payload: { actionKey: string; row: { id: string
   })
 
   if (!result.confirmed) {
+    await showDialog({
+      type: 'warning',
+      title: 'Delete cancelled',
+      message: 'Rank deletion was cancelled.',
+      confirmLabel: 'OK',
+    })
     return
   }
 
   try {
     await deleteRank(payload.row.id)
-    addToast({
+    await showDialog({
+      type: 'success',
       title: 'Rank deleted',
       message: 'Rank record has been deleted successfully.',
-      variant: 'success',
+      confirmLabel: 'OK',
     })
   } catch {
-    addToast({
+    await showDialog({
+      type: 'error',
       title: 'Rank deletion failed',
       message: 'Unable to delete rank record right now.',
-      variant: 'error',
+      confirmLabel: 'OK',
     })
   }
 }
