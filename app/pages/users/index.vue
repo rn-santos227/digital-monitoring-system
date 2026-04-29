@@ -89,7 +89,7 @@
         v-if="isCreateUserProfileModalOpen"
         @close="isCreateUserProfileModalOpen = false"
         :account-type-options="accountTypeOptions"
-        @submit="onCreateUserProfile"
+        @submit="onCreateUserProfileWithFeedback"
       />
 
 
@@ -98,7 +98,7 @@
         :account-type-options="accountTypeOptions"
         :initial-values="selectedUserProfile"
         @close="onCloseUpdateUserProfileModal"
-        @submit="onUpdateUserProfile"
+        @submit="onUpdateUserProfileWithFeedback"
       />
 
       <UserPasswordModal
@@ -117,7 +117,7 @@
         v-if="isAccountTypeModalOpen"
         :privilege-options="privilegeOptions"
         @close="isAccountTypeModalOpen = false"
-        @submit="onCreateAccountType"
+        @submit="onCreateAccountTypeWithFeedback"
       />
 
       <UpdateAccountTypeModal
@@ -125,7 +125,7 @@
         :initial-values="selectedAccountType"
         :privilege-options="privilegeOptions"
         @close="onCloseUpdateAccountTypeModal"
-        @submit="onUpdateAccountType"
+        @submit="onUpdateAccountTypeWithFeedback"
       />
     </section>
   </main>
@@ -153,8 +153,11 @@ import {
   USERS_PROFILE_CREATE_BUTTON_LABEL,
   USERS_PROFILE_REQUIRED_PERMISSIONS,
 } from '~/constants/page.constants'
-import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
-import { USERS_PAGE_HEADER_CLASSES, USERS_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
+import {
+  APP_MAIN_CONTENT_CLASSES,
+  USERS_PAGE_HEADER_CLASSES,
+  USERS_TABLE_ACTIONS_ROW_CLASSES,
+} from '~/constants/shared.constants'
 import { useUsers } from '~/composables/useUsers'
 import {
   useAccountTypeActionHandler,

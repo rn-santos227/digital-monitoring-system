@@ -163,7 +163,6 @@
   </main>
 </template>
 
-
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
