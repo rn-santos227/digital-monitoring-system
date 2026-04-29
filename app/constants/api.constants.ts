@@ -48,6 +48,13 @@ export const TRAINING_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   trainingRecordsSearch: '/api/training-records/search',
 })
 
+export const DEPLOYMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
+  deployments: '/api/deployments',
+  deploymentsSearch: '/api/deployments/search',
+  deploymentRecords: '/api/deployment-records',
+  deploymentRecordsSearch: '/api/deployment-records/search',
+})
+
 export const DASHBOARD_API_ENDPOINTS = Object.freeze({
   unitManagementKpis: '/api/dashboard/unit-management',
   topKpis: '/api/dashboard/top-kpis',
@@ -146,5 +153,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   deleteTrainingCategory: 'Deleting training category...',
   fetchTrainingPersonnel: 'Loading assigned training personnel...',
   fetchTrainingSuggestions: 'Loading training suggestions...',
+  fetchDeployments: 'Loading deployments...',
+  fetchDeploymentRecords: 'Loading deployment records...',
   uploadFile: 'Uploading file...',
 })
