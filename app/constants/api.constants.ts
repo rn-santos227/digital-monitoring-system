@@ -46,6 +46,7 @@ export const TRAINING_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   trainingCategoryById: (id: string) => `/api/training-categories/${id}`,
   trainingRecords: '/api/training-records',
   trainingRecordsSearch: '/api/training-records/search',
+  trainingRecordById: (id: string) => `/api/training-records/${id}`,
 })
 
 export const DEPLOYMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
@@ -148,6 +149,8 @@ export const API_LOADING_MESSAGES = Object.freeze({
   updateTraining: 'Updating training record...',
   deleteTraining: 'Deleting training record...',
   createTrainingRecord: 'Creating training personnel record...',
+  updateTrainingRecord: 'Updating training personnel record...',
+  deleteTrainingRecord: 'Deleting training personnel record...',
   createTrainingCategory: 'Creating training category...',
   updateTrainingCategory: 'Updating training category...',
   deleteTrainingCategory: 'Deleting training category...',

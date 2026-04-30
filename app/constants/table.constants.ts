@@ -277,6 +277,12 @@ export const UNITS_COMPANIES_TABLE_COLUMNS: readonly DataTableColumn[] = Object.
 
 export const TRAINING_RECORDS_TABLE_TITLE = 'Training Records'
 export const TRAINING_RECORDS_TABLE_EMPTY_MESSAGE = 'No training records found.'
+export const TRAINING_RECORDS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
+export const TRAINING_RECORDS_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  { key: 'edit-training-record', tooltip: 'Update training record', iconName: 'pencil-square', variant: 'warning' },
+  { key: 'delete-training-record', tooltip: 'Delete training record', iconName: 'trash', variant: 'danger' },
+])
+
 export const TRAINING_RECORDS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'recordNo', label: 'Record No.', sortable: true },
   { key: 'personnelCode', label: 'Personnel Code', sortable: true },
