@@ -579,6 +579,7 @@ export const TRAINING_RECORDS_UPDATE_MODAL_DESCRIPTION = 'Update personnel train
 export const TRAININGS_MODAL_UPDATE_LABEL = 'Update'
 export const TRAINING_RECORDS_VIEW_MODAL_TITLE = 'View Training Record'
 export const TRAINING_RECORDS_VIEW_MODAL_DESCRIPTION = 'Review training record details and assigned personnel information.'
+export const TRAINING_RECORDS_VIEW_MODAL_CLOSE_LABEL = 'Close'
 export const TRAININGS_VIEW_MODAL_TITLE = 'View Training'
 export const TRAININGS_VIEW_MODAL_DESCRIPTION = 'Review training details and assigned personnel records.'
 export const TRAININGS_VIEW_MODAL_CLOSE_LABEL = 'Close'
