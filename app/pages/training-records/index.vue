@@ -172,6 +172,7 @@ import CreateTrainingRecordModal from '~/components/trainings/CreateTrainingReco
 import CreateTrainingCategoryModal from '~/components/trainings/CreateTrainingCategoryModal.vue'
 import UpdateTrainingCategoryModal from '~/components/trainings/UpdateTrainingCategoryModal.vue'
 import UpdateTrainingModal from '~/components/trainings/UpdateTrainingModal.vue'
+import UpdateTrainingRecordModal from '~/components/trainings/UpdateTrainingRecordModal.vue'
 import ViewTrainingModal from '~/components/trainings/ViewTrainingModal.vue'
 import TrainingsFilter from '~/components/trainings/TrainingsFilter.vue'
 import TrainingCategoriesFilter from '~/components/trainings/TrainingCategoriesFilter.vue'
@@ -202,13 +203,15 @@ import {
   useCreateTrainingRecordHandler,
   useDeleteTrainingCategoryHandler,
   useDeleteTrainingHandler,
+  useDeleteTrainingRecordHandler,
   useTrainingManagementPageHandlers,
   useUpdateTrainingCategoryHandler,
   useUpdateTrainingHandler,
+  useUpdateTrainingRecordHandler,
   useViewTrainingHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
-import type { TrainingCategoryListItem, TrainingListItem, TrainingManagementTabId } from '~/types/domain/training'
+import type { TrainingCategoryListItem, TrainingListItem, TrainingManagementTabId, TrainingRecordListItem } from '~/types/domain/training'
 import type { FieldValidationMap } from '~/utils/field-validation'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 import { getTrainingPersonnelEndpoint } from '~/utils/training-endpoints'
@@ -224,11 +227,13 @@ const isCreateTrainingModalOpen = ref(false)
 const isCreateTrainingCategoryModalOpen = ref(false)
 const isCreateTrainingRecordModalOpen = ref(false)
 const isUpdateTrainingModalOpen = ref(false)
+const isUpdateTrainingRecordModalOpen = ref(false)
 const isUpdateTrainingCategoryModalOpen = ref(false)
 const isViewTrainingModalOpen = ref(false)
 const isTrainingPersonnelLoading = ref(false)
 const selectedTraining = ref<TrainingListItem | null>(null)
 const selectedTrainingCategory = ref<TrainingCategoryListItem | null>(null)
+const selectedTrainingRecord = ref<TrainingRecordListItem | null>(null)
 const trainingPersonnelRows = ref<Record<string, string>[]>([])
 
 const {
@@ -254,6 +259,9 @@ const {
   totalItems: totalTrainingRecords,
   loadTrainingRecords,
   createTrainingRecord,
+  updateTrainingRecord,
+  deleteTrainingRecord,
+  records,
 } = useTrainingRecords()
 
 const {
@@ -464,6 +472,21 @@ const onCategoryPageSizeChange = (nextPageSize: number) => {
 }
 
 const {
+  closeUpdateTrainingRecordModal,
+  onOpenUpdateTrainingRecordModal,
+  onUpdateTrainingRecord,
+  selectedTrainingRecordFormValues,
+} = useUpdateTrainingRecordHandler({
+  isUpdateTrainingRecordModalOpen,
+  selectedTrainingRecord,
+  updateTrainingRecord,
+  loadTrainingRecords,
+  trainingRecordFilters: trainingRecordsFilters,
+  trainingRecordsPageSize: computed(() => trainingRecordsPagination.value.pageSize),
+  kpiRefreshKey,
+})
+
+const {
   closeUpdateTrainingModal,
   onOpenUpdateTrainingModal,
   onUpdateTraining,
@@ -505,6 +528,17 @@ const {
   getTrainingPersonnel: getTrainingPersonnelEndpoint,
 })
 
+const { onDeleteTrainingRecord } = useDeleteTrainingRecordHandler({
+  deleteTrainingRecord,
+  loadTrainingRecords,
+  trainingRecordFilters: trainingRecordsFilters,
+  trainingRecordsPageSize: computed(() => trainingRecordsPagination.value.pageSize),
+  kpiRefreshKey,
+  showDialog,
+  onDeleteSuccess: () => showDialog({ type: 'success', title: 'Training record deleted', message: 'Training record has been deleted successfully.', confirmLabel: 'OK' }),
+  onDeleteCancelled: () => addToast({ variant: 'warning', title: 'Delete cancelled', message: 'Training record deletion was cancelled.' }),
+})
+
 const { onDeleteTraining } = useDeleteTrainingHandler({
   deleteTraining,
   loadTrainings,
@@ -542,6 +576,14 @@ const { onDeleteTrainingCategory } = useDeleteTrainingCategoryHandler({
     message: 'Training category deletion was cancelled.',
   }),
 })
+
+const onTrainingRecordTableAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
+  const rowId = String(payload.row.id ?? '')
+  if (!rowId) return
+  const selectedRecord = records.value.find((item) => item.id === rowId) ?? null
+  if (payload.actionKey === 'edit-training-record') { if (!selectedRecord) return; onOpenUpdateTrainingRecordModal(selectedRecord); return }
+  if (payload.actionKey === 'delete-training-record') { await onDeleteTrainingRecord(rowId) }
+}
 
 const onTrainingTableAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
   const rowId = String(payload.row.id ?? '')
@@ -589,6 +631,14 @@ const onCreateTrainingWithFeedback = createModalFeedbackHandler(onCreateTraining
   successMessage: 'Training record has been created successfully.',
   errorTitle: 'Create failed',
   errorMessage: 'Unable to create training record right now.',
+})
+
+
+const onUpdateTrainingRecordWithFeedback = createModalFeedbackHandler(onUpdateTrainingRecord, showDialog, {
+  successTitle: 'Training record updated',
+  successMessage: 'Training record has been updated successfully.',
+  errorTitle: 'Update failed',
+  errorMessage: 'Unable to update training record right now.',
 })
 
 const onUpdateTrainingWithFeedback = createModalFeedbackHandler(onUpdateTraining, showDialog, {
