@@ -25,10 +25,12 @@
       />
 
       <div class="grid gap-4 md:grid-cols-2">
-        <BaseTextField
+        <BaseSuggestionField
           v-model="form.trainingCategoryId"
           :label="TRAININGS_CREATE_CATEGORY_LABEL"
           :placeholder="TRAININGS_CREATE_CATEGORY_PLACEHOLDER"
+          :options="trainingCategorySuggestionOptions"
+          :empty-message="TRAININGS_CREATE_CATEGORY_EMPTY_MESSAGE"
           :error="errors.trainingCategoryId"
         />
 
@@ -83,8 +85,9 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { computed, onMounted, reactive, shallowRef } from 'vue'
 import {
+  TRAININGS_CREATE_CATEGORY_EMPTY_MESSAGE,
   TRAININGS_CREATE_CATEGORY_LABEL,
   TRAININGS_CREATE_CATEGORY_PLACEHOLDER,
   TRAININGS_CREATE_END_DATE_LABEL,
@@ -104,7 +107,9 @@ import {
   TRAININGS_MODAL_CANCEL_LABEL,
   TRAININGS_MODAL_CREATE_LABEL,
 } from '~/constants/page.constants'
-import type { CreateTrainingPayload } from '~/types/domain/training'
+import type { SuggestionFieldOption } from '~/constants/ui.constants'
+import type { CreateTrainingPayload, TrainingCategoryListItem } from '~/types/domain/training'
+import { searchTrainingCategoriesEndpoint } from '~/utils/training-endpoints'
 import { validateCreateTrainingForm } from '~/utils/training-validation'
 
 withDefaults(defineProps<{ isSubmitting?: boolean; warningMessage?: string; errorMessage?: string }>(), {
@@ -126,6 +131,21 @@ const form = reactive({
   startDate: '',
   endDate: '',
   defaultRemarks: '',
+})
+
+const trainingCategories = shallowRef<TrainingCategoryListItem[]>([])
+
+const trainingCategorySuggestionOptions = computed<SuggestionFieldOption[]>(() => {
+  return trainingCategories.value.map((item) => ({
+    value: item.id,
+    label: item.name,
+    description: item.code,
+  }))
+})
+
+onMounted(async () => {
+  const response = await searchTrainingCategoriesEndpoint({ page: 1, pageSize: 1000 })
+  trainingCategories.value = response.items
 })
 
 const errors = reactive<Record<string, string>>({})
