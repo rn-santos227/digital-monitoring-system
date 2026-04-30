@@ -40,7 +40,7 @@
         </thead>
 
         <tbody>
-          <tr v-if="isLoading">
+          <tr v-if="shouldRenderLoadingState">
             <td :class="BASE_TABLE_EMPTY_STATE_CLASSES" :colspan="columns.length + (hasActions ? 1 : 0)">
               <BaseInlineLoader :label="loadingLabel" />
             </td>
@@ -99,7 +99,7 @@
     </div>
 
     <Pagination
-      v-if="!isLoading"
+      v-if="!shouldRenderLoadingState"
       :current-page="currentPage"
       :total-pages="totalPages"
       :max-visible-pages="maxVisiblePages"
@@ -113,7 +113,7 @@
 </template>
 
 <script setup lang="ts" generic="TRow extends object">
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import {
   BASE_TABLE_ACTIONS_CELL_CLASSES,
   BASE_TABLE_ACTIONS_COLUMN_WIDTH_CLASSES,
@@ -186,6 +186,40 @@ const getRowValue = (row: TRow, key: string): string | number | boolean | null |
   (row as Record<string, string | number | boolean | null | undefined>)[key]
 
 const hasActions = computed(() => props.actions.length > 0)
+
+const LOADING_STATE_RENDER_DELAY_MS = 180
+const shouldRenderLoadingState = ref(false)
+let loadingStateTimer: ReturnType<typeof setTimeout> | null = null
+
+const clearLoadingStateTimer = () => {
+  if (!loadingStateTimer) {
+    return
+  }
+
+  clearTimeout(loadingStateTimer)
+  loadingStateTimer = null
+}
+
+watch(
+  () => props.isLoading,
+  (isLoading) => {
+    clearLoadingStateTimer()
+
+    if (!isLoading) {
+      shouldRenderLoadingState.value = false
+      return
+    }
+
+    loadingStateTimer = setTimeout(() => {
+      shouldRenderLoadingState.value = true
+    }, LOADING_STATE_RENDER_DELAY_MS)
+  },
+  { immediate: true }
+)
+
+onBeforeUnmount(() => {
+  clearLoadingStateTimer()
+})
 
 const actionColumnWidthClass = computed(() => {
   const requestedActionCount = props.actionButtonCount > 0 ? props.actionButtonCount : props.actions.length
