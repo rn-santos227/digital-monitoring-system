@@ -1,11 +1,12 @@
 import { computed, ref } from 'vue'
-import { createTrainingRecordEndpoint, getTrainingRecordsEndpoint, searchTrainingRecordsEndpoint } from '~/utils/training-endpoints'
+import { createTrainingRecordEndpoint, deleteTrainingRecordEndpoint, getTrainingRecordsEndpoint, searchTrainingRecordsEndpoint, updateTrainingRecordEndpoint } from '~/utils/training-endpoints'
 import type {
   CreateTrainingRecordPayload,
   TrainingEndpointQuery,
   TrainingRecordListItem,
   TrainingRecordSearchQuery,
   TrainingTablePagination,
+  UpdateTrainingRecordPayload,
 } from '~/types/domain/training'
 
 const DEFAULT_PAGINATION: TrainingTablePagination = {
@@ -86,6 +87,14 @@ export const useTrainingRecords = () => {
     await createTrainingRecordEndpoint(payload)
   }
 
+  const updateTrainingRecord = async (id: string, payload: UpdateTrainingRecordPayload) => {
+    await updateTrainingRecordEndpoint(id, payload)
+  }
+
+  const deleteTrainingRecord = async (id: string) => {
+    await deleteTrainingRecordEndpoint(id)
+  }
+
   return {
     filters,
     tableRows,
@@ -95,5 +104,8 @@ export const useTrainingRecords = () => {
     totalItems: computed(() => pagination.value.totalItems),
     loadTrainingRecords,
     createTrainingRecord,
+    updateTrainingRecord,
+    deleteTrainingRecord,
+    records: computed(() => records.value),
   }
 }
