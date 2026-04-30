@@ -102,6 +102,14 @@ export interface CreateTrainingRecordPayload {
   remarks?: string | null
 }
 
+export interface UpdateTrainingRecordPayload {
+  trainingId?: string | null
+  personnelId?: string
+  certificateNo?: string | null
+  validUntil?: string | null
+  remarks?: string | null
+}
+
 export interface UpdateTrainingPayload {
   trainingTitle?: string
   trainingCategoryId?: string | null

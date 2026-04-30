@@ -16,6 +16,7 @@ import type {
   TrainingSearchQuery,
   UpdateTrainingCategoryPayload,
   UpdateTrainingPayload,
+  UpdateTrainingRecordPayload,
 } from '~/types/domain/training'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
@@ -193,4 +194,26 @@ export const getTrainingSuggestionsEndpoint = async (
       query,
     })
   }, API_LOADING_MESSAGES.fetchTrainingSuggestions)
+}
+
+export const updateTrainingRecordEndpoint = async (
+  id: string,
+  payload: UpdateTrainingRecordPayload,
+): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingRecordById(id), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updateTrainingRecord)
+}
+
+export const deleteTrainingRecordEndpoint = async (id: string): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingRecordById(id), {
+      method: 'DELETE',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.deleteTrainingRecord)
 }

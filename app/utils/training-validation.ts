@@ -1,4 +1,4 @@
-import type { CreateTrainingCategoryPayload, CreateTrainingPayload, CreateTrainingRecordPayload } from '~/types/domain/training'
+import type { CreateTrainingCategoryPayload, CreateTrainingPayload, CreateTrainingRecordPayload, UpdateTrainingRecordPayload } from '~/types/domain/training'
 import { validateFields } from '~/utils/field-validation'
 import { REGEX_PATTERNS } from '~/utils/regex'
 
@@ -173,4 +173,15 @@ export const validateCreateTrainingRecordForm = (form: {
     errors: result.errors,
     payload,
   }
+}
+
+export const validateUpdateTrainingRecordForm = validateCreateTrainingRecordForm as (form: {
+  trainingId: string
+  personnelId: string
+  certificateNo: string
+  validUntil: string
+  remarks: string
+}) => {
+  errors: Record<string, string>
+  payload: UpdateTrainingRecordPayload | null
 }
