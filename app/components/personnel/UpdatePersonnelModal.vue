@@ -140,10 +140,11 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import BattalionsSuggestionField from '~/components/general/BattalionsSuggestionField.vue'
 import CompaniesSuggestionField from '~/components/general/CompaniesSuggestionField.vue'
 import RankSuggestionField from '~/components/general/RankSuggestionField.vue'
+import { FILE_UPLOAD_CONSTRAINTS } from '~/constants/api.constants'
 import {
   PERSONNEL_CREATE_BATTALION_ID_LABEL,
   PERSONNEL_CREATE_BATTALION_ID_PLACEHOLDER,
@@ -153,6 +154,10 @@ import {
   PERSONNEL_CREATE_CONTACT_NUMBER_LABEL,
   PERSONNEL_CREATE_CONTACT_NUMBER_PLACEHOLDER,
   PERSONNEL_CREATE_POSITION_LABEL,
+  PERSONNEL_CREATE_PROFILE_IMAGE_HELPER,
+  PERSONNEL_CREATE_PROFILE_IMAGE_LABEL,
+  PERSONNEL_CREATE_PROFILE_IMAGE_URL_LABEL,
+  PERSONNEL_CREATE_PROFILE_IMAGE_URL_PLACEHOLDER,
   PERSONNEL_CREATE_POSITION_PLACEHOLDER,
   PERSONNEL_CREATE_DATE_ENLISTED_LABEL,
   PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_LABEL,
@@ -182,6 +187,9 @@ import {
   PERSONNEL_UPDATE_MODAL_TITLE,
 } from '~/constants/page.constants'
 import type { PersonnelDetail, UpdatePersonnelPayload } from '~/types/domain/personnel'
+import { uploadFileEndpoint } from '~/utils/file-management-endpoints'
+import { formatFileSizeLabel } from '~/utils/file-upload'
+import { extractApiErrorMessage } from '~/utils/api-request'
 import { validateCreatePersonnelForm } from '~/utils/personnel-validation'
 
 const props = withDefaults(defineProps<{ initialValues: PersonnelDetail, isSubmitting?: boolean; warningMessage?: string; errorMessage?: string }>(), {
@@ -211,6 +219,7 @@ const form = reactive({
   contactNumber: '',
   position: '',
   dateEnlisted: '',
+  profileImageUrl: '',
 })
 
 const syncForm = (value: PersonnelDetail) => {
@@ -234,6 +243,13 @@ const syncForm = (value: PersonnelDetail) => {
 watch(() => props.initialValues, syncForm, { immediate: true, deep: true })
 
 const errors = reactive<Record<string, string>>({})
+const isProfileImageUploading = ref(false)
+const profileImageFile = ref<File | null>(null)
+
+const profileImageUploadHelperText = computed(() => {
+  const maxSizeLabel = formatFileSizeLabel(FILE_UPLOAD_CONSTRAINTS.maxSizeBytes)
+  return `${PERSONNEL_CREATE_PROFILE_IMAGE_HELPER} Max size: ${maxSizeLabel}.`
+})
 
 watch(
   () => form.battalionId,
@@ -244,7 +260,12 @@ watch(
   }
 )
 
-const onSubmit = () => {
+const onProfileImageFileSelected = (file: File | null) => {
+  delete errors.profileImageFile
+  profileImageFile.value = file
+}
+
+const onSubmit = async () => {
   const result = validateCreatePersonnelForm(form)
 
   Object.keys(errors).forEach((key) => {
@@ -253,8 +274,29 @@ const onSubmit = () => {
 
   Object.assign(errors, result.errors)
 
+  if (isProfileImageUploading.value) {
+    errors.profileImageFile = 'Profile image upload is in progress. Please wait.'
+    return
+  }
+
   if (!result.payload) {
     return
+  }
+
+  if (profileImageFile.value) {
+    isProfileImageUploading.value = true
+
+    try {
+      const response = await uploadFileEndpoint(profileImageFile.value, {
+        allowedMimePrefixes: FILE_UPLOAD_CONSTRAINTS.imageMimePrefixes,
+      })
+      form.profileImageUrl = response.attachment.publicUrl
+    } catch (error) {
+      errors.profileImageFile = extractApiErrorMessage(error, 'Unable to upload profile image file.')
+      return
+    } finally {
+      isProfileImageUploading.value = false
+    }
   }
 
   emit('submit', result.payload)

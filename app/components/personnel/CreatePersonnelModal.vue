@@ -115,6 +115,27 @@
         />
       </div>
 
+      <div class="space-y-2">
+        <BaseFileUpload
+          :label="PERSONNEL_CREATE_PROFILE_IMAGE_LABEL"
+          :helper-text="profileImageUploadHelperText"
+          :error="errors.profileImageFile"
+          accept="image/*"
+          :allowed-mime-prefixes="FILE_UPLOAD_CONSTRAINTS.imageMimePrefixes"
+          :max-size-bytes="FILE_UPLOAD_CONSTRAINTS.maxSizeBytes"
+          :disabled="isSubmitting || isProfileImageUploading"
+          @update:file="onProfileImageFileSelected"
+        />
+
+        <BaseTextField
+          v-model="form.profileImageUrl"
+          type="url"
+          :label="PERSONNEL_CREATE_PROFILE_IMAGE_URL_LABEL"
+          :placeholder="PERSONNEL_CREATE_PROFILE_IMAGE_URL_PLACEHOLDER"
+          helper-text="Optional fallback URL."
+        />
+      </div>
+
       <div class="grid gap-4 md:grid-cols-2">
         <BaseSuggestionField
           v-model="form.employmentStatusId"
