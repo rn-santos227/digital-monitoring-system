@@ -32,6 +32,7 @@ export const useViewTrainingHandler = ({
     try {
       const response = await getTrainingPersonnel(trainingId, 100)
       trainingPersonnelRows.value = response.items.map(item => ({
+        personnelId: item.personnelId,
         personnelCode: item.personnelCode ?? '—',
         personnelName: item.personnelName ?? '—',
         recordNo: item.recordNo,

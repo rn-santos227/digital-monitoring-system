@@ -279,6 +279,7 @@ export const TRAINING_RECORDS_TABLE_TITLE = 'Training Records'
 export const TRAINING_RECORDS_TABLE_EMPTY_MESSAGE = 'No training records found.'
 export const TRAINING_RECORDS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
 export const TRAINING_RECORDS_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  { key: 'view-training-record', tooltip: 'View training record', iconName: 'eye', variant: 'info' },
   { key: 'edit-training-record', tooltip: 'Update training record', iconName: 'pencil-square', variant: 'warning' },
   { key: 'delete-training-record', tooltip: 'Delete training record', iconName: 'trash', variant: 'danger' },
 ])

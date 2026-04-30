@@ -57,6 +57,10 @@ const authStore = useAuthStore()
 
 const visibleActions = computed(() => {
   return TRAINING_RECORDS_TABLE_ACTIONS.filter((action) => {
+    if (action.key === 'view-training-record') {
+      return authStore.hasPermissionAccess(TRAINING_PAGE_REQUIRED_PERMISSIONS.view)
+    }
+
     if (action.key === 'delete-training-record') {
       return authStore.hasPermissionAccess(TRAINING_PAGE_REQUIRED_PERMISSIONS.delete)
     }
