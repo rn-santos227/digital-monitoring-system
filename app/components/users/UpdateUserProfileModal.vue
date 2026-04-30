@@ -3,6 +3,7 @@
     :title="USERS_PROFILE_UPDATE_MODAL_TITLE"
     :description="USERS_PROFILE_UPDATE_MODAL_DESCRIPTION"
     size="lg"
+    scroll-body
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
