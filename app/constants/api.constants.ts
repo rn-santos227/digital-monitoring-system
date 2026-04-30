@@ -54,6 +54,8 @@ export const DEPLOYMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   deploymentsSearch: '/api/deployments/search',
   deploymentRecords: '/api/deployment-records',
   deploymentRecordsSearch: '/api/deployment-records/search',
+  deploymentByIdDetails: (id: string) => `/api/deployments/${id}/details`,
+  deploymentByIdLocation: (id: string) => `/api/deployments/${id}/location`,
 })
 
 export const DASHBOARD_API_ENDPOINTS = Object.freeze({
@@ -159,5 +161,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   fetchDeployments: 'Loading deployments...',
   fetchDeploymentRecords: 'Loading deployment records...',
   createDeployment: 'Creating deployment record...',
+  updateDeployment: 'Updating deployment record...',
+  deleteDeployment: 'Deleting deployment record...',
   uploadFile: 'Uploading file...',
 })
