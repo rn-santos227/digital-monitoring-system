@@ -6,7 +6,15 @@ import type {
   DeploymentTablePagination,
 } from '~/types/domain/deployment'
 import { extractApiErrorMessage } from '~/utils/api-request'
-import { createDeploymentEndpoint, getDeploymentRecordsEndpoint, getDeploymentsEndpoint, searchDeploymentsEndpoint } from '~/utils/deployment-endpoints'
+import { 
+  createDeploymentEndpoint,
+  getDeploymentRecordsEndpoint,
+  getDeploymentsEndpoint,
+  searchDeploymentsEndpoint,
+  updateDeploymentDetailsEndpoint,
+  updateDeploymentLocationEndpoint,
+  deleteDeploymentEndpoint
+} from '~/utils/deployment-endpoints'
 
 const DEFAULT_PAGINATION: DeploymentTablePagination = {
   page: 1,
@@ -93,6 +101,56 @@ export const useDeploymentsStore = defineStore('deployments', {
         await this.fetchDeployments(1)
       } catch (error) {
         this.deployments.error = extractApiErrorMessage(error, 'Unable to create deployment.')
+        throw error
+      }
+    },
+
+    async updateDeploymentDetails(
+      this: DeploymentsStoreState & {
+        fetchDeployments: (page?: number, filters?: Partial<DeploymentManagementSearchQuery>, pageSize?: number) => Promise<void>
+      },
+      id: string,
+      payload: CreateDeploymentPayload,
+    ) {
+      this.deployments.error = ''
+      try {
+        await updateDeploymentDetailsEndpoint(id, payload)
+        await this.fetchDeployments(1)
+      } catch (error) {
+        this.deployments.error = extractApiErrorMessage(error, 'Unable to update deployment details.')
+        throw error
+      }
+    },
+
+    async updateDeploymentLocation(
+      this: DeploymentsStoreState & {
+        fetchDeployments: (page?: number, filters?: Partial<DeploymentManagementSearchQuery>, pageSize?: number) => Promise<void>
+      },
+      id: string,
+      payload: CreateDeploymentPayload,
+    ) {
+      this.deployments.error = ''
+      try {
+        await updateDeploymentLocationEndpoint(id, payload)
+        await this.fetchDeployments(1)
+      } catch (error) {
+        this.deployments.error = extractApiErrorMessage(error, 'Unable to update deployment location.')
+        throw error
+      }
+    },
+
+    async deleteDeployment(
+      this: DeploymentsStoreState & {
+        fetchDeployments: (page?: number, filters?: Partial<DeploymentManagementSearchQuery>, pageSize?: number) => Promise<void>
+      },
+      id: string,
+    ) {
+      this.deployments.error = ''
+      try {
+        await deleteDeploymentEndpoint(id)
+        await this.fetchDeployments(1)
+      } catch (error) {
+        this.deployments.error = extractApiErrorMessage(error, 'Unable to delete deployment.')
         throw error
       }
     },
