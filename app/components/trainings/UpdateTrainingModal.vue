@@ -32,10 +32,11 @@
           :error="errors.trainingCategoryId"
         />
 
-        <BaseTextField
+        <BaseSelect
           v-model="form.statusId"
           :label="TRAININGS_CREATE_STATUS_LABEL"
           :placeholder="TRAININGS_CREATE_STATUS_PLACEHOLDER"
+          :options="TRAININGS_CREATE_STATUS_OPTIONS"
           :error="errors.statusId"
           required
         />
@@ -94,6 +95,7 @@ import {
   TRAININGS_CREATE_REMARKS_PLACEHOLDER,
   TRAININGS_CREATE_START_DATE_LABEL,
   TRAININGS_CREATE_STATUS_LABEL,
+  TRAININGS_CREATE_STATUS_OPTIONS,
   TRAININGS_CREATE_STATUS_PLACEHOLDER,
   TRAININGS_CREATE_TITLE_LABEL,
   TRAININGS_CREATE_TITLE_PLACEHOLDER,

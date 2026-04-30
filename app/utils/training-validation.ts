@@ -65,12 +65,10 @@ export const validateCreateTrainingForm = (form: {
     },
     {
       field: 'statusId',
-      label: 'Training status ID',
+      label: 'Training status',
       value: form.statusId,
       required: true,
       maxLength: 80,
-      pattern: REGEX_PATTERNS.uuid,
-      patternMessage: 'Training status ID must be a valid UUID.',
     },
     {
       field: 'levelId',

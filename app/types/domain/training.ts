@@ -4,6 +4,7 @@ import type {
   TrainingRecordsUpdate,
   UUID,
 } from '../database.tables'
+import type { TrainingStatusName } from '../enums'
 
 export type TrainingRecordCreateInput = TrainingRecordsInsert
 export type TrainingRecordUpdateInput = TrainingRecordsUpdate
@@ -14,7 +15,7 @@ export interface TrainingRecordSummary extends TrainingRecordsRow {
   training_category_code: string | null
   training_category_name: string | null
   level_name: string | null
-  training_status: string
+  training_status: TrainingStatusName
 }
 
 export interface TrainingFilters {

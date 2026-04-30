@@ -40,7 +40,15 @@ export const DEPLOYMENT_STATUS_VALUES = Object.freeze([
 ] as const)
 export type DeploymentStatusName = (typeof DEPLOYMENT_STATUS_VALUES)[number]
 
-export type TrainingStatusName = 'Planned' | 'Ongoing' | 'Completed' | 'Expired' | 'Cancelled'
+export const TRAINING_STATUS_VALUES = Object.freeze([
+  'Planned',
+  'Ongoing',
+  'Completed',
+  'Expired',
+  'Cancelled',
+] as const)
+export type TrainingStatusName = (typeof TRAINING_STATUS_VALUES)[number]
+
 export type EngagementStatusName = 'Planned' | 'Ongoing' | 'Completed' | 'Cancelled'
 
 export type EngagementTypeName =

@@ -8,7 +8,7 @@ import {
   PERMISSION_CODES,
   TRAINING_SELECT_COLUMNS,
 } from '../../../shared/constants'
-import { resolveTrainingLevelId } from '../../../shared/utils'
+import { resolveTrainingLevelId, resolveTrainingStatusId } from '../../../shared/utils'
 import { buildTrainingUpdates, requireRouteId } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
@@ -57,6 +57,10 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
 
   if (updates.level_id) {
     updates.level_id = await resolveTrainingLevelId(supabase, updates.level_id)
+  }
+
+  if (updates.status_id) {
+    updates.status_id = await resolveTrainingStatusId(supabase, updates.status_id)
   }
 
   try {

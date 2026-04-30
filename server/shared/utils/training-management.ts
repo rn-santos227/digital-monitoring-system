@@ -21,6 +21,18 @@ interface TrainingLevelLookupSupabaseClient {
   }
 }
 
+interface TrainingStatusLookupSupabaseClient {
+  from: (table: 'training_statuses') => {
+    select: (columns: 'id') => {
+      eq: (column: 'id' | 'name', value: string) => {
+        maybeSingle: () => Promise<{ data: { id: string } | null; error: { message: string } | null }>
+      }
+    }
+  }
+}
+
+const TRAINING_STATUS_NAMES = Object.freeze(['Planned', 'Ongoing', 'Completed', 'Expired', 'Cancelled'] as const)
+
 const TRAINING_LEVEL_NAMES = Object.freeze([
   'Beginner',
   'Intermediate',
@@ -198,6 +210,23 @@ export const resolveTrainingLevelId = async (supabase: unknown, value: string): 
 
   if (error || !data?.id) {
     throw createError({ statusCode: 400, statusMessage: 'Invalid training level value.' })
+  }
+
+  return data.id
+}
+
+export const resolveTrainingStatusId = async (supabase: unknown, value: string): Promise<string> => {
+  const supabaseClient = supabase as TrainingStatusLookupSupabaseClient
+  const isKnownName = TRAINING_STATUS_NAMES.includes(value as (typeof TRAINING_STATUS_NAMES)[number])
+  const filterField: 'id' | 'name' = isKnownName ? 'name' : 'id'
+  const { data, error } = await supabaseClient
+    .from('training_statuses')
+    .select('id')
+    .eq(filterField, value)
+    .maybeSingle()
+
+  if (error || !data?.id) {
+    throw createError({ statusCode: 400, statusMessage: 'Invalid training status value.' })
   }
 
   return data.id
