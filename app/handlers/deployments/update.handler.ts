@@ -6,11 +6,11 @@ import { showErrorDialog } from '~/utils/error-handling'
 export const useUpdateDeploymentHandler = (
   isUpdateDeploymentModalOpen: Ref<boolean>,
   selectedDeployment: Ref<Record<string, unknown> | null>,
-  isUpdateDeploymentLocationModalOpen?: Ref<boolean>,
   updateDeploymentDetails: (id: string, payload: CreateDeploymentPayload) => Promise<void>,
   updateDeploymentLocation: (id: string, payload: CreateDeploymentPayload) => Promise<void>,
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>,
   errorMessage: Ref<string>,
+  isUpdateDeploymentLocationModalOpen?: Ref<boolean>,
 ) => {
   const onOpenUpdateDeploymentModal = (row: Record<string, unknown>) => {
     selectedDeployment.value = row

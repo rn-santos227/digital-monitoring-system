@@ -4,6 +4,9 @@
     :columns="DEPLOYMENTS_TABLE_COLUMNS"
     :rows="props.rows"
     row-key="id"
+    :actions="visibleActions"
+    :action-button-count="visibleActions.length"
+    :actions-column-label="DEPLOYMENTS_TABLE_ACTIONS_COLUMN_LABEL"
     :is-loading="props.isLoading"
     :show-search="false"
     :empty-message="DEPLOYMENTS_TABLE_EMPTY_MESSAGE"
@@ -13,15 +16,21 @@
     :page-size="props.pageSize"
     @update:current-page="emit('update:currentPage', $event)"
     @update:page-size="emit('update:pageSize', $event)"
+    @action="emit('action', $event)"
   />
 </template>
 
 <script setup lang="ts">
 import {
+  DEPLOYMENTS_TABLE_ACTIONS,
+  DEPLOYMENTS_TABLE_ACTIONS_COLUMN_LABEL,
   DEPLOYMENTS_TABLE_COLUMNS,
   DEPLOYMENTS_TABLE_EMPTY_MESSAGE,
   DEPLOYMENTS_TABLE_TITLE,
 } from '~/constants/table.constants'
+import { computed } from 'vue'
+import { DEPLOYMENT_PRIVILEGES } from '~/constants/privileges.constants'
+import { useAuthStore } from '~/stores/auth'
 
 const props = withDefaults(defineProps<{
   rows: readonly Record<string, unknown>[]
@@ -30,16 +39,38 @@ const props = withDefaults(defineProps<{
   totalPages?: number
   totalItems?: number
   pageSize?: number
+  showActions?: boolean
 }>(), {
   isLoading: false,
   currentPage: 1,
   totalPages: 1,
   totalItems: 0,
   pageSize: 10,
+  showActions: false,
 })
 
 const emit = defineEmits<{
   (event: 'update:currentPage', value: number): void
   (event: 'update:pageSize', value: number): void
+  (event: 'action', payload: { actionKey: string; row: Record<string, unknown> }): void
 }>()
+
+const authStore = useAuthStore()
+const visibleActions = computed(() => {
+  if (!props.showActions) {
+    return []
+  }
+
+  return DEPLOYMENTS_TABLE_ACTIONS.filter((action) => {
+    if (action.key === 'edit-deployment-details' || action.key === 'edit-deployment-location') {
+      return authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.edit)
+    }
+
+    if (action.key === 'delete-deployment') {
+      return authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.delete)
+    }
+
+    return true
+  })
+})
 </script>
