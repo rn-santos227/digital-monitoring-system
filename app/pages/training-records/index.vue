@@ -67,6 +67,7 @@
           :total-pages="trainingRecordsPagination.totalPages"
           :total-items="trainingRecordsPagination.totalItems"
           :page-size="trainingRecordsPagination.pageSize"
+          @action="onTrainingRecordTableAction"
           @update:current-page="onTrainingRecordsPageChange"
           @update:page-size="onTrainingRecordsPageSizeChange"
         />
@@ -136,6 +137,11 @@
       :initial-values="selectedTrainingRecordFormValues"
       @close="closeUpdateTrainingRecordModal"
       @submit="onUpdateTrainingRecordWithFeedback"
+    />
+    <ViewTrainingRecordModal
+      v-if="isViewTrainingRecordModalOpen && selectedTrainingRecord"
+      :training-record="selectedTrainingRecord"
+      @close="closeViewTrainingRecordModal"
     />
     <CreateTrainingModal
       v-if="isCreateTrainingModalOpen"
@@ -236,12 +242,12 @@ const isUpdateTrainingModalOpen = ref(false)
 const isUpdateTrainingRecordModalOpen = ref(false)
 const isUpdateTrainingCategoryModalOpen = ref(false)
 const isViewTrainingModalOpen = ref(false)
+const isViewTrainingRecordModalOpen = ref(false)
 const isTrainingPersonnelLoading = ref(false)
 const selectedTraining = ref<TrainingListItem | null>(null)
 const selectedTrainingCategory = ref<TrainingCategoryListItem | null>(null)
 const selectedTrainingRecord = ref<TrainingRecordListItem | null>(null)
 const trainingPersonnelRows = ref<Record<string, string>[]>([])
-
 const {
   filters: trainingFilters,
   tableRows: trainingTableRows,
@@ -587,6 +593,12 @@ const onTrainingRecordTableAction = async (payload: { actionKey: string; row: Re
   const rowId = String(payload.row.id ?? '')
   if (!rowId) return
   const selectedRecord = records.value.find((item) => item.id === rowId) ?? null
+  if (payload.actionKey === 'view-training-record') {
+    if (!selectedRecord) return
+    selectedTrainingRecord.value = selectedRecord
+    isViewTrainingRecordModalOpen.value = true
+    return
+  }
   if (payload.actionKey === 'edit-training-record') { if (!selectedRecord) return; onOpenUpdateTrainingRecordModal(selectedRecord); return }
   if (payload.actionKey === 'delete-training-record') { await onDeleteTrainingRecord(rowId) }
 }
@@ -630,6 +642,11 @@ const onCategoryTableAction = async (payload: { actionKey: string; row: Record<s
   }
 
   await onDeleteTrainingCategory(rowId)
+}
+
+const closeViewTrainingRecordModal = () => {
+  isViewTrainingRecordModalOpen.value = false
+  selectedTrainingRecord.value = null
 }
 
 const onCreateTrainingWithFeedback = createModalFeedbackHandler(onCreateTraining, showDialog, {
