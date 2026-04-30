@@ -46,9 +46,6 @@ import {
 import {
   loadLeafletApi,
   normalizeCoordinateValue,
-  type GeoMapApi,
-  type GeoMapInstance,
-  type GeoMapMarker,
 } from '~/utils/geo-map'
 
 type LeafletMarker = {
@@ -60,6 +57,7 @@ type LeafletMarker = {
 type LeafletMap = {
   setView: (coords: [number, number], zoom: number) => unknown
   panTo: (coords: [number, number]) => unknown
+  on: (eventName: string, handler: (event: { latlng?: { lat: number; lng: number } }) => void) => void
   remove: () => unknown
 }
 
@@ -141,7 +139,7 @@ const initializeMap = async () => {
     return
   }
   try {
-    leafletApi.value = await loadLeafletApi()
+    leafletApi.value = await loadLeafletApi() as LeafletApi | null
     if (!leafletApi.value) {
       throw new Error('Leaflet not available.')
     }
@@ -170,6 +168,24 @@ const initializeMap = async () => {
       const nextPoint = marker.value.getLatLng()
       emit('update:latitude', Number(nextPoint.lat.toFixed(6)))
       emit('update:longitude', Number(nextPoint.lng.toFixed(6)))
+    })
+
+    map.value.on('click', (event) => {
+      if (!isInputMode.value || !marker.value) {
+        return
+      }
+
+      const latitude = event.latlng?.lat
+      const longitude = event.latlng?.lng
+
+      if (typeof latitude !== 'number' || typeof longitude !== 'number') {
+        return
+      }
+
+      marker.value.setLatLng([latitude, longitude])
+      map.value?.panTo([latitude, longitude])
+      emit('update:latitude', Number(latitude.toFixed(6)))
+      emit('update:longitude', Number(longitude.toFixed(6)))
     })
   } catch {
     mapLoadError.value = 'Unable to load interactive map at the moment.'
