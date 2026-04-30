@@ -55,9 +55,14 @@ export interface DeploymentManagementListItem {
   deploymentArea: string
   deploymentAreaLatitude: number | null
   deploymentAreaLongitude: number | null
+  assignmentRole?: string | null
   startDate: string | null
   endDate: string | null
   status: string | null
+  statusId?: string | null
+  location?: string | null
+  supervisorId?: string | null
+  defaultRemarks?: string | null
 }
 
 export interface DeploymentManagementListResponse<TItem> {
