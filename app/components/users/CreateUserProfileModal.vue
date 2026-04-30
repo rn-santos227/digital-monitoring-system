@@ -166,6 +166,7 @@ const form = reactive({
 
 const errors = reactive<Record<string, string>>({})
 const isAvatarUploading = ref(false)
+const avatarFile = ref<File | null>(null)
 
 const avatarUploadHelperText = computed(() => {
   const maxSizeLabel = formatFileSizeLabel(FILE_UPLOAD_CONSTRAINTS.maxSizeBytes)
@@ -183,26 +184,9 @@ const onAccountTypeToggle = (accountTypeId: string, checked: boolean) => {
   form.accountTypeIds = form.accountTypeIds.filter((existingId) => existingId !== accountTypeId)
 }
 
-const onAvatarFileSelected: (file: File | null) => Promise<void> = async (file: File | null) => {
+const onAvatarFileSelected = (file: File | null) => {
   delete errors.avatarFile
-
-  if (!file) {
-    return
-  }
-
-  isAvatarUploading.value = true
-
-  try {
-    const response = await uploadFileEndpoint(file, {
-      allowedMimePrefixes: FILE_UPLOAD_CONSTRAINTS.imageMimePrefixes,
-    })
-
-    form.avatarUrl = response.attachment.publicUrl
-  } catch (error) {
-    errors.avatarFile = extractApiErrorMessage(error, 'Unable to upload avatar file.')
-  } finally {
-    isAvatarUploading.value = false
-  }
+  avatarFile.value = file
 }
 
 const onPersonnelSelected = (personnel: PersonnelSuggestion | null) => {
@@ -217,7 +201,7 @@ const onPersonnelSelected = (personnel: PersonnelSuggestion | null) => {
   }
 }
 
-const onSubmit = () => {
+const onSubmit = async () => {
   const result = validateUserProfileForm(form)
 
   Object.keys(errors).forEach((key) => {
@@ -233,6 +217,23 @@ const onSubmit = () => {
 
   if (!result.payload) {
     return
+  }
+
+  if (avatarFile.value) {
+    isAvatarUploading.value = true
+
+    try {
+      const response = await uploadFileEndpoint(avatarFile.value, {
+        allowedMimePrefixes: FILE_UPLOAD_CONSTRAINTS.imageMimePrefixes,
+      })
+      form.avatarUrl = response.attachment.publicUrl
+      result.payload.avatarUrl = response.attachment.publicUrl
+    } catch (error) {
+      errors.avatarFile = extractApiErrorMessage(error, 'Unable to upload avatar file.')
+      return
+    } finally {
+      isAvatarUploading.value = false
+    }
   }
 
   emit('submit', result.payload)
