@@ -19,6 +19,7 @@ interface CreatePersonnelForm {
   contactNumber: string
   position: string
   dateEnlisted: string
+  profileImageUrl: string
 }
 
 export const validateCreatePersonnelForm = (form: CreatePersonnelForm) => {
@@ -55,6 +56,11 @@ export const validateCreatePersonnelForm = (form: CreatePersonnelForm) => {
       value: form.dateEnlisted,
       pattern: REGEX_PATTERNS.isoDate,
       patternMessage: 'Date enlisted must use YYYY-MM-DD format.',
+    },
+    {
+      field: 'profileImageUrl',
+      label: 'Profile image URL',
+      value: form.profileImageUrl,maxLength: 500
     },
   ])
 
@@ -103,6 +109,7 @@ export const validateCreatePersonnelForm = (form: CreatePersonnelForm) => {
         contactNumber: validation.values.contactNumber || null,
         position: validation.values.position || null,
         dateEnlisted: validation.values.dateEnlisted || null,
+        profileImageUrl: validation.values.profileImageUrl || null,
       }
 
   return {

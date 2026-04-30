@@ -144,6 +144,7 @@ export interface CreatePersonnelPayload {
   contactNumber: string | null
   position: string | null
   dateEnlisted: string | null
+  profileImageUrl?: string | null
 }
 
 export interface CreatePersonnelResponse {
