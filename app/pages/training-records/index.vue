@@ -131,6 +131,12 @@
       @close="onCloseCreateTrainingRecordModal"
       @submit="onCreateTrainingRecord"
     />
+    <UpdateTrainingRecordModal
+      v-if="isUpdateTrainingRecordModalOpen && selectedTrainingRecord"
+      :initial-values="selectedTrainingRecordFormValues"
+      @close="closeUpdateTrainingRecordModal"
+      @submit="onUpdateTrainingRecordWithFeedback"
+    />
     <CreateTrainingModal
       v-if="isCreateTrainingModalOpen"
       @close="onCloseCreateTrainingModal"
@@ -632,7 +638,6 @@ const onCreateTrainingWithFeedback = createModalFeedbackHandler(onCreateTraining
   errorTitle: 'Create failed',
   errorMessage: 'Unable to create training record right now.',
 })
-
 
 const onUpdateTrainingRecordWithFeedback = createModalFeedbackHandler(onUpdateTrainingRecord, showDialog, {
   successTitle: 'Training record updated',
