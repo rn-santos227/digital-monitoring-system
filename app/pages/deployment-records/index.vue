@@ -54,6 +54,8 @@
           :total-pages="deploymentsPagination.totalPages"
           :total-items="deploymentsPagination.totalItems"
           :page-size="deploymentsPagination.pageSize"
+          :show-actions="activeTab === 'deployments'"
+          @action="onDeploymentsTableAction"
           @update:current-page="onDeploymentsPageChange"
           @update:page-size="onDeploymentsPageSizeChange"
         />
@@ -81,6 +83,24 @@
         @close="onCloseCreateDeploymentModal"
         @submit="onSubmitCreateDeployment"
       />
+
+      <UpdateDeploymentDetailModal
+        v-if="isUpdateDeploymentDetailModalOpen && selectedDeployment"
+        :initial-values="selectedDeploymentFormValues"
+        :is-submitting="isDeploymentsLoading"
+        :error-message="updateDeploymentErrorMessage"
+        @close="onCloseUpdateDeploymentModal"
+        @submit="onSubmitUpdateDeploymentDetails"
+      />
+
+      <UpdateDeploymentLocationModal
+        v-if="isUpdateDeploymentLocationModalOpen && selectedDeployment"
+        :initial-values="selectedDeploymentFormValues"
+        :is-submitting="isDeploymentsLoading"
+        :error-message="updateDeploymentErrorMessage"
+        @close="onCloseUpdateDeploymentModal"
+        @submit="onSubmitUpdateDeploymentLocation"
+      />
     </section>
   </main>
 </template>
@@ -92,6 +112,8 @@ import KpiCard from '~/components/general/KpiCard.vue'
 import DeploymentsFilter from '~/components/deployments/DeploymentsFilter.vue'
 import DeploymentsTable from '~/components/deployments/DeploymentsTable.vue'
 import CreateDeploymentModal from '~/components/deployments/CreateDeploymentModal.vue'
+import UpdateDeploymentDetailModal from '~/components/deployments/UpdateDeploymentDetailModal.vue'
+import UpdateDeploymentLocationModal from '~/components/deployments/UpdateDeploymentLocationModal.vue'
 import { useDeploymentRecords } from '~/composables/useDeploymentRecords'
 import { useDeployments } from '~/composables/useDeployments'
 import {
@@ -106,7 +128,8 @@ import {
 import { DEPLOYMENT_PRIVILEGES } from '~/constants/privileges.constants'
 import { APP_MAIN_CONTENT_CLASSES, DEPLOYMENTS_PAGE_HEADER_CLASSES, TRAINING_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
 import { useDialog } from '~/composables/useDialog'
-import { useCreateDeploymentHandler, useDeploymentManagementPageHandlers } from '~/handlers'
+import { useToast } from '~/composables/useToast'
+import { useCreateDeploymentHandler, useDeleteDeploymentHandler, useDeploymentManagementPageHandlers, useUpdateDeploymentHandler } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type { DeploymentManagementTabId } from '~/types/domain/deployment'
 import type { FieldValidationMap } from '~/utils/field-validation'
@@ -115,8 +138,14 @@ const activeTab = ref<DeploymentManagementTabId>('deployments')
 const kpiRefreshKey = ref(0)
 const deploymentFilterValidationErrors = ref<FieldValidationMap>({})
 const createDeploymentErrorMessage = ref('')
+const updateDeploymentErrorMessage = ref('')
+const isUpdateDeploymentDetailModalOpen = ref(false)
+const isUpdateDeploymentLocationModalOpen = ref(false)
+const selectedDeployment = ref<Record<string, unknown> | null>(null)
 const authStore = useAuthStore()
 const { showDialog } = useDialog()
+const { addToast } = useToast()
+
 
 const {
   filters: deploymentsFilters,
@@ -126,6 +155,9 @@ const {
   error: deploymentsError,
   loadDeployments,
   createDeployment,
+  updateDeploymentDetails,
+  updateDeploymentLocation,
+  deleteDeployment,
 } = useDeployments()
 
 const {
@@ -160,6 +192,17 @@ const {
   onCloseCreateDeploymentModal,
   onSubmitCreateDeployment,
 } = useCreateDeploymentHandler(isCreateDeploymentModalOpen, createDeployment, showDialog, createDeploymentErrorMessage)
+
+
+const {
+  onOpenUpdateDeploymentModal,
+  onCloseUpdateDeploymentModal,
+  selectedDeploymentFormValues,
+  onSubmitUpdateDeploymentDetails,
+  onSubmitUpdateDeploymentLocation,
+} = useUpdateDeploymentHandler(isUpdateDeploymentDetailModalOpen, selectedDeployment, updateDeploymentDetails, updateDeploymentLocation, showDialog, updateDeploymentErrorMessage, isUpdateDeploymentLocationModalOpen)
+
+const { onDeleteDeployment } = useDeleteDeploymentHandler(showDialog, deleteDeployment, addToast)
 
 const visibleTabItems = computed(() => {
   return DEPLOYMENTS_PAGE_TAB_ITEMS.filter((tabItem) => {
@@ -206,6 +249,25 @@ const onDeploymentRecordsPageChange = async (page: number) => {
 
 const onDeploymentRecordsPageSizeChange = async (pageSize: number) => {
   await loadDeploymentRecords(1, {}, pageSize)
+}
+
+const onDeploymentsTableAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
+  if (payload.actionKey === 'edit-deployment-details') {
+    isUpdateDeploymentLocationModalOpen.value = false
+    onOpenUpdateDeploymentModal(payload.row)
+    return
+  }
+
+  if (payload.actionKey === 'edit-deployment-location') {
+    selectedDeployment.value = payload.row
+    isUpdateDeploymentDetailModalOpen.value = false
+    isUpdateDeploymentLocationModalOpen.value = true
+    return
+  }
+
+  if (payload.actionKey === 'delete-deployment') {
+    await onDeleteDeployment(payload.row)
+  }
 }
 
 watch(activeTab, async (tab) => {
