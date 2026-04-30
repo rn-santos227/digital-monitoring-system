@@ -73,12 +73,15 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
+import { FILE_UPLOAD_CONSTRAINTS } from '~/constants/api.constants'
 import {
   USERS_MODAL_CANCEL_LABEL,
   USERS_MODAL_UPDATE_LABEL,
   USERS_PROFILE_ACCOUNT_TYPES_EMPTY_MESSAGE,
   USERS_PROFILE_ACCOUNT_TYPES_LABEL,
+  USERS_PROFILE_AVATAR_HELPER,
+  USERS_PROFILE_AVATAR_LABEL,
   USERS_PROFILE_AVATAR_URL_LABEL,
   USERS_PROFILE_AVATAR_URL_PLACEHOLDER,
   USERS_PROFILE_EMAIL_LABEL,
@@ -91,6 +94,9 @@ import {
 import type { SelectOption } from '~/types/domain/misc'
 import type { UpdateUserProfilePayload } from '~/types/domain/users'
 import type { PersonnelSuggestion } from '~/types/domain/personnel'
+import { uploadFileEndpoint } from '~/utils/file-management-endpoints'
+import { formatFileSizeLabel } from '~/utils/file-upload'
+import { extractApiErrorMessage } from '~/utils/api-request'
 import { validateUpdateUserProfileForm } from '~/utils/users-validation'
 
 const props = withDefaults(
@@ -124,6 +130,13 @@ const form = reactive({
 })
 
 const errors = reactive<Record<string, string>>({})
+const isAvatarUploading = ref(false)
+const avatarFile = ref<File | null>(null)
+
+const avatarUploadHelperText = computed(() => {
+  const maxSizeLabel = formatFileSizeLabel(FILE_UPLOAD_CONSTRAINTS.maxSizeBytes)
+  return `${USERS_PROFILE_AVATAR_HELPER} Max size: ${maxSizeLabel}.`
+})
 
 const isSelected = (accountTypeId: string) => form.accountTypeIds.includes(accountTypeId)
 
@@ -136,7 +149,12 @@ const onAccountTypeToggle = (accountTypeId: string, checked: boolean) => {
   form.accountTypeIds = form.accountTypeIds.filter((existingId) => existingId !== accountTypeId)
 }
 
-const onSubmit = () => {
+const onAvatarFileSelected = (file: File | null) => {
+  delete errors.avatarFile
+  avatarFile.value = file
+}
+
+const onSubmit = async () => {
   const result = validateUpdateUserProfileForm(form)
 
   Object.keys(errors).forEach((key) => {
@@ -145,8 +163,30 @@ const onSubmit = () => {
 
   Object.assign(errors, result.errors)
 
+  if (isAvatarUploading.value) {
+    errors.avatarFile = 'Avatar upload is in progress. Please wait.'
+    return
+  }
+
   if (!result.payload) {
     return
+  }
+
+  if (avatarFile.value) {
+    isAvatarUploading.value = true
+
+    try {
+      const response = await uploadFileEndpoint(avatarFile.value, {
+        allowedMimePrefixes: FILE_UPLOAD_CONSTRAINTS.imageMimePrefixes,
+      })
+      form.avatarUrl = response.attachment.publicUrl
+      result.payload.avatarUrl = response.attachment.publicUrl
+    } catch (error) {
+      errors.avatarFile = extractApiErrorMessage(error, 'Unable to upload avatar file.')
+      return
+    } finally {
+      isAvatarUploading.value = false
+    }
   }
 
   emit('submit', result.payload)
