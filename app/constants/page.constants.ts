@@ -658,6 +658,8 @@ export const DEPLOYMENTS_FILTER_FIELD_OPTIONS = Object.freeze([
 ])
 export const DEPLOYMENTS_CREATE_MODAL_TITLE = 'Create Deployment'
 export const DEPLOYMENTS_CREATE_MODAL_DESCRIPTION = 'Register a new deployment profile for operational tracking.'
+export const DEPLOYMENTS_UPDATE_MODAL_TITLE = 'Update Deployment'
+export const DEPLOYMENTS_UPDATE_MODAL_DESCRIPTION = 'Update deployment profile details for operational tracking.'
 export const DEPLOYMENTS_CREATE_DEPLOYMENT_AREA_LABEL = 'Deployment Area'
 export const DEPLOYMENTS_CREATE_DEPLOYMENT_AREA_PLACEHOLDER = 'e.g., Northern Sector Command'
 export const DEPLOYMENTS_CREATE_ASSIGNMENT_ROLE_LABEL = 'Assignment Role'
