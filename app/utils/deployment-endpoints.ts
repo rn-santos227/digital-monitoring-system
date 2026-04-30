@@ -47,3 +47,32 @@ export const createDeploymentEndpoint = async (payload: CreateDeploymentPayload)
     })
   }, API_LOADING_MESSAGES.createDeployment)
 }
+
+export const updateDeploymentDetailsEndpoint = async (id: string, payload: CreateDeploymentPayload): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(DEPLOYMENT_MANAGEMENT_API_ENDPOINTS.deploymentByIdDetails(id), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updateDeployment)
+}
+
+export const updateDeploymentLocationEndpoint = async (id: string, payload: CreateDeploymentPayload): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(DEPLOYMENT_MANAGEMENT_API_ENDPOINTS.deploymentByIdLocation(id), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updateDeployment)
+}
+
+export const deleteDeploymentEndpoint = async (id: string): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(`${DEPLOYMENT_MANAGEMENT_API_ENDPOINTS.deployments}/${id}`, {
+      method: 'DELETE',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.deleteDeployment)
+}
