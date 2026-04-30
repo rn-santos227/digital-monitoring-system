@@ -2,11 +2,14 @@ import { computed } from 'vue'
 import type { ComputedRef, Ref } from 'vue'
 import type {
   TrainingCategoryListItem,
+  TrainingRecordListItem,
+  TrainingRecordSearchQuery,
   TrainingCategorySearchQuery,
   TrainingListItem,
   TrainingSearchQuery,
   UpdateTrainingCategoryPayload,
   UpdateTrainingPayload,
+  UpdateTrainingRecordPayload,
 } from '~/types/domain/training'
 
 interface UseUpdateTrainingHandlerOptions {
@@ -26,6 +29,16 @@ interface UseUpdateTrainingCategoryHandlerOptions {
   updateTrainingCategory: (id: string, payload: UpdateTrainingCategoryPayload) => Promise<void>
   loadTrainingCategories: (page?: number, nextFilters?: Partial<TrainingCategorySearchQuery>, pageSize?: number) => Promise<void>
   categoryFilters: Ref<Partial<TrainingCategorySearchQuery>>
+  kpiRefreshKey: Ref<number>
+}
+
+interface UseUpdateTrainingRecordHandlerOptions {
+  isUpdateTrainingRecordModalOpen: Ref<boolean>
+  selectedTrainingRecord: Ref<TrainingRecordListItem | null>
+  updateTrainingRecord: (id: string, payload: UpdateTrainingRecordPayload) => Promise<void>
+  loadTrainingRecords: (page?: number, nextFilters?: Partial<TrainingRecordSearchQuery>, pageSize?: number) => Promise<void>
+  trainingRecordFilters: Ref<Partial<TrainingRecordSearchQuery>>
+  trainingRecordsPageSize: Ref<number>
   kpiRefreshKey: Ref<number>
 }
 
@@ -129,5 +142,54 @@ export const useUpdateTrainingCategoryHandler = ({
     onOpenUpdateTrainingCategoryModal,
     onUpdateTrainingCategory,
     selectedTrainingCategoryFormValues,
+  }
+}
+
+
+export const useUpdateTrainingRecordHandler = ({
+  isUpdateTrainingRecordModalOpen,
+  selectedTrainingRecord,
+  updateTrainingRecord,
+  loadTrainingRecords,
+  trainingRecordFilters,
+  trainingRecordsPageSize,
+  kpiRefreshKey,
+}: UseUpdateTrainingRecordHandlerOptions) => {
+  const closeUpdateTrainingRecordModal = () => {
+    isUpdateTrainingRecordModalOpen.value = false
+    selectedTrainingRecord.value = null
+  }
+
+  const onOpenUpdateTrainingRecordModal = (record: TrainingRecordListItem) => {
+    selectedTrainingRecord.value = record
+    isUpdateTrainingRecordModalOpen.value = true
+  }
+
+  const onUpdateTrainingRecord = async (payload: UpdateTrainingRecordPayload) => {
+    const id = selectedTrainingRecord.value?.id
+
+    if (!id) {
+      return
+    }
+
+    await updateTrainingRecord(id, payload)
+    closeUpdateTrainingRecordModal()
+    await loadTrainingRecords(1, trainingRecordFilters.value, trainingRecordsPageSize.value)
+    kpiRefreshKey.value += 1
+  }
+
+  const selectedTrainingRecordFormValues = computed(() => ({
+    trainingId: selectedTrainingRecord.value?.trainingId ?? '',
+    personnelId: selectedTrainingRecord.value?.personnelId ?? '',
+    certificateNo: selectedTrainingRecord.value?.certificateNo ?? '',
+    validUntil: selectedTrainingRecord.value?.validUntil ?? '',
+    remarks: selectedTrainingRecord.value?.remarks ?? '',
+  }))
+
+  return {
+    closeUpdateTrainingRecordModal,
+    onOpenUpdateTrainingRecordModal,
+    onUpdateTrainingRecord,
+    selectedTrainingRecordFormValues,
   }
 }
