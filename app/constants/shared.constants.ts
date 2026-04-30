@@ -64,7 +64,7 @@ export const DEPLOYMENTS_FILTER_FOOTER_CLASSES = 'border-t border-slate-200 pt-4
 export const DEPLOYMENTS_FILTER_ACTIONS_CLASSES = 'flex justify-end gap-2'
 export const DEPLOYMENTS_CREATE_MODAL_FORM_CLASSES = 'space-y-4'
 export const DEPLOYMENTS_CREATE_MODAL_LAYOUT_CLASSES =
-  'grid gap-4 lg:h-168 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:overflow-hidden lg:rounded-xl lg:bg-slate-50'
-export const DEPLOYMENTS_CREATE_MODAL_FORM_PANE_CLASSES = 'space-y-4 lg:h-full lg:overflow-y-auto lg:bg-white lg:p-5'
+  'grid gap-4 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-start lg:rounded-xl lg:bg-slate-50'
+export const DEPLOYMENTS_CREATE_MODAL_FORM_PANE_CLASSES = 'space-y-4 lg:bg-white lg:p-5'
 export const DEPLOYMENTS_CREATE_MODAL_FORM_SECTION_LABEL_CLASSES = 'text-xs font-semibold uppercase tracking-wide text-slate-500'
-export const DEPLOYMENTS_CREATE_MODAL_MAP_PANE_CLASSES = 'lg:h-full lg:min-h-[40rem]'
+export const DEPLOYMENTS_CREATE_MODAL_MAP_PANE_CLASSES = 'lg:min-h-168'
