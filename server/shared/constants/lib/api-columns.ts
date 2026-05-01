@@ -115,7 +115,14 @@ export const TRAINING_RECORD_SELECT_COLUMNS =
   'id, record_no, personnel_id, training_id, training_title, training_category_id, level_id, start_date, end_date, status_id, certificate_no, valid_until, remarks, created_at, updated_at, personnel:personnel(id, personnel_code, last_name, first_name, middle_name), training_category:training_categories(id, name), level:levels(id, name), training_status:training_statuses(id, name)'
 
 export const DEPLOYMENT_RECORD_SELECT_COLUMNS =
-  'id, record_no, personnel_id, deployment_area, deployment_area_latitude, deployment_area_longitude, assignment_role, operation_name, start_date, end_date, status_id, location, supervisor_id, remarks, created_at, updated_at, personnel:personnel!deployment_records_personnel_id_fkey(id, personnel_code, last_name, first_name, middle_name), supervisor:personnel!deployment_records_supervisor_id_fkey(id, personnel_code, last_name, first_name, middle_name), deployment_status:deployment_statuses(id, name)'
+  'id, record_no, personnel_id, deployment_id, deployment_area, deployment_area_latitude, deployment_area_longitude, assignment_role, operation_name, start_date, end_date, status_id, location, supervisor_id, remarks, created_at, updated_at, personnel:personnel!deployment_records_personnel_id_fkey(id, personnel_code, last_name, first_name, middle_name), supervisor:personnel!deployment_records_supervisor_id_fkey(id, personnel_code, last_name, first_name, middle_name), deployment_status:deployment_statuses(id, name)'
+export const DEPLOYMENT_RECORD_SOURCE_BASE_SELECT_COLUMNS =
+  'id, deployment_area, deployment_area_latitude, deployment_area_longitude'
+export const DEPLOYMENT_RECORD_SOURCE_DETAILS_SELECT_COLUMNS =
+  'assignment_role, operation_name, start_date, end_date, status_id, location, supervisor_id, default_remarks'
+export const DEPLOYMENT_RECORD_SOURCE_SELECT_COLUMNS =
+  `${DEPLOYMENT_RECORD_SOURCE_BASE_SELECT_COLUMNS}, ${DEPLOYMENT_RECORD_SOURCE_DETAILS_SELECT_COLUMNS}`
+
 export const DEPLOYMENT_SUGGESTION_SELECT_COLUMNS =
   'id, record_no, deployment_area, operation_name, start_date, end_date, location, deployment_status:deployment_statuses(id, name)'
 
