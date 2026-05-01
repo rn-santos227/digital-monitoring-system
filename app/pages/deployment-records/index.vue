@@ -112,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, type Ref } from 'vue'
 import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import DeploymentsFilter from '~/components/deployments/DeploymentsFilter.vue'
@@ -133,10 +133,20 @@ import {
   DEPLOYMENTS_PAGE_TITLE,
 } from '~/constants/page.constants'
 import { DEPLOYMENT_PRIVILEGES } from '~/constants/privileges.constants'
-import { APP_MAIN_CONTENT_CLASSES, DEPLOYMENTS_PAGE_HEADER_CLASSES, TRAINING_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
+import { 
+  APP_MAIN_CONTENT_CLASSES,
+  DEPLOYMENTS_PAGE_HEADER_CLASSES,
+  TRAINING_TABLE_ACTIONS_ROW_CLASSES
+} from '~/constants/shared.constants'
 import { useDialog } from '~/composables/useDialog'
 import { useToast } from '~/composables/useToast'
-import { useCreateDeploymentHandler, useDeleteDeploymentHandler, useDeploymentManagementPageHandlers, useUpdateDeploymentHandler } from '~/handlers'
+import { 
+  useCreateDeploymentHandler,
+  useDeleteDeploymentHandler,
+  useDeploymentManagementPageHandlers,
+  useUpdateDeploymentHandler,
+  useViewDeploymentHandler
+  } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type { DeploymentManagementListItem, DeploymentManagementTabId } from '~/types/domain/deployment'
 import type { FieldValidationMap } from '~/utils/field-validation'
@@ -210,6 +220,10 @@ const {
 } = useUpdateDeploymentHandler(isUpdateDeploymentDetailModalOpen, selectedDeployment, updateDeploymentDetails, updateDeploymentLocation, showDialog, updateDeploymentErrorMessage, isUpdateDeploymentLocationModalOpen)
 
 const { onDeleteDeployment } = useDeleteDeploymentHandler(showDialog, deleteDeployment, addToast)
+const { onCloseViewDeploymentModal, onViewDeploymentAction } = useViewDeploymentHandler({
+  selectedDeployment: selectedDeployment as Ref<Record<string, unknown> | null>,
+  isViewDeploymentModalOpen,
+})
 
 const visibleTabItems = computed(() => {
   return DEPLOYMENTS_PAGE_TAB_ITEMS.filter((tabItem) => {
@@ -258,20 +272,11 @@ const onDeploymentRecordsPageSizeChange = async (pageSize: number) => {
   await loadDeploymentRecords(1, {}, pageSize)
 }
 
-const onOpenViewDeploymentModal = (row: Record<string, unknown>) => {
-  selectedDeployment.value = row as unknown as DeploymentManagementListItem
-  isUpdateDeploymentDetailModalOpen.value = false
-  isUpdateDeploymentLocationModalOpen.value = false
-  isViewDeploymentModalOpen.value = true
-}
-
-const onCloseViewDeploymentModal = () => {
-  isViewDeploymentModalOpen.value = false
-}
-
 const onDeploymentsTableAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
   if (payload.actionKey === 'view-deployment') {
-    onOpenViewDeploymentModal(payload.row)
+    isUpdateDeploymentDetailModalOpen.value = false
+    isUpdateDeploymentLocationModalOpen.value = false
+    await onViewDeploymentAction(payload.row)
     return
   }
 
