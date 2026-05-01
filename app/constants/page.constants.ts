@@ -656,6 +656,12 @@ export const DEPLOYMENTS_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: 'deploymentArea', label: 'Deployment Area' },
   { value: 'status', label: 'Status' },
 ])
+export const DEPLOYMENT_RECORDS_FILTER_CARD_TITLE = 'Filter Deployment Records'
+export const DEPLOYMENT_RECORDS_FILTER_TERM_LABEL = 'Search Term'
+export const DEPLOYMENT_RECORDS_FILTER_TERM_PLACEHOLDER = 'Search deployment record value'
+export const DEPLOYMENT_RECORDS_FILTER_FIELDS_LABEL = 'Search Field'
+export const DEPLOYMENT_RECORDS_FILTER_APPLY_LABEL = 'Apply Filters'
+export const DEPLOYMENT_RECORDS_FILTER_RESET_LABEL = 'Reset'
 export const DEPLOYMENTS_CREATE_MODAL_TITLE = 'Create Deployment'
 export const DEPLOYMENTS_CREATE_MODAL_DESCRIPTION = 'Register a new deployment profile for operational tracking.'
 export const DEPLOYMENTS_UPDATE_MODAL_TITLE = 'Update Deployment'

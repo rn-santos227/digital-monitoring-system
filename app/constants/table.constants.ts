@@ -350,3 +350,18 @@ export const DEPLOYMENTS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.free
   { key: 'endDate', label: 'End Date', sortable: true },
   { key: 'status', label: 'Status', sortable: true },
 ])
+
+export const DEPLOYMENT_RECORDS_TABLE_TITLE = 'Deployment Records'
+export const DEPLOYMENT_RECORDS_TABLE_EMPTY_MESSAGE = 'No deployment records found.'
+export const DEPLOYMENT_RECORDS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'recordNo', label: 'Record No.', sortable: true },
+  { key: 'personnelCode', label: 'Personnel Code', sortable: true },
+  { key: 'personnelName', label: 'Personnel', sortable: true },
+  { key: 'operationName', label: 'Operation', sortable: true },
+  { key: 'deploymentArea', label: 'Deployment Area', sortable: true },
+  { key: 'assignmentRole', label: 'Assignment Role', sortable: true },
+  { key: 'location', label: 'Location', sortable: true },
+  { key: 'startDate', label: 'Start Date', sortable: true },
+  { key: 'endDate', label: 'End Date', sortable: true },
+  { key: 'statusName', label: 'Status', sortable: true },
+])
