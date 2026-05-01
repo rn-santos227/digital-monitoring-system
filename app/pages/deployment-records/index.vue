@@ -101,6 +101,12 @@
         @close="onCloseUpdateDeploymentModal"
         @submit="onSubmitUpdateDeploymentLocation"
       />
+
+      <ViewDeploymentModal
+        v-if="isViewDeploymentModalOpen && selectedDeployment"
+        :deployment="selectedDeployment"
+        @close="onCloseViewDeploymentModal"
+      />
     </section>
   </main>
 </template>
@@ -114,6 +120,7 @@ import DeploymentsTable from '~/components/deployments/DeploymentsTable.vue'
 import CreateDeploymentModal from '~/components/deployments/CreateDeploymentModal.vue'
 import UpdateDeploymentDetailModal from '~/components/deployments/UpdateDeploymentDetailModal.vue'
 import UpdateDeploymentLocationModal from '~/components/deployments/UpdateDeploymentLocationModal.vue'
+import ViewDeploymentModal from '~/components/deployments/ViewDeploymentModal.vue'
 import { useDeploymentRecords } from '~/composables/useDeploymentRecords'
 import { useDeployments } from '~/composables/useDeployments'
 import {
@@ -131,7 +138,7 @@ import { useDialog } from '~/composables/useDialog'
 import { useToast } from '~/composables/useToast'
 import { useCreateDeploymentHandler, useDeleteDeploymentHandler, useDeploymentManagementPageHandlers, useUpdateDeploymentHandler } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
-import type { DeploymentManagementTabId } from '~/types/domain/deployment'
+import type { DeploymentManagementListItem, DeploymentManagementTabId } from '~/types/domain/deployment'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
 const activeTab = ref<DeploymentManagementTabId>('deployments')
@@ -141,11 +148,11 @@ const createDeploymentErrorMessage = ref('')
 const updateDeploymentErrorMessage = ref('')
 const isUpdateDeploymentDetailModalOpen = ref(false)
 const isUpdateDeploymentLocationModalOpen = ref(false)
-const selectedDeployment = ref<Record<string, unknown> | null>(null)
+const selectedDeployment = ref<DeploymentManagementListItem | null>(null)
+const isViewDeploymentModalOpen = ref(false)
 const authStore = useAuthStore()
 const { showDialog } = useDialog()
 const { addToast } = useToast()
-
 
 const {
   filters: deploymentsFilters,
@@ -251,16 +258,34 @@ const onDeploymentRecordsPageSizeChange = async (pageSize: number) => {
   await loadDeploymentRecords(1, {}, pageSize)
 }
 
+const onOpenViewDeploymentModal = (row: Record<string, unknown>) => {
+  selectedDeployment.value = row as unknown as DeploymentManagementListItem
+  isUpdateDeploymentDetailModalOpen.value = false
+  isUpdateDeploymentLocationModalOpen.value = false
+  isViewDeploymentModalOpen.value = true
+}
+
+const onCloseViewDeploymentModal = () => {
+  isViewDeploymentModalOpen.value = false
+}
+
 const onDeploymentsTableAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
+  if (payload.actionKey === 'view-deployment') {
+    onOpenViewDeploymentModal(payload.row)
+    return
+  }
+
   if (payload.actionKey === 'edit-deployment-details') {
     isUpdateDeploymentLocationModalOpen.value = false
+    isViewDeploymentModalOpen.value = false
     onOpenUpdateDeploymentModal(payload.row)
     return
   }
 
   if (payload.actionKey === 'edit-deployment-location') {
-    selectedDeployment.value = payload.row
+    selectedDeployment.value = payload.row as unknown as DeploymentManagementListItem
     isUpdateDeploymentDetailModalOpen.value = false
+    isViewDeploymentModalOpen.value = false
     isUpdateDeploymentLocationModalOpen.value = true
     return
   }
