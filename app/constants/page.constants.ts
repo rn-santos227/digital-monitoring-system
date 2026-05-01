@@ -686,4 +686,16 @@ export const DEPLOYMENTS_CREATE_LONGITUDE_PLACEHOLDER = 'e.g., 120.984222'
 export const DEPLOYMENTS_CREATE_MAP_TITLE = 'Deployment Area Map Preview'
 export const DEPLOYMENTS_CREATE_MAP_SUBTITLE = 'Drag the map pin to set deployment latitude and longitude.'
 
+export const DEPLOYMENTS_VIEW_MODAL_TITLE = 'View Deployment'
+export const DEPLOYMENTS_VIEW_MODAL_DESCRIPTION = 'Review deployment operation details and tactical area map.'
+export const DEPLOYMENTS_VIEW_MODAL_CLOSE_LABEL = 'Close'
+export const DEPLOYMENTS_VIEW_TAB_ARIA_LABEL = 'Deployment view tabs'
+export const DEPLOYMENTS_VIEW_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
+  { id: 'details', label: 'Operation Details' },
+  { id: 'map', label: 'Tactical Map View' },
+])
+export const DEPLOYMENTS_VIEW_DETAILS_CARD_TITLE = 'Operation Details'
+export const DEPLOYMENTS_VIEW_MAP_TITLE = 'Tactical Map View'
+export const DEPLOYMENTS_VIEW_MAP_SUBTITLE = 'Operational deployment area coordinates and map context.'
+
 export const DEPLOYMENTS_RECORDS_PENDING_MESSAGE = 'Deployment records tab will be added in the next iteration.'
