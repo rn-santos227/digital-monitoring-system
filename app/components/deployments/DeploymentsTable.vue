@@ -62,6 +62,10 @@ const visibleActions = computed(() => {
   }
 
   return DEPLOYMENTS_TABLE_ACTIONS.filter((action) => {
+    if (action.key === 'view-deployment') {
+      return authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.view)
+    }
+
     if (action.key === 'edit-deployment-details' || action.key === 'edit-deployment-location') {
       return authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.edit)
     }
