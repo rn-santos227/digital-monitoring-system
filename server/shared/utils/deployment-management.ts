@@ -56,7 +56,7 @@ export const mapDeploymentRecordListItem = (row: DeploymentRecordRow): Deploymen
     statusId: row.status_id,
     statusName: deploymentStatus?.name ?? null,
     location: row.location,
-    supervisorId: row.supervisor_id,
+    supervisorId: supervisor?.id ?? null,
     supervisorName: toPersonnelName(row.supervisor),
     remarks: row.remarks,
     createdAt: row.created_at,

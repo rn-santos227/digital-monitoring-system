@@ -1,5 +1,9 @@
 import { createError } from 'h3'
-import type { CreateDeploymentRecordRequest, UpdateDeploymentRecordRequest } from '../../requests'
+import type {
+  CreateDeploymentRecordFromDeploymentRequest,
+  CreateDeploymentRecordRequest,
+  UpdateDeploymentRecordRequest,
+} from '../../requests'
 import { normalizeOptionalText } from '../../utils'
 
 const normalizeRequiredText = (value: unknown, label: string): string => {
@@ -99,6 +103,20 @@ export const parseCreateDeploymentRecordPayload = (body: CreateDeploymentRecordR
     status_id: statusId,
     location,
     supervisor_id: supervisorId,
+    remarks,
+  }
+}
+
+export const parseCreateDeploymentRecordFromDeploymentPayload = (
+  body: CreateDeploymentRecordFromDeploymentRequest,
+) => {
+  const personnelId = normalizeRequiredText(body.personnelId, 'Personnel id')
+  const deploymentId = normalizeRequiredText(body.deploymentId, 'Deployment id')
+  const remarks = body.remarks === undefined ? null : normalizeOptionalText(body.remarks)
+
+  return {
+    personnel_id: personnelId,
+    deployment_id: deploymentId,
     remarks,
   }
 }
