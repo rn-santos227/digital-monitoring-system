@@ -1,7 +1,8 @@
 <template>
   <BaseSuggestionField
     :model-value="modelValue"
-    :options="options"
+    :options="suggestionOptions"
+    @query-change="onQueryChange"
     :label="label"
     :placeholder="placeholder"
     :helper-text="helperText"
@@ -13,11 +14,11 @@
 </template>
 
 <script setup lang="ts">
-import type { SuggestionFieldOption } from '~/constants/ui.constants'
+import { useDeploymentSuggestionsHandler } from '~/handlers'
+import type { DeploymentManagementListItem } from '~/types/domain/deployment'
 
 const props = withDefaults(defineProps<{
   modelValue: string | null
-  options: SuggestionFieldOption[]
   label?: string
   placeholder?: string
   helperText?: string
@@ -35,13 +36,18 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   (event: 'update:modelValue', value: string | null): void
+  (event: 'select', payload: DeploymentManagementListItem | null): void
 }>()
+
+const { suggestionOptions, onModelValueUpdate: mapNextValue, onQueryChange, emitSelectedItem } = useDeploymentSuggestionsHandler(() => props.modelValue)
 
 const onModelValueUpdate = (value: string | string[] | null) => {
   if (Array.isArray(value)) {
     return
   }
 
-  emit('update:modelValue', value)
+  const nextValue = mapNextValue(value)
+  emit('update:modelValue', nextValue)
+  emit('select', emitSelectedItem(nextValue))
 }
 </script>
