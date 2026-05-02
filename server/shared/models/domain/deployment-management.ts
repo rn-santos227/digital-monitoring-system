@@ -23,7 +23,6 @@ export interface DeploymentRecordListItem {
 
 export interface DeploymentSuggestionItem {
   id: string
-  recordNo: string
   deploymentArea: string
   operationName: string | null
   location: string | null
@@ -44,7 +43,6 @@ export interface DeploymentRecordReferenceRow {
 
 export interface DeploymentSuggestionRow {
   id: string
-  record_no: string
   deployment_area: string
   operation_name: string | null
   location: string | null

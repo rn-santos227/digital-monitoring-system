@@ -2,7 +2,7 @@ import type { Ref } from 'vue'
 import { useDeploymentSearchHandlers } from './search.handler'
 import type { DeploymentManagementSearchQuery, DeploymentManagementTabId } from '~/types/domain/deployment'
 
-const DEPLOYMENT_MANAGEMENT_TAB_IDS: readonly DeploymentManagementTabId[] = ['deployments', 'records']
+const DEPLOYMENT_MANAGEMENT_TAB_IDS: readonly DeploymentManagementTabId[] = ['records', 'deployments']
 
 export const useDeploymentManagementPageHandlers = (
   activeTab: Ref<DeploymentManagementTabId>,

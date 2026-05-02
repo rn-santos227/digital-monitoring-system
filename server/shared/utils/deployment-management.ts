@@ -144,7 +144,6 @@ export const mapDeploymentSelectListItem = (row: DeploymentSuggestionRow): Deplo
 
   return {
     id: row.id,
-    recordNo: row.record_no,
     deploymentArea: row.deployment_area,
     operationName: row.operation_name,
     location: row.location,

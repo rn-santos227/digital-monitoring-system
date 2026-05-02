@@ -64,7 +64,7 @@
           <EquipmentAssignmentTable v-else-if="activeTab === 'equipment-assignment'" />
           <BaseCard v-else :title="PERSONNEL_PROFILE_TAB_CARD_TITLES.core">
             <p class="text-sm text-slate-600">
-              Use the dossier tabs to review training records, deployment records, engagement records, and equipment assignments.
+              Use the profile  tabs to review training records, deployment records, engagement records, and equipment assignments.
             </p>
           </BaseCard>
         </template>
@@ -75,10 +75,10 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import DeploymentTable from '~/components/personnel/DeploymentTable.vue'
-import EngagementTable from '~/components/personnel/EngagementTable.vue'
-import EquipmentAssignmentTable from '~/components/personnel/EquipmentAssignmentTable.vue'
-import TrainingTable from '~/components/personnel/TrainingTable.vue'
+import DeploymentTable from '~/components/personnel/DeploymentsTable.vue'
+import EngagementTable from '~/components/personnel/EngagementsTable.vue'
+import EquipmentAssignmentTable from '~/components/personnel/EquipmentAssignmentsTable.vue'
+import TrainingTable from '~/components/personnel/TrainingsTable.vue'
 import {
   PERSONNEL_PAGE_REQUIRED_PERMISSIONS,
   PERSONNEL_PROFILE_PAGE_SUBTITLE,
