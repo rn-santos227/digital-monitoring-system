@@ -76,6 +76,10 @@ const ensureDeploymentDateRange = (startDate: string, endDate: string | null) =>
 }
 
 export const parseCreateDeploymentRecordPayload = (body: CreateDeploymentRecordRequest) => {
+  const rawBody = body as CreateDeploymentRecordRequest & {
+    supervisor_id?: string | null
+    supervisor_personnel_id?: string | null
+  }
   const personnelId = normalizeRequiredText(body.personnelId, 'Personnel id')
   const deploymentArea = normalizeRequiredText(body.deploymentArea, 'Deployment area')
   const deploymentAreaLatitude = normalizeOptionalCoordinate(body.deploymentAreaLatitude, 'Deployment area latitude', -90, 90)
@@ -86,7 +90,22 @@ export const parseCreateDeploymentRecordPayload = (body: CreateDeploymentRecordR
   const endDate = normalizeOptionalDate(body.endDate)
   const statusId = normalizeRequiredText(body.statusId, 'Deployment status id')
   const location = body.location === undefined ? null : normalizeOptionalText(body.location)
-  const supervisorId = body.supervisorId === undefined ? null : normalizeOptionalText(body.supervisorId)
+  const supervisorSuggestionId = body.supervisorPersonnelId === undefined
+    ? undefined
+    : normalizeOptionalText(body.supervisorPersonnelId)
+  const supervisorSuggestionSnakeId = rawBody.supervisor_personnel_id === undefined
+    ? undefined
+    : normalizeOptionalText(rawBody.supervisor_personnel_id)
+  const supervisorSnakeId = rawBody.supervisor_id === undefined
+    ? undefined
+    : normalizeOptionalText(rawBody.supervisor_id)
+  const supervisorId = supervisorSuggestionId === undefined
+    ? (supervisorSuggestionSnakeId === undefined
+        ? (body.supervisorId === undefined
+            ? (supervisorSnakeId ?? null)
+            : normalizeOptionalText(body.supervisorId))
+        : supervisorSuggestionSnakeId)
+    : supervisorSuggestionId
   const remarks = body.remarks === undefined ? null : normalizeOptionalText(body.remarks)
 
   ensureDeploymentDateRange(startDate, endDate)

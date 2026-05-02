@@ -11,6 +11,7 @@ export interface CreateDeploymentRecordRequest {
   statusId?: string
   location?: string | null
   supervisorId?: string | null
+  supervisorPersonnelId?: string | null
   remarks?: string | null
 }
 
@@ -32,5 +33,6 @@ export interface UpdateDeploymentRecordRequest {
   statusId?: string
   location?: string | null
   supervisorId?: string | null
+  supervisorPersonnelId?: string | null
   remarks?: string | null
 }
