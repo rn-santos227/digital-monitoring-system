@@ -5,11 +5,11 @@ import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
-  DEPLOYMENT_DETAILS_SELECT_COLUMNS,
+  DEPLOYMENT_DETAIL_SELECT_COLUMNS,
   ID_ONLY_SELECT_COLUMNS,
   PERMISSION_CODES,
 } from '../../shared/constants'
-import { assertPersonnelExists, buildDeploymentRecordNo, mapDeploymentRecordListItem } from '../../shared/utils'
+import { assertPersonnelExists, buildDeploymentRecordNo, mapDeploymentDetailListItem } from '../../shared/utils'
 import { parseCreateDeploymentRecordPayload } from '../../shared/validations'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
@@ -57,7 +57,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
 
     const { data: newRow } = await supabase
       .from('deployment_records')
-      .select(DEPLOYMENT_DETAILS_SELECT_COLUMNS)
+      .select(DEPLOYMENT_DETAIL_SELECT_COLUMNS)
       .eq('id', createdRow.id)
       .maybeSingle()
 
@@ -69,7 +69,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
       recordId: createdRow.id,
       requestData: body as Record<string, unknown>,
       newData: newRow
-        ? ({ ...mapDeploymentRecordListItem(newRow) } as Record<string, unknown>)
+        ? ({ ...mapDeploymentDetailListItem(newRow) } as Record<string, unknown>)
         : insertPayload,
       statusCode: 201,
       outcome: AUDIT_LOG_OUTCOMES.success,
