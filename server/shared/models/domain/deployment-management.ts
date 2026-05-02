@@ -60,7 +60,7 @@ export interface DeploymentRecordSelectRow {
   deployment_id?: string | null
   deployment_area: string
   operation_name: string | null
-  assignmentRole: string | null
+  assignment_role: string | null
   start_date: string
   end_date: string | null
   created_at: string

@@ -1,5 +1,4 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
-import type { DeploymentRecordSelectRow } from '../../shared/models'
 import type { DeploymentRecordListResponse } from '../../shared/responses'
 import { DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
 import { mapDeploymentRecordSelectListItem, parseManagementPaginationQuery } from '../../shared/utils'
@@ -36,7 +35,7 @@ export default defineEventHandler(async (event): Promise<DeploymentRecordListRes
     throw createError({ statusCode: 500, statusMessage: `Failed to fetch deployment records: ${error.message}` })
   }
 
-  const items = (data ?? []).map(row => mapDeploymentRecordSelectListItem(row as unknown as DeploymentRecordSelectRow))
+  const items = (data ?? []).map(mapDeploymentRecordSelectListItem)
   const totalItems = count ?? 0
   const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
 
