@@ -140,21 +140,6 @@ export const parseDeploymentSuggestionQuery = (query: {
   }
 }
 
-export const mapDeploymentSuggestionItem = (row: DeploymentSuggestionRow): DeploymentSuggestionItem => {
-  const status = toSingleReference(row.deployment_status)
-
-  return {
-    id: row.id,
-    recordNo: row.record_no,
-    deploymentArea: row.deployment_area,
-    operationName: row.operation_name,
-    location: row.location,
-    statusName: status?.name ?? null,
-    startDate: row.start_date,
-    endDate: row.end_date,
-  }
-}
-
 export const mapDeploymentSelectListItem = (row: DeploymentSelectRow): DeploymentSuggestionItem => {
   const status = toSingleReference(row.deployment_status)
 

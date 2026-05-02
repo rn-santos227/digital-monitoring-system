@@ -1,7 +1,7 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { DeploymentSuggestionsResponse } from '../../shared/responses'
 import { DEPLOYMENT_SUGGESTION_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
-import { mapDeploymentSuggestionItem, parseDeploymentSuggestionQuery } from '../../shared/utils'
+import { mapDeploymentSelectListItem, parseDeploymentSuggestionQuery } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
@@ -60,6 +60,6 @@ export default defineEventHandler(async (event): Promise<DeploymentSuggestionsRe
   }
 
   return {
-    items: mergedRows.map(mapDeploymentSuggestionItem),
+    items: mergedRows.map(mapDeploymentSelectListItem),
   }
 })
