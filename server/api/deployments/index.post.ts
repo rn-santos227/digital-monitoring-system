@@ -99,7 +99,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
           }
         }
 
-        return { createdId: createdId }
+        return { createdId: createdRow.id }
       },
       rollback: async () => {
         const rollbackErrors: string[] = []
