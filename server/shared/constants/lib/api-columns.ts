@@ -150,11 +150,8 @@ export const DEPLOYMENT_DETAIL_SELECT_COLUMNS =
 export const DEPLOYMENT_DETAILS_PATCH_SELECT_COLUMNS =
   'id,start_date,end_date,supervisor_id,assignment_role,operation_name,status_id,default_remarks'
 
-export const DEPLOYMENT_SELECT_COLUMNS =
-  'id, record_no, deployment_area, operation_name, start_date, end_date, deployment_status:deployment_statuses(name)'
-
 export const DEPLOYMENT_SUGGESTION_SELECT_COLUMNS =
-  'id, record_no, deployment_area, operation_name, start_date, end_date, deployment_status:deployment_statuses(name)'
+  'id, record_no, deployment_area, operation_name, location, start_date, end_date, deployment_status:deployment_statuses(name)'
 
 export const DASHBOARD_PERSONNEL_STATUS_SELECT_COLUMNS =
   'id, first_name, last_name, company_name, service_status'

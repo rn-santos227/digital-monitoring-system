@@ -1,7 +1,6 @@
 import type { 
   DeploymentRecordListItem,
   DeploymentSuggestionItem,
-  DeploymentSelectRow
 } from '../../models'
 
 export interface DeploymentRecordListResponse {
@@ -13,7 +12,7 @@ export interface DeploymentRecordListResponse {
 }
 
 export interface DeploymentListResponse {
-  items: DeploymentSelectRow[]
+  items: DeploymentSuggestionItem[]
   page: number
   pageSize: number
   totalItems: number
