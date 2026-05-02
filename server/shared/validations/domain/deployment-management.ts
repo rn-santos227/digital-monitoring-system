@@ -1,5 +1,6 @@
 import { createError } from 'h3'
 import type {
+  CreateDeploymentRequest,
   CreateDeploymentRecordFromDeploymentRequest,
   CreateDeploymentRecordRequest,
   UpdateDeploymentRecordRequest,
@@ -123,6 +124,55 @@ export const parseCreateDeploymentRecordPayload = (body: CreateDeploymentRecordR
     location,
     supervisor_id: supervisorId,
     remarks,
+  }
+}
+
+export const parseCreateDeploymentPayload = (body: CreateDeploymentRequest) => {
+  const rawBody = body as CreateDeploymentRequest & {
+    supervisor_id?: string | null
+    supervisor_personnel_id?: string | null
+  }
+  const deploymentArea = normalizeRequiredText(body.deploymentArea, 'Deployment area')
+  const deploymentAreaLatitude = normalizeOptionalCoordinate(body.deploymentAreaLatitude, 'Deployment area latitude', -90, 90)
+  const deploymentAreaLongitude = normalizeOptionalCoordinate(body.deploymentAreaLongitude, 'Deployment area longitude', -180, 180)
+  const assignmentRole = body.assignmentRole === undefined ? null : normalizeOptionalText(body.assignmentRole)
+  const operationName = body.operationName === undefined ? null : normalizeOptionalText(body.operationName)
+  const startDate = normalizeRequiredDate(body.startDate, 'Start date')
+  const endDate = normalizeOptionalDate(body.endDate)
+  const statusId = normalizeRequiredText(body.statusId, 'Deployment status id')
+  const location = body.location === undefined ? null : normalizeOptionalText(body.location)
+  const supervisorSuggestionId = body.supervisorPersonnelId === undefined
+    ? undefined
+    : normalizeOptionalText(body.supervisorPersonnelId)
+  const supervisorSuggestionSnakeId = rawBody.supervisor_personnel_id === undefined
+    ? undefined
+    : normalizeOptionalText(rawBody.supervisor_personnel_id)
+  const supervisorSnakeId = rawBody.supervisor_id === undefined
+    ? undefined
+    : normalizeOptionalText(rawBody.supervisor_id)
+  const supervisorId = supervisorSuggestionId === undefined
+    ? (supervisorSuggestionSnakeId === undefined
+        ? (body.supervisorId === undefined
+            ? (supervisorSnakeId ?? null)
+            : normalizeOptionalText(body.supervisorId))
+        : supervisorSuggestionSnakeId)
+    : supervisorSuggestionId
+  const remarks = body.remarks === undefined ? null : normalizeOptionalText(body.remarks)
+
+  ensureDeploymentDateRange(startDate, endDate)
+
+  return {
+    deployment_area: deploymentArea,
+    deployment_area_latitude: deploymentAreaLatitude,
+    deployment_area_longitude: deploymentAreaLongitude,
+    assignment_role: assignmentRole,
+    operation_name: operationName,
+    start_date: startDate,
+    end_date: endDate,
+    status_id: statusId,
+    location,
+    supervisor_id: supervisorId,
+    default_remarks: remarks,
   }
 }
 
