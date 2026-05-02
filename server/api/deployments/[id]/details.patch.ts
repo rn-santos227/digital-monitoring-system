@@ -21,6 +21,7 @@ interface UpdateDeploymentDetailsBody {
   end_date?: string | null
   status_id?: string
   supervisor_id?: string | null
+  supervisor_personnel_id?: string | null
   default_remarks?: string | null
 }
 
@@ -43,7 +44,10 @@ export default defineEventHandler(async (event) => {
   const effectiveEndDate = body.end_date === undefined ? existingRow.end_date : body.end_date
   validateDeploymentDateRange(effectiveStartDate, effectiveEndDate)
 
-  const effectiveSupervisorId = body.supervisor_id === undefined ? existingRow.supervisor_id : body.supervisor_id
+  const nextSupervisorId = body.supervisor_personnel_id === undefined
+    ? body.supervisor_id
+    : body.supervisor_personnel_id
+  const effectiveSupervisorId = nextSupervisorId === undefined ? existingRow.supervisor_id : nextSupervisorId
   if (effectiveSupervisorId) {
     await assertPersonnelExists({ supabase, personnelId: effectiveSupervisorId, idSelectColumns: 'id' })
   }
