@@ -5,7 +5,7 @@ import { mapDeploymentSelectListItem, parseDeploymentSuggestionQuery } from '../
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
-const SEARCHABLE_FIELDS = ['record_no', 'deployment_area', 'operation_name', 'location'] as const
+const SEARCHABLE_FIELDS = ['deployment_area', 'operation_name', 'location'] as const
 
 export default defineEventHandler(async (event): Promise<DeploymentSuggestionsResponse> => {
   await requirePermission(event, PERMISSION_CODES.deploymentManage)
@@ -45,7 +45,7 @@ export default defineEventHandler(async (event): Promise<DeploymentSuggestionsRe
 
   if (selectedId && !mergedRows.some(row => row.id === selectedId)) {
     const { data: selectedRow, error: selectedError } = await supabase
-      .from('deployment_records')
+      .from('deployment')
       .select(DEPLOYMENT_SUGGESTION_SELECT_COLUMNS)
       .eq('id', selectedId)
       .maybeSingle()

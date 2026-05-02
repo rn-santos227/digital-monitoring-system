@@ -6,12 +6,11 @@ import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
 const SEARCHABLE_FIELDS = {
-  recordNo: 'record_no',
   deploymentArea: 'deployment_area',
   operationName: 'operation_name',
   location: 'location',
   assignmentRole: 'assignment_role',
-  remarks: 'remarks',
+  remarks: 'default_remarks',
 } as const
 
 export default defineEventHandler(async (event): Promise<DeploymentListResponse> => {
@@ -19,11 +18,10 @@ export default defineEventHandler(async (event): Promise<DeploymentListResponse>
 
   const query = getQuery(event)
   const term = typeof query.term === 'string' ? query.term.trim() : ''
-  const personnelId = typeof query.personnelId === 'string' && query.personnelId.length > 0 ? query.personnelId : null
   const statusId = typeof query.statusId === 'string' && query.statusId.length > 0 ? query.statusId : null
   const supervisorId = typeof query.supervisorId === 'string' && query.supervisorId.length > 0 ? query.supervisorId : null
 
-  if (!term && !personnelId && !statusId && !supervisorId) {
+  if (!term && !statusId && !supervisorId) {
     throw createError({ statusCode: 400, statusMessage: 'At least one search filter is required.' })
   }
 
@@ -52,10 +50,6 @@ export default defineEventHandler(async (event): Promise<DeploymentListResponse>
 
   if (filters.length > 0) {
     deploymentRecordQuery = deploymentRecordQuery.or(filters.join(','))
-  }
-
-  if (personnelId) {
-    deploymentRecordQuery = deploymentRecordQuery.eq('personnel_id', personnelId)
   }
 
   if (statusId) {

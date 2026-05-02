@@ -25,7 +25,7 @@ export default defineEventHandler(async (event): Promise<DeploymentListResponse>
 
   if (search) {
     deploymentRecordQuery = deploymentRecordQuery.or(
-      `record_no.ilike.%${search}%,deployment_area.ilike.%${search}%,operation_name.ilike.%${search}%,location.ilike.%${search}%,assignment_role.ilike.%${search}%,remarks.ilike.%${search}%`,
+      `deployment_area.ilike.%${search}%,operation_name.ilike.%${search}%,location.ilike.%${search}%,assignment_role.ilike.%${search}%,default_remarks.ilike.%${search}%`,
     )
   }
 
