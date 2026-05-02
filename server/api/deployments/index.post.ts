@@ -48,17 +48,26 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
       record_no: buildDeploymentRecordNo(),
     }
 
-    const { data: createdRow, error: insertError } = await supabase
-      .from('deployment')
-      .insert(insertPayload)
-      .select('id')
-      .maybeSingle<{ id: string }>()
+    const deployedServiceStatusId = payload.supervisor_id
+      ? await resolvePersonnelServiceStatusId(supabase, 'Deployed')
+      : null
 
-    if (insertError || !createdRow?.id) {
-      throw createError({
-        statusCode: 500,
-        statusMessage: `Failed to create deployment: ${insertError?.message ?? 'Missing id.'}`,
-      })
+    let previousSupervisorServiceStatusId: string | null = null
+    if (payload.supervisor_id) {
+      const { data: previousSupervisorState, error: previousSupervisorStateError } = await supabase
+        .from('personnel')
+        .select('service_status_id')
+        .eq('id', payload.supervisor_id)
+        .maybeSingle<{ service_status_id: string | null }>()
+
+      if (previousSupervisorStateError) {
+        throw createError({
+          statusCode: 500,
+          statusMessage: `Failed to read supervisor service status: ${previousSupervisorStateError.message}`,
+        })
+      }
+
+      previousSupervisorServiceStatusId = previousSupervisorState?.service_status_id ?? null
     }
 
     const { data: newRow } = await supabase
