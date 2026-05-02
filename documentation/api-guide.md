@@ -1,168 +1,647 @@
-# API Documentation
+# Supabase Schema Guide
 
-This document summarizes all API handlers currently under `server/api`.
+Generated from all SQL files in `supabase/migrations` (through `20260426144014_add-shared-training-deployment-engagement-tables.sql`).
 
-## Conventions
+- **Required** = `Yes` means column is non-nullable (`NOT NULL` or implied by `PRIMARY KEY`).
+- **Type** reflects the declared PostgreSQL type.
+- **Notes** captures defaults, keys, and foreign-key targets.
 
-- Base path is assumed to be `/api` (for example, `GET /api/users`).
-- Dynamic route segments are shown as `:id`.
-- `Request` lists path params, query params, and/or body contract when applicable.
-- `Response` lists the primary success payload contract returned by the handler.
+## `account_type_permissions`
 
-## Auth
-
-| Method | Endpoint | Request | Response |
+| Field | Required | Type | Notes |
 | --- | --- | --- | --- |
-| POST | `/api/auth/login` | Body: `LoginBody` (`email`, `password`) | `{ ok: true, sessionToken, user, expiresAt }` |
-| POST | `/api/auth/logout` | No body | `{ ok: true }` |
-| GET | `/api/auth/session` | Session cookie/token required | `{ ok: true, user }` |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `account_type_id` | Yes | `uuid` | FK → `public.account_types(id)`; on delete cascade |
+| `permission_id` | Yes | `uuid` | FK → `public.permissions(id)`; on delete cascade |
 
-## Account Types
+Table constraints
 
-| Method | Endpoint | Request | Response |
+- `unique (account_type_id, permission_id)`
+
+## `account_types`
+
+| Field | Required | Type | Notes |
 | --- | --- | --- | --- |
-| GET | `/api/account-types` | Query: pagination (`page`, `pageSize`) | `AccountTypeListResponse` |
-| GET | `/api/account-types/search` | Query: pagination (`page`, `pageSize`) and optional `search` | `AccountTypeListResponse` |
-| GET | `/api/account-types/:id` | Path: `id` | `AccountTypeDetailResponse` |
-| POST | `/api/account-types` | Body: `CreateAccountTypeRequest` | `{ ok: true, id }` |
-| PATCH | `/api/account-types/:id` | Path: `id`; Body: `UpdateAccountTypeRequest` | `{ ok: true }` |
-| DELETE | `/api/account-types/:id` | Path: `id` | `{ ok: true }` |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `code` | Yes | `text` | UNIQUE |
+| `name` | Yes | `text` | UNIQUE |
+| `description` | No | `text` | — |
+| `is_system` | Yes | `boolean` | default `false` |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
 
-## Privileges
+## `asset_statuses`
 
-| Method | Endpoint | Request | Response |
+| Field | Required | Type | Notes |
 | --- | --- | --- | --- |
-| GET | `/api/privileges` | Query: optional `accountTypeId` | `PrivilegeListResponse` |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `name` | Yes | `text` | UNIQUE |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
 
-## Users
+## `audit_logs`
 
-| Method | Endpoint | Request | Response |
+| Field | Required | Type | Notes |
 | --- | --- | --- | --- |
-| GET | `/api/users` | Query: pagination (`page`, `pageSize`), optional `search`, optional `isActive` | `UserProfileListCompactResponse` |
-| GET | `/api/users/search` | Query: pagination (`page`, `pageSize`), optional `search`, optional `isActive` | `UserProfileListCompactResponse` |
-| GET | `/api/users/:id` | Path: `id` | `UserProfileDetailResponse` |
-| POST | `/api/users` | Body: `CreateUserProfileRequest` | `{ ok: true, id }` |
-| PATCH | `/api/users/:id` | Path: `id`; Body: `UpdateUserProfileRequest` | `MutationSuccessResponse` |
-| PATCH | `/api/users/:id/password` | Path: `id`; Body: `UpdateUserPasswordRequest` | `MutationSuccessResponse` |
-| PATCH | `/api/users/:id/activation` | Path: `id`; Body: `UpdateUserActivationRequest` | `MutationSuccessResponse` |
-| GET | `/api/users/:id/audit-logs` | Path: `id`; Query: pagination (`page`, `pageSize`) | `AuditLogListResponse` |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `user_id` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
+| `action` | Yes | `text` | — |
+| `table_name` | Yes | `text` | — |
+| `record_id` | No | `uuid` | — |
+| `old_data` | No | `jsonb` | — |
+| `new_data` | No | `jsonb` | — |
+| `metadata` | No | `jsonb` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `request_data` | No | `jsonb` | — |
+| `response_data` | No | `jsonb` | — |
+| `request_headers` | No | `jsonb` | — |
+| `ip_address` | No | `inet` | — |
+| `status_code` | No | `integer` | — |
 
-## Battalions
+## `auth_sessions`
 
-| Method | Endpoint | Request | Response |
+| Field | Required | Type | Notes |
 | --- | --- | --- | --- |
-| GET | `/api/battalions` | Query: pagination (`page`, `pageSize`), optional `search`, optional `includeInactive` | `BattalionListResponse` |
-| GET | `/api/battalions/search` | Query: pagination (`page`, `pageSize`), optional `term`, optional `isActive`, optional `fields` | `BattalionListResponse` |
-| GET | `/api/battalions/suggestions` | Query: `term`, optional `pageSize`, optional `selectedId` | `BattalionSuggestionsResponse` |
-| GET | `/api/battalions/:id` | Path: `id` | `BattalionDetailResponse` |
-| GET | `/api/battalions/:id/companies` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search`, optional `includeInactive` | `BattalionCompanyListResponse` |
-| GET | `/api/battalions/:id/personnel` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search` | `BattalionPersonnelListResponse` |
-| GET | `/api/battalions/:id/equipment` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search` | `BattalionEquipmentAssetListResponse` |
-| POST | `/api/battalions` | Body: `CreateBattalionRequest` | `{ ok: true, id }` |
-| PATCH | `/api/battalions/:id` | Path: `id`; Body: `UpdateBattalionRequest` | `MutationSuccessResponse` |
-| DELETE | `/api/battalions/:id` | Path: `id` | `MutationSuccessResponse` |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `user_id` | Yes | `uuid` | FK → `auth.users(id)`; on delete cascade |
+| `access_token` | Yes | `text` | — |
+| `refresh_token` | No | `text` | — |
+| `provider` | Yes | `text` | — |
+| `ip_address` | No | `text` | — |
+| `user_agent` | No | `text` | — |
+| `expires_at` | Yes | `timestamptz` | — |
+| `revoked_at` | No | `timestamptz` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
 
-`BattalionDetailResponse` includes summary counters: `companyCount`, `personnelCount`, and `equipmentAssetCount`.
+## `battalions`
 
-## Companies
-
-| Method | Endpoint | Request | Response |
+| Field | Required | Type | Notes |
 | --- | --- | --- | --- |
-| GET | `/api/companies` | Query: pagination (`page`, `pageSize`), optional `search`, optional `includeInactive`, optional `battalionId` | `CompanyListResponse` |
-| GET | `/api/companies/search` | Query: pagination (`page`, `pageSize`) and optional `search` | `CompanyListResponse` |
-| GET | `/api/companies/suggestions` | Query: `term`, optional `pageSize`, optional `selectedId`, optional `battalionId` | `CompanySuggestionsResponse` |
-| GET | `/api/companies/:id` | Path: `id` | `CompanyDetailResponse` |
-| GET | `/api/companies/:id/personnel` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search` | `CompanyPersonnelListResponse` |
-| GET | `/api/companies/:id/equipment` | Path: `id`; Query: pagination (`page`, `pageSize`), optional `search` | `CompanyEquipmentAssetListResponse` |
-| POST | `/api/companies` | Body: `CreateCompanyRequest` | `{ ok: true, id }` |
-| PATCH | `/api/companies/:id` | Path: `id`; Body: `UpdateCompanyRequest` | `MutationSuccessResponse` |
-| DELETE | `/api/companies/:id` | Path: `id` | `MutationSuccessResponse` |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `code` | Yes | `text` | UNIQUE |
+| `name` | Yes | `text` | UNIQUE |
+| `is_active` | Yes | `boolean` | default `true` |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
 
-`CompanyDetailResponse` includes summary counters: `personnelCount` and `equipmentAssetCount`.
+## `companies`
 
-## Personnel
-
-| Method | Endpoint | Request | Response |
+| Field | Required | Type | Notes |
 | --- | --- | --- | --- |
-| GET | `/api/personnel` | Query: pagination (`page`, `pageSize`) | `PersonnelListResponse` |
-| GET | `/api/personnel/search` | Query: pagination (`page`, `pageSize`) and optional `search` | `PersonnelListCompactResponse` |
-| GET | `/api/personnel/suggestions` | Query: `term`, optional `pageSize`, optional `selectedPersonnelId` | `PersonnelSuggestionsResponse` |
-| GET | `/api/personnel/:id` | Path: `id` | `PersonnelDetailResponse` |
-| POST | `/api/personnel` | Body: `CreatePersonnelRequest` | `{ ok: true, id }` |
-| PATCH | `/api/personnel/:id` | Path: `id`; Body: `UpdatePersonnelRequest` | `MutationSuccessResponse` |
-| DELETE | `/api/personnel/:id` | Path: `id` | `MutationSuccessResponse` |
-| POST | `/api/personnel/batch-upload` | Multipart form-data (`file` part; `.xlsx`; max 10MB) | `PersonnelBatchUploadResponse` |
-| GET | `/api/personnel/:id/training-records` | Path: `id`; Query: pagination (`page`, `pageSize`) | `PersonnelTrainingRecordListResponse` |
-| GET | `/api/personnel/:id/deployment-records` | Path: `id`; Query: pagination (`page`, `pageSize`) | `PersonnelDeploymentRecordListResponse` |
-| GET | `/api/personnel/:id/engagement-records` | Path: `id`; Query: pagination (`page`, `pageSize`) | `PersonnelEngagementRecordListResponse` |
-| GET | `/api/personnel/:id/equipment-issuances` | Path: `id`; Query: pagination (`page`, `pageSize`) | `PersonnelEquipmentIssuanceListResponse` |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `battalion_id` | No | `uuid` | FK → `public.battalions(id)`; on delete restrict |
+| `code` | Yes | `text` | UNIQUE |
+| `name` | Yes | `text` | UNIQUE |
+| `is_active` | Yes | `boolean` | default `true` |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
 
-## Training
+## `condition_statuses`
 
-| Method | Endpoint | Request | Response |
+| Field | Required | Type | Notes |
 | --- | --- | --- | --- |
-| GET | `/api/trainings` | Query: pagination (`page`, `pageSize`), optional `search` | `TrainingListResponse` |
-| GET | `/api/trainings/search` | Query: pagination (`page`, `pageSize`), optional `term`, optional `fields` | `TrainingListResponse` |
-| GET | `/api/trainings/suggestions` | Query: `term`, optional `pageSize`, optional `selectedId` | `TrainingSuggestionResponse` |
-| GET | `/api/trainings/:id` | Path: `id` | `TrainingDetailResponse` |
-| POST | `/api/trainings` | Body: `CreateTrainingRequest` | `{ ok: true, id }` |
-| PATCH | `/api/trainings/:id` | Path: `id`; Body: `UpdateTrainingRequest` | `MutationSuccessResponse` |
-| DELETE | `/api/trainings/:id` | Path: `id` | `MutationSuccessResponse` |
-| GET | `/api/training-categories` | Query: pagination (`page`, `pageSize`), optional `search` | `TrainingCategoryListResponse` |
-| GET | `/api/training-categories/search` | Query: pagination (`page`, `pageSize`), optional `term`, optional `fields` | `TrainingCategoryListResponse` |
-| GET | `/api/training-categories/:id` | Path: `id` | `TrainingCategoryDetailResponse` |
-| POST | `/api/training-categories` | Body: `CreateTrainingCategoryRequest` | `{ ok: true, id }` |
-| PATCH | `/api/training-categories/:id` | Path: `id`; Body: `UpdateTrainingCategoryRequest` | `MutationSuccessResponse` |
-| DELETE | `/api/training-categories/:id` | Path: `id` | `MutationSuccessResponse` |
-| GET | `/api/training-records` | Query: pagination (`page`, `pageSize`), optional `search` | `TrainingRecordListResponse` |
-| GET | `/api/training-records/search` | Query: pagination (`page`, `pageSize`), optional `term`, optional `fields`, optional `trainingId`, optional `personnelId`, optional `trainingCategoryId`, optional `statusId` | `TrainingRecordListResponse` |
-| GET | `/api/training-records/:id` | Path: `id` | `TrainingRecordDetailResponse` |
-| POST | `/api/training-records` | Body: `CreateTrainingRecordRequest` | `CreateTrainingRecordResponse` |
-| PATCH | `/api/training-records/:id` | Path: `id`; Body: `UpdateTrainingRecordRequest` | `MutationSuccessResponse` |
-| DELETE | `/api/training-records/:id` | Path: `id` | `MutationSuccessResponse` |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `name` | Yes | `text` | UNIQUE |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
 
-Training record endpoints require the `training.manage` privilege.
+## `deployment_records`
 
-## Dashboard
-
-| Method | Endpoint | Request | Response |
+| Field | Required | Type | Notes |
 | --- | --- | --- | --- |
-| GET | `/api/dashboard/unit-management` | No request body; caller must have at least one unit/personnel view privilege | `{ totalCompanies, totalBattalions, totalUnassignedPersonnel }` |
-| GET | `/api/dashboard/top-kpis` | No request body; caller must have personnel/deployment view privilege | `DashboardTopKpisResponse` |
-| GET | `/api/dashboard/critical-personnel` | No request body; caller must have personnel/deployment view privilege | `DashboardCriticalPersonnelResponse` |
-| GET | `/api/dashboard/personnel-deployment-summary` | No request body; caller must have personnel/deployment view privilege | `DashboardPersonnelDeploymentSummaryResponse` |
-| GET | `/api/dashboard/location-load-analysis` | No request body; caller must have personnel/deployment/battalion view privilege | `DashboardLocationLoadAnalysisResponse` |
-| GET | `/api/dashboard/personnel-deployment-history` | No request body; caller must have personnel/deployment view privilege | `DashboardPersonnelDeploymentHistoryResponse` |
-| GET | `/api/dashboard/near-rotation` | No request body; caller must have personnel/deployment view privilege | `DashboardNearRotationResponse` |
-| GET | `/api/dashboard/equipment-status-overview` | No request body; caller must have equipment view privilege | `DashboardEquipmentStatusOverviewResponse` |
-| GET | `/api/dashboard/critical-equipment` | No request body; caller must have equipment view privilege | `DashboardCriticalEquipmentResponse` |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `record_no` | Yes | `text` | UNIQUE |
+| `personnel_id` | Yes | `uuid` | FK → `public.personnel(id)`; on delete restrict |
+| `deployment_area` | Yes | `text` | — |
+| `assignment_role` | No | `text` | — |
+| `operation_name` | No | `text` | — |
+| `start_date` | Yes | `date` | — |
+| `end_date` | No | `date` | — |
+| `status_id` | Yes | `uuid` | FK → `public.deployment_statuses(id)`; on delete restrict |
+| `location` | No | `text` | — |
+| `supervisor_id` | No | `uuid` | FK → `public.personnel(id)`; on delete restrict |
+| `remarks` | No | `text` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+| `created_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
+| `deployment_id` | No | `uuid` | FK → `public.deployments(id)`; on delete set null |
 
-## Files
+Table constraints
 
-| Method | Endpoint | Request | Response |
+- `constraint deployment_records_date_check check (end_date is null or end_date >= start_date)`
+
+## `deployments`
+
+| Field | Required | Type | Notes |
 | --- | --- | --- | --- |
-| POST | `/api/files/upload` | Multipart form-data (`file` part + optional MIME prefix constraints) | `FileUploadResponse` |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `deployment_area` | Yes | `text` | — |
+| `deployment_area_latitude` | No | `numeric(9,6)` | range check between -90 and 90 when provided |
+| `deployment_area_longitude` | No | `numeric(9,6)` | range check between -180 and 180 when provided |
+| `assignment_role` | No | `text` | — |
+| `operation_name` | No | `text` | — |
+| `start_date` | Yes | `date` | — |
+| `end_date` | No | `date` | — |
+| `status_id` | Yes | `uuid` | FK → `public.deployment_statuses(id)`; on delete restrict |
+| `location` | No | `text` | — |
+| `supervisor_id` | No | `uuid` | FK → `public.personnel(id)`; on delete restrict |
+| `default_remarks` | No | `text` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+| `created_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
 
-## Ranks
+Table constraints
 
-| Method | Endpoint | Request | Response |
+- `constraint deployments_date_check check (end_date is null or end_date >= start_date)`
+- `constraint deployments_area_latitude_check check (deployment_area_latitude is null or (deployment_area_latitude >= -90 and deployment_area_latitude <= 90))`
+- `constraint deployments_area_longitude_check check (deployment_area_longitude is null or (deployment_area_longitude >= -180 and deployment_area_longitude <= 180))`
+
+## `deployment_statuses`
+
+| Field | Required | Type | Notes |
 | --- | --- | --- | --- |
-| GET | `/api/ranks` | Query: pagination (`page`, `pageSize`), optional `search` | `RankListApiResponse` |
-| GET | `/api/ranks/suggestion` | Query: `term`, optional `pageSize`, optional `selectedId` | `RankSuggestionApiResponse` |
-| POST | `/api/ranks` | Body: `CreateRankRequest` | `{ ok: true, id }` |
-| DELETE | `/api/ranks/:id` | Path: `id` | `MutationSuccessResponse` |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `name` | Yes | `text` | UNIQUE |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
 
-## Audit Logs
+## `employment_statuses`
 
-| Method | Endpoint | Request | Response |
+| Field | Required | Type | Notes |
 | --- | --- | --- | --- |
-| GET | `/api/audit/logs` | Query: pagination (`page`, `pageSize`) and optional filter params | `AuditLogListResponse` |
-| GET | `/api/audit/search` | Query: pagination (`page`, `pageSize`) and optional `search` | `AuditLogListResponse` |
-| GET | `/api/audit/logs/:id` | Path: `id` | `AuditLogDetail` |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `battalion_id` | No | `uuid` | FK → `public.battalions(id)`; on delete restrict |
+| `name` | Yes | `text` | UNIQUE |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
 
-## Shared request/response contracts
+## `engagement_records`
 
-The request and response contracts referenced above are defined in:
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `record_no` | Yes | `text` | UNIQUE |
+| `personnel_id` | Yes | `uuid` | FK → `public.personnel(id)`; on delete restrict |
+| `engagement_title` | Yes | `text` | — |
+| `engagement_type_id` | Yes | `uuid` | FK → `public.engagement_types(id)`; on delete restrict |
+| `level_id` | No | `uuid` | FK → `public.levels(id)`; on delete restrict |
+| `date_start` | No | `date` | — |
+| `date_end` | No | `date` | — |
+| `status_id` | Yes | `uuid` | FK → `public.engagement_statuses(id)`; on delete restrict |
+| `remarks` | No | `text` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+| `created_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
+| `engagement_id` | No | `uuid` | FK → `public.engagements(id)`; on delete set null |
 
-- `server/shared/requests` (request bodies)
-- `server/shared/responses` and `server/shared/models` (response payload interfaces)
+### Table constraints
+
+- `constraint engagement_records_date_check check (date_end is null or date_start is null or date_end >= date_start)`
+
+## `engagements`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `engagement_title` | Yes | `text` | — |
+| `engagement_type_id` | Yes | `uuid` | FK → `public.engagement_types(id)`; on delete restrict |
+| `level_id` | No | `uuid` | FK → `public.levels(id)`; on delete restrict |
+| `date_start` | No | `date` | — |
+| `date_end` | No | `date` | — |
+| `status_id` | Yes | `uuid` | FK → `public.engagement_statuses(id)`; on delete restrict |
+| `default_remarks` | No | `text` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+| `created_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
+
+Table constraints
+
+- `constraint engagements_date_check check (date_end is null or date_start is null or date_end >= date_start)`
+
+## `engagement_statuses`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `name` | Yes | `text` | UNIQUE |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+## `engagement_types`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `name` | Yes | `text` | UNIQUE |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+## `equipment_assets`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `asset_tag` | Yes | `text` | UNIQUE |
+| `equipment_item_id` | Yes | `uuid` | FK → `public.equipment_items(id)`; on delete restrict |
+| `serial_no` | No | `text` | — |
+| `batch_no` | No | `text` | — |
+| `procurement_date` | No | `date` | — |
+| `acquisition_cost` | No | `numeric(14,2)` | — |
+| `fund_source` | No | `text` | — |
+| `assigned_personnel_id` | No | `uuid` | FK → `public.personnel(id)`; on delete restrict |
+| `assigned_company_id` | No | `uuid` | FK → `public.companies(id)`; on delete restrict |
+| `assigned_battalion_id` | No | `uuid` | FK → `public.battalions(id)`; on delete restrict |
+| `current_location` | No | `text` | — |
+| `condition_status_id` | No | `uuid` | FK → `public.condition_statuses(id)`; on delete restrict |
+| `serviceability_status_id` | No | `uuid` | FK → `public.serviceability_statuses(id)`; on delete restrict |
+| `asset_status_id` | Yes | `uuid` | FK → `public.asset_statuses(id)`; on delete restrict |
+| `remarks` | No | `text` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+| `created_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
+
+Table constraints
+
+- `constraint equipment_assets_acquisition_cost_check check (acquisition_cost is null or acquisition_cost >= 0)`
+
+## `equipment_categories`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `code` | Yes | `text` | UNIQUE |
+| `name` | Yes | `text` | UNIQUE |
+| `requires_serial` | Yes | `boolean` | default `false` |
+| `is_consumable` | Yes | `boolean` | default `false` |
+| `is_controlled` | Yes | `boolean` | default `false` |
+| `is_active` | Yes | `boolean` | default `true` |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+## `equipment_incidents`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `incident_no` | Yes | `text` | UNIQUE |
+| `equipment_asset_id` | Yes | `uuid` | FK → `public.equipment_assets(id)`; on delete restrict |
+| `personnel_id` | No | `uuid` | FK → `public.personnel(id)`; on delete set null |
+| `deployment_id` | No | `uuid` | FK → `public.deployment_records(id)`; on delete set null |
+| `incident_type_id` | Yes | `uuid` | FK → `public.incident_types(id)`; on delete restrict |
+| `incident_date` | Yes | `date` | — |
+| `location` | No | `text` | — |
+| `description` | Yes | `text` | — |
+| `investigation_status_id` | No | `uuid` | FK → `public.investigation_statuses(id)`; on delete restrict |
+| `resolution` | No | `text` | — |
+| `remarks` | No | `text` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+## `equipment_issuances`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `issue_no` | Yes | `text` | UNIQUE |
+| `equipment_asset_id` | Yes | `uuid` | FK → `public.equipment_assets(id)`; on delete restrict |
+| `issued_to_personnel_id` | Yes | `uuid` | FK → `public.personnel(id)`; on delete restrict |
+| `issued_by_personnel_id` | No | `uuid` | FK → `public.personnel(id)`; on delete restrict |
+| `issue_date` | Yes | `date` | — |
+| `expected_return_date` | No | `date` | — |
+| `actual_return_date` | No | `date` | — |
+| `issue_purpose` | No | `text` | — |
+| `deployment_id` | No | `uuid` | FK → `public.deployment_records(id)`; on delete set null |
+| `status_id` | Yes | `uuid` | FK → `public.issuance_statuses(id)`; on delete restrict |
+| `condition_on_issue_id` | No | `uuid` | FK → `public.condition_statuses(id)`; on delete restrict |
+| `condition_on_return_id` | No | `uuid` | FK → `public.condition_statuses(id)`; on delete restrict |
+| `remarks` | No | `text` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+| `created_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
+
+Table constraints
+
+- `constraint equipment_issuances_actual_return_date_check check (
+    actual_return_date is null or actual_return_date >= issue_date
+  )`
+- `constraint equipment_issuances_expected_return_date_check check (
+    expected_return_date is null or expected_return_date >= issue_date
+  )`
+
+## `equipment_items`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `equipment_code` | Yes | `text` | UNIQUE |
+| `category_id` | Yes | `uuid` | FK → `public.equipment_categories(id)`; on delete restrict |
+| `name` | Yes | `text` | — |
+| `model` | No | `text` | — |
+| `manufacturer` | No | `text` | — |
+| `description` | No | `text` | — |
+| `unit_of_measure` | No | `text` | — |
+| `minimum_stock_level` | Yes | `integer` | default `0` |
+| `is_serialized` | Yes | `boolean` | default `false` |
+| `is_active` | Yes | `boolean` | default `true` |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+Table constraints
+
+- `constraint equipment_items_minimum_stock_level_check check (minimum_stock_level >= 0)`
+
+## `equipment_maintenance_records`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `maintenance_no` | Yes | `text` | UNIQUE |
+| `equipment_asset_id` | Yes | `uuid` | FK → `public.equipment_assets(id)`; on delete restrict |
+| `maintenance_type_id` | Yes | `uuid` | FK → `public.maintenance_types(id)`; on delete restrict |
+| `reported_date` | No | `date` | — |
+| `scheduled_date` | No | `date` | — |
+| `completed_date` | No | `date` | — |
+| `performed_by` | No | `text` | — |
+| `cost` | No | `numeric(14,2)` | — |
+| `findings` | No | `text` | — |
+| `action_taken` | No | `text` | — |
+| `resulting_condition_status_id` | No | `uuid` | FK → `public.condition_statuses(id)`; on delete restrict |
+| `resulting_serviceability_status_id` | No | `uuid` | FK → `public.serviceability_statuses(id)`; on delete restrict |
+| `remarks` | No | `text` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+Table constraints
+
+- `constraint equipment_maintenance_records_cost_check check (cost is null or cost >= 0)`
+- `constraint equipment_maintenance_records_completed_date_check check (
+    completed_date is null or reported_date is null or completed_date >= reported_date
+  )`
+
+## `incident_types`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `code` | Yes | `text` | UNIQUE |
+| `name` | Yes | `text` | UNIQUE |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+## `investigation_statuses`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `name` | Yes | `text` | UNIQUE |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+## `issuance_statuses`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `name` | Yes | `text` | UNIQUE |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+## `levels`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `name` | Yes | `text` | UNIQUE |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+## `maintenance_types`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `name` | Yes | `text` | UNIQUE |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+## `permissions`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `code` | Yes | `text` | UNIQUE |
+| `name` | Yes | `text` | — |
+| `module` | Yes | `text` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+
+## `personnel`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `personnel_code` | Yes | `text` | UNIQUE |
+| `service_number` | Yes | `text` | UNIQUE |
+| `last_name` | Yes | `text` | — |
+| `first_name` | Yes | `text` | — |
+| `middle_name` | No | `text` | — |
+| `sex` | Yes | `text` | CHECK |
+| `birthdate` | No | `date` | — |
+| `rank_id` | Yes | `uuid` | FK → `public.ranks(id)`; on delete restrict |
+| `company_id` | No | `uuid` | FK → `public.companies(id)`; on delete restrict |
+| `battalion_id` | No | `uuid` | FK → `public.battalions(id)`; on delete restrict |
+| `employment_status_id` | Yes | `uuid` | FK → `public.employment_statuses(id)`; on delete restrict |
+| `service_status_id` | Yes | `uuid` | FK → `public.service_statuses(id)`; on delete restrict |
+| `contact_number` | No | `text` | — |
+| `date_enlisted` | No | `date` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+| `created_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
+
+## `personnel_medical_readiness`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `personnel_id` | Yes | `uuid` | FK → `public.personnel(id)`; on delete restrict |
+| `medical_status` | Yes | `text` | — |
+| `fit_for_deployment` | Yes | `boolean` | default `false` |
+| `last_exam_date` | No | `date` | — |
+| `next_exam_date` | No | `date` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+Table constraints
+
+- `constraint personnel_medical_readiness_exam_date_check check (
+    next_exam_date is null or last_exam_date is null or next_exam_date >= last_exam_date
+  )`
+
+## `personnel_qualifications`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `personnel_id` | Yes | `uuid` | FK → `public.personnel(id)`; on delete restrict |
+| `qualification_type` | Yes | `text` | — |
+| `date_obtained` | No | `date` | — |
+| `valid_until` | No | `date` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+Table constraints
+
+- `constraint personnel_qualifications_validity_check check (
+    valid_until is null or date_obtained is null or valid_until >= date_obtained
+  )`
+
+## `personnel_weapon_assignments`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `personnel_id` | Yes | `uuid` | FK → `public.personnel(id)`; on delete restrict |
+| `equipment_asset_id` | Yes | `uuid` | FK → `public.equipment_assets(id)`; on delete restrict |
+| `assignment_date` | Yes | `date` | — |
+| `relieved_date` | No | `date` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+Table constraints
+
+- `constraint personnel_weapon_assignments_date_check check (
+    relieved_date is null or relieved_date >= assignment_date
+  )`
+
+## `ranks`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `code` | Yes | `text` | UNIQUE |
+| `name` | Yes | `text` | UNIQUE |
+| `sort_order` | Yes | `integer` | default `0` |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+## `service_statuses`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `name` | Yes | `text` | UNIQUE |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+## `serviceability_statuses`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `name` | Yes | `text` | UNIQUE |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+## `training_categories`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `code` | Yes | `text` | UNIQUE |
+| `name` | Yes | `text` | UNIQUE |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+## `training_records`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `record_no` | Yes | `text` | UNIQUE |
+| `personnel_id` | Yes | `uuid` | FK → `public.personnel(id)`; on delete restrict |
+| `training_title` | Yes | `text` | — |
+| `training_category_id` | No | `uuid` | FK → `public.training_categories(id)`; on delete restrict |
+| `level_id` | No | `uuid` | FK → `public.levels(id)`; on delete restrict |
+| `start_date` | No | `date` | — |
+| `end_date` | No | `date` | — |
+| `status_id` | Yes | `uuid` | FK → `public.training_statuses(id)`; on delete restrict |
+| `certificate_no` | No | `text` | — |
+| `valid_until` | No | `date` | — |
+| `remarks` | No | `text` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+| `created_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
+| `training_id` | No | `uuid` | FK → `public.trainings(id)`; on delete set null |
+
+Table constraints
+
+- `constraint training_records_date_check check (end_date is null or start_date is null or end_date >= start_date)`
+- `constraint training_records_valid_until_check check (valid_until is null or end_date is null or valid_until >= end_date)`
+
+## `trainings`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `training_title` | Yes | `text` | — |
+| `training_category_id` | No | `uuid` | FK → `public.training_categories(id)`; on delete restrict |
+| `level_id` | No | `uuid` | FK → `public.levels(id)`; on delete restrict |
+| `start_date` | No | `date` | — |
+| `end_date` | No | `date` | — |
+| `status_id` | Yes | `uuid` | FK → `public.training_statuses(id)`; on delete restrict |
+| `default_remarks` | No | `text` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+| `created_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
+
+Table constraints
+
+- `constraint trainings_date_check check (end_date is null or start_date is null or end_date >= start_date)`
+
+## `training_statuses`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `name` | Yes | `text` | UNIQUE |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+## `user_account_types`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `user_id` | Yes | `uuid` | FK → `public.user_profiles(id)`; on delete cascade |
+| `account_type_id` | Yes | `uuid` | FK → `public.account_types(id)`; on delete cascade |
+| `assigned_at` | Yes | `timestamptz` | default `now()` |
+| `assigned_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
+
+Table constraints
+
+- `unique (user_id, account_type_id)`
+
+## `user_profiles`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; FK → `auth.users(id)`; on delete cascade |
+| `personnel_id` | No | `uuid` | FK → `public.personnel(id)` |
+| `email` | Yes | `text` | UNIQUE |
+| `full_name` | Yes | `text` | — |
+| `avatar_url` | No | `text` | — |
+| `is_active` | Yes | `boolean` | default `true` |
+| `last_login_at` | No | `timestamptz` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+| `password_hash` | No | `text` | — |
+| `password_updated_at` | No | `timestamptz` | — |
+
+## API coverage updates (as of 2026-05-02)
+
+Recent implemented APIs now use the shared domain tables introduced in `20260426144014_add-shared-training-deployment-engagement-tables.sql`:
+
+- **Trainings APIs** (`/api/trainings`): backed by `trainings`; training record APIs (`/api/training-records`) now link through `training_records.training_id` when available.
+- **Deployments APIs** (`/api/deployments`): backed by `deployments`; deployment record APIs (`/api/deployment-records`) now link through `deployment_records.deployment_id` when available.
+- **Engagements table linkage**: engagement record APIs are aligned to shared records through `engagement_records.engagement_id`; dedicated `/api/engagements` endpoints are not yet present in `server/api`.
+
+For complete endpoint inventory, refer to `documentation/api-guide.md`.

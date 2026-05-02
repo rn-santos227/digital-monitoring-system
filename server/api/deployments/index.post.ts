@@ -73,7 +73,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
     const { createdId } = await executeWithRollback({
       operation: async () => {
         const { data: createdRow, error: insertError } = await supabase
-          .from('deployment')
+          .from('deployments')
           .insert(insertPayload)
           .select('id')
           .maybeSingle<{ id: string }>()
@@ -133,7 +133,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
     })
 
     const { data: newRow } = await supabase
-      .from('deployment')
+      .from('deployments')
       .select(DEPLOYMENT_DETAIL_SELECT_COLUMNS)
       .eq('id', createdId)
       .maybeSingle()
