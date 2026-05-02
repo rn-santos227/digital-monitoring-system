@@ -1,11 +1,11 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
-import type { DeploymentRecordListResponse } from '../../shared/responses'
+import type { DeploymentListResponse } from '../../shared/responses'
 import { DEPLOYMENT_DETAIL_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
-import { mapDeploymentRecordSelectListItem, parseManagementPaginationQuery } from '../../shared/utils'
+import { mapDeploymentSelectListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
-export default defineEventHandler(async (event): Promise<DeploymentRecordListResponse> => {
+export default defineEventHandler(async (event): Promise<DeploymentListResponse> => {
   await requirePermission(event, PERMISSION_CODES.deploymentManage)
 
   const query = getQuery(event)
@@ -35,7 +35,7 @@ export default defineEventHandler(async (event): Promise<DeploymentRecordListRes
     throw createError({ statusCode: 500, statusMessage: `Failed to fetch deployment records: ${error.message}` })
   }
 
-  const items = (data ?? []).map(mapDeploymentRecordSelectListItem)
+  const items = (data ?? []).map(mapDeploymentSelectListItem)
   const totalItems = count ?? 0
   const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
 
