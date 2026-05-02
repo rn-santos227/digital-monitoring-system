@@ -3,6 +3,7 @@ import type {
   CreateDeploymentRequest,
   CreateDeploymentRecordFromDeploymentRequest,
   CreateDeploymentRecordRequest,
+  UpdateDeploymentRequest,
   UpdateDeploymentRecordRequest,
 } from '../../requests'
 import { normalizeOptionalText } from '../../utils'
@@ -188,6 +189,57 @@ export const parseCreateDeploymentRecordFromDeploymentPayload = (
     deployment_id: deploymentId,
     remarks,
   }
+}
+
+export const buildDeploymentUpdates = (body: UpdateDeploymentRequest) => {
+  const rawBody = body as UpdateDeploymentRequest & {
+    assignment_role?: string | null
+    operation_name?: string | null
+    start_date?: string
+    end_date?: string | null
+    status_id?: string
+    supervisor_id?: string | null
+    supervisor_personnel_id?: string | null
+    default_remarks?: string | null
+  }
+
+  const updates: {
+    assignment_role?: string | null
+    operation_name?: string | null
+    start_date?: string
+    end_date?: string | null
+    status_id?: string
+    supervisor_id?: string | null
+    default_remarks?: string | null
+  } = {}
+
+  if (body.assignmentRole !== undefined || rawBody.assignment_role !== undefined) {
+    updates.assignment_role = normalizeOptionalText(body.assignmentRole ?? rawBody.assignment_role)
+  }
+  if (body.operationName !== undefined || rawBody.operation_name !== undefined) {
+    updates.operation_name = normalizeOptionalText(body.operationName ?? rawBody.operation_name)
+  }
+  if (body.startDate !== undefined || rawBody.start_date !== undefined) {
+    updates.start_date = normalizeRequiredDate(body.startDate ?? rawBody.start_date, 'Start date')
+  }
+  if (body.endDate !== undefined || rawBody.end_date !== undefined) {
+    updates.end_date = normalizeOptionalDate(body.endDate ?? rawBody.end_date)
+  }
+  if (body.statusId !== undefined || rawBody.status_id !== undefined) {
+    updates.status_id = normalizeRequiredText(body.statusId ?? rawBody.status_id, 'Deployment status id')
+  }
+
+  const supervisorSuggestionId = body.supervisorPersonnelId ?? rawBody.supervisor_personnel_id
+  const directSupervisorId = body.supervisorId ?? rawBody.supervisor_id
+  if (body.supervisorId !== undefined || body.supervisorPersonnelId !== undefined || rawBody.supervisor_id !== undefined || rawBody.supervisor_personnel_id !== undefined) {
+    updates.supervisor_id = normalizeOptionalText(supervisorSuggestionId === undefined ? directSupervisorId : supervisorSuggestionId)
+  }
+
+  if (body.remarks !== undefined || rawBody.default_remarks !== undefined) {
+    updates.default_remarks = normalizeOptionalText(body.remarks ?? rawBody.default_remarks)
+  }
+
+  return updates
 }
 
 export const buildDeploymentRecordUpdates = (body: UpdateDeploymentRecordRequest) => {

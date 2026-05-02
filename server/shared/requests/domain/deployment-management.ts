@@ -35,6 +35,17 @@ export interface CreateDeploymentRecordFromDeploymentRequest {
   remarks?: string | null
 }
 
+export interface UpdateDeploymentRequest {
+  assignmentRole?: string | null
+  operationName?: string | null
+  startDate?: string
+  endDate?: string | null
+  statusId?: string
+  supervisorId?: string | null
+  supervisorPersonnelId?: string | null
+  remarks?: string | null
+}
+
 export interface UpdateDeploymentRecordRequest {
   personnelId?: string
   deploymentArea?: string
