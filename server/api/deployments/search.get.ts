@@ -1,6 +1,6 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { DeploymentListResponse } from '../../shared/responses'
-import { DEPLOYMENT_DETAIL_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
+import { DEPLOYMENT_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
 import { mapDeploymentSelectListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
@@ -44,8 +44,8 @@ export default defineEventHandler(async (event): Promise<DeploymentListResponse>
 
   const supabase = getServiceSupabaseClient()
   let deploymentRecordQuery = supabase
-    .from('deployment')
-    .select(DEPLOYMENT_DETAIL_SELECT_COLUMNS, { count: 'exact' })
+    .from('deployments')
+    .select(DEPLOYMENT_SELECT_COLUMNS, { count: 'exact' })
     .order('start_date', { ascending: false, nullsFirst: false })
     .order('deployment_area', { ascending: true })
     .range(rangeFrom, rangeTo)
