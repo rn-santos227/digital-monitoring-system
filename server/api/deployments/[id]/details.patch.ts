@@ -8,27 +8,17 @@ import {
 } from '../../../shared/constants'
 import { assertPersonnelExists } from '../../../shared/utils'
 import { resolvePersonnelServiceStatusId } from '../../../shared/utils'
-import { requireRouteId, validateDeploymentDateRange } from '../../../shared/validations'
+import type { UpdateDeploymentRequest } from '../../../shared/requests'
+import { buildDeploymentUpdates, requireRouteId, validateDeploymentDateRange } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
 
-interface UpdateDeploymentDetailsBody {
-  assignment_role?: string | null
-  operation_name?: string | null
-  start_date?: string
-  end_date?: string | null
-  status_id?: string
-  supervisor_id?: string | null
-  supervisor_personnel_id?: string | null
-  default_remarks?: string | null
-}
-
 export default defineEventHandler(async (event) => {
   const actor = await requirePermission(event, PERMISSION_CODES.deploymentUpdate)
   const id = requireRouteId(getRouterParam(event, 'id'), 'Deployment id is required.')
-  const body = await readBody<UpdateDeploymentDetailsBody>(event)
+  const body = await readBody<UpdateDeploymentRequest>(event)
   const supabase = getServiceSupabaseClient()
 
   const { data: existingRow, error: existingError } = await supabase
@@ -40,26 +30,24 @@ export default defineEventHandler(async (event) => {
   if (existingError) throw createError({ statusCode: 500, statusMessage: `Failed to read deployment: ${existingError.message}` })
   if (!existingRow) throw createError({ statusCode: 404, statusMessage: 'Deployment not found.' })
 
-  const effectiveStartDate = body.start_date ?? existingRow.start_date
-  const effectiveEndDate = body.end_date === undefined ? existingRow.end_date : body.end_date
+  const parsedUpdates = buildDeploymentUpdates(body)
+  const effectiveStartDate = parsedUpdates.start_date ?? existingRow.start_date
+  const effectiveEndDate = parsedUpdates.end_date === undefined ? existingRow.end_date : parsedUpdates.end_date
   validateDeploymentDateRange(effectiveStartDate, effectiveEndDate)
 
-  const nextSupervisorId = body.supervisor_personnel_id === undefined
-    ? body.supervisor_id
-    : body.supervisor_personnel_id
-  const effectiveSupervisorId = nextSupervisorId === undefined ? existingRow.supervisor_id : nextSupervisorId
+  const effectiveSupervisorId = parsedUpdates.supervisor_id === undefined ? existingRow.supervisor_id : parsedUpdates.supervisor_id
   if (effectiveSupervisorId) {
     await assertPersonnelExists({ supabase, personnelId: effectiveSupervisorId, idSelectColumns: 'id' })
   }
 
   const updates = {
-    assignment_role: body.assignment_role ?? existingRow.assignment_role,
-    operation_name: body.operation_name ?? existingRow.operation_name,
+    assignment_role: parsedUpdates.assignment_role === undefined ? existingRow.assignment_role : parsedUpdates.assignment_role,
+    operation_name: parsedUpdates.operation_name === undefined ? existingRow.operation_name : parsedUpdates.operation_name,
     start_date: effectiveStartDate,
     end_date: effectiveEndDate,
-    status_id: body.status_id ?? existingRow.status_id,
+    status_id: parsedUpdates.status_id ?? existingRow.status_id,
     supervisor_id: effectiveSupervisorId,
-    default_remarks: body.default_remarks ?? existingRow.default_remarks,
+    default_remarks: parsedUpdates.default_remarks === undefined ? existingRow.default_remarks : parsedUpdates.default_remarks,
   }
 
   const deployedServiceStatusId = effectiveSupervisorId
