@@ -33,7 +33,7 @@ export interface DeploymentSuggestionItem {
 }
 
 export interface DeploymentRecordReferenceRow {
-  id: string
+  id?: string
   name?: string
   personnel_code?: string
   full_name?: string

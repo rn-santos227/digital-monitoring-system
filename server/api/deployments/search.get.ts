@@ -1,7 +1,7 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { DeploymentListResponse } from '../../shared/responses'
-import { DEPLOYMENT_RECORD_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
-import { mapDeploymentDetailListItem, parseManagementPaginationQuery } from '../../shared/utils'
+import { DEPLOYMENT_DETAIL_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
+import { mapDeploymentSelectListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
@@ -45,7 +45,7 @@ export default defineEventHandler(async (event): Promise<DeploymentListResponse>
   const supabase = getServiceSupabaseClient()
   let deploymentRecordQuery = supabase
     .from('deployment')
-    .select(DEPLOYMENT_RECORD_SELECT_COLUMNS, { count: 'exact' })
+    .select(DEPLOYMENT_DETAIL_SELECT_COLUMNS, { count: 'exact' })
     .order('start_date', { ascending: false, nullsFirst: false })
     .order('deployment_area', { ascending: true })
     .range(rangeFrom, rangeTo)
@@ -72,7 +72,7 @@ export default defineEventHandler(async (event): Promise<DeploymentListResponse>
     throw createError({ statusCode: 500, statusMessage: `Failed to search deployment records: ${error.message}` })
   }
 
-  const items = (data ?? []).map(mapDeploymentDetailListItem)
+  const items = (data ?? []).map(mapDeploymentSelectListItem)
   const totalItems = count ?? 0
   const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
 
