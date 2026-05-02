@@ -1,6 +1,6 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { PersonnelListCompactResponse } from '../../shared/responses'
-import { PERSONNEL_PERMISSION_GROUPS, PERSONNEL_PROFILE_COMPACT_SELECT_COLUMNS } from '../../shared/constants'
+import { PERSONNEL_PERMISSION_GROUPS, PERSONNEL_PROFILE_LIST_SELECT_COLUMNS } from '../../shared/constants'
 import { mapPersonnelCompactListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
@@ -42,7 +42,7 @@ export default defineEventHandler(async (event): Promise<PersonnelListCompactRes
   const supabase = getServiceSupabaseClient()
   const { data, count, error } = await supabase
     .from('vw_personnel_profile')
-    .select(PERSONNEL_PROFILE_COMPACT_SELECT_COLUMNS, {
+    .select(PERSONNEL_PROFILE_LIST_SELECT_COLUMNS, {
       count: 'exact',
     })
     .or(filters.join(','))

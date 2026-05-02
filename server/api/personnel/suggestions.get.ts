@@ -2,7 +2,7 @@ import { createError, defineEventHandler, getQuery } from 'h3'
 import type { PersonnelSuggestionsResponse } from '../../shared/responses'
 import {
   MANAGEMENT_PERMISSION_GROUPS,
-  PERSONNEL_SUGGESTION_SELECT_COLUMNS,
+  PERSONNEL_PROFILE_LIST_SELECT_COLUMNS,
   USER_PROFILE_PERSONNEL_LOOKUP_SELECT_COLUMNS,
 } from '../../shared/constants'
 import {
@@ -40,7 +40,7 @@ export default defineEventHandler(async (event): Promise<PersonnelSuggestionsRes
   const supabase = getServiceSupabaseClient()
   let personnelQuery = supabase
     .from('vw_personnel_profile')
-    .select(PERSONNEL_SUGGESTION_SELECT_COLUMNS)
+    .select(PERSONNEL_PROFILE_LIST_SELECT_COLUMNS)
     .order('last_name', { ascending: true })
     .order('first_name', { ascending: true })
     .limit(pageSize)
@@ -67,7 +67,7 @@ export default defineEventHandler(async (event): Promise<PersonnelSuggestionsRes
   if (selectedPersonnelId && !mergedRows.some(row => row.id === selectedPersonnelId)) {
     const { data: selectedRow, error: selectedRowError } = await supabase
       .from('vw_personnel_profile')
-      .select(PERSONNEL_SUGGESTION_SELECT_COLUMNS)
+      .select(PERSONNEL_PROFILE_LIST_SELECT_COLUMNS)
       .eq('id', selectedPersonnelId)
       .maybeSingle()
 
