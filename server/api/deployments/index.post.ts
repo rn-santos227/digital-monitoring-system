@@ -1,5 +1,5 @@
 import { createError, defineEventHandler, readBody } from 'h3'
-import type { CreateDeploymentRecordRequest } from '../../shared/requests'
+import type { CreateDeploymentRequest } from '../../shared/requests'
 import type { CreateDeploymentRecordResponse } from '../../shared/responses'
 import {
   AUDIT_LOG_ACTIONS,
@@ -15,7 +15,7 @@ import {
   mapDeploymentDetailListItem,
   resolvePersonnelServiceStatusId,
 } from '../../shared/utils'
-import { parseCreateDeploymentRecordPayload } from '../../shared/validations'
+import { parseCreateDeploymentPayload } from '../../shared/validations'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
@@ -23,18 +23,11 @@ import { executeWithRollback } from '../../utils/db/executeWithRollback'
 
 export default defineEventHandler(async (event): Promise<CreateDeploymentRecordResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.deploymentManage)
-  const body = await readBody<CreateDeploymentRecordRequest>(event)
+  const body = await readBody<CreateDeploymentRequest>(event)
   const supabase = getServiceSupabaseClient()
 
   try {
-    const payload = parseCreateDeploymentRecordPayload(body)
-
-    await assertPersonnelExists({
-      supabase,
-      personnelId: payload.personnel_id,
-      idSelectColumns: ID_ONLY_SELECT_COLUMNS,
-    })
-
+    const payload = parseCreateDeploymentPayload(body)
     if (payload.supervisor_id) {
       await assertPersonnelExists({
         supabase,
