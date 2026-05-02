@@ -28,6 +28,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
 
   try {
     const payload = parseCreateDeploymentPayload(body)
+
     if (payload.supervisor_id) {
       await assertPersonnelExists({
         supabase,

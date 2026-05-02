@@ -5,7 +5,7 @@ import {
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
   PERMISSION_CODES,
-  PERSONNEL_PROFILE_SUMMARY_SELECT_COLUMNS,
+  PERSONNEL_PROFILE_LIST_SELECT_COLUMNS,
 } from '../../../shared/constants'
 import { requireRouteId } from '../../../shared/validations'
 import { getPersonnelRelationshipCounts, mapPersonnelRelationshipCountsResponse } from '../../../shared/utils'
@@ -21,7 +21,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
 
   const { data: existingPersonnel, error: existingPersonnelError } = await supabase
     .from('personnel')
-    .select(PERSONNEL_PROFILE_SUMMARY_SELECT_COLUMNS)
+    .select(PERSONNEL_PROFILE_LIST_SELECT_COLUMNS)
     .eq('id', id)
     .maybeSingle()
 
