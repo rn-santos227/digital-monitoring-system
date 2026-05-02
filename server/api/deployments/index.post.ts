@@ -70,10 +70,72 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
       previousSupervisorServiceStatusId = previousSupervisorState?.service_status_id ?? null
     }
 
+    const { createdId } = await executeWithRollback({
+      operation: async () => {
+        const { data: createdRow, error: insertError } = await supabase
+          .from('deployment')
+          .insert(insertPayload)
+          .select('id')
+          .maybeSingle<{ id: string }>()
+
+        if (insertError || !createdRow?.id) {
+          throw createError({
+            statusCode: 500,
+            statusMessage: `Failed to create deployment: ${insertError?.message ?? 'Missing id.'}`,
+          })
+        }
+
+        if (payload.supervisor_id && deployedServiceStatusId) {
+          const { error: updateSupervisorError } = await supabase
+            .from('personnel')
+            .update({ service_status_id: deployedServiceStatusId })
+            .eq('id', payload.supervisor_id)
+
+          if (updateSupervisorError) {
+            throw createError({
+              statusCode: 500,
+              statusMessage: `Failed to update supervisor service status: ${updateSupervisorError.message}`,
+            })
+          }
+        }
+
+        return { createdId: createdId }
+      },
+      rollback: async () => {
+        const rollbackErrors: string[] = []
+        const { error: rollbackDeploymentError } = await supabase
+          .from('deployment')
+          .delete()
+          .eq('record_no', insertPayload.record_no)
+
+        if (rollbackDeploymentError) {
+          rollbackErrors.push(`deployment rollback failed: ${rollbackDeploymentError.message}`)
+        }
+
+        if (payload.supervisor_id) {
+          const { error: rollbackSupervisorError } = await supabase
+            .from('personnel')
+            .update({ service_status_id: previousSupervisorServiceStatusId })
+            .eq('id', payload.supervisor_id)
+
+          if (rollbackSupervisorError) {
+            rollbackErrors.push(`supervisor service status rollback failed: ${rollbackSupervisorError.message}`)
+          }
+        }
+
+        if (rollbackErrors.length > 0) {
+          throw createError({ statusCode: 500, statusMessage: rollbackErrors.join('; ') })
+        }
+      },
+      onRollbackError: (rollbackError) => {
+        console.error('Deployment create rollback error:', rollbackError)
+      },
+    })
+
     const { data: newRow } = await supabase
       .from('deployment')
       .select(DEPLOYMENT_DETAIL_SELECT_COLUMNS)
-      .eq('id', createdRow.id)
+      .eq('id', createdId)
       .maybeSingle()
 
     await recordManagementAuditLog(event, {
@@ -81,7 +143,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
       action: AUDIT_LOG_ACTIONS.deploymentCreate,
       tableName: 'deployment_records',
       endpoint: AUDIT_LOG_ENDPOINTS.deploymentsCreate,
-      recordId: createdRow.id,
+      recordId: createdId,
       requestData: body as Record<string, unknown>,
       newData: newRow
         ? ({ ...mapDeploymentDetailListItem(newRow) } as Record<string, unknown>)
@@ -91,7 +153,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
       message: 'Deployment record created successfully.',
     })
 
-    return { ok: true, id: createdRow.id }
+    return { ok: true, id: createdId }
   } catch (error: unknown) {
     const statusCode = (error as { statusCode?: number })?.statusCode ?? 500
     const message = error instanceof Error ? error.message : 'Unknown error'
