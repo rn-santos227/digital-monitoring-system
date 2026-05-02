@@ -14,7 +14,7 @@ interface UpdateDeploymentLocationBody {
 
 export default defineEventHandler(async (event) => {
   const actor = await requirePermission(event, PERMISSION_CODES.deploymentUpdate)
-  const id = requireRouteId(getRouterParam(event, 'id'), 'Deployment record id is required.')
+  const id = requireRouteId(getRouterParam(event, 'id'), 'Deployment id is required.')
   const body = await readBody<UpdateDeploymentLocationBody>(event)
 
   if (body.deployment_area_latitude !== undefined && body.deployment_area_latitude !== null && (body.deployment_area_latitude < -90 || body.deployment_area_latitude > 90)) {
@@ -27,13 +27,13 @@ export default defineEventHandler(async (event) => {
 
   const supabase = getServiceSupabaseClient()
   const { data: existingRow, error: existingError } = await supabase
-    .from('deployment_records')
+    .from('deployment')
     .select('id,deployment_area,deployment_area_latitude,deployment_area_longitude,location')
     .eq('id', id)
     .maybeSingle()
 
-  if (existingError) throw createError({ statusCode: 500, statusMessage: `Failed to read deployment record: ${existingError.message}` })
-  if (!existingRow) throw createError({ statusCode: 404, statusMessage: 'Deployment record not found.' })
+  if (existingError) throw createError({ statusCode: 500, statusMessage: `Failed to read deployment: ${existingError.message}` })
+  if (!existingRow) throw createError({ statusCode: 404, statusMessage: 'Deployment not found.' })
 
   const updates = {
     deployment_area: body.deployment_area ?? existingRow.deployment_area,
@@ -43,13 +43,13 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const { error } = await supabase.from('deployment_records').update(updates).eq('id', id)
+    const { error } = await supabase.from('deployment').update(updates).eq('id', id)
     if (error) throw createError({ statusCode: 500, statusMessage: `Failed to update deployment location: ${error.message}` })
 
     await recordManagementAuditLog(event, {
       userId: actor.id,
       action: AUDIT_LOG_ACTIONS.deploymentUpdate,
-      tableName: 'deployment_records',
+      tableName: 'deployment',
       endpoint: AUDIT_LOG_ENDPOINTS.deploymentsUpdate,
       recordId: id,
       requestData: body as Record<string, unknown>,
@@ -66,7 +66,7 @@ export default defineEventHandler(async (event) => {
     await recordManagementAuditLog(event, {
       userId: actor.id,
       action: AUDIT_LOG_ACTIONS.deploymentUpdate,
-      tableName: 'deployment_records',
+      tableName: 'deployment',
       endpoint: AUDIT_LOG_ENDPOINTS.deploymentsUpdate,
       recordId: id,
       requestData: body as Record<string, unknown>,

@@ -1,7 +1,7 @@
 import { createError, defineEventHandler, getRouterParam } from 'h3'
 import type { DeploymentRecordDetailResponse } from '../../../shared/responses'
-import { DEPLOYMENT_DETAILS_SELECT_COLUMNS, PERMISSION_CODES } from '../../../shared/constants'
-import { mapDeploymentRecordListItem } from '../../../shared/utils'
+import { DEPLOYMENT_DETAIL_SELECT_COLUMNS, PERMISSION_CODES } from '../../../shared/constants'
+import { mapDeploymentDetailListItem } from '../../../shared/utils'
 import { requireRouteId } from '../../../shared/validations'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
@@ -13,7 +13,7 @@ export default defineEventHandler(async (event): Promise<DeploymentRecordDetailR
   const supabase = getServiceSupabaseClient()
   const { data, error } = await supabase
     .from('deployment_records')
-    .select(DEPLOYMENT_DETAILS_SELECT_COLUMNS)
+    .select(DEPLOYMENT_DETAIL_SELECT_COLUMNS)
     .eq('id', id)
     .maybeSingle()
 
@@ -25,5 +25,5 @@ export default defineEventHandler(async (event): Promise<DeploymentRecordDetailR
     throw createError({ statusCode: 404, statusMessage: 'Deployment record not found.' })
   }
 
-  return mapDeploymentRecordListItem(data)
+  return mapDeploymentDetailListItem(data)
 })

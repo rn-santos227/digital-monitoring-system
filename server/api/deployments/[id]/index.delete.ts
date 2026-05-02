@@ -15,17 +15,17 @@ import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.deploymentManage)
-  const id = requireRouteId(getRouterParam(event, 'id'), 'Deployment record id is required.')
+  const id = requireRouteId(getRouterParam(event, 'id'), 'Deployment id is required.')
   const supabase = getServiceSupabaseClient()
 
   const { data: existingRow, error: existingError } = await supabase
-    .from('deployment_records')
+    .from('deployment')
     .select(DEPLOYMENT_DETAIL_SELECT_COLUMNS)
     .eq('id', id)
     .maybeSingle()
 
   if (existingError) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to read deployment record: ${existingError.message}` })
+    throw createError({ statusCode: 500, statusMessage: `Failed to read deployment: ${existingError.message}` })
   }
 
   if (!existingRow) {
@@ -36,19 +36,19 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
     const { error: deleteError } = await supabase.from('deployment_records').delete().eq('id', id)
 
     if (deleteError) {
-      throw createError({ statusCode: 500, statusMessage: `Failed to delete deployment record: ${deleteError.message}` })
+      throw createError({ statusCode: 500, statusMessage: `Failed to delete deployment: ${deleteError.message}` })
     }
 
     await recordManagementAuditLog(event, {
       userId: actor.id,
       action: AUDIT_LOG_ACTIONS.deploymentDelete,
-      tableName: 'deployment_records',
+      tableName: 'deployments',
       endpoint: AUDIT_LOG_ENDPOINTS.deploymentsDelete,
       recordId: id,
       oldData: { ...mapDeploymentDetailListItem(existingRow) } as Record<string, unknown>,
       statusCode: 200,
       outcome: AUDIT_LOG_OUTCOMES.success,
-      message: 'Deployment record deleted successfully.',
+      message: 'Deployment deleted successfully.',
     })
 
     return { ok: true }
@@ -58,7 +58,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
     await recordManagementAuditLog(event, {
       userId: actor.id,
       action: AUDIT_LOG_ACTIONS.deploymentDelete,
-      tableName: 'deployment_records',
+      tableName: 'deployments',
       endpoint: AUDIT_LOG_ENDPOINTS.deploymentsDelete,
       recordId: id,
       oldData: { ...mapDeploymentDetailListItem(existingRow) } as Record<string, unknown>,
