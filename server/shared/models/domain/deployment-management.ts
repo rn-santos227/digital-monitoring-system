@@ -53,15 +53,28 @@ export interface DeploymentSuggestionRow {
   deployment_status: DeploymentRecordReferenceRow | DeploymentRecordReferenceRow[] | null
 }
 
-
-export interface DeploymentRecordRow {
+export interface DeploymentRecordSelectRow {
   id: string
   record_no: string
   personnel_id: string
   deployment_id?: string | null
   deployment_area: string
+  operation_name: string | null
+  assignmentRole: string | null
+  start_date: string
+  end_date: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface DeploymentRecordRow {
+  id: string
+  record_no: string
+  personnel_id: string
+  deployment_id: string | null
   deployment_area_latitude: number | null
   deployment_area_longitude: number | null
+  deployment_area: string
   assignment_role: string | null
   operation_name: string | null
   start_date: string

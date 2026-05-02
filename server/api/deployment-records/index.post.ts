@@ -1,5 +1,5 @@
 import { createError, defineEventHandler, readBody } from 'h3'
-import type { DeploymentRecordSourceRow } from '../../shared/models'
+import type { DeploymentRecordRow, DeploymentRecordSourceRow } from '../../shared/models'
 import type { CreateDeploymentRecordFromDeploymentRequest } from '../../shared/requests'
 import type { CreateDeploymentRecordResponse } from '../../shared/responses'
 import {
@@ -7,7 +7,7 @@ import {
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
   DEPLOYMENT_RECORD_SELECT_COLUMNS,
-  DEPLOYMENT_RECORD_SOURCE_SELECT_COLUMNS,
+  DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS,
   ID_ONLY_SELECT_COLUMNS,
   PERMISSION_CODES,
 } from '../../shared/constants'
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
     const payload = parseCreateDeploymentRecordFromDeploymentPayload(body)
     const { data: deployment, error: deploymentReadError } = await supabase
       .from('deployments')
-      .select(DEPLOYMENT_RECORD_SOURCE_SELECT_COLUMNS)
+      .select(DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS)
       .eq('id', payload.deployment_id)
       .maybeSingle<DeploymentRecordSourceRow>()
 
@@ -151,9 +151,9 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
 
     const { data: newRow } = await supabase
       .from('deployment_records')
-      .select(DEPLOYMENT_RECORD_SELECT_COLUMNS)
+      .select(DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS)
       .eq('id', createdId)
-      .maybeSingle()
+      .maybeSingle<DeploymentRecordRow>()
 
     await recordManagementAuditLog(event, {
       userId: actor.id,

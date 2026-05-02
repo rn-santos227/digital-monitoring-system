@@ -1,7 +1,8 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
+import type { DeploymentRecordSelectRow } from '../../shared/models'
 import type { DeploymentRecordListResponse } from '../../shared/responses'
-import { DEPLOYMENT_RECORD_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
-import { mapDeploymentRecordListItem, parseManagementPaginationQuery } from '../../shared/utils'
+import { DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
+import { mapDeploymentRecordSelectListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 
@@ -18,7 +19,7 @@ export default defineEventHandler(async (event): Promise<DeploymentRecordListRes
   const supabase = getServiceSupabaseClient()
   let deploymentRecordQuery = supabase
     .from('deployment_records')
-    .select(DEPLOYMENT_RECORD_SELECT_COLUMNS, { count: 'exact' })
+    .select(DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS, { count: 'exact' })
     .order('start_date', { ascending: false, nullsFirst: false })
     .order('deployment_area', { ascending: true })
     .range(rangeFrom, rangeTo)
@@ -35,7 +36,7 @@ export default defineEventHandler(async (event): Promise<DeploymentRecordListRes
     throw createError({ statusCode: 500, statusMessage: `Failed to fetch deployment records: ${error.message}` })
   }
 
-  const items = (data ?? []).map(mapDeploymentRecordListItem)
+  const items = (data ?? []).map(row => mapDeploymentRecordSelectListItem(row as unknown as DeploymentRecordSelectRow))
   const totalItems = count ?? 0
   const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
 

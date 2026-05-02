@@ -1,5 +1,11 @@
 import { parseNumber } from './parsers'
-import type { DeploymentRecordListItem, DeploymentRecordRow, DeploymentSuggestionItem, DeploymentSuggestionRow } from '../models'
+import type {
+  DeploymentRecordListItem,
+  DeploymentRecordRow,
+  DeploymentRecordSelectRow,
+  DeploymentSuggestionItem,
+  DeploymentSuggestionRow,
+} from '../models'
 
 const toSingleReference = (value: DeploymentRecordRow['personnel'] | DeploymentRecordRow['supervisor'] | DeploymentRecordRow['deployment_status']) => {
   if (!value) {
@@ -56,9 +62,34 @@ export const mapDeploymentRecordListItem = (row: DeploymentRecordRow): Deploymen
     statusId: row.status_id,
     statusName: deploymentStatus?.name ?? null,
     location: row.location,
-    supervisorId: supervisor?.id ?? null,
+    supervisorId: row.supervisor_id ?? supervisor?.id ?? null,
     supervisorName: toPersonnelName(row.supervisor),
     remarks: row.remarks,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  }
+}
+
+export const mapDeploymentRecordSelectListItem = (row: DeploymentRecordSelectRow): DeploymentRecordListItem => {
+  return {
+    id: row.id,
+    recordNo: row.record_no,
+    personnelId: row.personnel_id,
+    personnelCode: null,
+    personnelName: null,
+    deploymentArea: row.deployment_area,
+    deploymentAreaLatitude: null,
+    deploymentAreaLongitude: null,
+    assignmentRole: row.assignmentRole,
+    operationName: row.operation_name,
+    startDate: row.start_date,
+    endDate: row.end_date,
+    statusId: '',
+    statusName: null,
+    location: null,
+    supervisorId: null,
+    supervisorName: null,
+    remarks: null,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   }

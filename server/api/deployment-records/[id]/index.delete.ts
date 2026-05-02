@@ -4,7 +4,7 @@ import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
-  DEPLOYMENT_RECORD_SELECT_COLUMNS,
+  DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS,
   PERMISSION_CODES,
 } from '../../../shared/constants'
 import { mapDeploymentRecordListItem } from '../../../shared/utils'
@@ -20,7 +20,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
 
   const { data: existingRow, error: existingError } = await supabase
     .from('deployment_records')
-    .select(DEPLOYMENT_RECORD_SELECT_COLUMNS)
+    .select(DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS)
     .eq('id', id)
     .maybeSingle()
 
