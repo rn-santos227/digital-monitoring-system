@@ -1,5 +1,5 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
-import type { PersonnelListResponse, PersonnelProfileListRow } from '../../shared/models'
+import type { PersonnelListResponse } from '../../shared/models'
 import { PERSONNEL_PERMISSION_GROUPS, PERSONNEL_PROFILE_LIST_SELECT_COLUMNS } from '../../shared/constants'
 import { mapPersonnelListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
