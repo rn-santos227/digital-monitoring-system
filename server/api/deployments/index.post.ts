@@ -43,7 +43,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
     }
 
     const { data: createdRow, error: insertError } = await supabase
-      .from('deployment_records')
+      .from('deployment')
       .insert(insertPayload)
       .select('id')
       .maybeSingle<{ id: string }>()
@@ -51,12 +51,12 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
     if (insertError || !createdRow?.id) {
       throw createError({
         statusCode: 500,
-        statusMessage: `Failed to create deployment record: ${insertError?.message ?? 'Missing id.'}`,
+        statusMessage: `Failed to create deployment: ${insertError?.message ?? 'Missing id.'}`,
       })
     }
 
     const { data: newRow } = await supabase
-      .from('deployment_records')
+      .from('deployment')
       .select(DEPLOYMENT_DETAIL_SELECT_COLUMNS)
       .eq('id', createdRow.id)
       .maybeSingle()
@@ -84,7 +84,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
     await recordManagementAuditLog(event, {
       userId: actor.id,
       action: AUDIT_LOG_ACTIONS.deploymentCreate,
-      tableName: 'deployment_records',
+      tableName: 'deployment',
       endpoint: AUDIT_LOG_ENDPOINTS.deploymentsCreate,
       requestData: body as Record<string, unknown>,
       statusCode,
