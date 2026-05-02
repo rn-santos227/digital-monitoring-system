@@ -4,10 +4,10 @@ import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
-  DEPLOYMENT_RECORD_SELECT_COLUMNS,
+  DEPLOYMENT_DETAIL_SELECT_COLUMNS,
   PERMISSION_CODES,
 } from '../../../shared/constants'
-import { mapDeploymentRecordListItem } from '../../../shared/utils'
+import { mapDeploymentDetailListItem } from '../../../shared/utils'
 import { requireRouteId } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
@@ -20,7 +20,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
 
   const { data: existingRow, error: existingError } = await supabase
     .from('deployment_records')
-    .select(DEPLOYMENT_RECORD_SELECT_COLUMNS)
+    .select(DEPLOYMENT_DETAIL_SELECT_COLUMNS)
     .eq('id', id)
     .maybeSingle()
 
@@ -45,7 +45,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       tableName: 'deployment_records',
       endpoint: AUDIT_LOG_ENDPOINTS.deploymentsDelete,
       recordId: id,
-      oldData: { ...mapDeploymentRecordListItem(existingRow) } as Record<string, unknown>,
+      oldData: { ...mapDeploymentDetailListItem(existingRow) } as Record<string, unknown>,
       statusCode: 200,
       outcome: AUDIT_LOG_OUTCOMES.success,
       message: 'Deployment record deleted successfully.',
@@ -61,7 +61,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       tableName: 'deployment_records',
       endpoint: AUDIT_LOG_ENDPOINTS.deploymentsDelete,
       recordId: id,
-      oldData: { ...mapDeploymentRecordListItem(existingRow) } as Record<string, unknown>,
+      oldData: { ...mapDeploymentDetailListItem(existingRow) } as Record<string, unknown>,
       statusCode: 500,
       outcome: AUDIT_LOG_OUTCOMES.failed,
       message,

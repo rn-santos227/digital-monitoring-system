@@ -1,7 +1,19 @@
-import type { DeploymentRecordListItem, DeploymentSuggestionItem } from '../../models'
+import type { 
+  DeploymentRecordListItem,
+  DeploymentSuggestionItem,
+  DeploymentSelectRow
+} from '../../models'
 
 export interface DeploymentRecordListResponse {
   items: DeploymentRecordListItem[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
+
+export interface DeploymentListResponse {
+  items: DeploymentSelectRow[]
   page: number
   pageSize: number
   totalItems: number

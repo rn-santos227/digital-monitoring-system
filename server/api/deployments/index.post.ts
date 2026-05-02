@@ -5,7 +5,7 @@ import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
-  DEPLOYMENT_RECORD_SELECT_COLUMNS,
+  DEPLOYMENT_DETAILS_SELECT_COLUMNS,
   ID_ONLY_SELECT_COLUMNS,
   PERMISSION_CODES,
 } from '../../shared/constants'
@@ -57,7 +57,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
 
     const { data: newRow } = await supabase
       .from('deployment_records')
-      .select(DEPLOYMENT_RECORD_SELECT_COLUMNS)
+      .select(DEPLOYMENT_DETAILS_SELECT_COLUMNS)
       .eq('id', createdRow.id)
       .maybeSingle()
 

@@ -1,5 +1,5 @@
 import { createError, defineEventHandler, readBody } from 'h3'
-import type { DeploymentRecordRow, DeploymentRecordSourceRow } from '../../shared/models'
+import type { DeploymentRecordRow, DeploymentRow } from '../../shared/models'
 import type { CreateDeploymentRecordFromDeploymentRequest } from '../../shared/requests'
 import type { CreateDeploymentRecordResponse } from '../../shared/responses'
 import {
@@ -34,7 +34,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
       .from('deployments')
       .select(DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS)
       .eq('id', payload.deployment_id)
-      .maybeSingle<DeploymentRecordSourceRow>()
+      .maybeSingle<DeploymentRow>()
 
     if (deploymentReadError) {
       throw createError({ statusCode: 500, statusMessage: `Failed to read deployment source data: ${deploymentReadError.message}` })

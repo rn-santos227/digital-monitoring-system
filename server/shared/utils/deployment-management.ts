@@ -3,6 +3,8 @@ import type {
   DeploymentRecordListItem,
   DeploymentRecordRow,
   DeploymentRecordSelectRow,
+  DeploymentSelectRow,
+  DeploymentRow,
   DeploymentSuggestionItem,
   DeploymentSuggestionRow,
 } from '../models'
@@ -70,6 +72,32 @@ export const mapDeploymentRecordListItem = (row: DeploymentRecordRow): Deploymen
   }
 }
 
+
+export const mapDeploymentDetailListItem = (row: DeploymentRow): DeploymentRecordListItem => {
+  return {
+    id: row.id,
+    recordNo: '',
+    personnelId: '',
+    personnelCode: null,
+    personnelName: null,
+    deploymentArea: row.deployment_area,
+    deploymentAreaLatitude: row.deployment_area_latitude,
+    deploymentAreaLongitude: row.deployment_area_longitude,
+    assignmentRole: row.assignment_role,
+    operationName: row.operation_name,
+    startDate: row.start_date,
+    endDate: row.end_date,
+    statusId: row.status_id,
+    statusName: null,
+    location: row.location,
+    supervisorId: row.supervisor_id,
+    supervisorName: null,
+    remarks: row.default_remarks,
+    createdAt: '',
+    updatedAt: '',
+  }
+}
+
 export const mapDeploymentRecordSelectListItem = (row: DeploymentRecordSelectRow): DeploymentRecordListItem => {
   return {
     id: row.id,
@@ -80,7 +108,7 @@ export const mapDeploymentRecordSelectListItem = (row: DeploymentRecordSelectRow
     deploymentArea: row.deployment_area,
     deploymentAreaLatitude: null,
     deploymentAreaLongitude: null,
-    assignmentRole: row.assignmentRole,
+    assignmentRole: row.assignment_role,
     operationName: row.operation_name,
     startDate: row.start_date,
     endDate: row.end_date,
@@ -121,6 +149,21 @@ export const mapDeploymentSuggestionItem = (row: DeploymentSuggestionRow): Deplo
     deploymentArea: row.deployment_area,
     operationName: row.operation_name,
     location: row.location,
+    statusName: status?.name ?? null,
+    startDate: row.start_date,
+    endDate: row.end_date,
+  }
+}
+
+export const mapDeploymentSelectListItem = (row: DeploymentSelectRow): DeploymentSuggestionItem => {
+  const status = toSingleReference(row.deployment_status)
+
+  return {
+    id: row.id,
+    recordNo: row.record_no,
+    deploymentArea: row.deployment_area,
+    operationName: row.operation_name,
+    location: null,
     statusName: status?.name ?? null,
     startDate: row.start_date,
     endDate: row.end_date,

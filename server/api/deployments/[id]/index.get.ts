@@ -1,6 +1,6 @@
 import { createError, defineEventHandler, getRouterParam } from 'h3'
 import type { DeploymentRecordDetailResponse } from '../../../shared/responses'
-import { DEPLOYMENT_RECORD_SELECT_COLUMNS, PERMISSION_CODES } from '../../../shared/constants'
+import { DEPLOYMENT_DETAILS_SELECT_COLUMNS, PERMISSION_CODES } from '../../../shared/constants'
 import { mapDeploymentRecordListItem } from '../../../shared/utils'
 import { requireRouteId } from '../../../shared/validations'
 import { requirePermission } from '../../../utils/auth/requirePermission'
@@ -13,7 +13,7 @@ export default defineEventHandler(async (event): Promise<DeploymentRecordDetailR
   const supabase = getServiceSupabaseClient()
   const { data, error } = await supabase
     .from('deployment_records')
-    .select(DEPLOYMENT_RECORD_SELECT_COLUMNS)
+    .select(DEPLOYMENT_DETAILS_SELECT_COLUMNS)
     .eq('id', id)
     .maybeSingle()
 
