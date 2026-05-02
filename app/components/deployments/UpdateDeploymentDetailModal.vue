@@ -36,7 +36,7 @@
           <BaseDatePicker v-model="form.endDate" :label="DEPLOYMENTS_CREATE_END_DATE_LABEL" :error="errors.endDate" />
         </div>
 
-        <BaseTextField
+        <PersonnelSuggestionField
           v-model="form.supervisorId"
           :label="DEPLOYMENTS_CREATE_SUPERVISOR_ID_LABEL"
           :placeholder="DEPLOYMENTS_CREATE_SUPERVISOR_ID_PLACEHOLDER"
@@ -62,6 +62,7 @@
 
 <script setup lang="ts">
 import { reactive, watch } from 'vue'
+import PersonnelSuggestionField from '~/components/general/PersonnelSuggestionField.vue'
 import {
   DEPLOYMENTS_CREATE_ASSIGNMENT_ROLE_LABEL,
   DEPLOYMENTS_CREATE_ASSIGNMENT_ROLE_PLACEHOLDER,
