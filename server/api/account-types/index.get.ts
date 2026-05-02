@@ -1,6 +1,6 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { AccountTypeListResponse } from '../../shared/models'
-import { ACCOUNT_TYPE_LIST_SELECT_COLUMNS, MANAGEMENT_PERMISSION_GROUPS } from '../../shared/constants'
+import { ACCOUNT_TYPE_BASE_SELECT_COLUMNS, MANAGEMENT_PERMISSION_GROUPS } from '../../shared/constants'
 import { mapAccountTypeListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
@@ -20,7 +20,7 @@ export default defineEventHandler(async (event): Promise<AccountTypeListResponse
   const supabase = getServiceSupabaseClient()
   let accountTypeQuery = supabase
     .from('account_types')
-    .select(ACCOUNT_TYPE_LIST_SELECT_COLUMNS, {
+    .select(ACCOUNT_TYPE_BASE_SELECT_COLUMNS, {
       count: 'exact',
     })
     .order('name', { ascending: true })

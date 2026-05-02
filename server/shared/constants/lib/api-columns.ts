@@ -11,7 +11,7 @@ export const ACCOUNT_TYPE_DETAIL_SELECT_COLUMNS =
   `${ACCOUNT_TYPE_BASE_SELECT_COLUMNS}, ${ACCOUNT_TYPE_PERMISSIONS_SELECT_COLUMNS}`
 
 export const ACCOUNT_TYPE_LIST_SELECT_COLUMNS =
-  'id, code, name, description, is_system, updated_at'
+  'id, code, name, description, is_system, created_at, updated_at'
 
 export const ACCOUNT_TYPE_PERMISSION_ID_SELECT_COLUMNS = 'permission_id'
 
@@ -148,7 +148,7 @@ export const DEPLOYMENT_DETAIL_SELECT_COLUMNS =
   'id, deployment_area, deployment_area_latitude, deployment_area_longitude, assignment_role, operation_name, start_date, end_date, status_id, location, supervisor_id, default_remarks'
 
 export const DEPLOYMENT_DETAILS_PATCH_SELECT_COLUMNS =
-  'id,start_date,end_date,supervisor_id,assignment_role,operation_name,status_id,default_remarks'
+  'id, start_date, end_date, supervisor_id, assignment_role, operation_name, status_id, default_remarks'
 
 export const DEPLOYMENT_SUGGESTION_SELECT_COLUMNS =
   'id, record_no, deployment_area, operation_name, location, start_date, end_date, deployment_status:deployment_statuses(name)'

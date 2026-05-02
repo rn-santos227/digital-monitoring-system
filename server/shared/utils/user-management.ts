@@ -23,7 +23,7 @@ interface AccountTypeListRow {
   is_system: boolean
   created_at: string
   updated_at: string
-  account_type_permissions: AccountTypePermissionRow[] | null
+  account_type_permissions?: AccountTypePermissionRow[] | null
 }
 
 interface UserAccountTypeSummaryRow {
