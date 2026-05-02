@@ -72,7 +72,7 @@
               :placeholder="DEPLOYMENTS_CREATE_LOCATION_PLACEHOLDER"
               :error="errors.location"
             />
-            <BaseTextField
+            <PersonnelSuggestionField
               v-model="form.supervisorId"
               :label="DEPLOYMENTS_CREATE_SUPERVISOR_ID_LABEL"
               :placeholder="DEPLOYMENTS_CREATE_SUPERVISOR_ID_PLACEHOLDER"
@@ -114,6 +114,8 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
+import BaseGeoMap from '~/components/ui/BaseGeoMap.vue'
+import PersonnelSuggestionField from '~/components/general/PersonnelSuggestionField.vue'
 import {
   DEPLOYMENTS_CREATE_ASSIGNMENT_ROLE_LABEL,
   DEPLOYMENTS_CREATE_ASSIGNMENT_ROLE_PLACEHOLDER,
@@ -145,7 +147,6 @@ import {
 } from '~/constants/page.constants'
 import type { CreateDeploymentPayload } from '~/types/domain/deployment'
 import { validateCreateDeploymentForm } from '~/utils/deployment-validation'
-import BaseGeoMap from '~/components/ui/BaseGeoMap.vue'
 import {
   DEPLOYMENTS_CREATE_MODAL_FORM_CLASSES,
   DEPLOYMENTS_CREATE_MODAL_FORM_PANE_CLASSES,
