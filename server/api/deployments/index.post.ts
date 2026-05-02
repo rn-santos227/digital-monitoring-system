@@ -9,11 +9,17 @@ import {
   ID_ONLY_SELECT_COLUMNS,
   PERMISSION_CODES,
 } from '../../shared/constants'
-import { assertPersonnelExists, buildDeploymentRecordNo, mapDeploymentDetailListItem } from '../../shared/utils'
+import {
+  assertPersonnelExists,
+  buildDeploymentRecordNo,
+  mapDeploymentDetailListItem,
+  resolvePersonnelServiceStatusId,
+} from '../../shared/utils'
 import { parseCreateDeploymentRecordPayload } from '../../shared/validations'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { executeWithRollback } from '../../utils/db/executeWithRollback'
 
 export default defineEventHandler(async (event): Promise<CreateDeploymentRecordResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.deploymentManage)
