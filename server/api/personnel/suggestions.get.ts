@@ -19,6 +19,14 @@ const SEARCHABLE_PERSONNEL_FIELDS = [
   'full_name',
 ] as const
 
+const escapePostgrestLikeTerm = (value: string): string => {
+  return value
+    .replaceAll('\\', '\\\\')
+    .replaceAll(',', '\\,')
+    .replaceAll('(', '\\(')
+    .replaceAll(')', '\\)')
+}
+
 export default defineEventHandler(async (event): Promise<PersonnelSuggestionsResponse> => {
   await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.userProfileManagement)
 
@@ -38,7 +46,8 @@ export default defineEventHandler(async (event): Promise<PersonnelSuggestionsRes
     .limit(pageSize)
 
   if (term.length > 0) {
-    const filters = SEARCHABLE_PERSONNEL_FIELDS.map((field) => `${field}.ilike.%${term}%`)
+    const sanitizedTerm = escapePostgrestLikeTerm(term)
+    const filters = SEARCHABLE_PERSONNEL_FIELDS.map((field) => `${field}.ilike.%${sanitizedTerm}%`)
 
     if (filters.length === 0) {
       throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
