@@ -81,7 +81,7 @@ export const parseActivationPayload = (body: UpdateUserActivationRequest): boole
   return body.isActive
 }
 
-export const parseCreateAccountTypePayload = (body: CreateAccountTypeRequest) => {
+export const parseCreateAccountTypePayload = (body: CreateAccountTypeRequest): CreateAccountTypeRequest => {
   const code = normalizeOptionalText(body.code)?.toLowerCase()
   const name = normalizeOptionalText(body.name)
   const description = body.description === undefined

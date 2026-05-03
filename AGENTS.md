@@ -109,6 +109,7 @@
 3. **Keep API route files focused**
    - API route files under `server/api` should contain only one exported handler function.
    - Move reusable helper functions into shared/server utility modules instead of defining them inside route files.
+   - Prefer extracting route-side data operations into dedicated files under `server/utils/<domain>` (one reusable function per file) and import them into `server/api` handlers.
 
 4. **Always apply RBAC privilege checks in APIs**
    - Every new or updated handler under `server/api` must explicitly enforce privileges via existing RBAC helpers (for example `requirePermission` / `requireAnyPermission`) before accessing protected data or mutations.
