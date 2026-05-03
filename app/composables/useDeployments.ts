@@ -1,18 +1,32 @@
 import { computed, ref } from 'vue'
-import type { CreateDeploymentPayload, DeploymentManagementSearchQuery } from '~/types/domain/deployment'
+import type { CreateDeploymentPayload, DeploymentManagementListItem, DeploymentManagementSearchQuery } from '~/types/domain/deployment'
 import { useDeploymentsStore } from '~/stores/deployments'
 
 export const useDeployments = () => {
   const store = useDeploymentsStore()
   const filters = ref<Partial<DeploymentManagementSearchQuery>>({})
 
+  const normalizeDisplayValue = (value: unknown): string => {
+    if (typeof value === 'string') {
+      return value.trim().length > 0 ? value : '—'
+    }
+
+    return '—'
+  }
+
+  const resolveDeploymentStatus = (item: DeploymentManagementListItem & { statusName?: string | null }): string =>
+    normalizeDisplayValue(item.statusName ?? item.status)
+
   const tableRows = computed(() => store.deployments.items.map(item => ({
+    id: item.id,
+    operationName: normalizeDisplayValue(item.operationName),
+    deploymentArea: normalizeDisplayValue(item.deploymentArea),
     assignmentRole: item.assignmentRole ?? '',
     deploymentAreaLatitude: item.deploymentAreaLatitude ?? '',
     deploymentAreaLongitude: item.deploymentAreaLongitude ?? '',
     startDate: item.startDate ?? '',
-    endDate: item.endDate ?? '',
-    status: item.status ?? '—',
+    endDate: normalizeDisplayValue(item.endDate),
+    status: resolveDeploymentStatus(item as DeploymentManagementListItem & { statusName?: string | null }),
     statusId: item.statusId ?? '',
     location: item.location ?? '',
     supervisorId: item.supervisorId ?? '',
