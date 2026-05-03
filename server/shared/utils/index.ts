@@ -1,4 +1,6 @@
 export * from './parsers'
+export * from './regex'
+export * from './auth'
 export * from './auth'
 export * from './query-filters'
 export * from './audit'

@@ -1,4 +1,6 @@
+import { createError } from 'h3'
 import { parseNumber } from './parsers'
+import { UUID_PATTERN } from './regex'
 import type {
   DeploymentRecordListItem,
   DeploymentRecordRow,
@@ -158,4 +160,32 @@ export const buildDeploymentRecordNo = (): string => {
   const suffix = crypto.randomUUID().replaceAll('-', '').slice(0, 8).toUpperCase()
 
   return `DR-${timestamp}-${suffix}`
+}
+
+type DeploymentStatusLookupSupabaseClient = {
+  from: (table: 'deployment_statuses') => {
+    select: (columns: 'id') => {
+      eq: (column: 'id' | 'name', value: string) => {
+        maybeSingle: () => Promise<{ data: { id: string } | null; error: { message: string } | null }>
+      }
+    }
+  }
+}
+
+export const resolveDeploymentStatusId = async (supabase: unknown, value: string): Promise<string> => {
+  const supabaseClient = supabase as DeploymentStatusLookupSupabaseClient
+  const normalizedValue = value.trim()
+  const filterField: 'id' | 'name' = UUID_PATTERN.test(normalizedValue) ? 'id' : 'name'
+
+  const { data, error } = await supabaseClient
+    .from('deployment_statuses')
+    .select('id')
+    .eq(filterField, normalizedValue)
+    .maybeSingle()
+
+  if (error || !data?.id) {
+    throw createError({ statusCode: 400, statusMessage: 'Invalid deployment status value.' })
+  }
+
+  return data.id
 }
