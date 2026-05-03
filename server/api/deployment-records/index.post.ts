@@ -1,12 +1,10 @@
 import { createError, defineEventHandler, readBody } from 'h3'
-import type { DeploymentRow } from '../../shared/models'
 import type { CreateDeploymentRecordFromDeploymentRequest } from '../../shared/requests'
 import type { CreateDeploymentRecordResponse } from '../../shared/responses'
 import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
-  DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS,
   ID_ONLY_SELECT_COLUMNS,
   PERMISSION_CODES,
 } from '../../shared/constants'
@@ -21,7 +19,9 @@ import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../utils/db/executeWithRollback'
 import { getNextDeploymentRecordNo } from '../../utils/deployment-records/getNextDeploymentRecordNo'
+import { getDeploymentSourceById } from '../../utils/deployment-records/getDeploymentSourceById'
 import { createDeploymentRecord } from '../../utils/deployment-records/createDeploymentRecord'
+import { deleteDeploymentRecordByRecordNo } from '../../utils/deployment-records/deleteDeploymentRecordByRecordNo'
 import { getDeploymentRecordById } from '../../utils/deployment-records/getDeploymentRecordById'
 import { getPersonnelServiceStatusById } from '../../utils/deployments/getPersonnelServiceStatusById'
 import { updatePersonnelServiceStatusById } from '../../utils/deployments/updatePersonnelServiceStatusById'
@@ -33,15 +33,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
 
   try {
     const payload = parseCreateDeploymentRecordFromDeploymentPayload(body)
-    const { data: deployment, error: deploymentReadError } = await supabase
-      .from('deployments')
-      .select(DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS)
-      .eq('id', payload.deployment_id)
-      .maybeSingle<DeploymentRow>()
-
-    if (deploymentReadError) {
-      throw createError({ statusCode: 500, statusMessage: `Failed to read deployment source data: ${deploymentReadError.message}` })
-    }
+    const deployment = await getDeploymentSourceById(supabase, payload.deployment_id)
 
     if (!deployment) {
       throw createError({ statusCode: 404, statusMessage: 'Deployment not found.' })
@@ -91,18 +83,13 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
        return { createdId }
       },
       rollback: async () => {
-        const rollbackErrors: string[] = []
-        const { error: rollbackRecordError } = await supabase.from('deployment_records').delete().eq('record_no', insertPayload.record_no)
-        if (rollbackRecordError) rollbackErrors.push(`deployment record rollback failed: ${rollbackRecordError.message}`)
-
+        await deleteDeploymentRecordByRecordNo(supabase, insertPayload.record_no)
         await updatePersonnelServiceStatusById(
           supabase,
           payload.personnel_id,
           previousServiceStatusId,
           'personnel service status rollback failed',
         )
-
-        if (rollbackErrors.length > 0) throw createError({ statusCode: 500, statusMessage: rollbackErrors.join('; ') })
       },
       onRollbackError: (rollbackError) => {
         console.error('Deployment record create rollback error:', rollbackError)

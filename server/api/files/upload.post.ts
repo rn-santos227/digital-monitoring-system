@@ -8,6 +8,8 @@ import { resolveSupabaseStorageS3Connection } from '../../config/storage-s3'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { getStoragePublicUrl } from '../../utils/files/getStoragePublicUrl'
+import { uploadStorageObject } from '../../utils/files/uploadStorageObject'
 
 export default defineEventHandler(async (event): Promise<FileUploadResponse> => {
   const actor = await requireAnyPermission(event, PERSONNEL_PERMISSION_GROUPS.personnelManagement)
@@ -40,22 +42,14 @@ export default defineEventHandler(async (event): Promise<FileUploadResponse> => 
     requestData.sizeBytes = filePart.data.length
     requestData.allowedMimePrefixes = allowedMimePrefixes
 
-    const { error: uploadError } = await supabase
-      .storage
-      .from(s3Config.bucket)
-      .upload(storagePath, filePart.data, {
-        contentType: filePart.type ?? undefined,
-        upsert: false,
-      })
+    await uploadStorageObject(supabase, {
+      bucket: s3Config.bucket,
+      path: storagePath,
+      data: filePart.data,
+      contentType: filePart.type ?? undefined,
+    })
 
-    if (uploadError) {
-      throw createError({ statusCode: 500, statusMessage: `Failed to upload file: ${uploadError.message}` })
-    }
-
-    const { data: publicUrlData } = supabase
-      .storage
-      .from(s3Config.bucket)
-      .getPublicUrl(storagePath)
+    const publicUrl = getStoragePublicUrl(supabase, s3Config.bucket, storagePath)
 
     const response: FileUploadResponse = {
       ok: true,
@@ -66,7 +60,7 @@ export default defineEventHandler(async (event): Promise<FileUploadResponse> => 
         mimeType: filePart.type ?? null,
         sizeBytes: filePart.data.length,
         storagePath,
-        publicUrl: publicUrlData.publicUrl,
+        publicUrl,
       },
     }
 
