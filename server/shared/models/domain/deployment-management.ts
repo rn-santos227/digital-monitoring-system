@@ -88,6 +88,37 @@ export interface DeploymentRecordRow {
   deployment_status: DeploymentRecordReferenceRow | DeploymentRecordReferenceRow[] | null
 }
 
+export interface DeploymentCreate {
+  deployment_area: string
+  deployment_area_latitude: number | null
+  deployment_area_longitude: number | null
+  assignment_role: string | null
+  operation_name: string | null
+  start_date: string
+  end_date: string | null
+  status_id: string
+  location: string | null
+  supervisor_id: string | null
+  default_remarks: string | null
+}
+
+export interface DeploymentUpdateDetail {
+  assignment_role: string | null
+  operation_name: string | null
+  start_date: string
+  end_date: string | null
+  status_id: string
+  supervisor_id: string | null
+  default_remarks: string | null
+}
+
+export interface DeploymentUpdateLocation {
+  deployment_area: string
+  deployment_area_latitude: number | null
+  deployment_area_longitude: number | null
+  location: string | null
+}
+
 export interface DeploymentRecordCreate {
   personnel_id: string
   deployment_id: string | null

@@ -11,7 +11,6 @@ import {
 } from '../../shared/constants'
 import {
   assertPersonnelExists,
-  buildDeploymentRecordNo,
   mapDeploymentDetailListItem,
   resolveDeploymentStatusId,
   resolvePersonnelServiceStatusId,
@@ -21,6 +20,9 @@ import { recordManagementAuditLog } from '../../utils/audit/recordManagementAudi
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../utils/db/executeWithRollback'
+import { createDeployment } from '../../utils/deployments/createDeployment'
+import { getDeploymentById } from '../../utils/deployments/getDeploymentById'
+import { updateEffectiveSupervisorStatus } from '../../utils/deployments/updateEffectiveSupervisorStatus'
 
 export default defineEventHandler(async (event): Promise<CreateDeploymentRecordResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.deploymentManage)
@@ -68,35 +70,14 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
     let createdDeploymentId: string | null = null
     const { createdId } = await executeWithRollback({
       operation: async () => {
-        const { data: createdRow, error: insertError } = await supabase
-          .from('deployments')
-          .insert(insertPayload)
-          .select('id')
-          .maybeSingle<{ id: string }>()
+        const createdId = await createDeployment(supabase, insertPayload)
+        await updateEffectiveSupervisorStatus(supabase, {
+          effectiveSupervisorId: payload.supervisor_id,
+          deployedServiceStatusId,
+        })
 
-        if (insertError || !createdRow?.id) {
-          throw createError({
-            statusCode: 500,
-            statusMessage: `Failed to create deployment: ${insertError?.message ?? 'Missing id.'}`,
-          })
-        }
-
-        if (payload.supervisor_id && deployedServiceStatusId) {
-          const { error: updateSupervisorError } = await supabase
-            .from('personnel')
-            .update({ service_status_id: deployedServiceStatusId })
-            .eq('id', payload.supervisor_id)
-
-          if (updateSupervisorError) {
-            throw createError({
-              statusCode: 500,
-              statusMessage: `Failed to update supervisor service status: ${updateSupervisorError.message}`,
-            })
-          }
-        }
-
-        createdDeploymentId = createdRow.id
-        return { createdId: createdRow.id }
+        createdDeploymentId = createdId
+        return { createdId }
       },
       rollback: async () => {
         const rollbackErrors: string[] = []
@@ -129,12 +110,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
       },
     })
 
-    const { data: newRow } = await supabase
-      .from('deployments')
-      .select(DEPLOYMENT_DETAIL_SELECT_COLUMNS)
-      .eq('id', createdId)
-      .maybeSingle()
-
+    const newRow = await getDeploymentById(supabase, createdId)
     await recordManagementAuditLog(event, {
       userId: actor.id,
       action: AUDIT_LOG_ACTIONS.deploymentCreate,

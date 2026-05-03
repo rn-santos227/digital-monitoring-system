@@ -61,3 +61,14 @@ export interface UpdateDeploymentRecordRequest {
   supervisorPersonnelId?: string | null
   remarks?: string | null
 }
+
+export interface UpdateDeploymentLocationRequest {
+  deploymentArea?: string
+  deploymentAreaLatitude?: number | null
+  deploymentAreaLongitude?: number | null
+  deployment_area?: string
+  deployment_area_latitude?: number | null
+  deployment_area_longitude?: number | null
+  location?: string | null
+}
+

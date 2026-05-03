@@ -4,21 +4,14 @@ import { requireRouteId } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
-
-interface UpdateDeploymentLocationBody {
-  deploymentArea?: string
-  deploymentAreaLatitude?: number | null
-  deploymentAreaLongitude?: number | null
-  deployment_area?: string
-  deployment_area_latitude?: number | null
-  deployment_area_longitude?: number | null
-  location?: string | null
-}
+import { getDeploymentById } from '../../../utils/deployments/getDeploymentById'
+import { updateDeploymentById } from '../../../utils/deployments/updateDeploymentById'
+import { UpdateDeploymentLocationRequest } from '../../../shared/requests'
 
 export default defineEventHandler(async (event) => {
   const actor = await requirePermission(event, PERMISSION_CODES.deploymentUpdate)
   const id = requireRouteId(getRouterParam(event, 'id'), 'Deployment id is required.')
-  const body = await readBody<UpdateDeploymentLocationBody>(event)
+  const body = await readBody<UpdateDeploymentLocationRequest>(event)
 
   const deploymentArea = body.deploymentArea ?? body.deployment_area
   const deploymentAreaLatitude = body.deploymentAreaLatitude ?? body.deployment_area_latitude
@@ -33,13 +26,9 @@ export default defineEventHandler(async (event) => {
   }
 
   const supabase = getServiceSupabaseClient()
-  const { data: existingRow, error: existingError } = await supabase
-    .from('deployment')
-    .select('id,deployment_area,deployment_area_latitude,deployment_area_longitude,location')
-    .eq('id', id)
-    .maybeSingle()
+  const existingRow = await getDeploymentById(supabase, id)
+  if (!existingRow) throw createError({ statusCode: 404, statusMessage: 'Deployment not found.' })
 
-  if (existingError) throw createError({ statusCode: 500, statusMessage: `Failed to read deployment: ${existingError.message}` })
   if (!existingRow) throw createError({ statusCode: 404, statusMessage: 'Deployment not found.' })
 
   const updates = {
@@ -50,8 +39,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const { error } = await supabase.from('deployment').update(updates).eq('id', id)
-    if (error) throw createError({ statusCode: 500, statusMessage: `Failed to update deployment location: ${error.message}` })
+    await updateDeploymentById(supabase, id, updates, 'location')
 
     await recordManagementAuditLog(event, {
       userId: actor.id,
@@ -60,7 +48,7 @@ export default defineEventHandler(async (event) => {
       endpoint: AUDIT_LOG_ENDPOINTS.deploymentsUpdate,
       recordId: id,
       requestData: body as Record<string, unknown>,
-      oldData: existingRow as Record<string, unknown>,
+      oldData: existingRow as unknown as Record<string, unknown>,
       newData: updates as Record<string, unknown>,
       statusCode: 200,
       outcome: AUDIT_LOG_OUTCOMES.success,
@@ -77,7 +65,7 @@ export default defineEventHandler(async (event) => {
       endpoint: AUDIT_LOG_ENDPOINTS.deploymentsUpdate,
       recordId: id,
       requestData: body as Record<string, unknown>,
-      oldData: existingRow as Record<string, unknown>,
+      oldData: existingRow as unknown as Record<string, unknown>,
       statusCode: 500,
       outcome: AUDIT_LOG_OUTCOMES.failed,
       message,

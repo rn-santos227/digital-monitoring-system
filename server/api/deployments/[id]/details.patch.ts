@@ -3,7 +3,6 @@ import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
-  DEPLOYMENT_DETAILS_PATCH_SELECT_COLUMNS,
   PERMISSION_CODES
 } from '../../../shared/constants'
 import { assertPersonnelExists, resolveDeploymentStatusId, resolvePersonnelServiceStatusId } from '../../../shared/utils'
@@ -13,6 +12,9 @@ import { recordManagementAuditLog } from '../../../utils/audit/recordManagementA
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
+import { getDeploymentById } from '../../../utils/deployments/getDeploymentById'
+import { updateDeploymentById } from '../../../utils/deployments/updateDeploymentById'
+import { updateEffectiveSupervisorStatus } from '../../../utils/deployments/updateEffectiveSupervisorStatus'
 
 export default defineEventHandler(async (event) => {
   const actor = await requirePermission(event, PERMISSION_CODES.deploymentUpdate)
@@ -20,13 +22,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody<UpdateDeploymentRequest>(event)
   const supabase = getServiceSupabaseClient()
 
-  const { data: existingRow, error: existingError } = await supabase
-    .from('deployments')
-    .select(DEPLOYMENT_DETAILS_PATCH_SELECT_COLUMNS)
-    .eq('id', id)
-    .maybeSingle()
-
-  if (existingError) throw createError({ statusCode: 500, statusMessage: `Failed to read deployment: ${existingError.message}` })
+  const existingRow = await getDeploymentById(supabase, id)
   if (!existingRow) throw createError({ statusCode: 404, statusMessage: 'Deployment not found.' })
 
   const parsedUpdates = buildDeploymentUpdates(body)
@@ -76,22 +72,11 @@ export default defineEventHandler(async (event) => {
   try {
     await executeWithRollback({
       operation: async () => {
-        const { error } = await supabase.from('deployments').update(updates).eq('id', id)
-        if (error) throw createError({ statusCode: 500, statusMessage: `Failed to update deployment details: ${error.message}` })
-
-        if (effectiveSupervisorId && deployedServiceStatusId) {
-          const { error: updateSupervisorError } = await supabase
-            .from('personnel')
-            .update({ service_status_id: deployedServiceStatusId })
-            .eq('id', effectiveSupervisorId)
-
-          if (updateSupervisorError) {
-            throw createError({
-              statusCode: 500,
-              statusMessage: `Failed to update supervisor service status: ${updateSupervisorError.message}`,
-            })
-          }
-        }
+        await updateDeploymentById(supabase, id, updates, 'details')
+        await updateEffectiveSupervisorStatus(supabase, {
+          effectiveSupervisorId,
+          deployedServiceStatusId,
+        })
       },
       rollback: async () => {
         const rollbackErrors: string[] = []
@@ -139,7 +124,7 @@ export default defineEventHandler(async (event) => {
       endpoint: AUDIT_LOG_ENDPOINTS.deploymentsUpdate,
       recordId: id,
       requestData: body as Record<string, unknown>,
-      oldData: existingRow as Record<string, unknown>,
+      oldData: existingRow as unknown as Record<string, unknown>,
       newData: updates as Record<string, unknown>,
       statusCode: 200,
       outcome: AUDIT_LOG_OUTCOMES.success,
@@ -156,7 +141,7 @@ export default defineEventHandler(async (event) => {
       endpoint: AUDIT_LOG_ENDPOINTS.deploymentsUpdate,
       recordId: id,
       requestData: body as Record<string, unknown>,
-      oldData: existingRow as Record<string, unknown>,
+      oldData: existingRow as unknown as Record<string, unknown>,
       statusCode: 500,
       outcome: AUDIT_LOG_OUTCOMES.failed,
       message,

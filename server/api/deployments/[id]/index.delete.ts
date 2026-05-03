@@ -4,7 +4,6 @@ import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
-  DEPLOYMENT_DETAIL_SELECT_COLUMNS,
   PERMISSION_CODES,
 } from '../../../shared/constants'
 import { mapDeploymentDetailListItem } from '../../../shared/utils'
@@ -12,32 +11,21 @@ import { requireRouteId } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { deleteDeploymentById } from '../../../utils/deployments/deleteDeploymentById'
+import { getDeploymentById } from '../../../utils/deployments/getDeploymentById'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.deploymentManage)
   const id = requireRouteId(getRouterParam(event, 'id'), 'Deployment id is required.')
   const supabase = getServiceSupabaseClient()
-
-  const { data: existingRow, error: existingError } = await supabase
-    .from('deployment')
-    .select(DEPLOYMENT_DETAIL_SELECT_COLUMNS)
-    .eq('id', id)
-    .maybeSingle()
-
-  if (existingError) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to read deployment: ${existingError.message}` })
-  }
+  const existingRow = await getDeploymentById(supabase, id)
 
   if (!existingRow) {
     throw createError({ statusCode: 404, statusMessage: 'Deployment record not found.' })
   }
 
   try {
-    const { error: deleteError } = await supabase.from('deployment_records').delete().eq('id', id)
-
-    if (deleteError) {
-      throw createError({ statusCode: 500, statusMessage: `Failed to delete deployment: ${deleteError.message}` })
-    }
+    await deleteDeploymentById(supabase, id)
 
     await recordManagementAuditLog(event, {
       userId: actor.id,

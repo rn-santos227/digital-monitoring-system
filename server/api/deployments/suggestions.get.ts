@@ -1,11 +1,11 @@
-import { createError, defineEventHandler, getQuery } from 'h3'
+import { defineEventHandler, getQuery } from 'h3'
 import type { DeploymentSuggestionsResponse } from '../../shared/responses'
-import { DEPLOYMENT_SUGGESTION_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
+import { PERMISSION_CODES } from '../../shared/constants'
 import { mapDeploymentSelectListItem, parseDeploymentSuggestionQuery } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
-
-const SEARCHABLE_FIELDS = ['deployment_area', 'operation_name', 'location'] as const
+import { fetchDeploymentSuggestions } from '../../utils/deployments/fetchDeploymentSuggestions'
+import { getDeploymentSuggestionById } from '../../utils/deployments/getDeploymentSuggestionById'
 
 export default defineEventHandler(async (event): Promise<DeploymentSuggestionsResponse> => {
   await requirePermission(event, PERMISSION_CODES.deploymentManage)
@@ -18,42 +18,11 @@ export default defineEventHandler(async (event): Promise<DeploymentSuggestionsRe
   })
 
   const supabase = getServiceSupabaseClient()
-  let deploymentQuery = supabase
-    .from('deployment_records')
-    .select(DEPLOYMENT_SUGGESTION_SELECT_COLUMNS)
-    .order('start_date', { ascending: false, nullsFirst: false })
-    .order('deployment_area', { ascending: true })
-    .limit(pageSize)
-
-  if (term.length > 0) {
-    const filters = SEARCHABLE_FIELDS.map((field) => `${field}.ilike.%${term}%`)
-
-    if (filters.length === 0) {
-      throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
-    }
-
-    deploymentQuery = deploymentQuery.or(filters.join(','))
-  }
-
-  const { data, error } = await deploymentQuery
-
-  if (error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to fetch deployment suggestions: ${error.message}` })
-  }
-
-  const mergedRows = [...(data ?? [])]
+  const rows = await fetchDeploymentSuggestions(supabase, pageSize, term)
+  const mergedRows = [...rows]
 
   if (selectedId && !mergedRows.some(row => row.id === selectedId)) {
-    const { data: selectedRow, error: selectedError } = await supabase
-      .from('deployment')
-      .select(DEPLOYMENT_SUGGESTION_SELECT_COLUMNS)
-      .eq('id', selectedId)
-      .maybeSingle()
-
-    if (selectedError) {
-      throw createError({ statusCode: 500, statusMessage: `Failed to fetch selected deployment record: ${selectedError.message}` })
-    }
-
+    const selectedRow = await getDeploymentSuggestionById(supabase, selectedId)
     if (selectedRow) {
       mergedRows.unshift(selectedRow)
     }
