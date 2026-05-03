@@ -76,8 +76,6 @@
         />
       </template>
 
-
-
       <CreateDeploymentModal
         v-if="isCreateDeploymentModalOpen"
         :is-submitting="isDeploymentsLoading"

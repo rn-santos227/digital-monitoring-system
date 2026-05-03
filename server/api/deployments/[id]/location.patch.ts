@@ -6,6 +6,9 @@ import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 
 interface UpdateDeploymentLocationBody {
+  deploymentArea?: string
+  deploymentAreaLatitude?: number | null
+  deploymentAreaLongitude?: number | null
   deployment_area?: string
   deployment_area_latitude?: number | null
   deployment_area_longitude?: number | null
@@ -17,11 +20,15 @@ export default defineEventHandler(async (event) => {
   const id = requireRouteId(getRouterParam(event, 'id'), 'Deployment id is required.')
   const body = await readBody<UpdateDeploymentLocationBody>(event)
 
-  if (body.deployment_area_latitude !== undefined && body.deployment_area_latitude !== null && (body.deployment_area_latitude < -90 || body.deployment_area_latitude > 90)) {
+  const deploymentArea = body.deploymentArea ?? body.deployment_area
+  const deploymentAreaLatitude = body.deploymentAreaLatitude ?? body.deployment_area_latitude
+  const deploymentAreaLongitude = body.deploymentAreaLongitude ?? body.deployment_area_longitude
+
+  if (deploymentAreaLatitude !== undefined && deploymentAreaLatitude !== null && (deploymentAreaLatitude < -90 || deploymentAreaLatitude > 90)) {
     throw createError({ statusCode: 400, statusMessage: 'Latitude must be between -90 and 90.' })
   }
 
-  if (body.deployment_area_longitude !== undefined && body.deployment_area_longitude !== null && (body.deployment_area_longitude < -180 || body.deployment_area_longitude > 180)) {
+  if (deploymentAreaLongitude !== undefined && deploymentAreaLongitude !== null && (deploymentAreaLongitude < -180 || deploymentAreaLongitude > 180)) {
     throw createError({ statusCode: 400, statusMessage: 'Longitude must be between -180 and 180.' })
   }
 
@@ -36,9 +43,9 @@ export default defineEventHandler(async (event) => {
   if (!existingRow) throw createError({ statusCode: 404, statusMessage: 'Deployment not found.' })
 
   const updates = {
-    deployment_area: body.deployment_area ?? existingRow.deployment_area,
-    deployment_area_latitude: body.deployment_area_latitude === undefined ? existingRow.deployment_area_latitude : body.deployment_area_latitude,
-    deployment_area_longitude: body.deployment_area_longitude === undefined ? existingRow.deployment_area_longitude : body.deployment_area_longitude,
+    deployment_area: deploymentArea ?? existingRow.deployment_area,
+    deployment_area_latitude: deploymentAreaLatitude === undefined ? existingRow.deployment_area_latitude : deploymentAreaLatitude,
+    deployment_area_longitude: deploymentAreaLongitude === undefined ? existingRow.deployment_area_longitude : deploymentAreaLongitude,
     location: body.location === undefined ? existingRow.location : body.location,
   }
 

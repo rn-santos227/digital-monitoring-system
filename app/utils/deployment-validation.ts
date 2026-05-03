@@ -55,17 +55,17 @@ export const validateCreateDeploymentForm = (form: {
   return {
     errors: {},
     payload: {
-      deployment_area: form.deploymentArea.trim(),
-      deployment_area_latitude: latitudeValue,
-      deployment_area_longitude: longitudeValue,
-      assignment_role: form.assignmentRole.trim() || null,
-      operation_name: form.operationName.trim() || null,
-      start_date: form.startDate.trim(),
-      end_date: form.endDate.trim() || null,
-      status_id: form.statusId.trim(),
+      deploymentArea: form.deploymentArea.trim(),
+      deploymentAreaLatitude: latitudeValue,
+      deploymentAreaLongitude: longitudeValue,
+      assignmentRole: form.assignmentRole.trim() || null,
+      operationName: form.operationName.trim() || null,
+      startDate: form.startDate.trim(),
+      endDate: form.endDate.trim() || null,
+      statusId: form.statusId.trim(),
       location: form.location.trim() || null,
-      supervisor_id: form.supervisorId.trim() || null,
-      default_remarks: form.defaultRemarks.trim() || null,
+      supervisorId: form.supervisorId.trim() || null,
+      remarks: form.defaultRemarks.trim() || null,
     },
   }
 }

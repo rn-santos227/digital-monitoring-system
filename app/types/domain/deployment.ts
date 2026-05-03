@@ -2,30 +2,28 @@
 export type DeploymentManagementTabId = 'deployments' | 'records'
 
 import type {
-  DeploymentsInsert,
   DeploymentRecordsInsert,
   DeploymentRecordsRow,
   DeploymentRecordsUpdate,
   UUID,
 } from '../database.tables'
 
-export type CreateDeploymentPayload = Pick<
-  DeploymentsInsert,
-  | 'deployment_area'
-  | 'deployment_area_latitude'
-  | 'deployment_area_longitude'
-  | 'assignment_role'
-  | 'operation_name'
-  | 'start_date'
-  | 'end_date'
-  | 'status_id'
-  | 'location'
-  | 'supervisor_id'
-  | 'default_remarks'
->
-
 export type DeploymentRecordCreateInput = DeploymentRecordsInsert
 export type DeploymentRecordUpdateInput = DeploymentRecordsUpdate
+
+export interface CreateDeploymentPayload {
+  deploymentArea: string
+  deploymentAreaLatitude: number | null
+  deploymentAreaLongitude: number | null
+  assignmentRole: string | null
+  operationName: string | null
+  startDate: string
+  endDate: string | null
+  statusId: string
+  location: string | null
+  supervisorId: string | null
+  remarks: string | null
+}
 
 export interface DeploymentRecordSummary extends DeploymentRecordsRow {
   personnel_code: string

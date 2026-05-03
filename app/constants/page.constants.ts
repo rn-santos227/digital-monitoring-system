@@ -637,8 +637,8 @@ export const DEPLOYMENTS_PAGE_SECTION_CLASSES = 'space-y-6'
 export const DEPLOYMENTS_PAGE_KPI_GRID_CLASSES = 'grid gap-4 md:grid-cols-2 xl:grid-cols-3'
 export const DEPLOYMENTS_PAGE_TABS_ARIA_LABEL = 'Deployments management tabs'
 export const DEPLOYMENTS_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
+  { id: 'records', label: 'Records' },  
   { id: 'deployments', label: 'Deployments' },
-  { id: 'records', label: 'Records' },
 ])
 export const DEPLOYMENTS_PAGE_TAB_REQUIRED_PERMISSIONS = Object.freeze({
   deployments: Object.freeze(['deployment.manage']),
