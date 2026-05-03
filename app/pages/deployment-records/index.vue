@@ -34,7 +34,22 @@
         @update:model-value="handleTabChange"
       />
 
-      <template v-if="activeTab === 'deployments'">
+      <template v-if="activeTab === 'records'">
+        <BaseAlert v-if="deploymentRecordsError" :message="deploymentRecordsError" tone="danger" />
+
+        <DeploymentsTable
+          :rows="deploymentRecordRows"
+          :is-loading="isDeploymentRecordsLoading"
+          :current-page="deploymentRecordsPagination.page"
+          :total-pages="deploymentRecordsPagination.totalPages"
+          :total-items="deploymentRecordsPagination.totalItems"
+          :page-size="deploymentRecordsPagination.pageSize"
+          @update:current-page="onDeploymentRecordsPageChange"
+          @update:page-size="onDeploymentRecordsPageSizeChange"
+        />
+      </template>
+
+      <template v-else>
         <div v-if="showCreateButton" :class="TRAINING_TABLE_ACTIONS_ROW_CLASSES">
           <BaseButton @click="onOpenCreateDeploymentModal">Create Deployment</BaseButton>
         </div>
@@ -61,20 +76,7 @@
         />
       </template>
 
-      <template v-else>
-        <BaseAlert v-if="deploymentRecordsError" :message="deploymentRecordsError" tone="danger" />
 
-        <DeploymentsTable
-          :rows="deploymentRecordRows"
-          :is-loading="isDeploymentRecordsLoading"
-          :current-page="deploymentRecordsPagination.page"
-          :total-pages="deploymentRecordsPagination.totalPages"
-          :total-items="deploymentRecordsPagination.totalItems"
-          :page-size="deploymentRecordsPagination.pageSize"
-          @update:current-page="onDeploymentRecordsPageChange"
-          @update:page-size="onDeploymentRecordsPageSizeChange"
-        />
-      </template>
 
       <CreateDeploymentModal
         v-if="isCreateDeploymentModalOpen"
