@@ -23,6 +23,8 @@ import { executeWithRollback } from '../../utils/db/executeWithRollback'
 import { getNextDeploymentRecordNo } from '../../utils/deployment-records/getNextDeploymentRecordNo'
 import { createDeploymentRecord } from '../../utils/deployment-records/createDeploymentRecord'
 import { getDeploymentRecordById } from '../../utils/deployment-records/getDeploymentRecordById'
+import { getPersonnelServiceStatusById } from '../../utils/deployments/getPersonnelServiceStatusById'
+import { updatePersonnelServiceStatusById } from '../../utils/deployments/updatePersonnelServiceStatusById'
 
 export default defineEventHandler(async (event): Promise<CreateDeploymentRecordResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.deploymentManage)
@@ -69,30 +71,22 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
     }
 
     const deployedServiceStatusId = await resolvePersonnelServiceStatusId(supabase, 'Deployed')
-    const { data: previousPersonnelState, error: previousPersonnelStateError } = await supabase
-      .from('personnel')
-      .select('service_status_id')
-      .eq('id', payload.personnel_id)
-      .maybeSingle<{ service_status_id: string | null }>()
-
-    if (previousPersonnelStateError) {
-      throw createError({ statusCode: 500, statusMessage: `Failed to read personnel service status: ${previousPersonnelStateError.message}` })
-    }
-
-    const previousServiceStatusId = previousPersonnelState?.service_status_id ?? null
+    const previousServiceStatusId = await getPersonnelServiceStatusById(
+      supabase,
+      payload.personnel_id,
+      'Failed to read personnel service status',
+    )
 
     const { createdId } = await executeWithRollback({
       operation: async () => {
         const createdId = await createDeploymentRecord(supabase, insertPayload)
 
-        const { error: personnelUpdateError } = await supabase
-          .from('personnel')
-          .update({ service_status_id: deployedServiceStatusId })
-          .eq('id', payload.personnel_id)
-
-        if (personnelUpdateError) {
-          throw createError({ statusCode: 500, statusMessage: `Failed to update personnel service status: ${personnelUpdateError.message}` })
-        }
+        await updatePersonnelServiceStatusById(
+          supabase,
+          payload.personnel_id,
+          deployedServiceStatusId,
+          'Failed to update personnel service status',
+        )
 
        return { createdId }
       },
@@ -101,11 +95,12 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
         const { error: rollbackRecordError } = await supabase.from('deployment_records').delete().eq('record_no', insertPayload.record_no)
         if (rollbackRecordError) rollbackErrors.push(`deployment record rollback failed: ${rollbackRecordError.message}`)
 
-        const { error: rollbackPersonnelError } = await supabase
-          .from('personnel')
-          .update({ service_status_id: previousServiceStatusId })
-          .eq('id', payload.personnel_id)
-        if (rollbackPersonnelError) rollbackErrors.push(`personnel service status rollback failed: ${rollbackPersonnelError.message}`)
+        await updatePersonnelServiceStatusById(
+          supabase,
+          payload.personnel_id,
+          previousServiceStatusId,
+          'personnel service status rollback failed',
+        )
 
         if (rollbackErrors.length > 0) throw createError({ statusCode: 500, statusMessage: rollbackErrors.join('; ') })
       },

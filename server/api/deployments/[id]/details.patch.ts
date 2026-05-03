@@ -15,6 +15,8 @@ import { executeWithRollback } from '../../../utils/db/executeWithRollback'
 import { getDeploymentById } from '../../../utils/deployments/getDeploymentById'
 import { updateDeploymentById } from '../../../utils/deployments/updateDeploymentById'
 import { updateEffectiveSupervisorStatus } from '../../../utils/deployments/updateEffectiveSupervisorStatus'
+import { getPersonnelServiceStatusById } from '../../../utils/deployments/getPersonnelServiceStatusById'
+import { updatePersonnelServiceStatusById } from '../../../utils/deployments/updatePersonnelServiceStatusById'
 
 export default defineEventHandler(async (event) => {
   const actor = await requirePermission(event, PERMISSION_CODES.deploymentUpdate)
@@ -53,20 +55,11 @@ export default defineEventHandler(async (event) => {
 
   let previousSupervisorServiceStatusId: string | null = null
   if (effectiveSupervisorId) {
-    const { data: previousSupervisorState, error: previousSupervisorStateError } = await supabase
-      .from('personnel')
-      .select('service_status_id')
-      .eq('id', effectiveSupervisorId)
-      .maybeSingle<{ service_status_id: string | null }>()
-
-    if (previousSupervisorStateError) {
-      throw createError({
-        statusCode: 500,
-        statusMessage: `Failed to read supervisor service status: ${previousSupervisorStateError.message}`,
-      })
-    }
-
-    previousSupervisorServiceStatusId = previousSupervisorState?.service_status_id ?? null
+    previousSupervisorServiceStatusId = await getPersonnelServiceStatusById(
+      supabase,
+      effectiveSupervisorId,
+      'Failed to read supervisor service status',
+    )
   }
 
   try {
@@ -98,14 +91,12 @@ export default defineEventHandler(async (event) => {
         }
 
         if (effectiveSupervisorId) {
-          const { error: rollbackSupervisorError } = await supabase
-            .from('personnel')
-            .update({ service_status_id: previousSupervisorServiceStatusId })
-            .eq('id', effectiveSupervisorId)
-
-          if (rollbackSupervisorError) {
-            rollbackErrors.push(`supervisor service status rollback failed: ${rollbackSupervisorError.message}`)
-          }
+          await updatePersonnelServiceStatusById(
+            supabase,
+            effectiveSupervisorId,
+            previousSupervisorServiceStatusId,
+            'supervisor service status rollback failed',
+          )
         }
 
         if (rollbackErrors.length > 0) {

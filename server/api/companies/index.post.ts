@@ -1,10 +1,9 @@
-import { createError, defineEventHandler, readBody } from 'h3'
+import { defineEventHandler, readBody } from 'h3'
 import type { CreateCompanyRequest } from '../../shared/requests'
 import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
-  BATTALION_REFERENCE_ID_SELECT_COLUMNS,
   PERMISSION_CODES,
 } from '../../shared/constants'
 import { parseCreateCompanyPayload } from '../../shared/validations'
@@ -12,6 +11,7 @@ import { recordManagementAuditLog } from '../../utils/audit/recordManagementAudi
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { createCompany } from '../../utils/companies/createCompany'
+import { assertBattalionExists } from '../../utils/companies/assertBattalionExists'
 
 export default defineEventHandler(async (event) => {
   const actor = await requirePermission(event, PERMISSION_CODES.companyCreate)
@@ -21,15 +21,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     if (payload.battalion_id) {
-      const { data: battalion, error: battalionError } = await supabase
-        .from('battalions')
-        .select(BATTALION_REFERENCE_ID_SELECT_COLUMNS)
-        .eq('id', payload.battalion_id)
-        .maybeSingle()
-
-      if (battalionError || !battalion) {
-        throw createError({ statusCode: 400, statusMessage: 'Invalid battalion id.' })
-      }
+      await assertBattalionExists(supabase, payload.battalion_id)
     }
 
     const createdId = await createCompany(supabase, payload)

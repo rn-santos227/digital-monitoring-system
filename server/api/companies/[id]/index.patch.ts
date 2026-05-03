@@ -5,7 +5,6 @@ import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
-  BATTALION_REFERENCE_ID_SELECT_COLUMNS,
   PERMISSION_CODES,
 } from '../../../shared/constants'
 import { buildCompanyUpdates, requireRouteId } from '../../../shared/validations'
@@ -15,6 +14,7 @@ import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { getCompanyById } from '../../../utils/companies/getCompanyById'
 import { updateCompanyById } from '../../../utils/companies/updateCompanyById'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
+import { assertBattalionExists } from '../../../utils/companies/assertBattalionExists'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.companyUpdate)
@@ -37,15 +37,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
 
   try {
     if (typeof updates.battalion_id === 'string') {
-      const { data: battalion } = await supabase
-        .from('battalions')
-        .select(BATTALION_REFERENCE_ID_SELECT_COLUMNS)
-        .eq('id', updates.battalion_id)
-        .maybeSingle()
-
-      if (!battalion) {
-        throw createError({ statusCode: 400, statusMessage: 'Invalid battalion id.' })
-      }
+      await assertBattalionExists(supabase, updates.battalion_id)
     }
 
     await executeWithRollback({

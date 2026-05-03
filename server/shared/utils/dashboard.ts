@@ -78,6 +78,14 @@ export const isStandbyStatus = (statusName: string): boolean => {
   return normalizedStatus.includes('standby') || normalizedStatus.includes('reserve') || normalizedStatus.includes('planned')
 }
 
+export const isDeployedStatus = (statusName: string): boolean => {
+  const normalizedStatus = normalizeStatusName(statusName)
+
+  return normalizedStatus.includes('deploy')
+    || normalizedStatus.includes('mission')
+    || normalizedStatus.includes('operation')
+}
+
 export const isUnavailableStatus = (statusName: string): boolean => {
   const normalizedStatus = normalizeStatusName(statusName)
 
@@ -168,7 +176,7 @@ export const buildPersonnelSummaryMetrics = (
 
   for (const row of personnelRows) {
     const statusName = row.service_status ?? ''
-    const isDeployed = activeDeploymentLocationByPersonnelId.has(row.id)
+    const isDeployed = activeDeploymentLocationByPersonnelId.has(row.id) || isDeployedStatus(statusName)
     const locationName = activeDeploymentLocationByPersonnelId.get(row.id) ?? (row.company_name?.trim() || 'Unassigned Company')
 
     if (isDeployed) {

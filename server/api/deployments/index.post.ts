@@ -1,11 +1,10 @@
-import { createError, defineEventHandler, readBody } from 'h3'
+import { defineEventHandler, readBody } from 'h3'
 import type { CreateDeploymentRequest } from '../../shared/requests'
 import type { CreateDeploymentRecordResponse } from '../../shared/responses'
 import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
-  DEPLOYMENT_DETAIL_SELECT_COLUMNS,
   ID_ONLY_SELECT_COLUMNS,
   PERMISSION_CODES,
 } from '../../shared/constants'
@@ -23,6 +22,9 @@ import { executeWithRollback } from '../../utils/db/executeWithRollback'
 import { createDeployment } from '../../utils/deployments/createDeployment'
 import { getDeploymentById } from '../../utils/deployments/getDeploymentById'
 import { updateEffectiveSupervisorStatus } from '../../utils/deployments/updateEffectiveSupervisorStatus'
+import { getPersonnelServiceStatusById } from '../../utils/deployments/getPersonnelServiceStatusById'
+import { updatePersonnelServiceStatusById } from '../../utils/deployments/updatePersonnelServiceStatusById'
+import { deleteDeploymentById } from '../../utils/deployments/deleteDeploymentById'
 
 export default defineEventHandler(async (event): Promise<CreateDeploymentRecordResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.deploymentManage)
@@ -51,20 +53,11 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
 
     let previousSupervisorServiceStatusId: string | null = null
     if (payload.supervisor_id) {
-      const { data: previousSupervisorState, error: previousSupervisorStateError } = await supabase
-        .from('personnel')
-        .select('service_status_id')
-        .eq('id', payload.supervisor_id)
-        .maybeSingle<{ service_status_id: string | null }>()
-
-      if (previousSupervisorStateError) {
-        throw createError({
-          statusCode: 500,
-          statusMessage: `Failed to read supervisor service status: ${previousSupervisorStateError.message}`,
-        })
-      }
-
-      previousSupervisorServiceStatusId = previousSupervisorState?.service_status_id ?? null
+      previousSupervisorServiceStatusId = await getPersonnelServiceStatusById(
+        supabase,
+        payload.supervisor_id,
+        'Failed to read supervisor service status',
+      )
     }
 
     let createdDeploymentId: string | null = null
@@ -81,24 +74,17 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
       },
       rollback: async () => {
         const rollbackErrors: string[] = []
-        const { error: rollbackDeploymentError } = await supabase
-          .from('deployments')
-          .delete()
-          .eq('id', createdDeploymentId ?? '')
-
-        if (rollbackDeploymentError) {
-          rollbackErrors.push(`deployment rollback failed: ${rollbackDeploymentError.message}`)
+        if (createdDeploymentId) {
+          await deleteDeploymentById(supabase, createdDeploymentId)
         }
 
         if (payload.supervisor_id) {
-          const { error: rollbackSupervisorError } = await supabase
-            .from('personnel')
-            .update({ service_status_id: previousSupervisorServiceStatusId })
-            .eq('id', payload.supervisor_id)
-
-          if (rollbackSupervisorError) {
-            rollbackErrors.push(`supervisor service status rollback failed: ${rollbackSupervisorError.message}`)
-          }
+          await updatePersonnelServiceStatusById(
+            supabase,
+            payload.supervisor_id,
+            previousSupervisorServiceStatusId,
+            'supervisor service status rollback failed',
+          )
         }
 
         if (rollbackErrors.length > 0) {

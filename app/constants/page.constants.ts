@@ -196,9 +196,9 @@ export const RANK_CREATE_BUTTON_LABEL = 'Create Rank'
 export const RANK_CREATE_MODAL_TITLE = 'Create Rank Record'
 export const RANK_CREATE_MODAL_DESCRIPTION = 'Register a rank for personnel assignment and reporting.'
 
-export const PERSONNEL_PROFILE_PAGE_TITLE = 'Personnel Dossier'
+export const PERSONNEL_PROFILE_PAGE_TITLE = 'Personnel Profile'
 export const PERSONNEL_PROFILE_PAGE_SUBTITLE = 'Profile details, assignments, and readiness context for operational review.'
-export const PERSONNEL_PROFILE_TABS_ARIA_LABEL = 'Personnel dossier tabs'
+export const PERSONNEL_PROFILE_TABS_ARIA_LABEL = 'Personnel profile tabs'
 export const PERSONNEL_PROFILE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
   { id: 'core', label: 'Core Profile' },
   { id: 'training', label: 'Training Records' },
