@@ -11,7 +11,6 @@ import {
 } from '../../shared/constants'
 import {
   assertPersonnelExists,
-  buildDeploymentRecordNo,
   mapDeploymentDetailListItem,
   resolvePersonnelServiceStatusId,
 } from '../../shared/utils'
@@ -39,7 +38,6 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
 
     const insertPayload = {
       ...payload,
-      record_no: buildDeploymentRecordNo(),
     }
 
     const deployedServiceStatusId = payload.supervisor_id
@@ -64,6 +62,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
       previousSupervisorServiceStatusId = previousSupervisorState?.service_status_id ?? null
     }
 
+    let createdDeploymentId: string | null = null
     const { createdId } = await executeWithRollback({
       operation: async () => {
         const { data: createdRow, error: insertError } = await supabase
@@ -93,6 +92,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
           }
         }
 
+        createdDeploymentId = createdRow.id
         return { createdId: createdRow.id }
       },
       rollback: async () => {
@@ -100,7 +100,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
         const { error: rollbackDeploymentError } = await supabase
           .from('deployment')
           .delete()
-          .eq('record_no', insertPayload.record_no)
+          .eq('id', createdDeploymentId ?? '')
 
         if (rollbackDeploymentError) {
           rollbackErrors.push(`deployment rollback failed: ${rollbackDeploymentError.message}`)
