@@ -21,7 +21,7 @@ export interface PersonnelListResponse {
   totalPages: number
 }
 
-export interface CreatePersonnelBody {
+export interface PersonnelCreate {
   personnelCode?: string
   serviceNumber?: string
   lastName?: string
@@ -39,7 +39,7 @@ export interface CreatePersonnelBody {
   dateEnlisted?: string | null
 }
 
-export interface UpdatePersonnelBody {
+export interface PersonnelUpdate {
   personnelCode?: string
   serviceNumber?: string
   lastName?: string
