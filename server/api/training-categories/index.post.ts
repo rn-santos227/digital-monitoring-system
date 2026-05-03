@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
       message: 'Training category created successfully.',
     })
 
-    return { ok: true, id: createdId  }
+    return { ok: true, id: createdId }
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
 
