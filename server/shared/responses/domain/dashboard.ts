@@ -108,3 +108,9 @@ export interface DashboardOperationalTimeMonitoringResponse {
   asOf: string
   metric: DashboardOperationalTimeMetric
 }
+
+export interface DashboardUnitManagementKpiResponse {
+  totalCompanies: number
+  totalBattalions: number
+  totalUnassignedPersonnel: number
+}

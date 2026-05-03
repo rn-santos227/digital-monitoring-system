@@ -1,18 +1,10 @@
-import { createError, defineEventHandler } from 'h3'
-import { DASHBOARD_DEPLOYMENT_HISTORY_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
+import { defineEventHandler } from 'h3'
+import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardDeploymentHistoryItem, DashboardPersonnelDeploymentHistoryResponse } from '../../shared/responses'
 import { toFullName } from '../../shared/utils'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
-
-interface DeploymentHistoryRow {
-  created_at: string
-  location: string | null
-  deployment_area: string | null
-  personnel_id: string
-  deployment_statuses: { name: string } | { name: string }[] | null
-  personnel: { first_name: string; last_name: string } | { first_name: string; last_name: string }[] | null
-}
+import { fetchDeploymentHistory, type DeploymentHistoryRow } from '../../utils/dashboard/fetchDeploymentHistory'
 
 const DEPLOYMENT_HISTORY_LIMIT = 10
 
@@ -37,18 +29,7 @@ export default defineEventHandler(async (event): Promise<DashboardPersonnelDeplo
   const supabase = getServiceSupabaseClient()
   const now = new Date()
 
-  const deploymentHistoryResult = await supabase
-    .from('deployment_records')
-    .select(DASHBOARD_DEPLOYMENT_HISTORY_SELECT_COLUMNS)
-    .order('created_at', { ascending: false })
-    .limit(DEPLOYMENT_HISTORY_LIMIT)
-
-  if (deploymentHistoryResult.error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to load personnel deployment history: ${deploymentHistoryResult.error.message}` })
-  }
-
-  const rows = (deploymentHistoryResult.data ?? []) as DeploymentHistoryRow[]
-
+  const rows = await fetchDeploymentHistory(supabase, DEPLOYMENT_HISTORY_LIMIT)
   const items: DashboardDeploymentHistoryItem[] = rows.map((row) => {
     const person = toPerson(row.personnel)
 

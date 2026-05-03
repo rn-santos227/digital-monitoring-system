@@ -1,10 +1,10 @@
-import { createError, defineEventHandler } from 'h3'
-import { DASHBOARD_NEAR_ROTATION_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
+import { defineEventHandler } from 'h3'
+import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardNearRotationResponse, DashboardRotationAlertItem } from '../../shared/responses'
 import { toFullName } from '../../shared/utils'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
-
+import { fetchNearRotationDeployments } from '../../utils/dashboard/fetchNearRotationDeployments'
 interface NearRotationRow {
   personnel_id: string
   end_date: string
@@ -26,19 +26,7 @@ export default defineEventHandler(async (event): Promise<DashboardNearRotationRe
   const todayIsoDate = now.toISOString().slice(0, 10)
   const cutoffDate = new Date(now.getTime() + (NEAR_ROTATION_WINDOW_DAYS * 86400000)).toISOString().slice(0, 10)
 
-  const nearRotationResult = await supabase
-    .from('deployment_records')
-    .select(DASHBOARD_NEAR_ROTATION_SELECT_COLUMNS)
-    .eq('deployment_statuses.name', 'Active')
-    .not('end_date', 'is', null)
-    .lte('end_date', cutoffDate)
-    .gte('end_date', todayIsoDate)
-
-  if (nearRotationResult.error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to load near-rotation records: ${nearRotationResult.error.message}` })
-  }
-
-  const rows = (nearRotationResult.data ?? []) as NearRotationRow[]
+  const rows = await fetchNearRotationDeployments(supabase, todayIsoDate, cutoffDate)
 
   const items: DashboardRotationAlertItem[] = rows.map((row) => {
     const person = Array.isArray(row.personnel) ? (row.personnel[0] ?? null) : row.personnel

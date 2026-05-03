@@ -1,8 +1,9 @@
-import { createError, defineEventHandler } from 'h3'
-import { DASHBOARD_OPERATIONAL_TIME_MONITORING_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
+import { defineEventHandler } from 'h3'
+import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardOperationalTimeMonitoringResponse } from '../../shared/responses'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { fetchOperationalTimeDeployments } from '../../utils/dashboard/fetchOperationalTimeDeployments'
 
 interface OperationalTimeRow {
   start_date: string
@@ -21,17 +22,7 @@ export default defineEventHandler(async (event): Promise<DashboardOperationalTim
   const now = new Date()
   const todayIsoDate = now.toISOString().slice(0, 10)
 
-  const operationalTimeResult = await supabase
-    .from('deployment_records')
-    .select(DASHBOARD_OPERATIONAL_TIME_MONITORING_SELECT_COLUMNS)
-    .eq('deployment_statuses.name', 'Active')
-    .or(`end_date.is.null,end_date.gte.${todayIsoDate}`)
-
-  if (operationalTimeResult.error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to load operational time monitoring metrics: ${operationalTimeResult.error.message}` })
-  }
-
-  const rows = (operationalTimeResult.data ?? []) as OperationalTimeRow[]
+  const rows = await fetchOperationalTimeDeployments(supabase, todayIsoDate)
 
   let totalActiveDays = 0
   let longestActiveDays = 0
