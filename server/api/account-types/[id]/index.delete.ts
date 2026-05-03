@@ -1,8 +1,6 @@
 import { createError, defineEventHandler, getRouterParam } from 'h3'
 import {
   ACCOUNT_TYPE_ASSIGNED_USER_COUNT_SELECT_COLUMNS,
-  ACCOUNT_TYPE_BASE_SELECT_COLUMNS,
-  ACCOUNT_TYPE_PERMISSION_ID_SELECT_COLUMNS,
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
@@ -11,6 +9,9 @@ import {
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { getAccountTypeById } from '../../../utils/account-types/getAccountTypeById'
+import { getAccountTypePermissionIds } from '../../../utils/account-types/getAccountTypePermissionIds'
+import { replaceAccountTypePermissions } from '../../../utils/account-types/replaceAccountTypePermissions'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
 
 export default defineEventHandler(async (event) => {
@@ -23,16 +24,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const supabase = getServiceSupabaseClient()
-
-  const { data: existingAccountType, error: existingAccountTypeError } = await supabase
-    .from('account_types')
-    .select(ACCOUNT_TYPE_BASE_SELECT_COLUMNS)
-    .eq('id', id)
-    .maybeSingle()
-
-  if (existingAccountTypeError) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to read account type: ${existingAccountTypeError.message}` })
-  }
+  const existingAccountType = await getAccountTypeById(supabase, id)
 
   if (!existingAccountType) {
     throw createError({ statusCode: 404, statusMessage: 'Account type not found.' })
@@ -67,28 +59,12 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const { data: existingPermissionRows, error: existingPermissionsError } = await supabase
-    .from('account_type_permissions')
-    .select(ACCOUNT_TYPE_PERMISSION_ID_SELECT_COLUMNS)
-    .eq('account_type_id', id)
-
-  if (existingPermissionsError) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to read existing account type permissions: ${existingPermissionsError.message}` })
-  }
-
-  const existingPermissionIds = (existingPermissionRows ?? []).map(row => row.permission_id)
+  const existingPermissionIds = await getAccountTypePermissionIds(supabase, id)
 
   try {
     await executeWithRollback({
       operation: async () => {
-        const { error: deletePermissionsError } = await supabase
-          .from('account_type_permissions')
-          .delete()
-          .eq('account_type_id', id)
-
-        if (deletePermissionsError) {
-          throw createError({ statusCode: 500, statusMessage: `Failed to delete account type permissions: ${deletePermissionsError.message}` })
-        }
+        await replaceAccountTypePermissions(supabase, id, [])
 
         const { error: deleteAccountTypeError } = await supabase
           .from('account_types')
