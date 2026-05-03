@@ -78,7 +78,7 @@ export const PERSONNEL_API_ENDPOINTS = Object.freeze({
   personnelBatchUpload: '/api/personnel/batch-upload',
   personnelById: (id: string) => `/api/personnel/${id}`,
   ranks: '/api/ranks',
-  rankSuggestions: '/api/ranks/suggestion',
+  rankSuggestions: '/api/ranks/suggestions',
   rankById: (id: string) => `/api/ranks/${id}`,
 })
 

@@ -1,7 +1,8 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
+import type { RankCreate } from '../../shared/models'
 
-export async function createRank(supabase: SupabaseClient, payload: Record<string, unknown>): Promise<string> {
+export async function createRank(supabase: SupabaseClient, payload: RankCreate): Promise<string> {
   const { data: createdRow, error: insertError } = await supabase
     .from('ranks')
     .insert(payload)

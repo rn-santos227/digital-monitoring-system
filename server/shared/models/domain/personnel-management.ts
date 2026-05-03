@@ -39,6 +39,12 @@ export interface PersonnelCreate {
   dateEnlisted?: string | null
 }
 
+export interface RankCreate {
+  code: string
+  name: string
+  sort_order: number
+}
+
 export interface PersonnelUpdate {
   personnelCode?: string
   serviceNumber?: string
