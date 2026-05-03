@@ -1,5 +1,6 @@
 import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreatePersonnelRequest } from '../../shared/requests'
+import type { PersonnelCreate } from '../../shared/models'
 import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
@@ -8,10 +9,15 @@ import {
   PERSONNEL_REFERENCE_ID_SELECT_COLUMNS,
 } from '../../shared/constants'
 import { parseCreatePersonnelPayload } from '../../shared/validations'
-import { assertCompanyBelongsToBattalion, resolvePersonnelEmploymentStatusId, resolvePersonnelServiceStatusId } from '../../shared/utils'
+import {
+  resolvePersonnelEmploymentStatusId,
+  resolvePersonnelServiceStatusId,
+  resolvePersonnelUnitAssignment,
+} from '../../shared/utils'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { createPersonnel } from '../../utils/personnel/createPersonnel'
 
 export default defineEventHandler(async (event) => {
   const actor = await requirePermission(event, PERMISSION_CODES.personnelCreate)
@@ -33,46 +39,16 @@ export default defineEventHandler(async (event) => {
 
     payload.employment_status_id = await resolvePersonnelEmploymentStatusId(supabase, payload.employment_status_id)
     payload.service_status_id = await resolvePersonnelServiceStatusId(supabase, payload.service_status_id)
+    payload.company_id
+    
+    const resolvedAssignment = await resolvePersonnelUnitAssignment(supabase, {
+      companyId: payload.company_id ?? null,
+      battalionId: payload.battalion_id ?? null,
+    })
+    payload.company_id = resolvedAssignment.companyId
+    payload.battalion_id = resolvedAssignment.battalionId
 
-    if (payload.company_id) {
-      const { data: company, error: companyError } = await supabase
-        .from('companies')
-        .select('id,battalion_id')
-        .eq('id', payload.company_id)
-        .maybeSingle()
-
-      if (companyError || !company) {
-        throw createError({ statusCode: 400, statusMessage: 'Invalid company id.' })
-      }
-
-      if (payload.battalion_id) {
-        await assertCompanyBelongsToBattalion({
-          supabase,
-          companyId: payload.company_id,
-          battalionId: payload.battalion_id,
-        })
-      } else {
-        payload.battalion_id = company.battalion_id ?? null
-      }
-    }
-
-    if (payload.battalion_id) {
-      const { data: battalion, error: battalionError } = await supabase
-        .from('battalions')
-        .select(PERSONNEL_REFERENCE_ID_SELECT_COLUMNS)
-        .eq('id', payload.battalion_id)
-        .maybeSingle()
-
-      if (battalionError || !battalion) {
-        throw createError({ statusCode: 400, statusMessage: 'Invalid battalion id.' })
-      }
-    }
-
-    const { data: createdPersonnel, error: insertError } = await supabase
-      .from('personnel')
-      .insert(payload)
-      .select(PERSONNEL_REFERENCE_ID_SELECT_COLUMNS)
-      .maybeSingle()
+    const { data: createdPersonnel, error: insertError } = await createPersonnel(supabase, payload as PersonnelCreate)
 
     if (insertError || !createdPersonnel?.id) {
       throw createError({ statusCode: 500, statusMessage: `Failed to create personnel record: ${insertError?.message ?? 'Missing id.'}` })

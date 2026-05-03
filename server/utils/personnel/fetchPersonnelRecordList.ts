@@ -22,3 +22,14 @@ export const fetchPersonnelRecordList = async (supabase: SupabaseClient, options
 
   return query.range(options.rangeFrom, options.rangeTo)
 }
+
+export const fetchPersonnelRecordListTyped = async <TRow>(
+  supabase: SupabaseClient,
+  options: FetchPersonnelRecordListOptions,
+) => {
+  return fetchPersonnelRecordList(supabase, options) as Promise<{
+    data: TRow[] | null
+    count: number | null
+    error: { message: string } | null
+  }>
+}

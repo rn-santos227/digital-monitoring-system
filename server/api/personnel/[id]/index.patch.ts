@@ -1,5 +1,6 @@
 import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
 import type { UpdatePersonnelRequest } from '../../../shared/requests'
+import type { PersonnelUpdate } from '../../../shared/models'
 import type { MutationSuccessResponse } from '../../../shared/responses'
 import {
   AUDIT_LOG_ACTIONS,
@@ -11,11 +12,16 @@ import {
   PERSONNEL_REFERENCE_ID_SELECT_COLUMNS,
 } from '../../../shared/constants'
 import { buildPersonnelUpdates, requireRouteId } from '../../../shared/validations'
-import { assertCompanyBelongsToBattalion, resolvePersonnelEmploymentStatusId, resolvePersonnelServiceStatusId } from '../../../shared/utils'
+import {
+  resolvePersonnelEmploymentStatusId,
+  resolvePersonnelServiceStatusId,
+  resolvePersonnelUnitAssignment,
+} from '../../../shared/utils'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
+import { updatePersonnelById } from '../../../utils/personnel/updatePersonnelById'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.personnelUpdate)
@@ -63,30 +69,6 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
     if (typeof updates.service_status_id === 'string') {
       updates.service_status_id = await resolvePersonnelServiceStatusId(supabase, updates.service_status_id)
     }
-
-    if (typeof updates.company_id === 'string') {
-      const { data: company } = await supabase
-        .from('companies')
-        .select(PERSONNEL_REFERENCE_ID_SELECT_COLUMNS)
-        .eq('id', updates.company_id)
-        .maybeSingle()
-
-      if (!company) {
-        throw createError({ statusCode: 400, statusMessage: 'Invalid company id.' })
-      }
-    }
-
-    if (typeof updates.battalion_id === 'string') {
-      const { data: battalion } = await supabase
-        .from('battalions')
-        .select(PERSONNEL_PROFILE_DETAIL_SELECT_COLUMNS)
-        .eq('id', updates.battalion_id)
-        .maybeSingle()
-
-      if (!battalion) {
-        throw createError({ statusCode: 400, statusMessage: 'Invalid battalion id.' })
-      }
-    }
   
     const resolvedCompanyId = typeof updates.company_id === 'string'
       ? updates.company_id
@@ -99,20 +81,16 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
         ? null
         : existingPersonnel.battalion_id
 
-    if (resolvedCompanyId && resolvedBattalionId) {
-      await assertCompanyBelongsToBattalion({
-        supabase,
-        companyId: resolvedCompanyId,
-        battalionId: resolvedBattalionId,
-      })
-    }
+    const resolvedAssignment = await resolvePersonnelUnitAssignment(supabase, {
+      companyId: resolvedCompanyId,
+      battalionId: resolvedBattalionId,
+    })
+    updates.company_id = resolvedAssignment.companyId
+    updates.battalion_id = resolvedAssignment.battalionId
 
     await executeWithRollback({
       operation: async () => {
-        const { error: updateError } = await supabase
-          .from('personnel')
-          .update(updates)
-          .eq('id', id)
+        const { error: updateError } = await updatePersonnelById(supabase, id, updates as Partial<PersonnelUpdate>)
 
         if (updateError) {
           throw createError({ statusCode: 500, statusMessage: `Failed to update personnel record: ${updateError.message}` })

@@ -6,6 +6,7 @@ import type {
 } from '../models'
 import { createError } from 'h3'
 import { parseNumber } from './parsers'
+import { assertCompanyBelongsToBattalion } from './unit-management'
 import type { PersonnelDetailResponse, PersonnelListItemCompact, PersonnelSuggestionItem } from '../responses'
 
 interface PersonnelSuggestionRow {
@@ -42,6 +43,21 @@ interface PersonnelStatusLookupSupabaseClient {
       }
     }
   }
+}
+
+interface PersonnelUnitLookupSupabaseClient {
+  from: (table: 'battalions' | 'companies') => {
+    select: (columns: string) => {
+      eq: (column: string, value: string) => {
+        maybeSingle: () => Promise<{ data: { id: string, battalion_id?: string | null } | null; error: { message: string } | null }>
+      }
+    }
+  }
+}
+
+interface ResolvePersonnelUnitAssignmentInput {
+  companyId: string | null
+  battalionId: string | null
 }
 
 export const parsePersonnelSuggestionQuery = (query: {
@@ -178,4 +194,113 @@ export const resolvePersonnelServiceStatusId = async (supabase: unknown, value: 
   }
 
   return data.id
+}
+
+export const resolvePersonnelBattalionId = async (supabase: unknown, value: string, serviceNumber: string): Promise<string> => {
+  const supabaseClient = supabase as PersonnelUnitLookupSupabaseClient
+  const { data: battalionById } = await supabaseClient
+    .from('battalions')
+    .select('id')
+    .eq('id', value)
+    .maybeSingle()
+
+  if (battalionById?.id) {
+    return battalionById.id
+  }
+
+  const { data: battalionByCode, error: battalionByCodeError } = await supabaseClient
+    .from('battalions')
+    .select('id')
+    .eq('code', value)
+    .maybeSingle()
+
+  if (battalionByCodeError || !battalionByCode?.id) {
+    throw createError({ statusCode: 400, statusMessage: `Invalid battalion value for service number ${serviceNumber}.` })
+  }
+
+  return battalionByCode.id
+}
+
+export const resolvePersonnelCompanyAssignment = async (
+  supabase: unknown,
+  companyValue: string,
+  battalionId: string | null,
+  serviceNumber: string,
+): Promise<{ companyId: string, battalionId: string | null }> => {
+  const supabaseClient = supabase as PersonnelUnitLookupSupabaseClient
+  const { data: companyById } = await supabaseClient
+    .from('companies')
+    .select('id,battalion_id')
+    .eq('id', companyValue)
+    .maybeSingle()
+
+  if (companyById?.id) {
+    return {
+      companyId: companyById.id,
+      battalionId: battalionId ?? companyById.battalion_id ?? null,
+    }
+  }
+
+  const { data: companyByCode, error: companyByCodeError } = await supabaseClient
+    .from('companies')
+    .select('id,battalion_id')
+    .eq('code', companyValue)
+    .maybeSingle()
+
+  if (companyByCodeError || !companyByCode?.id) {
+    throw createError({ statusCode: 400, statusMessage: `Invalid company value for service number ${serviceNumber}.` })
+  }
+
+  return {
+    companyId: companyByCode.id,
+    battalionId: battalionId ?? companyByCode.battalion_id ?? null,
+  }
+}
+
+export const resolvePersonnelUnitAssignment = async (
+  supabase: unknown,
+  input: ResolvePersonnelUnitAssignmentInput,
+): Promise<ResolvePersonnelUnitAssignmentInput> => {
+  const supabaseClient = supabase as PersonnelUnitLookupSupabaseClient
+  let resolvedCompanyId = input.companyId
+  let resolvedBattalionId = input.battalionId
+
+  if (resolvedCompanyId) {
+    const { data: company, error: companyError } = await supabaseClient
+      .from('companies')
+      .select('id,battalion_id')
+      .eq('id', resolvedCompanyId)
+      .maybeSingle()
+
+    if (companyError || !company) {
+      throw createError({ statusCode: 400, statusMessage: 'Invalid company id.' })
+    }
+
+    if (resolvedBattalionId) {
+      await assertCompanyBelongsToBattalion({
+        supabase,
+        companyId: resolvedCompanyId,
+        battalionId: resolvedBattalionId,
+      })
+    } else {
+      resolvedBattalionId = company.battalion_id ?? null
+    }
+  }
+
+  if (resolvedBattalionId) {
+    const { data: battalion, error: battalionError } = await supabaseClient
+      .from('battalions')
+      .select('id')
+      .eq('id', resolvedBattalionId)
+      .maybeSingle()
+
+    if (battalionError || !battalion) {
+      throw createError({ statusCode: 400, statusMessage: 'Invalid battalion id.' })
+    }
+  }
+
+  return {
+    companyId: resolvedCompanyId,
+    battalionId: resolvedBattalionId,
+  }
 }

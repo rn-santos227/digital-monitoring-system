@@ -4,6 +4,7 @@ import { PERSONNEL_PERMISSION_GROUPS, PERSONNEL_PROFILE_LIST_SELECT_COLUMNS } fr
 import { mapPersonnelListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { fetchPersonnelList } from '../../utils/personnel/fetchPersonnelList'
 
 export default defineEventHandler(async (event): Promise<PersonnelListResponse> => {
   await requireAnyPermission(event, PERSONNEL_PERMISSION_GROUPS.personnelManagement)
@@ -17,25 +18,7 @@ export default defineEventHandler(async (event): Promise<PersonnelListResponse> 
   })
 
   const supabase = getServiceSupabaseClient()
-  let personnelQuery = supabase
-    .from('vw_personnel_profile')
-    .select(PERSONNEL_PROFILE_LIST_SELECT_COLUMNS, {
-      count: 'exact',
-    })
-    .order('last_name', { ascending: true })
-    .order('first_name', { ascending: true })
-    .range(rangeFrom, rangeTo)
-
-  if (search) {
-    personnelQuery = personnelQuery.or([
-      `personnel_code.ilike.%${search}%`,
-      `service_number.ilike.%${search}%`,
-      `last_name.ilike.%${search}%`,
-      `first_name.ilike.%${search}%`,
-    ].join(','))
-  }
-
-  const { data, count, error } = await personnelQuery
+  const { data, count, error } = await fetchPersonnelList(supabase, { search, rangeFrom, rangeTo })
 
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to fetch personnel records: ${error.message}` })

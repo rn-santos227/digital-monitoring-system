@@ -1,5 +1,6 @@
 import { createError, defineEventHandler, getQuery, getRouterParam } from 'h3'
 import type { PersonnelEquipmentIssuanceListResponse } from '../../../shared/responses'
+import type { PersonnelEquipmentIssuanceListRow } from '../../../shared/models'
 import {
   ID_ONLY_SELECT_COLUMNS,
   PERSONNEL_EQUIPMENT_ISSUANCE_LIST_SELECT_COLUMNS,
@@ -13,6 +14,7 @@ import {
 import { requireRouteId } from '../../../shared/validations'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { fetchPersonnelRecordListTyped } from '../../../utils/personnel/fetchPersonnelRecordList'
 
 export default defineEventHandler(async (event): Promise<PersonnelEquipmentIssuanceListResponse> => {
   await requireAnyPermission(event, PERSONNEL_PERMISSION_GROUPS.personnelManagement)
@@ -31,15 +33,15 @@ export default defineEventHandler(async (event): Promise<PersonnelEquipmentIssua
     idSelectColumns: ID_ONLY_SELECT_COLUMNS,
   })
 
-  const { data, count, error } = await supabase
-    .from('equipment_issuances')
-    .select(PERSONNEL_EQUIPMENT_ISSUANCE_LIST_SELECT_COLUMNS, {
-      count: 'exact',
-    })
-    .eq('issued_to_personnel_id', personnelId)
-    .order('issue_date', { ascending: false })
-    .order('created_at', { ascending: false })
-    .range(rangeFrom, rangeTo)
+  const { data, count, error } = await fetchPersonnelRecordListTyped<PersonnelEquipmentIssuanceListRow>(supabase, {
+    table: 'equipment_issuances',
+    selectColumns: PERSONNEL_EQUIPMENT_ISSUANCE_LIST_SELECT_COLUMNS,
+    matchField: 'issued_to_personnel_id',
+    matchValue: personnelId,
+    orderFields: [{ column: 'issue_date', ascending: false }, { column: 'created_at', ascending: false }],
+    rangeFrom,
+    rangeTo,
+  })
 
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to fetch personnel equipment issuances: ${error.message}` })

@@ -1,5 +1,6 @@
 import { createError, defineEventHandler, getQuery, getRouterParam } from 'h3'
 import type { PersonnelTrainingRecordListResponse } from '../../../shared/responses'
+import type { PersonnelTrainingRecordListRow } from '../../../shared/models'
 import {
   ID_ONLY_SELECT_COLUMNS,
   PERSONNEL_PERMISSION_GROUPS,
@@ -13,6 +14,7 @@ import {
 import { requireRouteId } from '../../../shared/validations'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { fetchPersonnelRecordListTyped } from '../../../utils/personnel/fetchPersonnelRecordList'
 
 export default defineEventHandler(async (event): Promise<PersonnelTrainingRecordListResponse> => {
   await requireAnyPermission(event, PERSONNEL_PERMISSION_GROUPS.personnelManagement)
@@ -31,15 +33,15 @@ export default defineEventHandler(async (event): Promise<PersonnelTrainingRecord
     idSelectColumns: ID_ONLY_SELECT_COLUMNS,
   })
 
-  const { data, count, error } = await supabase
-    .from('training_records')
-    .select(PERSONNEL_TRAINING_RECORD_LIST_SELECT_COLUMNS, {
-      count: 'exact',
-    })
-    .eq('personnel_id', personnelId)
-    .order('start_date', { ascending: false })
-    .order('created_at', { ascending: false })
-    .range(rangeFrom, rangeTo)
+  const { data, count, error } = await fetchPersonnelRecordListTyped<PersonnelTrainingRecordListRow>(supabase, {
+    table: 'training_records',
+    selectColumns: PERSONNEL_TRAINING_RECORD_LIST_SELECT_COLUMNS,
+    matchField: 'personnel_id',
+    matchValue: personnelId,
+    orderFields: [{ column: 'start_date', ascending: false }, { column: 'created_at', ascending: false }],
+    rangeFrom,
+    rangeTo,
+  })
 
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to fetch personnel training records: ${error.message}` })

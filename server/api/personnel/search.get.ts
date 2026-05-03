@@ -4,14 +4,9 @@ import { PERSONNEL_PERMISSION_GROUPS, PERSONNEL_PROFILE_LIST_SELECT_COLUMNS } fr
 import { mapPersonnelCompactListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { buildPersonnelSearchFilters } from '../../utils/personnel/buildPersonnelSearchFilters'
+import { searchPersonnel } from '../../utils/personnel/searchPersonnel'
 
-const SEARCHABLE_PERSONNEL_FIELDS = {
-  personnelCode: 'personnel_code',
-  serviceNumber: 'service_number',
-  lastName: 'last_name',
-  firstName: 'first_name',
-  rankName: 'rank_name',
-} as const
 
 export default defineEventHandler(async (event): Promise<PersonnelListCompactResponse> => {
   await requireAnyPermission(event, PERSONNEL_PERMISSION_GROUPS.personnelManagement)
@@ -28,27 +23,14 @@ export default defineEventHandler(async (event): Promise<PersonnelListCompactRes
     pageSize: query.pageSize,
   })
 
-  const rawFields = typeof query.fields === 'string' ? query.fields.split(',').map(field => field.trim()) : []
-  const selectedFields = rawFields.length > 0
-    ? rawFields.filter((field): field is keyof typeof SEARCHABLE_PERSONNEL_FIELDS => field in SEARCHABLE_PERSONNEL_FIELDS)
-    : Object.keys(SEARCHABLE_PERSONNEL_FIELDS) as Array<keyof typeof SEARCHABLE_PERSONNEL_FIELDS>
-
-  const filters = selectedFields.map(field => `${SEARCHABLE_PERSONNEL_FIELDS[field]}.ilike.%${term}%`)
+  const filters = buildPersonnelSearchFilters(term, typeof query.fields === 'string' ? query.fields : undefined)
 
   if (filters.length === 0) {
     throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
   }
 
   const supabase = getServiceSupabaseClient()
-  const { data, count, error } = await supabase
-    .from('vw_personnel_profile')
-    .select(PERSONNEL_PROFILE_LIST_SELECT_COLUMNS, {
-      count: 'exact',
-    })
-    .or(filters.join(','))
-    .order('last_name', { ascending: true })
-    .order('first_name', { ascending: true })
-    .range(rangeFrom, rangeTo)
+  const { data, count, error } = await searchPersonnel(supabase, { filters, rangeFrom, rangeTo })
 
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to search personnel records: ${error.message}` })

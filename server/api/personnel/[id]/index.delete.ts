@@ -12,7 +12,7 @@ import { getPersonnelRelationshipCounts, mapPersonnelRelationshipCountsResponse 
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
-
+import { deletePersonnelById } from '../../../utils/personnel/deletePersonnelById'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.personnelDelete)
@@ -47,10 +47,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       })
     }
 
-    const { error: deleteError } = await supabase
-      .from('personnel')
-      .delete()
-      .eq('id', id)
+    const { error: deleteError } = await deletePersonnelById(supabase, id)
 
     if (deleteError) {
       throw createError({ statusCode: 500, statusMessage: `Failed to delete personnel record: ${deleteError.message}` })

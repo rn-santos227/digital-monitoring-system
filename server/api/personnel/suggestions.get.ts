@@ -2,7 +2,6 @@ import { createError, defineEventHandler, getQuery } from 'h3'
 import type { PersonnelSuggestionsResponse } from '../../shared/responses'
 import {
   MANAGEMENT_PERMISSION_GROUPS,
-  PERSONNEL_PROFILE_LIST_SELECT_COLUMNS,
   USER_PROFILE_PERSONNEL_LOOKUP_SELECT_COLUMNS,
 } from '../../shared/constants'
 import {
@@ -12,20 +11,8 @@ import {
 } from '../../shared/utils'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
-
-const SEARCHABLE_PERSONNEL_FIELDS = [
-  'personnel_code',
-  'service_number',
-  'full_name',
-] as const
-
-const escapePostgrestLikeTerm = (value: string): string => {
-  return value
-    .replaceAll('\\', '\\\\')
-    .replaceAll(',', '\\,')
-    .replaceAll('(', '\\(')
-    .replaceAll(')', '\\)')
-}
+import { buildPersonnelSuggestionFilters } from '../../utils/personnel/buildPersonnelSuggestionFilters'
+import { resolvePersonnelSuggestionRows } from '../../utils/personnel/resolvePersonnelSuggestionRows'
 
 export default defineEventHandler(async (event): Promise<PersonnelSuggestionsResponse> => {
   await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.userProfileManagement)
@@ -38,55 +25,26 @@ export default defineEventHandler(async (event): Promise<PersonnelSuggestionsRes
   })
 
   const supabase = getServiceSupabaseClient()
-  let personnelQuery = supabase
-    .from('vw_personnel_profile')
-    .select(PERSONNEL_PROFILE_LIST_SELECT_COLUMNS)
-    .order('last_name', { ascending: true })
-    .order('first_name', { ascending: true })
-    .limit(pageSize)
+  const filters = term.length > 0 ? buildPersonnelSuggestionFilters(term) : []
 
-  if (term.length > 0) {
-    const sanitizedTerm = escapePostgrestLikeTerm(term)
-    const filters = SEARCHABLE_PERSONNEL_FIELDS.map((field) => `${field}.ilike.%${sanitizedTerm}%`)
-
-    if (filters.length === 0) {
-      throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
-    }
-
-    personnelQuery = personnelQuery.or(filters.join(','))
+  if (term.length > 0 && filters.length === 0) {
+    throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
   }
 
-  const { data: personnelRows, error: personnelError } = await personnelQuery
+  const { rows: mergedRows, error: suggestionError } = await resolvePersonnelSuggestionRows(
+    supabase,
+    pageSize,
+    selectedPersonnelId,
+    term,
+    filters.length > 0 ? filters.join(',') : undefined,
+  )
 
-  if (personnelError) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to fetch personnel suggestions: ${personnelError.message}` })
-  }
-
-  const mergedRows = [...(personnelRows ?? [])]
-
-  if (selectedPersonnelId && !mergedRows.some(row => row.id === selectedPersonnelId)) {
-    const { data: selectedRow, error: selectedRowError } = await supabase
-      .from('vw_personnel_profile')
-      .select(PERSONNEL_PROFILE_LIST_SELECT_COLUMNS)
-      .eq('id', selectedPersonnelId)
-      .maybeSingle()
-
-    if (selectedRowError) {
-      throw createError({ statusCode: 500, statusMessage: `Failed to fetch selected personnel suggestion: ${selectedRowError.message}` })
-    }
-
-    if (selectedRow) {
-      mergedRows.unshift(selectedRow)
-    }
+  if (suggestionError) {
+    throw createError({ statusCode: 500, statusMessage: `Failed to fetch personnel suggestions: ${suggestionError.message}` })
   }
 
   const personnelIds = mergedRows.map((row) => row.id)
-
-  if (personnelIds.length === 0) {
-    return {
-      items: [],
-    }
-  }
+  if (personnelIds.length === 0) return { items: [] }
 
   const { data: assignedProfiles, error: assignedProfilesError } = await supabase
     .from('user_profiles')
@@ -98,23 +56,14 @@ export default defineEventHandler(async (event): Promise<PersonnelSuggestionsRes
   }
 
   const assignedByPersonnelId = buildAssignedPersonnelProfileMap(assignedProfiles ?? [])
-
   const items = mergedRows
     .filter((row) => {
       const assigned = assignedByPersonnelId.get(row.id)
 
-      if (!assigned) {
-        return true
-      }
-
+      if (!assigned) return true
       return selectedPersonnelId === row.id
     })
-    .map((row) => {
-      const assigned = assignedByPersonnelId.get(row.id)
-      return mapPersonnelSuggestionItem(row, assigned?.email ?? null)
-    })
+    .map((row) => mapPersonnelSuggestionItem(row, assignedByPersonnelId.get(row.id)?.email ?? null))
 
-  return {
-    items,
-  }
+  return { items }
 })
