@@ -1,8 +1,8 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { UpdateCompanyRequest } from '../../shared/requests'
+import type { CompanyUpdate } from '../../shared/models'
 
-export async function updateCompanyById(supabase: SupabaseClient, id: string, updates: UpdateCompanyRequest) {
+export async function updateCompanyById(supabase: SupabaseClient, id: string, updates: CompanyUpdate) {
   const { error } = await supabase.from('companies').update(updates).eq('id', id)
 
   if (error) {

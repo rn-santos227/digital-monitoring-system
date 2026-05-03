@@ -1,7 +1,8 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
+import type { BattalionCreate } from '~~/server/shared/models'
 
-export async function createBattalion(supabase: SupabaseClient, payload: Record<string, unknown>): Promise<string> {
+export async function createBattalion(supabase: SupabaseClient, payload: BattalionCreate): Promise<string> {
   const { data: createdRow, error: insertError } = await supabase
     .from('battalions')
     .insert(payload)

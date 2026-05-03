@@ -1,7 +1,7 @@
-
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { UNIT_EQUIPMENT_ASSET_LIST_SELECT_COLUMNS } from '../../shared/constants'
+import type { UnitEquipmentAssetRow } from '../../shared/models'
 
 export async function fetchCompanyEquipmentAssets(supabase: SupabaseClient, companyCode: string, search: string, rangeFrom: number, rangeTo: number) {
   let query = supabase
@@ -16,10 +16,11 @@ export async function fetchCompanyEquipmentAssets(supabase: SupabaseClient, comp
   }
 
   const { data, count, error } = await query
+  const rows = (data ?? []) as UnitEquipmentAssetRow[]
 
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to fetch company equipment assets: ${error.message}` })
   }
 
-  return { data: data ?? [], count: count ?? 0 }
+  return { data: rows, count: count ?? 0 }
 }

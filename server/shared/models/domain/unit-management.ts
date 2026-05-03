@@ -64,6 +64,33 @@ export interface CompanyRow {
   battalion: BattalionReferenceRow | BattalionReferenceRow[] | null
 }
 
+
+export interface BattalionCreate {
+  code: string
+  name: string
+  is_active: boolean
+}
+
+export interface BattalionUpdate {
+  code?: string
+  name?: string
+  is_active?: boolean
+}
+
+export interface CompanyCreate {
+  battalion_id: string | null
+  code: string
+  name: string
+  is_active: boolean
+}
+
+export interface CompanyUpdate {
+  battalion_id?: string | null
+  code?: string
+  name?: string
+  is_active?: boolean
+}
+
 export interface BattalionSuggestionItem {
   id: string
   code: string

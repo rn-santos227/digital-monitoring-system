@@ -1,11 +1,11 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { COMPANY_BASE_SELECT_COLUMNS } from '../../shared/constants'
+import { COMPANY_DETAIL_SELECT_COLUMNS } from '../../shared/constants'
 
 export async function getCompanyById(supabase: SupabaseClient, id: string) {
   const { data, error } = await supabase
     .from('companies')
-    .select(COMPANY_BASE_SELECT_COLUMNS)
+    .select(COMPANY_DETAIL_SELECT_COLUMNS)
     .eq('id', id)
     .maybeSingle()
 

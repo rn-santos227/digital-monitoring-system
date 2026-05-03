@@ -1,8 +1,8 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { CreateCompanyRequest } from '../../shared/requests'
+import type { CompanyCreate } from '../../shared/models'
 
-export async function createCompany(supabase: SupabaseClient, payload: CreateCompanyRequest): Promise<string> {
+export async function createCompany(supabase: SupabaseClient, payload: CompanyCreate): Promise<string> {
   const { data, error } = await supabase
     .from('companies')
     .insert(payload)

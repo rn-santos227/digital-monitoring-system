@@ -11,6 +11,7 @@ import { parseCreateCompanyPayload } from '../../shared/validations'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { createCompany } from '../../utils/companies/createCompany'
 
 export default defineEventHandler(async (event) => {
   const actor = await requirePermission(event, PERMISSION_CODES.companyCreate)
@@ -31,22 +32,14 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    const { data: createdRow, error: insertError } = await supabase
-      .from('companies')
-      .insert(payload)
-      .select('id')
-      .maybeSingle<{ id: string }>()
-
-    if (insertError || !createdRow?.id) {
-      throw createError({ statusCode: 500, statusMessage: `Failed to create company: ${insertError?.message ?? 'Missing id.'}` })
-    }
+    const createdId = await createCompany(supabase, payload)
 
     await recordManagementAuditLog(event, {
       userId: actor.id,
       action: AUDIT_LOG_ACTIONS.companyCreate,
       tableName: 'companies',
       endpoint: AUDIT_LOG_ENDPOINTS.companiesCreate,
-      recordId: createdRow.id,
+      recordId: createdId,
       requestData: body as Record<string, unknown>,
       newData: payload,
       statusCode: 201,
@@ -54,7 +47,7 @@ export default defineEventHandler(async (event) => {
       message: 'Company created successfully.',
     })
 
-    return { ok: true, id: createdRow.id }
+    return { ok: true, id: createdId }
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
 

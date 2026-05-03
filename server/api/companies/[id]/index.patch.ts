@@ -6,13 +6,14 @@ import {
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
   BATTALION_REFERENCE_ID_SELECT_COLUMNS,
-  COMPANY_BASE_SELECT_COLUMNS,
   PERMISSION_CODES,
 } from '../../../shared/constants'
 import { buildCompanyUpdates, requireRouteId } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { getCompanyById } from '../../../utils/companies/getCompanyById'
+import { updateCompanyById } from '../../../utils/companies/updateCompanyById'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
@@ -26,19 +27,13 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   }
 
   const supabase = getServiceSupabaseClient()
-  const { data: existingRow, error: existingError } = await supabase
-    .from('companies')
-    .select(COMPANY_BASE_SELECT_COLUMNS)
-    .eq('id', id)
-    .maybeSingle()
-
-  if (existingError) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to read company: ${existingError.message}` })
-  }
+  const existingRow = await getCompanyById(supabase, id)
 
   if (!existingRow) {
     throw createError({ statusCode: 404, statusMessage: 'Company not found.' })
   }
+
+  const existingRowAuditData: Record<string, unknown> = { ...existingRow }
 
   try {
     if (typeof updates.battalion_id === 'string') {
@@ -54,34 +49,21 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
     }
 
     await executeWithRollback({
-      operation: async () => {
-        const { error } = await supabase.from('companies').update(updates).eq('id', id)
-
-        if (error) {
-          throw createError({ statusCode: 500, statusMessage: `Failed to update company: ${error.message}` })
-        }
-      },
+      operation: async () => updateCompanyById(supabase, id, updates),
       rollback: async () => {
-        const { error } = await supabase
-          .from('companies')
-          .update({
-            battalion_id: existingRow.battalion_id,
-            code: existingRow.code,
-            name: existingRow.name,
-            is_active: existingRow.is_active,
-          })
-          .eq('id', id)
-
-        if (error) {
-          throw error
-        }
+        await updateCompanyById(supabase, id, {
+          battalion_id: existingRow.battalion_id,
+          code: existingRow.code,
+          name: existingRow.name,
+          is_active: existingRow.is_active,
+        })
       },
       onRollbackError: (rollbackError) => {
         console.error('Failed to rollback company patch API changes.', rollbackError)
       },
     })
 
-    const { data: updatedRow } = await supabase.from('companies').select(COMPANY_BASE_SELECT_COLUMNS).eq('id', id).maybeSingle()
+    const updatedRow = await getCompanyById(supabase, id)
 
     await recordManagementAuditLog(event, {
       userId: actor.id,
@@ -90,8 +72,8 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       endpoint: AUDIT_LOG_ENDPOINTS.companiesUpdate,
       recordId: id,
       requestData: body as Record<string, unknown>,
-      oldData: existingRow,
-      newData: updatedRow ?? existingRow,
+      oldData: existingRowAuditData,
+      newData: { ...(updatedRow ?? existingRow) },
       statusCode: 200,
       outcome: AUDIT_LOG_OUTCOMES.success,
       message: 'Company updated successfully.',
@@ -108,7 +90,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       endpoint: AUDIT_LOG_ENDPOINTS.companiesUpdate,
       recordId: id,
       requestData: body as Record<string, unknown>,
-      oldData: existingRow,
+      oldData: existingRowAuditData,
       statusCode: 500,
       outcome: AUDIT_LOG_OUTCOMES.failed,
       message,
