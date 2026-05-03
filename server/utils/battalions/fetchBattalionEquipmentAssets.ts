@@ -1,6 +1,6 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { UNIT_EQUIPMENT_ASSET_LIST_SELECT_COLUMNS } from '../../shared/constants'
+import { UNIT_EQUIPMENT_ASSET_DETAIL_SELECT_COLUMNS } from '../../shared/constants'
 
 interface FetchBattalionEquipmentAssetsOptions {
   battalionCode: string
@@ -17,7 +17,7 @@ export async function fetchBattalionEquipmentAssets(
 
   let assetsQuery = supabase
     .from('vw_equipment_accountability')
-    .select(UNIT_EQUIPMENT_ASSET_LIST_SELECT_COLUMNS, { count: 'exact' })
+    .select(UNIT_EQUIPMENT_ASSET_DETAIL_SELECT_COLUMNS, { count: 'exact' })
     .eq('assigned_battalion_code', battalionCode)
     .order('asset_tag', { ascending: true })
     .range(rangeFrom, rangeTo)

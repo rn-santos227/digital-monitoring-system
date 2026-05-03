@@ -1,29 +1,29 @@
 import { createError, defineEventHandler, getRouterParam } from 'h3'
 import type { BattalionDetailResponse } from '../../../shared/responses'
-import { BATTALION_SELECT_COLUMNS, UNIT_PERMISSION_GROUPS } from '../../../shared/constants'
+import { UNIT_PERMISSION_GROUPS } from '../../../shared/constants'
 import { mapBattalionListItem } from '../../../shared/utils'
 import { requireRouteId } from '../../../shared/validations'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { getBattalionById } from '../../../utils/battalions/getBattalionById'
+import { getBattalionDetailCounts } from '../../../utils/battalions/getBattalionDetailCounts'
 
 export default defineEventHandler(async (event): Promise<BattalionDetailResponse> => {
   await requireAnyPermission(event, UNIT_PERMISSION_GROUPS.battalionManagement)
 
   const id = requireRouteId(getRouterParam(event, 'id'), 'Battalion id is required.')
   const supabase = getServiceSupabaseClient()
-  const { data, error } = await supabase
-    .from('battalions')
-    .select(BATTALION_SELECT_COLUMNS)
-    .eq('id', id)
-    .maybeSingle()
+  const battalion = await getBattalionById(supabase, id)
 
-  if (error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to fetch battalion details: ${error.message}` })
-  }
-
-  if (!data) {
+  if (!battalion) {
     throw createError({ statusCode: 404, statusMessage: 'Battalion not found.' })
   }
 
-  return mapBattalionListItem(data)
+  const counts = await getBattalionDetailCounts(supabase, id)
+  const battalionItem = mapBattalionListItem(battalion)
+
+  return {
+    ...battalionItem,
+    ...counts,
+  }
 })

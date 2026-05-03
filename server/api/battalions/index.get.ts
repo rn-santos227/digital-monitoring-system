@@ -1,10 +1,10 @@
-import { createError, defineEventHandler, getQuery } from 'h3'
+import { defineEventHandler, getQuery } from 'h3'
 import type { BattalionListResponse } from '../../shared/responses'
-import { BATTALION_SELECT_COLUMNS, UNIT_PERMISSION_GROUPS } from '../../shared/constants'
+import { UNIT_PERMISSION_GROUPS } from '../../shared/constants'
 import { mapBattalionListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
-
+import { fetchBattalionsList } from '../../utils/battalions/fetchBattalionsList'
 
 export default defineEventHandler(async (event): Promise<BattalionListResponse> => {
   await requireAnyPermission(event, UNIT_PERMISSION_GROUPS.battalionManagement)
@@ -19,28 +19,14 @@ export default defineEventHandler(async (event): Promise<BattalionListResponse> 
   })
 
   const supabase = getServiceSupabaseClient()
-  let battalionQuery = supabase
-    .from('battalions')
-    .select(BATTALION_SELECT_COLUMNS, { count: 'exact' })
-    .order('name', { ascending: true })
-    .range(rangeFrom, rangeTo)
+  const { rows, totalItems } = await fetchBattalionsList(supabase, {
+    search,
+    includeInactive,
+    rangeFrom,
+    rangeTo,
+  })
 
-  if (search) {
-    battalionQuery = battalionQuery.or(`code.ilike.%${search}%,name.ilike.%${search}%`)
-  }
-
-  if (!includeInactive) {
-    battalionQuery = battalionQuery.eq('is_active', true)
-  }
-
-  const { data, count, error } = await battalionQuery
-
-  if (error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to fetch battalions: ${error.message}` })
-  }
-
-  const items = (data ?? []).map(mapBattalionListItem)
-  const totalItems = count ?? 0
+  const items = rows.map(mapBattalionListItem)
   const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
 
   return { items, page, pageSize, totalItems, totalPages }

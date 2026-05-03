@@ -1,10 +1,6 @@
-import { createError, defineEventHandler, getQuery, getRouterParam } from 'h3'
+import { defineEventHandler, getQuery, getRouterParam } from 'h3'
 import type { BattalionPersonnelListResponse } from '../../../shared/responses'
-import {
-  BATTALION_PERSONNEL_LIST_SELECT_COLUMNS,
-  ID_ONLY_SELECT_COLUMNS,
-  UNIT_PERMISSION_GROUPS,
-} from '../../../shared/constants'
+import { ID_ONLY_SELECT_COLUMNS, UNIT_PERMISSION_GROUPS } from '../../../shared/constants'
 import {
   assertBattalionExists,
   mapUnitPersonnelListItem,
@@ -13,6 +9,7 @@ import {
 import { requireRouteId } from '../../../shared/validations'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { fetchBattalionPersonnel } from '../../../utils/battalions/fetchBattalionPersonnel'
 
 
 export default defineEventHandler(async (event): Promise<BattalionPersonnelListResponse> => {
@@ -33,31 +30,14 @@ export default defineEventHandler(async (event): Promise<BattalionPersonnelListR
     idSelectColumns: ID_ONLY_SELECT_COLUMNS,
   })
 
-  let personnelQuery = supabase
-    .from('vw_personnel_profile')
-    .select(BATTALION_PERSONNEL_LIST_SELECT_COLUMNS, { count: 'exact' })
-    .eq('battalion_id', battalionId)
-    .order('last_name', { ascending: true })
-    .order('first_name', { ascending: true })
-    .range(rangeFrom, rangeTo)
+  const { rows, totalItems } = await fetchBattalionPersonnel(supabase, {
+    battalionId,
+    search,
+    rangeFrom,
+    rangeTo,
+  })
 
-  if (search.length > 0) {
-    personnelQuery = personnelQuery.or([
-      `personnel_code.ilike.%${search}%`,
-      `service_number.ilike.%${search}%`,
-      `last_name.ilike.%${search}%`,
-      `first_name.ilike.%${search}%`,
-    ].join(','))
-  }
-
-  const { data, count, error } = await personnelQuery
-
-  if (error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to fetch battalion personnel: ${error.message}` })
-  }
-
-  const items = (data ?? []).map(mapUnitPersonnelListItem)
-  const totalItems = count ?? 0
+  const items = rows.map(mapUnitPersonnelListItem)
   const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
 
   return {

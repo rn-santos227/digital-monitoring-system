@@ -1,12 +1,14 @@
 import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
 import type { UpdateBattalionRequest } from '../../../shared/requests'
 import type { MutationSuccessResponse } from '../../../shared/responses'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, BATTALION_SELECT_COLUMNS, PERMISSION_CODES } from '../../../shared/constants'
+import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../../shared/constants'
 import { buildBattalionUpdates, requireRouteId } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
+import { getBattalionById } from '../../../utils/battalions/getBattalionById'
+import { updateBattalionById } from '../../../utils/battalions/updateBattalionById'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.battalionUpdate)
@@ -19,49 +21,32 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   }
 
   const supabase = getServiceSupabaseClient()
-  const { data: existingRow, error: existingError } = await supabase
-    .from('battalions')
-    .select(BATTALION_SELECT_COLUMNS)
-    .eq('id', id)
-    .maybeSingle()
-
-  if (existingError) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to read battalion: ${existingError.message}` })
-  }
+  const existingRow = await getBattalionById(supabase, id)
 
   if (!existingRow) {
     throw createError({ statusCode: 404, statusMessage: 'Battalion not found.' })
   }
 
+  const existingRowAuditData: Record<string, unknown> = { ...existingRow }
   try {
     await executeWithRollback({
       operation: async () => {
-        const { error } = await supabase.from('battalions').update(updates).eq('id', id)
-
-        if (error) {
-          throw createError({ statusCode: 500, statusMessage: `Failed to update battalion: ${error.message}` })
-        }
+        await updateBattalionById(supabase, id, updates)
       },
       rollback: async () => {
-        const { error } = await supabase
-          .from('battalions')
-          .update({
-            code: existingRow.code,
-            name: existingRow.name,
-            is_active: existingRow.is_active,
-          })
-          .eq('id', id)
-
-        if (error) {
-          throw error
-        }
+        await updateBattalionById(supabase, id, {
+          code: existingRow.code,
+          name: existingRow.name,
+          is_active: existingRow.is_active,
+        })
       },
       onRollbackError: (rollbackError) => {
         console.error('Failed to rollback battalion patch API changes.', rollbackError)
       },
     })
 
-    const { data: updatedRow } = await supabase.from('battalions').select(BATTALION_SELECT_COLUMNS).eq('id', id).maybeSingle()
+    const updatedRow = await getBattalionById(supabase, id)
+    const updatedRowAuditData: Record<string, unknown> = { ...(updatedRow ?? existingRow) }
 
     await recordManagementAuditLog(event, {
       userId: actor.id,
@@ -70,8 +55,8 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       endpoint: AUDIT_LOG_ENDPOINTS.battalionsUpdate,
       recordId: id,
       requestData: body as Record<string, unknown>,
-      oldData: existingRow,
-      newData: updatedRow ?? existingRow,
+      oldData: existingRowAuditData,
+      newData: updatedRowAuditData,
       statusCode: 200,
       outcome: AUDIT_LOG_OUTCOMES.success,
       message: 'Battalion updated successfully.',
@@ -88,7 +73,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       endpoint: AUDIT_LOG_ENDPOINTS.battalionsUpdate,
       recordId: id,
       requestData: body as Record<string, unknown>,
-      oldData: existingRow,
+      oldData: existingRowAuditData,
       statusCode: 500,
       outcome: AUDIT_LOG_OUTCOMES.failed,
       message,

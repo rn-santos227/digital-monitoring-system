@@ -75,7 +75,7 @@ export const RANK_DETAIL_SELECT_COLUMNS = 'id, code, name, sort_order, created_a
 export const RANK_SUGGESTION_SELECT_COLUMNS = 'id, code, name, sort_order'
 export const RANK_REFERENCE_ID_SELECT_COLUMNS = 'id'
 
-export const BATTALION_SELECT_COLUMNS = 'id, code, name, is_active, updated_at'
+export const BATTALION_SELECT_COLUMNS = 'id, code, name, is_active, created_at, updated_at'
 export const BATTALION_DETAIL_SELECT_COLUMNS = 'id, code, name, is_active, created_at, updated_at'
 export const BATTALION_SUGGESTION_SELECT_COLUMNS = 'id, code, name, is_active'
 export const BATTALION_REFERENCE_ID_SELECT_COLUMNS = 'id'
@@ -93,7 +93,7 @@ export const COMPANY_SELECT_COLUMNS =
 export const COMPANY_SUGGESTION_SELECT_COLUMNS =
   `id, code, name, is_active, ${COMPANY_BATTALION_EMBEDDED_SELECT_COLUMNS}`
 
-export const BATTALION_COMPANY_LIST_SELECT_COLUMNS = COMPANY_SELECT_COLUMNS
+export const BATTALION_COMPANY_LIST_SELECT_COLUMNS = COMPANY_DETAIL_SELECT_COLUMNS
 export const BATTALION_PERSONNEL_LIST_SELECT_COLUMNS = PERSONNEL_PROFILE_LIST_SELECT_COLUMNS
 export const COMPANY_PERSONNEL_LIST_SELECT_COLUMNS = PERSONNEL_PROFILE_LIST_SELECT_COLUMNS
 
