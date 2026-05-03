@@ -53,7 +53,7 @@ export interface DeploymentSuggestionRow {
 
 export interface DeploymentRecordSelectRow {
   id: string
-  record_no: string
+  record_no?: string
   personnel_id: string
   deployment_id?: string | null
   deployment_area: string
@@ -67,9 +67,9 @@ export interface DeploymentRecordSelectRow {
 
 export interface DeploymentRecordRow {
   id: string
-  record_no: string
+  record_no?: string
   personnel_id: string
-  deployment_id: string | null
+  deployment_id?: string | null
   deployment_area_latitude: number | null
   deployment_area_longitude: number | null
   deployment_area: string
@@ -86,6 +86,38 @@ export interface DeploymentRecordRow {
   personnel: DeploymentRecordReferenceRow | DeploymentRecordReferenceRow[] | null
   supervisor: DeploymentRecordReferenceRow | DeploymentRecordReferenceRow[] | null
   deployment_status: DeploymentRecordReferenceRow | DeploymentRecordReferenceRow[] | null
+}
+
+export interface DeploymentRecordCreate {
+  personnel_id: string
+  deployment_id: string | null
+  deployment_area: string
+  deployment_area_latitude: number | null
+  deployment_area_longitude: number | null
+  assignment_role: string | null
+  operation_name: string | null
+  start_date: string
+  end_date: string | null
+  status_id: string
+  location: string | null
+  supervisor_id: string | null
+  remarks: string | null
+  record_no: string
+}
+
+export interface DeploymentRecordUpdate {
+  personnel_id?: string
+  deployment_area?: string
+  deployment_area_latitude?: number | null
+  deployment_area_longitude?: number | null
+  assignment_role?: string | null
+  operation_name?: string | null
+  start_date?: string
+  end_date?: string | null
+  status_id?: string
+  location?: string | null
+  supervisor_id?: string | null
+  remarks?: string | null
 }
 
 export interface DeploymentRow {

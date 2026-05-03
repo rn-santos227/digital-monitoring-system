@@ -1,42 +1,22 @@
-import { createError, defineEventHandler, getQuery } from 'h3'
+import { defineEventHandler, getQuery } from 'h3'
 import type { DeploymentRecordListResponse } from '../../shared/responses'
-import { DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
+import { PERMISSION_CODES } from '../../shared/constants'
 import { mapDeploymentRecordSelectListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { fetchDeploymentRecordsList } from '../../utils/deployment-records/fetchDeploymentRecordsList'
 
 export default defineEventHandler(async (event): Promise<DeploymentRecordListResponse> => {
   await requirePermission(event, PERMISSION_CODES.deploymentManage)
 
   const query = getQuery(event)
   const search = typeof query.search === 'string' ? query.search.trim() : ''
-  const { page, pageSize, rangeFrom, rangeTo } = parseManagementPaginationQuery({
-    page: query.page,
-    pageSize: query.pageSize,
-  })
+  const { page, pageSize, rangeFrom, rangeTo } = parseManagementPaginationQuery({ page: query.page, pageSize: query.pageSize })
 
   const supabase = getServiceSupabaseClient()
-  let deploymentRecordQuery = supabase
-    .from('deployment_records')
-    .select(DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS, { count: 'exact' })
-    .order('start_date', { ascending: false, nullsFirst: false })
-    .order('deployment_area', { ascending: true })
-    .range(rangeFrom, rangeTo)
+  const { rows, totalItems } = await fetchDeploymentRecordsList(supabase, { search, rangeFrom, rangeTo })
 
-  if (search) {
-    deploymentRecordQuery = deploymentRecordQuery.or(
-      `record_no.ilike.%${search}%,deployment_area.ilike.%${search}%,operation_name.ilike.%${search}%,location.ilike.%${search}%,assignment_role.ilike.%${search}%,remarks.ilike.%${search}%`,
-    )
-  }
-
-  const { data, count, error } = await deploymentRecordQuery
-
-  if (error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to fetch deployment records: ${error.message}` })
-  }
-
-  const items = (data ?? []).map(mapDeploymentRecordSelectListItem)
-  const totalItems = count ?? 0
+  const items = rows.map(mapDeploymentRecordSelectListItem)
   const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
 
   return { items, page, pageSize, totalItems, totalPages }

@@ -48,10 +48,11 @@ export const mapDeploymentRecordListItem = (row: DeploymentRecordRow): Deploymen
   const personnel = toSingleReference(row.personnel)
   const supervisor = toSingleReference(row.supervisor)
   const deploymentStatus = toSingleReference(row.deployment_status)
+  const recordNo = row.record_no ?? ""
 
   return {
     id: row.id,
-    recordNo: row.record_no,
+    recordNo,
     personnelId: row.personnel_id,
     personnelCode: personnel?.personnel_code ?? null,
     personnelName: toPersonnelName(row.personnel),
@@ -100,9 +101,11 @@ export const mapDeploymentDetailListItem = (row: DeploymentRow): DeploymentRecor
 }
 
 export const mapDeploymentRecordSelectListItem = (row: DeploymentRecordSelectRow): DeploymentRecordListItem => {
+  const recordNo = row.record_no ?? ""
+
   return {
     id: row.id,
-    recordNo: row.record_no,
+    recordNo,
     personnelId: row.personnel_id,
     personnelCode: null,
     personnelName: null,
@@ -153,13 +156,6 @@ export const mapDeploymentSelectListItem = (row: DeploymentSuggestionRow): Deplo
     startDate: row.start_date,
     endDate: row.end_date,
   }
-}
-
-export const buildDeploymentRecordNo = (): string => {
-  const timestamp = new Date().toISOString().replaceAll(/[^0-9]/g, '').slice(0, 14)
-  const suffix = crypto.randomUUID().replaceAll('-', '').slice(0, 8).toUpperCase()
-
-  return `DR-${timestamp}-${suffix}`
 }
 
 type DeploymentStatusLookupSupabaseClient = {

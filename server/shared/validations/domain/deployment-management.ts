@@ -6,6 +6,7 @@ import type {
   UpdateDeploymentRequest,
   UpdateDeploymentRecordRequest,
 } from '../../requests'
+import type { DeploymentRecordCreate, DeploymentRecordUpdate } from '../../models'
 import { normalizeOptionalText } from '../../utils'
 
 const normalizeRequiredText = (value: unknown, label: string): string => {
@@ -77,12 +78,13 @@ const ensureDeploymentDateRange = (startDate: string, endDate: string | null) =>
   }
 }
 
-export const parseCreateDeploymentRecordPayload = (body: CreateDeploymentRecordRequest) => {
+export const parseCreateDeploymentRecordPayload = (body: CreateDeploymentRecordRequest): DeploymentRecordCreate => {
   const rawBody = body as CreateDeploymentRecordRequest & {
     supervisor_id?: string | null
     supervisor_personnel_id?: string | null
   }
   const personnelId = normalizeRequiredText(body.personnelId, 'Personnel id')
+  const deploymentId = normalizeRequiredText(body.deploymentId, 'Deployment id')
   const deploymentArea = normalizeRequiredText(body.deploymentArea, 'Deployment area')
   const deploymentAreaLatitude = normalizeOptionalCoordinate(body.deploymentAreaLatitude, 'Deployment area latitude', -90, 90)
   const deploymentAreaLongitude = normalizeOptionalCoordinate(body.deploymentAreaLongitude, 'Deployment area longitude', -180, 180)
@@ -113,7 +115,9 @@ export const parseCreateDeploymentRecordPayload = (body: CreateDeploymentRecordR
   ensureDeploymentDateRange(startDate, endDate)
 
   return {
+    record_no: '',
     personnel_id: personnelId,
+    deployment_id: deploymentId,
     deployment_area: deploymentArea,
     deployment_area_latitude: deploymentAreaLatitude,
     deployment_area_longitude: deploymentAreaLongitude,
@@ -242,21 +246,8 @@ export const buildDeploymentUpdates = (body: UpdateDeploymentRequest) => {
   return updates
 }
 
-export const buildDeploymentRecordUpdates = (body: UpdateDeploymentRecordRequest) => {
-  const updates: {
-    personnel_id?: string
-    deployment_area?: string
-    deployment_area_latitude?: number | null
-    deployment_area_longitude?: number | null
-    assignment_role?: string | null
-    operation_name?: string | null
-    start_date?: string
-    end_date?: string | null
-    status_id?: string
-    location?: string | null
-    supervisor_id?: string | null
-    remarks?: string | null
-  } = {}
+export const buildDeploymentRecordUpdates = (body: UpdateDeploymentRecordRequest): DeploymentRecordUpdate => {
+  const updates: DeploymentRecordUpdate = {}
 
   if (body.personnelId !== undefined) {
     updates.personnel_id = normalizeRequiredText(body.personnelId, 'Personnel id')

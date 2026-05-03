@@ -1,19 +1,14 @@
 import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
 import type { UpdateDeploymentRecordRequest } from '../../../shared/requests'
 import type { MutationSuccessResponse } from '../../../shared/responses'
-import {
-  AUDIT_LOG_ACTIONS,
-  AUDIT_LOG_ENDPOINTS,
-  AUDIT_LOG_OUTCOMES,
-  DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS,
-  ID_ONLY_SELECT_COLUMNS,
-  PERMISSION_CODES,
-} from '../../../shared/constants'
+import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, ID_ONLY_SELECT_COLUMNS, PERMISSION_CODES } from '../../../shared/constants'
 import { assertPersonnelExists, mapDeploymentRecordListItem } from '../../../shared/utils'
 import { buildDeploymentRecordUpdates, requireRouteId, validateDeploymentDateRange } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { getDeploymentRecordById } from '../../../utils/deployment-records/getDeploymentRecordById'
+import { updateDeploymentRecordById } from '../../../utils/deployment-records/updateDeploymentRecordById'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.deploymentManage)
@@ -26,15 +21,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   }
 
   const supabase = getServiceSupabaseClient()
-  const { data: existingRow, error: existingError } = await supabase
-    .from('deployment_records')
-    .select(DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS)
-    .eq('id', id)
-    .maybeSingle()
-
-  if (existingError) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to read deployment record: ${existingError.message}` })
-  }
+  const existingRow = await getDeploymentRecordById(supabase, id)
 
   if (!existingRow) {
     throw createError({ statusCode: 404, statusMessage: 'Deployment record not found.' })
@@ -69,16 +56,8 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   }
 
   try {
-    const { error } = await supabase.from('deployment_records').update(patchPayload).eq('id', id)
-    if (error) {
-      throw createError({ statusCode: 500, statusMessage: `Failed to update deployment record: ${error.message}` })
-    }
-
-    const { data: updatedRow } = await supabase
-      .from('deployment_records')
-      .select(DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS)
-      .eq('id', id)
-      .maybeSingle()
+    await updateDeploymentRecordById(supabase, id, patchPayload)
+    const updatedRow = await getDeploymentRecordById(supabase, id)
 
     await recordManagementAuditLog(event, {
       userId: actor.id,
@@ -96,6 +75,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
 
     return { ok: true }
   } catch (error: unknown) {
+    const statusCode = (error as { statusCode?: number })?.statusCode ?? 500
     const message = error instanceof Error ? error.message : 'Unknown error'
 
     await recordManagementAuditLog(event, {
@@ -106,7 +86,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       recordId: id,
       requestData: body as Record<string, unknown>,
       oldData: { ...mapDeploymentRecordListItem(existingRow) } as Record<string, unknown>,
-      statusCode: 500,
+      statusCode,
       outcome: AUDIT_LOG_OUTCOMES.failed,
       message,
     })
