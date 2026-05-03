@@ -10,6 +10,7 @@ import { recordManagementAuditLog } from '../../../utils/audit/recordManagementA
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { getAccountTypeById } from '../../../utils/account-types/getAccountTypeById'
+import { deleteAccountTypeById } from '../../../utils/account-types/deleteAccountTypeById'
 import { getAccountTypePermissionIds } from '../../../utils/account-types/getAccountTypePermissionIds'
 import { replaceAccountTypePermissions } from '../../../utils/account-types/replaceAccountTypePermissions'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
@@ -65,15 +66,7 @@ export default defineEventHandler(async (event) => {
     await executeWithRollback({
       operation: async () => {
         await replaceAccountTypePermissions(supabase, id, [])
-
-        const { error: deleteAccountTypeError } = await supabase
-          .from('account_types')
-          .delete()
-          .eq('id', id)
-
-        if (deleteAccountTypeError) {
-          throw createError({ statusCode: 500, statusMessage: `Failed to delete account type: ${deleteAccountTypeError.message}` })
-        }
+        await deleteAccountTypeById(supabase, id)
       },
       rollback: async () => {
         const { error: restoreAccountTypeError } = await supabase
@@ -92,18 +85,7 @@ export default defineEventHandler(async (event) => {
           throw restoreAccountTypeError
         }
 
-        if (existingPermissionIds.length > 0) {
-          const { error: restorePermissionsError } = await supabase
-            .from('account_type_permissions')
-            .insert(existingPermissionIds.map(permissionId => ({
-              account_type_id: id,
-              permission_id: permissionId,
-            })))
-
-          if (restorePermissionsError) {
-            throw restorePermissionsError
-          }
-        }
+        await replaceAccountTypePermissions(supabase, id, existingPermissionIds)
       },
       onRollbackError: (rollbackError) => {
         console.error('Failed to rollback account type delete API changes.', rollbackError)

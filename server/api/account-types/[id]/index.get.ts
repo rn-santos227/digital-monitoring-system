@@ -1,8 +1,9 @@
-import { createError, defineEventHandler, getRouterParam } from 'h3'
+import { defineEventHandler, getRouterParam } from 'h3'
 import type { AccountTypeDetailResponse } from '../../../shared/responses'
-import { ACCOUNT_TYPE_DETAIL_SELECT_COLUMNS, MANAGEMENT_PERMISSION_GROUPS } from '../../../shared/constants'
+import { MANAGEMENT_PERMISSION_GROUPS } from '../../../shared/constants'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { getAccountTypeDetailById } from '../../../utils/account-types/getAccountTypeDetailById'
 import { requireRouteId } from '../../../shared/validations'
 
 export default defineEventHandler(async (event): Promise<AccountTypeDetailResponse> => {
@@ -11,19 +12,7 @@ export default defineEventHandler(async (event): Promise<AccountTypeDetailRespon
   const id = requireRouteId(getRouterParam(event, 'id'), 'Account type id is required.')
 
   const supabase = getServiceSupabaseClient()
-  const { data, error } = await supabase
-    .from('account_types')
-    .select(ACCOUNT_TYPE_DETAIL_SELECT_COLUMNS)
-    .eq('id', id)
-    .maybeSingle()
-
-  if (error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to fetch account type details: ${error.message}` })
-  }
-
-  if (!data) {
-    throw createError({ statusCode: 404, statusMessage: 'Account type not found.' })
-  }
+  const data = await getAccountTypeDetailById(supabase, id)
 
   const permissions = (data.account_type_permissions ?? [])
     .flatMap((row) => {

@@ -1,9 +1,10 @@
-import { createError, defineEventHandler, getQuery } from 'h3'
+import { defineEventHandler, getQuery } from 'h3'
 import type { AccountTypeListResponse } from '../../shared/models'
-import { ACCOUNT_TYPE_BASE_SELECT_COLUMNS, MANAGEMENT_PERMISSION_GROUPS } from '../../shared/constants'
+import { MANAGEMENT_PERMISSION_GROUPS } from '../../shared/constants'
 import { mapAccountTypeListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { fetchAccountTypesList } from '../../utils/account-types/fetchAccountTypesList'
 
 export default defineEventHandler(async (event): Promise<AccountTypeListResponse> => {
   await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.accountTypeManagement)
@@ -18,30 +19,14 @@ export default defineEventHandler(async (event): Promise<AccountTypeListResponse
   })
 
   const supabase = getServiceSupabaseClient()
-  let accountTypeQuery = supabase
-    .from('account_types')
-    .select(ACCOUNT_TYPE_BASE_SELECT_COLUMNS, {
-      count: 'exact',
-    })
-    .order('name', { ascending: true })
-    .range(rangeFrom, rangeTo)
+  const { rows, totalItems } = await fetchAccountTypesList(supabase, {
+    search,
+    includeSystem,
+    rangeFrom,
+    rangeTo,
+  })
 
-  if (search) {
-    accountTypeQuery = accountTypeQuery.or(`code.ilike.%${search}%,name.ilike.%${search}%`)
-  }
-
-  if (!includeSystem) {
-    accountTypeQuery = accountTypeQuery.eq('is_system', false)
-  }
-
-  const { data, count, error } = await accountTypeQuery
-
-  if (error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to fetch account types: ${error.message}` })
-  }
-
-  const items = (data ?? []).map(mapAccountTypeListItem)
-  const totalItems = count ?? 0
+  const items = rows.map(mapAccountTypeListItem)
   const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
 
   return {
