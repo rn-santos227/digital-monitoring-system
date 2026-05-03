@@ -11,7 +11,9 @@ import {
 } from '../../shared/constants'
 import {
   assertPersonnelExists,
+  buildDeploymentRecordNo,
   mapDeploymentDetailListItem,
+  resolveDeploymentStatusId,
   resolvePersonnelServiceStatusId,
 } from '../../shared/utils'
 import { parseCreateDeploymentPayload } from '../../shared/validations'
@@ -27,6 +29,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
 
   try {
     const payload = parseCreateDeploymentPayload(body)
+    payload.status_id = await resolveDeploymentStatusId(supabase, payload.status_id)
 
     if (payload.supervisor_id) {
       await assertPersonnelExists({
@@ -98,7 +101,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
       rollback: async () => {
         const rollbackErrors: string[] = []
         const { error: rollbackDeploymentError } = await supabase
-          .from('deployment')
+          .from('deployments')
           .delete()
           .eq('id', createdDeploymentId ?? '')
 

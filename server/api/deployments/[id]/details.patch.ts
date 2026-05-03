@@ -6,8 +6,7 @@ import {
   DEPLOYMENT_DETAILS_PATCH_SELECT_COLUMNS,
   PERMISSION_CODES
 } from '../../../shared/constants'
-import { assertPersonnelExists } from '../../../shared/utils'
-import { resolvePersonnelServiceStatusId } from '../../../shared/utils'
+import { assertPersonnelExists, resolveDeploymentStatusId, resolvePersonnelServiceStatusId } from '../../../shared/utils'
 import type { UpdateDeploymentRequest } from '../../../shared/requests'
 import { buildDeploymentUpdates, requireRouteId, validateDeploymentDateRange } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
@@ -49,6 +48,8 @@ export default defineEventHandler(async (event) => {
     supervisor_id: effectiveSupervisorId,
     default_remarks: parsedUpdates.default_remarks === undefined ? existingRow.default_remarks : parsedUpdates.default_remarks,
   }
+
+  updates.status_id = await resolveDeploymentStatusId(supabase, updates.status_id)
 
   const deployedServiceStatusId = effectiveSupervisorId
     ? await resolvePersonnelServiceStatusId(supabase, 'Deployed')
