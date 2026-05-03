@@ -75,9 +75,9 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import DeploymentTable from '~/components/personnel/DeploymentsTable.vue'
-import EngagementTable from '~/components/personnel/EngagementsTable.vue'
-import EquipmentAssignmentTable from '~/components/personnel/EquipmentAssignmentsTable.vue'
+import DeploymentTable from '~/components/personnel/PersonnelDeploymentsTable.vue'
+import EngagementTable from '~/components/personnel/PersonnelEngagementsTable.vue'
+import EquipmentAssignmentTable from '~/components/personnel/PersonnelEquipmentAssignmentsTable.vue'
 import TrainingTable from '~/components/personnel/TrainingsTable.vue'
 import {
   PERSONNEL_PAGE_REQUIRED_PERMISSIONS,
