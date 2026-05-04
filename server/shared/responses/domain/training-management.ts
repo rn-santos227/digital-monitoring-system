@@ -10,13 +10,9 @@ import type {
 
 export type TrainingCategoryListResponse = TrainingManagementListResponse<TrainingCategoryListItem>
 export type TrainingListResponse = TrainingManagementListResponse<TrainingListItem>
-
 export type TrainingCategorySuggestionsResponse = TrainingManagementSuggestionResponse<TrainingCategorySuggestionItem>
-
 export type TrainingSuggestionsResponse = TrainingManagementSuggestionResponse<TrainingSuggestionItem>
-
 export type TrainingRecordListResponse = TrainingManagementListResponse<TrainingRecordListItem>
-
 export interface TrainingRecordDetailResponse extends TrainingRecordListItem {}
 
 export interface CreateTrainingRecordResponse {
