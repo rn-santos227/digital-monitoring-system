@@ -113,6 +113,35 @@ export interface TrainingRecordSourceRow {
   default_remarks: string | null
 }
 
+export interface TrainingRecordCreate {
+  record_no: string
+  personnel_id: string
+  training_id: string
+  training_title: string
+  training_category_id: string | null
+  level_id: string | null
+  start_date: string | null
+  end_date: string | null
+  status_id: string
+  certificate_no: string | null
+  valid_until: string | null
+  remarks: string | null
+}
+
+export interface TrainingRecordUpdate {
+  training_id: string
+  training_title: string
+  training_category_id: string | null
+  level_id: string | null
+  start_date: string | null
+  end_date: string | null
+  status_id: string
+  personnel_id: string
+  certificate_no: string | null
+  valid_until: string | null
+  remarks: string | null
+}
+
 export interface TrainingRecordReferenceRow {
   id: string
   code?: string
