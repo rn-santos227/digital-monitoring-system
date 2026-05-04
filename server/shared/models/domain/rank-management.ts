@@ -14,6 +14,12 @@ export interface RankSuggestionItem {
   sortOrder: number
 }
 
+export interface RankCreate {
+  code: string
+  name: string
+  sort_order: number
+}
+
 export interface RankRow {
   id: string
   code: string

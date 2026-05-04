@@ -1,6 +1,7 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { RANK_LIST_SELECT_COLUMNS } from '../../shared/constants'
+import type { RankRow } from '../../shared/models'
 
 interface FetchRanksListParams {
   search: string
@@ -11,7 +12,7 @@ interface FetchRanksListParams {
 export async function fetchRanksList(
   supabase: SupabaseClient,
   { search, rangeFrom, rangeTo }: FetchRanksListParams,
-): Promise<{ data: Array<Record<string, unknown>>, count: number }> {
+): Promise<{ data: RankRow[], count: number }> {
   let rankQuery = supabase
     .from('ranks')
     .select(RANK_LIST_SELECT_COLUMNS, { count: 'exact' })
@@ -30,7 +31,7 @@ export async function fetchRanksList(
   }
 
   return {
-    data: (data ?? []) as Array<Record<string, unknown>>,
+    data: (data ?? []) as RankRow[],
     count: count ?? 0,
   }
 }

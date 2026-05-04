@@ -1,9 +1,10 @@
-import { createError, defineEventHandler, getQuery } from 'h3'
+import { defineEventHandler, getQuery } from 'h3'
 import type { RankListApiResponse } from '../../shared/responses'
-import { PERMISSION_CODES, RANK_LIST_SELECT_COLUMNS } from '../../shared/constants'
+import { PERMISSION_CODES } from '../../shared/constants'
 import { mapRankListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { fetchRanksList } from '../../utils/ranks/fetchRanksList'
 
 export default defineEventHandler(async (event): Promise<RankListApiResponse> => {
   await requirePermission(event, PERMISSION_CODES.personnelView)
@@ -16,25 +17,14 @@ export default defineEventHandler(async (event): Promise<RankListApiResponse> =>
   })
 
   const supabase = getServiceSupabaseClient()
-  let rankQuery = supabase
-    .from('ranks')
-    .select(RANK_LIST_SELECT_COLUMNS, { count: 'exact' })
-    .order('sort_order', { ascending: true })
-    .order('name', { ascending: true })
-    .range(rangeFrom, rangeTo)
+  const result = await fetchRanksList(supabase, {
+    search,
+    rangeFrom,
+    rangeTo,
+  })
 
-  if (search) {
-    rankQuery = rankQuery.or(`code.ilike.%${search}%,name.ilike.%${search}%`)
-  }
-
-  const { data, count, error } = await rankQuery
-
-  if (error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to fetch ranks: ${error.message}` })
-  }
-
-  const items = (data ?? []).map(mapRankListItem)
-  const totalItems = count ?? 0
+  const items = result.data.map(mapRankListItem)
+  const totalItems = result.count
   const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
 
   return { items, page, pageSize, totalItems, totalPages }
