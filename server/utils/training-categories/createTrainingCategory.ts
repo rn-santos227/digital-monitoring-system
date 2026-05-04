@@ -1,7 +1,8 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
+import type { TrainingCategoryCreate } from '../../shared/models'
 
-export async function createTrainingCategory(supabase: SupabaseClient, payload: Record<string, unknown>): Promise<string> {
+export async function createTrainingCategory(supabase: SupabaseClient, payload: TrainingCategoryCreate): Promise<string> {
   const { data: createdRow, error: insertError } = await supabase
     .from('training_categories')
     .insert(payload)

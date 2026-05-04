@@ -14,6 +14,16 @@ export interface TrainingCategoryRow {
   updated_at: string
 }
 
+export interface TrainingCategoryCreate {
+  code: string
+  name: string
+}
+
+export interface TrainingCategoryUpdate {
+  code?: string
+  name?: string
+}
+
 export interface TrainingCategorySuggestionItem {
   id: string
   code: string

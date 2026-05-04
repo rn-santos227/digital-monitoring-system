@@ -1,7 +1,7 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { RANK_SUGGESTION_SELECT_COLUMNS } from '../../shared/constants'
-import type { RankSuggestionRow, RankSuggestionNullableSortOrderRow } from '../../shared/models'
+import type { RankSuggestionRow } from '../../shared/models'
 
 const SEARCHABLE_FIELDS = ['code', 'name'] as const
 
@@ -33,7 +33,7 @@ export async function fetchRankSuggestions(
     throw createError({ statusCode: 500, statusMessage: `Failed to fetch rank suggestions: ${error.message}` })
   }
 
-  return ((data ?? []) as RankSuggestionNullableSortOrderRow[]).map(row => ({
+  return ((data ?? []) as RankSuggestionRow[]).map(row => ({
     ...row,
     sort_order: row.sort_order ?? 0,
   }))
