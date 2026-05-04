@@ -1,55 +1,28 @@
 import { createError, defineEventHandler, getRouterParam } from 'h3'
 import type { MutationSuccessResponse } from '../../../shared/responses'
-import {
-  AUDIT_LOG_ACTIONS,
-  AUDIT_LOG_ENDPOINTS,
-  AUDIT_LOG_OUTCOMES,
-  PERMISSION_CODES,
-  TRAINING_SELECT_COLUMNS,
-} from '../../../shared/constants'
+import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../../shared/constants'
+import { mapTrainingListItem } from '../../../shared/utils'
 import { requireRouteId } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { deleteTrainingById } from '../../../utils/trainings/deleteTrainingById'
+import { getTrainingById } from '../../../utils/trainings/getTrainingById'
+import { getTrainingUsageCountById } from '../../../utils/trainings/getTrainingUsageCountById'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.trainingDelete)
   const id = requireRouteId(getRouterParam(event, 'id'), 'Training id is required.')
   const supabase = getServiceSupabaseClient()
 
-  const { data: existingRow, error: existingError } = await supabase
-    .from('trainings')
-    .select(TRAINING_SELECT_COLUMNS)
-    .eq('id', id)
-    .maybeSingle()
-
-  if (existingError) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to read training: ${existingError.message}` })
-  }
-
-  if (!existingRow) {
-    throw createError({ statusCode: 404, statusMessage: 'Training not found.' })
-  }
+  const existingRow = await getTrainingById(supabase, id)
+  if (!existingRow) throw createError({ statusCode: 404, statusMessage: 'Training not found.' })
+  const oldData = { ...mapTrainingListItem(existingRow) }
 
   try {
-    const { count: usageCount, error: usageError } = await supabase
-      .from('training_records')
-      .select('id', { count: 'exact', head: true })
-      .eq('training_id', id)
-
-    if (usageError) {
-      throw createError({ statusCode: 500, statusMessage: `Failed to validate training usage: ${usageError.message}` })
-    }
-
-    if ((usageCount ?? 0) > 0) {
-      throw createError({ statusCode: 409, statusMessage: 'Training is in use and cannot be deleted.' })
-    }
-
-    const { error: deleteError } = await supabase.from('trainings').delete().eq('id', id)
-
-    if (deleteError) {
-      throw createError({ statusCode: 500, statusMessage: `Failed to delete training: ${deleteError.message}` })
-    }
+    const usageCount = await getTrainingUsageCountById(supabase, id)
+    if (usageCount > 0) throw createError({ statusCode: 409, statusMessage: 'Training is in use and cannot be deleted.' })
+    await deleteTrainingById(supabase, id)
 
     await recordManagementAuditLog(event, {
       userId: actor.id,
@@ -57,7 +30,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       tableName: 'trainings',
       endpoint: AUDIT_LOG_ENDPOINTS.trainingsDelete,
       recordId: id,
-      oldData: existingRow,
+      oldData,
       statusCode: 200,
       outcome: AUDIT_LOG_OUTCOMES.success,
       message: 'Training deleted successfully.',
@@ -65,6 +38,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
 
     return { ok: true }
   } catch (error: unknown) {
+    const statusCode = (error as { statusCode?: number }).statusCode ?? 500
     const message = error instanceof Error ? error.message : 'Unknown error'
 
     await recordManagementAuditLog(event, {
@@ -73,8 +47,8 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       tableName: 'trainings',
       endpoint: AUDIT_LOG_ENDPOINTS.trainingsDelete,
       recordId: id,
-      oldData: existingRow,
-      statusCode: 500,
+      oldData,
+      statusCode,
       outcome: AUDIT_LOG_OUTCOMES.failed,
       message,
     })

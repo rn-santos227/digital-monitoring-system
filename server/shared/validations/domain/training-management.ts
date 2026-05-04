@@ -42,7 +42,7 @@ const normalizeOptionalRelationId = (value: unknown): string | null | undefined 
   return normalizeOptionalText(value)
 }
 
-const ensureDateRange = (startDate: string | null, endDate: string | null) => {
+export const validateTrainingDateRange = (startDate: string | null, endDate: string | null): void => {
   if (!startDate || !endDate) {
     return
   }
@@ -110,7 +110,7 @@ export const parseCreateTrainingPayload = (body: CreateTrainingRequest) => {
     throw createError({ statusCode: 400, statusMessage: 'Training status is required.' })
   }
 
-  ensureDateRange(startDate, endDate)
+  validateTrainingDateRange(startDate, endDate)
 
   return {
     training_title: trainingTitle,
@@ -178,7 +178,7 @@ export const buildTrainingUpdates = (body: UpdateTrainingRequest) => {
   const effectiveEndDate = updates.end_date ?? null
 
   if (updates.start_date !== undefined || updates.end_date !== undefined) {
-    ensureDateRange(effectiveStartDate, effectiveEndDate)
+    validateTrainingDateRange(effectiveStartDate, effectiveEndDate)
   }
 
   return updates

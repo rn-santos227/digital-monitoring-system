@@ -1,28 +1,18 @@
 import { createError, defineEventHandler, getRouterParam } from 'h3'
-import { TRAINING_PERMISSION_GROUPS, TRAINING_SELECT_COLUMNS } from '../../../shared/constants'
+import type { TrainingListItem } from '../../../shared/models'
+import { TRAINING_PERMISSION_GROUPS } from '../../../shared/constants'
 import { mapTrainingListItem } from '../../../shared/utils'
 import { requireRouteId } from '../../../shared/validations'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { getTrainingById } from '../../../utils/trainings/getTrainingById'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<TrainingListItem> => {
   await requireAnyPermission(event, TRAINING_PERMISSION_GROUPS.trainingManagement)
-
   const id = requireRouteId(getRouterParam(event, 'id'), 'Training id is required.')
-  const supabase = getServiceSupabaseClient()
-  const { data, error } = await supabase
-    .from('trainings')
-    .select(TRAINING_SELECT_COLUMNS)
-    .eq('id', id)
-    .maybeSingle()
 
-  if (error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to fetch training details: ${error.message}` })
-  }
-
-  if (!data) {
-    throw createError({ statusCode: 404, statusMessage: 'Training not found.' })
-  }
+  const data = await getTrainingById(getServiceSupabaseClient(), id)
+  if (!data) throw createError({ statusCode: 404, statusMessage: 'Training not found.' })
 
   return mapTrainingListItem(data)
 })
