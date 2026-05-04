@@ -1,4 +1,5 @@
 import { createError } from 'h3'
+import type { UserProfileUpdate, CreateUserProfilePayload  } from '../../models/domain/user-management'
 import type {
   CreateAccountTypeRequest,
   CreateUserProfileRequest,
@@ -18,13 +19,8 @@ export const requireRouteId = (id: string | undefined, message: string): string 
 
   return id
 }
-
-export const buildUserProfileUpdates = (body: UpdateUserProfileRequest) => {
-  const updates: {
-    personnel_id?: string | null
-    full_name?: string
-    avatar_url?: string | null
-  } = {}
+export const buildUserProfileUpdates = (body: UpdateUserProfileRequest): UserProfileUpdate => {
+  const updates: UserProfileUpdate = {}
 
   if (body.personnelId !== undefined) {
     updates.personnel_id = body.personnelId
@@ -108,7 +104,7 @@ export const parseCreateAccountTypePayload = (body: CreateAccountTypeRequest): C
   }
 }
 
-export const parseCreateUserProfilePayload = (body: CreateUserProfileRequest) => {
+export const parseCreateUserProfilePayload = (body: CreateUserProfileRequest): CreateUserProfilePayload => {
   const personnelId = typeof body.personnelId === 'string'
     ? normalizeOptionalText(body.personnelId)
     : null

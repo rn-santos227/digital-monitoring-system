@@ -69,7 +69,6 @@ export default defineEventHandler(async (event): Promise<CreateTrainingRecordRes
       ? { ...mapTrainingRecordListItem(newRow) }
       : insertPayload
 
-
     await recordManagementAuditLog(event, {
       userId: actor.id,
       action: AUDIT_LOG_ACTIONS.trainingRecordCreate,

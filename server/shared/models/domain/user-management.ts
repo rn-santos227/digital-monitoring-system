@@ -71,30 +71,25 @@ export interface UserProfileListItem {
   accountTypes: UserAccountTypeSummary[]
 }
 
-export interface UserProfileListResponse {
-  items: UserProfileListItem[]
-  page: number
-  pageSize: number
-  totalItems: number
-  totalPages: number
-}
-
-export interface UpdateUserProfileBody {
-  personnelId?: string | null
-  fullName?: string
-  avatarUrl?: string | null
-  isActive?: boolean
-  accountTypeIds?: string[]
-}
-
-export interface PersonnelSuggestionModel {
-  id: string
-  personnelCode: string
-  serviceNumber: string
+export interface CreateUserProfilePayload {
+  personnelId: string | null
+  email: string
   fullName: string
-  rankName: string
-  companyName: string | null
-  battalionName: string | null
-  serviceStatus: string
-  suggestedEmail: string | null
+  avatarUrl: string | null
+  password: string
+  accountTypeIds: string[]
+}
+
+export interface UserProfileCreate {
+  id: string
+  personnel_id: string | null
+  email: string
+  full_name: string
+  avatar_url: string | null
+}
+
+export interface UserProfileUpdate {
+  personnel_id?: string | null
+  full_name?: string
+  avatar_url?: string | null
 }
