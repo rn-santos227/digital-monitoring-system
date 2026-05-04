@@ -1,9 +1,10 @@
-import { createError, defineEventHandler, getQuery } from 'h3'
+import { defineEventHandler, getQuery } from 'h3'
 import type { UserProfileListCompactResponse } from '../../shared/responses'
-import { MANAGEMENT_PERMISSION_GROUPS, USER_PROFILE_COMPACT_SELECT_COLUMNS } from '../../shared/constants'
+import { MANAGEMENT_PERMISSION_GROUPS } from '../../shared/constants'
 import { mapUserProfileCompactListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { fetchUserProfilesList } from '../../utils/users/fetchUserProfilesList'
 
 export default defineEventHandler(async (event): Promise<UserProfileListCompactResponse> => {
   const actor = await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.userProfileManagement)
@@ -18,31 +19,16 @@ export default defineEventHandler(async (event): Promise<UserProfileListCompactR
   })
 
   const supabase = getServiceSupabaseClient()
-  let profileQuery = supabase
-    .from('user_profiles')
-    .select(USER_PROFILE_COMPACT_SELECT_COLUMNS, {
-      count: 'exact',
-    })
-    .neq('id', actor.id)
-    .order('full_name', { ascending: true })
-    .range(rangeFrom, rangeTo)
+  const { data, count } = await fetchUserProfilesList<Parameters<typeof mapUserProfileCompactListItem>[0]>({
+    actorId: actor.id,
+    rangeFrom,
+    rangeTo,
+    term: search,
+    isActive,
+  })
 
-  if (search) {
-    profileQuery = profileQuery.or(`email.ilike.%${search}%,full_name.ilike.%${search}%`)
-  }
-
-  if (typeof isActive === 'boolean') {
-    profileQuery = profileQuery.eq('is_active', isActive)
-  }
-
-  const { data, count, error } = await profileQuery
-
-  if (error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to fetch user profiles: ${error.message}` })
-  }
-
-  const items = (data ?? []).map(mapUserProfileCompactListItem)
-  const totalItems = count ?? 0
+  const items = data.map(mapUserProfileCompactListItem)
+  const totalItems = count
   const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
 
   return {

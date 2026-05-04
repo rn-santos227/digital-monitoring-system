@@ -1,4 +1,4 @@
-import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
+import { defineEventHandler, getRouterParam, readBody } from 'h3'
 import type { UpdateUserActivationRequest } from '../../../shared/requests'
 import type { MutationSuccessResponse } from '../../../shared/responses'
 import {
@@ -12,6 +12,9 @@ import { parseActivationPayload, requireRouteId } from '../../../shared/validati
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { getUserProfileById } from '../../../utils/users/getUserProfileById'
+import { updateUserActivationById } from '../../../utils/users/updateUserActivationById'
+import { executeWithRollback } from '../../../utils/db/executeWithRollback'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.userUpdate)
@@ -20,29 +23,25 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   const isActive = parseActivationPayload(body)
 
   const supabase = getServiceSupabaseClient()
-  const { data: existingProfile, error: existingProfileError } = await supabase
-    .from('user_profiles')
-    .select(USER_PROFILE_ACTIVATION_SELECT_COLUMNS)
-    .eq('id', id)
-    .maybeSingle()
-
-  if (existingProfileError) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to read existing user profile: ${existingProfileError.message}` })
-  }
-
-  if (!existingProfile) {
-    throw createError({ statusCode: 404, statusMessage: 'User profile not found.' })
-  }
+  const existingProfile = await getUserProfileById<{ is_active: boolean }>(
+    supabase,
+    id,
+    USER_PROFILE_ACTIVATION_SELECT_COLUMNS,
+    'Failed to read existing user profile',
+  )
 
   try {
-    const { error: updateError } = await supabase
-      .from('user_profiles')
-      .update({ is_active: isActive })
-      .eq('id', id)
-
-    if (updateError) {
-      throw createError({ statusCode: 500, statusMessage: `Failed to update user activation state: ${updateError.message}` })
-    }
+    await executeWithRollback({
+      operation: async () => {
+        await updateUserActivationById(supabase, id, isActive)
+      },
+      rollback: async () => {
+        await updateUserActivationById(supabase, id, existingProfile.is_active)
+      },
+      onRollbackError: (rollbackError) => {
+        console.error('Failed to rollback user activation patch API changes.', rollbackError)
+      },
+    })
 
     await recordManagementAuditLog(event, {
       userId: actor.id,

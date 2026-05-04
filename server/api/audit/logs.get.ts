@@ -1,9 +1,10 @@
-import { createError, defineEventHandler, getQuery } from 'h3'
+import { defineEventHandler, getQuery } from 'h3'
 import type { AuditLogListResponse } from '../../shared/models'
 import { mapAuditLogListItem, parsePaginationQuery } from '../../shared/utils'
-import { AUDIT_LOG_LIST_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
+import { PERMISSION_CODES } from '../../shared/constants'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { fetchAuditLogsList } from '../../utils/audit/fetchAuditLogsList'
 
 export default defineEventHandler(async (event): Promise<AuditLogListResponse> => {
   await requirePermission(event, PERMISSION_CODES.auditView)
@@ -15,20 +16,13 @@ export default defineEventHandler(async (event): Promise<AuditLogListResponse> =
   })
 
   const supabase = getServiceSupabaseClient()
-  const { data, count, error } = await supabase
-    .from('audit_logs')
-    .select(AUDIT_LOG_LIST_SELECT_COLUMNS, {
-      count: 'exact',
-    })
-    .order('created_at', { ascending: false })
-    .range(rangeFrom, rangeTo)
+  const { rows, totalItems } = await fetchAuditLogsList({
+    supabase,
+    rangeFrom,
+    rangeTo,
+  })
 
-  if (error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to fetch audit logs: ${error.message}` })
-  }
-
-  const items = (data ?? []).map(mapAuditLogListItem)
-  const totalItems = count ?? 0
+  const items = rows.map(mapAuditLogListItem)
   const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
 
   return {

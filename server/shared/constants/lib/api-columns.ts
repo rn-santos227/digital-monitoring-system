@@ -45,7 +45,7 @@ export const AUTH_SESSION_USER_ID_SELECT_COLUMNS = 'user_id'
 export const PRIVILEGE_BASE_SELECT_COLUMNS = 'id, code, name, module'
 
 export const AUDIT_LOG_LIST_SELECT_COLUMNS =
-  'id, action, table_name, record_id, status_code, created_at, user:user_profiles(full_name)'
+  'id, action, table_name, record_id, ip_address, status_code, created_at, user:user_profiles(full_name, email)'
 
 export const AUDIT_LOG_DETAIL_SELECT_COLUMNS =
   'id, user_id, action, table_name, record_id, old_data, new_data, request_data, response_data, request_headers, ip_address, status_code, metadata, created_at, user:user_profiles(id, full_name, email, avatar_url, is_active)'

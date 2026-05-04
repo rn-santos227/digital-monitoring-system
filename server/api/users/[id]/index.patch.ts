@@ -5,25 +5,26 @@ import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
-  ID_ONLY_SELECT_COLUMNS,
   PERMISSION_CODES,
-  USER_PROFILE_PERSONNEL_LOOKUP_SELECT_COLUMNS,
-  USER_ACCOUNT_TYPE_ID_SELECT_COLUMNS,
   USER_PROFILE_SUMMARY_SELECT_COLUMNS,
 } from '../../../shared/constants'
 import { buildUserProfileUpdates, normalizeAccountTypeIds, requireRouteId } from '../../../shared/validations'
-import { assertPersonnelExists, buildAssignedPersonnelProfileMap } from '../../../shared/utils'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { getUserAccountTypeIdsByUserId } from '../../../utils/users/getUserAccountTypeIdsByUserId'
+import { getUserProfileById } from '../../../utils/users/getUserProfileById'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
+import { replaceUserAccountTypes } from '../../../utils/users/replaceUserAccountTypes'
+import { updateUserProfileFieldsById } from '../../../utils/users/updateUserProfileFieldsById'
+import { validateUserPersonnelAssignment } from '../../../utils/users/validateUserPersonnelAssignment'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.userUpdate)
   const id = requireRouteId(getRouterParam(event, 'id'), 'User profile id is required.')
   const body = await readBody<UpdateUserProfileRequest>(event)
 
-  if ('isActive' in (body as Record<string, unknown>)) {
+  if (typeof body.isActive !== 'undefined') {
     throw createError({
       statusCode: 400,
       statusMessage: 'Use PATCH /api/users/:id/activation to activate or deactivate a user profile.',
@@ -38,107 +39,36 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   }
 
   const supabase = getServiceSupabaseClient()
+  const existingProfile = await getUserProfileById<{
+    personnel_id: string | null
+    full_name: string
+    avatar_url: string | null
+  }>(supabase, id, USER_PROFILE_SUMMARY_SELECT_COLUMNS, 'Failed to read existing user profile')
 
-  const { data: existingProfile, error: existingProfileError } = await supabase
-    .from('user_profiles')
-    .select(USER_PROFILE_SUMMARY_SELECT_COLUMNS)
-    .eq('id', id)
-    .maybeSingle()
-
-  if (existingProfileError) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to read existing user profile: ${existingProfileError.message}` })
-  }
-
-  if (!existingProfile) {
-    throw createError({ statusCode: 404, statusMessage: 'User profile not found.' })
-  }
-
-  const { data: existingAccountTypeRows, error: existingAccountTypesError } = await supabase
-    .from('user_account_types')
-    .select(USER_ACCOUNT_TYPE_ID_SELECT_COLUMNS)
-    .eq('user_id', id)
-
-  if (existingAccountTypesError) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to read existing account type assignments: ${existingAccountTypesError.message}` })
-  }
-
-  const existingAccountTypeIds = (existingAccountTypeRows ?? []).map(row => row.account_type_id)
+  const existingAccountTypeIds = await getUserAccountTypeIdsByUserId(supabase, id)
 
   try {
     await executeWithRollback({
       operation: async () => {
         if (updates.personnel_id) {
-          await assertPersonnelExists({
+          await validateUserPersonnelAssignment({
             supabase,
             personnelId: updates.personnel_id,
-            idSelectColumns: ID_ONLY_SELECT_COLUMNS,
+            currentUserId: id,
           })
-
-          const { data: assignedProfiles, error: assignedProfilesError } = await supabase
-            .from('user_profiles')
-            .select(USER_PROFILE_PERSONNEL_LOOKUP_SELECT_COLUMNS)
-            .eq('personnel_id', updates.personnel_id)
-
-          if (assignedProfilesError) {
-            throw createError({ statusCode: 500, statusMessage: `Failed to validate personnel assignment: ${assignedProfilesError.message}` })
-          }
-
-          const assignedByPersonnelId = buildAssignedPersonnelProfileMap(assignedProfiles ?? [])
-          const assignedProfile = assignedByPersonnelId.get(updates.personnel_id)
-
-          if (assignedProfile && assignedProfile.id !== id) {
-            throw createError({ statusCode: 409, statusMessage: 'Selected personnel is already assigned to another user profile.' })
-          }
         }
 
         if (Object.keys(updates).length > 0) {
-          const { error: updateError } = await supabase
-            .from('user_profiles')
-            .update(updates)
-            .eq('id', id)
-
-          if (updateError) {
-            throw createError({ statusCode: 500, statusMessage: `Failed to update user profile: ${updateError.message}` })
-          }
+          await updateUserProfileFieldsById(supabase, id, updates)
         }
 
         if (accountTypeIds !== null) {
           await requirePermission(event, PERMISSION_CODES.accountTypeUpdate)
-
-          const { data: accountTypeMatches, error: accountTypeLookupError } = await supabase
-            .from('account_types')
-            .select(ID_ONLY_SELECT_COLUMNS)
-            .in('id', accountTypeIds)
-
-          if (accountTypeLookupError) {
-            throw createError({ statusCode: 500, statusMessage: `Failed to validate account types: ${accountTypeLookupError.message}` })
-          }
-
-          if ((accountTypeMatches ?? []).length !== accountTypeIds.length) {
-            throw createError({ statusCode: 400, statusMessage: 'One or more account type ids are invalid.' })
-          }
-
-          const { error: clearAssignmentsError } = await supabase
-            .from('user_account_types')
-            .delete()
-            .eq('user_id', id)
-
-          if (clearAssignmentsError) {
-            throw createError({ statusCode: 500, statusMessage: `Failed to clear account type assignments: ${clearAssignmentsError.message}` })
-          }
-
-          if (accountTypeIds.length > 0) {
-            const { error: assignError } = await supabase
-              .from('user_account_types')
-              .insert(accountTypeIds.map((accountTypeId: string) => ({
-                user_id: id,
-                account_type_id: accountTypeId,
-              })))
-
-            if (assignError) {
-              throw createError({ statusCode: 500, statusMessage: `Failed to assign account types: ${assignError.message}` })
-            }
-          }
+          await replaceUserAccountTypes({
+            supabase,
+            userId: id,
+            accountTypeIds,
+          })
         }
       },
       rollback: async () => {
@@ -182,17 +112,13 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       },
     })
 
-    const { data: updatedProfile } = await supabase
-      .from('user_profiles')
-      .select(USER_PROFILE_SUMMARY_SELECT_COLUMNS)
-      .eq('id', id)
-      .maybeSingle()
-
-    const { data: updatedAccountTypeRows } = await supabase
-      .from('user_account_types')
-      .select(USER_ACCOUNT_TYPE_ID_SELECT_COLUMNS)
-      .eq('user_id', id)
-
+    const updatedProfile = await getUserProfileById<{
+      personnel_id: string | null
+      full_name: string
+      avatar_url: string | null
+    }>(supabase, id, USER_PROFILE_SUMMARY_SELECT_COLUMNS, 'Failed to read updated user profile')
+    const updatedAccountTypeIds = await getUserAccountTypeIdsByUserId(supabase, id)
+  
     await recordManagementAuditLog(event, {
       userId: actor.id,
       action: AUDIT_LOG_ACTIONS.userProfileUpdate,
@@ -208,8 +134,8 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
         accountTypeIds: existingAccountTypeIds,
       },
       newData: {
-        ...(updatedProfile ?? existingProfile),
-        accountTypeIds: (updatedAccountTypeRows ?? []).map(row => row.account_type_id),
+        ...updatedProfile,
+        accountTypeIds: updatedAccountTypeIds,
       },
       statusCode: 200,
       outcome: AUDIT_LOG_OUTCOMES.success,

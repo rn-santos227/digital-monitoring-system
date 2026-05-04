@@ -13,6 +13,9 @@ import { recordManagementAuditLog } from '../../../utils/audit/recordManagementA
 import { requireAuth } from '../../../utils/auth/requireAuth'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { getUserProfileById } from '../../../utils/users/getUserProfileById'
+import { updateUserPasswordById } from '../../../utils/users/updateUserPasswordById'
+import { verifyCurrentUserPassword } from '../../../utils/users/verifyCurrentUserPassword'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
   const user = await requireAuth(event)
@@ -26,51 +29,28 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   }
 
   const supabase = getServiceSupabaseClient()
-
-  const { data: targetProfile, error: targetProfileError } = await supabase
-    .from('user_profiles')
-    .select(USER_PROFILE_PASSWORD_SELECT_COLUMNS)
-    .eq('id', id)
-    .maybeSingle()
-
-  if (targetProfileError) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to read user profile: ${targetProfileError.message}` })
-  }
-
-  if (!targetProfile) {
-    throw createError({ statusCode: 404, statusMessage: 'User profile not found.' })
-  }
+  const targetProfile = await getUserProfileById<{ password_updated_at: string | null }>(
+    supabase,
+    id,
+    USER_PROFILE_PASSWORD_SELECT_COLUMNS,
+    'Failed to read user profile',
+  )
 
   if (isSelfUpdate) {
     if (!currentPassword) {
       throw createError({ statusCode: 400, statusMessage: 'Current password is required when changing your own password.' })
     }
 
-    const { data: authData, error: authError } = await supabase.rpc('authenticate_local_user', {
-      p_email: user.email,
-      p_password: currentPassword,
+    await verifyCurrentUserPassword({
+      supabase,
+      email: user.email,
+      currentPassword,
+      userId: user.id,
     })
-
-    if (authError) {
-      throw createError({ statusCode: 500, statusMessage: `Failed to verify current password: ${authError.message}` })
-    }
-
-    const authenticatedUser = authData?.[0]
-    if (!authenticatedUser || authenticatedUser.user_id !== user.id) {
-      throw createError({ statusCode: 401, statusMessage: 'Current password is invalid.' })
-    }
   }
 
   try {
-    const { error: passwordError } = await supabase.rpc('set_user_profile_password', {
-      p_user_id: id,
-      p_password: newPassword,
-    })
-
-    if (passwordError) {
-      throw createError({ statusCode: 500, statusMessage: `Failed to update password: ${passwordError.message}` })
-    }
-
+    await updateUserPasswordById(supabase, id, newPassword)
     await recordManagementAuditLog(event, {
       userId: user.id,
       action: AUDIT_LOG_ACTIONS.userProfileUpdate,

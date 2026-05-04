@@ -2,6 +2,7 @@ export interface UpdateUserProfileRequest {
   personnelId?: string | null
   fullName?: string
   avatarUrl?: string | null
+  isActive?: boolean
   accountTypeIds?: string[]
 }
 
