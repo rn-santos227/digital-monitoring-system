@@ -6,6 +6,27 @@ export interface TrainingCategoryListItem {
   updatedAt: string
 }
 
+export interface TrainingCreate {
+  training_title: string
+  training_category_id: string | null
+  level_id: string | null
+  start_date: string | null
+  end_date: string | null
+  status_id: string
+  default_remarks: string | null
+  created_by: string
+}
+
+export interface TrainingUpdate {
+  training_title: string
+  training_category_id: string | null
+  level_id: string | null
+  start_date: string | null
+  end_date: string | null
+  status_id: string
+  default_remarks: string | null
+}
+
 export interface TrainingCategoryRow {
   id: string
   code: string

@@ -11,7 +11,6 @@ export default defineEventHandler(async (event): Promise<TrainingRecordDetailRes
   await requirePermission(event, PERMISSION_CODES.trainingManage)
 
   const id = requireRouteId(getRouterParam(event, 'id'), 'Training record id is required.')
-  const supabase = getServiceSupabaseClient()
   const trainingRecord = await getTrainingRecordById(getServiceSupabaseClient(), id)
 
   if (!trainingRecord) throw createError({ statusCode: 404, statusMessage: 'Training record not found.' })
