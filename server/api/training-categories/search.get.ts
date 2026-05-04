@@ -1,9 +1,10 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { TrainingCategoryListResponse } from '../../shared/responses'
-import { TRAINING_CATEGORY_SELECT_COLUMNS, TRAINING_PERMISSION_GROUPS } from '../../shared/constants'
+import { TRAINING_PERMISSION_GROUPS } from '../../shared/constants'
 import { mapTrainingCategoryListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { searchTrainingCategories } from '../../utils/training-categories/searchTrainingCategories'
 
 const SEARCHABLE_FIELDS = {
   code: 'code',
@@ -37,19 +38,9 @@ export default defineEventHandler(async (event): Promise<TrainingCategoryListRes
   }
 
   const supabase = getServiceSupabaseClient()
-  const { data, count, error } = await supabase
-    .from('training_categories')
-    .select(TRAINING_CATEGORY_SELECT_COLUMNS, { count: 'exact' })
-    .or(filters.join(','))
-    .order('name', { ascending: true })
-    .range(rangeFrom, rangeTo)
+  const { rows, totalItems } = await searchTrainingCategories(supabase, filters, rangeFrom, rangeTo)
 
-  if (error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to search training categories: ${error.message}` })
-  }
-
-  const items = (data ?? []).map(mapTrainingCategoryListItem)
-  const totalItems = count ?? 0
+  const items = rows.map(mapTrainingCategoryListItem)
   const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
 
   return { items, page, pageSize, totalItems, totalPages }

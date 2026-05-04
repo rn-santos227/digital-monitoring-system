@@ -7,6 +7,7 @@ import type {
   UpdateTrainingCategoryRequest,
   UpdateTrainingRequest,
 } from '../../requests'
+import type { TrainingCategoryCreate, TrainingCategoryUpdate } from '../../models'
 import { normalizeOptionalText } from '../../utils'
 
 const normalizeOptionalDate = (value: unknown): string | null => {
@@ -51,7 +52,7 @@ const ensureDateRange = (startDate: string | null, endDate: string | null) => {
   }
 }
 
-export const parseCreateTrainingCategoryPayload = (body: CreateTrainingCategoryRequest) => {
+export const parseCreateTrainingCategoryPayload = (body: CreateTrainingCategoryRequest): TrainingCategoryCreate => {
   const code = normalizeOptionalText(body.code)?.toUpperCase()
   const name = normalizeOptionalText(body.name)
 
@@ -66,11 +67,8 @@ export const parseCreateTrainingCategoryPayload = (body: CreateTrainingCategoryR
   return { code, name }
 }
 
-export const buildTrainingCategoryUpdates = (body: UpdateTrainingCategoryRequest) => {
-  const updates: {
-    code?: string
-    name?: string
-  } = {}
+export const buildTrainingCategoryUpdates = (body: UpdateTrainingCategoryRequest): TrainingCategoryUpdate => {
+  const updates: TrainingCategoryUpdate = {}
 
   if (body.code !== undefined) {
     const code = normalizeOptionalText(body.code)?.toUpperCase()
