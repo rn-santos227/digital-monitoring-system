@@ -89,6 +89,10 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
           await deleteDeploymentById(supabase, createdDeploymentId)
         }
 
+        if (createdSupervisorRecordNo) {
+          await deleteDeploymentRecordByRecordNo(supabase, createdSupervisorRecordNo)
+        }
+
         if (payload.supervisor_id) {
           await updatePersonnelServiceStatusById(
             supabase,
