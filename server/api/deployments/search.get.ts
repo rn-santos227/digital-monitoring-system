@@ -1,8 +1,8 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { DeploymentListResponse } from '../../shared/responses'
-import { PERMISSION_CODES } from '../../shared/constants'
+import { DEPLOYMENT_PERMISSION_GROUPS  } from '../../shared/constants'
 import { mapDeploymentSelectListItem, parseManagementPaginationQuery } from '../../shared/utils'
-import { requirePermission } from '../../utils/auth/requirePermission'
+import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { searchDeployments } from '../../utils/deployments/searchDeployments'
 import { getDeploymentSupervisorId } from '../../utils/deployments/getDeploymentSupervisorId'
@@ -16,7 +16,7 @@ const SEARCHABLE_FIELDS = {
 } as const
 
 export default defineEventHandler(async (event): Promise<DeploymentListResponse> => {
-  await requirePermission(event, PERMISSION_CODES.deploymentManage)
+  await requireAnyPermission(event, DEPLOYMENT_PERMISSION_GROUPS.deploymentManagement)
 
   const query = getQuery(event)
   const term = typeof query.term === 'string' ? query.term.trim() : ''
