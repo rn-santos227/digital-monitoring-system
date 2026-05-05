@@ -32,4 +32,23 @@ export async function ensureDeploymentPersonnelAssignment({
   }
 
   const recordNo = await getNextDeploymentRecordNo(supabase)
+
+  await createDeploymentRecord(supabase, {
+    personnel_id: personnelId,
+    deployment_id: deployment.id,
+    deployment_area: deployment.deployment_area,
+    deployment_area_latitude: deployment.deployment_area_latitude,
+    deployment_area_longitude: deployment.deployment_area_longitude,
+    assignment_role: deployment.assignment_role,
+    operation_name: deployment.operation_name,
+    start_date: deployment.start_date,
+    end_date: deployment.end_date,
+    status_id: deployment.status_id,
+    location: deployment.location,
+    supervisor_id: deployment.supervisor_id,
+    remarks: remarks ?? deployment.default_remarks ?? null,
+    record_no: recordNo,
+  })
+
+  return { createdRecordNo: recordNo }
 }
