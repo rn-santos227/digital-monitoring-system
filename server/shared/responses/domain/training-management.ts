@@ -1,4 +1,6 @@
 import type {
+  UnitListResponse,
+  UnitPersonnelListItem,
   TrainingCategoryListItem,
   TrainingCategorySuggestionItem,
   TrainingManagementListResponse,
@@ -19,3 +21,5 @@ export interface CreateTrainingRecordResponse {
   ok: true
   id: string
 }
+
+export type TrainingPersonnelListResponse = UnitListResponse<UnitPersonnelListItem>
