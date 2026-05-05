@@ -6,7 +6,6 @@ import { mapRankSuggestionItem, parseRankSuggestionQuery } from '../../shared/ut
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchRankSuggestions } from '../../utils/ranks/fetchRankSuggestions'
-import { getRankSuggestionById } from '../../utils/ranks/getRankSuggestionById'
 
 export default defineEventHandler(async (event): Promise<RankSuggestionApiResponse> => {
   await requireAnyPermission(event, PERSONNEL_PERMISSION_GROUPS.personnelManagement)
@@ -19,17 +18,7 @@ export default defineEventHandler(async (event): Promise<RankSuggestionApiRespon
   })
 
   const supabase = getServiceSupabaseClient()
-  const mergedRows: RankSuggestionRow[] = await fetchRankSuggestions(supabase, term, pageSize)
+  const rows: RankSuggestionRow[] = await fetchRankSuggestions(supabase, term, pageSize, selectedId)
 
-  if (selectedId && !mergedRows.some(row => row.id === selectedId)) {
-    const selectedRow: RankSuggestionRow | null = await getRankSuggestionById(supabase, selectedId)
-
-    if (selectedRow) {
-      mergedRows.unshift(selectedRow)
-    }
-  }
-
-  return {
-    items: mergedRows.map(mapRankSuggestionItem),
-  }
+  return { items: rows.map(mapRankSuggestionItem) }
 })
