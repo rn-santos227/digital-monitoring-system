@@ -1,6 +1,8 @@
 import type { 
   DeploymentRecordListItem,
   DeploymentSuggestionItem,
+  UnitListResponse,
+  UnitPersonnelListItem,
 } from '../../models'
 
 export interface DeploymentRecordListResponse {
@@ -29,3 +31,5 @@ export interface CreateDeploymentRecordResponse {
 export interface DeploymentSuggestionsResponse {
   items: DeploymentSuggestionItem[]
 }
+
+export type DeploymentPersonnelListResponse = UnitListResponse<UnitPersonnelListItem>
