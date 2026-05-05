@@ -1,17 +1,23 @@
 import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
 import type { UpdateDeploymentRecordRequest } from '../../../shared/requests'
 import type { MutationSuccessResponse } from '../../../shared/responses'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, ID_ONLY_SELECT_COLUMNS, PERMISSION_CODES } from '../../../shared/constants'
+import { 
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  ID_ONLY_SELECT_COLUMNS,
+  DEPLOYMENT_PERMISSION_GROUPS
+} from '../../../shared/constants'
 import { assertPersonnelExists, mapDeploymentRecordListItem } from '../../../shared/utils'
 import { buildDeploymentRecordUpdates, requireRouteId, validateDeploymentDateRange } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
-import { requirePermission } from '../../../utils/auth/requirePermission'
+import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { getDeploymentRecordById } from '../../../utils/deployment-records/getDeploymentRecordById'
 import { updateDeploymentRecordById } from '../../../utils/deployment-records/updateDeploymentRecordById'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
-  const actor = await requirePermission(event, PERMISSION_CODES.deploymentManage)
+  const actor = await requireAnyPermission(event, DEPLOYMENT_PERMISSION_GROUPS.deploymentManagement)
   const id = requireRouteId(getRouterParam(event, 'id'), 'Deployment record id is required.')
   const body = await readBody<UpdateDeploymentRecordRequest>(event)
   const updates = buildDeploymentRecordUpdates(body)
