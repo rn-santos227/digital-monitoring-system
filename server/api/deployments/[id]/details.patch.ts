@@ -111,6 +111,10 @@ export default defineEventHandler(async (event) => {
           rollbackErrors.push(`deployment rollback failed: ${rollbackDeploymentError.message}`)
         }
 
+        if (createdSupervisorRecordNo) {
+          await deleteDeploymentRecordByRecordNo(supabase, createdSupervisorRecordNo)
+        }
+
         if (effectiveSupervisorId) {
           await updatePersonnelServiceStatusById(
             supabase,
