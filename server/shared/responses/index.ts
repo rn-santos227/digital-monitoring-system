@@ -1,5 +1,6 @@
 export * from './domain/dashboard'
 export * from './domain/deployment-management'
+export * from './domain/engagement-management'
 export * from './domain/file-management'
 export * from './domain/personnel-management'
 export * from './domain/rank-management'
