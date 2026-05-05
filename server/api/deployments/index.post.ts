@@ -1,4 +1,4 @@
-import { defineEventHandler, readBody } from 'h3'
+import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreateDeploymentRequest } from '../../shared/requests'
 import type { CreateDeploymentRecordResponse } from '../../shared/responses'
 import {
@@ -19,12 +19,14 @@ import { recordManagementAuditLog } from '../../utils/audit/recordManagementAudi
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../utils/db/executeWithRollback'
+import { deleteDeploymentRecordByRecordNo } from '../../utils/deployment-records/deleteDeploymentRecordByRecordNo'
+import { ensureDeploymentPersonnelAssignment } from '../../utils/deployment-records/ensureDeploymentPersonnelAssignment'
 import { createDeployment } from '../../utils/deployments/createDeployment'
-import { getDeploymentById } from '../../utils/deployments/getDeploymentById'
-import { updateEffectiveSupervisorStatus } from '../../utils/deployments/updateEffectiveSupervisorStatus'
-import { getPersonnelServiceStatusById } from '../../utils/deployments/getPersonnelServiceStatusById'
-import { updatePersonnelServiceStatusById } from '../../utils/deployments/updatePersonnelServiceStatusById'
 import { deleteDeploymentById } from '../../utils/deployments/deleteDeploymentById'
+import { getDeploymentById } from '../../utils/deployments/getDeploymentById'
+import { getPersonnelServiceStatusById } from '../../utils/deployments/getPersonnelServiceStatusById'
+import { updateEffectiveSupervisorStatus } from '../../utils/deployments/updateEffectiveSupervisorStatus'
+import { updatePersonnelServiceStatusById } from '../../utils/deployments/updatePersonnelServiceStatusById'
 
 export default defineEventHandler(async (event): Promise<CreateDeploymentRecordResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.deploymentManage)
