@@ -1,6 +1,7 @@
 export * from './domain/deployment-management'
 export * from './domain/file-management'
 export * from './domain/personnel-management'
+export * from './domain/engagement-management'
 export * from './domain/rank-management'
 export * from './domain/training-management'
 export * from './domain/unit-management'
