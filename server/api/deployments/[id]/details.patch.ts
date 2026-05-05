@@ -64,10 +64,29 @@ export default defineEventHandler(async (event) => {
     )
   }
 
+  let createdSupervisorRecordNo: string | null = null
+
   try {
     await executeWithRollback({
       operation: async () => {
         await updateDeploymentById(supabase, id, updates, 'details')
+
+        if (effectiveSupervisorId) {
+          const { createdRecordNo } = await ensureDeploymentPersonnelAssignment({
+            supabase,
+            deployment: {
+              ...updates,
+              id,
+              deployment_area: existingRow.deployment_area,
+              deployment_area_latitude: existingRow.deployment_area_latitude,
+              deployment_area_longitude: existingRow.deployment_area_longitude,
+              location: existingRow.location,
+            },
+            personnelId: effectiveSupervisorId,
+          })
+          createdSupervisorRecordNo = createdRecordNo
+        }
+
         await updateEffectiveSupervisorStatus(supabase, {
           effectiveSupervisorId,
           deployedServiceStatusId,
