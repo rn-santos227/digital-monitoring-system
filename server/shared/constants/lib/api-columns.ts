@@ -144,6 +144,12 @@ export const DEPLOYMENT_DETAILS_PATCH_SELECT_COLUMNS =
 export const DEPLOYMENT_SUGGESTION_SELECT_COLUMNS =
   'id, deployment_area, operation_name, location, start_date, end_date, deployment_status:deployment_statuses(name)'
 
+export const ENGAGEMENT_SELECT_COLUMNS =
+  'id, engagement_title, engagement_type_id, level_id, start_date, end_date, status_id, default_remarks, created_at, updated_at, engagement_type:engagement_types(id, name), level:levels(id, name), engagement_status:engagement_statuses(id, name)'
+
+export const ENGAGEMENT_SUGGESTION_SELECT_COLUMNS =
+  'id, engagement_title, start_date, end_date, engagement_type:engagement_types(name), level:levels(name), engagement_status:engagement_statuses(name)'
+
 export const DASHBOARD_PERSONNEL_STATUS_SELECT_COLUMNS =
   'id, first_name, last_name, company_name, service_status'
 export const DASHBOARD_ACTIVE_DEPLOYMENT_PERSONNEL_SELECT_COLUMNS =

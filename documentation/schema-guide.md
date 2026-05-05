@@ -1,6 +1,6 @@
 # Supabase Schema Guide
 
-Generated from all SQL files in `supabase/migrations` (through `20260414205218_expand-audit-logs-context.sql`).
+Generated from all SQL files in `supabase/migrations` (through `20260426144014_add-shared-training-deployment-engagement-tables.sql`).
 
 - **Required** = `Yes` means column is non-nullable (`NOT NULL` or implied by `PRIMARY KEY`).
 - **Type** reflects the declared PostgreSQL type.
@@ -124,10 +124,37 @@ Table constraints
 | `created_at` | Yes | `timestamptz` | default `now()` |
 | `updated_at` | Yes | `timestamptz` | default `now()` |
 | `created_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
+| `deployment_id` | No | `uuid` | FK → `public.deployments(id)`; on delete set null |
 
 Table constraints
 
 - `constraint deployment_records_date_check check (end_date is null or end_date >= start_date)`
+
+## `deployments`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `deployment_area` | Yes | `text` | — |
+| `deployment_area_latitude` | No | `numeric(9,6)` | range check between -90 and 90 when provided |
+| `deployment_area_longitude` | No | `numeric(9,6)` | range check between -180 and 180 when provided |
+| `assignment_role` | No | `text` | — |
+| `operation_name` | No | `text` | — |
+| `start_date` | Yes | `date` | — |
+| `end_date` | No | `date` | — |
+| `status_id` | Yes | `uuid` | FK → `public.deployment_statuses(id)`; on delete restrict |
+| `location` | No | `text` | — |
+| `supervisor_id` | No | `uuid` | FK → `public.personnel(id)`; on delete restrict |
+| `default_remarks` | No | `text` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+| `created_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
+
+Table constraints
+
+- `constraint deployments_date_check check (end_date is null or end_date >= start_date)`
+- `constraint deployments_area_latitude_check check (deployment_area_latitude is null or (deployment_area_latitude >= -90 and deployment_area_latitude <= 90))`
+- `constraint deployments_area_longitude_check check (deployment_area_longitude is null or (deployment_area_longitude >= -180 and deployment_area_longitude <= 180))`
 
 ## `deployment_statuses`
 
@@ -165,10 +192,31 @@ Table constraints
 | `created_at` | Yes | `timestamptz` | default `now()` |
 | `updated_at` | Yes | `timestamptz` | default `now()` |
 | `created_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
+| `engagement_id` | No | `uuid` | FK → `public.engagements(id)`; on delete set null |
 
 ### Table constraints
 
 - `constraint engagement_records_date_check check (date_end is null or date_start is null or date_end >= date_start)`
+
+## `engagements`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `engagement_title` | Yes | `text` | — |
+| `engagement_type_id` | Yes | `uuid` | FK → `public.engagement_types(id)`; on delete restrict |
+| `level_id` | No | `uuid` | FK → `public.levels(id)`; on delete restrict |
+| `date_start` | No | `date` | — |
+| `date_end` | No | `date` | — |
+| `status_id` | Yes | `uuid` | FK → `public.engagement_statuses(id)`; on delete restrict |
+| `default_remarks` | No | `text` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+| `created_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
+
+Table constraints
+
+- `constraint engagements_date_check check (date_end is null or date_start is null or date_end >= date_start)`
 
 ## `engagement_statuses`
 
@@ -522,11 +570,32 @@ Table constraints
 | `created_at` | Yes | `timestamptz` | default `now()` |
 | `updated_at` | Yes | `timestamptz` | default `now()` |
 | `created_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
+| `training_id` | No | `uuid` | FK → `public.trainings(id)`; on delete set null |
 
 Table constraints
 
 - `constraint training_records_date_check check (end_date is null or start_date is null or end_date >= start_date)`
 - `constraint training_records_valid_until_check check (valid_until is null or end_date is null or valid_until >= end_date)`
+
+## `trainings`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `training_title` | Yes | `text` | — |
+| `training_category_id` | No | `uuid` | FK → `public.training_categories(id)`; on delete restrict |
+| `level_id` | No | `uuid` | FK → `public.levels(id)`; on delete restrict |
+| `start_date` | No | `date` | — |
+| `end_date` | No | `date` | — |
+| `status_id` | Yes | `uuid` | FK → `public.training_statuses(id)`; on delete restrict |
+| `default_remarks` | No | `text` | — |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+| `created_by` | No | `uuid` | FK → `public.user_profiles(id)`; on delete set null |
+
+Table constraints
+
+- `constraint trainings_date_check check (end_date is null or start_date is null or end_date >= start_date)`
 
 ## `training_statuses`
 
@@ -566,3 +635,13 @@ Table constraints
 | `updated_at` | Yes | `timestamptz` | default `now()` |
 | `password_hash` | No | `text` | — |
 | `password_updated_at` | No | `timestamptz` | — |
+
+## API coverage updates (as of 2026-05-02)
+
+Recent implemented APIs now use the shared domain tables introduced in `20260426144014_add-shared-training-deployment-engagement-tables.sql`:
+
+- **Trainings APIs** (`/api/trainings`): backed by `trainings`; training record APIs (`/api/training-records`) now link through `training_records.training_id` when available.
+- **Deployments APIs** (`/api/deployments`): backed by `deployments`; deployment record APIs (`/api/deployment-records`) now link through `deployment_records.deployment_id` when available.
+- **Engagements table linkage**: engagement record APIs are aligned to shared records through `engagement_records.engagement_id`; dedicated `/api/engagements` endpoints are not yet present in `server/api`.
+
+For complete endpoint inventory, refer to `documentation/api-guide.md`.
