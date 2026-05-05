@@ -3,13 +3,13 @@ import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
-  PERMISSION_CODES,
+  DEPLOYMENT_PERMISSION_GROUPS,
 } from '../../../shared/constants'
 import { assertPersonnelExists, resolveDeploymentStatusId, resolvePersonnelServiceStatusId } from '../../../shared/utils'
 import type { UpdateDeploymentRequest } from '../../../shared/requests'
 import { buildDeploymentUpdates, requireRouteId, validateDeploymentDateRange } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
-import { requirePermission } from '../../../utils/auth/requirePermission'
+import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
 import { deleteDeploymentRecordByRecordNo } from '../../../utils/deployment-records/deleteDeploymentRecordByRecordNo'
@@ -21,7 +21,7 @@ import { updateEffectiveSupervisorStatus } from '../../../utils/deployments/upda
 import { updatePersonnelServiceStatusById } from '../../../utils/deployments/updatePersonnelServiceStatusById'
 
 export default defineEventHandler(async (event) => {
-  const actor = await requirePermission(event, PERMISSION_CODES.deploymentUpdate)
+  const actor = await requireAnyPermission(event, DEPLOYMENT_PERMISSION_GROUPS.deploymentManagement)
   const id = requireRouteId(getRouterParam(event, 'id'), 'Deployment id is required.')
   const body = await readBody<UpdateDeploymentRequest>(event)
   const supabase = getServiceSupabaseClient()
