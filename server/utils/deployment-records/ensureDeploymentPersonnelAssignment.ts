@@ -10,3 +10,11 @@ interface EnsureDeploymentPersonnelAssignmentParams {
   remarks?: string | null
 }
 
+export async function ensureDeploymentPersonnelAssignment({
+  supabase,
+  deployment,
+  personnelId,
+  remarks,
+}: EnsureDeploymentPersonnelAssignmentParams): Promise<{ createdRecordNo: string | null }> {
+
+}
