@@ -23,4 +23,13 @@ export async function ensureDeploymentPersonnelAssignment({
     .eq('personnel_id', personnelId)
     .maybeSingle<{ id: string }>()
 
+  if (error) {
+    throw new Error(`Failed to verify deployment personnel assignment: ${error.message}`)
+  }
+
+  if (existingRecord?.id) {
+    return { createdRecordNo: null }
+  }
+
+  const recordNo = await getNextDeploymentRecordNo(supabase)
 }
