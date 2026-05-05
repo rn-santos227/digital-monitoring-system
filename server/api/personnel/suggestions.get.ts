@@ -12,7 +12,7 @@ import {
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { buildPersonnelSuggestionFilters } from '../../utils/personnel/buildPersonnelSuggestionFilters'
-import { resolvePersonnelSuggestionRows } from '../../utils/personnel/resolvePersonnelSuggestionRows'
+import { fetchPersonnelSuggestions } from '../../utils/personnel/fetchPersonnelSuggestions'
 
 export default defineEventHandler(async (event): Promise<PersonnelSuggestionsResponse> => {
   await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.userProfileManagement)
@@ -31,12 +31,12 @@ export default defineEventHandler(async (event): Promise<PersonnelSuggestionsRes
     throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
   }
 
-  const { rows: mergedRows, error: suggestionError } = await resolvePersonnelSuggestionRows(
+  const { data: mergedRows, error: suggestionError } = await fetchPersonnelSuggestions(
     supabase,
     pageSize,
+    filters.length > 0 ? filters.join(',') : undefined,
     selectedPersonnelId,
     term,
-    filters.length > 0 ? filters.join(',') : undefined,
   )
 
   if (suggestionError) {
