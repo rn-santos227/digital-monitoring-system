@@ -16,5 +16,11 @@ export async function ensureDeploymentPersonnelAssignment({
   personnelId,
   remarks,
 }: EnsureDeploymentPersonnelAssignmentParams): Promise<{ createdRecordNo: string | null }> {
+  const { data: existingRecord, error } = await supabase
+    .from('deployment_records')
+    .select('id')
+    .eq('deployment_id', deployment.id)
+    .eq('personnel_id', personnelId)
+    .maybeSingle<{ id: string }>()
 
 }
