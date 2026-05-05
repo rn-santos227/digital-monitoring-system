@@ -5,7 +5,6 @@ import { mapDeploymentSelectListItem, parseDeploymentSuggestionQuery } from '../
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchDeploymentSuggestions } from '../../utils/deployments/fetchDeploymentSuggestions'
-import { getDeploymentSuggestionById } from '../../utils/deployments/getDeploymentSuggestionById'
 
 export default defineEventHandler(async (event): Promise<DeploymentSuggestionsResponse> => {
   await requirePermission(event, PERMISSION_CODES.deploymentManage)
@@ -18,17 +17,7 @@ export default defineEventHandler(async (event): Promise<DeploymentSuggestionsRe
   })
 
   const supabase = getServiceSupabaseClient()
-  const rows = await fetchDeploymentSuggestions(supabase, pageSize, term)
-  const mergedRows = [...rows]
+  const rows = await fetchDeploymentSuggestions(supabase, pageSize, term, selectedId)
 
-  if (selectedId && !mergedRows.some(row => row.id === selectedId)) {
-    const selectedRow = await getDeploymentSuggestionById(supabase, selectedId)
-    if (selectedRow) {
-      mergedRows.unshift(selectedRow)
-    }
-  }
-
-  return {
-    items: mergedRows.map(mapDeploymentSelectListItem),
-  }
+  return { items: rows.map(mapDeploymentSelectListItem) }
 })
