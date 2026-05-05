@@ -5,7 +5,6 @@ import { mapCompanySuggestionItem, parseUnitSuggestionQuery } from '../../shared
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchCompanySuggestions } from '../../utils/companies/fetchCompanySuggestions'
-import { getCompanySuggestionById } from '../../utils/companies/getCompanySuggestionById'
 
 export default defineEventHandler(async (event): Promise<CompanySuggestionsResponse> => {
   await requireAnyPermission(event, UNIT_PERMISSION_GROUPS.companyManagement)
@@ -19,15 +18,7 @@ export default defineEventHandler(async (event): Promise<CompanySuggestionsRespo
   })
 
   const supabase = getServiceSupabaseClient()
-  const mergedRows = await fetchCompanySuggestions(supabase, term, pageSize, battalionId)
+  const rows = await fetchCompanySuggestions(supabase, term, pageSize, battalionId, selectedId)
 
-  if (selectedId && !mergedRows.some(row => row.id === selectedId)) {
-    const selectedRow = await getCompanySuggestionById(supabase, selectedId)
-
-    if (selectedRow) {
-      mergedRows.unshift(selectedRow)
-    }
-  }
-
-  return { items: mergedRows.map(mapCompanySuggestionItem) }
+  return { items: rows.map(mapCompanySuggestionItem) }
 })
