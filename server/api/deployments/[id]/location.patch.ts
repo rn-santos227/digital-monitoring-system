@@ -1,15 +1,20 @@
 import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../../shared/constants'
+import { 
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  DEPLOYMENT_PERMISSION_GROUPS
+} from '../../../shared/constants'
 import { requireRouteId } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
-import { requirePermission } from '../../../utils/auth/requirePermission'
+import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { getDeploymentById } from '../../../utils/deployments/getDeploymentById'
 import { updateDeploymentById } from '../../../utils/deployments/updateDeploymentById'
 import { UpdateDeploymentLocationRequest } from '../../../shared/requests'
 
 export default defineEventHandler(async (event) => {
-  const actor = await requirePermission(event, PERMISSION_CODES.deploymentUpdate)
+  const actor = await requireAnyPermission(event, DEPLOYMENT_PERMISSION_GROUPS.deploymentManagement)
   const id = requireRouteId(getRouterParam(event, 'id'), 'Deployment id is required.')
   const body = await readBody<UpdateDeploymentLocationRequest>(event)
 
