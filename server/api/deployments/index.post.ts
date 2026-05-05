@@ -63,9 +63,18 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
     }
 
     let createdDeploymentId: string | null = null
+    let createdSupervisorRecordNo: string | null = null
     const { createdId } = await executeWithRollback({
       operation: async () => {
         const createdId = await createDeployment(supabase, insertPayload)
+        if (payload.supervisor_id) {
+          const { createdRecordNo } = await ensureDeploymentPersonnelAssignment({
+            supabase,
+            deployment: { ...insertPayload, id: createdId },
+            personnelId: payload.supervisor_id,
+          })
+          createdSupervisorRecordNo = createdRecordNo
+        }
         await updateEffectiveSupervisorStatus(supabase, {
           effectiveSupervisorId: payload.supervisor_id,
           deployedServiceStatusId,
