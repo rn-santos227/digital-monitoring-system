@@ -4,18 +4,18 @@ import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
-  PERMISSION_CODES,
+  DEPLOYMENT_PERMISSION_GROUPS,
 } from '../../../shared/constants'
 import { mapDeploymentDetailListItem } from '../../../shared/utils'
 import { requireRouteId } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
-import { requirePermission } from '../../../utils/auth/requirePermission'
+import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { deleteDeploymentById } from '../../../utils/deployments/deleteDeploymentById'
 import { getDeploymentById } from '../../../utils/deployments/getDeploymentById'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
-  const actor = await requirePermission(event, PERMISSION_CODES.deploymentManage)
+  const actor = await requireAnyPermission(event, DEPLOYMENT_PERMISSION_GROUPS.deploymentManagement)
   const id = requireRouteId(getRouterParam(event, 'id'), 'Deployment id is required.')
   const supabase = getServiceSupabaseClient()
   const existingRow = await getDeploymentById(supabase, id)
