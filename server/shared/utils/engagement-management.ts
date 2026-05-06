@@ -34,12 +34,14 @@ interface EngagementStatusLookupSupabaseClient {
 const ENGAGEMENT_STATUS_NAMES = Object.freeze(['Planned', 'Ongoing', 'Completed', 'Expired', 'Cancelled'] as const)
 
 const ENGAGEMENT_LEVEL_NAMES = Object.freeze([
-  'Beginner',
-  'Intermediate',
-  'Advanced',
-  'Specialized',
-  'Instructor',
+  'Local',
+  'National',
+  'International',
 ])
+
+const normalizeOptionalString = (value: unknown): string | null => {
+  return typeof value === 'string' ? value : null
+}
 
 const toSingleReference = (value: EngagementReferenceRow | EngagementReferenceRow[] | null): EngagementReferenceRow | null => {
   if (!value) {
@@ -131,14 +133,14 @@ export const mapEngagementListItem = (row: EngagementRow): EngagementListItem =>
     id: row.id,
     engagementTitle: row.engagement_title,
     engagementCategoryId: row.engagement_type_id,
-    engagementCategoryCode: engagementCategory?.code ?? null,
-    engagementCategoryName: engagementCategory?.name ?? null,
+    engagementCategoryCode: normalizeOptionalString(engagementCategory?.code),
+    engagementCategoryName: normalizeOptionalString(engagementCategory?.name),
     levelId: row.level_id,
-    levelName: level?.name ?? null,
-    startDate: row.start_date,
-    endDate: row.end_date,
+    levelName: normalizeOptionalString(level?.name),
+    startDate: normalizeOptionalString(row.start_date),
+    endDate: normalizeOptionalString(row.end_date),
     statusId: row.status_id,
-    statusName: status?.name ?? null,
+    statusName: normalizeOptionalString(status?.name),
     defaultRemarks: row.default_remarks,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -153,11 +155,11 @@ export const mapEngagementSuggestionItem = (row: Pick<EngagementRow, 'id' | 'eng
   return {
     id: row.id,
     engagementTitle: row.engagement_title,
-    engagementCategoryName: engagementCategory?.name ?? null,
-    levelName: level?.name ?? null,
-    statusName: status?.name ?? null,
-    startDate: row.start_date,
-    endDate: row.end_date,
+    engagementCategoryName: normalizeOptionalString(engagementCategory?.name),
+    levelName: normalizeOptionalString(level?.name),
+    statusName: normalizeOptionalString(status?.name),
+    startDate: normalizeOptionalString(row.start_date),
+    endDate: normalizeOptionalString(row.end_date),
   }
 }
 

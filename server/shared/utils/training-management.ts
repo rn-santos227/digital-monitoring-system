@@ -34,11 +34,9 @@ interface TrainingStatusLookupSupabaseClient {
 const TRAINING_STATUS_NAMES = Object.freeze(['Planned', 'Ongoing', 'Completed', 'Expired', 'Cancelled'] as const)
 
 const TRAINING_LEVEL_NAMES = Object.freeze([
-  'Beginner',
-  'Intermediate',
-  'Advanced',
-  'Specialized',
-  'Instructor',
+  'Local',
+  'National',
+  'International',
 ])
 
 const toSingleReference = (value: TrainingReferenceRow | TrainingReferenceRow[] | null): TrainingReferenceRow | null => {

@@ -36,6 +36,9 @@ export const AUDIT_LOG_ACTIONS = {
   engagementCreate: 'ENGAGEMENT_CREATE',
   engagementUpdate: 'ENGAGEMENT_UPDATE',
   engagementDelete: 'ENGAGEMENT_DELETE',
+  engagementRecordCreate: 'ENGAGEMENT_RECORD_CREATE',
+  engagementRecordUpdate: 'ENGAGEMENT_RECORD_UPDATE',
+  engagementRecordDelete: 'ENGAGEMENT_RECORD_DELETE',
   fileAttachmentCreate: 'FILE_ATTACHMENT_CREATE',
 } as const
 
@@ -84,5 +87,8 @@ export const AUDIT_LOG_ENDPOINTS = {
   engagementsCreate: '/api/engagements',
   engagementsUpdate: '/api/engagements/:id',
   engagementsDelete: '/api/engagements/:id',
+  engagementRecordsCreate: '/api/engagement-records',
+  engagementRecordsUpdate: '/api/engagement-records/:id',
+  engagementRecordsDelete: '/api/engagement-records/:id',
   fileUpload: '/api/files/upload',
 } as const

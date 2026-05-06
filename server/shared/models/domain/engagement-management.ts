@@ -141,8 +141,8 @@ export interface EngagementRecordCreate {
   engagement_title: string
   engagement_type_id: string | null
   level_id: string | null
-  start_date: string | null
-  end_date: string | null
+  date_start: string | null
+  date_end: string | null
   status_id: string
   certificate_no: string | null
   valid_until: string | null
@@ -154,8 +154,8 @@ export interface EngagementRecordUpdate {
   engagement_title: string
   engagement_type_id: string | null
   level_id: string | null
-  start_date: string | null
-  end_date: string | null
+  date_start: string | null
+  date_end: string | null
   status_id: string
   personnel_id: string
   certificate_no: string | null

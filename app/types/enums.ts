@@ -24,11 +24,9 @@ export const SERVICE_STATUS_VALUES = Object.freeze([
 export type ServiceStatusName = (typeof SERVICE_STATUS_VALUES)[number]
 
 export const LEVEL_VALUES = Object.freeze([
-  'Beginner',
-  'Intermediate',
-  'Advanced',
-  'Specialized',
-  'Instructor',
+  'Local',
+  'National',
+  'International',
 ] as const)
 export type LevelName = (typeof LEVEL_VALUES)[number]
 

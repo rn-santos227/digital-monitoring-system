@@ -115,6 +115,12 @@ export const ENGAGEMENT_SELECT_COLUMNS =
 export const ENGAGEMENT_SUGGESTION_SELECT_COLUMNS =
   'id, engagement_title, start_date, end_date, engagement_type:engagement_types(name), level:levels(name), engagement_status:engagement_statuses(name)'
 
+export const ENGAGEMENT_RECORD_LIST_SELECT_COLUMNS =
+  'id, record_no, personnel_id, engagement_id, engagement_title, engagement_type_id, level_id, start_date:date_start, end_date:date_end, status_id, remarks, created_at, updated_at, personnel:personnel!engagement_records_personnel_id_fkey(id, personnel_code, full_name), engagement_type:engagement_types(id, name), level:levels(id, name), engagement_status:engagement_statuses(id, name)'
+
+export const ENGAGEMENT_RECORD_DETAIL_SELECT_COLUMNS =
+  'id, record_no, personnel_id, engagement_id, engagement_title, engagement_type_id, level_id, start_date:date_start, end_date:date_end, status_id, certificate_no, valid_until, remarks, created_at, updated_at, personnel:personnel!engagement_records_personnel_id_fkey(id, personnel_code, full_name, last_name, first_name, middle_name), engagement_type:engagement_types(id, code, name), level:levels(id, name), engagement_status:engagement_statuses(id, name)'
+
 export const DASHBOARD_PERSONNEL_STATUS_SELECT_COLUMNS =
   'id, first_name, last_name, company_name, service_status'
 export const DASHBOARD_ACTIVE_DEPLOYMENT_PERSONNEL_SELECT_COLUMNS =
