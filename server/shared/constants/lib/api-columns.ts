@@ -1,17 +1,10 @@
-export const ACCOUNT_TYPE_PERMISSION_EMBEDDED_SELECT_COLUMNS =
-  'permissions(id, code, name, module)'
-
-export const ACCOUNT_TYPE_PERMISSIONS_SELECT_COLUMNS =
-  `account_type_permissions(${ACCOUNT_TYPE_PERMISSION_EMBEDDED_SELECT_COLUMNS})`
-
 export const ACCOUNT_TYPE_BASE_SELECT_COLUMNS =
   'id, code, name, description, is_system, created_at, updated_at'
 
-export const ACCOUNT_TYPE_DETAIL_SELECT_COLUMNS =
-  `${ACCOUNT_TYPE_BASE_SELECT_COLUMNS}, ${ACCOUNT_TYPE_PERMISSIONS_SELECT_COLUMNS}`
+export const ACCOUNT_TYPE_LIST_SELECT_COLUMNS = ACCOUNT_TYPE_BASE_SELECT_COLUMNS
 
-export const ACCOUNT_TYPE_LIST_SELECT_COLUMNS =
-  'id, code, name, description, is_system, created_at, updated_at'
+export const ACCOUNT_TYPE_DETAIL_SELECT_COLUMNS =
+  `${ACCOUNT_TYPE_BASE_SELECT_COLUMNS}, account_type_permissions(permissions(id, code, name, module))`
 
 export const ACCOUNT_TYPE_PERMISSION_ID_SELECT_COLUMNS = 'permission_id'
 
@@ -56,7 +49,7 @@ export const PERSONNEL_PROFILE_LIST_SELECT_COLUMNS =
 export const PERSONNEL_PROFILE_DETAIL_SELECT_COLUMNS =
   'id, personnel_code, service_number, last_name, first_name, middle_name, sex, birthdate, rank_id, rank_code, rank_name, company_id, company_code, company_name, battalion_id, battalion_code, battalion_name, employment_status_id, employment_status, service_status_id, service_status, contact_number, position, date_enlisted, created_at, updated_at'
 
-export const PERSONNEL_REFERENCE_ID_SELECT_COLUMNS = 'id'
+  export const PERSONNEL_REFERENCE_ID_SELECT_COLUMNS = ID_ONLY_SELECT_COLUMNS
 
 export const PERSONNEL_TRAINING_RECORD_LIST_SELECT_COLUMNS =
   'id, training_title, start_date, end_date, valid_until, training_category:training_categories(name), training_status:training_statuses(name)'
@@ -70,28 +63,22 @@ export const PERSONNEL_ENGAGEMENT_RECORD_LIST_SELECT_COLUMNS =
 export const PERSONNEL_EQUIPMENT_ISSUANCE_LIST_SELECT_COLUMNS =
   'id, issue_no, issue_date, expected_return_date, actual_return_date, issuance_status:issuance_statuses(name), equipment_asset:equipment_assets(asset_tag, equipment_item:equipment_items(name))'
 
-export const RANK_LIST_SELECT_COLUMNS = 'id, code, name, sort_order, updated_at'
-export const RANK_DETAIL_SELECT_COLUMNS = 'id, code, name, sort_order, created_at, updated_at'
+export const RANK_LIST_SELECT_COLUMNS = 'id, code, name, sort_order, created_at, updated_at'
 export const RANK_SUGGESTION_SELECT_COLUMNS = 'id, code, name, sort_order'
-export const RANK_REFERENCE_ID_SELECT_COLUMNS = 'id'
+export const RANK_REFERENCE_ID_SELECT_COLUMNS = ID_ONLY_SELECT_COLUMNS
 
 export const BATTALION_SELECT_COLUMNS = 'id, code, name, is_active, created_at, updated_at'
-export const BATTALION_DETAIL_SELECT_COLUMNS = 'id, code, name, is_active, created_at, updated_at'
+export const BATTALION_DETAIL_SELECT_COLUMNS = BATTALION_SELECT_COLUMNS
 export const BATTALION_SUGGESTION_SELECT_COLUMNS = 'id, code, name, is_active'
-export const BATTALION_REFERENCE_ID_SELECT_COLUMNS = 'id'
-
-export const COMPANY_BASE_SELECT_COLUMNS = 'id, battalion_id, code, name, is_active, created_at, updated_at'
-
-export const COMPANY_BATTALION_EMBEDDED_SELECT_COLUMNS = 'battalion:battalions(id, code, name)'
+export const BATTALION_REFERENCE_ID_SELECT_COLUMNS = ID_ONLY_SELECT_COLUMNS
 
 export const COMPANY_DETAIL_SELECT_COLUMNS =
-  `${COMPANY_BASE_SELECT_COLUMNS}, ${COMPANY_BATTALION_EMBEDDED_SELECT_COLUMNS}`
+  'id, battalion_id, code, name, is_active, created_at, updated_at, battalion:battalions(id, code, name)'
 
-export const COMPANY_SELECT_COLUMNS =
-  `id, battalion_id, code, name, is_active, created_at, updated_at, ${COMPANY_BATTALION_EMBEDDED_SELECT_COLUMNS}`
+export const COMPANY_SELECT_COLUMNS = COMPANY_DETAIL_SELECT_COLUMNS
 
 export const COMPANY_SUGGESTION_SELECT_COLUMNS =
-  `id, battalion_id, code, name, is_active, ${COMPANY_BATTALION_EMBEDDED_SELECT_COLUMNS}`
+  'id, battalion_id, code, name, is_active, battalion:battalions(id, code, name)'
 
 export const BATTALION_COMPANY_LIST_SELECT_COLUMNS = COMPANY_DETAIL_SELECT_COLUMNS
 export const BATTALION_PERSONNEL_LIST_SELECT_COLUMNS = PERSONNEL_PROFILE_LIST_SELECT_COLUMNS
@@ -104,42 +91,20 @@ export const UNIT_EQUIPMENT_ASSET_DETAIL_SELECT_COLUMNS =
   'equipment_asset_id, asset_tag, serial_no, equipment_code, item_name, category_code, category_name, assigned_personnel_code, assigned_personnel_last_name, assigned_personnel_first_name, assigned_company_code, assigned_company_name, assigned_battalion_code, assigned_battalion_name, current_location, condition_status, serviceability_status, asset_status, latest_issue_no, latest_issue_date, latest_issuance_status'
 
 export const TRAINING_CATEGORY_SELECT_COLUMNS = 'id, code, name, created_at, updated_at'
-export const TRAINING_CATEGORY_DETAIL_SELECT_COLUMNS = 'id, code, name, created_at, updated_at'
-export const TRAINING_CATEGORY_SUGGESTION_SELECT_COLUMNS = 'id, code, name'
-export const TRAINING_REFERENCE_ID_SELECT_COLUMNS = 'id'
 
 export const TRAINING_SELECT_COLUMNS =
   'id, training_title, start_date, end_date, training_category:training_categories(name), level:levels(name), training_status:training_statuses(name)'
 
-export const TRAINING_DETAIL_SELECT_COLUMNS =
-  'id, training_title, training_category_id, level_id, start_date, end_date, status_id, default_remarks, created_at, updated_at, training_category:training_categories(id, code, name), level:levels(id, name), training_status:training_statuses(id, name)'
-
-export const TRAINING_RECORD_SOURCE_SELECT_COLUMNS =
-  'id, training_title, start_date, end_date, training_category:training_categories(name), level:levels(name), training_status:training_statuses(name)'
-
-export const TRAINING_RECORD_SOURCE_DETAIL_SELECT_COLUMNS =
-  'id, training_title, training_category_id, level_id, start_date, end_date, status_id, default_remarks'
-
-export const TRAINING_SUGGESTION_SELECT_COLUMNS =
-  'id, training_title, start_date, end_date, training_category:training_categories(name), level:levels(name), training_status:training_statuses(name)'
+export const TRAINING_SUGGESTION_SELECT_COLUMNS = TRAINING_SELECT_COLUMNS
 
 export const TRAINING_RECORD_SELECT_COLUMNS =
   'id, record_no, personnel_id, training_title, start_date, end_date, training_status:training_statuses(name)'
-
-export const TRAINING_RECORD_DETAIL_SELECT_COLUMNS =
-  'id, record_no, personnel_id, training_id, training_title, training_category_id, level_id, start_date, end_date, status_id, certificate_no, valid_until, remarks, created_at, updated_at, personnel:personnel(id, personnel_code, last_name, first_name, middle_name), training_category:training_categories(id, name), level:levels(id, name), training_status:training_statuses(id, name)'
-
-export const DEPLOYMENT_RECORD_SELECT_COLUMNS =
-  'id, record_no, personnel_id, deployment_id, deployment_area, operation_name, assignment_role, start_date, end_date, created_at, updated_at'
 
 export const DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS =
   'id, record_no, personnel_id, deployment_id, deployment_area, deployment_area_latitude, deployment_area_longitude, assignment_role, operation_name, start_date, end_date, status_id, location, supervisor_id, remarks, created_at, updated_at, personnel:personnel!deployment_records_personnel_id_fkey(id, personnel_code, last_name, first_name, middle_name), supervisor:personnel!deployment_records_supervisor_id_fkey(id, personnel_code, last_name, first_name, middle_name), deployment_status:deployment_statuses(id, name)'
 
 export const DEPLOYMENT_DETAIL_SELECT_COLUMNS =
   'id, deployment_area, deployment_area_latitude, deployment_area_longitude, assignment_role, operation_name, start_date, end_date, status_id, location, supervisor_id, default_remarks'
-
-export const DEPLOYMENT_DETAILS_PATCH_SELECT_COLUMNS =
-  'id, start_date, end_date, supervisor_id, assignment_role, operation_name, status_id, default_remarks'
 
 export const DEPLOYMENT_SUGGESTION_SELECT_COLUMNS =
   'id, deployment_area, operation_name, location, start_date, end_date, deployment_status:deployment_statuses(name)'
