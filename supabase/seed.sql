@@ -27,11 +27,9 @@ on conflict (name) do nothing;
 -- Levels
 insert into public.levels (name)
 values
-  ('Beginner'),
-  ('Intermediate'),
-  ('Advanced'),
-  ('Specialized'),
-  ('Instructor')
+  ('Local'),
+  ('National'),
+  ('International')
 on conflict (name) do nothing;
 
 -- Training statuses

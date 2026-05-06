@@ -23,14 +23,14 @@ export const SERVICE_STATUS_VALUES = Object.freeze([
 ] as const)
 export type ServiceStatusName = (typeof SERVICE_STATUS_VALUES)[number]
 
-export const TRAINING_LEVEL_VALUES = Object.freeze([
+export const LEVEL_VALUES = Object.freeze([
   'Beginner',
   'Intermediate',
   'Advanced',
   'Specialized',
   'Instructor',
 ] as const)
-export type TrainingLevelName = (typeof TRAINING_LEVEL_VALUES)[number]
+export type LevelName = (typeof LEVEL_VALUES)[number]
 
 export const DEPLOYMENT_STATUS_VALUES = Object.freeze([
   'Planned',

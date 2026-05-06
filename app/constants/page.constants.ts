@@ -12,7 +12,7 @@ import type { PersonnelManagementTabId, PersonnelProfileTabId } from '~/types/do
 import type { UserManagementTabId } from '~/types/domain/users'
 import type { TrainingManagementTabId } from '~/types/domain/training'
 import type { UnitManagementTabId } from '~/types/domain/units'
-import { DEPLOYMENT_STATUS_VALUES, EMPLOYMENT_STATUS_VALUES, SERVICE_STATUS_VALUES, TRAINING_LEVEL_VALUES, TRAINING_STATUS_VALUES } from '~/types/enums'
+import { DEPLOYMENT_STATUS_VALUES, EMPLOYMENT_STATUS_VALUES, SERVICE_STATUS_VALUES, LEVEL_VALUES, TRAINING_STATUS_VALUES } from '~/types/enums'
 
 export const DASHBOARD_PAGE_TITLE = 'Dashboard'
 export const DASHBOARD_PAGE_SUBTITLE = 'AFP personnel readiness and equipment handling overview.'
@@ -599,7 +599,7 @@ export const TRAININGS_CREATE_STATUS_OPTIONS = Object.freeze(
 export const TRAININGS_CREATE_LEVEL_LABEL = 'Level'
 export const TRAININGS_CREATE_LEVEL_PLACEHOLDER = 'Select level'
 export const TRAININGS_CREATE_LEVEL_OPTIONS = Object.freeze(
-  TRAINING_LEVEL_VALUES.map((value) => ({ label: value, value })),
+  LEVEL_VALUES.map((value) => ({ label: value, value })),
 )
 export const TRAININGS_CREATE_START_DATE_LABEL = 'Start Date'
 export const TRAININGS_CREATE_END_DATE_LABEL = 'End Date'
