@@ -184,17 +184,19 @@ const trainingsStoreOptions = {
       }
     },
 
-    async createTrainingCategory(
-      this: TrainingsStoreState & {
-        fetchTrainingCategories: (page?: number, filters?: Partial<TrainingCategorySearchQuery>) => Promise<void>
-      },
-      payload: CreateTrainingCategoryPayload,
-    ) {
+    async createTrainingCategory(this: TrainingsStoreState, payload: CreateTrainingCategoryPayload): Promise<{ id: string }> {
       this.categories.error = ''
 
       try {
-        await createTrainingCategoryEndpoint(payload)
-        await this.fetchTrainingCategories(1)
+        const response = await createTrainingCategoryEndpoint(payload)
+        const createdTrainingCategory = await getTrainingCategoryByIdEndpoint(response.id)
+        this.categories.items = [
+          ...this.categories.items,
+          createdTrainingCategory,
+        ]
+        this.categories.pagination.totalItems += 1
+        this.categories.pagination.totalPages = Math.max(1, Math.ceil(this.categories.pagination.totalItems / this.categories.pagination.pageSize))
+        return { id: response.id }
       } catch (error) {
         this.categories.error = extractApiErrorMessage(error, 'Unable to create training category.')
         throw error
