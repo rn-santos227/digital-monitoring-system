@@ -17,8 +17,6 @@ interface UseUpdateTrainingHandlerOptions {
   selectedTraining: Ref<TrainingListItem | null>
   getTrainingById: (id: string) => Promise<TrainingListItem>
   updateTraining: (id: string, payload: UpdateTrainingPayload) => Promise<void>
-  loadTrainings: (page?: number, nextFilters?: Partial<TrainingSearchQuery>, pageSize?: number) => Promise<void>
-  trainingFilters: Ref<Partial<TrainingSearchQuery>>
   kpiRefreshKey: Ref<number>
 }
 
@@ -27,8 +25,6 @@ interface UseUpdateTrainingCategoryHandlerOptions {
   selectedTrainingCategory: Ref<TrainingCategoryListItem | null>
   getTrainingCategoryById: (id: string) => Promise<TrainingCategoryListItem>
   updateTrainingCategory: (id: string, payload: UpdateTrainingCategoryPayload) => Promise<void>
-  loadTrainingCategories: (page?: number, nextFilters?: Partial<TrainingCategorySearchQuery>, pageSize?: number) => Promise<void>
-  categoryFilters: Ref<Partial<TrainingCategorySearchQuery>>
   kpiRefreshKey: Ref<number>
 }
 
@@ -36,9 +32,6 @@ interface UseUpdateTrainingRecordHandlerOptions {
   isUpdateTrainingRecordModalOpen: Ref<boolean>
   selectedTrainingRecord: Ref<TrainingRecordListItem | null>
   updateTrainingRecord: (id: string, payload: UpdateTrainingRecordPayload) => Promise<void>
-  loadTrainingRecords: (page?: number, nextFilters?: Partial<TrainingRecordSearchQuery>, pageSize?: number) => Promise<void>
-  trainingRecordFilters: Ref<Partial<TrainingRecordSearchQuery>>
-  trainingRecordsPageSize: Ref<number>
   kpiRefreshKey: Ref<number>
 }
 
@@ -47,8 +40,6 @@ export const useUpdateTrainingHandler = ({
   selectedTraining,
   getTrainingById,
   updateTraining,
-  loadTrainings,
-  trainingFilters,
   kpiRefreshKey,
 }: UseUpdateTrainingHandlerOptions) => {
   const closeUpdateTrainingModal = () => {
@@ -70,7 +61,6 @@ export const useUpdateTrainingHandler = ({
 
     await updateTraining(trainingId, payload)
     closeUpdateTrainingModal()
-    await loadTrainings(1, trainingFilters.value)
     kpiRefreshKey.value += 1
   }
 
@@ -105,8 +95,6 @@ export const useUpdateTrainingCategoryHandler = ({
   selectedTrainingCategory,
   getTrainingCategoryById,
   updateTrainingCategory,
-  loadTrainingCategories,
-  categoryFilters,
   kpiRefreshKey,
 }: UseUpdateTrainingCategoryHandlerOptions) => {
   const closeUpdateTrainingCategoryModal = () => {
@@ -128,7 +116,6 @@ export const useUpdateTrainingCategoryHandler = ({
 
     await updateTrainingCategory(categoryId, payload)
     closeUpdateTrainingCategoryModal()
-    await loadTrainingCategories(1, categoryFilters.value)
     kpiRefreshKey.value += 1
   }
 
@@ -150,9 +137,6 @@ export const useUpdateTrainingRecordHandler = ({
   isUpdateTrainingRecordModalOpen,
   selectedTrainingRecord,
   updateTrainingRecord,
-  loadTrainingRecords,
-  trainingRecordFilters,
-  trainingRecordsPageSize,
   kpiRefreshKey,
 }: UseUpdateTrainingRecordHandlerOptions) => {
   const closeUpdateTrainingRecordModal = () => {
@@ -174,7 +158,6 @@ export const useUpdateTrainingRecordHandler = ({
 
     await updateTrainingRecord(id, payload)
     closeUpdateTrainingRecordModal()
-    await loadTrainingRecords(1, trainingRecordFilters.value, trainingRecordsPageSize.value)
     kpiRefreshKey.value += 1
   }
 
