@@ -34,6 +34,18 @@ export const useTrainings = () => {
     void loadTrainings(1)
   })
 
+  const createTraining = async (payload: Parameters<typeof trainingsStore.createTraining>[0]) => {
+    return await trainingsStore.createTraining(payload)
+  }
+
+  const updateTraining = async (id: string, payload: Parameters<typeof trainingsStore.updateTraining>[1]) => {
+    await trainingsStore.updateTraining(id, payload)
+  }
+
+  const deleteTraining = async (id: string) => {
+    await trainingsStore.deleteTraining(id)
+  }
+
   return {
     filters,
     tableRows,
@@ -42,9 +54,9 @@ export const useTrainings = () => {
     error: computed(() => trainings.value.error),
     totalItems: computed(() => trainings.value.pagination.totalItems),
     loadTrainings,
-    createTraining: trainingsStore.createTraining,
-    updateTraining: trainingsStore.updateTraining,
-    deleteTraining: trainingsStore.deleteTraining,
+    createTraining,
+    updateTraining,
+    deleteTraining,
     getTrainingById: trainingsStore.getTrainingById,
   }
 }
