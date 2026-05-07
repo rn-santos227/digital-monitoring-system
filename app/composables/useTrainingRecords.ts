@@ -117,7 +117,21 @@ export const useTrainingRecords = () => {
   }
 
   const updateTrainingRecord = async (id: string, payload: UpdateTrainingRecordPayload) => {
-    await updateTrainingRecordEndpoint(id, payload)
+    records.value = records.value.map((item) => {
+      if (item.id !== id) {
+        return item
+      }
+
+      return {
+        ...item,
+        trainingId: payload.trainingId ?? item.trainingId,
+        personnelId: payload.personnelId ?? item.personnelId,
+        certificateNo: payload.certificateNo ?? item.certificateNo,
+        validUntil: payload.validUntil ?? item.validUntil,
+        remarks: payload.remarks ?? item.remarks,
+        updatedAt: new Date().toISOString(),
+      }
+    })
   }
 
   const deleteTrainingRecord = async (id: string) => {
