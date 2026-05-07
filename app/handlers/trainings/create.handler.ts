@@ -10,34 +10,25 @@ import type {
 
 interface UseCreateTrainingHandlerOptions {
   isCreateTrainingModalOpen: Ref<boolean>
-  createTraining: (payload: CreateTrainingPayload) => Promise<void>
-  loadTrainings: (page?: number, nextFilters?: Partial<TrainingSearchQuery>, pageSize?: number) => Promise<void>
-  trainingFilters: Ref<Partial<TrainingSearchQuery>>
+  createTraining: (payload: CreateTrainingPayload) => Promise<{ id: string }>
   kpiRefreshKey: Ref<number>
 }
 
 interface UseCreateTrainingCategoryHandlerOptions {
   isCreateTrainingCategoryModalOpen: Ref<boolean>
-  createTrainingCategory: (payload: CreateTrainingCategoryPayload) => Promise<void>
-  loadTrainingCategories: (page?: number, nextFilters?: Partial<TrainingCategorySearchQuery>, pageSize?: number) => Promise<void>
-  categoryFilters: Ref<Partial<TrainingCategorySearchQuery>>
+  createTrainingCategory: (payload: CreateTrainingCategoryPayload) => Promise<{ id: string }>
   kpiRefreshKey: Ref<number>
 }
 
 interface UseCreateTrainingRecordHandlerOptions {
   isCreateTrainingRecordModalOpen: Ref<boolean>
-  createTrainingRecord: (payload: CreateTrainingRecordPayload) => Promise<void>
-  loadTrainingRecords: (page?: number, nextFilters?: Partial<TrainingRecordSearchQuery>, pageSize?: number) => Promise<void>
-  trainingRecordFilters: Ref<Partial<TrainingRecordSearchQuery>>
-  trainingRecordsPageSize: Ref<number>
+  createTrainingRecord: (payload: CreateTrainingRecordPayload) => Promise<{ id: string }>
   kpiRefreshKey: Ref<number>
 }
 
 export const useCreateTrainingHandler = ({
   isCreateTrainingModalOpen,
   createTraining,
-  loadTrainings,
-  trainingFilters,
   kpiRefreshKey,
 }: UseCreateTrainingHandlerOptions) => {
   const onOpenCreateTrainingModal = () => {
@@ -51,7 +42,6 @@ export const useCreateTrainingHandler = ({
   const onCreateTraining = async (payload: CreateTrainingPayload) => {
     await createTraining(payload)
     onCloseCreateTrainingModal()
-    await loadTrainings(1, trainingFilters.value)
     kpiRefreshKey.value += 1
   }
 
@@ -65,8 +55,6 @@ export const useCreateTrainingHandler = ({
 export const useCreateTrainingCategoryHandler = ({
   isCreateTrainingCategoryModalOpen,
   createTrainingCategory,
-  loadTrainingCategories,
-  categoryFilters,
   kpiRefreshKey,
 }: UseCreateTrainingCategoryHandlerOptions) => {
   const onOpenCreateTrainingCategoryModal = () => {
@@ -80,7 +68,6 @@ export const useCreateTrainingCategoryHandler = ({
   const onCreateTrainingCategory = async (payload: CreateTrainingCategoryPayload) => {
     await createTrainingCategory(payload)
     onCloseCreateTrainingCategoryModal()
-    await loadTrainingCategories(1, categoryFilters.value)
     kpiRefreshKey.value += 1
   }
 
@@ -95,9 +82,6 @@ export const useCreateTrainingCategoryHandler = ({
 export const useCreateTrainingRecordHandler = ({
   isCreateTrainingRecordModalOpen,
   createTrainingRecord,
-  loadTrainingRecords,
-  trainingRecordFilters,
-  trainingRecordsPageSize,
   kpiRefreshKey,
 }: UseCreateTrainingRecordHandlerOptions) => {
   const onOpenCreateTrainingRecordModal = () => {
@@ -111,7 +95,6 @@ export const useCreateTrainingRecordHandler = ({
   const onCreateTrainingRecord = async (payload: CreateTrainingRecordPayload) => {
     await createTrainingRecord(payload)
     onCloseCreateTrainingRecordModal()
-    await loadTrainingRecords(1, trainingRecordFilters.value, trainingRecordsPageSize.value)
     kpiRefreshKey.value += 1
   }
 
