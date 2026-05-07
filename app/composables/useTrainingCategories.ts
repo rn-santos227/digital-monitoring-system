@@ -35,6 +35,18 @@ export const useTrainingCategories = () => {
     void loadTrainingCategories(1)
   })
 
+  const createTrainingCategory = async (payload: Parameters<typeof trainingsStore.createTrainingCategory>[0]) => {
+    return await trainingsStore.createTrainingCategory(payload)
+  }
+
+  const updateTrainingCategory = async (id: string, payload: Parameters<typeof trainingsStore.updateTrainingCategory>[1]) => {
+    await trainingsStore.updateTrainingCategory(id, payload)
+  }
+
+  const deleteTrainingCategory = async (id: string) => {
+    await trainingsStore.deleteTrainingCategory(id)
+  }
+
   return {
     filters,
     tableRows,
@@ -43,9 +55,9 @@ export const useTrainingCategories = () => {
     error: computed(() => categories.value.error),
     totalItems: computed(() => categories.value.pagination.totalItems),
     loadTrainingCategories,
-    createTrainingCategory: trainingsStore.createTrainingCategory,
-    updateTrainingCategory: trainingsStore.updateTrainingCategory,
-    deleteTrainingCategory: trainingsStore.deleteTrainingCategory,
+    createTrainingCategory,
+    updateTrainingCategory,
+    deleteTrainingCategory,
     getTrainingCategoryById: trainingsStore.getTrainingCategoryById,
   }
 }
