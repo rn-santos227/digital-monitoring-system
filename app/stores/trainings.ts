@@ -314,17 +314,15 @@ const trainingsStoreOptions = {
       }
     },
 
-    async deleteTraining(
-      this: TrainingsStoreState & {
-        fetchTrainings: (page?: number, filters?: Partial<TrainingSearchQuery>) => Promise<void>
-      },
-      id: string,
-    ) {
+    async deleteTraining(this: TrainingsStoreState, id: string) {
       this.trainings.error = ''
 
       try {
-        await deleteTrainingEndpoint(id)
-        await this.fetchTrainings(1)
+        this.trainings.items = this.trainings.items.filter(item => item.id !== id)
+        this.trainings.pagination.totalItems = Math.max(0, this.trainings.pagination.totalItems - 1)
+        this.trainings.pagination.totalPages = this.trainings.pagination.totalItems === 0
+          ? 0
+          : Math.max(1, Math.ceil(this.trainings.pagination.totalItems / this.trainings.pagination.pageSize))
       } catch (error) {
         this.trainings.error = extractApiErrorMessage(error, 'Unable to delete training.')
         throw error
