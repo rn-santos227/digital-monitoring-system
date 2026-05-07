@@ -1,5 +1,5 @@
 import type { Ref } from 'vue'
-import type { BattalionSearchQuery, UpdateBattalionPayload } from '~/types/domain/units'
+import type { UpdateBattalionPayload } from '~/types/domain/units'
 import { BATTALION_ACTION_KEYS } from './index.handler'
 
 type BattalionRow = Record<string, unknown>
@@ -14,9 +14,6 @@ interface UseUpdateBattalionHandlerOptions {
   isUpdateBattalionModalOpen: Ref<boolean>
   getBattalionById: (id: string) => Promise<{ code: string; name: string; isActive: boolean }>
   updateBattalion: (id: string, payload: UpdateBattalionPayload) => Promise<void>
-  loadBattalions: (page?: number, filters?: Partial<BattalionSearchQuery>) => Promise<void>
-  battalionPagination: Ref<{ page: number }>
-  battalionFilters: Ref<Partial<BattalionSearchQuery>>
 }
 
 export const useUpdateBattalionHandler = ({
@@ -25,9 +22,6 @@ export const useUpdateBattalionHandler = ({
   isUpdateBattalionModalOpen,
   getBattalionById,
   updateBattalion,
-  loadBattalions,
-  battalionPagination,
-  battalionFilters,
 }: UseUpdateBattalionHandlerOptions) => {
   const onCloseUpdateBattalionModal = () => {
     isUpdateBattalionModalOpen.value = false
@@ -42,7 +36,6 @@ export const useUpdateBattalionHandler = ({
 
     await updateBattalion(selectedBattalionId.value, payload)
     onCloseUpdateBattalionModal()
-    await loadBattalions(battalionPagination.value.page, battalionFilters.value)
   }
 
   const onEditBattalionAction = async (row: BattalionRow): Promise<boolean> => {

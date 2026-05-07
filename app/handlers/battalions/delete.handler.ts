@@ -1,4 +1,3 @@
-import type { Ref } from 'vue'
 import type { DialogInput } from '~/composables/useDialog'
 import {
   BATTALION_DELETE_DIALOG_MESSAGE,
@@ -6,7 +5,6 @@ import {
   UNITS_MODAL_CANCEL_LABEL,
 } from '~/constants/page.constants'
 import { showErrorDialog } from '~/utils/error-handling'
-import type { BattalionSearchQuery } from '~/types/domain/units'
 import { BATTALION_ACTION_KEYS } from './index.handler'
 
 type BattalionRow = Record<string, unknown>
@@ -26,9 +24,6 @@ const resolveBattalionActionRowId = (row: BattalionRow): string => {
 interface UseDeleteBattalionHandlerOptions {
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   deleteBattalion: (id: string) => Promise<void>
-  loadBattalions: (page?: number, filters?: Partial<BattalionSearchQuery>) => Promise<void>
-  battalionPagination: Ref<{ page: number }>
-  battalionFilters: Ref<Partial<BattalionSearchQuery>>
   onDeleteSuccess?: () => void | Promise<void>
   onDeleteCancelled?: () => void | Promise<void>
 }
@@ -36,9 +31,6 @@ interface UseDeleteBattalionHandlerOptions {
 export const useDeleteBattalionHandler = ({
   showDialog,
   deleteBattalion,
-  loadBattalions,
-  battalionPagination,
-  battalionFilters,
   onDeleteSuccess,
   onDeleteCancelled,
 }: UseDeleteBattalionHandlerOptions) => {
@@ -56,7 +48,6 @@ export const useDeleteBattalionHandler = ({
 
     try {
       await deleteBattalion(selectedBattalionRowId)
-      await loadBattalions(battalionPagination.value.page, battalionFilters.value)
       await onDeleteSuccess?.()
     } catch (error) {
       await showErrorDialog({
