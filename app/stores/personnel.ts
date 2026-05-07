@@ -233,7 +233,18 @@ const personnelStoreOptions = {
       this.error = ''
 
       try {
-        return await deletePersonnelEndpoint(id)
+        const response = await deletePersonnelEndpoint(id)
+        const nextItems = this.items.filter(item => item.id !== id)
+
+        if (nextItems.length !== this.items.length) {
+          this.items = nextItems
+          this.pagination.totalItems = Math.max(0, this.pagination.totalItems - 1)
+          this.pagination.totalPages = this.pagination.totalItems === 0
+            ? 0
+            : Math.ceil(this.pagination.totalItems / this.pagination.pageSize)
+        }
+
+        return response
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to delete personnel record.')
         throw error
