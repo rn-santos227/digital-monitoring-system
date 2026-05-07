@@ -313,8 +313,6 @@ const {
 } = useCreateTrainingHandler({
   isCreateTrainingModalOpen,
   createTraining,
-  loadTrainings,
-  trainingFilters,
   kpiRefreshKey,
 })
 
@@ -325,9 +323,6 @@ const {
 } = useCreateTrainingRecordHandler({
   isCreateTrainingRecordModalOpen,
   createTrainingRecord,
-  loadTrainingRecords,
-  trainingRecordFilters: trainingRecordsFilters,
-  trainingRecordsPageSize: computed(() => trainingRecordsPagination.value.pageSize),
   kpiRefreshKey,
 })
 
@@ -338,8 +333,6 @@ const {
 } = useCreateTrainingCategoryHandler({
   isCreateTrainingCategoryModalOpen,
   createTrainingCategory,
-  loadTrainingCategories,
-  categoryFilters,
   kpiRefreshKey,
 })
 
@@ -492,9 +485,6 @@ const {
   isUpdateTrainingRecordModalOpen,
   selectedTrainingRecord,
   updateTrainingRecord,
-  loadTrainingRecords,
-  trainingRecordFilters: trainingRecordsFilters,
-  trainingRecordsPageSize: computed(() => trainingRecordsPagination.value.pageSize),
   kpiRefreshKey,
 })
 
@@ -508,8 +498,6 @@ const {
   selectedTraining,
   getTrainingById,
   updateTraining,
-  loadTrainings,
-  trainingFilters,
   kpiRefreshKey,
 })
 
@@ -523,8 +511,6 @@ const {
   selectedTrainingCategory,
   getTrainingCategoryById,
   updateTrainingCategory,
-  loadTrainingCategories,
-  categoryFilters,
   kpiRefreshKey,
 })
 
@@ -542,9 +528,6 @@ const {
 
 const { onDeleteTrainingRecord } = useDeleteTrainingRecordHandler({
   deleteTrainingRecord,
-  loadTrainingRecords,
-  trainingRecordFilters: trainingRecordsFilters,
-  trainingRecordsPageSize: computed(() => trainingRecordsPagination.value.pageSize),
   kpiRefreshKey,
   showDialog,
   onDeleteSuccess: () => showDialog({ type: 'success', title: 'Training record deleted', message: 'Training record has been deleted successfully.', confirmLabel: 'OK' }),
@@ -553,8 +536,6 @@ const { onDeleteTrainingRecord } = useDeleteTrainingRecordHandler({
 
 const { onDeleteTraining } = useDeleteTrainingHandler({
   deleteTraining,
-  loadTrainings,
-  trainingFilters,
   kpiRefreshKey,
   showDialog,
   onDeleteSuccess: () => showDialog({
@@ -572,8 +553,6 @@ const { onDeleteTraining } = useDeleteTrainingHandler({
 
 const { onDeleteTrainingCategory } = useDeleteTrainingCategoryHandler({
   deleteTrainingCategory,
-  loadTrainingCategories,
-  categoryFilters,
   kpiRefreshKey,
   showDialog,
   onDeleteSuccess: () => showDialog({

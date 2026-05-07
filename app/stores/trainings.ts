@@ -302,6 +302,7 @@ const trainingsStoreOptions = {
       this.categories.error = ''
 
       try {
+        await updateTrainingCategoryEndpoint(id, payload)
         this.categories.items = this.categories.items.map((item) => {
           if (item.id !== id) {
             return item
@@ -330,6 +331,7 @@ const trainingsStoreOptions = {
       this.trainings.error = ''
 
       try {
+        await deleteTrainingEndpoint(id)
         this.trainings.items = this.trainings.items.filter(item => item.id !== id)
         this.trainings.pagination.totalItems = Math.max(0, this.trainings.pagination.totalItems - 1)
         this.trainings.pagination.totalPages = this.trainings.pagination.totalItems === 0
@@ -341,19 +343,31 @@ const trainingsStoreOptions = {
       }
     },
 
-    async deleteTrainingCategory(
-      this: TrainingsStoreState & {
-        fetchTrainingCategories: (page?: number, filters?: Partial<TrainingCategorySearchQuery>) => Promise<void>
-      },
-      id: string,
-    ) {
+    async deleteTrainingCategory(this: TrainingsStoreState, id: string) {
       this.categories.error = ''
 
       try {
         await deleteTrainingCategoryEndpoint(id)
-        await this.fetchTrainingCategories(1)
+        this.categories.items = this.categories.items.filter(item => item.id !== id)
+        this.categories.pagination.totalItems = Math.max(0, this.categories.pagination.totalItems - 1)
+        this.categories.pagination.totalPages = this.categories.pagination.totalItems === 0
+          ? 0
+          : Math.max(1, Math.ceil(this.categories.pagination.totalItems / this.categories.pagination.pageSize))
       } catch (error) {
         this.categories.error = extractApiErrorMessage(error, 'Unable to delete training category.')
+        throw error
+      }
+    },
+
+    async deleteTrainingRecord(this: TrainingsStoreState, id: string) {
+      this.trainingRecords.error = ''
+      try {
+        await deleteTrainingRecordEndpoint(id)
+        this.trainingRecords.items = this.trainingRecords.items.filter(item => item.id !== id)
+        this.trainingRecords.pagination.totalItems = Math.max(0, this.trainingRecords.pagination.totalItems - 1)
+        this.trainingRecords.pagination.totalPages = this.trainingRecords.pagination.totalItems === 0 ? 0 : Math.max(1, Math.ceil(this.trainingRecords.pagination.totalItems / this.trainingRecords.pagination.pageSize))
+      } catch (error) {
+        this.trainingRecords.error = extractApiErrorMessage(error, 'Unable to delete training record.')
         throw error
       }
     },

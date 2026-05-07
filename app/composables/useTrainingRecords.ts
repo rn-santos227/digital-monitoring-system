@@ -1,37 +1,14 @@
-import { computed, ref } from 'vue'
-import { 
-  createTrainingRecordEndpoint,
-  deleteTrainingRecordEndpoint,
-  getTrainingRecordByIdEndpoint,
-  getTrainingRecordsEndpoint,
-  searchTrainingRecordsEndpoint,
-  updateTrainingRecordEndpoint
-} from '~/utils/training-endpoints'
-import type {
-  CreateTrainingRecordPayload,
-  TrainingEndpointQuery,
-  TrainingRecordListItem,
-  TrainingRecordSearchQuery,
-  TrainingTablePagination,
-  UpdateTrainingRecordPayload,
-} from '~/types/domain/training'
-
-const DEFAULT_PAGINATION: TrainingTablePagination = {
-  page: 1,
-  pageSize: 10,
-  totalItems: 0,
-  totalPages: 0,
-}
+import { storeToRefs } from 'pinia'
+import { useTrainingsStore } from '~/stores/trainings'
+import type { TrainingRecordSearchQuery } from '~/types/domain/training'
 
 export const useTrainingRecords = () => {
-  const records = ref<TrainingRecordListItem[]>([])
+  const trainingsStore = useTrainingsStore()
+  const { trainingRecords } = storeToRefs(trainingsStore)
   const filters = ref<Partial<TrainingRecordSearchQuery>>({})
-  const pagination = ref<TrainingTablePagination>({ ...DEFAULT_PAGINATION })
-  const isLoading = ref(false)
-  const error = ref('')
 
   const tableRows = computed(() => {
-    return records.value.map((item) => ({
+    return trainingRecords.value.items.map((item) => ({
       id: item.id,
       recordNo: item.recordNo,
       personnelCode: item.personnelCode ?? '—',
@@ -45,89 +22,42 @@ export const useTrainingRecords = () => {
   })
 
   const loadTrainingRecords = async (
-    page = pagination.value.page,
+    page = trainingRecords.value.pagination.page,
     nextFilters: Partial<TrainingRecordSearchQuery> = filters.value,
-    pageSize = pagination.value.pageSize,
+    pageSize = trainingRecords.value.pagination.pageSize,
   ) => {
-    isLoading.value = true
-    error.value = ''
     filters.value = { ...nextFilters }
 
-    const query: TrainingEndpointQuery = {
-      page,
-      pageSize,
-      search: filters.value.term ?? '',
-    }
-
     try {
-      const response = filters.value.term
-        ? await searchTrainingRecordsEndpoint({
-          page,
-          pageSize,
-          term: filters.value.term,
-          fields: filters.value.fields,
-        })
-        : await getTrainingRecordsEndpoint(query)
-
-      records.value = response.items
-      pagination.value = {
-        page: response.page,
-        pageSize: response.pageSize,
-        totalItems: response.totalItems,
-        totalPages: response.totalPages,
-      }
-    } catch (loadError) {
-      records.value = []
-      pagination.value = {
-        page,
-        pageSize,
-        totalItems: 0,
-        totalPages: 0,
-      }
-      error.value = loadError instanceof Error ? loadError.message : 'Failed to fetch training records.'
-    } finally {
-      isLoading.value = false
+       await trainingsStore.fetchTrainingRecords(page, filters.value, pageSize)
+    } catch {
+      // Error state is exposed from the store.
     }
   }
 
-  const createTrainingRecord = async (payload: CreateTrainingRecordPayload): Promise<{ id: string }> => {
-    const response = await createTrainingRecordEndpoint(payload)
-    const createdTrainingRecord = await getTrainingRecordByIdEndpoint(response.id)
-    records.value = [
-      ...records.value,
-      createdTrainingRecord,
-    ]
-    pagination.value.totalItems += 1
-    pagination.value.totalPages = Math.max(1, Math.ceil(pagination.value.totalItems / pagination.value.pageSize))
-    return { id: response.id }
+  const createTrainingRecord = async (payload: Parameters<typeof trainingsStore.createTrainingRecord>[0]) => {
+    return await trainingsStore.createTrainingRecord(payload)
   }
 
-  const updateTrainingRecord = async (id: string, payload: UpdateTrainingRecordPayload) => {
-    await updateTrainingRecordEndpoint(id, payload)
-    const updatedTrainingRecord = await getTrainingRecordByIdEndpoint(id)
-    records.value = records.value.map(item => item.id === id ? updatedTrainingRecord : item)
+  const updateTrainingRecord = async (id: string, payload: Parameters<typeof trainingsStore.updateTrainingRecord>[1]) => {
+    await trainingsStore.updateTrainingRecord(id, payload)
   }
 
   const deleteTrainingRecord = async (id: string) => {
-    await deleteTrainingRecordEndpoint(id)
-    records.value = records.value.filter(item => item.id !== id)
-    pagination.value.totalItems = Math.max(0, pagination.value.totalItems - 1)
-    pagination.value.totalPages = pagination.value.totalItems === 0
-      ? 0
-      : Math.max(1, Math.ceil(pagination.value.totalItems / pagination.value.pageSize))
+    await trainingsStore.deleteTrainingRecord(id)
   }
 
   return {
     filters,
     tableRows,
-    pagination: computed(() => pagination.value),
-    isLoading: computed(() => isLoading.value),
-    error: computed(() => error.value),
-    totalItems: computed(() => pagination.value.totalItems),
+    pagination: computed(() => trainingRecords.value.pagination),
+    isLoading: computed(() => trainingRecords.value.isLoading),
+    error: computed(() => trainingRecords.value.error),
+    totalItems: computed(() => trainingRecords.value.pagination.totalItems),
     loadTrainingRecords,
     createTrainingRecord,
     updateTrainingRecord,
     deleteTrainingRecord,
-    records: computed(() => records.value),
+    records: computed(() => trainingRecords.value.items),
   }
 }
