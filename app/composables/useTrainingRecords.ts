@@ -1,5 +1,12 @@
 import { computed, ref } from 'vue'
-import { createTrainingRecordEndpoint, deleteTrainingRecordEndpoint, getTrainingRecordsEndpoint, searchTrainingRecordsEndpoint, updateTrainingRecordEndpoint } from '~/utils/training-endpoints'
+import { 
+  createTrainingRecordEndpoint,
+  deleteTrainingRecordEndpoint,
+  getTrainingRecordByIdEndpoint,
+  getTrainingRecordsEndpoint,
+  searchTrainingRecordsEndpoint,
+  updateTrainingRecordEndpoint
+} from '~/utils/training-endpoints'
 import type {
   CreateTrainingRecordPayload,
   TrainingEndpointQuery,
@@ -85,31 +92,10 @@ export const useTrainingRecords = () => {
 
   const createTrainingRecord = async (payload: CreateTrainingRecordPayload): Promise<{ id: string }> => {
     const response = await createTrainingRecordEndpoint(payload)
-    const now = new Date().toISOString()
+    const createdTrainingRecord = await getTrainingRecordByIdEndpoint(response.id)
     records.value = [
       ...records.value,
-      {
-        id: response.id,
-        recordNo: '—',
-        personnelId: payload.personnelId,
-        personnelCode: null,
-        personnelName: null,
-        trainingId: payload.trainingId,
-        trainingTitle: '—',
-        trainingCategoryId: null,
-        trainingCategoryName: null,
-        levelId: null,
-        levelName: null,
-        statusId: '',
-        statusName: null,
-        startDate: null,
-        endDate: null,
-        certificateNo: payload.certificateNo ?? null,
-        validUntil: payload.validUntil ?? null,
-        remarks: payload.remarks ?? null,
-        createdAt: now,
-        updatedAt: now,
-      },
+      createdTrainingRecord,
     ]
     pagination.value.totalItems += 1
     pagination.value.totalPages = Math.max(1, Math.ceil(pagination.value.totalItems / pagination.value.pageSize))
@@ -117,21 +103,9 @@ export const useTrainingRecords = () => {
   }
 
   const updateTrainingRecord = async (id: string, payload: UpdateTrainingRecordPayload) => {
-    records.value = records.value.map((item) => {
-      if (item.id !== id) {
-        return item
-      }
-
-      return {
-        ...item,
-        trainingId: payload.trainingId ?? item.trainingId,
-        personnelId: payload.personnelId ?? item.personnelId,
-        certificateNo: payload.certificateNo ?? item.certificateNo,
-        validUntil: payload.validUntil ?? item.validUntil,
-        remarks: payload.remarks ?? item.remarks,
-        updatedAt: new Date().toISOString(),
-      }
-    })
+    await updateTrainingRecordEndpoint(id, payload)
+    const updatedTrainingRecord = await getTrainingRecordByIdEndpoint(id)
+    records.value = records.value.map(item => item.id === id ? updatedTrainingRecord : item)
   }
 
   const deleteTrainingRecord = async (id: string) => {
