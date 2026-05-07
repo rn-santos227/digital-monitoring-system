@@ -144,7 +144,7 @@ const trainingCategorySuggestionOptions = computed<SuggestionFieldOption[]>(() =
 })
 
 onMounted(async () => {
-  const response = await getTrainingCategoriesEndpoint({ page: 1, pageSize: 1000 })
+  const response = await getTrainingCategoriesEndpoint({ page: 1, pageSize: 100 })
   trainingCategories.value = response.items
 })
 

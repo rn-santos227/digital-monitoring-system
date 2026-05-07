@@ -13,6 +13,7 @@ create table if not exists public.application_settings (
 
   app_theme text not null default 'emerald',
   density_mode text not null default 'comfortable' check (density_mode in ('compact', 'comfortable', 'spacious')),
+  page_size integer not null default 20 check (page_size > 0),
 
   map_default_latitude numeric(9,6) not null default 12.879721,
   map_default_longitude numeric(9,6) not null default 121.774017,
@@ -48,6 +49,7 @@ insert into public.application_settings (
   app_description,
   default_timezone,
   app_theme,
+  page_size,
   map_default_latitude,
   map_default_longitude,
   map_default_zoom
@@ -59,6 +61,7 @@ values (
   'Personnel and equipment management system for military operational readiness and monitoring.',
   'Asia/Manila',
   'emerald',
+  20,
   12.879721,
   121.774017,
   6
