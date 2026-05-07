@@ -268,9 +268,6 @@ const {
   isUpdateBattalionModalOpen,
   getBattalionById,
   updateBattalion,
-  loadBattalions,
-  battalionPagination,
-  battalionFilters,
 })
 
 const {
@@ -287,9 +284,6 @@ const {
 const { canHandleDeleteBattalionAction, onDeleteBattalionAction } = useDeleteBattalionHandler({
   showDialog,
   deleteBattalion,
-  loadBattalions,
-  battalionPagination,
-  battalionFilters,
   onDeleteSuccess: async () => { await showDialog({
     type: 'success',
     title: 'Battalion deleted',
@@ -314,9 +308,6 @@ const {
   isUpdateCompanyModalOpen,
   getCompanyById,
   updateCompany,
-  loadCompanies,
-  companyPagination,
-  companyFilters,
 })
 
 const {
@@ -333,9 +324,6 @@ const {
 const { canHandleDeleteCompanyAction, onDeleteCompanyAction } = useDeleteCompanyHandler({
   showDialog,
   deleteCompany,
-  loadCompanies,
-  companyPagination,
-  companyFilters,
   onDeleteSuccess: async () => { await showDialog({
     type: 'success',
     title: 'Company deleted',

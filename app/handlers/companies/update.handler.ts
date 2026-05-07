@@ -1,5 +1,5 @@
 import type { Ref } from 'vue'
-import type { CompanySearchQuery, UpdateCompanyPayload } from '~/types/domain/units'
+import type { UpdateCompanyPayload } from '~/types/domain/units'
 import { COMPANY_ACTION_KEYS } from './index.handler'
 
 type CompanyRow = Record<string, unknown>
@@ -14,9 +14,6 @@ interface UseUpdateCompanyHandlerOptions {
   isUpdateCompanyModalOpen: Ref<boolean>
   getCompanyById: (id: string) => Promise<{ battalionId: string | null; code: string; name: string; isActive: boolean }>
   updateCompany: (id: string, payload: UpdateCompanyPayload) => Promise<void>
-  loadCompanies: (page?: number, filters?: Partial<CompanySearchQuery>) => Promise<void>
-  companyPagination: Ref<{ page: number }>
-  companyFilters: Ref<Partial<CompanySearchQuery>>
 }
 
 export const useUpdateCompanyHandler = ({
@@ -25,9 +22,6 @@ export const useUpdateCompanyHandler = ({
   isUpdateCompanyModalOpen,
   getCompanyById,
   updateCompany,
-  loadCompanies,
-  companyPagination,
-  companyFilters,
 }: UseUpdateCompanyHandlerOptions) => {
   const onCloseUpdateCompanyModal = () => {
     isUpdateCompanyModalOpen.value = false
@@ -42,7 +36,6 @@ export const useUpdateCompanyHandler = ({
 
     await updateCompany(selectedCompanyId.value, payload)
     onCloseUpdateCompanyModal()
-    await loadCompanies(companyPagination.value.page, companyFilters.value)
   }
 
   const onEditCompanyAction = async (row: CompanyRow): Promise<boolean> => {
