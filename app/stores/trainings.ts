@@ -22,6 +22,7 @@ import {
 import type {
   CreateTrainingCategoryPayload,
   CreateTrainingPayload,
+  CreateTrainingRecordPayload,
   TrainingCategoriesState,
   TrainingCategoryListItem,
   TrainingCategorySearchQuery,
@@ -245,6 +246,21 @@ const trainingsStoreOptions = {
         return { id: response.id }
       } catch (error) {
         this.categories.error = extractApiErrorMessage(error, 'Unable to create training category.')
+        throw error
+      }
+    },
+
+    async createTrainingRecord(this: TrainingsStoreState, payload: CreateTrainingRecordPayload): Promise<{ id: string }> {
+      this.trainingRecords.error = ''
+      try {
+        const response = await createTrainingRecordEndpoint(payload)
+        const createdTrainingRecord = await getTrainingRecordByIdEndpoint(response.id)
+        this.trainingRecords.items = [...this.trainingRecords.items, createdTrainingRecord]
+        this.trainingRecords.pagination.totalItems += 1
+        this.trainingRecords.pagination.totalPages = Math.max(1, Math.ceil(this.trainingRecords.pagination.totalItems / this.trainingRecords.pagination.pageSize))
+        return { id: response.id }
+      } catch (error) {
+        this.trainingRecords.error = extractApiErrorMessage(error, 'Unable to create training record.')
         throw error
       }
     },
