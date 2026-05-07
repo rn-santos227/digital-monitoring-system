@@ -83,8 +83,37 @@ export const useTrainingRecords = () => {
     }
   }
 
-  const createTrainingRecord = async (payload: CreateTrainingRecordPayload) => {
-    await createTrainingRecordEndpoint(payload)
+  const createTrainingRecord = async (payload: CreateTrainingRecordPayload): Promise<{ id: string }> => {
+    const response = await createTrainingRecordEndpoint(payload)
+    const now = new Date().toISOString()
+    records.value = [
+      ...records.value,
+      {
+        id: response.id,
+        recordNo: '—',
+        personnelId: payload.personnelId,
+        personnelCode: null,
+        personnelName: null,
+        trainingId: payload.trainingId,
+        trainingTitle: '—',
+        trainingCategoryId: null,
+        trainingCategoryName: null,
+        levelId: null,
+        levelName: null,
+        statusId: '',
+        statusName: null,
+        startDate: null,
+        endDate: null,
+        certificateNo: payload.certificateNo ?? null,
+        validUntil: payload.validUntil ?? null,
+        remarks: payload.remarks ?? null,
+        createdAt: now,
+        updatedAt: now,
+      },
+    ]
+    pagination.value.totalItems += 1
+    pagination.value.totalPages = Math.max(1, Math.ceil(pagination.value.totalItems / pagination.value.pageSize))
+    return { id: response.id }
   }
 
   const updateTrainingRecord = async (id: string, payload: UpdateTrainingRecordPayload) => {
