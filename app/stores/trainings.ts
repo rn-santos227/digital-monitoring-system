@@ -314,6 +314,18 @@ const trainingsStoreOptions = {
       }
     },
 
+    async updateTrainingRecord(this: TrainingsStoreState, id: string, payload: UpdateTrainingRecordPayload) {
+      this.trainingRecords.error = ''
+      try {
+        await updateTrainingRecordEndpoint(id, payload)
+        const updatedTrainingRecord = await getTrainingRecordByIdEndpoint(id)
+        this.trainingRecords.items = this.trainingRecords.items.map(item => item.id === id ? updatedTrainingRecord : item)
+      } catch (error) {
+        this.trainingRecords.error = extractApiErrorMessage(error, 'Unable to update training record.')
+        throw error
+      }
+    },
+
     async deleteTraining(this: TrainingsStoreState, id: string) {
       this.trainings.error = ''
 
