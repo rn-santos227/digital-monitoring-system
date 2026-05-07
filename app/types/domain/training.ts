@@ -191,3 +191,10 @@ export interface TrainingCategoriesState {
   isLoading: boolean
   error: string
 }
+
+export interface TrainingRecordsState {
+  items: TrainingRecordListItem[]
+  pagination: TrainingTablePagination
+  isLoading: boolean
+  error: string
+}

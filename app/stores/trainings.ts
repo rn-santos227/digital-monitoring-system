@@ -2,13 +2,18 @@ import { defineStore } from 'pinia'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import {
   createTrainingCategoryEndpoint,
+  createTrainingRecordEndpoint,
   createTrainingEndpoint,
   deleteTrainingCategoryEndpoint,
+  deleteTrainingRecordEndpoint,
   deleteTrainingEndpoint,
   getTrainingByIdEndpoint,
   getTrainingCategoryByIdEndpoint,
+  getTrainingRecordByIdEndpoint,
   getTrainingCategoriesEndpoint,
+  getTrainingRecordsEndpoint,
   getTrainingsEndpoint,
+  searchTrainingRecordsEndpoint,
   searchTrainingCategoriesEndpoint,
   searchTrainingsEndpoint,
   updateTrainingCategoryEndpoint,
@@ -20,11 +25,16 @@ import type {
   TrainingCategoriesState,
   TrainingCategoryListItem,
   TrainingCategorySearchQuery,
+  TrainingEndpointQuery,
   TrainingListItem,
+  TrainingRecordListItem,
+  TrainingRecordSearchQuery,
+  TrainingRecordsState,
   TrainingsState,
   TrainingSearchQuery,
   TrainingTablePagination,
   UpdateTrainingCategoryPayload,
+  UpdateTrainingRecordPayload,
   UpdateTrainingPayload,
 } from '~/types/domain/training'
 
@@ -38,6 +48,7 @@ const DEFAULT_PAGINATION: TrainingTablePagination = {
 interface TrainingsStoreState {
   trainings: TrainingsState
   categories: TrainingCategoriesState
+  trainingRecords: TrainingRecordsState
 }
 
 const INITIAL_TRAININGS_STORE_STATE: TrainingsStoreState = {
@@ -53,6 +64,12 @@ const INITIAL_TRAININGS_STORE_STATE: TrainingsStoreState = {
     isLoading: false,
     error: '',
   },
+  trainingRecords: {
+    items: [],
+    pagination: { ...DEFAULT_PAGINATION },
+    isLoading: false,
+    error: '',
+  },
 }
 
 const trainingsStoreOptions = {
@@ -60,11 +77,13 @@ const trainingsStoreOptions = {
     ...INITIAL_TRAININGS_STORE_STATE,
     trainings: { ...INITIAL_TRAININGS_STORE_STATE.trainings, pagination: { ...DEFAULT_PAGINATION } },
     categories: { ...INITIAL_TRAININGS_STORE_STATE.categories, pagination: { ...DEFAULT_PAGINATION } },
+    trainingRecords: { ...INITIAL_TRAININGS_STORE_STATE.trainingRecords, pagination: { ...DEFAULT_PAGINATION } },
   }),
 
   getters: {
     hasTrainings: (state: TrainingsStoreState) => state.trainings.items.length > 0,
     hasTrainingCategories: (state: TrainingsStoreState) => state.categories.items.length > 0,
+    hasTrainingRecords: (state: TrainingsStoreState) => state.trainingRecords.items.length > 0,
   },
 
   actions: {
@@ -91,7 +110,6 @@ const trainingsStoreOptions = {
         const response = hasSearchFilters
           ? await searchTrainingsEndpoint(requestQuery)
           : await getTrainingsEndpoint({ page, pageSize })
-
 
         this.trainings.items = response.items.map((item): TrainingListItem => ({
           id: item.id,
@@ -165,6 +183,34 @@ const trainingsStoreOptions = {
       }
     },
 
+    async fetchTrainingRecords(this: TrainingsStoreState, page = 1, filters: Partial<TrainingRecordSearchQuery> = {}, pageSize = this.trainingRecords.pagination.pageSize) {
+      this.trainingRecords.isLoading = true
+      this.trainingRecords.error = ''
+
+      const query: TrainingEndpointQuery = { page, pageSize, search: filters.term ?? '' }
+
+      try {
+        const response = filters.term
+          ? await searchTrainingRecordsEndpoint({ page, pageSize, term: filters.term, fields: filters.fields })
+          : await getTrainingRecordsEndpoint(query)
+
+        this.trainingRecords.items = response.items
+        this.trainingRecords.pagination = {
+          page: response.page,
+          pageSize: response.pageSize,
+          totalItems: response.totalItems,
+          totalPages: response.totalPages,
+        }
+      } catch (error) {
+        this.trainingRecords.items = []
+        this.trainingRecords.pagination = { page, pageSize, totalItems: 0, totalPages: 0 }
+        this.trainingRecords.error = extractApiErrorMessage(error, 'Failed to fetch training records.')
+        throw error
+      } finally {
+        this.trainingRecords.isLoading = false
+      }
+    },
+
     async createTraining(this: TrainingsStoreState, payload: CreateTrainingPayload): Promise<{ id: string }> {
       this.trainings.error = ''
 
@@ -203,23 +249,29 @@ const trainingsStoreOptions = {
       }
     },
 
-
     async getTrainingById(this: TrainingsStoreState, id: string) {
       return await getTrainingByIdEndpoint(id)
     },
 
-    async updateTraining(
-      this: TrainingsStoreState & {
-        fetchTrainings: (page?: number, filters?: Partial<TrainingSearchQuery>) => Promise<void>
-      },
-      id: string,
-      payload: UpdateTrainingPayload,
-    ) {
+    async updateTraining(this: TrainingsStoreState, id: string, payload: UpdateTrainingPayload) {
       this.trainings.error = ''
 
       try {
-        await updateTrainingEndpoint(id, payload)
-        await this.fetchTrainings(1)
+        this.trainings.items = this.trainings.items.map((item) => {
+          if (item.id !== id) {
+            return item
+          }
+          return {
+            ...item,
+            trainingTitle: payload.trainingTitle ?? item.trainingTitle,
+            trainingCategoryId: payload.trainingCategoryId ?? item.trainingCategoryId,
+            statusId: payload.statusId ?? item.statusId,
+            levelId: payload.levelId ?? item.levelId,
+            startDate: payload.startDate ?? item.startDate,
+            endDate: payload.endDate ?? item.endDate,
+            defaultRemarks: payload.defaultRemarks ?? item.defaultRemarks,
+          }
+        })
       } catch (error) {
         this.trainings.error = extractApiErrorMessage(error, 'Unable to update training.')
         throw error
