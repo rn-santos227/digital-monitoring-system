@@ -112,7 +112,25 @@ const personnelStoreOptions = {
       this.error = ''
 
       try {
-        return await createPersonnelEndpoint(payload)
+        const response = await createPersonnelEndpoint(payload)
+        const createdPersonnel = await getPersonnelByIdEndpoint(response.id)
+
+        const createdPersonnelListItem: PersonnelListCompactItem = {
+          id: response.id,
+          personnelCode: createdPersonnel.personnelCode,
+          serviceNumber: createdPersonnel.serviceNumber,
+          fullName: `${createdPersonnel.lastName}, ${createdPersonnel.firstName}${createdPersonnel.middleName ? ` ${createdPersonnel.middleName}` : ''}`,
+          rankName: createdPersonnel.rankName,
+          companyName: createdPersonnel.companyName,
+          battalionName: createdPersonnel.battalionName,
+          serviceStatus: createdPersonnel.serviceStatus,
+        }
+
+        this.items = [createdPersonnelListItem, ...this.items]
+        this.pagination.totalItems += 1
+        this.pagination.totalPages = Math.max(1, Math.ceil(this.pagination.totalItems / this.pagination.pageSize))
+
+        return response
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create personnel record.')
         throw error
