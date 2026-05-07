@@ -93,17 +93,23 @@ const companiesStoreOptions = {
       }
     },
 
-    async createCompany(
-      this: CompaniesState & {
-        fetchCompanies: (page?: number, filters?: Partial<CompanySearchQuery>) => Promise<void>
-      },
-      payload: CreateCompanyPayload,
-    ) {
+    async createCompany(this: CompaniesState, payload: CreateCompanyPayload) {
       this.error = ''
 
       try {
-        await createCompanyEndpoint(payload)
-        await this.fetchCompanies(1)
+        const response = await createCompanyEndpoint(payload)
+        const createdCompany: CompanyListItem = {
+          id: response.id,
+          battalionId: payload.battalionId,
+          battalionCode: null,
+          battalionName: null,
+          code: payload.code,
+          name: payload.name,
+          isActive: payload.isActive,
+        }
+        this.items = [createdCompany, ...this.items]
+        this.pagination.totalItems += 1
+        this.pagination.totalPages = Math.max(1, Math.ceil(this.pagination.totalItems / this.pagination.pageSize))
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create company.')
         throw error
@@ -130,6 +136,7 @@ const companiesStoreOptions = {
 
       try {
         await updateCompanyEndpoint(id, payload)
+        this.items = this.items.map(item => item.id === id ? { ...item, ...payload } : item)
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to update company.')
         throw error
@@ -141,6 +148,14 @@ const companiesStoreOptions = {
 
       try {
         await deleteCompanyEndpoint(id)
+        const nextItems = this.items.filter(item => item.id !== id)
+        if (nextItems.length !== this.items.length) {
+          this.items = nextItems
+          this.pagination.totalItems = Math.max(0, this.pagination.totalItems - 1)
+          this.pagination.totalPages = this.pagination.totalItems === 0
+            ? 0
+            : Math.ceil(this.pagination.totalItems / this.pagination.pageSize)
+        }
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to delete company.')
         throw error
