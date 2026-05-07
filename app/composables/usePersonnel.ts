@@ -33,17 +33,14 @@ export const usePersonnel = () => {
 
   const createPersonnel = async (payload: CreatePersonnelPayload) => {
     await personnelStore.createPersonnel(payload)
-    await loadPersonnel(1, filters.value)
   }
 
   const updatePersonnel = async (id: string, payload: UpdatePersonnelPayload) => {
     await personnelStore.updatePersonnel(id, payload)
-    await loadPersonnel(pagination.value.page, filters.value)
   }
 
   const deletePersonnel = async (id: string) => {
     await personnelStore.deletePersonnel(id)
-    await loadPersonnel(pagination.value.page, filters.value)
   }
 
   const getPersonnelById = async (id: string) => {
@@ -62,8 +59,6 @@ export const usePersonnel = () => {
       serviceStatusId,
       onProgress,
     )
-
-    await loadPersonnel(1, filters.value)
 
     return response
   }

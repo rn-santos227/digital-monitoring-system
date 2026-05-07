@@ -215,9 +215,7 @@ const { onDeletePersonnel } = useDeletePersonnelHandler({
   showDialog,
   deletePersonnel,
   ...createDeleteDialogCallbacks(
-    async () => {
-      await loadPersonnel(1, filters.value)
-    },
+    async () => {},
     'Personnel deleted',
     'Personnel record has been deleted successfully.',
     'Personnel deletion was cancelled.',
