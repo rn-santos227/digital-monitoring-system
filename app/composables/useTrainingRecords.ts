@@ -136,6 +136,11 @@ export const useTrainingRecords = () => {
 
   const deleteTrainingRecord = async (id: string) => {
     await deleteTrainingRecordEndpoint(id)
+    records.value = records.value.filter(item => item.id !== id)
+    pagination.value.totalItems = Math.max(0, pagination.value.totalItems - 1)
+    pagination.value.totalPages = pagination.value.totalItems === 0
+      ? 0
+      : Math.max(1, Math.ceil(pagination.value.totalItems / pagination.value.pageSize))
   }
 
   return {
