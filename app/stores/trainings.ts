@@ -269,6 +269,10 @@ const trainingsStoreOptions = {
       return await getTrainingByIdEndpoint(id)
     },
 
+    async getTrainingCategoryById(this: TrainingsStoreState, id: string) {
+      return await getTrainingCategoryByIdEndpoint(id)
+    },
+
     async updateTraining(this: TrainingsStoreState, id: string, payload: UpdateTrainingPayload) {
       this.trainings.error = ''
 
@@ -294,6 +298,22 @@ const trainingsStoreOptions = {
       }
     },
 
+    async updateTrainingCategory(this: TrainingsStoreState, id: string, payload: UpdateTrainingCategoryPayload) {
+      this.categories.error = ''
+
+      try {
+        this.categories.items = this.categories.items.map((item) => {
+          if (item.id !== id) {
+            return item
+          }
+          return { ...item, code: payload.code ?? item.code, name: payload.name ?? item.name, updatedAt: new Date().toISOString() }
+        })
+      } catch (error) {
+        this.categories.error = extractApiErrorMessage(error, 'Unable to update training category.')
+        throw error
+      }
+    },
+
     async deleteTraining(
       this: TrainingsStoreState & {
         fetchTrainings: (page?: number, filters?: Partial<TrainingSearchQuery>) => Promise<void>
@@ -307,28 +327,6 @@ const trainingsStoreOptions = {
         await this.fetchTrainings(1)
       } catch (error) {
         this.trainings.error = extractApiErrorMessage(error, 'Unable to delete training.')
-        throw error
-      }
-    },
-
-    async getTrainingCategoryById(this: TrainingsStoreState, id: string) {
-      return await getTrainingCategoryByIdEndpoint(id)
-    },
-
-    async updateTrainingCategory(
-      this: TrainingsStoreState & {
-        fetchTrainingCategories: (page?: number, filters?: Partial<TrainingCategorySearchQuery>) => Promise<void>
-      },
-      id: string,
-      payload: UpdateTrainingCategoryPayload,
-    ) {
-      this.categories.error = ''
-
-      try {
-        await updateTrainingCategoryEndpoint(id, payload)
-        await this.fetchTrainingCategories(1)
-      } catch (error) {
-        this.categories.error = extractApiErrorMessage(error, 'Unable to update training category.')
         throw error
       }
     },
