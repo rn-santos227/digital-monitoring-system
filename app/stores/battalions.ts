@@ -86,17 +86,21 @@ const battalionsStoreOptions = {
       }
     },
 
-    async createBattalion(
-      this: BattalionsState & {
-        fetchBattalions: (page?: number, filters?: Partial<BattalionSearchQuery>) => Promise<void>
-      },
-      payload: CreateBattalionPayload,
-    ) {
+    async createBattalion(this: BattalionsState, payload: CreateBattalionPayload) {
       this.error = ''
 
       try {
-        await createBattalionEndpoint(payload)
-        await this.fetchBattalions(1)
+        const response = await createBattalionEndpoint(payload)
+        const createdBattalion: BattalionListItem = {
+          id: response.id,
+          code: payload.code,
+          name: payload.name,
+          isActive: payload.isActive,
+          companyCount: 0,
+        }
+        this.items = [createdBattalion, ...this.items]
+        this.pagination.totalItems += 1
+        this.pagination.totalPages = Math.max(1, Math.ceil(this.pagination.totalItems / this.pagination.pageSize))
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create battalion.')
         throw error
@@ -114,17 +118,12 @@ const battalionsStoreOptions = {
       }
     },
 
-    async updateBattalion(
-      this: BattalionsState & {
-        fetchBattalions: (page?: number, filters?: Partial<BattalionSearchQuery>) => Promise<void>
-      },
-      id: string,
-      payload: UpdateBattalionPayload,
-    ) {
+    async updateBattalion(this: BattalionsState, id: string, payload: UpdateBattalionPayload) {
       this.error = ''
 
       try {
         await updateBattalionEndpoint(id, payload)
+        this.items = this.items.map(item => item.id === id ? { ...item, ...payload } : item)
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to update battalion.')
         throw error
@@ -136,6 +135,14 @@ const battalionsStoreOptions = {
 
       try {
         await deleteBattalionEndpoint(id)
+        const nextItems = this.items.filter(item => item.id !== id)
+        if (nextItems.length !== this.items.length) {
+          this.items = nextItems
+          this.pagination.totalItems = Math.max(0, this.pagination.totalItems - 1)
+          this.pagination.totalPages = this.pagination.totalItems === 0
+            ? 0
+            : Math.ceil(this.pagination.totalItems / this.pagination.pageSize)
+        }
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to delete battalion.')
         throw error
