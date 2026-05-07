@@ -109,7 +109,7 @@ import {
 } from '~/constants/page.constants'
 import type { SuggestionFieldOption } from '~/constants/ui.constants'
 import type { CreateTrainingPayload, TrainingCategoryListItem } from '~/types/domain/training'
-import { searchTrainingCategoriesEndpoint } from '~/utils/training-endpoints'
+import { getTrainingCategoriesEndpoint } from '~/utils/training-endpoints'
 import { validateCreateTrainingForm } from '~/utils/training-validation'
 
 withDefaults(defineProps<{ isSubmitting?: boolean; warningMessage?: string; errorMessage?: string }>(), {
@@ -144,7 +144,7 @@ const trainingCategorySuggestionOptions = computed<SuggestionFieldOption[]>(() =
 })
 
 onMounted(async () => {
-  const response = await searchTrainingCategoriesEndpoint({ page: 1, pageSize: 1000 })
+  const response = await getTrainingCategoriesEndpoint({ page: 1, pageSize: 1000 })
   trainingCategories.value = response.items
 })
 
