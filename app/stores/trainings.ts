@@ -165,17 +165,19 @@ const trainingsStoreOptions = {
       }
     },
 
-    async createTraining(
-      this: TrainingsStoreState & {
-        fetchTrainings: (page?: number, filters?: Partial<TrainingSearchQuery>) => Promise<void>
-      },
-      payload: CreateTrainingPayload,
-    ) {
+    async createTraining(this: TrainingsStoreState, payload: CreateTrainingPayload): Promise<{ id: string }> {
       this.trainings.error = ''
 
       try {
-        await createTrainingEndpoint(payload)
-        await this.fetchTrainings(1)
+        const response = await createTrainingEndpoint(payload)
+        const createdTraining = await getTrainingByIdEndpoint(response.id)
+        this.trainings.items = [
+          ...this.trainings.items,
+          createdTraining,
+        ]
+        this.trainings.pagination.totalItems += 1
+        this.trainings.pagination.totalPages = Math.max(1, Math.ceil(this.trainings.pagination.totalItems / this.trainings.pagination.pageSize))
+        return { id: response.id }
       } catch (error) {
         this.trainings.error = extractApiErrorMessage(error, 'Unable to create training.')
         throw error
