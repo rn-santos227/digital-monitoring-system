@@ -167,6 +167,15 @@ export const createTrainingRecordEndpoint = async (payload: CreateTrainingRecord
   }, API_LOADING_MESSAGES.createTrainingRecord)
 }
 
+export const getTrainingRecordByIdEndpoint = async (id: string): Promise<TrainingRecordListItem> => {
+  return await withApiLoading(async () => {
+    return await $fetch<TrainingRecordListItem>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingRecordById(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchTrainingRecords)
+}
+
 export const getTrainingPersonnelEndpoint = async (
   trainingId: string,
   pageSize = 25,
