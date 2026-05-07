@@ -4,8 +4,6 @@ import { showErrorDialog } from '~/utils/error-handling'
 
 interface UseDeleteTrainingHandlerOptions {
   deleteTraining: (id: string) => Promise<void>
-  loadTrainings: (page?: number, nextFilters?: Partial<TrainingSearchQuery>, pageSize?: number) => Promise<void>
-  trainingFilters: Ref<Partial<TrainingSearchQuery>>
   kpiRefreshKey: Ref<number>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   onDeleteSuccess?: () => void
@@ -14,8 +12,6 @@ interface UseDeleteTrainingHandlerOptions {
 
 interface UseDeleteTrainingCategoryHandlerOptions {
   deleteTrainingCategory: (id: string) => Promise<void>
-  loadTrainingCategories: (page?: number, nextFilters?: Partial<TrainingCategorySearchQuery>, pageSize?: number) => Promise<void>
-  categoryFilters: Ref<Partial<TrainingCategorySearchQuery>>
   kpiRefreshKey: Ref<number>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   onDeleteSuccess?: () => void
@@ -24,9 +20,6 @@ interface UseDeleteTrainingCategoryHandlerOptions {
 
 interface UseDeleteTrainingRecordHandlerOptions {
   deleteTrainingRecord: (id: string) => Promise<void>
-  loadTrainingRecords: (page?: number, nextFilters?: Partial<TrainingRecordSearchQuery>, pageSize?: number) => Promise<void>
-  trainingRecordFilters: Ref<Partial<TrainingRecordSearchQuery>>
-  trainingRecordsPageSize: Ref<number>
   kpiRefreshKey: Ref<number>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   onDeleteSuccess?: () => void
@@ -35,8 +28,6 @@ interface UseDeleteTrainingRecordHandlerOptions {
 
 export const useDeleteTrainingHandler = ({
   deleteTraining,
-  loadTrainings,
-  trainingFilters,
   kpiRefreshKey,
   showDialog,
   onDeleteSuccess,
@@ -58,7 +49,6 @@ export const useDeleteTrainingHandler = ({
 
     try {
       await deleteTraining(trainingId)
-      await loadTrainings(1, trainingFilters.value)
       kpiRefreshKey.value += 1
       onDeleteSuccess?.()
     } catch (error) {
@@ -78,8 +68,6 @@ export const useDeleteTrainingHandler = ({
 
 export const useDeleteTrainingCategoryHandler = ({
   deleteTrainingCategory,
-  loadTrainingCategories,
-  categoryFilters,
   kpiRefreshKey,
   showDialog,
   onDeleteSuccess,
@@ -101,7 +89,6 @@ export const useDeleteTrainingCategoryHandler = ({
 
     try {
       await deleteTrainingCategory(categoryId)
-      await loadTrainingCategories(1, categoryFilters.value)
       kpiRefreshKey.value += 1
       onDeleteSuccess?.()
     } catch (error) {
@@ -122,9 +109,6 @@ export const useDeleteTrainingCategoryHandler = ({
 
 export const useDeleteTrainingRecordHandler = ({
   deleteTrainingRecord,
-  loadTrainingRecords,
-  trainingRecordFilters,
-  trainingRecordsPageSize,
   kpiRefreshKey,
   showDialog,
   onDeleteSuccess,
@@ -146,7 +130,6 @@ export const useDeleteTrainingRecordHandler = ({
 
     try {
       await deleteTrainingRecord(recordId)
-      await loadTrainingRecords(1, trainingRecordFilters.value, trainingRecordsPageSize.value)
       kpiRefreshKey.value += 1
       onDeleteSuccess?.()
     } catch (error) {
