@@ -199,7 +199,27 @@ const personnelStoreOptions = {
       this.error = ''
 
       try {
-        return await updatePersonnelEndpoint(id, payload)
+        const response = await updatePersonnelEndpoint(id, payload)
+        const updatedPersonnel = await getPersonnelByIdEndpoint(id)
+
+        this.items = this.items.map((item): PersonnelListCompactItem => {
+          if (item.id !== id) {
+            return item
+          }
+
+          return {
+            id,
+            personnelCode: updatedPersonnel.personnelCode,
+            serviceNumber: updatedPersonnel.serviceNumber,
+            fullName: `${updatedPersonnel.lastName}, ${updatedPersonnel.firstName}${updatedPersonnel.middleName ? ` ${updatedPersonnel.middleName}` : ''}`,
+            rankName: updatedPersonnel.rankName,
+            companyName: updatedPersonnel.companyName,
+            battalionName: updatedPersonnel.battalionName,
+            serviceStatus: updatedPersonnel.serviceStatus,
+          }
+        })
+
+        return response
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to update personnel record.')
         throw error
