@@ -1,4 +1,3 @@
-import type { Ref } from 'vue'
 import type { DialogInput } from '~/composables/useDialog'
 import {
   COMPANY_DELETE_DIALOG_MESSAGE,
@@ -6,7 +5,6 @@ import {
   UNITS_MODAL_CANCEL_LABEL,
 } from '~/constants/page.constants'
 import { showErrorDialog } from '~/utils/error-handling'
-import type { CompanySearchQuery } from '~/types/domain/units'
 import { COMPANY_ACTION_KEYS } from './index.handler'
 
 type CompanyRow = Record<string, unknown>
@@ -26,9 +24,6 @@ const resolveCompanyActionRowId = (row: CompanyRow): string => {
 interface UseDeleteCompanyHandlerOptions {
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   deleteCompany: (id: string) => Promise<void>
-  loadCompanies: (page?: number, filters?: Partial<CompanySearchQuery>) => Promise<void>
-  companyPagination: Ref<{ page: number }>
-  companyFilters: Ref<Partial<CompanySearchQuery>>
   onDeleteSuccess?: () => void | Promise<void>
   onDeleteCancelled?: () => void | Promise<void>
 }
@@ -36,9 +31,6 @@ interface UseDeleteCompanyHandlerOptions {
 export const useDeleteCompanyHandler = ({
   showDialog,
   deleteCompany,
-  loadCompanies,
-  companyPagination,
-  companyFilters,
   onDeleteSuccess,
   onDeleteCancelled,
 }: UseDeleteCompanyHandlerOptions) => {
@@ -56,7 +48,6 @@ export const useDeleteCompanyHandler = ({
 
     try {
       await deleteCompany(selectedCompanyRowId)
-      await loadCompanies(companyPagination.value.page, companyFilters.value)
       await onDeleteSuccess?.()
     } catch (error) {
       await showErrorDialog({
