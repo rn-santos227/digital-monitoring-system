@@ -140,15 +140,17 @@ export const useDeploymentsStore = defineStore('deployments', {
     },
 
     async deleteDeployment(
-      this: DeploymentsStoreState & {
-        fetchDeployments: (page?: number, filters?: Partial<DeploymentManagementSearchQuery>, pageSize?: number) => Promise<void>
-      },
+      this: DeploymentsStoreState,
       id: string,
     ) {
       this.deployments.error = ''
       try {
         await deleteDeploymentEndpoint(id)
-        await this.fetchDeployments(1)
+        this.deployments.items = this.deployments.items.filter(item => item.id !== id)
+        this.deployments.pagination.totalItems = Math.max(0, this.deployments.pagination.totalItems - 1)
+        this.deployments.pagination.totalPages = this.deployments.pagination.totalItems === 0
+          ? 0
+          : Math.max(1, Math.ceil(this.deployments.pagination.totalItems / this.deployments.pagination.pageSize))
       } catch (error) {
         this.deployments.error = extractApiErrorMessage(error, 'Unable to delete deployment.')
         throw error
