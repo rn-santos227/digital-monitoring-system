@@ -3,12 +3,19 @@ import type { DialogInput } from '~/composables/useDialog'
 import type { CreateDeploymentPayload } from '~/types/domain/deployment'
 import { showErrorDialog } from '~/utils/error-handling'
 
-export const useCreateDeploymentHandler = (
-  isCreateDeploymentModalOpen: Ref<boolean>,
-  createDeployment: (payload: CreateDeploymentPayload) => Promise<void>,
-  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>,
-  errorMessage: Ref<string>,
-) => {
+interface UseCreateDeploymentHandlerOptions {
+  isCreateDeploymentModalOpen: Ref<boolean>
+  createDeployment: (payload: CreateDeploymentPayload) => Promise<{ id: string }>
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
+  errorMessage: Ref<string>
+}
+
+export const useCreateDeploymentHandler = ({
+  isCreateDeploymentModalOpen,
+  createDeployment,
+  showDialog,
+  errorMessage,
+}: UseCreateDeploymentHandlerOptions) => {
   const onOpenCreateDeploymentModal = () => {
     isCreateDeploymentModalOpen.value = true
   }
