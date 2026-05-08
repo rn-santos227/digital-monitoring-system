@@ -154,5 +154,15 @@ export const useDeploymentsStore = defineStore('deployments', {
         throw error
       }
     },
+
+    async fetchDeploymentById(this: DeploymentsStoreState, id: string) {
+      this.deployments.error = ''
+      try {
+        return await getDeploymentByIdEndpoint(id)
+      } catch (error) {
+        this.deployments.error = extractApiErrorMessage(error, 'Unable to fetch deployment details.')
+        throw error
+      }
+    },
   },
 })

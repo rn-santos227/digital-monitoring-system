@@ -1,9 +1,11 @@
 import { computed, ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import type { CreateDeploymentPayload, DeploymentManagementListItem, DeploymentManagementSearchQuery } from '~/types/domain/deployment'
 import { useDeploymentsStore } from '~/stores/deployments'
 
 export const useDeployments = () => {
-  const store = useDeploymentsStore()
+  const deploymentsStore = useDeploymentsStore()
+  const { deployments } = storeToRefs(deploymentsStore)
   const filters = ref<Partial<DeploymentManagementSearchQuery>>({})
 
   const normalizeDisplayValue = (value: unknown): string => {
@@ -17,7 +19,7 @@ export const useDeployments = () => {
   const resolveDeploymentStatus = (item: DeploymentManagementListItem & { statusName?: string | null }): string =>
     normalizeDisplayValue(item.statusName ?? item.status)
 
-  const tableRows = computed(() => store.deployments.items.map(item => ({
+  const tableRows = computed(() => deployments.value.items.map(item => ({
     id: item.id,
     operationName: normalizeDisplayValue(item.operationName),
     deploymentArea: normalizeDisplayValue(item.deploymentArea),
@@ -33,37 +35,48 @@ export const useDeployments = () => {
     defaultRemarks: item.defaultRemarks ?? '',
   })))
 
-  const loadDeployments = async (page = store.deployments.pagination.page, nextFilters: Partial<DeploymentManagementSearchQuery> = filters.value, pageSize = store.deployments.pagination.pageSize) => {
+  const loadDeployments = async (page = deployments.value.pagination.page, nextFilters: Partial<DeploymentManagementSearchQuery> = filters.value, pageSize = deployments.value.pagination.pageSize) => {
     filters.value = { ...nextFilters }
-    await store.fetchDeployments(page, filters.value, pageSize)
+    try {
+      await deploymentsStore.fetchDeployments(page, filters.value, pageSize)
+    } catch {
+      // Error state is exposed from the store.
+    }
   }
 
-  const createDeployment = async (payload: CreateDeploymentPayload) => {
-    await store.createDeployment(payload)
+  const createDeployment = async (payload: CreateDeploymentPayload): Promise<{ id: string }> => {
+    return await deploymentsStore.createDeployment(payload)
   }
 
   const updateDeploymentDetails = async (id: string, payload: CreateDeploymentPayload) => {
-    await store.updateDeploymentDetails(id, payload)
+    await deploymentsStore.updateDeploymentDetails(id, payload)
   }
 
+
   const updateDeploymentLocation = async (id: string, payload: CreateDeploymentPayload) => {
-    await store.updateDeploymentLocation(id, payload)
+    await deploymentsStore.updateDeploymentDetails(id, payload)
   }
 
   const deleteDeployment = async (id: string) => {
-    await store.deleteDeployment(id)
+    await deploymentsStore.deleteDeployment(id)
+  }
+
+  const getDeploymentById = async (id: string) => {
+    return await deploymentsStore.fetchDeploymentById(id)
   }
 
   return { 
     filters,
     tableRows,
-    pagination: computed(() => store.deployments.pagination),
-    isLoading: computed(() => store.deployments.isLoading),
-    error: computed(() => store.deployments.error),
+    pagination: computed(() => deployments.value.pagination),
+    isLoading: computed(() => deployments.value.isLoading),
+    error: computed(() => deployments.value.error),
+    totalItems: computed(() => deployments.value.pagination.totalItems),
     loadDeployments,
     createDeployment,
     updateDeploymentDetails,
     updateDeploymentLocation,
-    deleteDeployment
+    deleteDeployment,
+    getDeploymentById,
   }
 }
