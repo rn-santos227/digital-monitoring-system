@@ -327,6 +327,16 @@ const usersStoreOptions = {
       this.error = ''
       try {
         await updateUserActivationEndpoint(id, payload)
+        this.profileItems = this.profileItems.map((profileItem) => {
+          if (profileItem.id !== id) {
+            return profileItem
+          }
+
+          return {
+            ...profileItem,
+            isActive: payload.isActive,
+          }
+        })
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to update user status.')
         throw error
