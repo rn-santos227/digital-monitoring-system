@@ -112,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch, type Ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import DeploymentsFilter from '~/components/deployments/DeploymentsFilter.vue'
@@ -241,7 +241,7 @@ const { onDeleteDeployment } = useDeleteDeploymentHandler({
 })
 
 const { onCloseViewDeploymentModal, onViewDeploymentAction } = useViewDeploymentHandler({
-  selectedDeployment: selectedDeployment as Ref<Record<string, unknown> | null>,
+  selectedDeployment,
   isViewDeploymentModalOpen,
   getDeploymentById,
 })
@@ -297,7 +297,7 @@ const onDeploymentsTableAction = async (payload: { actionKey: string; row: Recor
   if (payload.actionKey === 'view-deployment') {
     isUpdateDeploymentDetailModalOpen.value = false
     isUpdateDeploymentLocationModalOpen.value = false
-    await onViewDeploymentAction(payload.row)
+    await onViewDeploymentAction(payload.row as unknown as DeploymentManagementListItem)
     return
   }
 
