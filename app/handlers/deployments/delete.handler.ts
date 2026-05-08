@@ -2,13 +2,22 @@ import type { DialogInput } from '~/composables/useDialog'
 import type { Toast } from '~/composables/useToast'
 import { showErrorDialog } from '~/utils/error-handling'
 
-export const useDeleteDeploymentHandler = (
-  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>,
-  deleteDeployment: (id: string) => Promise<void>,
-  addToast: (toast: Omit<Toast, 'id'>) => string,
-) => {
+interface UseDeleteDeploymentHandlerOptions {
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
+  deleteDeployment: (id: string) => Promise<void>
+  addToast: (toast: Omit<Toast, 'id'>) => string
+}
+
+const resolveDeploymentId = (row: Record<string, unknown>): string => String(row.id ?? '')
+
+export const useDeleteDeploymentHandler = ({
+  showDialog,
+  deleteDeployment,
+  addToast,
+}: UseDeleteDeploymentHandlerOptions) => {
   const onDeleteDeployment = async (row: Record<string, unknown>) => {
-    const deploymentId = String(row.id ?? '')
+    const deploymentId = resolveDeploymentId(row)
+
     if (!deploymentId) {
       return
     }
