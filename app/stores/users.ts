@@ -387,6 +387,13 @@ const usersStoreOptions = {
       this.error = ''
       try {
         await deleteAccountTypeEndpoint(id)
+        this.accountItems = this.accountItems.filter((accountItem) => accountItem.id !== id)
+        const nextTotalItems = this.accountPagination.totalItems > 0 ? this.accountPagination.totalItems - 1 : 0
+        this.accountPagination = {
+          ...this.accountPagination,
+          totalItems: nextTotalItems,
+          totalPages: Math.ceil(nextTotalItems / this.accountPagination.pageSize),
+        }
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to delete account type.')
         throw error
