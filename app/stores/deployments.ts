@@ -108,16 +108,15 @@ export const useDeploymentsStore = defineStore('deployments', {
     },
 
     async updateDeploymentDetails(
-      this: DeploymentsStoreState & {
-        fetchDeployments: (page?: number, filters?: Partial<DeploymentManagementSearchQuery>, pageSize?: number) => Promise<void>
-      },
+      this: DeploymentsStoreState,
       id: string,
       payload: CreateDeploymentPayload,
     ) {
       this.deployments.error = ''
       try {
         await updateDeploymentDetailsEndpoint(id, payload)
-        await this.fetchDeployments(1)
+        const updatedDeployment = await getDeploymentByIdEndpoint(id)
+        this.deployments.items = this.deployments.items.map(item => item.id === id ? updatedDeployment : item)
       } catch (error) {
         this.deployments.error = extractApiErrorMessage(error, 'Unable to update deployment details.')
         throw error
