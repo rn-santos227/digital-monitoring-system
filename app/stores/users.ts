@@ -288,6 +288,25 @@ const usersStoreOptions = {
       this.error = ''
       try {
         await updateUserProfileEndpoint(id, payload)
+        this.profileItems = this.profileItems.map((profileItem) => {
+          if (profileItem.id !== id) {
+            return profileItem
+          }
+
+          const normalizedAccountTypeIds = payload.accountTypeIds ?? []
+          const accountTypeCodes = normalizedAccountTypeIds.length > 0
+            ? normalizedAccountTypeIds
+              .map((accountTypeId) => this.accountItems.find((accountType) => accountType.id === accountTypeId)?.code ?? '')
+              .filter((accountTypeCode) => accountTypeCode.length > 0)
+            : profileItem.accountTypeCodes
+
+          return {
+            ...profileItem,
+            email: payload.email ?? profileItem.email,
+            fullName: payload.fullName ?? profileItem.fullName,
+            accountTypeCodes,
+          }
+        })
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to update user profile.')
         throw error
