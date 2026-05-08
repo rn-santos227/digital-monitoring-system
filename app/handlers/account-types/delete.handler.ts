@@ -1,6 +1,5 @@
 import type { Ref } from 'vue'
 import type { DialogInput } from '~/composables/useDialog'
-import type { UserAccountsSearchQuery } from '~/types/domain/users'
 import { ACCOUNT_TYPE_ACTION_KEYS } from './index.handler'
 import { showErrorDialog } from '~/utils/error-handling'
 
@@ -21,9 +20,6 @@ const DELETE_ACCOUNT_TYPE_DIALOG: DialogInput = Object.freeze({
 interface UseDeleteAccountTypeHandlerOptions {
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   deleteAccountType: (id: string) => Promise<void>
-  loadUserAccounts: (page?: number, filters?: Partial<UserAccountsSearchQuery>) => Promise<void>
-  accountPagination: Ref<{ page: number }>
-  accountFilters: Ref<Partial<UserAccountsSearchQuery>>
   onDeleteSuccess?: () => void | Promise<void>
   onDeleteCancelled?: () => void | Promise<void>
 }
@@ -31,9 +27,6 @@ interface UseDeleteAccountTypeHandlerOptions {
 export const useDeleteAccountTypeHandler = ({
   showDialog,
   deleteAccountType,
-  loadUserAccounts,
-  accountPagination,
-  accountFilters,
   onDeleteSuccess,
   onDeleteCancelled,
 }: UseDeleteAccountTypeHandlerOptions) => {
@@ -51,7 +44,6 @@ export const useDeleteAccountTypeHandler = ({
 
     try {
       await deleteAccountType(selectedAccountTypeRowId)
-      await loadUserAccounts(accountPagination.value.page, accountFilters.value)
       await onDeleteSuccess?.()
     } catch (error) {
       await showErrorDialog({
