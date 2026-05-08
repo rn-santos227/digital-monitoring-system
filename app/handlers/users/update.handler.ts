@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
 import { USER_PROFILE_ACTION_KEYS } from './constants'
-import type { UpdateUserProfilePayload, UserAccountsSearchQuery, UserProfilesSearchQuery } from '~/types/domain/users'
+import type { UpdateUserProfilePayload, UserAccountsSearchQuery } from '~/types/domain/users'
 
 type UserRow = Record<string, unknown>
 
@@ -17,10 +17,7 @@ interface UseUpdateUserProfileHandlerOptions {
   selectedUserProfileId: Ref<string>
   selectedUserProfile: Ref<SelectedUserProfile | null>
   isUpdateUserProfileModalOpen: Ref<boolean>
-  profilePagination: Ref<{ page: number }>
-  profileFilters: Ref<Partial<UserProfilesSearchQuery>>
   loadUserAccounts: (page?: number, filters?: Partial<UserAccountsSearchQuery>) => Promise<void>
-  loadUserProfiles: (page?: number, filters?: Partial<UserProfilesSearchQuery>) => Promise<void>
   getUserProfileById: (id: string) => Promise<SelectedUserProfile>
   updateUserProfile: (id: string, payload: UpdateUserProfilePayload) => Promise<void>
 }
@@ -34,10 +31,7 @@ export const useUpdateUserProfileHandler = ({
   selectedUserProfileId,
   selectedUserProfile,
   isUpdateUserProfileModalOpen,
-  profilePagination,
-  profileFilters,
   loadUserAccounts,
-  loadUserProfiles,
   getUserProfileById,
   updateUserProfile,
 }: UseUpdateUserProfileHandlerOptions) => {
@@ -54,7 +48,6 @@ export const useUpdateUserProfileHandler = ({
 
     await updateUserProfile(selectedUserProfileId.value, payload)
     onCloseUpdateUserProfileModal()
-    await loadUserProfiles(profilePagination.value.page, profileFilters.value)
   }
 
   const onEditProfileAction = async (row: UserRow): Promise<boolean> => {
