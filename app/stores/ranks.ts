@@ -124,7 +124,14 @@ const rankStoreOptions = {
 
       try {
         const result = await deleteRankEndpoint(id)
-        await this.fetchRanks(this.pagination.page, this.searchTerm)
+        const nextItems = this.items.filter((rank) => rank.id !== id)
+        const wasRankPresent = nextItems.length !== this.items.length
+
+        this.items = nextItems
+        if (wasRankPresent) {
+          this.pagination = recalculateRankPaginationTotals(this.pagination, Math.max(this.pagination.totalItems - 1, 0))
+        }
+
         return result
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to delete rank record.')
