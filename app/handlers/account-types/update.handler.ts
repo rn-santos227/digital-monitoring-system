@@ -1,5 +1,5 @@
 import type { Ref } from 'vue'
-import type { UpdateAccountTypePayload, UserAccountsSearchQuery } from '~/types/domain/users'
+import type { UpdateAccountTypePayload } from '~/types/domain/users'
 import { ACCOUNT_TYPE_ACTION_KEYS } from './index.handler'
 
 interface UseUpdateAccountTypeHandlerOptions {
@@ -20,9 +20,6 @@ interface UseUpdateAccountTypeHandlerOptions {
     permissionIds: string[]
   }>
   updateAccountType: (id: string, payload: UpdateAccountTypePayload) => Promise<void>
-  loadUserAccounts: (page?: number, filters?: Partial<UserAccountsSearchQuery>) => Promise<void>
-  accountPagination: Ref<{ page: number }>
-  accountFilters: Ref<Partial<UserAccountsSearchQuery>>
 }
 
 type AccountTypeRow = Record<string, unknown>
@@ -37,9 +34,6 @@ export const useUpdateAccountTypeHandler = ({
   isUpdateAccountTypeModalOpen,
   getAccountTypeById,
   updateAccountType,
-  loadUserAccounts,
-  accountPagination,
-  accountFilters,
 }: UseUpdateAccountTypeHandlerOptions) => {
   const onCloseUpdateAccountTypeModal = () => {
     isUpdateAccountTypeModalOpen.value = false
@@ -54,7 +48,6 @@ export const useUpdateAccountTypeHandler = ({
 
     await updateAccountType(selectedAccountTypeId.value, payload)
     onCloseUpdateAccountTypeModal()
-    await loadUserAccounts(accountPagination.value.page, accountFilters.value)
   }
 
   const onEditAccountTypeAction = async (row: AccountTypeRow): Promise<boolean> => {
