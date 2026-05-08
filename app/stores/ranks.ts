@@ -38,6 +38,19 @@ const recalculateRankPaginationTotals = (pagination: RankTablePagination, totalI
   }
 }
 
+const buildCreatedRankItem = (payload: CreateRankPayload, id: string): RankListItem => {
+  const nowIsoTimestamp = new Date().toISOString()
+
+  return {
+    id,
+    code: payload.code,
+    name: payload.name,
+    sortOrder: payload.sortOrder,
+    createdAt: nowIsoTimestamp,
+    updatedAt: nowIsoTimestamp,
+  }
+}
+
 interface RankStoreActionContext extends RankState {
   fetchRanks: (page?: number, search?: string) => Promise<void>
 }
