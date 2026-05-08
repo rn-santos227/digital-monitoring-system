@@ -27,6 +27,17 @@ const doesRankMatchSearch = (rank: Pick<RankListItem, 'code' | 'name'>, searchTe
   return rank.code.toLowerCase().includes(normalizedSearchTerm) || rank.name.toLowerCase().includes(normalizedSearchTerm)
 }
 
+const recalculateRankPaginationTotals = (pagination: RankTablePagination, totalItems: number): RankTablePagination => {
+  const normalizedTotalPages = totalItems > 0 ? Math.ceil(totalItems / pagination.pageSize) : 0
+
+  return {
+    ...pagination,
+    totalItems,
+    totalPages: normalizedTotalPages,
+    page: normalizedTotalPages === 0 ? 1 : Math.min(pagination.page, normalizedTotalPages),
+  }
+}
+
 interface RankStoreActionContext extends RankState {
   fetchRanks: (page?: number, search?: string) => Promise<void>
 }
