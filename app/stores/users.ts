@@ -190,10 +190,30 @@ const usersStoreOptions = {
       }
     },
 
-    async createAccountType(this: UsersState, payload: CreateAccountTypePayload) {
+    async createAccountType(this: UsersState, payload: CreateAccountTypePayload): Promise<{ id: string | null }> {
       this.error = ''
       try {
-        await createAccountTypeEndpoint(payload)
+        const response = await createAccountTypeEndpoint(payload)
+        if (response.id) {
+          this.accountItems = [
+            {
+              id: response.id,
+              code: payload.code,
+              name: payload.name,
+              description: payload.description,
+              isSystem: payload.isSystem,
+            },
+            ...this.accountItems,
+          ]
+
+          this.accountPagination = {
+            ...this.accountPagination,
+            totalItems: this.accountPagination.totalItems + 1,
+            totalPages: Math.ceil((this.accountPagination.totalItems + 1) / this.accountPagination.pageSize),
+          }
+        }
+
+        return { id: response.id }
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create account type.')
         throw error
