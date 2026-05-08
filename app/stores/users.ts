@@ -347,6 +347,13 @@ const usersStoreOptions = {
       this.error = ''
       try {
         await deleteUserProfileEndpoint(id)
+        this.profileItems = this.profileItems.filter((profileItem) => profileItem.id !== id)
+        const nextTotalItems = this.profilePagination.totalItems > 0 ? this.profilePagination.totalItems - 1 : 0
+        this.profilePagination = {
+          ...this.profilePagination,
+          totalItems: nextTotalItems,
+          totalPages: Math.ceil(nextTotalItems / this.profilePagination.pageSize),
+        }
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to delete user profile.')
         throw error
