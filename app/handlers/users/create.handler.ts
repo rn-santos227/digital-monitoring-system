@@ -1,13 +1,12 @@
 import type { Ref } from 'vue'
-import type { CreateUserProfilePayload, UserAccountsSearchQuery, UserProfilesSearchQuery } from '~/types/domain/users'
+import type { CreateUserProfilePayload, UserAccountsSearchQuery } from '~/types/domain/users'
 
 interface UseCreateUserProfileHandlerOptions {
   accountTypeOptions: Ref<Array<{ value: string; label: string }>>
   isCreateUserProfileModalOpen: Ref<boolean>
   profileWarning: Ref<string>
-  createUserProfile: (payload: CreateUserProfilePayload) => Promise<void>
+  createUserProfile: (payload: CreateUserProfilePayload) => Promise<{ id: string | null }>
   loadUserAccounts: (page?: number, filters?: Partial<UserAccountsSearchQuery>) => Promise<void>
-  loadUserProfiles: (page?: number, filters?: Partial<UserProfilesSearchQuery>) => Promise<void>
 }
 
 export const useCreateUserProfileHandler = ({
@@ -16,7 +15,6 @@ export const useCreateUserProfileHandler = ({
   profileWarning,
   createUserProfile,
   loadUserAccounts,
-  loadUserProfiles,
 }: UseCreateUserProfileHandlerOptions) => {
   const onOpenCreateUserProfileModal = async () => {
     profileWarning.value = ''
@@ -30,7 +28,6 @@ export const useCreateUserProfileHandler = ({
   const onCreateUserProfile = async (payload: Parameters<typeof createUserProfile>[0]) => {
     await createUserProfile(payload)
     isCreateUserProfileModalOpen.value = false
-    await loadUserProfiles(1)
   }
 
   return {
