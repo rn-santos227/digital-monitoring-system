@@ -1,9 +1,10 @@
 import type { Ref } from 'vue'
+import type { DeploymentManagementListItem } from '~/types/domain/deployment'
 
-type DeploymentActionRow = Record<string, unknown>
+type DeploymentActionRow = DeploymentManagementListItem
 
 const resolveDeploymentActionRowId = (row: DeploymentActionRow): string => {
-  return String(row.id ?? '')
+  return row.id
 }
 
 interface UseViewDeploymentHandlerOptions {
