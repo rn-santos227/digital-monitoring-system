@@ -48,6 +48,15 @@ export const createDeploymentEndpoint = async (payload: CreateDeploymentPayload)
   }, API_LOADING_MESSAGES.createDeployment)
 }
 
+export const getDeploymentByIdEndpoint = async (id: string): Promise<DeploymentManagementListItem> => {
+  return await withApiLoading(async () => {
+    return await $fetch<DeploymentManagementListItem>(`${DEPLOYMENT_MANAGEMENT_API_ENDPOINTS.deployments}/${id}`, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchDeployments)
+}
+
 export const updateDeploymentDetailsEndpoint = async (id: string, payload: CreateDeploymentPayload): Promise<{ ok: boolean }> => {
   return await withApiLoading(async () => {
     return await $fetch<{ ok: boolean }>(DEPLOYMENT_MANAGEMENT_API_ENDPOINTS.deploymentByIdDetails(id), {
