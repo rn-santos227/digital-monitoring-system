@@ -49,6 +49,7 @@ export const useDeleteDeploymentHandler = ({
         error,
         fallbackMessage: 'Unable to delete deployment record right now.',
       })
+
       addToast({
         title: 'Delete deployment failed',
         message,
@@ -57,5 +58,7 @@ export const useDeleteDeploymentHandler = ({
     }
   }
 
-  return { onDeleteDeployment }
+  return { 
+    onDeleteDeployment 
+  }
 }

@@ -3,15 +3,25 @@ import type { DialogInput } from '~/composables/useDialog'
 import type { CreateDeploymentPayload } from '~/types/domain/deployment'
 import { showErrorDialog } from '~/utils/error-handling'
 
-export const useUpdateDeploymentHandler = (
-  isUpdateDeploymentModalOpen: Ref<boolean>,
-  selectedDeployment: Ref<Record<string, unknown> | null>,
-  updateDeploymentDetails: (id: string, payload: CreateDeploymentPayload) => Promise<void>,
-  updateDeploymentLocation: (id: string, payload: CreateDeploymentPayload) => Promise<void>,
-  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>,
-  errorMessage: Ref<string>,
-  isUpdateDeploymentLocationModalOpen?: Ref<boolean>,
-) => {
+interface UseUpdateDeploymentHandlerOptions {
+  isUpdateDeploymentModalOpen: Ref<boolean>
+  selectedDeployment: Ref<Record<string, unknown> | null>
+  updateDeploymentDetails: (id: string, payload: CreateDeploymentPayload) => Promise<void>
+  updateDeploymentLocation: (id: string, payload: CreateDeploymentPayload) => Promise<void>
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
+  errorMessage: Ref<string>
+  isUpdateDeploymentLocationModalOpen?: Ref<boolean>
+}
+
+export const useUpdateDeploymentHandler = ({
+  isUpdateDeploymentModalOpen,
+  selectedDeployment,
+  updateDeploymentDetails,
+  updateDeploymentLocation,
+  showDialog,
+  errorMessage,
+  isUpdateDeploymentLocationModalOpen,
+}: UseUpdateDeploymentHandlerOptions) => {
   const onOpenUpdateDeploymentModal = (row: Record<string, unknown>) => {
     selectedDeployment.value = row
     isUpdateDeploymentModalOpen.value = true
@@ -20,6 +30,7 @@ export const useUpdateDeploymentHandler = (
   const onCloseUpdateDeploymentModal = () => {
     isUpdateDeploymentModalOpen.value = false
     selectedDeployment.value = null
+
     if (isUpdateDeploymentLocationModalOpen) {
       isUpdateDeploymentLocationModalOpen.value = false
     }
@@ -39,9 +50,13 @@ export const useUpdateDeploymentHandler = (
     defaultRemarks: String(selectedDeployment.value?.defaultRemarks ?? ''),
   }))
 
-  const submitWithAction = async (payload: CreateDeploymentPayload, action: (id: string, payload: CreateDeploymentPayload) => Promise<void>) => {
+  const submitWithAction = async (
+    payload: CreateDeploymentPayload,
+    action: (id: string, payload: CreateDeploymentPayload) => Promise<void>,
+  ) => {
     errorMessage.value = ''
     const deploymentId = selectedDeployment.value?.id
+
     if (!deploymentId || typeof deploymentId !== 'string') {
       return
     }
@@ -59,8 +74,19 @@ export const useUpdateDeploymentHandler = (
     }
   }
 
-  const onSubmitUpdateDeploymentDetails = async (payload: CreateDeploymentPayload) => submitWithAction(payload, updateDeploymentDetails)
-  const onSubmitUpdateDeploymentLocation = async (payload: CreateDeploymentPayload) => submitWithAction(payload, updateDeploymentLocation)
+  const onSubmitUpdateDeploymentDetails = async (payload: CreateDeploymentPayload) => {
+    await submitWithAction(payload, updateDeploymentDetails)
+  }
 
-  return { onOpenUpdateDeploymentModal, onCloseUpdateDeploymentModal, selectedDeploymentFormValues, onSubmitUpdateDeploymentDetails, onSubmitUpdateDeploymentLocation }
+  const onSubmitUpdateDeploymentLocation = async (payload: CreateDeploymentPayload) => {
+    await submitWithAction(payload, updateDeploymentLocation)
+  }
+
+  return {
+    onOpenUpdateDeploymentModal,
+    onCloseUpdateDeploymentModal,
+    selectedDeploymentFormValues,
+    onSubmitUpdateDeploymentDetails,
+    onSubmitUpdateDeploymentLocation,
+  }
 }
