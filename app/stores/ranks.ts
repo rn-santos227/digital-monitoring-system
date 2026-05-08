@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { CreateRankPayload, RankListQuery, RankState, RankTablePagination } from '~/types/domain/rank'
+import type { CreateRankPayload, RankListItem, RankListQuery, RankState, RankTablePagination } from '~/types/domain/rank'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { createRankEndpoint, deleteRankEndpoint, getRanksEndpoint } from '~/utils/rank-endpoints'
 
@@ -16,6 +16,15 @@ const INITIAL_RANK_STATE: RankState = {
   isLoading: false,
   error: '',
   searchTerm: '',
+}
+
+const doesRankMatchSearch = (rank: Pick<RankListItem, 'code' | 'name'>, searchTerm: string) => {
+  const normalizedSearchTerm = searchTerm.trim().toLowerCase()
+  if (!normalizedSearchTerm) {
+    return true
+  }
+
+  return rank.code.toLowerCase().includes(normalizedSearchTerm) || rank.name.toLowerCase().includes(normalizedSearchTerm)
 }
 
 interface RankStoreActionContext extends RankState {
