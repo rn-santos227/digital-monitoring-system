@@ -68,12 +68,12 @@ export const useUsers = () => {
     }
   }
 
-  const createUserProfile = async (payload: CreateUserProfilePayload) => {
-    await usersStore.createUserProfile(payload)
+  const createUserProfile = async (payload: CreateUserProfilePayload): Promise<{ id: string | null }> => {
+    return await usersStore.createUserProfile(payload)
   }
 
-  const createAccountType = async (payload: CreateAccountTypePayload) => {
-    await usersStore.createAccountType(payload)
+  const createAccountType = async (payload: CreateAccountTypePayload): Promise<{ id: string | null }> => {
+    return await usersStore.createAccountType(payload)
   }
 
   const getUserProfileById = async (id: string) => {
