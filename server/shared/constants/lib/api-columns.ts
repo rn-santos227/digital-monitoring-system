@@ -104,9 +104,9 @@ export const DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS =
   'id, record_no, personnel_id, deployment_id, deployment_area, deployment_area_latitude, deployment_area_longitude, assignment_role, operation_name, start_date, end_date, status_id, location, supervisor_id, remarks, created_at, updated_at, personnel:personnel!deployment_records_personnel_id_fkey(id, personnel_code, last_name, first_name, middle_name), supervisor:personnel!deployment_records_supervisor_id_fkey(id, personnel_code, last_name, first_name, middle_name), deployment_status:deployment_statuses(id, name)'
 
 export const DEPLOYMENT_DETAIL_SELECT_COLUMNS =
-  'id, deployment_area, deployment_area_latitude, deployment_area_longitude, assignment_role, operation_name, start_date, end_date, status_id, location, supervisor_id, default_remarks'
+  'id, deployment_area, deployment_area_latitude, deployment_area_longitude, assignment_role, operation_name, start_date, end_date, status_id, location, supervisor_id, default_remarks, deployment_status:deployment_statuses(id, name)'
 
-export const DEPLOYMENT_SUGGESTION_SELECT_COLUMNS =
+  export const DEPLOYMENT_SUGGESTION_SELECT_COLUMNS =
   'id, deployment_area, operation_name, location, start_date, end_date, deployment_status:deployment_statuses(name)'
 
 export const ENGAGEMENT_SELECT_COLUMNS =

@@ -164,4 +164,5 @@ export interface DeploymentRow {
   location: string | null
   supervisor_id: string | null
   default_remarks: string | null
+  deployment_status: DeploymentRecordReferenceRow | DeploymentRecordReferenceRow[] | null
 }

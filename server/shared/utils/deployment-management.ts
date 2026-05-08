@@ -76,6 +76,8 @@ export const mapDeploymentRecordListItem = (row: DeploymentRecordRow): Deploymen
 
 
 export const mapDeploymentDetailListItem = (row: DeploymentRow): DeploymentRecordListItem => {
+  const deploymentStatus = toSingleReference(row.deployment_status)
+
   return {
     id: row.id,
     recordNo: '',
@@ -90,7 +92,7 @@ export const mapDeploymentDetailListItem = (row: DeploymentRow): DeploymentRecor
     startDate: row.start_date,
     endDate: row.end_date,
     statusId: row.status_id,
-    statusName: null,
+    statusName: deploymentStatus?.name ?? null,
     location: row.location,
     supervisorId: row.supervisor_id,
     supervisorName: null,

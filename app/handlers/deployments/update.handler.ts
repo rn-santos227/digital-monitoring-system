@@ -1,4 +1,5 @@
 import { computed, type Ref } from 'vue'
+import { DEPLOYMENTS_CREATE_STATUS_OPTIONS } from '~/constants/page.constants'
 import type { DialogInput } from '~/composables/useDialog'
 import type { DeploymentManagementListItem } from '~/types/domain/deployment'
 import type { CreateDeploymentPayload } from '~/types/domain/deployment'
@@ -7,7 +8,7 @@ import { showErrorDialog } from '~/utils/error-handling'
 interface UseUpdateDeploymentHandlerOptions {
   isUpdateDeploymentModalOpen: Ref<boolean>
   selectedDeployment: Ref<DeploymentManagementListItem | null>
-  getDeploymentById: (id: string) => Promise<Record<string, unknown>>
+  getDeploymentById: (id: string) => Promise<DeploymentManagementListItem>
   updateDeploymentDetails: (id: string, payload: CreateDeploymentPayload) => Promise<void>
   updateDeploymentLocation: (id: string, payload: CreateDeploymentPayload) => Promise<void>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
@@ -71,9 +72,15 @@ export const useUpdateDeploymentHandler = ({
   }
 
   const selectedDeploymentFormValues = computed(() => {
-    const fallbackStatusValue = typeof selectedDeployment.value?.status === 'string'
-      ? selectedDeployment.value.status
-      : ''
+    const normalizedStatusId = String(selectedDeployment.value?.statusId ?? '')
+    const normalizedStatusName = String(selectedDeployment.value?.status ?? '')
+    const hasMatchingStatusOption = DEPLOYMENTS_CREATE_STATUS_OPTIONS.some(
+      (option) => option.value === normalizedStatusId,
+    )
+
+    const fallbackStatusValue = hasMatchingStatusOption
+      ? normalizedStatusId
+      : normalizedStatusName
 
     return {
       deploymentArea: String(selectedDeployment.value?.deploymentArea ?? ''),
@@ -83,7 +90,7 @@ export const useUpdateDeploymentHandler = ({
       operationName: String(selectedDeployment.value?.operationName ?? ''),
       startDate: String(selectedDeployment.value?.startDate ?? ''),
       endDate: String(selectedDeployment.value?.endDate ?? ''),
-      statusId: String(selectedDeployment.value?.statusId ?? fallbackStatusValue),
+      statusId: fallbackStatusValue,
       location: String(selectedDeployment.value?.location ?? ''),
       supervisorId: String(selectedDeployment.value?.supervisorId ?? ''),
       defaultRemarks: String(selectedDeployment.value?.defaultRemarks ?? ''),
