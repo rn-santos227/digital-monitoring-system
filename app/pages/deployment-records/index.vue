@@ -152,6 +152,8 @@ import type { DeploymentManagementListItem, DeploymentManagementTabId } from '~/
 import type { FieldValidationMap } from '~/utils/field-validation'
 
 const activeTab = ref<DeploymentManagementTabId>('deployments')
+const hasLoadedDeployments = ref(false)
+const hasLoadedDeploymentRecords = ref(false)
 const kpiRefreshKey = ref(0)
 const deploymentFilterValidationErrors = ref<FieldValidationMap>({})
 const createDeploymentErrorMessage = ref('')
@@ -175,6 +177,7 @@ const {
   updateDeploymentDetails,
   updateDeploymentLocation,
   deleteDeployment,
+  getDeploymentById,
 } = useDeployments()
 
 const {
@@ -208,8 +211,12 @@ const {
   onOpenCreateDeploymentModal,
   onCloseCreateDeploymentModal,
   onSubmitCreateDeployment,
-} = useCreateDeploymentHandler(isCreateDeploymentModalOpen, createDeployment, showDialog, createDeploymentErrorMessage)
-
+} = useCreateDeploymentHandler({
+  isCreateDeploymentModalOpen,
+  createDeployment,
+  showDialog,
+  errorMessage: createDeploymentErrorMessage,
+})
 
 const {
   onOpenUpdateDeploymentModal,
@@ -217,12 +224,26 @@ const {
   selectedDeploymentFormValues,
   onSubmitUpdateDeploymentDetails,
   onSubmitUpdateDeploymentLocation,
-} = useUpdateDeploymentHandler(isUpdateDeploymentDetailModalOpen, selectedDeployment, updateDeploymentDetails, updateDeploymentLocation, showDialog, updateDeploymentErrorMessage, isUpdateDeploymentLocationModalOpen)
+} = useUpdateDeploymentHandler({
+  isUpdateDeploymentModalOpen: isUpdateDeploymentDetailModalOpen,
+  selectedDeployment,
+  updateDeploymentDetails,
+  updateDeploymentLocation,
+  showDialog,
+  errorMessage: updateDeploymentErrorMessage,
+  isUpdateDeploymentLocationModalOpen,
+})
 
-const { onDeleteDeployment } = useDeleteDeploymentHandler(showDialog, deleteDeployment, addToast)
+const { onDeleteDeployment } = useDeleteDeploymentHandler({
+  showDialog,
+  deleteDeployment,
+  addToast,
+})
+
 const { onCloseViewDeploymentModal, onViewDeploymentAction } = useViewDeploymentHandler({
   selectedDeployment: selectedDeployment as Ref<Record<string, unknown> | null>,
   isViewDeploymentModalOpen,
+  getDeploymentById,
 })
 
 const visibleTabItems = computed(() => {
@@ -307,10 +328,18 @@ watch(activeTab, async (tab) => {
   }
 
   if (tab === 'deployments') {
+    if (hasLoadedDeployments.value) {
+      return
+    }
     await loadDeployments()
+    hasLoadedDeployments.value = true
     return
   }
 
+  if (hasLoadedDeploymentRecords.value) {
+    return
+  }
   await loadDeploymentRecords()
+  hasLoadedDeploymentRecords.value = true
 }, { immediate: true })
 </script>
