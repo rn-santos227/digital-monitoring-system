@@ -102,7 +102,13 @@ const rankStoreOptions = {
 
       try {
         const result = await createRankEndpoint(payload)
-        await this.fetchRanks(1, this.searchTerm)
+        const createdRank = buildCreatedRankItem(payload, result.id)
+
+        if (doesRankMatchSearch(createdRank, this.searchTerm)) {
+          this.items = [...this.items, createdRank]
+          this.pagination = recalculateRankPaginationTotals(this.pagination, this.pagination.totalItems + 1)
+        }
+
         return result
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create rank record.')
