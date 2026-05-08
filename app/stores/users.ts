@@ -155,10 +155,35 @@ const usersStoreOptions = {
       }
     },
 
-    async createUserProfile(this: UsersState, payload: CreateUserProfilePayload) {
+    async createUserProfile(this: UsersState, payload: CreateUserProfilePayload): Promise<{ id: string | null }> {
       this.error = ''
       try {
-        await createUserProfileEndpoint(payload)
+        const response = await createUserProfileEndpoint(payload)
+        const accountTypeCodes = payload.accountTypeIds
+          .map((accountTypeId) => this.accountItems.find((accountType) => accountType.id === accountTypeId)?.code ?? '')
+          .filter((accountTypeCode) => accountTypeCode.length > 0)
+
+        if (response.id) {
+          this.profileItems = [
+            {
+              id: response.id,
+              email: payload.email,
+              fullName: payload.fullName,
+              isActive: true,
+              lastLoginAt: null,
+              accountTypeCodes,
+            },
+            ...this.profileItems,
+          ]
+
+          this.profilePagination = {
+            ...this.profilePagination,
+            totalItems: this.profilePagination.totalItems + 1,
+            totalPages: Math.ceil((this.profilePagination.totalItems + 1) / this.profilePagination.pageSize),
+          }
+        }
+
+        return { id: response.id }
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create user profile.')
         throw error
