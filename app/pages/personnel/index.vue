@@ -162,6 +162,7 @@ import {
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
+import type { CreateRankPayload } from '~/types/domain/rank'
 import type { PersonnelDetail, PersonnelSearchQuery, UpdatePersonnelPayload } from '~/types/domain/personnel'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
@@ -224,14 +225,6 @@ const { onDeletePersonnel } = useDeletePersonnelHandler({
 const { onDeleteRank } = useDeleteRankHandler({
   showDialog,
   deleteRank,
-  ...createDeleteDialogCallbacks(
-    async () => {
-      await loadRanks(rankPagination.value.page, rankSearchTerm.value)
-    },
-    'Rank deleted',
-    'Rank record has been deleted successfully.',
-    'Rank deletion was cancelled.',
-  ),
 })
 const visibleTabItems = computed(() => {
   return PERSONNEL_PAGE_TAB_ITEMS.filter((tabItem) => {
@@ -408,7 +401,9 @@ const onRankPageSizeChange = async (nextPageSize: number) => {
   await loadRanks(1, rankSearchTerm.value, nextPageSize)
 }
 
-const handleCreateRank = createModalFeedbackHandler(createRank, showDialog, {
+const handleCreateRank = createModalFeedbackHandler(async (payload: CreateRankPayload) => {
+  await createRank(payload)
+}, showDialog, {
   successTitle: 'Rank created',
   successMessage: 'Rank record has been created successfully.',
   errorTitle: 'Rank creation failed',
