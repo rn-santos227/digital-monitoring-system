@@ -9,6 +9,20 @@ const DELETE_RANK_DIALOG: DialogInput = Object.freeze({
   cancelLabel: 'Cancel',
 })
 
+const DELETE_RANK_CANCELLED_DIALOG: DialogInput = Object.freeze({
+  type: 'warning',
+  title: 'Delete cancelled',
+  message: 'Rank deletion was cancelled.',
+  confirmLabel: 'OK',
+})
+
+const DELETE_RANK_SUCCESS_DIALOG: DialogInput = Object.freeze({
+  type: 'success',
+  title: 'Rank deleted',
+  message: 'Rank record has been deleted successfully.',
+  confirmLabel: 'OK',
+})
+
 interface UseDeleteRankHandlerOptions {
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   deleteRank: (id: string) => Promise<void>
@@ -26,12 +40,14 @@ export const useDeleteRankHandler = ({
     const result = await showDialog(DELETE_RANK_DIALOG)
     if (!result.confirmed) {
       await onDeleteCancelled?.()
+      await showDialog(DELETE_RANK_CANCELLED_DIALOG)
       return
     }
 
     try {
       await deleteRank(rankId)
       await onDeleteSuccess?.()
+      await showDialog(DELETE_RANK_SUCCESS_DIALOG)
     } catch (error) {
       await showErrorDialog({
         showDialog,

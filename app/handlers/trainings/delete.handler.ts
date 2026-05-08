@@ -1,5 +1,4 @@
 import type { Ref } from 'vue'
-import type { TrainingCategorySearchQuery, TrainingRecordSearchQuery, TrainingSearchQuery } from '~/types/domain/training'
 import { showErrorDialog } from '~/utils/error-handling'
 
 interface UseDeleteTrainingHandlerOptions {
