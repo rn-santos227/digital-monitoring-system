@@ -364,6 +364,19 @@ const usersStoreOptions = {
       this.error = ''
       try {
         await updateAccountTypeEndpoint(id, payload)
+        this.accountItems = this.accountItems.map((accountItem) => {
+          if (accountItem.id !== id) {
+            return accountItem
+          }
+
+          return {
+            ...accountItem,
+            code: payload.code,
+            name: payload.name,
+            description: payload.description,
+            isSystem: payload.isSystem,
+          }
+        })
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to update account type.')
         throw error
