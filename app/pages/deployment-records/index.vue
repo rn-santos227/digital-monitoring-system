@@ -232,6 +232,7 @@ const {
   showDialog,
   errorMessage: updateDeploymentErrorMessage,
   isUpdateDeploymentLocationModalOpen,
+  getDeploymentById,
 })
 
 const { onDeleteDeployment } = useDeleteDeploymentHandler({
@@ -304,12 +305,12 @@ const onDeploymentsTableAction = async (payload: { actionKey: string; row: Recor
   if (payload.actionKey === 'edit-deployment-details') {
     isUpdateDeploymentLocationModalOpen.value = false
     isViewDeploymentModalOpen.value = false
-    onOpenUpdateDeploymentModal(payload.row)
+    await onOpenUpdateDeploymentModal(payload.row)
     return
   }
 
   if (payload.actionKey === 'edit-deployment-location') {
-    selectedDeployment.value = payload.row as unknown as DeploymentManagementListItem
+    selectedDeployment.value = await getDeploymentById(String(payload.row.id ?? ''))
     isUpdateDeploymentDetailModalOpen.value = false
     isViewDeploymentModalOpen.value = false
     isUpdateDeploymentLocationModalOpen.value = true

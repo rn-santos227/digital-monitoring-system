@@ -340,7 +340,7 @@ export const DEPLOYMENTS_TABLE_EMPTY_MESSAGE = 'No deployment records found.'
 export const DEPLOYMENTS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
 export const DEPLOYMENTS_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
   { key: 'edit-deployment-details', tooltip: 'Update deployment details', iconName: 'pencil-square', variant: 'warning' },
-  { key: 'edit-deployment-location', tooltip: 'Update deployment location', iconName: 'map-pin', variant: 'info' },
+  { key: 'edit-deployment-location', tooltip: 'Update deployment location', iconName: 'map-pin', variant: 'warning' },
   { key: 'delete-deployment', tooltip: 'Delete deployment', iconName: 'trash', variant: 'danger' },
 ])
 export const DEPLOYMENTS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
