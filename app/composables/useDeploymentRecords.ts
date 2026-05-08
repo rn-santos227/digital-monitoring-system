@@ -1,12 +1,14 @@
 import { computed, ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import type { DeploymentManagementSearchQuery } from '~/types/domain/deployment'
 import { useDeploymentsStore } from '~/stores/deployments'
 
 export const useDeploymentRecords = () => {
-  const store = useDeploymentsStore()
+  const deploymentsStore = useDeploymentsStore()
+  const { records } = storeToRefs(deploymentsStore)
   const filters = ref<Partial<DeploymentManagementSearchQuery>>({})
 
-  const tableRows = computed(() => store.records.items.map(item => ({
+  const tableRows = computed(() => records.value.items.map(item => ({
     id: item.id,
     operationName: item.operationName,
     deploymentArea: item.deploymentArea,
@@ -15,10 +17,22 @@ export const useDeploymentRecords = () => {
     status: item.status ?? '—',
   })))
 
-  const loadDeploymentRecords = async (page = store.records.pagination.page, nextFilters: Partial<DeploymentManagementSearchQuery> = filters.value, pageSize = store.records.pagination.pageSize) => {
+  const loadDeploymentRecords = async (page = records.value.pagination.page, nextFilters: Partial<DeploymentManagementSearchQuery> = filters.value, pageSize = records.value.pagination.pageSize) => {
     filters.value = { ...nextFilters }
-    await store.fetchDeploymentRecords(page, filters.value, pageSize)
+    try {
+      await deploymentsStore.fetchDeploymentRecords(page, filters.value, pageSize)
+    } catch {
+      // Error state is exposed from the store.
+    }
   }
 
-  return { filters, tableRows, pagination: computed(() => store.records.pagination), isLoading: computed(() => store.records.isLoading), error: computed(() => store.records.error), loadDeploymentRecords }
+  return {
+    filters,
+    tableRows,
+    pagination: computed(() => records.value.pagination),
+    isLoading: computed(() => records.value.isLoading),
+    error: computed(() => records.value.error),
+    totalItems: computed(() => records.value.pagination.totalItems),
+    loadDeploymentRecords,
+  }
 }
