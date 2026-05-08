@@ -1,7 +1,6 @@
 import type { Ref } from 'vue'
 import type { DialogInput } from '~/composables/useDialog'
 import { USER_PROFILE_ACTION_KEYS } from './constants'
-import type { UserProfilesSearchQuery } from '~/types/domain/users'
 import { showErrorDialog } from '~/utils/error-handling'
 
 type UserRow = Record<string, unknown>
@@ -22,9 +21,6 @@ export const DELETE_PROFILE_DIALOG: DialogInput = Object.freeze({
 interface UseDeleteUserProfileHandlerOptions {
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   deleteUserProfile: (id: string) => Promise<void>
-  loadUserProfiles: (page?: number, filters?: Partial<UserProfilesSearchQuery>) => Promise<void>
-  profilePagination: Ref<{ page: number }>
-  profileFilters: Ref<Partial<UserProfilesSearchQuery>>
   profileWarning: Ref<string>
   onDeleteSuccess?: () => void | Promise<void>
   onDeleteCancelled?: () => void | Promise<void>
@@ -33,9 +29,6 @@ interface UseDeleteUserProfileHandlerOptions {
 export const useDeleteUserProfileHandler = ({
   showDialog,
   deleteUserProfile,
-  loadUserProfiles,
-  profilePagination,
-  profileFilters,
   profileWarning,
   onDeleteSuccess,
   onDeleteCancelled,
@@ -54,7 +47,6 @@ export const useDeleteUserProfileHandler = ({
 
     try {
       await deleteUserProfile(selectedUserId)
-      await loadUserProfiles(profilePagination.value.page, profileFilters.value)
       await onDeleteSuccess?.()
     } catch (error) {
       profileWarning.value = await showErrorDialog({
