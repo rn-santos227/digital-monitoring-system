@@ -1,17 +1,25 @@
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import type { CreateRankPayload } from '~/types/domain/rank'
+import type { CreateRankPayload, RankListQuery } from '~/types/domain/rank'
 import { useRanksStore } from '~/stores/ranks'
 
 export const useRanks = () => {
   const rankStore = useRanksStore()
   const { items, pagination, isLoading, error, searchTerm } = storeToRefs(rankStore)
+  const filters = ref<Pick<RankListQuery, 'search'>>({ search: '' })
 
   const tableRows = computed(() => items.value)
 
-  const loadRanks = async (page = pagination.value.page, queryTerm = searchTerm.value, pageSize = pagination.value.pageSize) => {
+  const loadRanks = async (
+    page = pagination.value.page,
+    queryTerm = filters.value.search ?? searchTerm.value,
+    pageSize = pagination.value.pageSize,
+  ) => {
+    const normalizedSearchTerm = queryTerm?.trim() ?? ''
+    filters.value = { search: normalizedSearchTerm }
+
     try {
-      await rankStore.fetchRanks(page, queryTerm, pageSize)
+      await rankStore.fetchRanks(page, normalizedSearchTerm, pageSize)
     } catch {
       // Error state is exposed from the store.
     }
@@ -19,6 +27,7 @@ export const useRanks = () => {
 
   const createRank = async (payload: CreateRankPayload) => {
     await rankStore.createRank(payload)
+    return await rankStore.createRank(payload)
   }
 
   const deleteRank = async (id: string) => {
@@ -26,11 +35,13 @@ export const useRanks = () => {
   }
 
   return {
+    filters,
     search: searchTerm,
     tableRows,
     pagination,
     isLoading,
     error,
+    totalItems: computed(() => pagination.value.totalItems),
     loadRanks,
     createRank,
     deleteRank,
