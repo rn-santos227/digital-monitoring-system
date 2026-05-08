@@ -90,15 +90,17 @@ export const useDeploymentsStore = defineStore('deployments', {
     },
 
     async createDeployment(
-      this: DeploymentsStoreState & {
-        fetchDeployments: (page?: number, filters?: Partial<DeploymentManagementSearchQuery>, pageSize?: number) => Promise<void>
-      },
+      this: DeploymentsStoreState,
       payload: CreateDeploymentPayload,
-    ) {
+    ): Promise<{ id: string }> {
       this.deployments.error = ''
       try {
-        await createDeploymentEndpoint(payload)
-        await this.fetchDeployments(1)
+        const response = await createDeploymentEndpoint(payload)
+        const createdDeployment = await getDeploymentByIdEndpoint(response.id)
+        this.deployments.items = [...this.deployments.items, createdDeployment]
+        this.deployments.pagination.totalItems += 1
+        this.deployments.pagination.totalPages = Math.max(1, Math.ceil(this.deployments.pagination.totalItems / this.deployments.pagination.pageSize))
+        return { id: response.id }
       } catch (error) {
         this.deployments.error = extractApiErrorMessage(error, 'Unable to create deployment.')
         throw error
