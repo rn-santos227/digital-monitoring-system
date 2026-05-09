@@ -3,7 +3,6 @@ import { showErrorDialog } from '~/utils/error-handling'
 
 interface UseDeleteTrainingHandlerOptions {
   deleteTraining: (id: string) => Promise<void>
-  kpiRefreshKey: Ref<number>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   onDeleteSuccess?: () => void
   onDeleteCancelled?: () => void
@@ -18,7 +17,6 @@ interface UseDeleteTrainingCategoryHandlerOptions {
 
 interface UseDeleteTrainingRecordHandlerOptions {
   deleteTrainingRecord: (id: string) => Promise<void>
-  kpiRefreshKey: Ref<number>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   onDeleteSuccess?: () => void
   onDeleteCancelled?: () => void
@@ -26,7 +24,6 @@ interface UseDeleteTrainingRecordHandlerOptions {
 
 export const useDeleteTrainingHandler = ({
   deleteTraining,
-  kpiRefreshKey,
   showDialog,
   onDeleteSuccess,
   onDeleteCancelled,
@@ -47,7 +44,6 @@ export const useDeleteTrainingHandler = ({
 
     try {
       await deleteTraining(trainingId)
-      kpiRefreshKey.value += 1
       onDeleteSuccess?.()
     } catch (error) {
       await showErrorDialog({
@@ -102,10 +98,8 @@ export const useDeleteTrainingCategoryHandler = ({
   }
 }
 
-
 export const useDeleteTrainingRecordHandler = ({
   deleteTrainingRecord,
-  kpiRefreshKey,
   showDialog,
   onDeleteSuccess,
   onDeleteCancelled,
@@ -126,7 +120,6 @@ export const useDeleteTrainingRecordHandler = ({
 
     try {
       await deleteTrainingRecord(recordId)
-      kpiRefreshKey.value += 1
       onDeleteSuccess?.()
     } catch (error) {
       await showErrorDialog({
