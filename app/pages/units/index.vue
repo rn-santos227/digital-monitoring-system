@@ -8,7 +8,6 @@
 
       <div :class="UNITS_PAGE_KPI_GRID_CLASSES">
         <KpiCard
-          :key="`companies-${kpiRefreshKey}`"
           title="Total Companies"
           subtitle="Tracked company units in the registry."
           icon-name="building"
@@ -16,7 +15,6 @@
           :loader="loadTotalCompanies"
         />
         <KpiCard
-          :key="`battalions-${kpiRefreshKey}`"
           title="Total Battalions"
           subtitle="Tracked battalion units in the registry."
           icon-name="shield"
@@ -24,7 +22,6 @@
           :loader="loadTotalBattalions"
         />
         <KpiCard
-          :key="`unassigned-personnel-${kpiRefreshKey}`"
           title="Unassigned Personnel"
           subtitle="Personnel without company assignment."
           icon-name="users"
