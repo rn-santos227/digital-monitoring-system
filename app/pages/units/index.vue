@@ -143,6 +143,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import { useDialog } from '~/composables/useDialog'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateBattalionModal from '~/components/units/CreateBattalionModal.vue'
@@ -470,9 +471,9 @@ const loadTotalCompanies = async (): Promise<KpiCardLoaderResult> => {
   return { value: companyPagination.value.totalItems }
 }
 
-const loadTotalBattalions = async () => {
-  const kpis = await getUnitManagementKpisEndpoint()
-  return { value: kpis.totalBattalions }
+const loadTotalBattalions = async (): Promise<KpiCardLoaderResult> => {
+  await warmupUnitsKpiData()
+  return { value: battalionPagination.value.totalItems }
 }
 
 const loadUnassignedPersonnel = async () => {
@@ -485,28 +486,28 @@ const handleCreateBattalion = createModalFeedbackHandler(handleCreateUnitBattali
   successMessage: 'Battalion record has been created successfully.',
   errorTitle: 'Battalion creation failed',
   errorMessage: 'Unable to create battalion record right now.',
-}, refreshUnitKpis)
+})
 
 const handleUpdateBattalion = createModalFeedbackHandler(handleUpdateUnitBattalion, showDialog, {
   successTitle: 'Battalion updated',
   successMessage: 'Battalion record has been updated successfully.',
   errorTitle: 'Battalion update failed',
   errorMessage: 'Unable to update battalion record right now.',
-}, refreshUnitKpis)
+})
 
 const handleCreateCompany = createModalFeedbackHandler(handleCreateUnitCompany, showDialog, {
   successTitle: 'Company created',
   successMessage: 'Company record has been created successfully.',
   errorTitle: 'Company creation failed',
   errorMessage: 'Unable to create company record right now.',
-}, refreshUnitKpis)
+})
 
 const handleUpdateCompany = createModalFeedbackHandler(handleUpdateUnitCompany, showDialog, {
   successTitle: 'Company updated',
   successMessage: 'Company record has been updated successfully.',
   errorTitle: 'Company update failed',
   errorMessage: 'Unable to update company record right now.',
-}, refreshUnitKpis)
+})
 
 watch(
   visibleTabItems,
