@@ -21,6 +21,8 @@
           subtitle="Training master records available for assignment."
           icon-name="academic-cap"
           tone="sky"
+          :value="totalTrainings"
+          context="Trainings currently available in the training module."
           :loader="loadTotalTrainings"
         />
         <KpiCard
