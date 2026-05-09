@@ -465,9 +465,9 @@ const warmupUnitsKpiData = async () => {
   isUnitsKpiWarmupLoaded.value = true
 }
 
-const loadTotalCompanies = async () => {
-  const kpis = await getUnitManagementKpisEndpoint()
-  return { value: kpis.totalCompanies }
+const loadTotalCompanies = async (): Promise<KpiCardLoaderResult> => {
+  await warmupUnitsKpiData()
+  return { value: companyPagination.value.totalItems }
 }
 
 const loadTotalBattalions = async () => {
