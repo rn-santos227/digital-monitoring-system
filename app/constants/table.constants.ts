@@ -368,3 +368,9 @@ export const DEPLOYMENT_RECORDS_TABLE_COLUMNS: readonly DataTableColumn[] = Obje
 
 export const DEPLOYMENT_PERSONNEL_TABLE_TITLE = 'Assigned Personnel'
 export const DEPLOYMENT_PERSONNEL_TABLE_EMPTY_MESSAGE = 'No personnel are assigned to this deployment.'
+export const DEPLOYMENT_PERSONNEL_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'personnelCode', label: 'Personnel Code', sortable: true },
+  { key: 'fullName', label: 'Personnel', sortable: true },
+  { key: 'rankName', label: 'Rank', sortable: true },
+  { key: 'serviceStatus', label: 'Service Status', sortable: true },
+])
