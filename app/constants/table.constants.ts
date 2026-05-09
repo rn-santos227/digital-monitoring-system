@@ -339,6 +339,7 @@ export const DEPLOYMENTS_TABLE_TITLE = 'Deployments'
 export const DEPLOYMENTS_TABLE_EMPTY_MESSAGE = 'No deployment records found.'
 export const DEPLOYMENTS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
 export const DEPLOYMENTS_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  { key: 'view-deployment', tooltip: 'View deployment', iconName: 'eye', variant: 'info' },
   { key: 'edit-deployment-details', tooltip: 'Update deployment details', iconName: 'pencil-square', variant: 'warning' },
   { key: 'edit-deployment-location', tooltip: 'Update deployment location', iconName: 'map-pin', variant: 'warning' },
   { key: 'delete-deployment', tooltip: 'Delete deployment', iconName: 'trash', variant: 'danger' },
@@ -348,7 +349,7 @@ export const DEPLOYMENTS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.free
   { key: 'deploymentArea', label: 'Deployment Area', sortable: true },
   { key: 'startDate', label: 'Start Date', sortable: true },
   { key: 'endDate', label: 'End Date', sortable: true },
-  { key: 'status', label: 'Status', sortable: true },
+  { key: 'statusName', label: 'Status', sortable: true },
 ])
 
 export const DEPLOYMENT_RECORDS_TABLE_TITLE = 'Deployment Records'
