@@ -8,15 +8,15 @@
 
       <div :class="TRAINING_PAGE_KPI_GRID_CLASSES">
         <KpiCard
-          :key="`training-records-${kpiRefreshKey}`"
           title="Total Records"
           subtitle="Training records currently encoded."
           icon-name="clipboard-document-list"
           tone="amber"
+          :value="totalTrainingRecords"
+          context="Personnel training records currently available in the training module."
           :loader="loadTotalRecords"
         />
         <KpiCard
-          :key="`trainings-${kpiRefreshKey}`"
           title="Total Trainings"
           subtitle="Training master records available for assignment."
           icon-name="academic-cap"
@@ -24,7 +24,6 @@
           :loader="loadTotalTrainings"
         />
         <KpiCard
-          :key="`training-categories-${kpiRefreshKey}`"
           title="Total Categories"
           subtitle="Training categories configured in the registry."
           icon-name="squares"
@@ -236,7 +235,6 @@ const authStore = useAuthStore()
 const { showDialog } = useDialog()
 const { addToast } = useToast()
 const activeTab = ref<TrainingManagementTabId>('trainings')
-const kpiRefreshKey = ref(0)
 const isCreateTrainingModalOpen = ref(false)
 const isCreateTrainingCategoryModalOpen = ref(false)
 const isCreateTrainingRecordModalOpen = ref(false)
@@ -315,7 +313,6 @@ const {
 } = useCreateTrainingHandler({
   isCreateTrainingModalOpen,
   createTraining,
-  kpiRefreshKey,
 })
 
 const {
@@ -325,7 +322,6 @@ const {
 } = useCreateTrainingRecordHandler({
   isCreateTrainingRecordModalOpen,
   createTrainingRecord,
-  kpiRefreshKey,
 })
 
 const {
@@ -405,14 +401,12 @@ const handleApplyTrainingRecordFilters = async (value: typeof trainingRecordsFil
   }
 
   await loadTrainingRecords(1, filters)
-  kpiRefreshKey.value += 1
 }
 
 const handleResetTrainingRecordFilters = async () => {
   trainingRecordFilterValidationErrors.value = {}
   const filters = handleRecordsFilterReset()
   await loadTrainingRecords(1, filters)
-  kpiRefreshKey.value += 1
 }
 
 const handleApplyTrainingFilters = async (value: typeof trainingFilters.value) => {
@@ -424,14 +418,12 @@ const handleApplyTrainingFilters = async (value: typeof trainingFilters.value) =
   }
 
   await loadTrainings(1, filters)
-  kpiRefreshKey.value += 1
 }
 
 const handleResetTrainingFilters = async () => {
   trainingFilterValidationErrors.value = {}
   const filters = handleTrainingFilterReset()
   await loadTrainings(1, filters)
-  kpiRefreshKey.value += 1
 }
 
 const handleApplyCategoryFilters = async (value: typeof categoryFilters.value) => {
@@ -443,14 +435,12 @@ const handleApplyCategoryFilters = async (value: typeof categoryFilters.value) =
   }
 
   await loadTrainingCategories(1, filters)
-  kpiRefreshKey.value += 1
 }
 
 const handleResetCategoryFilters = async () => {
   categoryFilterValidationErrors.value = {}
   const filters = handleCategoryFilterReset()
   await loadTrainingCategories(1, filters)
-  kpiRefreshKey.value += 1
 }
 
 const onTrainingRecordsPageChange = (nextPage: number) => {
@@ -486,7 +476,6 @@ const {
   isUpdateTrainingRecordModalOpen,
   selectedTrainingRecord,
   updateTrainingRecord,
-  kpiRefreshKey,
 })
 
 const {
@@ -499,7 +488,6 @@ const {
   selectedTraining,
   getTrainingById,
   updateTraining,
-  kpiRefreshKey,
 })
 
 const {
@@ -528,7 +516,6 @@ const {
 
 const { onDeleteTrainingRecord } = useDeleteTrainingRecordHandler({
   deleteTrainingRecord,
-  kpiRefreshKey,
   showDialog,
   onDeleteSuccess: () => showDialog({ type: 'success', title: 'Training record deleted', message: 'Training record has been deleted successfully.', confirmLabel: 'OK' }),
   onDeleteCancelled: () => addToast({ variant: 'warning', title: 'Delete cancelled', message: 'Training record deletion was cancelled.' }),
@@ -536,7 +523,6 @@ const { onDeleteTrainingRecord } = useDeleteTrainingRecordHandler({
 
 const { onDeleteTraining } = useDeleteTrainingHandler({
   deleteTraining,
-  kpiRefreshKey,
   showDialog,
   onDeleteSuccess: () => showDialog({
     type: 'success',
