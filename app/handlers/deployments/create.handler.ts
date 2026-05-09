@@ -29,6 +29,12 @@ export const useCreateDeploymentHandler = ({
     try {
       await createDeployment(payload)
       onCloseCreateDeploymentModal()
+      await showDialog({
+        type: 'success',
+        title: 'Deployment created',
+        message: 'Deployment record has been created successfully.',
+        confirmLabel: 'OK',
+      })
     } catch (error) {
       errorMessage.value = await showErrorDialog({
         showDialog,
