@@ -32,6 +32,10 @@ export interface CreateDeploymentRecordRequest {
 export interface CreateDeploymentRecordFromDeploymentRequest {
   personnelId?: string
   deploymentId?: string
+  assignmentRole?: string | null
+  deploymentArea?: string
+  startDate?: string
+  endDate?: string | null
   remarks?: string | null
 }
 
