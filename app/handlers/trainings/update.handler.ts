@@ -14,7 +14,6 @@ interface UseUpdateTrainingHandlerOptions {
   selectedTraining: Ref<TrainingListItem | null>
   getTrainingById: (id: string) => Promise<TrainingListItem>
   updateTraining: (id: string, payload: UpdateTrainingPayload) => Promise<void>
-  kpiRefreshKey: Ref<number>
 }
 
 interface UseUpdateTrainingCategoryHandlerOptions {
@@ -28,7 +27,6 @@ interface UseUpdateTrainingRecordHandlerOptions {
   isUpdateTrainingRecordModalOpen: Ref<boolean>
   selectedTrainingRecord: Ref<TrainingRecordListItem | null>
   updateTrainingRecord: (id: string, payload: UpdateTrainingRecordPayload) => Promise<void>
-  kpiRefreshKey: Ref<number>
 }
 
 export const useUpdateTrainingHandler = ({
@@ -36,7 +34,6 @@ export const useUpdateTrainingHandler = ({
   selectedTraining,
   getTrainingById,
   updateTraining,
-  kpiRefreshKey,
 }: UseUpdateTrainingHandlerOptions) => {
   const closeUpdateTrainingModal = () => {
     isUpdateTrainingModalOpen.value = false
@@ -57,7 +54,6 @@ export const useUpdateTrainingHandler = ({
 
     await updateTraining(trainingId, payload)
     closeUpdateTrainingModal()
-    kpiRefreshKey.value += 1
   }
 
   const selectedTrainingFormValues: ComputedRef<{
@@ -131,7 +127,6 @@ export const useUpdateTrainingRecordHandler = ({
   isUpdateTrainingRecordModalOpen,
   selectedTrainingRecord,
   updateTrainingRecord,
-  kpiRefreshKey,
 }: UseUpdateTrainingRecordHandlerOptions) => {
   const closeUpdateTrainingRecordModal = () => {
     isUpdateTrainingRecordModalOpen.value = false
@@ -152,7 +147,6 @@ export const useUpdateTrainingRecordHandler = ({
 
     await updateTrainingRecord(id, payload)
     closeUpdateTrainingRecordModal()
-    kpiRefreshKey.value += 1
   }
 
   const selectedTrainingRecordFormValues = computed(() => ({
