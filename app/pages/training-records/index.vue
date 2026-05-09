@@ -179,7 +179,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateTrainingModal from '~/components/trainings/CreateTrainingModal.vue'
@@ -250,6 +250,10 @@ const selectedTraining = ref<TrainingListItem | null>(null)
 const selectedTrainingCategory = ref<TrainingCategoryListItem | null>(null)
 const selectedTrainingRecord = ref<TrainingRecordListItem | null>(null)
 const trainingPersonnelRows = ref<Record<string, string>[]>([])
+const hasLoadedTrainingRecords = ref(false)
+const hasLoadedTrainings = ref(false)
+const hasLoadedCategories = ref(false)
+
 const {
   filters: trainingFilters,
   tableRows: trainingTableRows,
@@ -679,21 +683,16 @@ const loadTotalCategories = async (): Promise<KpiCardLoaderResult> => {
   }
 }
 
-watch(
-  activeTab,
-  (tabId) => {
-    if (tabId !== 'records') {
-      return
-    }
+onMounted(async () => {
+  const loadTasks: Promise<unknown>[] = []
+    
+  if (canManageTrainingRecords.value && !hasLoadedTrainingRecords.value) {
+    loadTasks.push(loadTrainingRecords(1, trainingRecordsFilters.value, trainingRecordsPagination.value.pageSize).then(() => {
+      hasLoadedTrainingRecords.value = true
+    }))
+  }
 
-    if (!canManageTrainingRecords.value) {
-      return
-    }
-
-    void loadTrainingRecords(1, trainingRecordsFilters.value, trainingRecordsPagination.value.pageSize)
-  },
-  { immediate: true }
-)
+})
 
 watch(
   visibleTabItems,
