@@ -192,13 +192,9 @@ import {
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type {
-  CreateBattalionPayload,
-  CreateCompanyPayload,
   UnitManagementTabId,
   BattalionDetailItem,
   CompanyDetailItem,
-  UpdateBattalionPayload,
-  UpdateCompanyPayload,
 } from '~/types/domain/units'
 import { getUnitManagementKpisEndpoint } from '~/utils/dashboard-endpoints'
 import type { FieldValidationMap } from '~/utils/field-validation'
@@ -207,7 +203,6 @@ const activeTab = ref<UnitManagementTabId>('battalion')
 const authStore = useAuthStore()
 const { addToast } = useToast()
 const { showDialog } = useDialog()
-const kpiRefreshKey = ref(0)
 const isCreateBattalionModalOpen = ref(false)
 const isUpdateBattalionModalOpen = ref(false)
 const isCreateCompanyModalOpen = ref(false)
@@ -451,9 +446,8 @@ const onCompanyPageSizeChange = (nextPageSize: number) => {
   void loadCompanies(1, companyFilters.value, nextPageSize)
 }
 
-const refreshUnitKpis = () => {
-  kpiRefreshKey.value += 1
-}
+const isUnitsKpiWarmupLoaded = ref(false)
+const totalUnassignedPersonnel = ref(0)
 
 const loadTotalCompanies = async () => {
   const kpis = await getUnitManagementKpisEndpoint()
