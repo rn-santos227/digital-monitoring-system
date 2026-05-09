@@ -61,6 +61,13 @@ export interface DeploymentManagementListItem {
   location?: string | null
   supervisorId?: string | null
   defaultRemarks?: string | null
+  deploymentPersonnel?: ReadonlyArray<{
+    id?: string | null
+    personnelCode?: string | null
+    fullName?: string | null
+    rankName?: string | null
+    serviceStatus?: string | null
+  }>
 }
 
 export interface DeploymentManagementListResponse<TItem> {
