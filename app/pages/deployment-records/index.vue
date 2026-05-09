@@ -10,7 +10,6 @@
 
       <div :class="DEPLOYMENTS_PAGE_KPI_GRID_CLASSES">
         <KpiCard
-          :key="`deployments-${kpiRefreshKey}`"
           title="Total Deployments"
           subtitle="Deployment profiles available for operations."
           icon-name="map-pin"
@@ -18,7 +17,6 @@
           :loader="loadTotalDeployments"
         />
         <KpiCard
-          :key="`deployment-records-${kpiRefreshKey}`"
           title="Total Deployment Records"
           subtitle="Personnel deployment history records."
           icon-name="clipboard-document-list"
@@ -330,7 +328,6 @@ const onDeploymentsTableAction = async (payload: { actionKey: string; row: Recor
 }
 
 watch(activeTab, async (tab) => {
-  kpiRefreshKey.value += 1
   if (!authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.manage)) {
     return
   }
