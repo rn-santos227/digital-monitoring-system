@@ -25,6 +25,28 @@ export interface CreateDeploymentPayload {
   remarks: string | null
 }
 
+export interface CreateDeploymentRecordPayload {
+  personnel_id: string
+  deployment_id: string
+  assignment_role?: string | null
+  deployment_area?: string
+  start_date?: string
+  end_date?: string | null
+  remarks?: string | null
+}
+
+export interface UpdateDeploymentRecordPayload {
+  deployment_area?: string
+  assignment_role?: string | null
+  operation_name?: string | null
+  start_date?: string
+  end_date?: string | null
+  status_id?: string
+  location?: string | null
+  supervisor_id?: string | null
+  remarks?: string | null
+}
+
 export interface DeploymentRecordSummary extends DeploymentRecordsRow {
   personnel_code: string
   full_name: string
