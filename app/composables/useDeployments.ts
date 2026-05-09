@@ -17,7 +17,7 @@ export const useDeployments = () => {
   }
 
   const resolveDeploymentStatus = (item: DeploymentManagementListItem & { statusName?: string | null }): string =>
-    normalizeDisplayValue(item.statusName ?? item.status)
+    normalizeDisplayValue(item.statusName)
 
   const tableRows = computed(() => deployments.value.items.map(item => ({
     id: item.id,
@@ -28,7 +28,7 @@ export const useDeployments = () => {
     deploymentAreaLongitude: item.deploymentAreaLongitude ?? '',
     startDate: item.startDate ?? '',
     endDate: normalizeDisplayValue(item.endDate),
-    status: resolveDeploymentStatus(item as DeploymentManagementListItem & { statusName?: string | null }),
+    statusName: resolveDeploymentStatus(item as DeploymentManagementListItem & { statusName?: string | null }),
     statusId: item.statusId ?? '',
     location: item.location ?? '',
     supervisorId: item.supervisorId ?? '',
@@ -44,8 +44,8 @@ export const useDeployments = () => {
     }
   }
 
-  const createDeployment = async (payload: CreateDeploymentPayload): Promise<{ id: string }> => {
-    return await deploymentsStore.createDeployment(payload)
+  const createDeployment: (payload: CreateDeploymentPayload) => Promise<{ id: string }> = (payload) => {
+    return deploymentsStore.createDeployment(payload)
   }
 
   const updateDeploymentDetails = async (id: string, payload: CreateDeploymentPayload) => {

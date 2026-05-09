@@ -3,10 +3,7 @@ import type { ComputedRef, Ref } from 'vue'
 import type {
   TrainingCategoryListItem,
   TrainingRecordListItem,
-  TrainingRecordSearchQuery,
-  TrainingCategorySearchQuery,
   TrainingListItem,
-  TrainingSearchQuery,
   UpdateTrainingCategoryPayload,
   UpdateTrainingPayload,
   UpdateTrainingRecordPayload,
@@ -25,7 +22,6 @@ interface UseUpdateTrainingCategoryHandlerOptions {
   selectedTrainingCategory: Ref<TrainingCategoryListItem | null>
   getTrainingCategoryById: (id: string) => Promise<TrainingCategoryListItem>
   updateTrainingCategory: (id: string, payload: UpdateTrainingCategoryPayload) => Promise<void>
-  kpiRefreshKey: Ref<number>
 }
 
 interface UseUpdateTrainingRecordHandlerOptions {
@@ -95,7 +91,6 @@ export const useUpdateTrainingCategoryHandler = ({
   selectedTrainingCategory,
   getTrainingCategoryById,
   updateTrainingCategory,
-  kpiRefreshKey,
 }: UseUpdateTrainingCategoryHandlerOptions) => {
   const closeUpdateTrainingCategoryModal = () => {
     isUpdateTrainingCategoryModalOpen.value = false
@@ -116,7 +111,6 @@ export const useUpdateTrainingCategoryHandler = ({
 
     await updateTrainingCategory(categoryId, payload)
     closeUpdateTrainingCategoryModal()
-    kpiRefreshKey.value += 1
   }
 
   const selectedTrainingCategoryFormValues: ComputedRef<{ code: string; name: string }> = computed(() => ({

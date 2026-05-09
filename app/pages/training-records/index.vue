@@ -29,6 +29,8 @@
           subtitle="Training categories configured in the registry."
           icon-name="squares"
           tone="violet"
+          :value="totalCategories"
+          context="Training categories currently available in the training module."
           :loader="loadTotalCategories"
         />
       </div>
@@ -333,7 +335,6 @@ const {
 } = useCreateTrainingCategoryHandler({
   isCreateTrainingCategoryModalOpen,
   createTrainingCategory,
-  kpiRefreshKey,
 })
 
 const trainingRecordFilterValidationErrors = ref<FieldValidationMap>({})
@@ -511,7 +512,6 @@ const {
   selectedTrainingCategory,
   getTrainingCategoryById,
   updateTrainingCategory,
-  kpiRefreshKey,
 })
 
 const {
@@ -553,7 +553,6 @@ const { onDeleteTraining } = useDeleteTrainingHandler({
 
 const { onDeleteTrainingCategory } = useDeleteTrainingCategoryHandler({
   deleteTrainingCategory,
-  kpiRefreshKey,
   showDialog,
   onDeleteSuccess: () => showDialog({
     type: 'success',

@@ -3,9 +3,6 @@ import type {
   CreateTrainingCategoryPayload,
   CreateTrainingPayload,
   CreateTrainingRecordPayload,
-  TrainingCategorySearchQuery,
-  TrainingRecordSearchQuery,
-  TrainingSearchQuery,
 } from '~/types/domain/training'
 
 interface UseCreateTrainingHandlerOptions {
@@ -17,7 +14,6 @@ interface UseCreateTrainingHandlerOptions {
 interface UseCreateTrainingCategoryHandlerOptions {
   isCreateTrainingCategoryModalOpen: Ref<boolean>
   createTrainingCategory: (payload: CreateTrainingCategoryPayload) => Promise<{ id: string }>
-  kpiRefreshKey: Ref<number>
 }
 
 interface UseCreateTrainingRecordHandlerOptions {
@@ -55,7 +51,6 @@ export const useCreateTrainingHandler = ({
 export const useCreateTrainingCategoryHandler = ({
   isCreateTrainingCategoryModalOpen,
   createTrainingCategory,
-  kpiRefreshKey,
 }: UseCreateTrainingCategoryHandlerOptions) => {
   const onOpenCreateTrainingCategoryModal = () => {
     isCreateTrainingCategoryModalOpen.value = true
@@ -68,7 +63,6 @@ export const useCreateTrainingCategoryHandler = ({
   const onCreateTrainingCategory = async (payload: CreateTrainingCategoryPayload) => {
     await createTrainingCategory(payload)
     onCloseCreateTrainingCategoryModal()
-    kpiRefreshKey.value += 1
   }
 
   return {

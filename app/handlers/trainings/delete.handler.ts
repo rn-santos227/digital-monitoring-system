@@ -11,7 +11,6 @@ interface UseDeleteTrainingHandlerOptions {
 
 interface UseDeleteTrainingCategoryHandlerOptions {
   deleteTrainingCategory: (id: string) => Promise<void>
-  kpiRefreshKey: Ref<number>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   onDeleteSuccess?: () => void
   onDeleteCancelled?: () => void
@@ -67,7 +66,6 @@ export const useDeleteTrainingHandler = ({
 
 export const useDeleteTrainingCategoryHandler = ({
   deleteTrainingCategory,
-  kpiRefreshKey,
   showDialog,
   onDeleteSuccess,
   onDeleteCancelled,
@@ -88,7 +86,6 @@ export const useDeleteTrainingCategoryHandler = ({
 
     try {
       await deleteTrainingCategory(categoryId)
-      kpiRefreshKey.value += 1
       onDeleteSuccess?.()
     } catch (error) {
       await showErrorDialog({

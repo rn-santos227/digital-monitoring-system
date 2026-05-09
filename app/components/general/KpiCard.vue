@@ -45,6 +45,8 @@ const props = withDefaults(
   defineProps<{
     title: string
     subtitle?: string
+    value?: number | string
+    context?: string
     loader: () => Promise<KpiCardLoaderResult>
     iconName?: IconName
     tone?: KpiTone
@@ -67,6 +69,16 @@ const displayValue = ref(props.fallbackValue)
 const displayContext = ref('')
 
 const loadValue = async (): Promise<void> => {
+  if (props.value !== undefined) {
+    displayValue.value = typeof props.value === 'number'
+      ? new Intl.NumberFormat('en-US').format(props.value)
+      : props.value
+    displayContext.value = props.context ?? ''
+    hasError.value = false
+    isLoading.value = false
+    return
+  }
+
   isLoading.value = true
   hasError.value = false
 
@@ -88,4 +100,8 @@ const loadValue = async (): Promise<void> => {
 watch(() => props.loader, async () => {
   await loadValue()
 }, { immediate: true })
+
+watch(() => [props.value, props.context] as const, async () => {
+  await loadValue()
+})
 </script>
