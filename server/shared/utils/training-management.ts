@@ -170,7 +170,7 @@ export const mapTrainingRecordListItem = (row: TrainingRecordRow): TrainingRecor
     recordNo: row.record_no,
     personnelId: row.personnel_id,
     personnelCode: personnel?.personnel_code ?? null,
-    personnelName: personnel?.full_name ?? null,
+    personnelName: toTrainingRecordPersonnelName(row.personnel),
     trainingId: row.training_id,
     trainingTitle: row.training_title,
     trainingCategoryId: row.training_category_id,
