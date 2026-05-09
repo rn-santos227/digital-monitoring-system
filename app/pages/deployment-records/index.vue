@@ -154,7 +154,6 @@ import type { FieldValidationMap } from '~/utils/field-validation'
 const activeTab = ref<DeploymentManagementTabId>('deployments')
 const hasLoadedDeployments = ref(false)
 const hasLoadedDeploymentRecords = ref(false)
-const kpiRefreshKey = ref(0)
 const deploymentFilterValidationErrors = ref<FieldValidationMap>({})
 const createDeploymentErrorMessage = ref('')
 const updateDeploymentErrorMessage = ref('')
@@ -192,7 +191,11 @@ const totalDeployments = computed(() => deploymentsPagination.value.totalItems)
 const totalDeploymentRecords = computed(() => deploymentRecordsPagination.value.totalItems)
 
 const loadTotalDeployments = async (): Promise<KpiCardLoaderResult> => {
-  await loadDeployments(1, deploymentsFilters.value, deploymentsPagination.value.pageSize)
+  if (!hasLoadedDeployments.value && authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.manage)) {
+    await loadDeployments(1, deploymentsFilters.value, deploymentsPagination.value.pageSize)
+    hasLoadedDeployments.value = true
+  }
+
   return { value: totalDeployments.value }
 }
 
