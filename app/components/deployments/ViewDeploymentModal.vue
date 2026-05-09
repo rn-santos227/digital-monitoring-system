@@ -34,7 +34,7 @@
           </div>
           <div>
             <dt class="text-slate-500">Status</dt>
-            <dd class="font-medium text-slate-900">{{ deployment.statusName || '-' }}</dd>
+            <dd class="font-medium text-slate-900">{{ resolvedStatusLabel }}</dd>
           </div>
           <div>
             <dt class="text-slate-500">Supervisor Personnel ID</dt>
@@ -111,6 +111,13 @@ const deploymentPersonnelRows = computed(() => {
     rankName: String(personnel.rankName ?? '—'),
     serviceStatus: String(personnel.serviceStatus ?? '—'),
   }))
+})
+
+const resolvedStatusLabel = computed(() => {
+  const statusName = String(props.deployment.statusName ?? '').trim()
+  if (statusName.length > 0) {
+    return statusName
+  }
 })
 
 const onTabChange = (value: string) => {
