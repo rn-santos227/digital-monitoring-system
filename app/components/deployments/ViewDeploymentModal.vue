@@ -34,7 +34,7 @@
           </div>
           <div>
             <dt class="text-slate-500">Status</dt>
-            <dd class="font-medium text-slate-900">{{ deployment.status || '-' }}</dd>
+            <dd class="font-medium text-slate-900">{{ deployment.statusName || '-' }}</dd>
           </div>
           <div>
             <dt class="text-slate-500">Supervisor Personnel ID</dt>
@@ -55,6 +55,11 @@
         </dl>
       </BaseCard>
 
+      <DeploymentPersonnelTable
+        v-if="activeTab === 'details'"
+        :rows="deploymentPersonnelRows"
+      />
+
       <BaseGeoMap
         v-else
         :title="DEPLOYMENTS_VIEW_MAP_TITLE"
@@ -73,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { DeploymentManagementListItem } from '~/types/domain/deployment'
 import {
   DEPLOYMENTS_VIEW_DETAILS_CARD_TITLE,
@@ -85,6 +90,7 @@ import {
   DEPLOYMENTS_VIEW_TAB_ARIA_LABEL,
   DEPLOYMENTS_VIEW_TAB_ITEMS,
 } from '~/constants/page.constants'
+import DeploymentPersonnelTable from '~/components/deployments/view/DeploymentPersonnelTable.vue'
 
 const props = defineProps<{
   deployment: DeploymentManagementListItem
@@ -95,6 +101,17 @@ const emit = defineEmits<{
 }>()
 
 const activeTab = ref<'details' | 'map'>('details')
+
+const deploymentPersonnelRows = computed(() => {
+  const personnelList = props.deployment.deploymentPersonnel ?? []
+
+  return personnelList.map((personnel) => ({
+    personnelCode: String(personnel.personnelCode ?? '—'),
+    fullName: String(personnel.fullName ?? '—'),
+    rankName: String(personnel.rankName ?? '—'),
+    serviceStatus: String(personnel.serviceStatus ?? '—'),
+  }))
+})
 
 const onTabChange = (value: string) => {
   activeTab.value = value === 'map' ? 'map' : 'details'
