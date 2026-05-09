@@ -449,6 +449,22 @@ const onCompanyPageSizeChange = (nextPageSize: number) => {
 const isUnitsKpiWarmupLoaded = ref(false)
 const totalUnassignedPersonnel = ref(0)
 
+const warmupUnitsKpiData = async () => {
+  if (isUnitsKpiWarmupLoaded.value) {
+    return
+  }
+
+  await Promise.all([
+    loadBattalions(1, battalionFilters.value, battalionPagination.value.pageSize),
+    loadCompanies(1, companyFilters.value, companyPagination.value.pageSize),
+    getUnitManagementKpisEndpoint().then((kpis) => {
+      totalUnassignedPersonnel.value = kpis.totalUnassignedPersonnel
+    }),
+  ])
+
+  isUnitsKpiWarmupLoaded.value = true
+}
+
 const loadTotalCompanies = async () => {
   const kpis = await getUnitManagementKpisEndpoint()
   return { value: kpis.totalCompanies }
