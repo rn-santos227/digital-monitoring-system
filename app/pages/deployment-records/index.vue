@@ -200,7 +200,11 @@ const loadTotalDeployments = async (): Promise<KpiCardLoaderResult> => {
 }
 
 const loadTotalDeploymentRecords = async (): Promise<KpiCardLoaderResult> => {
-  await loadDeploymentRecords(1, {}, deploymentRecordsPagination.value.pageSize)
+  if (!hasLoadedDeploymentRecords.value && authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.manage)) {
+    await loadDeploymentRecords(1, {}, deploymentRecordsPagination.value.pageSize)
+    hasLoadedDeploymentRecords.value = true
+  }
+
   return { value: totalDeploymentRecords.value }
 }
 
