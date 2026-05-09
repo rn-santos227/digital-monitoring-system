@@ -365,3 +365,6 @@ export const DEPLOYMENT_RECORDS_TABLE_COLUMNS: readonly DataTableColumn[] = Obje
   { key: 'endDate', label: 'End Date', sortable: true },
   { key: 'statusName', label: 'Status', sortable: true },
 ])
+
+export const DEPLOYMENT_PERSONNEL_TABLE_TITLE = 'Assigned Personnel'
+export const DEPLOYMENT_PERSONNEL_TABLE_EMPTY_MESSAGE = 'No personnel are assigned to this deployment.'
