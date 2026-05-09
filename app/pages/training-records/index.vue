@@ -698,6 +698,13 @@ onMounted(async () => {
     }))
   }
 
+  if (!hasLoadedCategories.value) {
+    loadTasks.push(loadTrainingCategories(1, categoryFilters.value, categoryPagination.value.pageSize).then(() => {
+      hasLoadedCategories.value = true
+    }))
+  }
+
+  await Promise.all(loadTasks)
 })
 
 watch(
