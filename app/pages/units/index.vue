@@ -476,9 +476,12 @@ const loadTotalBattalions = async (): Promise<KpiCardLoaderResult> => {
   return { value: battalionPagination.value.totalItems }
 }
 
-const loadUnassignedPersonnel = async () => {
-  const kpis = await getUnitManagementKpisEndpoint()
-  return { value: kpis.totalUnassignedPersonnel }
+const loadUnassignedPersonnel = async (): Promise<KpiCardLoaderResult> => {
+  await warmupUnitsKpiData()
+  return {
+    value: totalUnassignedPersonnel.value,
+    context: 'Personnel without company assignment currently available in unit data.',
+  }
 }
 
 const handleCreateBattalion = createModalFeedbackHandler(handleCreateUnitBattalion, showDialog, {
