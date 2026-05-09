@@ -8,7 +8,6 @@ import type {
 interface UseCreateTrainingHandlerOptions {
   isCreateTrainingModalOpen: Ref<boolean>
   createTraining: (payload: CreateTrainingPayload) => Promise<{ id: string }>
-  kpiRefreshKey: Ref<number>
 }
 
 interface UseCreateTrainingCategoryHandlerOptions {
@@ -19,13 +18,11 @@ interface UseCreateTrainingCategoryHandlerOptions {
 interface UseCreateTrainingRecordHandlerOptions {
   isCreateTrainingRecordModalOpen: Ref<boolean>
   createTrainingRecord: (payload: CreateTrainingRecordPayload) => Promise<{ id: string }>
-  kpiRefreshKey: Ref<number>
 }
 
 export const useCreateTrainingHandler = ({
   isCreateTrainingModalOpen,
   createTraining,
-  kpiRefreshKey,
 }: UseCreateTrainingHandlerOptions) => {
   const onOpenCreateTrainingModal = () => {
     isCreateTrainingModalOpen.value = true
@@ -38,7 +35,6 @@ export const useCreateTrainingHandler = ({
   const onCreateTraining = async (payload: CreateTrainingPayload) => {
     await createTraining(payload)
     onCloseCreateTrainingModal()
-    kpiRefreshKey.value += 1
   }
 
   return {
@@ -76,7 +72,6 @@ export const useCreateTrainingCategoryHandler = ({
 export const useCreateTrainingRecordHandler = ({
   isCreateTrainingRecordModalOpen,
   createTrainingRecord,
-  kpiRefreshKey,
 }: UseCreateTrainingRecordHandlerOptions) => {
   const onOpenCreateTrainingRecordModal = () => {
     isCreateTrainingRecordModalOpen.value = true
@@ -89,7 +84,6 @@ export const useCreateTrainingRecordHandler = ({
   const onCreateTrainingRecord = async (payload: CreateTrainingRecordPayload) => {
     await createTrainingRecord(payload)
     onCloseCreateTrainingRecordModal()
-    kpiRefreshKey.value += 1
   }
 
   return {
