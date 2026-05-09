@@ -10,6 +10,13 @@ interface UseCreateDeploymentHandlerOptions {
   errorMessage: Ref<string>
 }
 
+interface UseCreateDeploymentRecordHandlerOptions {
+  isCreateDeploymentRecordModalOpen: Ref<boolean>
+  createDeploymentRecord: (payload: import('~/types/domain/deployment').CreateDeploymentRecordPayload) => Promise<{ id: string }>
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
+  errorMessage: Ref<string>
+}
+
 export const useCreateDeploymentHandler = ({
   isCreateDeploymentModalOpen,
   createDeployment,
@@ -49,5 +56,38 @@ export const useCreateDeploymentHandler = ({
     onOpenCreateDeploymentModal,
     onCloseCreateDeploymentModal,
     onSubmitCreateDeployment,
+  }
+}
+
+
+export const useCreateDeploymentRecordHandler = ({
+  isCreateDeploymentRecordModalOpen,
+  createDeploymentRecord,
+  showDialog,
+  errorMessage,
+}: UseCreateDeploymentRecordHandlerOptions) => {
+  const onCloseCreateDeploymentRecordModal = () => {
+    isCreateDeploymentRecordModalOpen.value = false
+  }
+
+  const onSubmitCreateDeploymentRecord = async (payload: import('~/types/domain/deployment').CreateDeploymentRecordPayload) => {
+    errorMessage.value = ''
+
+    try {
+      await createDeploymentRecord(payload)
+      onCloseCreateDeploymentRecordModal()
+    } catch (error) {
+      errorMessage.value = await showErrorDialog({
+        showDialog,
+        title: 'Deployment record creation failed',
+        error,
+        fallbackMessage: 'Unable to create deployment record right now.',
+      })
+    }
+  }
+
+  return {
+    onCloseCreateDeploymentRecordModal,
+    onSubmitCreateDeploymentRecord,
   }
 }
