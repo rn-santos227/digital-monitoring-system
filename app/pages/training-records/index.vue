@@ -692,6 +692,12 @@ onMounted(async () => {
     }))
   }
 
+  if (!hasLoadedTrainings.value) {
+    loadTasks.push(loadTrainings(1, trainingFilters.value, trainingPagination.value.pageSize).then(() => {
+      hasLoadedTrainings.value = true
+    }))
+  }
+
 })
 
 watch(
