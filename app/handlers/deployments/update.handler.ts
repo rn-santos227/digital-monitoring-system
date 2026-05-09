@@ -39,7 +39,7 @@ export const useUpdateDeploymentHandler = ({
     assignmentRole: row.assignmentRole ? String(row.assignmentRole) : null,
     startDate: row.startDate ? String(row.startDate) : null,
     endDate: row.endDate ? String(row.endDate) : null,
-    status: row.status ? String(row.status) : null,
+    statusName: row.statusName ? String(row.statusName) : null,
     statusId: row.statusId ? String(row.statusId) : null,
     location: row.location ? String(row.location) : null,
     supervisorId: row.supervisorId ? String(row.supervisorId) : null,
@@ -73,14 +73,18 @@ export const useUpdateDeploymentHandler = ({
 
   const selectedDeploymentFormValues = computed(() => {
     const normalizedStatusId = String(selectedDeployment.value?.statusId ?? '')
-    const normalizedStatusName = String(selectedDeployment.value?.status ?? '')
-    const hasMatchingStatusOption = DEPLOYMENTS_CREATE_STATUS_OPTIONS.some(
-      (option) => option.value === normalizedStatusId,
-    )
+    const normalizedStatusName = String(selectedDeployment.value?.statusName ?? '')
+    const normalizedStatusNameLower = normalizedStatusName.toLowerCase()
 
-    const fallbackStatusValue = hasMatchingStatusOption
-      ? normalizedStatusId
-      : normalizedStatusName
+    const matchedStatusOption = DEPLOYMENTS_CREATE_STATUS_OPTIONS.find((option) => {
+      const optionValue = String(option.value)
+      return optionValue === normalizedStatusId
+        || optionValue.toLowerCase() === normalizedStatusNameLower
+    })
+
+    const fallbackStatusValue = matchedStatusOption
+      ? String(matchedStatusOption.value)
+      : (normalizedStatusId || normalizedStatusName)
 
     return {
       deploymentArea: String(selectedDeployment.value?.deploymentArea ?? ''),

@@ -56,7 +56,7 @@ export interface DeploymentManagementListItem {
   assignmentRole?: string | null
   startDate: string | null
   endDate: string | null
-  status: string | null
+  statusName: string | null
   statusId?: string | null
   location?: string | null
   supervisorId?: string | null
