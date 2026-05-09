@@ -186,11 +186,23 @@ export const parseCreateDeploymentRecordFromDeploymentPayload = (
 ) => {
   const personnelId = normalizeRequiredText(body.personnelId, 'Personnel id')
   const deploymentId = normalizeRequiredText(body.deploymentId, 'Deployment id')
+  const assignmentRole = body.assignmentRole === undefined ? null : normalizeOptionalText(body.assignmentRole)
+  const deploymentArea = body.deploymentArea === undefined ? null : normalizeOptionalText(body.deploymentArea)
+  const startDate = body.startDate === undefined ? null : normalizeRequiredDate(body.startDate, 'Start date')
+  const endDate = body.endDate === undefined ? null : normalizeOptionalDate(body.endDate)
   const remarks = body.remarks === undefined ? null : normalizeOptionalText(body.remarks)
+
+  if (startDate && endDate && endDate < startDate) {
+    throw createError({ statusCode: 400, statusMessage: 'End date cannot be earlier than start date.' })
+  }
 
   return {
     personnel_id: personnelId,
     deployment_id: deploymentId,
+    assignment_role: assignmentRole,
+    deployment_area: deploymentArea,
+    start_date: startDate,
+    end_date: endDate,
     remarks,
   }
 }
