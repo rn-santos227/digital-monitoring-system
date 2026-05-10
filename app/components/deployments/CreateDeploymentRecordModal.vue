@@ -9,10 +9,29 @@
       <DeploymentSuggestionField v-model="form.deployment_id" :error="errors.deployment_id" @select="onDeploymentSelected" />
       <PersonnelSuggestionField v-model="form.personnel_id" :error="errors.personnel_id" />
       <div class="grid gap-4 md:grid-cols-2">
-        <BaseTextField v-model="form.assignment_role" label="Assignment Role" :error="errors.assignment_role" />
-        <BaseTextField v-model="form.deployment_area" label="Deployment Area" :error="errors.deployment_area" />
-        <BaseDatePicker v-model="form.start_date" label="Start Date" :error="errors.start_date" />
-        <BaseDatePicker v-model="form.end_date" label="End Date" :error="errors.end_date" />
+        <BaseTextField 
+          v-model="form.assignment_role"
+          label="Assignment Role"
+          :error="errors.assignment_role"
+        />
+        
+        <BaseTextField 
+          v-model="form.deployment_area"
+          label="Deployment Area"
+          :error="errors.deployment_area"
+        />
+        
+        <BaseDatePicker
+          v-model="form.start_date"
+          label="Start Date" 
+          :error="errors.start_date"
+        />
+        
+        <BaseDatePicker
+          v-model="form.end_date"
+          label="End Date" 
+          :error="errors.end_date"
+        />
       </div>
 
       <BaseTextArea
