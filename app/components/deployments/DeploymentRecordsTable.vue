@@ -1,5 +1,22 @@
 <template>
-
+  <DataTable
+    :title="DEPLOYMENT_RECORDS_TABLE_TITLE"
+    :columns="DEPLOYMENT_RECORDS_TABLE_COLUMNS"
+    :rows="props.rows"
+    row-key="id"
+    :actions="visibleActions"
+    :actions-column-label="DEPLOYMENTS_TABLE_ACTIONS_COLUMN_LABEL"
+    :is-loading="props.isLoading"
+    :show-search="false"
+    :empty-message="DEPLOYMENT_RECORDS_TABLE_EMPTY_MESSAGE"
+    :current-page="props.currentPage"
+    :total-pages="props.totalPages"
+    :total-items="props.totalItems"
+    :page-size="props.pageSize"
+    @action="emit('action', $event)"
+    @update:current-page="emit('update:currentPage', $event)"
+    @update:page-size="emit('update:pageSize', $event)"
+  />
 </template>
 
 <script setup lang="ts">
@@ -11,6 +28,7 @@ import {
   DEPLOYMENTS_TABLE_ACTIONS_COLUMN_LABEL,
 } from '~/constants/table.constants'
 import { DEPLOYMENT_PRIVILEGES } from '~/constants/privileges.constants'
+import type { DataTableAction } from '~/constants/ui.constants'
 import { useAuthStore } from '~/stores/auth'
 
 const props = withDefaults(defineProps<{
@@ -36,12 +54,14 @@ const emit = defineEmits<{
 
 const authStore = useAuthStore()
 
-const visibleActions = computed(() => {
-  return [
-    { key: 'view-deployment-record', tooltip: 'View record', iconName: 'eye', variant: 'info' as const },
-    { key: 'edit-deployment-record', tooltip: 'Update record', iconName: 'pencil-square', variant: 'warning' as const },
-    { key: 'delete-deployment-record', tooltip: 'Delete record', iconName: 'trash', variant: 'danger' as const },
-  ].filter((action) => {
+const DEPLOYMENT_RECORDS_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  { key: 'view-deployment-record', tooltip: 'View record', iconName: 'eye', variant: 'info' },
+  { key: 'edit-deployment-record', tooltip: 'Update record', iconName: 'pencil-square', variant: 'warning' },
+  { key: 'delete-deployment-record', tooltip: 'Delete record', iconName: 'trash', variant: 'danger' },
+])
+
+const visibleActions = computed<readonly DataTableAction[]>(() => {
+  return DEPLOYMENT_RECORDS_TABLE_ACTIONS.filter((action) => {
     if (action.key === 'view-deployment-record') {
       return authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.view)
     }
