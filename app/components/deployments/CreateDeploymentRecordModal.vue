@@ -1,5 +1,12 @@
 <template>
+  <BaseModal
+    title="Create Deployment Record"
+    description="Assign personnel to an existing deployment profile."
+    size="lg"
+    @close="emit('close')"
+  >
 
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
