@@ -1,6 +1,7 @@
 export interface CreatePersonnelRequest {
   personnelCode?: string
   serviceNumber?: string
+  email?: string
   lastName?: string
   firstName?: string
   middleName?: string | null
@@ -19,6 +20,7 @@ export interface CreatePersonnelRequest {
 export interface UpdatePersonnelRequest {
   personnelCode?: string
   serviceNumber?: string
+  email?: string
   lastName?: string
   firstName?: string
   middleName?: string | null
@@ -38,6 +40,7 @@ export interface UpdatePersonnelRequest {
 export interface PersonnelBatchUploadRowRequest {
   personnelCode?: string
   serviceNumber?: string
+  email?: string
   lastName?: string
   firstName?: string
   middleName?: string | null
