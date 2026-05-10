@@ -95,6 +95,7 @@ export const parsePersonnelBatchUploadWorkbook = async (buffer: Uint8Array | Arr
     rows.push({
       personnelCode: normalizeText(getByHeaders('PERSONNEL_CODE', 'PERSONNEL_ID', 'ID')) ?? serviceNumber,
       serviceNumber,
+      email: normalizeText(getByHeaders('EMAIL', 'PERSONNEL_EMAIL')) ?? `${serviceNumber.toLowerCase()}@afp.mil.ph`,
       lastName,
       firstName,
       middleName: normalizeText(getByHeaders('MIDDLE_NAME', 'MNAME', 'MI')) ?? null,
