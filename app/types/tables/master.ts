@@ -40,6 +40,7 @@ export type PersonnelRow = AuditColumns & {
   id: UUID
   personnel_code: string
   service_number: string
+  email: string
   last_name: string
   first_name: string
   middle_name: string | null

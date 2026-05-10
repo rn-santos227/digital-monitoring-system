@@ -34,6 +34,7 @@ export interface PersonnelListItem {
   id: string
   personnelCode: string
   serviceNumber: string
+  email: string
   fullName: string
   sex: Sex
   rankName: string
@@ -49,6 +50,7 @@ export interface PersonnelListCompactItem {
   id: string
   personnelCode: string
   serviceNumber: string
+  email: string
   fullName: string
   rankName: string
   companyName: string | null
@@ -86,6 +88,7 @@ export interface PersonnelSuggestion {
   id: string
   personnelCode: string
   serviceNumber: string
+  email: string
   fullName: string
   rankName: string
   companyName: string | null
@@ -115,6 +118,7 @@ export interface PersonnelTableRow {
   id: string
   personnelCode: string
   serviceNumber: string
+  email: string
   fullName: string
   rankName: string
   assignment: string
@@ -131,6 +135,7 @@ export interface PersonnelState {
 export interface CreatePersonnelPayload {
   personnelCode: string
   serviceNumber: string
+  email: string
   lastName: string
   firstName: string
   middleName: string | null
@@ -155,6 +160,7 @@ export interface CreatePersonnelResponse {
 export interface UpdatePersonnelPayload {
   personnelCode: string
   serviceNumber: string
+  email: string
   lastName: string
   firstName: string
   middleName: string | null
@@ -187,6 +193,7 @@ export interface PersonnelDetail {
   id: string
   personnelCode: string
   serviceNumber: string
+  email: string
   lastName: string
   firstName: string
   middleName: string | null
