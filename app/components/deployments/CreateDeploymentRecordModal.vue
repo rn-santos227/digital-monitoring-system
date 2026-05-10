@@ -29,4 +29,16 @@ const form = reactive<CreateDeploymentRecordPayload>({
   remarks: '',
 })
 
+const errors = reactive<Record<string, string>>({})
+
+const onDeploymentSelected = (deployment: DeploymentManagementListItem | null) => {
+  if (!deployment) {
+    return
+  }
+
+  form.assignment_role = deployment.assignmentRole ?? ''
+  form.deployment_area = deployment.deploymentArea ?? ''
+  form.start_date = deployment.startDate ?? ''
+  form.end_date = deployment.endDate ?? ''
+}
 </script>
