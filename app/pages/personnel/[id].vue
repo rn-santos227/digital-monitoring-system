@@ -58,9 +58,9 @@
             @update:model-value="onTabChange"
           />
 
-          <TrainingTable v-if="activeTab === 'training'" />
-          <DeploymentTable v-else-if="activeTab === 'deployment'" />
-          <EngagementTable v-else-if="activeTab === 'engagement'" />
+          <TrainingTable v-if="activeTab === 'training'" :rows="trainingRows" />
+          <DeploymentTable v-else-if="activeTab === 'deployment'" :rows="deploymentRows" />
+          <EngagementTable v-else-if="activeTab === 'engagement'" :rows="engagementRows" />
           <EquipmentAssignmentTable v-else-if="activeTab === 'equipment-assignment'" />
           <BaseCard v-else :title="PERSONNEL_PROFILE_TAB_CARD_TITLES.core">
             <p class="text-sm text-slate-600">
@@ -93,8 +93,19 @@ import {
   PERSONNEL_PROFILE_PAGE_SECTION_CLASSES,
 } from '~/constants/shared.constants'
 import { useAuthStore } from '~/stores/auth'
+import { 
+  getPersonnelDeploymentRecordsEndpoint,
+  getPersonnelEngagementRecordsEndpoint,
+  getPersonnelTrainingRecordsEndpoint
+} from '~/utils/personnel-endpoints'
 import { usePersonnelStore } from '~/stores/personnel'
-import type { PersonnelDetail, PersonnelProfileTabId } from '~/types/domain/personnel'
+import type { 
+  PersonnelDeploymentRecordListItem,
+  PersonnelDetail,
+  PersonnelEngagementRecordListItem,
+  PersonnelProfileTabId,
+  PersonnelTrainingRecordListItem
+} from '~/types/domain/personnel'
 
 const route = useRoute()
 const authStore = useAuthStore()
@@ -103,6 +114,9 @@ const personnelStore = usePersonnelStore()
 const activeTab = ref<PersonnelProfileTabId>('core')
 const personnel = ref<(PersonnelDetail & { fullName: string }) | null>(null)
 const personnelError = ref('')
+const trainingRows = ref<{ id: string; courseName: string; provider: string; completedAt: string; remarks: string }[]>([])
+const deploymentRows = ref<{ id: string; location: string; operationName: string; startedAt: string; endedAt: string; status: string }[]>([])
+const engagementRows = ref<{ id: string; eventType: string; location: string; recordedAt: string; outcome: string }[]>([])
 
 const canViewPersonnel = computed(() => {
   return authStore.hasPermissionAccess(PERSONNEL_PAGE_REQUIRED_PERMISSIONS.view)
@@ -122,11 +136,38 @@ watch([canViewPersonnel, personnelId], async ([hasAccess, id]) => {
 
   try {
     const response = await personnelStore.fetchPersonnelById(id)
+      const [trainingResponse, deploymentResponse, engagementResponse] = await Promise.all([
+      getPersonnelTrainingRecordsEndpoint(id),
+      getPersonnelDeploymentRecordsEndpoint(id),
+      getPersonnelEngagementRecordsEndpoint(id),
+    ])
     const fullName = [response.firstName, response.middleName, response.lastName].filter(Boolean).join(' ')
     personnel.value = {
       ...response,
       fullName,
     }
+    trainingRows.value = trainingResponse.items.map((item: PersonnelTrainingRecordListItem) => ({
+      id: item.id,
+      courseName: item.title,
+      provider: item.category ?? 'N/A',
+      completedAt: item.endDate ?? item.validUntil ?? item.startDate ?? 'Not set',
+      remarks: item.remarks ?? '—',
+    }))
+    deploymentRows.value = deploymentResponse.items.map((item: PersonnelDeploymentRecordListItem) => ({
+      id: item.id,
+      location: item.location ?? item.deploymentArea,
+      operationName: item.operationName ?? 'N/A',
+      startedAt: item.startDate,
+      endedAt: item.endDate ?? 'Ongoing',
+      status: item.status,
+    }))
+    engagementRows.value = engagementResponse.items.map((item: PersonnelEngagementRecordListItem) => ({
+      id: item.id,
+      eventType: item.type,
+      location: item.title,
+      recordedAt: item.dateStart ?? 'Not set',
+      outcome: item.status,
+    }))
   } catch {
     personnelError.value = personnelStore.error || 'Unable to load personnel profile.'
   }
