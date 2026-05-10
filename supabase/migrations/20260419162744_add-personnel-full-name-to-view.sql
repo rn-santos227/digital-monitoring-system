@@ -6,6 +6,7 @@ select
   p.id,
   p.personnel_code,
   p.service_number,
+  p.email,
   p.last_name,
   p.first_name,
   p.middle_name,

@@ -106,12 +106,15 @@ begin
 end;
 $$;
 
-create or replace view public.vw_personnel_profile
+drop view if exists public.vw_personnel_profile;
+
+create view public.vw_personnel_profile
 with (security_invoker = true) as
 select
   p.id,
   p.personnel_code,
   p.service_number,
+  p.email,
   p.last_name,
   p.first_name,
   p.middle_name,
