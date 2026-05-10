@@ -142,6 +142,18 @@ export const useDeploymentsStore = defineStore('deployments', {
       }
     },
 
+    async updateDeploymentRecord(this: DeploymentsStoreState, id: string, payload: import('~/types/domain/deployment').UpdateDeploymentRecordPayload) {
+      this.records.error = ''
+      try {
+        await updateDeploymentRecordEndpoint(id, payload)
+        const updated = await getDeploymentRecordByIdEndpoint(id)
+        this.records.items = this.records.items.map(item => item.id === id ? updated : item)
+      } catch (error) {
+        this.records.error = extractApiErrorMessage(error, 'Unable to update deployment record.')
+        throw error
+      }
+    },
+
     async updateDeploymentLocation(
       this: DeploymentsStoreState,
       id: string,
