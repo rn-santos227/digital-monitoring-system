@@ -1,6 +1,6 @@
 import { createError } from 'h3'
 import type { CreatePersonnelRequest, UpdatePersonnelRequest } from '../../requests'
-import { normalizeOptionalText } from '../../utils'
+import { isValidEmail, normalizeOptionalText } from '../../utils'
 
 const normalizeOptionalDate = (value: unknown): string | null => {
   if (value === null) {
@@ -44,6 +44,7 @@ const normalizeOptionalId = (value: unknown): string | null | undefined => {
 export const parseCreatePersonnelPayload = (body: CreatePersonnelRequest) => {
   const personnelCode = normalizeOptionalText(body.personnelCode)
   const serviceNumber = normalizeOptionalText(body.serviceNumber)
+  const email = normalizeOptionalText(body.email)
   const lastName = normalizeOptionalText(body.lastName)
   const firstName = normalizeOptionalText(body.firstName)
   const middleName = body.middleName === undefined ? null : normalizeOptionalText(body.middleName)
@@ -66,6 +67,14 @@ export const parseCreatePersonnelPayload = (body: CreatePersonnelRequest) => {
     throw createError({ statusCode: 400, statusMessage: 'Service number is required.' })
   }
 
+  if (!email) {
+    throw createError({ statusCode: 400, statusMessage: 'Email is required.' })
+  }
+
+  if (!isValidEmail(email)) {
+    throw createError({ statusCode: 400, statusMessage: 'Email must be valid.' })
+  }
+
   if (!lastName || !firstName) {
     throw createError({ statusCode: 400, statusMessage: 'Last name and first name are required.' })
   }
@@ -81,6 +90,7 @@ export const parseCreatePersonnelPayload = (body: CreatePersonnelRequest) => {
   return {
     personnel_code: personnelCode,
     service_number: serviceNumber,
+      email,
     last_name: lastName,
     first_name: firstName,
     middle_name: middleName,
@@ -118,6 +128,20 @@ export const buildPersonnelUpdates = (body: UpdatePersonnelRequest) => {
     }
 
     updates.service_number = serviceNumber
+  }
+
+  if (body.email !== undefined) {
+    const email = normalizeOptionalText(body.email)
+
+    if (!email) {
+      throw createError({ statusCode: 400, statusMessage: 'Email cannot be empty.' })
+    }
+
+    if (!isValidEmail(email)) {
+      throw createError({ statusCode: 400, statusMessage: 'Email must be valid.' })
+    }
+
+    updates.email = email
   }
 
   if (body.lastName !== undefined) {
