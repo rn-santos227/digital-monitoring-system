@@ -22,4 +22,21 @@ const props = withDefaults(defineProps<{
   errorMessage: '',
 })
 
+const emit = defineEmits<{
+  (event: 'close'): void
+  (event: 'submit', payload: UpdateDeploymentRecordPayload): void
+}>()
+
+const form = reactive<UpdateDeploymentRecordPayload>({
+  assignment_role: '',
+  location: '',
+  remarks: '',
+})
+
+watch(() => props.initialValues, (value) => {
+  form.assignment_role = value.assignmentRole
+  form.location = value.location
+  form.remarks = value.remarks
+}, { immediate: true, deep: true })
+
 </script>
