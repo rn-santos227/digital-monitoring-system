@@ -1,4 +1,4 @@
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useUsersStore } from '~/stores/users'
 import type {
@@ -130,17 +130,11 @@ export const useUsers = () => {
     }
   }
 
-  watch(activeTab, (nextTab) => {
-    if (nextTab === 'user-profile') {
-      void loadUserProfiles(1)
-      return
-    }
-
-    void loadUserAccounts(1)
-  })
-
   onMounted(() => {
-    void loadUserProfiles(1)
+    void Promise.all([
+      loadUserProfiles(1),
+      loadUserAccounts(1),
+    ])
   })
 
   return {
