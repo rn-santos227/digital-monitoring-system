@@ -4,9 +4,9 @@ export const SESSION_TOKEN_HEADER_NAME = 'x-dms-session-token'
 
 export const PERMISSION_CODES = {
   auditView: 'audit.view',
-  rankView: 'rank.view',
-  rankCreate: 'rank.create',
-  rankDelete: 'rank.delete',
+  rankView: 'ranks.view',
+  rankCreate: 'ranks.create',
+  rankDelete: 'ranks.delete',
   personnelView: 'personnel.view',
   personnelCreate: 'personnel.create',
   personnelUpdate: 'personnel.update',
