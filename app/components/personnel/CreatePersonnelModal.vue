@@ -27,6 +27,23 @@
         />
       </div>
 
+      <div class="grid gap-4 md:grid-cols-2">
+        <BaseTextField
+          v-model="form.position"
+          :label="PERSONNEL_CREATE_POSITION_LABEL"
+          :placeholder="PERSONNEL_CREATE_POSITION_PLACEHOLDER"
+          :error="errors.position"
+        />
+
+        <BaseTextField
+          v-model="form.email"
+          :label="PERSONNEL_CREATE_EMAIL_LABEL"
+          :placeholder="PERSONNEL_CREATE_EMAIL_PLACEHOLDER"
+          :error="errors.email"
+          required
+        />
+      </div>
+
       <div class="grid gap-4 md:grid-cols-3">
         <BaseTextField
           v-model="form.lastName"
@@ -88,12 +105,6 @@
           :label="PERSONNEL_CREATE_CONTACT_NUMBER_LABEL"
           :placeholder="PERSONNEL_CREATE_CONTACT_NUMBER_PLACEHOLDER"
           :error="errors.contactNumber"
-        />
-        <BaseTextField
-          v-model="form.position"
-          :label="PERSONNEL_CREATE_POSITION_LABEL"
-          :placeholder="PERSONNEL_CREATE_POSITION_PLACEHOLDER"
-          :error="errors.position"
         />
       </div>
 
@@ -192,6 +203,8 @@ import {
   PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_LABEL,
   PERSONNEL_CREATE_EMPLOYMENT_STATUS_OPTIONS,
   PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_PLACEHOLDER,
+  PERSONNEL_CREATE_EMAIL_LABEL,
+  PERSONNEL_CREATE_EMAIL_PLACEHOLDER,
   PERSONNEL_CREATE_FIRST_NAME_LABEL,
   PERSONNEL_CREATE_FIRST_NAME_PLACEHOLDER,
   PERSONNEL_CREATE_LAST_NAME_LABEL,
@@ -235,6 +248,7 @@ const emit = defineEmits<{
 const form = reactive({
   personnelCode: '',
   serviceNumber: '',
+  email: '',
   lastName: '',
   firstName: '',
   middleName: '',
