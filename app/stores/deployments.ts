@@ -142,18 +142,6 @@ export const useDeploymentsStore = defineStore('deployments', {
       }
     },
 
-    async updateDeploymentRecord(this: DeploymentsStoreState, id: string, payload: import('~/types/domain/deployment').UpdateDeploymentRecordPayload) {
-      this.records.error = ''
-      try {
-        await updateDeploymentRecordEndpoint(id, payload)
-        const updated = await getDeploymentRecordByIdEndpoint(id)
-        this.records.items = this.records.items.map(item => item.id === id ? updated : item)
-      } catch (error) {
-        this.records.error = extractApiErrorMessage(error, 'Unable to update deployment record.')
-        throw error
-      }
-    },
-
     async updateDeploymentLocation(
       this: DeploymentsStoreState,
       id: string,
@@ -166,6 +154,18 @@ export const useDeploymentsStore = defineStore('deployments', {
         this.deployments.items = this.deployments.items.map(item => item.id === id ? updatedDeployment : item)
       } catch (error) {
         this.deployments.error = extractApiErrorMessage(error, 'Unable to update deployment location.')
+        throw error
+      }
+    },
+
+    async updateDeploymentRecord(this: DeploymentsStoreState, id: string, payload: import('~/types/domain/deployment').UpdateDeploymentRecordPayload) {
+      this.records.error = ''
+      try {
+        await updateDeploymentRecordEndpoint(id, payload)
+        const updated = await getDeploymentRecordByIdEndpoint(id)
+        this.records.items = this.records.items.map(item => item.id === id ? updated : item)
+      } catch (error) {
+        this.records.error = extractApiErrorMessage(error, 'Unable to update deployment record.')
         throw error
       }
     },
@@ -184,6 +184,17 @@ export const useDeploymentsStore = defineStore('deployments', {
           : Math.max(1, Math.ceil(this.deployments.pagination.totalItems / this.deployments.pagination.pageSize))
       } catch (error) {
         this.deployments.error = extractApiErrorMessage(error, 'Unable to delete deployment.')
+        throw error
+      }
+    },
+
+    async deleteDeploymentRecord(this: DeploymentsStoreState, id: string) {
+      this.records.error = ''
+      try {
+        await deleteDeploymentRecordEndpoint(id)
+        this.records.items = this.records.items.filter(item => item.id !== id)
+      } catch (error) {
+        this.records.error = extractApiErrorMessage(error, 'Unable to delete deployment record.')
         throw error
       }
     },
