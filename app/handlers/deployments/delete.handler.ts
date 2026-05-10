@@ -67,3 +67,34 @@ export const useDeleteDeploymentHandler = ({
     onDeleteDeployment 
   }
 }
+
+
+export const useDeleteDeploymentRecordHandler = ({
+  showDialog,
+  deleteDeploymentRecord,
+}: UseDeleteDeploymentRecordHandlerOptions) => {
+  const onDeleteDeploymentRecord = async (row: Record<string, unknown>) => {
+    const recordId = String(row.id ?? '')
+    if (!recordId) {
+      return
+    }
+
+    const result = await showDialog({
+      type: 'warning',
+      title: 'Delete deployment record?',
+      message: 'This action cannot be undone. Do you want to continue?',
+      confirmLabel: 'Delete',
+      cancelLabel: 'Cancel',
+    })
+
+    if (!result.confirmed) {
+      return
+    }
+
+    await deleteDeploymentRecord(recordId)
+  }
+
+  return {
+    onDeleteDeploymentRecord,
+  }
+}
