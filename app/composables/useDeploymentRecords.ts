@@ -40,5 +40,9 @@ export const useDeploymentRecords = () => {
     error: computed(() => records.value.error),
     totalItems: computed(() => records.value.pagination.totalItems),
     loadDeploymentRecords,
+    createDeploymentRecord,
+    updateDeploymentRecord,
+    deleteDeploymentRecord,
+    getDeploymentRecordById,
   }
 }
