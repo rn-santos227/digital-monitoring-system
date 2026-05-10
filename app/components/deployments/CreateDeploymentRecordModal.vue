@@ -21,6 +21,13 @@
         placeholder="Optional deployment remarks"
       />
     </form>
+
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton :disabled="isSubmitting" @click="onSubmit">Create</BaseButton>
+      </div>
+    </template>
   </BaseModal>
 </template>
 
