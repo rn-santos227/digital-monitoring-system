@@ -173,5 +173,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   createDeployment: 'Creating deployment record...',
   updateDeployment: 'Updating deployment record...',
   deleteDeployment: 'Deleting deployment record...',
+  fetchEngagements: 'Loading engagements...',
+  fetchEngagementRecords: 'Loading engagement records...',
   uploadFile: 'Uploading file...',
 })
