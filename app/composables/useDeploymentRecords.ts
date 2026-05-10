@@ -27,6 +27,11 @@ export const useDeploymentRecords = () => {
     }
   }
 
+  const createDeploymentRecord = async (payload: CreateDeploymentRecordPayload) => deploymentsStore.createDeploymentRecord(payload)
+  const updateDeploymentRecord = async (id: string, payload: UpdateDeploymentRecordPayload) => deploymentsStore.updateDeploymentRecord(id, payload)
+  const deleteDeploymentRecord = async (id: string) => deploymentsStore.deleteDeploymentRecord(id)
+  const getDeploymentRecordById = async (id: string) => deploymentsStore.fetchDeploymentRecordById(id)
+
   return {
     filters,
     tableRows,
