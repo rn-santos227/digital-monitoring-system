@@ -114,7 +114,12 @@ import { computed, ref, watch } from 'vue'
 import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import DeploymentsFilter from '~/components/deployments/DeploymentsFilter.vue'
+import DeploymentRecordsFilter from '~/components/deployments/DeploymentRecordsFilter.vue'
 import DeploymentsTable from '~/components/deployments/DeploymentsTable.vue'
+import DeploymentRecordsTable from '~/components/deployments/DeploymentRecordsTable.vue'
+import CreateDeploymentRecordModal from '~/components/deployments/CreateDeploymentRecordModal.vue'
+import UpdateDeploymentRecordModal from '~/components/deployments/UpdateDeploymentRecordModal.vue'
+import ViewDeploymentRecordModal from '~/components/deployments/ViewDeploymentRecordModal.vue'
 import CreateDeploymentModal from '~/components/deployments/CreateDeploymentModal.vue'
 import UpdateDeploymentDetailModal from '~/components/deployments/UpdateDeploymentDetailModal.vue'
 import UpdateDeploymentLocationModal from '~/components/deployments/UpdateDeploymentLocationModal.vue'
@@ -131,20 +136,24 @@ import {
   DEPLOYMENTS_PAGE_TITLE,
 } from '~/constants/page.constants'
 import { DEPLOYMENT_PRIVILEGES } from '~/constants/privileges.constants'
-import { 
+import {
   APP_MAIN_CONTENT_CLASSES,
   DEPLOYMENTS_PAGE_HEADER_CLASSES,
   TRAINING_TABLE_ACTIONS_ROW_CLASSES
 } from '~/constants/shared.constants'
 import { useDialog } from '~/composables/useDialog'
 import { useToast } from '~/composables/useToast'
-import { 
+import {
   useCreateDeploymentHandler,
   useDeleteDeploymentHandler,
+  useCreateDeploymentRecordHandler,
+  useDeleteDeploymentRecordHandler,
   useDeploymentManagementPageHandlers,
   useUpdateDeploymentHandler,
-  useViewDeploymentHandler
-  } from '~/handlers'
+  useUpdateDeploymentRecordHandler,
+  useViewDeploymentHandler,
+  useViewDeploymentRecordHandler,
+} from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type { DeploymentManagementListItem, DeploymentManagementTabId } from '~/types/domain/deployment'
 import type { FieldValidationMap } from '~/utils/field-validation'
@@ -153,12 +162,18 @@ const activeTab = ref<DeploymentManagementTabId>('deployments')
 const hasLoadedDeployments = ref(false)
 const hasLoadedDeploymentRecords = ref(false)
 const deploymentFilterValidationErrors = ref<FieldValidationMap>({})
+const deploymentRecordsFilterValidationErrors = ref<FieldValidationMap>({})
 const createDeploymentErrorMessage = ref('')
 const updateDeploymentErrorMessage = ref('')
+const deploymentRecordErrorMessage = ref('')
 const isUpdateDeploymentDetailModalOpen = ref(false)
 const isUpdateDeploymentLocationModalOpen = ref(false)
 const selectedDeployment = ref<DeploymentManagementListItem | null>(null)
 const isViewDeploymentModalOpen = ref(false)
+const isCreateDeploymentRecordModalOpen = ref(false)
+const isUpdateDeploymentRecordModalOpen = ref(false)
+const isViewDeploymentRecordModalOpen = ref(false)
+const selectedDeploymentRecord = ref<DeploymentManagementListItem | null>(null)
 const authStore = useAuthStore()
 const { showDialog } = useDialog()
 const { addToast } = useToast()
@@ -178,11 +193,16 @@ const {
 } = useDeployments()
 
 const {
+  filters: deploymentRecordsFilters,
   tableRows: deploymentRecordRows,
   pagination: deploymentRecordsPagination,
   isLoading: isDeploymentRecordsLoading,
   error: deploymentRecordsError,
   loadDeploymentRecords,
+  createDeploymentRecord,
+  updateDeploymentRecord,
+  deleteDeploymentRecord,
+  getDeploymentRecordById,
 } = useDeploymentRecords()
 
 const totalDeployments = computed(() => deploymentsPagination.value.totalItems)
@@ -252,6 +272,40 @@ const { onCloseViewDeploymentModal, onViewDeploymentAction } = useViewDeployment
   getDeploymentById,
 })
 
+
+const { onCloseViewDeploymentRecordModal, onViewDeploymentRecordAction } = useViewDeploymentRecordHandler({
+  selectedDeploymentRecord,
+  isViewDeploymentRecordModalOpen,
+  getDeploymentRecordById,
+})
+
+const {
+  onCloseCreateDeploymentRecordModal,
+  onSubmitCreateDeploymentRecord,
+} = useCreateDeploymentRecordHandler({
+  isCreateDeploymentRecordModalOpen,
+  createDeploymentRecord,
+  showDialog,
+  errorMessage: deploymentRecordErrorMessage,
+})
+
+const {
+  onCloseUpdateDeploymentRecordModal,
+  selectedDeploymentRecordFormValues,
+  onSubmitUpdateDeploymentRecord,
+} = useUpdateDeploymentRecordHandler({
+  isUpdateDeploymentRecordModalOpen,
+  selectedDeploymentRecord,
+  updateDeploymentRecord,
+  showDialog,
+  errorMessage: deploymentRecordErrorMessage,
+})
+
+const { onDeleteDeploymentRecord } = useDeleteDeploymentRecordHandler({
+  showDialog,
+  deleteDeploymentRecord,
+})
+
 const visibleTabItems = computed(() => {
   return DEPLOYMENTS_PAGE_TAB_ITEMS.filter((tabItem) => {
     const requiredPermissions = DEPLOYMENTS_PAGE_TAB_REQUIRED_PERMISSIONS[tabItem.id as keyof typeof DEPLOYMENTS_PAGE_TAB_REQUIRED_PERMISSIONS]
@@ -266,6 +320,22 @@ const showCreateButton = computed(() => {
 
   return authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.create)
 })
+
+
+const onApplyDeploymentRecordsFilter = async (value: Partial<{ term?: string; fields?: string }>) => {
+  const result = handleDeploymentFilterApply(value)
+  deploymentRecordsFilterValidationErrors.value = result.errors
+  if (!result.isValid) {
+    return
+  }
+
+  await loadDeploymentRecords(1, result.filters)
+}
+
+const onResetDeploymentRecordsFilter = async () => {
+  deploymentRecordsFilterValidationErrors.value = {}
+  await loadDeploymentRecords(1, {})
+}
 
 const onApplyDeploymentsFilter = async (value: Partial<{ term?: string; fields?: string }>) => {
   const result = handleDeploymentFilterApply(value)
@@ -297,6 +367,33 @@ const onDeploymentRecordsPageChange = async (page: number) => {
 
 const onDeploymentRecordsPageSizeChange = async (pageSize: number) => {
   await loadDeploymentRecords(1, {}, pageSize)
+}
+
+const onDeploymentRecordsTableAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
+  if (payload.actionKey === 'view-deployment-record') {
+    const id = String(payload.row.id ?? '')
+    if (!id) {
+      return
+    }
+
+    await onViewDeploymentRecordAction(payload.row)
+    return
+  }
+
+  if (payload.actionKey === 'edit-deployment-record') {
+    const id = String(payload.row.id ?? '')
+    if (!id) {
+      return
+    }
+
+    selectedDeploymentRecord.value = await getDeploymentRecordById(id)
+    isUpdateDeploymentRecordModalOpen.value = true
+    return
+  }
+
+  if (payload.actionKey === 'delete-deployment-record') {
+    await onDeleteDeploymentRecord(payload.row)
+  }
 }
 
 const onDeploymentsTableAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
