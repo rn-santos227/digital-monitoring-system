@@ -1,7 +1,6 @@
 import { defineEventHandler } from 'h3'
-import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardOperationalTimeMonitoringResponse } from '../../shared/responses'
-import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
+import { requireAuth } from '../../utils/auth/requireAuth'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchOperationalTimeDeployments } from '../../utils/dashboard/fetchOperationalTimeDeployments'
 
@@ -13,10 +12,7 @@ interface OperationalTimeRow {
 const DAY_IN_MILLISECONDS = 86400000
 
 export default defineEventHandler(async (event): Promise<DashboardOperationalTimeMonitoringResponse> => {
-  await requireAnyPermission(event, [
-    PERMISSION_CODES.personnelView,
-    PERMISSION_CODES.deploymentView,
-  ])
+  await requireAuth(event)
 
   const supabase = getServiceSupabaseClient()
   const now = new Date()

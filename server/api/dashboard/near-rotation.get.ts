@@ -1,8 +1,7 @@
 import { defineEventHandler } from 'h3'
-import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardNearRotationResponse, DashboardRotationAlertItem } from '../../shared/responses'
 import { toFullName } from '../../shared/utils'
-import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
+import { requireAuth  } from '../../utils/auth/requireAuth'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchNearRotationDeployments } from '../../utils/dashboard/fetchNearRotationDeployments'
 interface NearRotationRow {
@@ -16,10 +15,7 @@ interface NearRotationRow {
 const NEAR_ROTATION_WINDOW_DAYS = 14
 
 export default defineEventHandler(async (event): Promise<DashboardNearRotationResponse> => {
-  await requireAnyPermission(event, [
-    PERMISSION_CODES.personnelView,
-    PERMISSION_CODES.deploymentView,
-  ])
+  await requireAuth(event)
 
   const supabase = getServiceSupabaseClient()
   const now = new Date()

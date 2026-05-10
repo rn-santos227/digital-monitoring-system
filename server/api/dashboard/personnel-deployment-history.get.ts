@@ -1,8 +1,7 @@
 import { defineEventHandler } from 'h3'
-import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardDeploymentHistoryItem, DashboardPersonnelDeploymentHistoryResponse } from '../../shared/responses'
 import { toFullName } from '../../shared/utils'
-import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
+import { requireAuth  } from '../../utils/auth/requireAuth'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchDeploymentHistory, type DeploymentHistoryRow } from '../../utils/dashboard/fetchDeploymentHistory'
 
@@ -21,10 +20,7 @@ const toPerson = (value: DeploymentHistoryRow['personnel']): { first_name: strin
 }
 
 export default defineEventHandler(async (event): Promise<DashboardPersonnelDeploymentHistoryResponse> => {
-  await requireAnyPermission(event, [
-    PERMISSION_CODES.personnelView,
-    PERMISSION_CODES.deploymentView,
-  ])
+  await requireAuth(event)
 
   const supabase = getServiceSupabaseClient()
   const now = new Date()

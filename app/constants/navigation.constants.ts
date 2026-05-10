@@ -5,6 +5,9 @@ import {
   BATTALION_PRIVILEGES,
   COMPANY_PRIVILEGES,
   PERSONNEL_PRIVILEGES,
+  TRAINING_PRIVILEGES,
+  DEPLOYMENT_PRIVILEGES,
+  ENGAGEMENT_PRIVILEGES,
   USER_PROFILE_PRIVILEGES,
 } from '~/constants/privileges.constants'
 import type { BaseMenuItem, NavigationItem, NavigationSection } from '~/types/domain/misc'
@@ -40,9 +43,24 @@ export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.
   {
     title: 'Operational Records',
     items: [
-      { label: 'Training Records', to: ROUTE_PATHS.trainingRecords, icon: 'academic-cap' },
-      { label: 'Deployment Records', to: ROUTE_PATHS.deploymentRecords, icon: 'map' },
-      { label: 'Engagement Records', to: ROUTE_PATHS.engagementRecords, icon: 'shield' }
+      {
+        label: 'Training Records',
+        to: ROUTE_PATHS.trainingRecords,
+        icon: 'academic-cap',
+        requiredPermissions: TRAINING_PRIVILEGES.manage,
+      },
+      {
+        label: 'Deployment Records',
+        to: ROUTE_PATHS.deploymentRecords,
+        icon: 'map',
+        requiredPermissions: DEPLOYMENT_PRIVILEGES.manage,
+      },
+      {
+        label: 'Engagement Records',
+        to: ROUTE_PATHS.engagementRecords,
+        icon: 'shield',
+        requiredPermissions: ENGAGEMENT_PRIVILEGES.manage,
+      }
     ]
   },
   {

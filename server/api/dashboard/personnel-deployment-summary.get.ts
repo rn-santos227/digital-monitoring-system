@@ -1,20 +1,15 @@
 import { defineEventHandler } from 'h3'
-import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardPersonnelDeploymentSummaryResponse } from '../../shared/responses'
 import {
   buildPersonnelSummaryMetrics,
   normalizeDashboardPersonnelStatusRows,
-  type DashboardPersonnelStatusSourceRow,
 } from '../../shared/utils'
-import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
+import { requireAuth } from '../../utils/auth/requireAuth'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchPersonnelStatusAndActiveDeployments } from '../../utils/dashboard/fetchPersonnelStatusAndActiveDeployments'
 
 export default defineEventHandler(async (event): Promise<DashboardPersonnelDeploymentSummaryResponse> => {
-  await requireAnyPermission(event, [
-    PERMISSION_CODES.personnelView,
-    PERMISSION_CODES.deploymentView,
-  ])
+  await requireAuth(event)
 
   const supabase = getServiceSupabaseClient()
   const now = new Date()
