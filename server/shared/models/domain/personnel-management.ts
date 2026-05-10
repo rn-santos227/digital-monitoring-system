@@ -26,6 +26,7 @@ export interface PersonnelCreate {
   serviceNumber?: string
   lastName?: string
   firstName?: string
+  email?: string
   middleName?: string | null
   sex?: 'Male' | 'Female'
   birthdate?: string | null
@@ -42,6 +43,7 @@ export interface PersonnelCreate {
 export interface PersonnelUpdate {
   personnelCode?: string
   serviceNumber?: string
+  email?: string
   lastName?: string
   firstName?: string
   middleName?: string | null
@@ -61,6 +63,7 @@ export interface PersonnelProfileBaseRow {
   id: string
   personnel_code: string
   service_number: string
+  email?: string
   full_name?: string
   rank_name: string
   company_name: string | null
