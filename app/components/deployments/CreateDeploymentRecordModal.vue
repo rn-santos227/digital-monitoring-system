@@ -41,4 +41,20 @@ const onDeploymentSelected = (deployment: DeploymentManagementListItem | null) =
   form.start_date = deployment.startDate ?? ''
   form.end_date = deployment.endDate ?? ''
 }
+
+const onSubmit = () => {
+  const result = validateCreateDeploymentRecordForm(form)
+
+  Object.keys(errors).forEach((key) => {
+    delete errors[key]
+  })
+
+  Object.assign(errors, result.errors)
+
+  if (!result.payload) {
+    return
+  }
+
+  emit('submit', result.payload)
+}
 </script>
