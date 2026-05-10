@@ -39,4 +39,25 @@ watch(() => props.initialValues, (value) => {
   form.remarks = value.remarks
 }, { immediate: true, deep: true })
 
+const errors = reactive<Record<string, string>>({})
+
+const onSubmit = () => {
+  const result = validateUpdateDeploymentRecordForm({
+    assignment_role: form.assignment_role ?? '',
+    location: form.location ?? '',
+    remarks: form.remarks ?? '',
+  })
+
+  Object.keys(errors).forEach((key) => {
+    delete errors[key]
+  })
+
+  Object.assign(errors, result.errors)
+
+  if (!result.payload) {
+    return
+  }
+
+  emit('submit', result.payload)
+}
 </script>
