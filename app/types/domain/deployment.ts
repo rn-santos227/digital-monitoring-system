@@ -82,6 +82,9 @@ export interface DeploymentManagementListItem {
   statusId?: string | null
   location?: string | null
   supervisorId?: string | null
+  personnelName?: string | null
+  recordNo?: string | null
+  remarks?: string | null
   defaultRemarks?: string | null
   deploymentPersonnel?: ReadonlyArray<{
     id?: string | null
