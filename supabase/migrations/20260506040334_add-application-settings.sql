@@ -67,3 +67,17 @@ values (
   6
 )
 on conflict (singleton_key) do nothing;
+
+alter table public.application_settings enable row level security;
+alter table public.application_settings force row level security;
+
+drop policy if exists service_role_full_access on public.application_settings;
+create policy service_role_full_access
+on public.application_settings
+for all
+to service_role
+using (true)
+with check (true);
+
+revoke all on table public.application_settings from anon;
+revoke all on table public.application_settings from authenticated;
