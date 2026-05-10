@@ -58,6 +58,13 @@ export const DEPLOYMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   deploymentByIdLocation: (id: string) => `/api/deployments/${id}/location`,
 })
 
+export const ENGAGEMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
+  engagements: '/api/engagements',
+  engagementsSearch: '/api/engagements/search',
+  engagementRecords: '/api/engagement-records',
+  engagementRecordsSearch: '/api/engagement-records/search',
+})
+
 export const DASHBOARD_API_ENDPOINTS = Object.freeze({
   unitManagementKpis: '/api/dashboard/unit-management',
   topKpis: '/api/dashboard/top-kpis',

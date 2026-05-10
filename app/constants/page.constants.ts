@@ -708,3 +708,19 @@ export const DEPLOYMENTS_VIEW_MAP_TITLE = 'Tactical Map View'
 export const DEPLOYMENTS_VIEW_MAP_SUBTITLE = 'Operational deployment area coordinates and map context.'
 
 export const DEPLOYMENTS_RECORDS_PENDING_MESSAGE = 'Deployment records tab will be added in the next iteration.'
+
+export const ENGAGEMENT_RECORDS_PAGE_TITLE = 'Engagement Records Management'
+export const ENGAGEMENT_RECORDS_PAGE_SUBTITLE = 'Monitor engagement records and operation participation across personnel.'
+export const ENGAGEMENT_RECORDS_PAGE_SECTION_CLASSES = 'space-y-6'
+export const ENGAGEMENTS_FILTER_CARD_TITLE = 'Filter Engagement Records'
+export const ENGAGEMENTS_FILTER_TERM_LABEL = 'Search Term'
+export const ENGAGEMENTS_FILTER_TERM_PLACEHOLDER = 'Search engagement record value'
+export const ENGAGEMENTS_FILTER_FIELDS_LABEL = 'Search Field'
+export const ENGAGEMENTS_FILTER_APPLY_LABEL = 'Apply Filters'
+export const ENGAGEMENTS_FILTER_RESET_LABEL = 'Reset'
+export const ENGAGEMENTS_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: '', label: 'All searchable fields' },
+  { value: 'engagementTitle', label: 'Engagement Title' },
+  { value: 'recordNo', label: 'Record No' },
+  { value: 'personnelName', label: 'Personnel' }]
+)
