@@ -3,6 +3,7 @@ import type { CreatePersonnelPayload } from '~/types/domain/personnel'
 interface ParsedPersonnelBatchRow {
   personnelCode: string
   serviceNumber: string
+  email: string
   lastName: string
   firstName: string
   middleName: string | null
@@ -125,9 +126,12 @@ export const parsePersonnelBatchExcelFile = async (file: File): Promise<ParsedPe
       return
     }
 
+    const email = normalizeText(getCellValueByHeaders(row, 'EMAIL', 'PERSONNEL_EMAIL')) ?? `${serviceNumber.toLowerCase()}@gmail.com`
+
     rows.push({
       personnelCode: normalizeText(getCellValueByHeaders(row, 'PERSONNEL_CODE', 'PERSONNEL_ID', 'ID')) ?? serviceNumber,
       serviceNumber,
+      email,
       firstName,
       lastName,
       middleName: normalizeText(getCellValueByHeaders(row, 'MIDDLE_NAME', 'MNAME')),
@@ -153,6 +157,7 @@ export const mapParsedBatchRowToCreatePayload = (
   return {
     personnelCode: row.personnelCode,
     serviceNumber: row.serviceNumber,
+    email: row.email,
     lastName: row.lastName,
     firstName: row.firstName,
     middleName: row.middleName,
