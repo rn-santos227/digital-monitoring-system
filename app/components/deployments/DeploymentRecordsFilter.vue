@@ -20,4 +20,15 @@ import {
   DEPLOYMENTS_FILTER_FOOTER_CLASSES,
   DEPLOYMENTS_FILTER_FORM_CLASSES,
 } from '~/constants/shared.constants'
+
+interface DeploymentRecordsFilterModel {
+  term: string
+  fields: string
+}
+
+interface DeploymentManagementSearchQuery {
+  term?: string
+  fields?: string
+}
+
 </script>
