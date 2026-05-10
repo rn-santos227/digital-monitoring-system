@@ -24,3 +24,37 @@ export interface EngagementFilters {
   date_start_from?: string
   date_start_to?: string
 }
+
+export interface EngagementManagementSearchQuery {
+  page?: number
+  pageSize?: number
+  term?: string
+  fields?: string
+}
+
+export interface EngagementManagementListItem {
+  id: UUID
+  recordNo: string | null
+  personnelName: string | null
+  engagementTitle: string
+  engagementCategoryName: string | null
+  levelName: string | null
+  statusName: string | null
+  startDate: string | null
+  endDate: string | null
+}
+
+export interface EngagementManagementListResponse<TItem> {
+  items: TItem[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
+
+export interface EngagementTablePagination {
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}

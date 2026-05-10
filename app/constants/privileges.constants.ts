@@ -1,8 +1,8 @@
 export const PRIVILEGE_CODES = Object.freeze({
   auditView: 'audit.view',
-  rankView: 'ranks.view',
-  rankCreate: 'ranks.create',
-  rankDelete: 'ranks.delete',
+  rankView: 'rank.view',
+  rankCreate: 'rank.create',
+  rankDelete: 'rank.delete',
   personnelView: 'personnel.view',
   personnelCreate: 'personnel.create',
   personnelUpdate: 'personnel.update',
