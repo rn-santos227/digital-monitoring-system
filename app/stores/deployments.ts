@@ -13,7 +13,11 @@ import {
   searchDeploymentsEndpoint,
   updateDeploymentDetailsEndpoint,
   updateDeploymentLocationEndpoint,
-  deleteDeploymentEndpoint
+  deleteDeploymentEndpoint,
+  createDeploymentRecordEndpoint,
+  updateDeploymentRecordEndpoint,
+  deleteDeploymentRecordEndpoint,
+  getDeploymentRecordByIdEndpoint
 } from '~/utils/deployment-endpoints'
 
 const DEFAULT_PAGINATION: DeploymentTablePagination = {
@@ -103,6 +107,21 @@ export const useDeploymentsStore = defineStore('deployments', {
         return { id: response.id }
       } catch (error) {
         this.deployments.error = extractApiErrorMessage(error, 'Unable to create deployment.')
+        throw error
+      }
+    },
+
+    async createDeploymentRecord(this: DeploymentsStoreState, payload: import('~/types/domain/deployment').CreateDeploymentRecordPayload): Promise<{ id: string }> {
+      this.records.error = ''
+      try {
+        const response = await createDeploymentRecordEndpoint(payload)
+        const created = await getDeploymentRecordByIdEndpoint(response.id)
+        this.records.items = [created, ...this.records.items]
+        this.records.pagination.totalItems += 1
+        this.records.pagination.totalPages = Math.max(1, Math.ceil(this.records.pagination.totalItems / this.records.pagination.pageSize))
+        return { id: response.id }
+      } catch (error) {
+        this.records.error = extractApiErrorMessage(error, 'Unable to create deployment record.')
         throw error
       }
     },
