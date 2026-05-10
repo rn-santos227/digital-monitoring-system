@@ -1,5 +1,31 @@
 <template>
+  <BaseAccordion :title="DEPLOYMENT_RECORDS_FILTER_CARD_TITLE" :initially-open="true">
+    <form :class="DEPLOYMENTS_FILTER_FORM_CLASSES" @submit.prevent="emitApply">
+      <div :class="DEPLOYMENTS_FILTER_FIELDS_GRID_CLASSES">
+        <BaseTextField
+          v-model="localValue.term"
+          type="search"
+          :label="DEPLOYMENT_RECORDS_FILTER_TERM_LABEL"
+          :placeholder="DEPLOYMENT_RECORDS_FILTER_TERM_PLACEHOLDER"
+          :error="validationErrors.term"
+        />
 
+        <BaseSelect
+          v-model="localValue.fields"
+          :label="DEPLOYMENT_RECORDS_FILTER_FIELDS_LABEL"
+          :options="deploymentRecordFilterFieldOptions"
+          :error="validationErrors.fields"
+        />
+      </div>
+
+      <footer :class="DEPLOYMENTS_FILTER_FOOTER_CLASSES">
+        <div :class="DEPLOYMENTS_FILTER_ACTIONS_CLASSES">
+          <BaseButton type="submit" size="sm">{{ DEPLOYMENT_RECORDS_FILTER_APPLY_LABEL }}</BaseButton>
+          <BaseButton type="button" variant="secondary" size="sm" @click="emitReset">{{ DEPLOYMENT_RECORDS_FILTER_RESET_LABEL }}</BaseButton>
+        </div>
+      </footer>
+    </form>
+  </BaseAccordion>
 </template>
 
 <script setup lang="ts">
