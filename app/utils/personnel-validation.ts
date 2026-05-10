@@ -6,6 +6,7 @@ import { REGEX_PATTERNS } from '~/utils/regex'
 interface CreatePersonnelForm {
   personnelCode: string
   serviceNumber: string
+  email: string
   lastName: string
   firstName: string
   middleName: string
@@ -26,6 +27,7 @@ export const validateCreatePersonnelForm = (form: CreatePersonnelForm) => {
   const validation = validateFields([
     { field: 'personnelCode', label: 'Personnel code', value: form.personnelCode, required: true, maxLength: 32 },
     { field: 'serviceNumber', label: 'Service number', value: form.serviceNumber, required: true, maxLength: 32 },
+    { field: 'email', label: 'Email', value: form.email, required: true, maxLength: 255, pattern: REGEX_PATTERNS.email, patternMessage: 'Email must be a valid address.' },
     { field: 'lastName', label: 'Last name', value: form.lastName, required: true, maxLength: 80 },
     { field: 'firstName', label: 'First name', value: form.firstName, required: true, maxLength: 80 },
     { field: 'middleName', label: 'Middle name', value: form.middleName, maxLength: 80 },
@@ -97,6 +99,7 @@ export const validateCreatePersonnelForm = (form: CreatePersonnelForm) => {
         personnelCode: validation.values.personnelCode!,
         serviceNumber: validation.values.serviceNumber!,
         lastName: validation.values.lastName!,
+        email: validation.values.email!,
         firstName: validation.values.firstName!,
         middleName: validation.values.middleName || null,
         sex: normalizedSex as (typeof SEX_VALUES)[number],
