@@ -2,6 +2,7 @@ import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import type { DeploymentManagementSearchQuery } from '~/types/domain/deployment'
 import { useDeploymentsStore } from '~/stores/deployments'
+import type { CreateDeploymentRecordPayload, UpdateDeploymentRecordPayload } from '~/types/domain/deployment'
 
 export const useDeploymentRecords = () => {
   const deploymentsStore = useDeploymentsStore()
@@ -14,7 +15,7 @@ export const useDeploymentRecords = () => {
     deploymentArea: item.deploymentArea,
     startDate: item.startDate ?? '—',
     endDate: item.endDate ?? '—',
-    status: item.status ?? '—',
+    statusName: item.statusName ?? '—',
   })))
 
   const loadDeploymentRecords = async (page = records.value.pagination.page, nextFilters: Partial<DeploymentManagementSearchQuery> = filters.value, pageSize = records.value.pagination.pageSize) => {
