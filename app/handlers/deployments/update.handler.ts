@@ -1,8 +1,11 @@
 import { computed, type Ref } from 'vue'
 import { DEPLOYMENTS_CREATE_STATUS_OPTIONS } from '~/constants/page.constants'
 import type { DialogInput } from '~/composables/useDialog'
-import type { DeploymentManagementListItem } from '~/types/domain/deployment'
-import type { CreateDeploymentPayload } from '~/types/domain/deployment'
+import type { 
+  DeploymentManagementListItem,
+  CreateDeploymentPayload,
+  DeploymentRecordFormValues,
+} from '~/types/domain/deployment'
 import { showErrorDialog } from '~/utils/error-handling'
 
 interface UseUpdateDeploymentHandlerOptions {
@@ -170,10 +173,15 @@ export const useUpdateDeploymentRecordHandler = ({
     selectedDeploymentRecord.value = null
   }
 
-  const selectedDeploymentRecordFormValues = computed(() => ({
+  const selectedDeploymentRecordFormValues = computed<DeploymentRecordFormValues>(() => ({
     personnelName: selectedDeploymentRecord.value?.personnelName ?? '',
     operationName: selectedDeploymentRecord.value?.operationName ?? '',
     assignmentRole: selectedDeploymentRecord.value?.assignmentRole ?? '',
+    deploymentArea: selectedDeploymentRecord.value?.deploymentArea ?? '',
+    deploymentAreaLatitude: String(selectedDeploymentRecord.value?.deploymentAreaLatitude ?? ''),
+    deploymentAreaLongitude: String(selectedDeploymentRecord.value?.deploymentAreaLongitude ?? ''),
+    startDate: selectedDeploymentRecord.value?.startDate ?? '',
+    endDate: selectedDeploymentRecord.value?.endDate ?? '',
     location: selectedDeploymentRecord.value?.location ?? '',
     remarks: selectedDeploymentRecord.value?.remarks ?? '',
   }))

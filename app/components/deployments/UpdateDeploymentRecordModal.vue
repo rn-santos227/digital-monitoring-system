@@ -73,19 +73,10 @@ const UPDATE_DEPLOYMENT_RECORD_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze
   { id: 'location', label: 'Geomap' },
 ])
 
+import type { DeploymentRecordFormValues } from '~/types/domain/deployment'
+
 const props = withDefaults(defineProps<{
-  initialValues: {
-    personnelName: string
-    operationName: string
-    assignmentRole: string
-    deploymentArea: string
-    deploymentAreaLatitude: string
-    deploymentAreaLongitude: string
-    startDate: string
-    endDate: string
-    location: string
-    remarks: string
-  }
+  initialValues: DeploymentRecordFormValues
   isSubmitting?: boolean
   errorMessage?: string
 }>(), {

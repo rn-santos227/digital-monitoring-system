@@ -47,6 +47,19 @@ export interface UpdateDeploymentRecordPayload {
   remarks?: string | null
 }
 
+export interface DeploymentRecordFormValues {
+  personnelName: string
+  operationName: string
+  assignmentRole: string
+  deploymentArea: string
+  deploymentAreaLatitude: string
+  deploymentAreaLongitude: string
+  startDate: string
+  endDate: string
+  location: string
+  remarks: string
+}
+
 export interface DeploymentRecordSummary extends DeploymentRecordsRow {
   personnel_code: string
   full_name: string

@@ -33,9 +33,23 @@
       />
 
       <template v-if="activeTab === 'records'">
+        <DeploymentRecordsFilter
+          :model-value="deploymentRecordsFilters"
+          :validation-errors="deploymentRecordsFilterValidationErrors"
+          @apply="onApplyDeploymentRecordsFilter"
+          @reset="onResetDeploymentRecordsFilter"
+        />
+
         <BaseAlert v-if="deploymentRecordsError" :message="deploymentRecordsError" tone="danger" />
 
-        <DeploymentsTable
+        <div
+          v-if="authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.create)"
+          :class="TRAINING_TABLE_ACTIONS_ROW_CLASSES"
+        >
+          <BaseButton @click="isCreateDeploymentRecordModalOpen = true">Create Deployment Record</BaseButton>
+        </div>
+
+        <DeploymentRecordsTable
           :rows="deploymentRecordRows"
           :is-loading="isDeploymentRecordsLoading"
           :current-page="deploymentRecordsPagination.page"
@@ -44,6 +58,7 @@
           :page-size="deploymentRecordsPagination.pageSize"
           @update:current-page="onDeploymentRecordsPageChange"
           @update:page-size="onDeploymentRecordsPageSizeChange"
+          @action="onDeploymentRecordsTableAction"
         />
       </template>
 
@@ -82,6 +97,13 @@
         @submit="onSubmitCreateDeployment"
       />
 
+      <CreateDeploymentRecordModal
+        v-if="isCreateDeploymentRecordModalOpen"
+        :is-submitting="isDeploymentRecordsLoading"
+        @close="onCloseCreateDeploymentRecordModal"
+        @submit="onSubmitCreateDeploymentRecord"
+      />
+
       <UpdateDeploymentDetailModal
         v-if="isUpdateDeploymentDetailModalOpen && selectedDeployment"
         :initial-values="selectedDeploymentFormValues"
@@ -100,10 +122,25 @@
         @submit="onSubmitUpdateDeploymentLocation"
       />
 
+      <UpdateDeploymentRecordModal
+        v-if="isUpdateDeploymentRecordModalOpen && selectedDeploymentRecord"
+        :initial-values="selectedDeploymentRecordFormValues"
+        :is-submitting="isDeploymentRecordsLoading"
+        :error-message="deploymentRecordErrorMessage"
+        @close="onCloseUpdateDeploymentRecordModal"
+        @submit="onSubmitUpdateDeploymentRecord"
+      />
+
       <ViewDeploymentModal
         v-if="isViewDeploymentModalOpen && selectedDeployment"
         :deployment="selectedDeployment"
         @close="onCloseViewDeploymentModal"
+      />
+
+      <ViewDeploymentRecordModal
+        v-if="isViewDeploymentRecordModalOpen && selectedDeploymentRecord"
+        :deployment-record="selectedDeploymentRecord"
+        @close="onCloseViewDeploymentRecordModal"
       />
     </section>
   </main>
