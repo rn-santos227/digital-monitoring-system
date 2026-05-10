@@ -8,6 +8,11 @@ interface UseDeleteDeploymentHandlerOptions {
   addToast: (toast: Omit<Toast, 'id'>) => string
 }
 
+interface UseDeleteDeploymentRecordHandlerOptions {
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
+  deleteDeploymentRecord: (id: string) => Promise<void>
+}
+
 const resolveDeploymentId = (row: Record<string, unknown>): string => String(row.id ?? '')
 
 export const useDeleteDeploymentHandler = ({
