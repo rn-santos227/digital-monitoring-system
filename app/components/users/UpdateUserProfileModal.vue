@@ -199,8 +199,10 @@ const onPersonnelSelected = (personnel: PersonnelSuggestion | null) => {
 
   form.fullName = personnel.fullName
 
-  if (personnel.suggestedEmail) {
-    form.email = personnel.suggestedEmail
+  const suggestedEmail = personnel.email || personnel.suggestedEmail
+
+  if (suggestedEmail) {
+    form.email = suggestedEmail
   }
 }
 </script>
