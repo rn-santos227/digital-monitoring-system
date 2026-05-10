@@ -12,4 +12,19 @@ import {
 } from '~/constants/table.constants'
 import { DEPLOYMENT_PRIVILEGES } from '~/constants/privileges.constants'
 import { useAuthStore } from '~/stores/auth'
+
+const props = withDefaults(defineProps<{
+  rows: readonly Record<string, unknown>[]
+  isLoading?: boolean
+  currentPage?: number
+  totalPages?: number
+  totalItems?: number
+  pageSize?: number
+}>(), {
+  isLoading: false,
+  currentPage: 1,
+  totalPages: 1,
+  totalItems: 0,
+  pageSize: 10,
+})
 </script>
