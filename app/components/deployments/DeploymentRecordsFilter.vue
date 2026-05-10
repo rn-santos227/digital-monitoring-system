@@ -31,4 +31,39 @@ interface DeploymentManagementSearchQuery {
   fields?: string
 }
 
+const props = withDefaults(defineProps<{
+  modelValue: Partial<DeploymentManagementSearchQuery>
+  validationErrors?: FieldValidationMap
+}>(), {
+  modelValue: () => ({}),
+  validationErrors: () => ({}),
+})
+
+const emit = defineEmits<{
+  (event: 'apply', value: Partial<DeploymentManagementSearchQuery>): void
+  (event: 'reset'): void
+}>()
+
+const localValue = reactive<DeploymentRecordsFilterModel>({
+  term: '',
+  fields: '',
+})
+
+watch(() => props.modelValue, (value) => {
+  localValue.term = value.term ?? ''
+  localValue.fields = value.fields ?? ''
+}, { immediate: true, deep: true })
+
+const deploymentRecordFilterFieldOptions = [...DEPLOYMENTS_FILTER_FIELD_OPTIONS]
+
+const emitApply = () => {
+  emit('apply', {
+    term: localValue.term,
+    fields: localValue.fields,
+  })
+}
+
+const emitReset = () => {
+  emit('reset')
+}
 </script>
