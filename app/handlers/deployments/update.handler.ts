@@ -16,6 +16,14 @@ interface UseUpdateDeploymentHandlerOptions {
   isUpdateDeploymentLocationModalOpen?: Ref<boolean>
 }
 
+interface UseUpdateDeploymentRecordHandlerOptions {
+  isUpdateDeploymentRecordModalOpen: Ref<boolean>
+  selectedDeploymentRecord: Ref<DeploymentManagementListItem | null>
+  updateDeploymentRecord: (id: string, payload: import('~/types/domain/deployment').UpdateDeploymentRecordPayload) => Promise<void>
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
+  errorMessage: Ref<string>
+}
+
 export const useUpdateDeploymentHandler = ({
   isUpdateDeploymentModalOpen,
   selectedDeployment,
