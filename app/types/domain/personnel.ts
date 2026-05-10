@@ -220,5 +220,45 @@ export interface PersonnelDetail {
   age: number | null
 }
 
+export interface PersonnelTrainingRecordListItem {
+  id: string
+  title: string
+  category: string | null
+  status: string
+  startDate: string | null
+  endDate: string | null
+  validUntil: string | null
+  remarks: string | null
+}
+
+export interface PersonnelDeploymentRecordListItem {
+  id: string
+  deploymentArea: string
+  operationName: string | null
+  location: string | null
+  assignmentRole: string | null
+  status: string
+  startDate: string
+  endDate: string | null
+}
+
+export interface PersonnelEngagementRecordListItem {
+  id: string
+  title: string
+  type: string
+  status: string
+  dateStart: string | null
+  dateEnd: string | null
+  remarks: string | null
+}
+
+export interface PersonnelRecordListResponse<TItem> {
+  items: TItem[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
+
 export type PersonnelProfileTabId = 'core' | 'training' | 'deployment' | 'engagement' | 'equipment-assignment'
 export type PersonnelManagementTabId = 'personnel-records' | 'rank-management'
