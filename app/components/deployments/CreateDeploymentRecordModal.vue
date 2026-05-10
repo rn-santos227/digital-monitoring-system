@@ -67,7 +67,17 @@ const emit = defineEmits<{
   (event: 'submit', payload: CreateDeploymentRecordPayload): void
 }>()
 
-const form = reactive<CreateDeploymentRecordPayload>({
+interface CreateDeploymentRecordForm {
+  personnel_id: string
+  deployment_id: string
+  assignment_role: string
+  deployment_area: string
+  start_date: string
+  end_date: string
+  remarks: string
+}
+
+const form = reactive<CreateDeploymentRecordForm>({
   deployment_id: '',
   personnel_id: '',
   assignment_role: '',
