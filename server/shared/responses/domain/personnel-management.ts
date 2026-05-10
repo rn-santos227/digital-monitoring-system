@@ -4,6 +4,7 @@ export interface PersonnelListItemCompact {
   id: string
   personnelCode: string
   serviceNumber: string
+  email: string
   fullName: string
   rankName: string
   companyName: string | null
@@ -23,6 +24,7 @@ export interface PersonnelDetailResponse {
   id: string
   personnelCode: string
   serviceNumber: string
+  email: string
   lastName: string
   firstName: string
   middleName: string | null
@@ -160,6 +162,7 @@ export interface PersonnelSuggestionItem {
   id: string
   personnelCode: string
   serviceNumber: string
+  email: string
   fullName: string
   rankName: string
   companyName: string | null

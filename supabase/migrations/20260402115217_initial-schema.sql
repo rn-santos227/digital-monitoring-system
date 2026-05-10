@@ -64,6 +64,7 @@ create table if not exists public.personnel (
   id uuid primary key default gen_random_uuid(),
   personnel_code text not null unique,
   service_number text not null unique,
+  email text not null unique,
   last_name text not null,
   first_name text not null,
   middle_name text null,

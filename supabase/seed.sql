@@ -236,6 +236,7 @@ values
   ('incident.delete', 'Delete Incident', 'incident'),
   ('reports.view', 'View Reports', 'reports'),
   ('audit.view', 'View Audit Logs', 'audit'),
+  ('settings.update', 'Update Settings', 'update'),
   ('user.view', 'View User', 'user_management'),
   ('user.create', 'Create User', 'user_management'),
   ('user.update', 'Update User', 'user_management'),
