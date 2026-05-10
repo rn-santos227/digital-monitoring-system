@@ -36,4 +36,21 @@ const emit = defineEmits<{
 
 const authStore = useAuthStore()
 
+const visibleActions = computed(() => {
+  return [
+    { key: 'view-deployment-record', tooltip: 'View record', iconName: 'eye', variant: 'info' as const },
+    { key: 'edit-deployment-record', tooltip: 'Update record', iconName: 'pencil-square', variant: 'warning' as const },
+    { key: 'delete-deployment-record', tooltip: 'Delete record', iconName: 'trash', variant: 'danger' as const },
+  ].filter((action) => {
+    if (action.key === 'view-deployment-record') {
+      return authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.view)
+    }
+
+    if (action.key === 'edit-deployment-record') {
+      return authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.edit)
+    }
+
+    return authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.delete)
+  })
+})
 </script>
