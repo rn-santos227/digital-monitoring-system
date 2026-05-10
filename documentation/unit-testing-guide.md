@@ -1,174 +1,119 @@
 # Unit testing guide
 
-This guide describes how to run, organize, and extend the unit test suite for the Digital AFP Personnel and Equipment Monitoring System.
+The Digital AFP Personnel and Equipment Monitoring System uses Vitest for unit tests, Vue Test Utils for component setup and lifecycle tests, and V8 for coverage measurement.
 
-## Test stack and configuration
+## Running the suite
 
-The project uses [Vitest](https://vitest.dev/) as its test runner. The configuration in `vitest.config.ts`:
-
-- runs tests in the Node.js environment;
-- discovers files matching `tests/unit/**/*.test.ts`;
-- resolves both `~` and `@` to the repository root; and
-- treats a run with no discovered tests as a failure.
-
-Tests can import production modules through a relative path or a configured root alias. Prefer the root alias when it makes a deeply nested import easier to read.
-
-## Prerequisites
-
-Install the project dependencies before running the suite:
-
-```bash
-npm install
-```
-
-The existing unit tests are deterministic and do not require a running Nuxt development server or a local Supabase instance.
-
-## Running tests
-
-Run the complete unit test suite once:
+Install the project dependencies with `npm install`, then run:
 
 ```bash
 npm test
-```
-
-Run only endpoint-focused tests:
-
-```bash
+npm run test:coverage
+npm run test:frontend
 npm run test:endpoints
-```
-
-Run only system utility and security tests:
-
-```bash
 npm run test:system
 ```
 
-Pass a file or directory to Vitest through the main test script to narrow a run:
+Run an individual file through the main script:
 
 ```bash
-npm test -- tests/unit/endpoints/personnel/personnel-payload.test.ts
-npm test -- tests/unit/system/value-parsing
+npm test -- tests/unit/system/suggestions.test.ts
 ```
 
-Use Vitest directly when an interactive watch session is useful during development:
+The tests use synthetic personnel data and in-memory HTTP events. They do not need a Nuxt development server, Supabase instance, credentials, or a network connection. The workbook tests create and parse real XLSX buffers in memory.
 
-```bash
-npx vitest tests/unit/endpoints/personnel/personnel-payload.test.ts
-```
-
-## Suite organization
-
-Unit tests live under `tests/unit` and are grouped by the production behavior they verify:
+## Organization and configuration
 
 ```text
-tests/unit/
-├── endpoints/
-│   ├── application-settings/
-│   ├── batch/
-│   ├── calendar/
-│   ├── deployments/
-│   ├── engagements/
-│   ├── equipment/
-│   ├── files/
-│   ├── personnel/
-│   ├── ranks/
-│   ├── trainings/
-│   ├── units/
-│   └── users/
-└── system/
-    ├── query-filters/
-    └── value-parsing/
+tests/
+  helpers/
+  unit/
+    frontend/
+      composables/
+      handlers/
+      stores/
+      utils/
+      validation/
+    endpoints/
+    system/
 ```
 
-The endpoint suite primarily verifies:
+- Frontend tests verify form validation, Pinia state transitions, request utilities, page orchestration, modal feedback, and Vue lifecycle behavior.
+- Endpoint tests verify parsing, persistence boundaries, authorization, created-item responses, audit outcomes, usage safety, and selected compensation flows.
+- System tests verify authentication, security middleware, query construction, response mapping, caching, storage helpers, XLSX parsing, and shared domain utilities.
 
-- request payload parsing and normalization;
-- required-field, format, and business-rule validation;
-- create and partial-update persistence shapes;
-- file upload and external attachment safety;
-- query parsing and batch request behavior; and
-- structural API contracts such as RBAC enforcement, audit logging, route parameters, and destructive-operation usage checks.
+`vitest.config.ts` discovers `tests/unit/**/*.test.ts` and fails if no tests are found. It limits workers to four. Most tests run in Node; files with `@vitest-environment happy-dom` use a browser-like DOM.
 
-The system suite verifies cross-domain behavior such as security headers, allowed-origin parsing, rate limiting, nullable query filters, and primitive value parsers.
+`@/` and `~~/` resolve to the project root. Frontend aliases such as `~/stores`, `~/utils`, and `~/types` resolve to the corresponding `app` folders. Small test adapters replace Nuxt keyed state, runtime configuration, and the Supabase server connector. Vue reactivity and Pinia stores remain real.
 
-## Naming and placement
+The test transform maps `import.meta.client` to the `__TEST_NUXT_CLIENT__` global. Tests exercising client-only behavior must set that flag and restore globals afterward.
 
-Follow these conventions when adding a test:
+## Coverage reporting
 
-1. Use a `.test.ts` suffix so Vitest discovers the file.
-2. Mirror the production domain under `tests/unit/endpoints/<domain>` for endpoint request and validation behavior.
-3. Place reusable infrastructure and cross-domain utility tests under `tests/unit/system/<concern>`.
-4. Use a descriptive kebab-case file name, such as `deployment-payload.test.ts`.
-5. Group related behavior with `describe` and state the observable result in each `it` description.
+`npm run test:coverage` produces:
 
-For example, tests for `server/shared/validations/domain/personnel-management.ts` belong in `tests/unit/endpoints/personnel/personnel-payload.test.ts`.
-
-## Writing a unit test
-
-Import test helpers from Vitest and exercise the smallest public production function that represents the behavior:
-
-```ts
-import { describe, expect, it } from 'vitest'
-
-import { parseBoolean } from '@/server/shared/utils/parsers'
-
-describe('boolean parsing', () => {
-  it.each([
-    [' yes ', true],
-    ['0', false],
-  ])('parses %j as %j', (input, expected) => {
-    expect(parseBoolean(input)).toBe(expected)
-  })
-
-  it('uses the supplied fallback for an unsupported value', () => {
-    expect(parseBoolean('unknown', true)).toBe(true)
-  })
-})
+```text
+coverage/index.html
+coverage/coverage-final.json
+coverage/coverage-summary.json
 ```
 
-A useful unit test should follow Arrange–Act–Assert, even when those stages are compact:
+Open `coverage/index.html` to inspect uncovered statements and branches. The generated directory is ignored so reports are not mixed with manually curated source changes.
 
-1. **Arrange:** create a representative input and any deterministic dependencies.
-2. **Act:** call the production function or inspect the route contract.
-3. **Assert:** verify the returned value, normalized persistence shape, or expected error.
-4. Run the new test file by itself for fast feedback.
-5. Run the related endpoint or system suite.
-6. Run the complete suite before committing.
+Coverage includes all TypeScript files under:
 
-Example workflow:
-
-```bash
-npm test -- tests/unit/endpoints/personnel/personnel-payload.test.ts
-npm run test:endpoints
-npm test
+```text
+app/utils
+app/stores
+app/handlers
+app/composables
+server/api
+server/shared/utils
+server/shared/validation
+server/utils
+server/middleware
 ```
 
-## Troubleshooting
+Only `index.ts` barrels are excluded. API `index.get.ts`, `index.post.ts`, and similar route files remain included. Vue single-file components, database migrations, Nitro runtime integration, and live Supabase policies are outside this unit coverage measurement.
 
-### Vitest reports that no tests were found
+### Verification snapshot: 2026-10-05
 
-Confirm that the file is under `tests/unit`, ends in `.test.ts`, and matches the configured `tests/unit/**/*.test.ts` pattern. An empty run intentionally fails.
+The last fully verified run passed **2,142 tests in 135 files**:
 
-### An import cannot be resolved
+| Metric     | Coverage |
+| ---------- | -------- |
+| Statements | 52.92%   |
+| Branches   | 48.23%   |
+| Functions  | 58.98%   |
+| Lines      | 53.15%   |
 
-Confirm the file path and capitalization. Both `@/` and `~/` point to the repository root, not directly to `app` or `server`.
+The workspace subsequently gained `detail-repositories.test.ts`, `suggestions.test.ts`, and a personnel-suggestion deduplication fix. These additions require a fresh complete run; the last requested run outside the sandbox was declined, and the sandbox run failed during Vite startup with `spawn EPERM`.
 
-### A test depends on Nuxt runtime globals
+The production build passed after these changes. The workspace contains 137 test files. This is expanded coverage, not 100% coverage. Remaining work includes additional API success and failure paths, bulk operations, print flows, feature handler orchestration, and Vue component interaction tests. The authorization inventory verifies denial before database access; it does not establish successful behavior for every route.
 
-First extract deterministic parsing, formatting, or validation into the appropriate shared utility and test that function directly. If runtime integration is the behavior under test, use the Nuxt test utilities in a separately configured integration suite rather than weakening the Node-based unit suite.
+## Regression fixes covered by new tests
 
-### A source-contract test fails after moving a route
+The tests exposed and accompanied fixes for:
 
-Update the route inventory in the contract test only if the application route genuinely changed. Do not remove RBAC, audit, route-parameter, or deletion-safety assertions merely to make the test pass.
+- training updates that previously changed local state without persisting through the endpoint;
+- duplicate rank creation in the page composable;
+- deployment location updates routed through the details action;
+- settings initialization that failed to mark a successful load as cached;
+- incident creation busy state being set by KPI loading rather than creation;
+- authentication accepting an inactive local profile through provider fallback;
+- custom session-token headers being retained in audit data;
+- personnel suggestions duplicating a selected person matching the exact service number.
 
-## Review checklist
+Direct Vue and Pinia imports were also added where modules relied on implicit imports. A duplicate missing-rank guard was removed.
 
-Before submitting unit-test changes, confirm that:
+## Extending tests
 
-- the new file is discoverable by the Vitest include pattern;
-- descriptions explain behavior and expected outcomes;
-- both success and relevant failure paths are covered;
-- fixtures contain no secrets or real personnel information;
-- assertions are deterministic and independent of execution order;
-- domain naming matches the Supabase schema and repository conventions; and
-- `npm test` passes locally.
+Follow `AGENTS.md`: keep tests readable, use kebab-case filenames, place domain tests in the corresponding suite, and prefer typed synthetic fixtures over `any`.
+
+Assert observable behavior, including relevant failure paths. Examples include cancellation preserving data, rejected writes leaving a modal open, failed reads clearing stale rows, and failed reference checks preventing deletion. Mock external boundaries, not the function being tested.
+
+The recording Supabase helper queues results when queries are awaited. It records table names, methods, and arguments without opening a database connection. CRUD and collection contracts deliberately declare expected domain tables and actions; they do not infer expectations from source text.
+
+Restore mocked globals, environment variables, clocks, listeners, and mounted components after each test. Use fake clocks limited to `Date` when exercising XLSX operations, since faking all timers can block ExcelJS asynchronous work.
+
+Run the complete suite and coverage report after the final changes. A passing runtime suite does not establish TypeScript correctness; a separate compiler check was unavailable in this environment because installation of the missing compiler was declined.
