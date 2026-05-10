@@ -375,3 +375,29 @@ export const DEPLOYMENT_PERSONNEL_TABLE_COLUMNS: readonly DataTableColumn[] = Ob
   { key: 'rankName', label: 'Rank', sortable: true },
   { key: 'serviceStatus', label: 'Service Status', sortable: true },
 ])
+
+export const ENGAGEMENTS_TABLE_TITLE = 'Engagements'
+export const ENGAGEMENTS_TABLE_EMPTY_MESSAGE = 'No engagements found.'
+export const ENGAGEMENTS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
+export const ENGAGEMENTS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'engagementTitle', label: 'Engagement Title', sortable: true },
+  { key: 'engagementCategoryName', label: 'Category', sortable: true },
+  { key: 'levelName', label: 'Level', sortable: true },
+  { key: 'statusName', label: 'Status', sortable: true },
+  { key: 'startDate', label: 'Start Date', sortable: true },
+  { key: 'endDate', label: 'End Date', sortable: true },
+])
+
+export const ENGAGEMENT_RECORDS_TABLE_TITLE = 'Engagement Records'
+export const ENGAGEMENT_RECORDS_TABLE_EMPTY_MESSAGE = 'No engagement records found.'
+export const ENGAGEMENT_RECORDS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
+export const ENGAGEMENT_RECORDS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'recordNo', label: 'Record No', sortable: true },
+  { key: 'personnelName', label: 'Personnel', sortable: true },
+  { key: 'engagementTitle', label: 'Engagement Title', sortable: true },
+  { key: 'engagementCategoryName', label: 'Category', sortable: true },
+  { key: 'levelName', label: 'Level', sortable: true },
+  { key: 'statusName', label: 'Status', sortable: true },
+  { key: 'startDate', label: 'Start Date', sortable: true },
+  { key: 'endDate', label: 'End Date', sortable: true },
+])
