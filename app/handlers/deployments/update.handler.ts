@@ -149,3 +149,58 @@ export const useUpdateDeploymentHandler = ({
     onSubmitUpdateDeploymentLocation,
   }
 }
+
+interface UseUpdateDeploymentRecordHandlerOptions {
+  isUpdateDeploymentRecordModalOpen: Ref<boolean>
+  selectedDeploymentRecord: Ref<DeploymentManagementListItem | null>
+  updateDeploymentRecord: (id: string, payload: import('~/types/domain/deployment').UpdateDeploymentRecordPayload) => Promise<void>
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
+  errorMessage: Ref<string>
+}
+
+export const useUpdateDeploymentRecordHandler = ({
+  isUpdateDeploymentRecordModalOpen,
+  selectedDeploymentRecord,
+  updateDeploymentRecord,
+  showDialog,
+  errorMessage,
+}: UseUpdateDeploymentRecordHandlerOptions) => {
+  const onCloseUpdateDeploymentRecordModal = () => {
+    isUpdateDeploymentRecordModalOpen.value = false
+    selectedDeploymentRecord.value = null
+  }
+
+  const selectedDeploymentRecordFormValues = computed(() => ({
+    personnelName: selectedDeploymentRecord.value?.personnelName ?? '',
+    operationName: selectedDeploymentRecord.value?.operationName ?? '',
+    assignmentRole: selectedDeploymentRecord.value?.assignmentRole ?? '',
+    location: selectedDeploymentRecord.value?.location ?? '',
+    remarks: selectedDeploymentRecord.value?.remarks ?? '',
+  }))
+
+  const onSubmitUpdateDeploymentRecord = async (payload: import('~/types/domain/deployment').UpdateDeploymentRecordPayload) => {
+    errorMessage.value = ''
+    const id = selectedDeploymentRecord.value?.id
+    if (!id) {
+      return
+    }
+
+    try {
+      await updateDeploymentRecord(String(id), payload)
+      onCloseUpdateDeploymentRecordModal()
+    } catch (error) {
+      errorMessage.value = await showErrorDialog({
+        showDialog,
+        title: 'Deployment record update failed',
+        error,
+        fallbackMessage: 'Unable to update deployment record right now.',
+      })
+    }
+  }
+
+  return {
+    onCloseUpdateDeploymentRecordModal,
+    selectedDeploymentRecordFormValues,
+    onSubmitUpdateDeploymentRecord,
+  }
+}
