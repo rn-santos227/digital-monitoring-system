@@ -11,6 +11,10 @@ import type {
   PersonnelSuggestionsEndpointResponse,
   PersonnelSuggestionsQuery,
   PersonnelBatchUploadResponse,
+  PersonnelTrainingRecordListItem,
+  PersonnelDeploymentRecordListItem,
+  PersonnelEngagementRecordListItem,
+  PersonnelRecordListResponse,
   UpdatePersonnelPayload,
   UpdatePersonnelResponse,
 } from '~/types/domain/personnel'
@@ -101,4 +105,34 @@ export const deletePersonnelEndpoint = async (id: string): Promise<DeletePersonn
       headers: createSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.deletePersonnel)
+}
+
+export const getPersonnelTrainingRecordsEndpoint = async (id: string, pageSize = 100): Promise<PersonnelRecordListResponse<PersonnelTrainingRecordListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<PersonnelRecordListResponse<PersonnelTrainingRecordListItem>>(PERSONNEL_API_ENDPOINTS.personnelTrainingRecords(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query: { page: 1, pageSize },
+    })
+  }, API_LOADING_MESSAGES.fetchTrainingRecords)
+}
+
+export const getPersonnelDeploymentRecordsEndpoint = async (id: string, pageSize = 100): Promise<PersonnelRecordListResponse<PersonnelDeploymentRecordListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<PersonnelRecordListResponse<PersonnelDeploymentRecordListItem>>(PERSONNEL_API_ENDPOINTS.personnelDeploymentRecords(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query: { page: 1, pageSize },
+    })
+  }, API_LOADING_MESSAGES.fetchDeploymentRecords)
+}
+
+export const getPersonnelEngagementRecordsEndpoint = async (id: string, pageSize = 100): Promise<PersonnelRecordListResponse<PersonnelEngagementRecordListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<PersonnelRecordListResponse<PersonnelEngagementRecordListItem>>(PERSONNEL_API_ENDPOINTS.personnelEngagementRecords(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query: { page: 1, pageSize },
+    })
+  }, API_LOADING_MESSAGES.fetchPersonnel)
 }
