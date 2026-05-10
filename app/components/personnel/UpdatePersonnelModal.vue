@@ -48,6 +48,23 @@
         />
       </div>
 
+      <div class="grid gap-4 md:grid-cols-2">
+        <BaseTextField
+          v-model="form.position"
+          :label="PERSONNEL_CREATE_POSITION_LABEL"
+          :placeholder="PERSONNEL_CREATE_POSITION_PLACEHOLDER"
+          :error="errors.position"
+        />
+
+        <BaseTextField
+          v-model="form.email"
+          :label="PERSONNEL_CREATE_EMAIL_LABEL"
+          :placeholder="PERSONNEL_CREATE_EMAIL_PLACEHOLDER"
+          :error="errors.email"
+          required
+        />
+      </div>
+
       <div class="grid gap-4 md:grid-cols-3">
         <BaseSelect
           v-model="form.sex"
@@ -83,11 +100,26 @@
           :placeholder="PERSONNEL_CREATE_CONTACT_NUMBER_PLACEHOLDER"
           :error="errors.contactNumber"
         />
+      </div>
+
+      <div class="space-y-2">
+        <BaseFileUpload
+          :label="PERSONNEL_CREATE_PROFILE_IMAGE_LABEL"
+          :helper-text="profileImageUploadHelperText"
+          :error="errors.profileImageFile"
+          accept="image/*"
+          :allowed-mime-prefixes="FILE_UPLOAD_CONSTRAINTS.imageMimePrefixes"
+          :max-size-bytes="FILE_UPLOAD_CONSTRAINTS.maxSizeBytes"
+          :disabled="isSubmitting || isProfileImageUploading"
+          @update:file="onProfileImageFileSelected"
+        />
+
         <BaseTextField
-          v-model="form.position"
-          :label="PERSONNEL_CREATE_POSITION_LABEL"
-          :placeholder="PERSONNEL_CREATE_POSITION_PLACEHOLDER"
-          :error="errors.position"
+          v-model="form.profileImageUrl"
+          type="url"
+          :label="PERSONNEL_CREATE_PROFILE_IMAGE_URL_LABEL"
+          :placeholder="PERSONNEL_CREATE_PROFILE_IMAGE_URL_PLACEHOLDER"
+          helper-text="Optional fallback URL."
         />
       </div>
 
@@ -163,6 +195,8 @@ import {
   PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_LABEL,
   PERSONNEL_CREATE_EMPLOYMENT_STATUS_OPTIONS,
   PERSONNEL_CREATE_EMPLOYMENT_STATUS_ID_PLACEHOLDER,
+  PERSONNEL_CREATE_EMAIL_LABEL,
+  PERSONNEL_CREATE_EMAIL_PLACEHOLDER,
   PERSONNEL_CREATE_FIRST_NAME_LABEL,
   PERSONNEL_CREATE_FIRST_NAME_PLACEHOLDER,
   PERSONNEL_CREATE_LAST_NAME_LABEL,
@@ -206,6 +240,7 @@ const emit = defineEmits<{
 const form = reactive({
   personnelCode: '',
   serviceNumber: '',
+  email: '',
   lastName: '',
   firstName: '',
   middleName: '',
@@ -225,6 +260,7 @@ const form = reactive({
 const syncForm = (value: PersonnelDetail) => {
   form.personnelCode = value.personnelCode
   form.serviceNumber = value.serviceNumber
+  form.email = value.email
   form.lastName = value.lastName
   form.firstName = value.firstName
   form.middleName = value.middleName ?? ''
