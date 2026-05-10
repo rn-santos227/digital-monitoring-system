@@ -225,6 +225,7 @@ export const PERSONNEL_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: '', label: 'All searchable fields' },
   { value: 'personnelCode', label: 'Personnel Code' },
   { value: 'serviceNumber', label: 'Serial Number' },
+  { value: 'email', label: 'Email' },
   { value: 'lastName', label: 'Last Name' },
   { value: 'firstName', label: 'First Name' },
   { value: 'rankName', label: 'Rank' },
