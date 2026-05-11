@@ -1,27 +1,29 @@
 import { defineEventHandler, readBody } from 'h3'
 import type { CreateRankRequest } from '../../shared/requests'
+import type { CreateRankApiResponse } from '../../shared/responses'
 import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
 import { parseCreateRankPayload } from '../../shared/validations'
+import { mapRankListItem } from '../../shared/utils'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { createRank } from '../../utils/ranks/createRank'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<CreateRankApiResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.rankCreate)
   const body = await readBody<CreateRankRequest>(event)
   const payload = parseCreateRankPayload(body)
   const supabase = getServiceSupabaseClient()
 
   try {
-    const createdId = await createRank(supabase, payload)
+    const createdRank = await createRank(supabase, payload)
 
     await recordManagementAuditLog(event, {
       userId: actor.id,
       action: AUDIT_LOG_ACTIONS.rankCreate,
       tableName: 'ranks',
       endpoint: AUDIT_LOG_ENDPOINTS.ranksCreate,
-      recordId: createdId,
+      recordId: createdRank.id,
       requestData: body as Record<string, unknown>,
       newData: payload,
       statusCode: 201,
@@ -29,7 +31,11 @@ export default defineEventHandler(async (event) => {
       message: 'Rank created successfully.',
     })
 
-    return { ok: true, id: createdId }
+    return {
+      ok: true,
+      id: createdRank.id,
+      item: mapRankListItem(createdRank),
+    }
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
 

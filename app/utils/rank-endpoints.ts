@@ -1,5 +1,10 @@
 import { API_LOADING_MESSAGES, PERSONNEL_API_ENDPOINTS } from '~/constants/api.constants'
-import type { CreateRankPayload, RankListQuery, RankListResponse, RankSuggestionResponse } from '~/types/domain/rank'
+import type { 
+  CreateRankPayload,
+  CreateRankResponse,
+  RankListQuery, RankListResponse,
+  RankSuggestionResponse
+} from '~/types/domain/rank'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
 
@@ -23,9 +28,9 @@ export const getRanksEndpoint = async (query: RankListQuery): Promise<RankListRe
   }, API_LOADING_MESSAGES.fetchRanks)
 }
 
-export const createRankEndpoint = async (payload: CreateRankPayload): Promise<{ ok: boolean; id: string }> => {
+export const createRankEndpoint = async (payload: CreateRankPayload): Promise<CreateRankResponse> => {
   return await withApiLoading(async () => {
-    return await $fetch<{ ok: boolean; id: string }>(PERSONNEL_API_ENDPOINTS.ranks, {
+    return await $fetch<CreateRankResponse>(PERSONNEL_API_ENDPOINTS.ranks, {
       method: 'POST',
       headers: createSessionHeaders(),
       body: payload,

@@ -38,6 +38,12 @@ export interface CreateRankPayload {
   sortOrder: number
 }
 
+export interface CreateRankResponse {
+  ok: boolean
+  id: string
+  item: RankListItem
+}
+
 export interface RankTablePagination {
   page: number
   pageSize: number

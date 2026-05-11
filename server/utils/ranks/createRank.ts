@@ -1,17 +1,18 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { RankCreate } from '../../shared/models'
+import { RANK_LIST_SELECT_COLUMNS } from '../../shared/constants'
+import type { RankCreate, RankRow } from '../../shared/models'
 
-export async function createRank(supabase: SupabaseClient, payload: RankCreate): Promise<string> {
+export async function createRank(supabase: SupabaseClient, payload: RankCreate): Promise<RankRow> {
   const { data: createdRow, error: insertError } = await supabase
     .from('ranks')
     .insert(payload)
-    .select('id')
-    .maybeSingle<{ id: string }>()
+    .select(RANK_LIST_SELECT_COLUMNS)
+    .maybeSingle<RankRow>()
 
-  if (insertError || !createdRow?.id) {
+  if (insertError || !createdRow) {
     throw createError({ statusCode: 500, statusMessage: `Failed to create rank: ${insertError?.message ?? 'Missing id.'}` })
   }
 
-  return createdRow.id
+  return createdRow
 }
