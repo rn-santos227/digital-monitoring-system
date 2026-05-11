@@ -12,7 +12,15 @@ import type { PersonnelManagementTabId, PersonnelProfileTabId } from '~/types/do
 import type { UserManagementTabId } from '~/types/domain/users'
 import type { TrainingManagementTabId } from '~/types/domain/training'
 import type { UnitManagementTabId } from '~/types/domain/units'
-import { DEPLOYMENT_STATUS_VALUES, EMPLOYMENT_STATUS_VALUES, SERVICE_STATUS_VALUES, LEVEL_VALUES, TRAINING_STATUS_VALUES } from '~/types/enums'
+import {
+  DEPLOYMENT_STATUS_VALUES,
+  EMPLOYMENT_STATUS_VALUES,
+  SERVICE_STATUS_VALUES,
+  LEVEL_VALUES,
+  TRAINING_STATUS_VALUES,
+  ENGAGEMENT_TYPE_VALUES,
+  ENGAGEMENT_STATUS_VALUES,
+} from '~/types/enums'
 
 export const DASHBOARD_PAGE_TITLE = 'Dashboard'
 export const DASHBOARD_PAGE_SUBTITLE = 'AFP personnel readiness and equipment handling overview.'
@@ -721,6 +729,21 @@ export const ENGAGEMENT_RECORDS_PAGE_TAB_REQUIRED_PERMISSIONS = Object.freeze({
   engagements: Object.freeze(['engagement.manage']),
   records: Object.freeze(['engagement.manage']),
 })
+
+export const ENGAGEMENT_CREATE_TYPE_OPTIONS = Object.freeze([
+  { value: '', label: 'Select engagement type' },
+  ...ENGAGEMENT_TYPE_VALUES.map((value) => ({ value, label: value })),
+])
+
+export const ENGAGEMENT_CREATE_LEVEL_OPTIONS = Object.freeze([
+  { value: '', label: 'Select level' },
+  ...LEVEL_VALUES.map((value) => ({ value, label: value })),
+])
+
+export const ENGAGEMENT_CREATE_STATUS_OPTIONS = Object.freeze([
+  { value: '', label: 'Select status' },
+  ...ENGAGEMENT_STATUS_VALUES.map((value) => ({ value, label: value })),
+])
 
 export const ENGAGEMENTS_FILTER_CARD_TITLE = 'Filter Engagement Records'
 export const ENGAGEMENTS_FILTER_TERM_LABEL = 'Search Term'
