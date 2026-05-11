@@ -55,12 +55,14 @@ export const ENGAGEMENT_STATUS_VALUES = Object.freeze([
 ] as const)
 export type EngagementStatusName = (typeof ENGAGEMENT_STATUS_VALUES)[number]
 
-export type EngagementTypeName =
-  | 'Seminar'
-  | 'Conference'
-  | 'Joint Exercise'
-  | 'Community Operation'
-  | 'Official Representation'
+export const ENGAGEMENT_TYPE_VALUES = Object.freeze([
+  'Seminar',
+  'Conference',
+  'Joint Exercise',
+  'Community Operation',
+  'Official Representation',
+] as const)
+export type EngagementTypeName = (typeof ENGAGEMENT_TYPE_VALUES)[number]
 
 export type ConditionStatusName = 'Excellent' | 'Good' | 'Fair' | 'Damaged'
 export type ServiceabilityStatusName = 'Serviceable' | 'Limited Serviceability' | 'Unserviceable'
