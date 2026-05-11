@@ -47,7 +47,13 @@ export const TRAINING_STATUS_VALUES = Object.freeze([
 ] as const)
 export type TrainingStatusName = (typeof TRAINING_STATUS_VALUES)[number]
 
-export type EngagementStatusName = 'Planned' | 'Ongoing' | 'Completed' | 'Cancelled'
+export const ENGAGEMENT_STATUS_VALUES = Object.freeze([
+  'Planned',
+  'Ongoing',
+  'Completed',
+  'Cancelled',
+] as const)
+export type EngagementStatusName = (typeof ENGAGEMENT_STATUS_VALUES)[number]
 
 export type EngagementTypeName =
   | 'Seminar'
