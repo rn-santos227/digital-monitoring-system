@@ -25,6 +25,16 @@ export interface EngagementFilters {
   date_start_to?: string
 }
 
+export type CreateEngagementPayload = {
+  engagement_title: string
+  engagement_type_id: string
+  level_id: string | null
+  date_start: string | null
+  date_end: string | null
+  status_id: string
+  default_remarks: string | null
+}
+
 export interface EngagementManagementSearchQuery {
   page?: number
   pageSize?: number
