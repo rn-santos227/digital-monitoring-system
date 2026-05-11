@@ -58,7 +58,6 @@ export const searchEngagementRecordsEndpoint = async (
   }, API_LOADING_MESSAGES.fetchEngagementRecords)
 }
 
-
 export const createEngagementEndpoint = async (payload: CreateEngagementPayload): Promise<{ id: string }> => {
   return await withApiLoading(async () => {
     return await $fetch(ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.engagements, {
@@ -67,4 +66,13 @@ export const createEngagementEndpoint = async (payload: CreateEngagementPayload)
       body: payload,
     })
   }, API_LOADING_MESSAGES.createEngagement)
+}
+
+export const getEngagementByIdEndpoint = async (id: string): Promise<EngagementManagementListItem> => {
+  return await withApiLoading(async () => {
+    return await $fetch(ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.engagementById(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchEngagements)
 }
