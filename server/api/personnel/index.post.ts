@@ -1,6 +1,7 @@
 import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreatePersonnelRequest } from '../../shared/requests'
 import type { PersonnelCreate } from '../../shared/models'
+import type { CreatePersonnelResponse } from '../../shared/responses'
 import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
@@ -10,6 +11,7 @@ import {
 } from '../../shared/constants'
 import { parseCreatePersonnelPayload } from '../../shared/validations'
 import {
+  mapPersonnelDetail,
   resolvePersonnelEmploymentStatusId,
   resolvePersonnelServiceStatusId,
   resolvePersonnelUnitAssignment,
@@ -18,8 +20,9 @@ import { recordManagementAuditLog } from '../../utils/audit/recordManagementAudi
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { createPersonnel } from '../../utils/personnel/createPersonnel'
+import { getPersonnelById } from '../../utils/personnel/getPersonnelById'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<CreatePersonnelResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.personnelCreate)
   const body = await readBody<CreatePersonnelRequest>(event)
   const payload = parseCreatePersonnelPayload(body)
@@ -67,9 +70,31 @@ export default defineEventHandler(async (event) => {
       message: 'Personnel record created successfully.',
     })
 
+    const { data: createdPersonnelProfile, error: createdPersonnelProfileError } = await getPersonnelById(
+      supabase,
+      createdPersonnel.id,
+    )
+
+    if (createdPersonnelProfileError || !createdPersonnelProfile) {
+      throw createError({ statusCode: 500, statusMessage: 'Failed to load created personnel record.' })
+    }
+
+    const createdPersonnelDetail = mapPersonnelDetail(createdPersonnelProfile)
+
     return {
       ok: true,
       id: createdPersonnel.id,
+      item: {
+        id: createdPersonnelDetail.id,
+        personnelCode: createdPersonnelDetail.personnelCode,
+        serviceNumber: createdPersonnelDetail.serviceNumber,
+        email: createdPersonnelDetail.email,
+        fullName: `${createdPersonnelDetail.lastName}, ${createdPersonnelDetail.firstName}${createdPersonnelDetail.middleName ? ` ${createdPersonnelDetail.middleName}` : ''}`,
+        rankName: createdPersonnelDetail.rankName,
+        companyName: createdPersonnelDetail.companyName,
+        battalionName: createdPersonnelDetail.battalionName,
+        serviceStatus: createdPersonnelDetail.serviceStatus,
+      },
     }
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'

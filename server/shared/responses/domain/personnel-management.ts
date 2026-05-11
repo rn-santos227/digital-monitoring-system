@@ -56,6 +56,12 @@ export interface PersonnelBatchUploadResponse {
   insertedCount: number
 }
 
+export interface CreatePersonnelResponse {
+  ok: boolean
+  id: string
+  item: PersonnelListItemCompact
+}
+
 export interface PersonnelRelationshipCountsResponse {
   breakdown: PersonnelRelationshipBreakdownItem[]
   trainingRecords: number

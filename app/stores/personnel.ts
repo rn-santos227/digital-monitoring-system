@@ -115,19 +115,7 @@ const personnelStoreOptions = {
 
       try {
         const response = await createPersonnelEndpoint(payload)
-        const createdPersonnel = await getPersonnelByIdEndpoint(response.id)
-
-        const createdPersonnelListItem: PersonnelListCompactItem = {
-          id: response.id,
-          personnelCode: createdPersonnel.personnelCode,
-          serviceNumber: createdPersonnel.serviceNumber,
-          email: createdPersonnel.email,
-          fullName: `${createdPersonnel.lastName}, ${createdPersonnel.firstName}${createdPersonnel.middleName ? ` ${createdPersonnel.middleName}` : ''}`,
-          rankName: createdPersonnel.rankName,
-          companyName: createdPersonnel.companyName,
-          battalionName: createdPersonnel.battalionName,
-          serviceStatus: createdPersonnel.serviceStatus,
-        }
+        const createdPersonnelListItem: PersonnelListCompactItem = response.item
 
         this.items = [createdPersonnelListItem, ...this.items]
         this.pagination.totalItems += 1

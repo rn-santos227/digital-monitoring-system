@@ -155,6 +155,7 @@ export interface CreatePersonnelPayload {
 export interface CreatePersonnelResponse {
   ok: boolean
   id: string
+  item: PersonnelListCompactItem
 }
 
 export interface UpdatePersonnelPayload {
