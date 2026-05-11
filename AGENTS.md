@@ -125,3 +125,7 @@
    - Avoid inline Supabase `.select(...)` column strings in `server/api` handlers when the selection is reused or non-trivial.
    - Store reusable select strings in dedicated constants under `server/shared/constants/lib/<domain>.ts` and reuse via imports.
    - Keep select constant names explicit (for example `ACCOUNT_TYPE_LIST_SELECT_COLUMNS`) and expose them through barrel exports.
+
+7. **Create endpoints should return created list item payloads**
+   - For `POST` handlers that create entities shown in frontend tables/lists, return both `{ ok, id }` and a frontend-ready `item` payload so clients can append without an immediate follow-up fetch.
+   - Shape `item` to match the corresponding list response mapping helper/model contract (for example the same item shape 
