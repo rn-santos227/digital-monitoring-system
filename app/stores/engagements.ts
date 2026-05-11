@@ -3,9 +3,12 @@ import type {
   EngagementManagementListItem,
   EngagementManagementSearchQuery,
   EngagementTablePagination,
+  CreateEngagementPayload,
 } from '~/types/domain/engagement'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import {
+  createEngagementEndpoint,
+  getEngagementByIdEndpoint,
   getEngagementRecordsEndpoint,
   getEngagementsEndpoint,
   searchEngagementRecordsEndpoint,
@@ -88,6 +91,30 @@ export const useEngagementsStore = defineStore('engagements', {
         this.engagements.error = extractApiErrorMessage(error, 'Unable to fetch engagements.')
       } finally {
         this.engagements.isLoading = false
+      }
+    },
+    
+    async createEngagement(
+      this: EngagementsStoreState,
+      payload: CreateEngagementPayload,
+    ): Promise<{ id: string }> {
+      this.engagements.error = ''
+
+      try {
+        const response = await createEngagementEndpoint(payload)
+        const createdEngagement = await getEngagementByIdEndpoint(response.id)
+
+        this.engagements.items = [createdEngagement, ...this.engagements.items]
+        this.engagements.pagination.totalItems += 1
+        this.engagements.pagination.totalPages = Math.max(
+          1,
+          Math.ceil(this.engagements.pagination.totalItems / this.engagements.pagination.pageSize),
+        )
+
+        return { id: response.id }
+      } catch (error) {
+        this.engagements.error = extractApiErrorMessage(error, 'Unable to create engagement.')
+        throw error
       }
     },
 
