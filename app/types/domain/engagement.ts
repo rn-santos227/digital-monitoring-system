@@ -48,10 +48,23 @@ export interface EngagementManagementListItem {
   personnelName: string | null
   engagementTitle: string
   engagementCategoryName: string | null
+  engagementTypeId?: string | null
   levelName: string | null
+  levelId?: string | null
   statusName: string | null
+  statusId?: string | null
   startDate: string | null
   endDate: string | null
+  defaultRemarks?: string | null
+}
+
+export interface EngagementPersonnelListItem {
+  id: string
+  personnelCode: string | null
+  serviceNumber: string | null
+  fullName: string | null
+  rankName: string | null
+  serviceStatus: string | null
 }
 
 export interface EngagementManagementListResponse<TItem> {

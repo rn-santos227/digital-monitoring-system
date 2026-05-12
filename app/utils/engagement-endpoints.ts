@@ -3,11 +3,12 @@ import {
   ENGAGEMENT_MANAGEMENT_API_ENDPOINTS,
 } from '~/constants/api.constants'
 import type {
+  CreateEngagementPayload,
+  CreateEngagementApiResponse,
   EngagementManagementListItem,
   EngagementManagementListResponse,
   EngagementManagementSearchQuery,
-  CreateEngagementPayload,
-  CreateEngagementApiResponse,
+  EngagementPersonnelListItem,
 } from '~/types/domain/engagement'
 import { withApiLoading } from '~/utils/api-request'
 
@@ -67,6 +68,39 @@ export const createEngagementEndpoint = async (payload: CreateEngagementPayload)
       body: payload,
     })
   }, API_LOADING_MESSAGES.createEngagement)
+}
+
+export const updateEngagementEndpoint = async (id: string, payload: CreateEngagementPayload): Promise<CreateEngagementApiResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<CreateEngagementApiResponse>(ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.engagementById(id), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updateEngagement)
+}
+
+export const deleteEngagementEndpoint = async (id: string): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.engagementById(id), {
+      method: 'DELETE',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.deleteEngagement)
+}
+
+export const getEngagementPersonnelEndpoint = async (
+  id: string,
+): Promise<EngagementManagementListResponse<EngagementPersonnelListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<EngagementManagementListResponse<EngagementPersonnelListItem>>(
+      ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.engagementPersonnel(id),
+      {
+        method: 'GET',
+        headers: createSessionHeaders(),
+      },
+    )
+  }, API_LOADING_MESSAGES.fetchEngagementPersonnel)
 }
 
 export const getEngagementByIdEndpoint = async (id: string): Promise<EngagementManagementListItem> => {

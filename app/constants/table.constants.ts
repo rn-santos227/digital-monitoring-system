@@ -257,6 +257,14 @@ export const UNITS_PERSONNEL_TABLE_COLUMNS: readonly DataTableColumn[] = Object.
   { key: 'serviceStatus', label: 'Service Status', sortable: true },
 ])
 
+export const ENGAGEMENT_PERSONNEL_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'personnelCode', label: 'Personnel Code', sortable: true },
+  { key: 'serviceNumber', label: 'Serial Number', sortable: true },
+  { key: 'fullName', label: 'Name', sortable: true },
+  { key: 'rankName', label: 'Rank', sortable: true },
+  { key: 'serviceStatus', label: 'Service Status', sortable: true },
+])
+
 export const UNITS_EQUIPMENT_ASSIGNMENT_TABLE_TITLE = 'Equipment Assets'
 export const UNITS_EQUIPMENT_ASSIGNMENT_TABLE_EMPTY_MESSAGE = 'No equipment assignments found.'
 export const UNITS_EQUIPMENT_ASSIGNMENT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([

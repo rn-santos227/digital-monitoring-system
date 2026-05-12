@@ -64,6 +64,7 @@ export const ENGAGEMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   engagementRecords: '/api/engagement-records',
   engagementRecordsSearch: '/api/engagement-records/search',
   engagementById: (id: string) => `/api/engagements/${id}`,
+  engagementPersonnel: (id: string) => `/api/engagements/${id}/personnel`,
 })
 
 export const DASHBOARD_API_ENDPOINTS = Object.freeze({
@@ -176,6 +177,9 @@ export const API_LOADING_MESSAGES = Object.freeze({
   deleteDeployment: 'Deleting deployment record...',
   fetchEngagements: 'Loading engagements...',
   fetchEngagementRecords: 'Loading engagement records...',
+  updateEngagement: 'Updating engagement record...',
+  deleteEngagement: 'Deleting engagement record...',
+  fetchEngagementPersonnel: 'Loading engagement personnel...',
   createEngagement: 'Creating engagement record...',
   uploadFile: 'Uploading file...',
 })
