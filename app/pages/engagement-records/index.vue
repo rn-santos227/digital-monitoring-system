@@ -76,14 +76,32 @@
           :page-size="engagementsPagination.pageSize"
           @update:current-page="onEngagementsPageChange"
           @update:page-size="onEngagementsPageSizeChange"
+          @action="onEngagementAction"
         />
       </template>
+
       <CreateEngagementModal
         v-if="isCreateEngagementModalOpen"
         :is-submitting="isEngagementsLoading"
         :error-message="createEngagementErrorMessage"
         @close="onCloseCreateEngagementModal"
         @submit="onSubmitCreateEngagement"
+      />
+
+      <UpdateEngagementModal
+        v-if="selectedEngagement && isUpdateEngagementModalOpen"
+        :initial-values="updateFormValues"
+        :is-submitting="isEngagementsLoading"
+        :error-message="updateEngagementErrorMessage"
+        @close="onCloseUpdateEngagementModal"
+        @submit="onSubmitUpdateEngagement"
+      />
+
+      <ViewEngagementModal
+        v-if="selectedEngagement && isViewEngagementModalOpen"
+        :engagement="selectedEngagement"
+        :personnel-rows="engagementPersonnelRows"
+        @close="onCloseViewEngagementModal"
       />
     </section>
   </main>
