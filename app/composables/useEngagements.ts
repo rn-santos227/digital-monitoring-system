@@ -1,6 +1,10 @@
 import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import type { CreateEngagementPayload, EngagementManagementSearchQuery } from '~/types/domain/engagement'
+import type {
+  CreateEngagementPayload,
+  EngagementManagementSearchQuery,
+  EngagementPersonnelListItem,
+} from '~/types/domain/engagement'
 import { useEngagementsStore } from '~/stores/engagements'
 
 export const useEngagements = () => {
@@ -27,10 +31,6 @@ export const useEngagements = () => {
     await engagementsStore.fetchEngagements(page, filters.value, pageSize)
   }
 
-  const createEngagement = async (payload: CreateEngagementPayload) => {
-    return await engagementsStore.createEngagement(payload)
-  }
-
   return {
     filters,
     tableRows,
@@ -38,6 +38,10 @@ export const useEngagements = () => {
     isLoading: computed(() => engagements.value.isLoading),
     error: computed(() => engagements.value.error),
     loadEngagements,
-    createEngagement,
+    createEngagement: async (payload: CreateEngagementPayload) => await engagementsStore.createEngagement(payload),
+    updateEngagement: async (id: string, payload: CreateEngagementPayload) => await engagementsStore.updateEngagement(id, payload),
+    deleteEngagement: async (id: string) => await engagementsStore.deleteEngagement(id),
+    getEngagementById: async (id: string) => await engagementsStore.getEngagementById(id),
+    getEngagementPersonnel: async (id: string): Promise<EngagementPersonnelListItem[]> => await engagementsStore.fetchEngagementPersonnel(id),
   }
 }
