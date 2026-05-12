@@ -1,9 +1,9 @@
 import type { Ref } from 'vue'
-import type { CreateBattalionPayload } from '~/types/domain/units'
+import type { CreateBattalionPayload, CreateBattalionResponse } from '~/types/domain/units'
 
 interface UseCreateBattalionHandlerOptions {
   isCreateBattalionModalOpen: Ref<boolean>
-  createBattalion: (payload: CreateBattalionPayload) => Promise<void>
+  createBattalion: (payload: CreateBattalionPayload) => Promise<CreateBattalionResponse>
 }
 
 export const useCreateBattalionHandler = ({

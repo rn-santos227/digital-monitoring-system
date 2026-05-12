@@ -26,3 +26,15 @@ export type BattalionEquipmentAssetListResponse = UnitListResponse<UnitEquipment
 
 export type CompanyPersonnelListResponse = UnitListResponse<UnitPersonnelListItem>
 export type CompanyEquipmentAssetListResponse = UnitListResponse<UnitEquipmentAssetListItem>
+
+export interface CreateBattalionResponse {
+  ok: true
+  id: string
+  item: BattalionListItem
+}
+
+export interface CreateCompanyResponse {
+  ok: true
+  id: string
+  item: CompanyListItem
+}

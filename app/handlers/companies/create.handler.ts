@@ -1,9 +1,9 @@
 import type { Ref } from 'vue'
-import type { CreateCompanyPayload } from '~/types/domain/units'
+import type { CreateCompanyPayload, CreateCompanyResponse } from '~/types/domain/units'
 
 interface UseCreateCompanyHandlerOptions {
   isCreateCompanyModalOpen: Ref<boolean>
-  createCompany: (payload: CreateCompanyPayload) => Promise<void>
+  createCompany: (payload: CreateCompanyPayload) => Promise<CreateCompanyResponse>
   onCreateSuccess?: () => void
   onCreateError?: () => void
 }

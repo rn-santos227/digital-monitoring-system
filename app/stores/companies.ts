@@ -98,18 +98,12 @@ const companiesStoreOptions = {
 
       try {
         const response = await createCompanyEndpoint(payload)
-        const createdCompany: CompanyListItem = {
-          id: response.id,
-          battalionId: payload.battalionId,
-          battalionCode: null,
-          battalionName: null,
-          code: payload.code,
-          name: payload.name,
-          isActive: payload.isActive,
-        }
+        const createdCompany: CompanyListItem = response.item
         this.items = [createdCompany, ...this.items]
         this.pagination.totalItems += 1
         this.pagination.totalPages = Math.max(1, Math.ceil(this.pagination.totalItems / this.pagination.pageSize))
+
+        return response
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create company.')
         throw error

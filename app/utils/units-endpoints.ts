@@ -5,7 +5,9 @@ import type {
   BattalionListItem,
   BattalionSearchQuery,
   CreateBattalionPayload,
+  CreateBattalionResponse,
   CreateCompanyPayload,
+  CreateCompanyResponse,
   CompanyDetailItem,
   CompanyEndpointQuery,
   CompanyListItem,
@@ -59,9 +61,9 @@ export const searchCompaniesEndpoint = async (query: CompanySearchQuery): Promis
   }, API_LOADING_MESSAGES.fetchCompanies)
 }
 
-export const createBattalionEndpoint = async (payload: CreateBattalionPayload): Promise<{ ok: boolean; id: string }> => {
+export const createBattalionEndpoint = async (payload: CreateBattalionPayload): Promise<CreateBattalionResponse> => {
   return await withApiLoading(async () => {
-    return await $fetch<{ ok: boolean; id: string }>(UNIT_MANAGEMENT_API_ENDPOINTS.battalions, {
+    return await $fetch<CreateBattalionResponse>(UNIT_MANAGEMENT_API_ENDPOINTS.battalions, {
       method: 'POST',
       headers: createSessionHeaders(),
       body: payload,
@@ -69,9 +71,9 @@ export const createBattalionEndpoint = async (payload: CreateBattalionPayload): 
   }, API_LOADING_MESSAGES.createBattalion)
 }
 
-export const createCompanyEndpoint = async (payload: CreateCompanyPayload): Promise<{ ok: boolean; id: string }> => {
+export const createCompanyEndpoint = async (payload: CreateCompanyPayload): Promise<CreateCompanyResponse> => {
   return await withApiLoading(async () => {
-    return await $fetch<{ ok: boolean; id: string }>(UNIT_MANAGEMENT_API_ENDPOINTS.companies, {
+    return await $fetch<CreateCompanyResponse>(UNIT_MANAGEMENT_API_ENDPOINTS.companies, {
       method: 'POST',
       headers: createSessionHeaders(),
       body: payload,

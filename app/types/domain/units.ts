@@ -70,6 +70,18 @@ export interface CreateBattalionPayload {
   isActive: boolean
 }
 
+export interface CreateBattalionResponse {
+  ok: boolean
+  id: string
+  item: BattalionListItem
+}
+
+export interface CreateCompanyResponse {
+  ok: boolean
+  id: string
+  item: CompanyListItem
+}
+
 export interface UpdateBattalionPayload {
   code: string
   name: string

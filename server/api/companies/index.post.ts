@@ -1,19 +1,22 @@
-import { defineEventHandler, readBody } from 'h3'
+import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreateCompanyRequest } from '../../shared/requests'
+import type { CreateCompanyResponse } from '../../shared/responses'
 import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
   PERMISSION_CODES,
 } from '../../shared/constants'
+import { mapCompanyListItem } from '../../shared/utils'
 import { parseCreateCompanyPayload } from '../../shared/validations'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { createCompany } from '../../utils/companies/createCompany'
 import { assertBattalionExists } from '../../utils/companies/assertBattalionExists'
+import { getCompanyById } from '../../utils/companies/getCompanyById'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<CreateCompanyResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.companyCreate)
   const body = await readBody<CreateCompanyRequest>(event)
   const payload = parseCreateCompanyPayload(body)
@@ -25,6 +28,11 @@ export default defineEventHandler(async (event) => {
     }
 
     const createdId = await createCompany(supabase, payload)
+    const createdCompany = await getCompanyById(supabase, createdId)
+
+    if (!createdCompany) {
+      throw createError({ statusCode: 500, statusMessage: 'Failed to load created company.' })
+    }
 
     await recordManagementAuditLog(event, {
       userId: actor.id,
@@ -39,7 +47,11 @@ export default defineEventHandler(async (event) => {
       message: 'Company created successfully.',
     })
 
-    return { ok: true, id: createdId }
+    return {
+      ok: true,
+      id: createdId,
+      item: mapCompanyListItem(createdCompany),
+    }
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
 

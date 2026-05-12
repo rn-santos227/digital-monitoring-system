@@ -91,16 +91,12 @@ const battalionsStoreOptions = {
 
       try {
         const response = await createBattalionEndpoint(payload)
-        const createdBattalion: BattalionListItem = {
-          id: response.id,
-          code: payload.code,
-          name: payload.name,
-          isActive: payload.isActive,
-          companyCount: 0,
-        }
+        const createdBattalion: BattalionListItem = response.item
         this.items = [createdBattalion, ...this.items]
         this.pagination.totalItems += 1
         this.pagination.totalPages = Math.max(1, Math.ceil(this.pagination.totalItems / this.pagination.pageSize))
+
+        return response
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create battalion.')
         throw error
