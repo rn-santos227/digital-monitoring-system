@@ -7,6 +7,7 @@ import type {
   EngagementManagementListResponse,
   EngagementManagementSearchQuery,
   CreateEngagementPayload,
+  CreateEngagementApiResponse,
 } from '~/types/domain/engagement'
 import { withApiLoading } from '~/utils/api-request'
 
@@ -14,7 +15,7 @@ export const getEngagementsEndpoint = async (
   query: EngagementManagementSearchQuery,
 ): Promise<EngagementManagementListResponse<EngagementManagementListItem>> => {
   return await withApiLoading(async () => {
-    return await $fetch(ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.engagements, {
+    return await $fetch<EngagementManagementListResponse<EngagementManagementListItem>>(ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.engagements, {
       method: 'GET',
       headers: createSessionHeaders(),
       query,
@@ -58,9 +59,9 @@ export const searchEngagementRecordsEndpoint = async (
   }, API_LOADING_MESSAGES.fetchEngagementRecords)
 }
 
-export const createEngagementEndpoint = async (payload: CreateEngagementPayload): Promise<{ id: string }> => {
+export const createEngagementEndpoint = async (payload: CreateEngagementPayload): Promise<CreateEngagementApiResponse> => {
   return await withApiLoading(async () => {
-    return await $fetch(ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.engagements, {
+    return await $fetch<CreateEngagementApiResponse>(ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.engagements, {
       method: 'POST',
       headers: createSessionHeaders(),
       body: payload,
