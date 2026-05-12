@@ -5,8 +5,8 @@ export type EngagementsRow = AuditColumns & {
   engagement_title: string
   engagement_type_id: UUID
   level_id: UUID | null
-  date_start: ISODate | null
-  date_end: ISODate | null
+  start_date: ISODate | null
+  end_date: ISODate | null
   status_id: UUID
   default_remarks: string | null
 }
@@ -21,8 +21,8 @@ export type EngagementRecordsRow = AuditColumns & {
   engagement_title: string
   engagement_type_id: UUID
   level_id: UUID | null
-  date_start: ISODate | null
-  date_end: ISODate | null
+  start_date: ISODate | null
+  end_date: ISODate | null
   status_id: UUID
   remarks: string | null
 }

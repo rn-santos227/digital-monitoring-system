@@ -165,7 +165,7 @@ watch([canViewPersonnel, personnelId], async ([hasAccess, id]) => {
       id: item.id,
       eventType: item.type,
       location: item.title,
-      recordedAt: item.dateStart ?? 'Not set',
+      recordedAt: item.startDate ?? 'Not set',
       outcome: item.status,
     }))
   } catch {

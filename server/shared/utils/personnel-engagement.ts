@@ -24,8 +24,8 @@ export const mapPersonnelEngagementRecordListItem = (
     title: row.engagement_title,
     type: type?.name ?? 'Unknown',
     status: status?.name ?? 'Unknown',
-    dateStart: row.date_start,
-    dateEnd: row.date_end,
+    startDate: row.start_date,
+    endDate: row.end_date,
     remarks: row.remarks,
   }
 }

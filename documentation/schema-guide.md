@@ -185,8 +185,8 @@ Table constraints
 | `engagement_title` | Yes | `text` | — |
 | `engagement_type_id` | Yes | `uuid` | FK → `public.engagement_types(id)`; on delete restrict |
 | `level_id` | No | `uuid` | FK → `public.levels(id)`; on delete restrict |
-| `date_start` | No | `date` | — |
-| `date_end` | No | `date` | — |
+| `start_date` | No | `date` | — |
+| `end_date` | No | `date` | — |
 | `status_id` | Yes | `uuid` | FK → `public.engagement_statuses(id)`; on delete restrict |
 | `remarks` | No | `text` | — |
 | `created_at` | Yes | `timestamptz` | default `now()` |
@@ -196,7 +196,7 @@ Table constraints
 
 ### Table constraints
 
-- `constraint engagement_records_date_check check (date_end is null or date_start is null or date_end >= date_start)`
+- `constraint engagement_records_date_check check (end_date is null or start_date is null or end_date >= start_date)`
 
 ## `engagements`
 
@@ -206,8 +206,8 @@ Table constraints
 | `engagement_title` | Yes | `text` | — |
 | `engagement_type_id` | Yes | `uuid` | FK → `public.engagement_types(id)`; on delete restrict |
 | `level_id` | No | `uuid` | FK → `public.levels(id)`; on delete restrict |
-| `date_start` | No | `date` | — |
-| `date_end` | No | `date` | — |
+| `start_date` | No | `date` | — |
+| `end_date` | No | `date` | — |
 | `status_id` | Yes | `uuid` | FK → `public.engagement_statuses(id)`; on delete restrict |
 | `default_remarks` | No | `text` | — |
 | `created_at` | Yes | `timestamptz` | default `now()` |
@@ -216,7 +216,7 @@ Table constraints
 
 Table constraints
 
-- `constraint engagements_date_check check (date_end is null or date_start is null or date_end >= date_start)`
+- `constraint engagements_date_check check (end_date is null or start_date is null or end_date >= start_date)`
 
 ## `engagement_statuses`
 

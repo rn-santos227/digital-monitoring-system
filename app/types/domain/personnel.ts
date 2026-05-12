@@ -248,8 +248,8 @@ export interface PersonnelEngagementRecordListItem {
   title: string
   type: string
   status: string
-  dateStart: string | null
-  dateEnd: string | null
+  startDate: string | null
+  endDate: string | null
   remarks: string | null
 }
 

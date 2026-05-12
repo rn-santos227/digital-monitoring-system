@@ -40,8 +40,8 @@
       </div>
 
       <div class="grid gap-4 md:grid-cols-2">
-        <BaseDatePicker v-model="form.dateStart" label="Start Date" :error="errors.dateStart" />
-        <BaseDatePicker v-model="form.dateEnd" label="End Date" :error="errors.dateEnd" />
+        <BaseDatePicker v-model="form.startDate" label="Start Date" :error="errors.startDate" />
+        <BaseDatePicker v-model="form.endDate" label="End Date" :error="errors.endDate" />
       </div>
 
       <BaseTextArea v-model="form.defaultRemarks" label="Default Remarks" placeholder="Enter remarks" :error="errors.defaultRemarks" />
@@ -82,8 +82,8 @@ const form = reactive({
   engagementTypeId: '',
   levelId: '',
   statusId: '',
-  dateStart: '',
-  dateEnd: '',
+  startDate: '',
+  endDate: '',
   defaultRemarks: '',
 })
 

@@ -21,7 +21,7 @@ export async function fetchEngagementRecordsList(
   let engagementRecordQuery = supabase
     .from('engagement_records')
     .select(ENGAGEMENT_RECORD_LIST_SELECT_COLUMNS, { count: 'exact' })
-    .order('date_start', { ascending: false, nullsFirst: false })
+    .order('start_date', { ascending: false, nullsFirst: false })
     .order('engagement_title', { ascending: true })
     .range(params.rangeFrom, params.rangeTo)
 

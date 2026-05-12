@@ -6,8 +6,8 @@ interface CreateEngagementFormValues {
   engagementTypeId: string
   levelId: string
   statusId: string
-  dateStart: string
-  dateEnd: string
+  startDate: string
+  endDate: string
   defaultRemarks: string
 }
 
@@ -17,8 +17,8 @@ export const validateCreateEngagementForm = (values: CreateEngagementFormValues)
     { field: 'engagementTypeId', label: 'Engagement type', value: values.engagementTypeId, maxLength: 80, required: true },
     { field: 'levelId', label: 'Level', value: values.levelId, maxLength: 80 },
     { field: 'statusId', label: 'Status', value: values.statusId, maxLength: 80, required: true },
-    { field: 'dateStart', label: 'Start date', value: values.dateStart, maxLength: 24 },
-    { field: 'dateEnd', label: 'End date', value: values.dateEnd, maxLength: 24 },
+    { field: 'startDate', label: 'Start date', value: values.startDate, maxLength: 24 },
+    { field: 'endDate', label: 'End date', value: values.endDate, maxLength: 24 },
     { field: 'defaultRemarks', label: 'Remarks', value: values.defaultRemarks, maxLength: 500 },
   ])
 
@@ -33,8 +33,8 @@ export const validateCreateEngagementForm = (values: CreateEngagementFormValues)
       engagement_type_id: normalizedEngagementTypeId,
       level_id: validation.values.levelId || null,
       status_id: normalizedStatusId,
-      date_start: validation.values.dateStart || null,
-      date_end: validation.values.dateEnd || null,
+      start_date: validation.values.startDate || null,
+      end_date: validation.values.endDate || null,
       default_remarks: validation.values.defaultRemarks || null,
     }
 

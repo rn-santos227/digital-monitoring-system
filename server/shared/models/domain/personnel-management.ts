@@ -163,8 +163,8 @@ export interface PersonnelDeploymentRecordListRow {
 export interface PersonnelEngagementRecordListRow {
   id: string
   engagement_title: string
-  date_start: string | null
-  date_end: string | null
+  start_date: string | null
+  end_date: string | null
   remarks: string | null
   engagement_type: PersonnelLinkedReferenceRow | PersonnelLinkedReferenceRow[] | null
   engagement_status: PersonnelLinkedReferenceRow | PersonnelLinkedReferenceRow[] | null

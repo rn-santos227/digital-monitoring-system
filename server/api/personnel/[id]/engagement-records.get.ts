@@ -38,7 +38,7 @@ export default defineEventHandler(async (event): Promise<PersonnelEngagementReco
     selectColumns: PERSONNEL_ENGAGEMENT_RECORD_LIST_SELECT_COLUMNS,
     matchField: 'personnel_id',
     matchValue: personnelId,
-    orderFields: [{ column: 'date_start', ascending: false }, { column: 'created_at', ascending: false }],
+    orderFields: [{ column: 'start_date', ascending: false }, { column: 'created_at', ascending: false }],
     rangeFrom,
     rangeTo,
   })

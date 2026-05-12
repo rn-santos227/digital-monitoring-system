@@ -29,8 +29,8 @@ export type CreateEngagementPayload = {
   engagement_title: string
   engagement_type_id: string
   level_id: string | null
-  date_start: string | null
-  date_end: string | null
+  start_date: string | null
+  end_date: string | null
   status_id: string
   default_remarks: string | null
 }
