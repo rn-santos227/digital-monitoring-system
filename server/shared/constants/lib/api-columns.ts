@@ -63,7 +63,7 @@ export const PERSONNEL_DEPLOYMENT_RECORD_LIST_SELECT_COLUMNS =
   'id, deployment_area, operation_name, start_date, end_date, location, assignment_role, deployment_status:deployment_statuses(name)'
 
 export const PERSONNEL_ENGAGEMENT_RECORD_LIST_SELECT_COLUMNS =
-  'id, engagement_title, date_start, date_end, engagement_type:engagement_types(name), engagement_status:engagement_statuses(name)'
+  'id, engagement_title, start_date, end_date, engagement_type:engagement_types(name), engagement_status:engagement_statuses(name)'
 
 export const PERSONNEL_EQUIPMENT_ISSUANCE_LIST_SELECT_COLUMNS =
   'id, issue_no, issue_date, expected_return_date, actual_return_date, issuance_status:issuance_statuses(name), equipment_asset:equipment_assets(asset_tag, equipment_item:equipment_items(name))'
@@ -115,16 +115,16 @@ export const DEPLOYMENT_DETAIL_SELECT_COLUMNS =
   'id, deployment_area, operation_name, location, start_date, end_date, deployment_status:deployment_statuses(name)'
 
 export const ENGAGEMENT_SELECT_COLUMNS =
-  'id, engagement_title, engagement_type_id, level_id, start_date:date_start, end_date:date_end, status_id, default_remarks, created_at, updated_at, engagement_type:engagement_types(id, name), level:levels(id, name), engagement_status:engagement_statuses(id, name)'
+  'id, engagement_title, engagement_type_id, level_id, start_date, end_date, status_id, default_remarks, created_at, updated_at, engagement_type:engagement_types(id, name), level:levels(id, name), engagement_status:engagement_statuses(id, name)'
 
 export const ENGAGEMENT_SUGGESTION_SELECT_COLUMNS =
-  'id, engagement_title, start_date:date_start, end_date:date_end, engagement_type:engagement_types(name), level:levels(name), engagement_status:engagement_statuses(name)'
+  'id, engagement_title, start_date, end_date, engagement_type:engagement_types(name), level:levels(name), engagement_status:engagement_statuses(name)'
 
 export const ENGAGEMENT_RECORD_LIST_SELECT_COLUMNS =
-  'id, record_no, personnel_id, engagement_id, engagement_title, engagement_type_id, level_id, start_date:date_start, end_date:date_end, status_id, remarks, created_at, updated_at, personnel:personnel!engagement_records_personnel_id_fkey(id, personnel_code, last_name, first_name, middle_name), engagement_type:engagement_types(id, name), level:levels(id, name), engagement_status:engagement_statuses(id, name)'
+  'id, record_no, personnel_id, engagement_id, engagement_title, engagement_type_id, level_id, start_date, end_date, status_id, remarks, created_at, updated_at, personnel:personnel!engagement_records_personnel_id_fkey(id, personnel_code, last_name, first_name, middle_name), engagement_type:engagement_types(id, name), level:levels(id, name), engagement_status:engagement_statuses(id, name)'
 
 export const ENGAGEMENT_RECORD_DETAIL_SELECT_COLUMNS =
-  'id, record_no, personnel_id, engagement_id, engagement_title, engagement_type_id, level_id, start_date:date_start, end_date:date_end, status_id, certificate_no, valid_until, remarks, created_at, updated_at, personnel:personnel!engagement_records_personnel_id_fkey(id, personnel_code, last_name, first_name, middle_name), engagement_type:engagement_types(id, code, name), level:levels(id, name), engagement_status:engagement_statuses(id, name)'
+  'id, record_no, personnel_id, engagement_id, engagement_title, engagement_type_id, level_id, start_date, end_date, status_id, certificate_no, valid_until, remarks, created_at, updated_at, personnel:personnel!engagement_records_personnel_id_fkey(id, personnel_code, last_name, first_name, middle_name), engagement_type:engagement_types(id, code, name), level:levels(id, name), engagement_status:engagement_statuses(id, name)'
 
 export const DASHBOARD_PERSONNEL_STATUS_SELECT_COLUMNS =
   'id, first_name, last_name, company_name, service_status'
