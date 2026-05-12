@@ -7,7 +7,7 @@ export async function fetchEngagementSuggestions(supabase: SupabaseClient, pageS
   let query = supabase
     .from('engagements')
     .select(ENGAGEMENT_SUGGESTION_SELECT_COLUMNS)
-    .order('start_date', { ascending: false, nullsFirst: false })
+    .order('date_start', { ascending: false, nullsFirst: false })
     .order('engagement_title', { ascending: true })
 
   if (selectedId) {

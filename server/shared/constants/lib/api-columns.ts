@@ -115,10 +115,10 @@ export const DEPLOYMENT_DETAIL_SELECT_COLUMNS =
   'id, deployment_area, operation_name, location, start_date, end_date, deployment_status:deployment_statuses(name)'
 
 export const ENGAGEMENT_SELECT_COLUMNS =
-  'id, engagement_title, engagement_type_id, level_id, start_date, end_date, status_id, default_remarks, created_at, updated_at, engagement_type:engagement_types(id, name), level:levels(id, name), engagement_status:engagement_statuses(id, name)'
+  'id, engagement_title, engagement_type_id, level_id, start_date:date_start, end_date:date_end, status_id, default_remarks, created_at, updated_at, engagement_type:engagement_types(id, name), level:levels(id, name), engagement_status:engagement_statuses(id, name)'
 
 export const ENGAGEMENT_SUGGESTION_SELECT_COLUMNS =
-  'id, engagement_title, start_date, end_date, engagement_type:engagement_types(name), level:levels(name), engagement_status:engagement_statuses(name)'
+  'id, engagement_title, start_date:date_start, end_date:date_end, engagement_type:engagement_types(name), level:levels(name), engagement_status:engagement_statuses(name)'
 
 export const ENGAGEMENT_RECORD_LIST_SELECT_COLUMNS =
   'id, record_no, personnel_id, engagement_id, engagement_title, engagement_type_id, level_id, start_date:date_start, end_date:date_end, status_id, remarks, created_at, updated_at, personnel:personnel!engagement_records_personnel_id_fkey(id, personnel_code, last_name, first_name, middle_name), engagement_type:engagement_types(id, name), level:levels(id, name), engagement_status:engagement_statuses(id, name)'
