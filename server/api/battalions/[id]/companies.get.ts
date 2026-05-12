@@ -9,7 +9,7 @@ import {
 import { requireRouteId } from '../../../shared/validations'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
-import { fetchBattalionCompanies } from '~~/server/utils/battalions/fetchBattalionCompanies'
+import { fetchBattalionCompanies } from '../../../utils/battalions/fetchBattalionCompanies'
 
 export default defineEventHandler(async (event): Promise<BattalionCompanyListResponse> => {
   await requireAnyPermission(event, UNIT_PERMISSION_GROUPS.battalionManagement)
