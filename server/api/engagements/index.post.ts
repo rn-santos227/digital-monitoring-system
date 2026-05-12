@@ -1,6 +1,6 @@
-import { defineEventHandler, readBody } from 'h3'
+import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreateEngagementRequest } from '../../shared/requests'
-import type { CreateEngagementRecordResponse } from '../../shared/responses'
+import type { CreateEngagementResponse } from '../../shared/responses'
 import type { EngagementCreate } from '../../shared/models'
 import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
 import { resolveEngagementLevelId, resolveEngagementStatusId, mapEngagementListItem } from '../../shared/utils'
@@ -13,7 +13,7 @@ import { createEngagement } from '../../utils/engagements/createEngagement'
 import { getEngagementById } from '~~/server/utils/engagements/getEngagementById'
 import { deleteEngagementById } from '../../utils/engagements/deleteEngagementById'
 
-export default defineEventHandler(async (event): Promise<CreateEngagementRecordResponse> => {
+export default defineEventHandler(async (event): Promise<CreateEngagementResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.engagementCreate)
   const body = await readBody<CreateEngagementRequest>(event)
   const parsedPayload = parseCreateEngagementPayload(body)
@@ -44,9 +44,12 @@ export default defineEventHandler(async (event): Promise<CreateEngagementRecordR
     })
 
     const newRow = await getEngagementById(supabase, result.createdId)
-    const newData: Record<string, unknown> = newRow
-      ? { ...mapEngagementListItem(newRow) }
-      : { ...payload }
+    if (!newRow) {
+      throw createError({ statusCode: 500, statusMessage: 'Failed to load created engagement record.' })
+    }
+
+    const item = mapEngagementListItem(newRow)
+    const newData: Record<string, unknown> = { ...item }
 
     await recordManagementAuditLog(event, {
       userId: actor.id,
@@ -61,7 +64,7 @@ export default defineEventHandler(async (event): Promise<CreateEngagementRecordR
       message: 'Engagement created successfully.',
     })
 
-    return { ok: true, id: result.createdId }
+    return { ok: true, id: result.createdId, item }
   } catch (error: unknown) {
     const statusCode = (error as { statusCode?: number }).statusCode ?? 500
     const message = error instanceof Error ? error.message : 'Unknown error'
@@ -72,7 +75,7 @@ export default defineEventHandler(async (event): Promise<CreateEngagementRecordR
       tableName: 'engagements',
       endpoint: AUDIT_LOG_ENDPOINTS.engagementsCreate,
       requestData: body as Record<string, unknown>,
-      statusCode: 500,
+      statusCode: statusCode,
       outcome: AUDIT_LOG_OUTCOMES.failed,
       message,
     })
