@@ -1,13 +1,7 @@
+import { CHART_DEFAULT_COLOR, CHART_DEFAULT_COLORS } from '~/constants/ui.constants'
 import type { ChartDataPoint } from '~/types/domain/reports'
 
-export const CHART_DEFAULT_COLORS = Object.freeze([
-  '#0f766e',
-  '#2563eb',
-  '#7c3aed',
-  '#ea580c',
-  '#dc2626',
-  '#0891b2',
-])
+export { CHART_DEFAULT_COLORS } from '~/constants/ui.constants'
 
 export const groupRecordsByStringValue = <TItem>(
   items: readonly TItem[],
@@ -25,7 +19,7 @@ export const groupRecordsByStringValue = <TItem>(
     .map(([label, value], index) => ({
       label,
       value,
-      color: CHART_DEFAULT_COLORS[index % CHART_DEFAULT_COLORS.length] ?? CHART_DEFAULT_COLORS[0],
+      color: CHART_DEFAULT_COLORS[index % CHART_DEFAULT_COLORS.length] ?? CHART_DEFAULT_COLOR,
     }))
     .sort((left, right) => right.value - left.value || left.label.localeCompare(right.label))
 }
@@ -47,7 +41,7 @@ export const limitChartData = (
     {
       label: otherLabel,
       value: hiddenTotal,
-      color: CHART_DEFAULT_COLORS[maximumItems % CHART_DEFAULT_COLORS.length] ?? CHART_DEFAULT_COLORS[0],
+      color: CHART_DEFAULT_COLORS[maximumItems % CHART_DEFAULT_COLORS.length] ?? CHART_DEFAULT_COLOR,
     },
   ]
 }
@@ -73,7 +67,7 @@ export const groupRecordsByMonth = <TItem>(
     .map(([label, value], index) => ({
       label,
       value,
-      color: CHART_DEFAULT_COLORS[index % CHART_DEFAULT_COLORS.length] ?? CHART_DEFAULT_COLORS[0],
+      color: CHART_DEFAULT_COLORS[index % CHART_DEFAULT_COLORS.length] ?? CHART_DEFAULT_COLOR,
     }))
     .sort((left, right) => {
       if (left.label === fallbackLabel) {
