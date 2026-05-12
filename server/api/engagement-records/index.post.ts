@@ -67,9 +67,12 @@ export default defineEventHandler(async (event): Promise<CreateEngagementRecordR
     })
 
     const newRow = await getEngagementRecordById(supabase, result.createdId)
-    const newData = newRow
-      ? { ...mapEngagementRecordListItem(newRow) }
-      : insertPayload
+    if (!newRow) {
+      throw createError({ statusCode: 500, statusMessage: 'Failed to load created engagement record.' })
+    }
+
+    const item = mapEngagementRecordListItem(newRow)
+    const newData = { ...item }
 
     await recordManagementAuditLog(event, {
       userId: actor.id,
@@ -84,7 +87,7 @@ export default defineEventHandler(async (event): Promise<CreateEngagementRecordR
       message: 'Engagement record created successfully.',
     })
 
-    return { ok: true, id: result.createdId }
+    return { ok: true, id: result.createdId, item }
   } catch (error: unknown) {
     const statusCode = (error as { statusCode?: number })?.statusCode ?? 500
     const message = error instanceof Error ? error.message : 'Unknown error'
