@@ -1,6 +1,6 @@
-import { defineEventHandler, readBody } from 'h3'
+import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreateTrainingRequest } from '../../shared/requests'
-import type { CreateTrainingRecordResponse } from '../../shared/responses'
+import type { CreateTrainingResponse } from '../../shared/responses'
 import type { TrainingCreate } from '../../shared/models'
 import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
 import { resolveTrainingLevelId, resolveTrainingStatusId, mapTrainingListItem } from '../../shared/utils'
@@ -13,7 +13,7 @@ import { createTraining } from '../../utils/trainings/createTraining'
 import { getTrainingById } from '~~/server/utils/trainings/getTrainingById'
 import { deleteTrainingById } from '../../utils/trainings/deleteTrainingById'
 
-export default defineEventHandler(async (event): Promise<CreateTrainingRecordResponse> => {
+export default defineEventHandler(async (event): Promise<CreateTrainingResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.trainingCreate)
   const body = await readBody<CreateTrainingRequest>(event)
   const parsedPayload = parseCreateTrainingPayload(body)
@@ -44,9 +44,11 @@ export default defineEventHandler(async (event): Promise<CreateTrainingRecordRes
     })
 
     const newRow = await getTrainingById(supabase, result.createdId)
-    const newData: Record<string, unknown> = newRow
-      ? { ...mapTrainingListItem(newRow) }
-      : { ...payload }
+    if (!newRow) {
+      throw createError({ statusCode: 500, statusMessage: 'Failed to load created training record.' })
+    }
+
+    const newData: Record<string, unknown> = { ...mapTrainingListItem(newRow) }
 
     await recordManagementAuditLog(event, {
       userId: actor.id,
@@ -61,7 +63,11 @@ export default defineEventHandler(async (event): Promise<CreateTrainingRecordRes
       message: 'Training created successfully.',
     })
 
-    return { ok: true, id: result.createdId }
+    return {
+      ok: true,
+      id: result.createdId,
+      item: mapTrainingListItem(newRow)
+    }
   } catch (error: unknown) {
     const statusCode = (error as { statusCode?: number }).statusCode ?? 500
     const message = error instanceof Error ? error.message : 'Unknown error'

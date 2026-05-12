@@ -3,6 +3,9 @@ import type {
   CreateTrainingCategoryPayload,
   CreateTrainingPayload,
   CreateTrainingRecordPayload,
+  CreateTrainingApiResponse,
+  CreateTrainingCategoryApiResponse,
+  CreateTrainingRecordApiResponse,
   TrainingRecordListItem,
   TrainingRecordSearchQuery,
   TrainingCategoryEndpointQuery,
@@ -61,9 +64,9 @@ export const searchTrainingCategoriesEndpoint = async (query: TrainingCategorySe
   }, API_LOADING_MESSAGES.fetchTrainingCategories)
 }
 
-export const createTrainingEndpoint = async (payload: CreateTrainingPayload): Promise<{ ok: boolean; id: string }> => {
+export const createTrainingEndpoint = async (payload: CreateTrainingPayload): Promise<CreateTrainingApiResponse> => {
   return await withApiLoading(async () => {
-    return await $fetch<{ ok: boolean; id: string }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainings, {
+    return await $fetch<CreateTrainingApiResponse>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainings, {
       method: 'POST',
       headers: createSessionHeaders(),
       body: payload,
@@ -71,14 +74,24 @@ export const createTrainingEndpoint = async (payload: CreateTrainingPayload): Pr
   }, API_LOADING_MESSAGES.createTraining)
 }
 
-export const createTrainingCategoryEndpoint = async (payload: CreateTrainingCategoryPayload): Promise<{ ok: boolean; id: string }> => {
+export const createTrainingCategoryEndpoint = async (payload: CreateTrainingCategoryPayload): Promise<CreateTrainingCategoryApiResponse> => {
   return await withApiLoading(async () => {
-    return await $fetch<{ ok: boolean; id: string }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingCategories, {
+    return await $fetch<CreateTrainingCategoryApiResponse>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingCategories, {
       method: 'POST',
       headers: createSessionHeaders(),
       body: payload,
     })
   }, API_LOADING_MESSAGES.createTrainingCategory)
+}
+
+export const createTrainingRecordEndpoint = async (payload: CreateTrainingRecordPayload): Promise<CreateTrainingRecordApiResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<CreateTrainingRecordApiResponse>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingRecords, {
+      method: 'POST',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.createTrainingRecord)
 }
 
 export const getTrainingByIdEndpoint = async (id: string): Promise<TrainingListItem> => {
@@ -100,6 +113,29 @@ export const updateTrainingEndpoint = async (id: string, payload: UpdateTraining
   }, API_LOADING_MESSAGES.updateTraining)
 }
 
+export const updateTrainingCategoryEndpoint = async (id: string, payload: UpdateTrainingCategoryPayload): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingCategoryById(id), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updateTrainingCategory)
+}
+
+export const updateTrainingRecordEndpoint = async (
+  id: string,
+  payload: UpdateTrainingRecordPayload,
+): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingRecordById(id), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updateTrainingRecord)
+}
+
 export const deleteTrainingEndpoint = async (id: string): Promise<{ ok: boolean }> => {
   return await withApiLoading(async () => {
     return await $fetch<{ ok: boolean }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingById(id), {
@@ -118,15 +154,6 @@ export const getTrainingCategoryByIdEndpoint = async (id: string): Promise<Train
   }, API_LOADING_MESSAGES.fetchTrainingCategories)
 }
 
-export const updateTrainingCategoryEndpoint = async (id: string, payload: UpdateTrainingCategoryPayload): Promise<{ ok: boolean }> => {
-  return await withApiLoading(async () => {
-    return await $fetch<{ ok: boolean }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingCategoryById(id), {
-      method: 'PATCH',
-      headers: createSessionHeaders(),
-      body: payload,
-    })
-  }, API_LOADING_MESSAGES.updateTrainingCategory)
-}
 
 export const deleteTrainingCategoryEndpoint = async (id: string): Promise<{ ok: boolean }> => {
   return await withApiLoading(async () => {
@@ -135,6 +162,15 @@ export const deleteTrainingCategoryEndpoint = async (id: string): Promise<{ ok: 
       headers: createSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.deleteTrainingCategory)
+}
+
+export const deleteTrainingRecordEndpoint = async (id: string): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingRecordById(id), {
+      method: 'DELETE',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.deleteTrainingRecord)
 }
 
 export const searchTrainingRecordsEndpoint = async (query: TrainingRecordSearchQuery): Promise<TrainingManagementListResponse<TrainingRecordListItem>> => {
@@ -155,16 +191,6 @@ export const getTrainingRecordsEndpoint = async (query: TrainingEndpointQuery): 
       query,
     })
   }, API_LOADING_MESSAGES.fetchTrainingRecords)
-}
-
-export const createTrainingRecordEndpoint = async (payload: CreateTrainingRecordPayload): Promise<{ ok: boolean; id: string }> => {
-  return await withApiLoading(async () => {
-    return await $fetch<{ ok: boolean; id: string }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingRecords, {
-      method: 'POST',
-      headers: createSessionHeaders(),
-      body: payload,
-    })
-  }, API_LOADING_MESSAGES.createTrainingRecord)
 }
 
 export const getTrainingRecordByIdEndpoint = async (id: string): Promise<TrainingRecordListItem> => {
@@ -203,26 +229,4 @@ export const getTrainingSuggestionsEndpoint = async (
       query,
     })
   }, API_LOADING_MESSAGES.fetchTrainingSuggestions)
-}
-
-export const updateTrainingRecordEndpoint = async (
-  id: string,
-  payload: UpdateTrainingRecordPayload,
-): Promise<{ ok: boolean }> => {
-  return await withApiLoading(async () => {
-    return await $fetch<{ ok: boolean }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingRecordById(id), {
-      method: 'PATCH',
-      headers: createSessionHeaders(),
-      body: payload,
-    })
-  }, API_LOADING_MESSAGES.updateTrainingRecord)
-}
-
-export const deleteTrainingRecordEndpoint = async (id: string): Promise<{ ok: boolean }> => {
-  return await withApiLoading(async () => {
-    return await $fetch<{ ok: boolean }>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingRecordById(id), {
-      method: 'DELETE',
-      headers: createSessionHeaders(),
-    })
-  }, API_LOADING_MESSAGES.deleteTrainingRecord)
 }

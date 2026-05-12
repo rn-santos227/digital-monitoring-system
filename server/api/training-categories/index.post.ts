@@ -1,12 +1,15 @@
-import { defineEventHandler, readBody } from 'h3'
+import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreateTrainingCategoryRequest } from '../../shared/requests'
+import type { CreateTrainingCategoryResponse } from '../../shared/responses'
 import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
+import { mapTrainingCategoryListItem } from '../../shared/utils'
 import { parseCreateTrainingCategoryPayload } from '../../shared/validations'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../utils/db/executeWithRollback'
 import { createTrainingCategory } from '../../utils/training-categories/createTrainingCategory'
+import { getTrainingCategoryById } from '../../utils/training-categories/getTrainingCategoryById'
 import { deleteTrainingCategoryById } from '../../utils/training-categories/deleteTrainingCategoryById'
 
 export default defineEventHandler(async (event) => {
@@ -51,7 +54,14 @@ export default defineEventHandler(async (event) => {
       },
     })
 
-    return { ok: true, id: createdId }
+    const createdCategory = await getTrainingCategoryById(supabase, createdId)
+    if (!createdCategory) throw createError({ statusCode: 500, statusMessage: 'Failed to load created training category record.' })
+
+    return { 
+      ok: true,
+      id: createdId,
+      item: mapTrainingCategoryListItem(createdCategory)
+    }
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
 

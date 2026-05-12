@@ -198,3 +198,21 @@ export interface TrainingRecordsState {
   isLoading: boolean
   error: string
 }
+
+export interface CreateTrainingApiResponse {
+  ok: true
+  id: string
+  item: TrainingListItem
+}
+
+export interface CreateTrainingCategoryApiResponse {
+  ok: true
+  id: string
+  item: TrainingCategoryListItem
+}
+
+export interface CreateTrainingRecordApiResponse {
+  ok: true
+  id: string
+  item: TrainingRecordListItem
+}

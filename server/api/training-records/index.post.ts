@@ -65,9 +65,11 @@ export default defineEventHandler(async (event): Promise<CreateTrainingRecordRes
     })
 
     const newRow = await getTrainingRecordById(supabase, result.createdId)
-    const newData = newRow
-      ? { ...mapTrainingRecordListItem(newRow) }
-      : insertPayload
+    if (!newRow) {
+      throw createError({ statusCode: 500, statusMessage: 'Failed to load created training record.' })
+    }
+
+    const newData = { ...mapTrainingRecordListItem(newRow) }
 
     await recordManagementAuditLog(event, {
       userId: actor.id,
@@ -82,7 +84,11 @@ export default defineEventHandler(async (event): Promise<CreateTrainingRecordRes
       message: 'Training record created successfully.',
     })
 
-    return { ok: true, id: result.createdId }
+    return { 
+      ok: true,
+      id: result.createdId,
+      item: mapTrainingRecordListItem(newRow)
+    }
   } catch (error: unknown) {
     const statusCode = (error as { statusCode?: number })?.statusCode ?? 500
     const message = error instanceof Error ? error.message : 'Unknown error'

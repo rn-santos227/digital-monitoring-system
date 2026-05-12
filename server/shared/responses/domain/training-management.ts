@@ -17,9 +17,22 @@ export type TrainingSuggestionsResponse = TrainingManagementSuggestionResponse<T
 export type TrainingRecordListResponse = TrainingManagementListResponse<TrainingRecordListItem>
 export interface TrainingRecordDetailResponse extends TrainingRecordListItem {}
 
+export interface CreateTrainingCategoryResponse {
+  ok: true
+  id: string
+  item: TrainingCategoryListItem
+}
+
+export interface CreateTrainingResponse {
+  ok: true
+  id: string
+  item: TrainingListItem
+}
+
 export interface CreateTrainingRecordResponse {
   ok: true
   id: string
+  item: TrainingRecordListItem
 }
 
 export type TrainingPersonnelListResponse = UnitListResponse<UnitPersonnelListItem>
