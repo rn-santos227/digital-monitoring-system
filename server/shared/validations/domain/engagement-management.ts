@@ -94,13 +94,15 @@ export const buildEngagementTypeUpdates = (body: UpdateEngagementTypeRequest): E
 }
 
 export const parseCreateEngagementPayload = (body: CreateEngagementRequest) => {
-  const engagementTitle = normalizeOptionalText(body.engagementTitle)
-  const engagementCategoryId = normalizeOptionalRelationId(body.engagementCategoryId) ?? null
-  const levelId = normalizeOptionalRelationId(body.levelId) ?? null
-  const startDate = normalizeOptionalDate(body.startDate)
-  const endDate = normalizeOptionalDate(body.endDate)
-  const statusId = normalizeOptionalText(body.statusId)
-  const defaultRemarks = body.defaultRemarks === undefined ? null : normalizeOptionalText(body.defaultRemarks)
+  const engagementTitle = normalizeOptionalText(body.engagementTitle ?? body.engagement_title)
+  const engagementCategoryId = normalizeOptionalRelationId(body.engagementCategoryId ?? body.engagement_type_id) ?? null
+  const levelId = normalizeOptionalRelationId(body.levelId ?? body.level_id) ?? null
+  const startDate = normalizeOptionalDate(body.startDate ?? body.start_date)
+  const endDate = normalizeOptionalDate(body.endDate ?? body.end_date)
+  const statusId = normalizeOptionalText(body.statusId ?? body.status_id)
+  const defaultRemarks = body.defaultRemarks === undefined && body.default_remarks === undefined
+    ? null
+    : normalizeOptionalText(body.defaultRemarks ?? body.default_remarks)
 
   if (!engagementTitle) {
     throw createError({ statusCode: 400, statusMessage: 'Engagement title is required.' })
@@ -134,8 +136,8 @@ export const buildEngagementUpdates = (body: UpdateEngagementRequest) => {
     default_remarks?: string | null
   } = {}
 
-  if (body.engagementTitle !== undefined) {
-    const engagementTitle = normalizeOptionalText(body.engagementTitle)
+  if (body.engagementTitle !== undefined || body.engagement_title !== undefined) {
+    const engagementTitle = normalizeOptionalText(body.engagementTitle ?? body.engagement_title)
 
     if (!engagementTitle) {
       throw createError({ statusCode: 400, statusMessage: 'Engagement title cannot be empty.' })
@@ -144,20 +146,20 @@ export const buildEngagementUpdates = (body: UpdateEngagementRequest) => {
     updates.engagement_title = engagementTitle
   }
 
-  if (body.engagementCategoryId !== undefined) {
-    updates.engagement_type_id = normalizeOptionalRelationId(body.engagementCategoryId) ?? null
+  if (body.engagementCategoryId !== undefined || body.engagement_type_id !== undefined) {
+    updates.engagement_type_id = normalizeOptionalRelationId(body.engagementCategoryId ?? body.engagement_type_id) ?? null
   }
 
-  if (body.levelId !== undefined) {
-    updates.level_id = normalizeOptionalRelationId(body.levelId) ?? null
+  if (body.levelId !== undefined || body.level_id !== undefined) {
+    updates.level_id = normalizeOptionalRelationId(body.levelId ?? body.level_id) ?? null
   }
 
-  if (body.startDate !== undefined) {
-    updates.start_date = normalizeOptionalDate(body.startDate)
+  if (body.startDate !== undefined || body.start_date !== undefined) {
+    updates.start_date = normalizeOptionalDate(body.startDate ?? body.start_date)
   }
 
-  if (body.endDate !== undefined) {
-    updates.end_date = normalizeOptionalDate(body.endDate)
+  if (body.endDate !== undefined || body.end_date !== undefined) {
+    updates.end_date = normalizeOptionalDate(body.endDate ?? body.end_date)
   }
 
   if (body.statusId !== undefined) {
@@ -170,8 +172,8 @@ export const buildEngagementUpdates = (body: UpdateEngagementRequest) => {
     updates.status_id = statusId
   }
 
-  if (body.defaultRemarks !== undefined) {
-    updates.default_remarks = normalizeOptionalText(body.defaultRemarks)
+  if (body.defaultRemarks !== undefined || body.default_remarks !== undefined) {
+    updates.default_remarks = normalizeOptionalText(body.defaultRemarks ?? body.default_remarks)
   }
 
   const effectiveStartDate = updates.start_date ?? null

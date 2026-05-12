@@ -2,7 +2,7 @@
   <BaseModal
     title="Create Engagement"
     description="Add a new engagement profile for operational monitoring."
-    size="xl"
+    size="lg"
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
