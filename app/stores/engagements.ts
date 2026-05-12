@@ -1,17 +1,22 @@
 import { defineStore } from 'pinia'
 import type {
+  CreateEngagementPayload,
   EngagementManagementListItem,
   EngagementManagementSearchQuery,
+  EngagementPersonnelListItem,
   EngagementTablePagination,
-  CreateEngagementPayload,
 } from '~/types/domain/engagement'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import {
   createEngagementEndpoint,
+  deleteEngagementEndpoint,
+  getEngagementByIdEndpoint,
+  getEngagementPersonnelEndpoint,
   getEngagementRecordsEndpoint,
   getEngagementsEndpoint,
   searchEngagementRecordsEndpoint,
   searchEngagementsEndpoint,
+  updateEngagementEndpoint,
 } from '~/utils/engagement-endpoints'
 
 const DEFAULT_PAGINATION: EngagementTablePagination = {
@@ -31,6 +36,8 @@ interface EngagementsStoreSection {
 interface EngagementsStoreState {
   engagements: EngagementsStoreSection
   records: EngagementsStoreSection
+  selectedEngagement: EngagementManagementListItem | null
+  engagementPersonnel: EngagementPersonnelListItem[]
 }
 
 export const useEngagementsStore = defineStore('engagements', {
@@ -47,6 +54,8 @@ export const useEngagementsStore = defineStore('engagements', {
       isLoading: false,
       error: '',
     },
+    selectedEngagement: null,
+    engagementPersonnel: [],
   }),
 
   getters: {
@@ -55,12 +64,7 @@ export const useEngagementsStore = defineStore('engagements', {
   },
 
   actions: {
-    async fetchEngagements(
-      this: EngagementsStoreState,
-      page = 1,
-      filters: Partial<EngagementManagementSearchQuery> = {},
-      pageSize?: number,
-    ) {
+    async fetchEngagements(this: EngagementsStoreState, page = 1, filters: Partial<EngagementManagementSearchQuery> = {}, pageSize?: number) {
       this.engagements.isLoading = true
       this.engagements.error = ''
 
@@ -93,10 +97,7 @@ export const useEngagementsStore = defineStore('engagements', {
       }
     },
     
-    async createEngagement(
-      this: EngagementsStoreState,
-      payload: CreateEngagementPayload,
-    ): Promise<{ id: string }> {
+    async createEngagement(this: EngagementsStoreState, payload: CreateEngagementPayload): Promise<{ id: string }> {
       this.engagements.error = ''
 
       try {
@@ -115,12 +116,45 @@ export const useEngagementsStore = defineStore('engagements', {
       }
     },
 
-    async fetchEngagementRecords(
-      this: EngagementsStoreState,
-      page = 1,
-      filters: Partial<EngagementManagementSearchQuery> = {},
-      pageSize?: number,
-    ) {
+    async updateEngagement(this: EngagementsStoreState, id: string, payload: CreateEngagementPayload): Promise<void> {
+      this.engagements.error = ''
+
+      try {
+        const response = await updateEngagementEndpoint(id, payload)
+        this.engagements.items = this.engagements.items.map(item => (item.id === id ? response.item : item))
+        this.selectedEngagement = response.item
+      } catch (error) {
+        this.engagements.error = extractApiErrorMessage(error, 'Unable to update engagement.')
+        throw error
+      }
+    },
+
+    async deleteEngagement(this: EngagementsStoreState, id: string): Promise<void> {
+      this.engagements.error = ''
+
+      try {
+        await deleteEngagementEndpoint(id)
+        this.engagements.items = this.engagements.items.filter(item => item.id !== id)
+        this.engagements.pagination.totalItems = Math.max(0, this.engagements.pagination.totalItems - 1)
+      } catch (error) {
+        this.engagements.error = extractApiErrorMessage(error, 'Unable to delete engagement.')
+        throw error
+      }
+    },
+
+    async getEngagementById(this: EngagementsStoreState, id: string): Promise<EngagementManagementListItem> {
+      const item = await getEngagementByIdEndpoint(id)
+      this.selectedEngagement = item
+      return item
+    },
+
+    async fetchEngagementPersonnel(this: EngagementsStoreState, id: string): Promise<EngagementPersonnelListItem[]> {
+      const response = await getEngagementPersonnelEndpoint(id)
+      this.engagementPersonnel = response.items
+      return response.items
+    },
+
+    async fetchEngagementRecords(this: EngagementsStoreState, page = 1, filters: Partial<EngagementManagementSearchQuery> = {}, pageSize?: number) {
       this.records.isLoading = true
       this.records.error = ''
 
