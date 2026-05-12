@@ -17,9 +17,16 @@ export type EngagementSuggestionsResponse = EngagementManagementSuggestionRespon
 export type EngagementRecordListResponse = EngagementManagementListResponse<EngagementRecordListItem>
 export interface EngagementRecordDetailResponse extends EngagementRecordListItem {}
 
+export interface CreateEngagementResponse {
+  ok: true
+  id: string
+  item: EngagementListItem
+}
+
 export interface CreateEngagementRecordResponse {
   ok: true
   id: string
+  item: EngagementRecordListItem
 }
 
 export type EngagementPersonnelListResponse = UnitListResponse<UnitPersonnelListItem>
