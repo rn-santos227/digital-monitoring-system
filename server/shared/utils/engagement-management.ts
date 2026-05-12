@@ -174,7 +174,7 @@ export const mapEngagementRecordListItem = (row: EngagementRecordRow): Engagemen
     recordNo: row.record_no,
     personnelId: row.personnel_id,
     personnelCode: personnel?.personnel_code ?? null,
-    personnelName: personnel?.full_name ?? null,
+    personnelName: toEngagementRecordPersonnelName(row.personnel),
     engagementId: row.engagement_id,
     engagementTitle: row.engagement_title,
     engagementCategoryId: row.engagement_type_id,
