@@ -26,6 +26,7 @@ export interface DeploymentRecordDetailResponse extends DeploymentRecordListItem
 export interface CreateDeploymentRecordResponse {
   ok: true
   id: string
+  item: DeploymentRecordListItem
 }
 
 export interface DeploymentSuggestionsResponse {

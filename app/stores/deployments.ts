@@ -100,8 +100,10 @@ export const useDeploymentsStore = defineStore('deployments', {
       this.deployments.error = ''
       try {
         const response = await createDeploymentEndpoint(payload)
-        const createdDeployment = await getDeploymentByIdEndpoint(response.id)
-        this.deployments.items = [...this.deployments.items, createdDeployment]
+        this.deployments.items = [
+          ...this.deployments.items,
+          response.item
+        ]
         this.deployments.pagination.totalItems += 1
         this.deployments.pagination.totalPages = Math.max(1, Math.ceil(this.deployments.pagination.totalItems / this.deployments.pagination.pageSize))
         return { id: response.id }
@@ -115,8 +117,10 @@ export const useDeploymentsStore = defineStore('deployments', {
       this.records.error = ''
       try {
         const response = await createDeploymentRecordEndpoint(payload)
-        const created = await getDeploymentRecordByIdEndpoint(response.id)
-        this.records.items = [created, ...this.records.items]
+        this.records.items = [
+          response.item,
+          ...this.records.items
+        ]
         this.records.pagination.totalItems += 1
         this.records.pagination.totalPages = Math.max(1, Math.ceil(this.records.pagination.totalItems / this.records.pagination.pageSize))
         return { id: response.id }

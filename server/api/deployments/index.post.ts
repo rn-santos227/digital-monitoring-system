@@ -70,7 +70,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
         if (payload.supervisor_id) {
           const { createdRecordNo } = await ensureDeploymentPersonnelAssignment({
             supabase,
-            deployment: { ...insertPayload, id: createdId },
+            deployment: { ...insertPayload, id: createdId, deployment_status: { id: insertPayload.status_id } },
             personnelId: payload.supervisor_id,
           })
           createdSupervisorRecordNo = createdRecordNo
@@ -127,7 +127,15 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
       message: 'Deployment record created successfully.',
     })
 
-    return { ok: true, id: createdId }
+    if (!newRow) {
+      throw createError({ statusCode: 500, statusMessage: 'Failed to load created deployment record.' })
+    }
+
+    return {
+      ok: true,
+      id: createdId,
+      item: mapDeploymentDetailListItem(newRow),
+    }
   } catch (error: unknown) {
     const statusCode = (error as { statusCode?: number })?.statusCode ?? 500
     const message = error instanceof Error ? error.message : 'Unknown error'

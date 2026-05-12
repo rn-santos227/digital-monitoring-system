@@ -6,6 +6,7 @@ import type {
   DeploymentManagementListResponse,
   DeploymentManagementSearchQuery,
   UpdateDeploymentRecordPayload,
+  CreateDeploymentManagementResponse,
 } from '~/types/domain/deployment'
 import { withApiLoading } from '~/utils/api-request'
 
@@ -39,9 +40,9 @@ export const getDeploymentRecordsEndpoint = async (query: DeploymentManagementSe
   }, API_LOADING_MESSAGES.fetchDeploymentRecords)
 }
 
-export const createDeploymentEndpoint = async (payload: CreateDeploymentPayload): Promise<{ ok: boolean; id: string }> => {
+export const createDeploymentEndpoint = async (payload: CreateDeploymentPayload): Promise<CreateDeploymentManagementResponse> => {
   return await withApiLoading(async () => {
-    return await $fetch<{ ok: boolean; id: string }>(DEPLOYMENT_MANAGEMENT_API_ENDPOINTS.deployments, {
+    return await $fetch<CreateDeploymentManagementResponse>(DEPLOYMENT_MANAGEMENT_API_ENDPOINTS.deployments, {
       method: 'POST',
       headers: createSessionHeaders(),
       body: payload,
@@ -49,9 +50,9 @@ export const createDeploymentEndpoint = async (payload: CreateDeploymentPayload)
   }, API_LOADING_MESSAGES.createDeployment)
 }
 
-export const createDeploymentRecordEndpoint = async (payload: CreateDeploymentRecordPayload): Promise<{ ok: boolean; id: string }> => {
+export const createDeploymentRecordEndpoint = async (payload: CreateDeploymentRecordPayload): Promise<CreateDeploymentManagementResponse> => {
   return await withApiLoading(async () => 
-    await $fetch<{ ok: boolean; id: string }>(DEPLOYMENT_MANAGEMENT_API_ENDPOINTS.deploymentRecords, { 
+    await $fetch<CreateDeploymentManagementResponse>(DEPLOYMENT_MANAGEMENT_API_ENDPOINTS.deploymentRecords, { 
       method: 'POST',
       headers: createSessionHeaders(),
       body: payload

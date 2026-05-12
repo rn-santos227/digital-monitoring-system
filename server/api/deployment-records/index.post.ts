@@ -110,7 +110,15 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
       message: 'Deployment record created successfully.',
     })
 
-    return { ok: true, id: createdId }
+    if (!newRow) {
+      throw createError({ statusCode: 500, statusMessage: 'Failed to load created deployment record.' })
+    }
+
+    return {
+      ok: true,
+      id: createdId,
+      item: mapDeploymentRecordListItem(newRow),
+    }
   } catch (error: unknown) {
     const statusCode = (error as { statusCode?: number })?.statusCode ?? 500
     const message = error instanceof Error ? error.message : 'Unknown error'

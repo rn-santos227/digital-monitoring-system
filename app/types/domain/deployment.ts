@@ -116,6 +116,12 @@ export interface DeploymentManagementListResponse<TItem> {
   totalPages: number
 }
 
+export interface CreateDeploymentManagementResponse {
+  ok: true
+  id: string
+  item: DeploymentManagementListItem
+}
+
 export interface DeploymentTablePagination {
   page: number
   pageSize: number
