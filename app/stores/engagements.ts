@@ -8,7 +8,6 @@ import type {
 import { extractApiErrorMessage } from '~/utils/api-request'
 import {
   createEngagementEndpoint,
-  getEngagementByIdEndpoint,
   getEngagementRecordsEndpoint,
   getEngagementsEndpoint,
   searchEngagementRecordsEndpoint,
@@ -102,9 +101,7 @@ export const useEngagementsStore = defineStore('engagements', {
 
       try {
         const response = await createEngagementEndpoint(payload)
-        const createdEngagement = await getEngagementByIdEndpoint(response.id)
-
-        this.engagements.items = [createdEngagement, ...this.engagements.items]
+        this.engagements.items = [response.item, ...this.engagements.items]
         this.engagements.pagination.totalItems += 1
         this.engagements.pagination.totalPages = Math.max(
           1,
