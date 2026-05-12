@@ -1,9 +1,11 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { ACCOUNT_TYPE_BASE_SELECT_COLUMNS } from '../../shared/constants'
+import type { AccountTypeCreateResultRow, AccountTypePermissionSummaryRow } from '../../shared/models'
 import type { CreateAccountTypeRequest } from '../../shared/requests'
 
 interface CreateAccountTypeWithPermissionsResult {
-  accountTypeId: string
+  accountType: AccountTypeCreateResultRow
 }
 
 export async function createAccountTypeWithPermissions(
@@ -18,8 +20,8 @@ export async function createAccountTypeWithPermissions(
       description: payload.description,
       is_system: payload.isSystem,
     })
-    .select('id')
-    .single<{ id: string }>()
+    .select(ACCOUNT_TYPE_BASE_SELECT_COLUMNS)
+    .single()
 
   if (accountTypeError || !createdAccountType?.id) {
     throw createError({
@@ -28,10 +30,11 @@ export async function createAccountTypeWithPermissions(
     })
   }
 
+  let permissions: AccountTypePermissionSummaryRow[] = []
   if (payload.permissionIds && payload.permissionIds.length > 0) {
     const { data: permissionMatches, error: permissionLookupError } = await supabase
       .from('permissions')
-      .select('id')
+      .select('id, code, name, module')
       .in('id', payload.permissionIds)
 
     if (permissionLookupError) {
@@ -55,9 +58,14 @@ export async function createAccountTypeWithPermissions(
         statusMessage: `Failed to assign account type permissions: ${permissionInsertError.message}`,
       })
     }
+
+    permissions = permissionMatches ?? []
   }
 
   return {
-    accountTypeId: createdAccountType.id,
+    accountType: {
+      ...createdAccountType,
+      account_type_permissions: permissions.map(permission => ({ permissions: permission })),
+    },
   }
 }

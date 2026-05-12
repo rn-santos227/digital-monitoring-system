@@ -1,6 +1,8 @@
-import { defineEventHandler, readBody } from 'h3'
+import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreateAccountTypeRequest } from '../../shared/requests'
+import type { CreateAccountTypeResponse } from '../../shared/responses'
 import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
+import { mapAccountTypeListItem } from '../../shared/utils'
 import { parseCreateAccountTypePayload } from '../../shared/validations'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
@@ -8,19 +10,21 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../utils/db/executeWithRollback'
 import { createAccountTypeWithPermissions } from '../../utils/account-types/createAccountTypeWithPermissions'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<CreateAccountTypeResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.accountTypeCreate)
   const body = await readBody<CreateAccountTypeRequest>(event)
   const payload = parseCreateAccountTypePayload(body)
 
   const supabase = getServiceSupabaseClient()
+  let createdAccountType: Parameters<typeof mapAccountTypeListItem>[0] | null = null
   let createdAccountTypeId: string | null = null
 
   try {
     await executeWithRollback({
       operation: async () => {
-        const { accountTypeId } = await createAccountTypeWithPermissions(supabase, payload)
-        createdAccountTypeId = accountTypeId
+        const { accountType } = await createAccountTypeWithPermissions(supabase, payload)
+        createdAccountType = accountType
+        createdAccountTypeId = accountType.id
       },
       rollback: async () => {
         if (!createdAccountTypeId) {
@@ -57,9 +61,18 @@ export default defineEventHandler(async (event) => {
       message: 'Account type created successfully.',
     })
 
+    if (!createdAccountTypeId) {
+      throw createError({ statusCode: 500, statusMessage: 'Failed to resolve created account type id.' })
+    }
+
+    if (!createdAccountType) {
+      throw createError({ statusCode: 500, statusMessage: 'Failed to resolve created account type payload.' })
+    }
+
     return {
       ok: true,
       id: createdAccountTypeId,
+      item: mapAccountTypeListItem(createdAccountType),
     }
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'

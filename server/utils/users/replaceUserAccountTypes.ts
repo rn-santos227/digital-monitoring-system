@@ -1,6 +1,7 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { ID_ONLY_SELECT_COLUMNS } from '../../shared/constants'
+import { ACCOUNT_TYPE_SUMMARY_SELECT_COLUMNS } from '../../shared/constants'
+import type { UserAccountTypeSummaryRow } from '../../shared/models'
 
 interface ReplaceUserAccountTypesParams {
   supabase: SupabaseClient
@@ -9,12 +10,12 @@ interface ReplaceUserAccountTypesParams {
   assignedBy?: string
 }
 
-export async function replaceUserAccountTypes(params: ReplaceUserAccountTypesParams): Promise<void> {
+export async function replaceUserAccountTypes(params: ReplaceUserAccountTypesParams): Promise<UserAccountTypeSummaryRow[]> {
   const { supabase, userId, accountTypeIds, assignedBy } = params
 
   const { data: accountTypeMatches, error: accountTypeLookupError } = await supabase
     .from('account_types')
-    .select(ID_ONLY_SELECT_COLUMNS)
+    .select(ACCOUNT_TYPE_SUMMARY_SELECT_COLUMNS)
     .in('id', accountTypeIds)
 
   if (accountTypeLookupError) {
@@ -31,7 +32,7 @@ export async function replaceUserAccountTypes(params: ReplaceUserAccountTypesPar
   }
 
   if (accountTypeIds.length === 0) {
-    return
+    return []
   }
 
   const { error: assignError } = await supabase.from('user_account_types').insert(
@@ -41,4 +42,6 @@ export async function replaceUserAccountTypes(params: ReplaceUserAccountTypesPar
   if (assignError) {
     throw createError({ statusCode: 500, statusMessage: `Failed to assign account types: ${assignError.message}` })
   }
+
+  return accountTypeMatches ?? []
 }

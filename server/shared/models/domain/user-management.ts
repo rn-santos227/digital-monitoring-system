@@ -93,3 +93,40 @@ export interface UserProfileUpdate {
   full_name?: string
   avatar_url?: string | null
 }
+
+export interface AccountTypePermissionSummaryRow {
+  id: string
+  code: string
+  name: string
+  module: string
+}
+
+export interface AccountTypeCreateResultRow {
+  id: string
+  code: string
+  name: string
+  description: string | null
+  is_system: boolean
+  created_at: string
+  updated_at: string
+  account_type_permissions: Array<{ permissions: AccountTypePermissionSummaryRow }>
+}
+
+export interface UserAccountTypeSummaryRow {
+  id: string
+  code: string
+  name: string
+}
+
+export interface UserProfileCreateResultRow {
+  id: string
+  personnel_id: string | null
+  email: string
+  full_name: string
+  avatar_url: string | null
+  is_active: boolean
+  last_login_at: string | null
+  created_at: string
+  updated_at: string
+  user_account_types: Array<{ account_types: UserAccountTypeSummaryRow }>
+}

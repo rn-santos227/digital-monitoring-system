@@ -1,11 +1,13 @@
-import { defineEventHandler, readBody } from 'h3'
+import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreateUserProfileRequest } from '../../shared/requests'
+import type { CreateUserProfileResponse } from '../../shared/responses'
 import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
   PERMISSION_CODES,
 } from '../../shared/constants'
+import { mapUserProfileListItem } from '../../shared/utils'
 import { parseCreateUserProfilePayload } from '../../shared/validations'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
@@ -13,22 +15,24 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../utils/db/executeWithRollback'
 import { createUserProfileWithAccountTypes } from '../../utils/users/createUserProfileWithAccountTypes'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<CreateUserProfileResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.userCreate)
   const body = await readBody<CreateUserProfileRequest>(event)
   const payload = parseCreateUserProfilePayload(body)
 
   const supabase = getServiceSupabaseClient()
+  let createdUserProfile: Parameters<typeof mapUserProfileListItem>[0] | null = null
   let createdUserId: string | null = null
 
   try {
     await executeWithRollback({
       operation: async () => {
-        createdUserId = await createUserProfileWithAccountTypes({
+        createdUserProfile = await createUserProfileWithAccountTypes({
           supabase,
           payload,
           assignedByUserId: actor.id,
         })
+        createdUserId = createdUserProfile.id
       },
       rollback: async () => {
         if (!createdUserId) {
@@ -72,9 +76,17 @@ export default defineEventHandler(async (event) => {
       message: 'User profile created successfully.',
     })
 
+    if (!createdUserId) {
+      throw createError({ statusCode: 500, statusMessage: 'Failed to resolve created user profile id.' })
+    }
+    if (!createdUserProfile) {
+      throw createError({ statusCode: 500, statusMessage: 'Failed to resolve created user profile payload.' })
+    }
+
     return {
       ok: true,
       id: createdUserId,
+      item: mapUserProfileListItem(createdUserProfile),
     }
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'

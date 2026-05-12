@@ -1,3 +1,5 @@
+import { AccountTypeListItem, UserProfileListItem } from "../../models"
+
 export interface UserListAccountTypeSummary {
   code: string
 }
@@ -41,6 +43,18 @@ export interface UserProfileDetailResponse {
 
 export interface MutationSuccessResponse {
   ok: true
+}
+
+export interface CreateAccountTypeResponse {
+  ok: true
+  id: string
+  item: AccountTypeListItem
+}
+
+export interface CreateUserProfileResponse {
+  ok: true
+  id: string
+  item: UserProfileListItem
 }
 
 export interface AccountTypeDetailPermissionResponse {

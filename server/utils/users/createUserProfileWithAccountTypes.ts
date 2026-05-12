@@ -1,7 +1,7 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { UserProfileCreate } from '../../shared/models'
-import type { CreateUserProfilePayload } from '../../shared/models'
+import { USER_PROFILE_CREATE_SELECT_COLUMNS } from '../../shared/constants'
+import type { CreateUserProfilePayload, UserAccountTypeSummaryRow, UserProfileCreate, UserProfileCreateResultRow } from '../../shared/models'
 import { replaceUserAccountTypes } from './replaceUserAccountTypes'
 import { validateUserPersonnelAssignment } from './validateUserPersonnelAssignment'
 
@@ -11,7 +11,7 @@ interface CreateUserProfileWithAccountTypesParams {
   assignedByUserId: string
 }
 
-export async function createUserProfileWithAccountTypes(params: CreateUserProfileWithAccountTypesParams): Promise<string> {
+export async function createUserProfileWithAccountTypes(params: CreateUserProfileWithAccountTypesParams): Promise<UserProfileCreateResultRow> {
   const { supabase, payload, assignedByUserId } = params
 
   if (payload.personnelId) {
@@ -41,14 +41,19 @@ export async function createUserProfileWithAccountTypes(params: CreateUserProfil
     avatar_url: payload.avatarUrl,
   }
 
-  const { error: profileInsertError } = await supabase.from('user_profiles').insert(userProfileCreate)
+  const { data: createdProfile, error: profileInsertError } = await supabase
+    .from('user_profiles')
+    .insert(userProfileCreate)
+    .select(USER_PROFILE_CREATE_SELECT_COLUMNS)
+    .single()
 
-  if (profileInsertError) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to create user profile: ${profileInsertError.message}` })
+  if (profileInsertError || !createdProfile) {
+    throw createError({ statusCode: 500, statusMessage: `Failed to create user profile: ${profileInsertError?.message ?? 'Missing created profile.'}` })
   }
 
+  let accountTypes: UserAccountTypeSummaryRow[] = []
   if (payload.accountTypeIds.length > 0) {
-    await replaceUserAccountTypes({
+    accountTypes = await replaceUserAccountTypes({
       supabase,
       userId: createdUserId,
       accountTypeIds: payload.accountTypeIds,
@@ -56,5 +61,10 @@ export async function createUserProfileWithAccountTypes(params: CreateUserProfil
     })
   }
 
-  return createdUserId
+  return {
+    ...createdProfile,
+    user_account_types: accountTypes.map(accountType => ({
+      account_types: accountType,
+    })),
+  }
 }

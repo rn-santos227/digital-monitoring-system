@@ -1,6 +1,8 @@
 export const ACCOUNT_TYPE_BASE_SELECT_COLUMNS =
   'id, code, name, description, is_system, created_at, updated_at'
 
+export const ACCOUNT_TYPE_SUMMARY_SELECT_COLUMNS = 'id, code, name'
+
 export const ACCOUNT_TYPE_LIST_SELECT_COLUMNS = ACCOUNT_TYPE_BASE_SELECT_COLUMNS
 
 export const ACCOUNT_TYPE_DETAIL_SELECT_COLUMNS =
@@ -20,6 +22,9 @@ export const USER_PROFILE_COMPACT_SELECT_COLUMNS =
 
 export const USER_PROFILE_SUMMARY_SELECT_COLUMNS =
   'id, personnel_id, email, full_name, avatar_url, is_active, updated_at'
+
+export const USER_PROFILE_CREATE_SELECT_COLUMNS =
+  'id, personnel_id, email, full_name, avatar_url, is_active, last_login_at, created_at, updated_at'
 
 export const USER_PROFILE_DETAIL_SELECT_COLUMNS =
   'id, personnel_id, email, full_name, avatar_url, is_active, last_login_at, password_updated_at, created_at, updated_at, user_account_types!user_account_types_user_id_fkey(account_types(id, code, name))'
