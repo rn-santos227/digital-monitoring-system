@@ -8,19 +8,21 @@
         </div>
       </header>
 
-
       <div class="grid gap-4 md:grid-cols-2">
-        <KpiCard 
+        <KpiCard
           title="Total Engagements"
           subtitle="Engagement profiles available for operations."
           icon-name="shield"
           tone="sky"
-          :loader="loadTotalEngagements" />
+          :loader="loadTotalEngagements"
+        />
         <KpiCard
-          title="Total Engagement Records" subtitle="Personnel engagement history records."
+          title="Total Engagement Records"
+          subtitle="Personnel engagement history records."
           icon-name="clipboard-document-list"
           tone="amber"
-          :loader="loadTotalEngagementRecords" />
+          :loader="loadTotalEngagementRecords"
+        />
       </div>
 
       <BaseTab
@@ -37,7 +39,6 @@
           @apply="onApplyEngagementRecordsFilter"
           @reset="onResetEngagementRecordsFilter"
         />
-
         <BaseAlert v-if="engagementRecordsError" :message="engagementRecordsError" tone="danger" />
 
         <EngagementRecordsTable
@@ -97,6 +98,19 @@ import EngagementRecordsFilter from '~/components/engagements/EngagementRecordsF
 import EngagementRecordsTable from '~/components/engagements/EngagementRecordsTable.vue'
 import EngagementsFilter from '~/components/engagements/EngagementsFilter.vue'
 import EngagementsTable from '~/components/engagements/EngagementsTable.vue'
+import UpdateEngagementModal from '~/components/engagements/UpdateEngagementModal.vue'
+import ViewEngagementModal from '~/components/engagements/ViewEngagementModal.vue'
+import { useDialog } from '~/composables/useDialog'
+import { useEngagements } from '~/composables/useEngagements'
+import {
+  useCreateEngagementHandler,
+  useDeleteEngagementHandler,
+  useEngagementManagementPageHandlers,
+  useUpdateEngagementHandler,
+  useViewEngagementHandler,
+} from '~/handlers/engagements'
+import { useAuthStore } from '~/stores/auth'
+import { useEngagementsStore } from '~/stores/engagements'
 import {
   ENGAGEMENT_RECORDS_PAGE_SECTION_CLASSES,
   ENGAGEMENT_RECORDS_PAGE_SUBTITLE,
@@ -107,11 +121,7 @@ import {
 } from '~/constants/page.constants'
 import { ENGAGEMENT_PRIVILEGES } from '~/constants/privileges.constants'
 import { APP_MAIN_CONTENT_CLASSES, DEPLOYMENTS_PAGE_HEADER_CLASSES, TRAINING_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
-import { useDialog } from '~/composables/useDialog'
-import { useEngagements } from '~/composables/useEngagements'
-import { useCreateEngagementHandler, useEngagementManagementPageHandlers } from '~/handlers/engagements'
-import { useAuthStore } from '~/stores/auth'
-import { useEngagementsStore } from '~/stores/engagements'
+import type { EngagementManagementListItem } from '~/types/domain/engagement'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
 type EngagementRecordsTabId = 'records' | 'engagements'
@@ -123,12 +133,23 @@ const engagementRecordsFilters = ref({})
 const engagementsFilterValidationErrors = ref<FieldValidationMap>({})
 const engagementRecordsFilterValidationErrors = ref<FieldValidationMap>({})
 const isCreateEngagementModalOpen = ref(false)
+const isUpdateEngagementModalOpen = ref(false)
+const isViewEngagementModalOpen = ref(false)
 const createEngagementErrorMessage = ref('')
+const updateEngagementErrorMessage = ref('')
+const selectedEngagement = ref<EngagementManagementListItem | null>(null)
+const engagementPersonnelRows = ref<Record<string, unknown>[]>([])
 
 const authStore = useAuthStore()
 const engagementsStore = useEngagementsStore()
 const { showDialog } = useDialog()
-const { createEngagement } = useEngagements()
+const {
+  createEngagement,
+  deleteEngagement,
+  updateEngagement,
+  getEngagementById,
+  getEngagementPersonnel,
+} = useEngagements()
 
 const visibleTabItems = computed(() => {
   return ENGAGEMENT_RECORDS_PAGE_TAB_ITEMS.filter((tab) => {
@@ -149,16 +170,25 @@ const {
 } = useEngagementManagementPageHandlers(engagementRecordsFilters)
 
 const engagementRows = computed(() => engagementsStore.engagements.items)
-const isEngagementsLoading = computed(() => engagementsStore.engagements.isLoading)
-const engagementsError = computed(() => engagementsStore.engagements.error)
-const engagementsPagination = computed(() => engagementsStore.engagements.pagination)
-
 const engagementRecordRows = computed(() => engagementsStore.records.items)
+const isEngagementsLoading = computed(() => engagementsStore.engagements.isLoading)
+const isEngagementRecordsLoading = computed(() => engagementsStore.records.isLoading)
+const engagementsError = computed(() => engagementsStore.engagements.error)
+const engagementRecordsError = computed(() => engagementsStore.records.error)
+const engagementsPagination = computed(() => engagementsStore.engagements.pagination)
+const engagementRecordsPagination = computed(() => engagementsStore.records.pagination)
 const totalEngagements = computed(() => engagementsPagination.value.totalItems)
 const totalEngagementRecords = computed(() => engagementRecordsPagination.value.totalItems)
-const isEngagementRecordsLoading = computed(() => engagementsStore.records.isLoading)
-const engagementRecordsError = computed(() => engagementsStore.records.error)
-const engagementRecordsPagination = computed(() => engagementsStore.records.pagination)
+
+const updateFormValues = computed(() => ({
+  engagementTitle: selectedEngagement.value?.engagementTitle ?? '',
+  engagementTypeId: selectedEngagement.value?.engagementTypeId ?? '',
+  levelId: selectedEngagement.value?.levelId ?? '',
+  statusId: selectedEngagement.value?.statusId ?? '',
+  startDate: selectedEngagement.value?.startDate ?? '',
+  endDate: selectedEngagement.value?.endDate ?? '',
+  defaultRemarks: selectedEngagement.value?.defaultRemarks ?? '',
+}))
 
 const loadEngagements = async (page = 1, pageSize?: number) => {
   await engagementsStore.fetchEngagements(page, engagementsFilters.value, pageSize)
@@ -168,9 +198,71 @@ const loadEngagementRecords = async (page = 1, pageSize?: number) => {
   await engagementsStore.fetchEngagementRecords(page, engagementRecordsFilters.value, pageSize)
 }
 
+
+const {
+  onOpenCreateEngagementModal,
+  onCloseCreateEngagementModal,
+  onSubmitCreateEngagement,
+} = useCreateEngagementHandler({
+  isCreateEngagementModalOpen,
+  createEngagement,
+  showDialog,
+  errorMessage: createEngagementErrorMessage,
+})
+
+const {
+  onOpenUpdateEngagementModal,
+  onCloseUpdateEngagementModal,
+  onSubmitUpdateEngagement,
+} = useUpdateEngagementHandler({
+  selectedEngagement,
+  isUpdateEngagementModalOpen,
+  errorMessage: updateEngagementErrorMessage,
+  updateEngagement,
+  getEngagementById,
+  showDialog,
+})
+
+const {
+  onOpenViewEngagementModal,
+  onCloseViewEngagementModal,
+} = useViewEngagementHandler({
+  selectedEngagement,
+  engagementPersonnelRows,
+  isViewEngagementModalOpen,
+  getEngagementById,
+  getEngagementPersonnel,
+})
+
+const { onDeleteEngagement } = useDeleteEngagementHandler({
+  deleteEngagement,
+  showDialog,
+})
+
+const onEngagementAction = async ({ actionKey, row }: { actionKey: string; row: Record<string, unknown> }) => {
+  const id = String(row.id ?? '')
+
+  if (!id) {
+    return
+  }
+
+  if (actionKey === 'view-engagement') {
+    await onOpenViewEngagementModal(id)
+    return
+  }
+
+  if (actionKey === 'edit-engagement') {
+    await onOpenUpdateEngagementModal(id)
+    return
+  }
+
+  if (actionKey === 'delete-engagement') {
+    await onDeleteEngagement(id)
+  }
+}
+
 watch(visibleTabItems, (tabs) => {
   const firstTabId = tabs[0]?.id
-
   if (!firstTabId) {
     return
   }
@@ -185,13 +277,8 @@ watch(visibleTabItems, async (tabs) => {
     return
   }
 
-  if (!authStore.hasPermissionAccess(ENGAGEMENT_PRIVILEGES.view)) {
-    await loadEngagements()
-    return
-  }
-
-  const hasEngagementsTab = tabs.some((tab) => tab.id === 'engagements')
-  const hasRecordsTab = tabs.some((tab) => tab.id === 'records')
+  const hasEngagementsTab = tabs.some(tab => tab.id === 'engagements')
+  const hasRecordsTab = tabs.some(tab => tab.id === 'records')
 
   const loadTasks: Array<Promise<void>> = []
 
@@ -210,16 +297,6 @@ watch(visibleTabItems, async (tabs) => {
 const loadTotalEngagements = async (): Promise<KpiCardLoaderResult> => ({ value: totalEngagements.value })
 const loadTotalEngagementRecords = async (): Promise<KpiCardLoaderResult> => ({ value: totalEngagementRecords.value })
 
-const {
-  onOpenCreateEngagementModal,
-  onCloseCreateEngagementModal,
-  onSubmitCreateEngagement,
-} = useCreateEngagementHandler({
-  isCreateEngagementModalOpen,
-  createEngagement,
-  showDialog,
-  errorMessage: createEngagementErrorMessage,
-})
 
 const handleTabChange = (tabId: string) => {
   activeTab.value = tabId as EngagementRecordsTabId
@@ -228,7 +305,6 @@ const handleTabChange = (tabId: string) => {
 const onApplyEngagementsFilter = async () => {
   const result = handleEngagementsFilterApply(engagementsFilters.value)
   engagementsFilterValidationErrors.value = result.errors
-
   if (!result.isValid) {
     return
   }
