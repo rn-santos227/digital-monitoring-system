@@ -62,6 +62,18 @@ export interface EngagementManagementListResponse<TItem> {
   totalPages: number
 }
 
+export interface CreateEngagementApiResponse {
+  ok: true
+  id: string
+  item: EngagementManagementListItem
+}
+
+export interface CreateEngagementRecordApiResponse {
+  ok: true
+  id: string
+  item: EngagementManagementListItem
+}
+
 export interface EngagementTablePagination {
   page: number
   pageSize: number
