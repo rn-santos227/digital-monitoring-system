@@ -4,11 +4,11 @@ import type { TrainingRecordSearchQuery } from '~/types/domain/training'
 
 export const useTrainingRecords = () => {
   const trainingsStore = useTrainingsStore()
-  const { trainingRecords } = storeToRefs(trainingsStore)
+  const { records } = storeToRefs(trainingsStore)
   const filters = ref<Partial<TrainingRecordSearchQuery>>({})
 
   const tableRows = computed(() => {
-    return trainingRecords.value.items.map((item) => ({
+    return records.value.items.map((item) => ({
       id: item.id,
       recordNo: item.recordNo,
       personnelCode: item.personnelCode ?? '—',
@@ -22,9 +22,9 @@ export const useTrainingRecords = () => {
   })
 
   const loadTrainingRecords = async (
-    page = trainingRecords.value.pagination.page,
+    page = records.value.pagination.page,
     nextFilters: Partial<TrainingRecordSearchQuery> = filters.value,
-    pageSize = trainingRecords.value.pagination.pageSize,
+    pageSize = records.value.pagination.pageSize,
   ) => {
     filters.value = { ...nextFilters }
 
@@ -50,14 +50,14 @@ export const useTrainingRecords = () => {
   return {
     filters,
     tableRows,
-    pagination: computed(() => trainingRecords.value.pagination),
-    isLoading: computed(() => trainingRecords.value.isLoading),
-    error: computed(() => trainingRecords.value.error),
-    totalItems: computed(() => trainingRecords.value.pagination.totalItems),
+    pagination: computed(() => records.value.pagination),
+    isLoading: computed(() => records.value.isLoading),
+    error: computed(() => records.value.error),
+    totalItems: computed(() => records.value.pagination.totalItems),
     loadTrainingRecords,
     createTrainingRecord,
     updateTrainingRecord,
     deleteTrainingRecord,
-    records: computed(() => trainingRecords.value.items),
+    records: computed(() => records.value.items),
   }
 }
