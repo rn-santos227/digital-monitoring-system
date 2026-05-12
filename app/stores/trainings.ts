@@ -217,10 +217,9 @@ const trainingsStoreOptions = {
 
       try {
         const response = await createTrainingEndpoint(payload)
-        const createdTraining = await getTrainingByIdEndpoint(response.id)
         this.trainings.items = [
           ...this.trainings.items,
-          createdTraining,
+          response.item,
         ]
         this.trainings.pagination.totalItems += 1
         this.trainings.pagination.totalPages = Math.max(1, Math.ceil(this.trainings.pagination.totalItems / this.trainings.pagination.pageSize))
@@ -236,10 +235,9 @@ const trainingsStoreOptions = {
 
       try {
         const response = await createTrainingCategoryEndpoint(payload)
-        const createdTrainingCategory = await getTrainingCategoryByIdEndpoint(response.id)
         this.categories.items = [
           ...this.categories.items,
-          createdTrainingCategory,
+          response.item,
         ]
         this.categories.pagination.totalItems += 1
         this.categories.pagination.totalPages = Math.max(1, Math.ceil(this.categories.pagination.totalItems / this.categories.pagination.pageSize))
@@ -254,8 +252,10 @@ const trainingsStoreOptions = {
       this.trainingRecords.error = ''
       try {
         const response = await createTrainingRecordEndpoint(payload)
-        const createdTrainingRecord = await getTrainingRecordByIdEndpoint(response.id)
-        this.trainingRecords.items = [...this.trainingRecords.items, createdTrainingRecord]
+        this.trainingRecords.items = [
+          ...this.trainingRecords.items,
+          response.item
+        ]
         this.trainingRecords.pagination.totalItems += 1
         this.trainingRecords.pagination.totalPages = Math.max(1, Math.ceil(this.trainingRecords.pagination.totalItems / this.trainingRecords.pagination.pageSize))
         return { id: response.id }
