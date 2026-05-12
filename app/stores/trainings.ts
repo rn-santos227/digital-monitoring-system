@@ -17,7 +17,6 @@ import {
   searchTrainingCategoriesEndpoint,
   searchTrainingsEndpoint,
   updateTrainingCategoryEndpoint,
-  updateTrainingEndpoint,
 } from '~/utils/training-endpoints'
 import type {
   CreateTrainingCategoryPayload,
@@ -28,7 +27,6 @@ import type {
   TrainingCategorySearchQuery,
   TrainingEndpointQuery,
   TrainingListItem,
-  TrainingRecordListItem,
   TrainingRecordSearchQuery,
   TrainingRecordsState,
   TrainingsState,
@@ -49,7 +47,7 @@ const DEFAULT_PAGINATION: TrainingTablePagination = {
 interface TrainingsStoreState {
   trainings: TrainingsState
   categories: TrainingCategoriesState
-  trainingRecords: TrainingRecordsState
+  records: TrainingRecordsState
 }
 
 const INITIAL_TRAININGS_STORE_STATE: TrainingsStoreState = {
@@ -65,7 +63,7 @@ const INITIAL_TRAININGS_STORE_STATE: TrainingsStoreState = {
     isLoading: false,
     error: '',
   },
-  trainingRecords: {
+  records: {
     items: [],
     pagination: { ...DEFAULT_PAGINATION },
     isLoading: false,
@@ -78,13 +76,13 @@ const trainingsStoreOptions = {
     ...INITIAL_TRAININGS_STORE_STATE,
     trainings: { ...INITIAL_TRAININGS_STORE_STATE.trainings, pagination: { ...DEFAULT_PAGINATION } },
     categories: { ...INITIAL_TRAININGS_STORE_STATE.categories, pagination: { ...DEFAULT_PAGINATION } },
-    trainingRecords: { ...INITIAL_TRAININGS_STORE_STATE.trainingRecords, pagination: { ...DEFAULT_PAGINATION } },
+    records: { ...INITIAL_TRAININGS_STORE_STATE.records, pagination: { ...DEFAULT_PAGINATION } },
   }),
 
   getters: {
     hasTrainings: (state: TrainingsStoreState) => state.trainings.items.length > 0,
     hasTrainingCategories: (state: TrainingsStoreState) => state.categories.items.length > 0,
-    hasTrainingRecords: (state: TrainingsStoreState) => state.trainingRecords.items.length > 0,
+    hasTrainingRecords: (state: TrainingsStoreState) => state.records.items.length > 0,
   },
 
   actions: {
@@ -184,9 +182,9 @@ const trainingsStoreOptions = {
       }
     },
 
-    async fetchTrainingRecords(this: TrainingsStoreState, page = 1, filters: Partial<TrainingRecordSearchQuery> = {}, pageSize = this.trainingRecords.pagination.pageSize) {
-      this.trainingRecords.isLoading = true
-      this.trainingRecords.error = ''
+    async fetchTrainingRecords(this: TrainingsStoreState, page = 1, filters: Partial<TrainingRecordSearchQuery> = {}, pageSize = this.records.pagination.pageSize) {
+      this.records.isLoading = true
+      this.records.error = ''
 
       const query: TrainingEndpointQuery = { page, pageSize, search: filters.term ?? '' }
 
@@ -195,20 +193,20 @@ const trainingsStoreOptions = {
           ? await searchTrainingRecordsEndpoint({ page, pageSize, term: filters.term, fields: filters.fields })
           : await getTrainingRecordsEndpoint(query)
 
-        this.trainingRecords.items = response.items
-        this.trainingRecords.pagination = {
+        this.records.items = response.items
+        this.records.pagination = {
           page: response.page,
           pageSize: response.pageSize,
           totalItems: response.totalItems,
           totalPages: response.totalPages,
         }
       } catch (error) {
-        this.trainingRecords.items = []
-        this.trainingRecords.pagination = { page, pageSize, totalItems: 0, totalPages: 0 }
-        this.trainingRecords.error = extractApiErrorMessage(error, 'Failed to fetch training records.')
+        this.records.items = []
+        this.records.pagination = { page, pageSize, totalItems: 0, totalPages: 0 }
+        this.records.error = extractApiErrorMessage(error, 'Failed to fetch training records.')
         throw error
       } finally {
-        this.trainingRecords.isLoading = false
+        this.records.isLoading = false
       }
     },
 
@@ -249,18 +247,18 @@ const trainingsStoreOptions = {
     },
 
     async createTrainingRecord(this: TrainingsStoreState, payload: CreateTrainingRecordPayload): Promise<{ id: string }> {
-      this.trainingRecords.error = ''
+      this.records.error = ''
       try {
         const response = await createTrainingRecordEndpoint(payload)
-        this.trainingRecords.items = [
-          ...this.trainingRecords.items,
+        this.records.items = [
+          ...this.records.items,
           response.item
         ]
-        this.trainingRecords.pagination.totalItems += 1
-        this.trainingRecords.pagination.totalPages = Math.max(1, Math.ceil(this.trainingRecords.pagination.totalItems / this.trainingRecords.pagination.pageSize))
+        this.records.pagination.totalItems += 1
+        this.records.pagination.totalPages = Math.max(1, Math.ceil(this.records.pagination.totalItems / this.records.pagination.pageSize))
         return { id: response.id }
       } catch (error) {
-        this.trainingRecords.error = extractApiErrorMessage(error, 'Unable to create training record.')
+        this.records.error = extractApiErrorMessage(error, 'Unable to create training record.')
         throw error
       }
     },
@@ -316,13 +314,13 @@ const trainingsStoreOptions = {
     },
 
     async updateTrainingRecord(this: TrainingsStoreState, id: string, payload: UpdateTrainingRecordPayload) {
-      this.trainingRecords.error = ''
+      this.records.error = ''
       try {
         await updateTrainingRecordEndpoint(id, payload)
         const updatedTrainingRecord = await getTrainingRecordByIdEndpoint(id)
-        this.trainingRecords.items = this.trainingRecords.items.map(item => item.id === id ? updatedTrainingRecord : item)
+        this.records.items = this.records.items.map(item => item.id === id ? updatedTrainingRecord : item)
       } catch (error) {
-        this.trainingRecords.error = extractApiErrorMessage(error, 'Unable to update training record.')
+        this.records.error = extractApiErrorMessage(error, 'Unable to update training record.')
         throw error
       }
     },
@@ -360,14 +358,14 @@ const trainingsStoreOptions = {
     },
 
     async deleteTrainingRecord(this: TrainingsStoreState, id: string) {
-      this.trainingRecords.error = ''
+      this.records.error = ''
       try {
         await deleteTrainingRecordEndpoint(id)
-        this.trainingRecords.items = this.trainingRecords.items.filter(item => item.id !== id)
-        this.trainingRecords.pagination.totalItems = Math.max(0, this.trainingRecords.pagination.totalItems - 1)
-        this.trainingRecords.pagination.totalPages = this.trainingRecords.pagination.totalItems === 0 ? 0 : Math.max(1, Math.ceil(this.trainingRecords.pagination.totalItems / this.trainingRecords.pagination.pageSize))
+        this.records.items = this.records.items.filter(item => item.id !== id)
+        this.records.pagination.totalItems = Math.max(0, this.records.pagination.totalItems - 1)
+        this.records.pagination.totalPages = this.records.pagination.totalItems === 0 ? 0 : Math.max(1, Math.ceil(this.records.pagination.totalItems / this.records.pagination.pageSize))
       } catch (error) {
-        this.trainingRecords.error = extractApiErrorMessage(error, 'Unable to delete training record.')
+        this.records.error = extractApiErrorMessage(error, 'Unable to delete training record.')
         throw error
       }
     },
