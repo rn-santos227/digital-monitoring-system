@@ -27,7 +27,8 @@ import {
   TrashIcon,
   XCircleIcon,
   XMarkIcon,
-  UsersIcon
+  UsersIcon,
+  UserPlusIcon
 } from '@heroicons/vue/24/outline'
 import type { Component } from 'vue'
 import type { IconName } from '~/types/domain/misc'
@@ -61,7 +62,8 @@ export const HERO_ICON_MAP: Record<IconName, Component> = {
   'arrows-up-down': ArrowsUpDownIcon,
   'magnifying-glass': MagnifyingGlassIcon,
   'chevron-up': ChevronUpIcon,
-  'chevron-down': ChevronDownIcon
+  'chevron-down': ChevronDownIcon,
+  'user-plus': UserPlusIcon
 }
 
 export const getHeroIcon = (name: IconName): Component => HERO_ICON_MAP[name]

@@ -45,6 +45,7 @@ export type IconName =
   | 'magnifying-glass'
   | 'chevron-up'
   | 'chevron-down'
+  | 'user-plus'
 
 export type NavigationItem = {
   label: string
