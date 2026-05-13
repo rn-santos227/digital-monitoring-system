@@ -24,6 +24,9 @@ export interface CompanyListItem {
   isActive: boolean
 }
 
+export interface AssignUnitPersonnelPayload {
+  personnelId: string
+}
 
 export interface CompanyDetailItem extends CompanyListItem {
   personnelCount: number

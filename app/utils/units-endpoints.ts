@@ -17,6 +17,7 @@ import type {
   UpdateCompanyPayload,
   UnitListResponse,
   UnitPersonnelListItem,
+  AssignUnitPersonnelPayload,
 } from '~/types/domain/units'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
@@ -205,4 +206,24 @@ export const deleteCompanyEndpoint = async (id: string): Promise<{ ok: boolean }
       headers: createSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.deleteCompany)
+}
+
+export const assignPersonnelToBattalionEndpoint = async (id: string, payload: AssignUnitPersonnelPayload): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(UNIT_MANAGEMENT_API_ENDPOINTS.battalionAssignPersonnel(id), {
+      method: 'POST',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.assignBattalionPersonnel)
+}
+
+export const assignPersonnelToCompanyEndpoint = async (id: string, payload: AssignUnitPersonnelPayload): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(UNIT_MANAGEMENT_API_ENDPOINTS.companyAssignPersonnel(id), {
+      method: 'POST',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.assignCompanyPersonnel)
 }
