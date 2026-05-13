@@ -3,7 +3,7 @@ import { REGEX_PATTERNS } from '~/utils/regex'
 export interface FieldValidationRule {
   field: string
   label: string
-  value: string
+  value: string | null | undefined
   required?: boolean
   trim?: boolean
   minLength?: number
@@ -24,7 +24,8 @@ const REQUIRED_MESSAGE_SUFFIX = ' is required.'
 
 export const validateField = (rule: FieldValidationRule): FieldValidationResult => {
   const shouldTrim = rule.trim ?? true
-  const normalizedValue = shouldTrim ? rule.value.trim() : rule.value
+  const rawValue = rule.value ?? ''
+  const normalizedValue = shouldTrim ? rawValue.trim() : rawValue
 
   if (rule.required && !normalizedValue) {
     return {

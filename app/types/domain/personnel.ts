@@ -175,6 +175,7 @@ export interface UpdatePersonnelPayload {
   contactNumber: string | null
   position: string | null
   dateEnlisted: string | null
+  profileImageUrl?: string | null
 }
 
 export interface UpdatePersonnelResponse {
@@ -219,6 +220,7 @@ export interface PersonnelDetail {
   createdAt: string
   updatedAt: string
   age: number | null
+  profileImageUrl?: string | null
 }
 
 export interface PersonnelTrainingRecordListItem {

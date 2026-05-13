@@ -6,8 +6,8 @@
     scroll-body
     @close="emit('close')"
   >
-    <form class="space-y-4" @submit.prevent="onSubmit">
-      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+    <form id="update-personnel-form" class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="resolvedWarningMessage" :message="resolvedWarningMessage" tone="warning" />
       <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
       <div class="grid gap-4 md:grid-cols-2">
         <BaseTextField
@@ -275,13 +275,16 @@ const syncForm = (value: PersonnelDetail) => {
   form.contactNumber = value.contactNumber ?? ''
   form.position = value.position ?? ''
   form.dateEnlisted = value.dateEnlisted ?? ''
+  form.profileImageUrl = value.profileImageUrl ?? ''
 }
 
 watch(() => props.initialValues, syncForm, { immediate: true, deep: true })
 
 const errors = reactive<Record<string, string>>({})
+const localWarningMessage = ref('')
 const isProfileImageUploading = ref(false)
 const profileImageFile = ref<File | null>(null)
+const resolvedWarningMessage = computed(() => props.warningMessage || localWarningMessage.value)
 
 const profileImageUploadHelperText = computed(() => {
   const maxSizeLabel = formatFileSizeLabel(FILE_UPLOAD_CONSTRAINTS.maxSizeBytes)
@@ -303,6 +306,7 @@ const onProfileImageFileSelected = (file: File | null) => {
 }
 
 const onSubmit = async () => {
+  localWarningMessage.value = ''
   const result = validateCreatePersonnelForm(form)
 
   Object.keys(errors).forEach((key) => {
@@ -317,6 +321,7 @@ const onSubmit = async () => {
   }
 
   if (!result.payload) {
+    localWarningMessage.value = 'Please review and correct the highlighted personnel fields before updating.'
     return
   }
 
