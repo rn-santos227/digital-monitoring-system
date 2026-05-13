@@ -71,6 +71,9 @@ const INITIAL_USERS_STATE: UsersState = {
 const usersStoreOptions = {
   state: (): UsersState => ({
     ...INITIAL_USERS_STATE,
+    profileItems: [],
+    accountItems: [],
+    privilegeItems: [],
     kpis: { ...DEFAULT_USER_MANAGEMENT_KPIS },
     profilePagination: { ...DEFAULT_PAGINATION },
     accountPagination: { ...DEFAULT_PAGINATION },
