@@ -7,6 +7,7 @@ import {
   getCompanyByIdEndpoint,
   searchCompaniesEndpoint,
   updateCompanyEndpoint,
+  assignPersonnelToCompanyEndpoint,
 } from '~/utils/units-endpoints'
 import type {
   CompaniesState,
@@ -133,6 +134,17 @@ const companiesStoreOptions = {
         this.items = this.items.map(item => item.id === id ? { ...item, ...payload } : item)
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to update company.')
+        throw error
+      }
+    },
+
+    async assignPersonnel(this: CompaniesState, id: string, personnelId: string) {
+      this.error = ''
+
+      try {
+        await assignPersonnelToCompanyEndpoint(id, { personnelId })
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to assign personnel to company.')
         throw error
       }
     },

@@ -7,6 +7,7 @@ import {
   getBattalionsEndpoint,
   searchBattalionsEndpoint,
   updateBattalionEndpoint,
+  assignPersonnelToBattalionEndpoint,
 } from '~/utils/units-endpoints'
 import type {
   BattalionsState,
@@ -122,6 +123,17 @@ const battalionsStoreOptions = {
         this.items = this.items.map(item => item.id === id ? { ...item, ...payload } : item)
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to update battalion.')
+        throw error
+      }
+    },
+
+    async assignPersonnel(this: BattalionsState, id: string, personnelId: string) {
+      this.error = ''
+
+      try {
+        await assignPersonnelToBattalionEndpoint(id, { personnelId })
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to assign personnel to battalion.')
         throw error
       }
     },
