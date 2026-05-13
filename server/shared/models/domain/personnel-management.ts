@@ -63,7 +63,7 @@ export interface PersonnelProfileBaseRow {
   id: string
   personnel_code: string
   service_number: string
-  email?: string
+  email: string
   full_name?: string
   rank_name: string
   company_name: string | null

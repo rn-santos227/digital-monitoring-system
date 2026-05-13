@@ -13,6 +13,7 @@ interface PersonnelSuggestionRow {
   id: string
   personnel_code: string
   service_number: string
+  email: string
   full_name: string
   rank_name: string
   company_name: string | null
@@ -87,6 +88,7 @@ export const mapPersonnelSuggestionItem = (
     id: row.id,
     personnelCode: row.personnel_code,
     serviceNumber: row.service_number,
+    email: row.email,
     fullName: row.full_name,
     rankName: row.rank_name,
     companyName: row.company_name,
@@ -118,6 +120,7 @@ export const mapPersonnelCompactListItem = (row: PersonnelProfileCompactRow): Pe
     id: row.id,
     personnelCode: row.personnel_code,
     serviceNumber: row.service_number,
+    email: row.email,
     fullName: row.full_name,
     rankName: row.rank_name,
     companyName: row.company_name,
@@ -135,6 +138,7 @@ export const mapPersonnelDetail = (row: PersonnelProfileDetailRow): PersonnelDet
     id: row.id,
     personnelCode: row.personnel_code,
     serviceNumber: row.service_number,
+    email: row.email ?? '',
     lastName: row.last_name,
     firstName: row.first_name,
     middleName: row.middle_name,
