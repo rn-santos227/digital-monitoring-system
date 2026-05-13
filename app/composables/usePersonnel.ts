@@ -14,6 +14,7 @@ export const usePersonnel = () => {
       id: item.id,
       personnelCode: item.personnelCode,
       serviceNumber: item.serviceNumber,
+      email: item.email,
       fullName: item.fullName,
       rankName: item.rankName,
       assignment: [item.companyName, item.battalionName].filter(Boolean).join(' / ') || 'Unassigned',

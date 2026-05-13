@@ -28,6 +28,14 @@
           />
 
           <div v-if="canCreatePersonnel" :class="PERSONNEL_TABLE_ACTIONS_ROW_CLASSES">
+            <PrintDataListButton
+              class="mx-2"
+              table-name="personnel"
+              :table-label="PERSONNEL_PRINT_BUTTON_TABLE_LABEL"
+              :filters="filters"
+              :get-print-data="handlePrintPersonnel"
+              :disabled="isLoading"
+            />
             <BaseButton class="mx-2" variant="secondary" @click="isBatchUploadPersonnelModalOpen = true">
               {{ PERSONNEL_BATCH_UPLOAD_BUTTON_LABEL }}
             </BaseButton>
@@ -122,6 +130,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import BatchUploadPersonnelModal from '~/components/personnel/BatchUploadPersonnelModal.vue'
 import CreateRankModal from '~/components/personnel/CreateRankModal.vue'
 import CreatePersonnelModal from '~/components/personnel/CreatePersonnelModal.vue'
@@ -140,6 +149,7 @@ import {
   PERSONNEL_PAGE_TAB_REQUIRED_PERMISSIONS,
   PERSONNEL_PAGE_TABS_ARIA_LABEL,
   PERSONNEL_PAGE_TITLE,
+  PERSONNEL_PRINT_BUTTON_TABLE_LABEL,
   RANK_CREATE_BUTTON_LABEL,
 } from '~/constants/page.constants'
 import { RANK_PRIVILEGES } from '~/constants/privileges.constants'
@@ -156,6 +166,7 @@ import {
   useDeletePersonnelHandler,
   useDeleteRankHandler,
   usePersonnelPageHandlers,
+  usePrintPersonnelHandler,
   useRanksPageHandlers,
   useUpdatePersonnelHandler,
   useViewPersonnelProfileHandler,
@@ -169,6 +180,7 @@ import type { FieldValidationMap } from '~/utils/field-validation'
 const { filters, tableRows, pagination, isLoading, error, loadPersonnel, createPersonnel, updatePersonnel, deletePersonnel, getPersonnelById, uploadPersonnelBatch } = usePersonnel()
 const { tableRows: rankRows, pagination: rankPagination, isLoading: isRanksLoading, error: rankError, search: rankSearchTerm, loadRanks, createRank, deleteRank } = useRanks()
 const { handleFilterApply, handleFilterReset } = usePersonnelPageHandlers(filters)
+const { handleDownloadAndPrintPersonnel } = usePrintPersonnelHandler()
 const { handleViewPersonnelProfile } = useViewPersonnelProfileHandler()
 const authStore = useAuthStore()
 const { showDialog } = useDialog()
@@ -310,6 +322,10 @@ const handleResetFilters = async () => {
 
 const handlePageChange = async (page: number) => {
   await loadPersonnel(page)
+}
+
+const handlePrintPersonnel = async () => {
+  return await handleDownloadAndPrintPersonnel(filters.value)
 }
 
 const handleCreatePersonnel = createModalFeedbackHandler(createPersonnel, showDialog, {

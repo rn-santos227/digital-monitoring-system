@@ -151,6 +151,7 @@ export const PERSONNEL_PAGE_TAB_REQUIRED_PERMISSIONS: Readonly<Record<PersonnelM
 })
 export const PERSONNEL_CREATE_BUTTON_LABEL = 'Create Personnel'
 export const PERSONNEL_BATCH_UPLOAD_BUTTON_LABEL = 'Batch Upload'
+export const PERSONNEL_PRINT_BUTTON_TABLE_LABEL = 'Personnel Records'
 export const PERSONNEL_MODAL_CREATE_LABEL = 'Create'
 export const PERSONNEL_MODAL_UPDATE_LABEL = 'Update'
 export const PERSONNEL_MODAL_CANCEL_LABEL = 'Cancel'
