@@ -1,3 +1,4 @@
+export * from './domain/audit'
 export * from './domain/dashboard'
 export * from './domain/deployment-management'
 export * from './domain/engagement-management'
