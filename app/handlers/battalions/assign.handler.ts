@@ -1,40 +1,40 @@
 import type { Ref } from 'vue'
 
-interface UseAssignCompanyHandlerOptions {
-  selectedCompanyId: Ref<string>
-  isAssignToCompanyModalOpen: Ref<boolean>
-  assignPersonnel: (companyId: string, personnelId: string) => Promise<void>
+interface UseAssignBattalionHandlerOptions {
+  selectedBattalionId: Ref<string>
+  isAssignToBattalionModalOpen: Ref<boolean>
+  assignPersonnel: (battalionId: string, personnelId: string) => Promise<void>
 }
 
-export const COMPANY_ASSIGN_ACTION_KEY = 'assign-company'
+export const BATTALION_ASSIGN_ACTION_KEY = 'assign-battalion'
 
-export const useAssignCompanyHandler = ({ selectedCompanyId, isAssignToCompanyModalOpen, assignPersonnel }: UseAssignCompanyHandlerOptions) => {
-  const canHandleAssignCompanyAction = (actionKey: string) => actionKey === COMPANY_ASSIGN_ACTION_KEY
+export const useAssignBattalionHandler = ({ selectedBattalionId, isAssignToBattalionModalOpen, assignPersonnel }: UseAssignBattalionHandlerOptions) => {
+  const canHandleAssignBattalionAction = (actionKey: string) => actionKey === BATTALION_ASSIGN_ACTION_KEY
 
-  const onOpenAssignCompanyAction = async (row: Record<string, unknown>) => {
-    const companyId = typeof row.id === 'string' ? row.id : ''
-    if (!companyId) {
+  const onOpenAssignBattalionAction = async (row: Record<string, unknown>) => {
+    const battalionId = typeof row.id === 'string' ? row.id : ''
+    if (!battalionId) {
       return false
     }
 
-    selectedCompanyId.value = companyId
-    isAssignToCompanyModalOpen.value = true
+    selectedBattalionId.value = battalionId
+    isAssignToBattalionModalOpen.value = true
     return true
   }
 
-  const onCloseAssignToCompanyModal = () => {
-    isAssignToCompanyModalOpen.value = false
-    selectedCompanyId.value = ''
+  const onCloseAssignToBattalionModal = () => {
+    isAssignToBattalionModalOpen.value = false
+    selectedBattalionId.value = ''
   }
 
-  const onAssignToCompany = async (personnelId: string) => {
-    if (!selectedCompanyId.value) {
+  const onAssignToBattalion = async (personnelId: string) => {
+    if (!selectedBattalionId.value) {
       return
     }
 
-    await assignPersonnel(selectedCompanyId.value, personnelId)
-    onCloseAssignToCompanyModal()
+    await assignPersonnel(selectedBattalionId.value, personnelId)
+    onCloseAssignToBattalionModal()
   }
 
-  return { canHandleAssignCompanyAction, onOpenAssignCompanyAction, onCloseAssignToCompanyModal, onAssignToCompany }
+  return { canHandleAssignBattalionAction, onOpenAssignBattalionAction, onCloseAssignToBattalionModal, onAssignToBattalion }
 }

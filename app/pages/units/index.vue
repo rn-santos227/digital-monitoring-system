@@ -134,6 +134,18 @@
         :company="selectedCompanyView"
         @close="onCloseViewCompanyModal"
       />
+
+      <AssignToBattalionModal
+        v-if="isAssignToBattalionModalOpen"
+        @close="onCloseAssignToBattalionModal"
+        @submit="({ personnelId }) => onAssignToBattalion(personnelId)"
+      />
+
+      <AssignToCompanyModal
+        v-if="isAssignToCompanyModalOpen"
+        @close="onCloseAssignToCompanyModal"
+        @submit="({ personnelId }) => onAssignToCompany(personnelId)"
+      />
     </section>
   </main>
 </template>
@@ -149,6 +161,8 @@ import CreateCompanyModal from '~/components/units/CreateCompanyModal.vue'
 import UpdateCompanyModal from '~/components/units/UpdateCompanyModal.vue'
 import ViewBattalionModal from '~/components/units/ViewBattalionModal.vue'
 import ViewCompanyModal from '~/components/units/ViewCompanyModal.vue'
+import AssignToBattalionModal from '~/components/units/AssignToBattalionModal.vue'
+import AssignToCompanyModal from '~/components/units/AssignToCompanyModal.vue'
 import BattalionsFilter from '~/components/units/BattalionsFilter.vue'
 import BattalionsTable from '~/components/units/BattalionsTable.vue'
 import CompaniesFilter from '~/components/units/CompaniesFilter.vue'
@@ -187,6 +201,8 @@ import {
   useUpdateUnitHandler,
   useViewBattalionHandler,
   useViewCompanyHandler,
+  useAssignBattalionHandler,
+  useAssignCompanyHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type {
@@ -207,6 +223,8 @@ const isCreateCompanyModalOpen = ref(false)
 const isUpdateCompanyModalOpen = ref(false)
 const isViewBattalionModalOpen = ref(false)
 const isViewCompanyModalOpen = ref(false)
+const isAssignToBattalionModalOpen = ref(false)
+const isAssignToCompanyModalOpen = ref(false)
 const selectedBattalionId = ref('')
 const selectedCompanyId = ref('')
 const selectedBattalion = ref<{ code: string; name: string; isActive: boolean } | null>(null)
@@ -225,6 +243,7 @@ const {
   getBattalionById,
   updateBattalion,
   deleteBattalion,
+  assignPersonnel: assignPersonnelToBattalion,
 } = useBattalions()
 
 const {
@@ -238,6 +257,7 @@ const {
   getCompanyById,
   updateCompany,
   deleteCompany,
+  assignPersonnel: assignPersonnelToCompany,
 } = useCompanies()
 
 const { handleTabChange } = useUnitsPageHandlers(activeTab)
@@ -272,6 +292,12 @@ const {
   selectedBattalionView,
   isViewBattalionModalOpen,
   getBattalionById,
+})
+
+const { canHandleAssignBattalionAction, onOpenAssignBattalionAction, onCloseAssignToBattalionModal, onAssignToBattalion } = useAssignBattalionHandler({
+  selectedBattalionId,
+  isAssignToBattalionModalOpen,
+  assignPersonnel: assignPersonnelToBattalion,
 })
 
 const { canHandleDeleteBattalionAction, onDeleteBattalionAction } = useDeleteBattalionHandler({
@@ -314,6 +340,12 @@ const {
   getCompanyById,
 })
 
+const { canHandleAssignCompanyAction, onOpenAssignCompanyAction, onCloseAssignToCompanyModal, onAssignToCompany } = useAssignCompanyHandler({
+  selectedCompanyId,
+  isAssignToCompanyModalOpen,
+  assignPersonnel: assignPersonnelToCompany,
+})
+
 const { canHandleDeleteCompanyAction, onDeleteCompanyAction } = useDeleteCompanyHandler({
   showDialog,
   deleteCompany,
@@ -354,6 +386,8 @@ const { onBattalionAction } = useBattalionActionHandler({
   canHandleViewBattalionAction,
   canHandleUpdateBattalionAction,
   canHandleDeleteBattalionAction,
+  canHandleAssignBattalionAction,
+  onAssignBattalionAction: onOpenAssignBattalionAction,
 })
 const { onCompanyAction } = useCompanyActionHandler({
   onViewCompanyAction,
@@ -362,6 +396,8 @@ const { onCompanyAction } = useCompanyActionHandler({
   canHandleViewCompanyAction,
   canHandleUpdateCompanyAction,
   canHandleDeleteCompanyAction,
+  canHandleAssignCompanyAction,
+  onAssignCompanyAction: onOpenAssignCompanyAction,
 })
 
 const { handleFilterApply: handleBattalionFilterApply, handleFilterReset: handleBattalionFilterReset } = useBattalionFilterHandlers(battalionFilters)
