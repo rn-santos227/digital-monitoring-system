@@ -202,6 +202,12 @@ export const BATTALIONS_TABLE_ACTIONS: readonly DataTableAction[] = Object.freez
     variant: 'info',
   },
   {
+    key: 'assign-battalion',
+    tooltip: 'Assign personnel',
+    iconName: 'user-plus',
+    variant: 'info',
+  },
+  {
     key: 'edit-battalion',
     tooltip: 'Edit battalion',
     iconName: 'pencil-square',
@@ -224,6 +230,12 @@ export const COMPANIES_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze
     key: 'view-company',
     tooltip: 'View company',
     iconName: 'eye',
+    variant: 'info',
+  },
+  {
+    key: 'assign-company',
+    tooltip: 'Assign personnel',
+    iconName: 'user-plus',
     variant: 'info',
   },
   {

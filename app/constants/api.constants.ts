@@ -30,12 +30,14 @@ export const UNIT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   battalionPersonnel: (id: string) => `/api/battalions/${id}/personnel`,
   battalionEquipment: (id: string) => `/api/battalions/${id}/equipment`,
   battalionCompanies: (id: string) => `/api/battalions/${id}/companies`,
+  battalionAssignPersonnel: (id: string) => `/api/battalions/${id}/assign`,
   companies: '/api/companies',
   companiesSearch: '/api/companies/search',
   companiesSuggestions: '/api/companies/suggestions',
   companyById: (id: string) => `/api/companies/${id}`,
   companyPersonnel: (id: string) => `/api/companies/${id}/personnel`,
   companyEquipment: (id: string) => `/api/companies/${id}/equipment`,
+  companyAssignPersonnel: (id: string) => `/api/companies/${id}/assign`,
 })
 
 export const TRAINING_MANAGEMENT_API_ENDPOINTS = Object.freeze({
@@ -158,6 +160,8 @@ export const API_LOADING_MESSAGES = Object.freeze({
   createCompany: 'Creating company record...',
   updateCompany: 'Updating company record...',
   deleteCompany: 'Deleting company record...',
+  assignBattalionPersonnel: 'Assigning personnel to battalion...',
+  assignCompanyPersonnel: 'Assigning personnel to company...',
   fetchTrainings: 'Loading training records...',
   fetchTrainingRecords: 'Loading training records...',
   fetchTrainingCategories: 'Loading training categories...',
