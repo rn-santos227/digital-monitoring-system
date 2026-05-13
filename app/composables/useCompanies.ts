@@ -43,5 +43,6 @@ export const useCompanies = () => {
     getCompanyById: companiesStore.getCompanyById,
     updateCompany: companiesStore.updateCompany,
     deleteCompany: companiesStore.deleteCompany,
+    assignPersonnel: companiesStore.assignPersonnel,
   }
 }

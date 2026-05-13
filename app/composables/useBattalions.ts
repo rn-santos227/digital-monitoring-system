@@ -43,5 +43,6 @@ export const useBattalions = () => {
     getBattalionById: battalionsStore.getBattalionById,
     updateBattalion: battalionsStore.updateBattalion,
     deleteBattalion: battalionsStore.deleteBattalion,
+    assignPersonnel: battalionsStore.assignPersonnel,
   }
 }
