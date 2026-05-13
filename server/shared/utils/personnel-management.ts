@@ -65,6 +65,8 @@ export const parsePersonnelSuggestionQuery = (query: {
   term?: unknown
   pageSize?: unknown
   selectedPersonnelId?: unknown
+  excludeCompanyId?: unknown
+  excludeBattalionId?: unknown
 }) => {
   const term = typeof query.term === 'string' ? query.term.trim() : ''
   const selectedPersonnelId = typeof query.selectedPersonnelId === 'string' && query.selectedPersonnelId.length > 0
@@ -72,11 +74,19 @@ export const parsePersonnelSuggestionQuery = (query: {
     : null
   const rawPageSize = Math.trunc(parseNumber(query.pageSize, 10))
   const pageSize = Math.min(Math.max(rawPageSize, 1), 20)
+  const excludeCompanyId = typeof query.excludeCompanyId === 'string' && query.excludeCompanyId.length > 0
+    ? query.excludeCompanyId
+    : null
+  const excludeBattalionId = typeof query.excludeBattalionId === 'string' && query.excludeBattalionId.length > 0
+    ? query.excludeBattalionId
+    : null
 
   return {
     term,
     pageSize,
     selectedPersonnelId,
+    excludeCompanyId,
+    excludeBattalionId,
   }
 }
 

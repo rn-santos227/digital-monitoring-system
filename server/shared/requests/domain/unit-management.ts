@@ -23,3 +23,8 @@ export interface UpdateCompanyRequest {
   name?: string
   isActive?: boolean
 }
+
+
+export interface AssignUnitPersonnelRequest {
+  personnelId?: string
+}

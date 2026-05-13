@@ -5,6 +5,7 @@ import type {
   UpdateBattalionRequest,
   UpdateCompanyRequest,
 } from '../../requests'
+import type { AssignUnitPersonnelRequest } from '../../requests'
 import { normalizeOptionalText } from '../../utils'
 
 export const parseCreateBattalionPayload = (body: CreateBattalionRequest) => {
@@ -120,4 +121,14 @@ export const buildCompanyUpdates = (body: UpdateCompanyRequest) => {
   }
 
   return updates
+}
+
+export const parseAssignUnitPersonnelPayload = (body: AssignUnitPersonnelRequest) => {
+  const personnelId = normalizeOptionalText(body.personnelId)
+
+  if (!personnelId) {
+    throw createError({ statusCode: 400, statusMessage: 'Personnel id is required.' })
+  }
+
+  return { personnelId }
 }

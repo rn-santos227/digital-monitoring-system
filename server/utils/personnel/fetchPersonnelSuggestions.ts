@@ -7,6 +7,8 @@ export const fetchPersonnelSuggestions = async (
   filter: string | undefined,
   selectedPersonnelId: string | null,
   term: string,
+  excludeCompanyId: string | null,
+  excludeBattalionId: string | null,
 ) => {
   let query = supabase
     .from('vw_personnel_profile')
@@ -30,6 +32,14 @@ export const fetchPersonnelSuggestions = async (
 
   if (filters.length > 0) {
     query = query.or(filters.join(','))
+  }
+
+  if (excludeCompanyId) {
+    query = query.neq('company_id', excludeCompanyId)
+  }
+
+  if (excludeBattalionId) {
+    query = query.neq('battalion_id', excludeBattalionId)
   }
 
   const limit = pageSize + (selectedPersonnelId ? 1 : 0) + (term.length > 0 ? 1 : 0)
