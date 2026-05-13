@@ -61,6 +61,26 @@ export const searchCompaniesEndpoint = async (query: CompanySearchQuery): Promis
   }, API_LOADING_MESSAGES.fetchCompanies)
 }
 
+export const getBattalionSuggestionsEndpoint = async (query: { term?: string; pageSize?: number; selectedId?: string }): Promise<{ items: BattalionListItem[] }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ items: BattalionListItem[] }>(UNIT_MANAGEMENT_API_ENDPOINTS.battalionsSuggestions, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchBattalions)
+}
+
+export const getCompanySuggestionsEndpoint = async (query: { term?: string; pageSize?: number; selectedId?: string; battalionId?: string }): Promise<{ items: CompanyListItem[] }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ items: CompanyListItem[] }>(UNIT_MANAGEMENT_API_ENDPOINTS.companiesSuggestions, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchCompanies)
+}
+
 export const createBattalionEndpoint = async (payload: CreateBattalionPayload): Promise<CreateBattalionResponse> => {
   return await withApiLoading(async () => {
     return await $fetch<CreateBattalionResponse>(UNIT_MANAGEMENT_API_ENDPOINTS.battalions, {

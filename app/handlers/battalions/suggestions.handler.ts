@@ -2,10 +2,10 @@ import { computed, watch } from 'vue'
 import type { SuggestionFieldOption } from '~/constants/ui.constants'
 import { useSuggestionSelectionHandlers, watchSuggestionsSearch } from '~/handlers/personnel/suggestions.handler'
 import type { BattalionListItem } from '~/types/domain/units'
-import { searchBattalionsEndpoint } from '~/utils/units-endpoints'
+import { getBattalionSuggestionsEndpoint } from '~/utils/units-endpoints'
 
 export const useBattalionSuggestionsHandler = (modelValue: () => string | null) => {
-  const handlers = useSuggestionSelectionHandlers<BattalionListItem>((item) => item.name)
+  const handlers = useSuggestionSelectionHandlers<BattalionListItem>((item) => `${item.code} • ${item.name}`)
 
   const suggestionOptions = computed<SuggestionFieldOption[]>(() => {
     return handlers.suggestions.value.map((item) => ({
@@ -16,10 +16,10 @@ export const useBattalionSuggestionsHandler = (modelValue: () => string | null) 
   })
 
   const fetchSuggestions = async () => {
-    const response = await searchBattalionsEndpoint({
+    const response = await getBattalionSuggestionsEndpoint({
       term: handlers.searchTerm.value,
-      fields: '',
       pageSize: 10,
+      selectedId: modelValue() ?? undefined,
     })
 
     handlers.suggestions.value = response.items
