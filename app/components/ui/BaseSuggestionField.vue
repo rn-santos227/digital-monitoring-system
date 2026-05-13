@@ -20,7 +20,10 @@
 
       <div v-if="isPanelVisible" :class="panelClasses">
         <p v-if="isLoading" :class="SUGGESTION_FIELD_EMPTY_CLASSES">
-          Loading suggestions...
+          <span class="inline-flex items-center gap-2">
+            <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-slate-600" />
+            <span>Loading suggestions...</span>
+          </span>
         </p>
 
         <template v-else>
