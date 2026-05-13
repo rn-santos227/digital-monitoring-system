@@ -101,3 +101,13 @@ export interface AuditState {
   error: string
   detailError: string
 }
+
+export interface RecordPrintedTableAuditRequest {
+  tableName: string
+  tableLabel?: string | null
+  filters?: Record<string, unknown> | null
+}
+
+export interface RecordPrintedTableAuditResponse {
+  ok: true
+}

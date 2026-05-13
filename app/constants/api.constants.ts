@@ -7,7 +7,8 @@ export const AUTH_API_ENDPOINTS = Object.freeze({
 export const AUDIT_API_ENDPOINTS = Object.freeze({
   logs: '/api/audit/logs',
   search: '/api/audit/search',
-  logById: (id: string) => `/api/audit/logs/${id}`
+  logById: (id: string) => `/api/audit/logs/${id}`,
+  print: '/api/audit/print'
 })
 
 export const USER_MANAGEMENT_API_ENDPOINTS = Object.freeze({

@@ -1,0 +1,63 @@
+<template>
+  <BaseButton
+    :disabled="disabled || isProcessing"
+    variant="secondary"
+    size="md"
+    :icon="PrinterIcon"
+    icon-only
+    :aria-label="PRINT_DATA_LIST_BUTTON_ARIA_LABEL"
+    :title="PRINT_DATA_LIST_BUTTON_TOOLTIP"
+    class="border-slate-300 bg-white text-slate-700"
+    @click="handlePrint"
+  />
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { PrinterIcon } from '@heroicons/vue/24/outline'
+import BaseButton from '~/components/ui/BaseButton.vue'
+import { PRINT_DATA_LIST_BUTTON_ARIA_LABEL, PRINT_DATA_LIST_BUTTON_TOOLTIP } from '~/constants/ui.constants'
+import { recordPrintedTableAuditEndpoint } from '~/utils/audit-endpoints'
+
+interface PrintDataListButtonProps {
+  tableName: string
+  tableLabel?: string
+  filters?: Record<string, unknown> | null
+  disabled?: boolean
+  getPrintData: () => Promise<unknown>
+}
+
+const props = withDefaults(defineProps<PrintDataListButtonProps>(), {
+  tableLabel: '',
+  filters: null,
+  disabled: false,
+})
+
+const emit = defineEmits<{
+  printed: [payload: unknown]
+}>()
+
+const isProcessing = ref(false)
+
+const handlePrint = async (): Promise<void> => {
+  if (isProcessing.value) {
+    return
+  }
+
+  isProcessing.value = true
+
+  try {
+    const printData = await props.getPrintData()
+
+    await recordPrintedTableAuditEndpoint({
+      tableName: props.tableName,
+      tableLabel: props.tableLabel || null,
+      filters: props.filters,
+    })
+
+    emit('printed', printData)
+  } finally {
+    isProcessing.value = false
+  }
+}
+</script>

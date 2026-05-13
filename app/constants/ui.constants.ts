@@ -191,3 +191,6 @@ export const SUGGESTION_FIELD_PANEL_POSITION_CLASSES = Object.freeze({
 export const SUGGESTION_FIELD_ITEM_CLASSES = 'w-full rounded-lg px-3 py-2 text-left text-sm text-slate-700 transition hover:bg-slate-100'
 export const SUGGESTION_FIELD_ITEM_ACTIVE_CLASSES = 'bg-emerald-50 text-emerald-800'
 export const SUGGESTION_FIELD_EMPTY_CLASSES = 'px-3 py-2 text-sm text-slate-500'
+
+export const PRINT_DATA_LIST_BUTTON_TOOLTIP = 'Print data'
+export const PRINT_DATA_LIST_BUTTON_ARIA_LABEL = 'Print data list'

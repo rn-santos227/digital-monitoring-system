@@ -1,5 +1,12 @@
 import { API_LOADING_MESSAGES, AUDIT_API_ENDPOINTS } from '~/constants/api.constants'
-import type { AuditLogDetail, AuditLogListQuery, AuditLogListResponse, AuditLogSearchQuery } from '~/types/domain/audit'
+import type {
+  AuditLogDetail,
+  AuditLogListQuery,
+  AuditLogListResponse,
+  AuditLogSearchQuery,
+  RecordPrintedTableAuditRequest,
+  RecordPrintedTableAuditResponse,
+} from '~/types/domain/audit'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
 
@@ -30,4 +37,14 @@ export const getAuditLogByIdEndpoint = async (id: string): Promise<AuditLogDetai
       headers: createSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchAuditLogDetail)
+}
+
+export const recordPrintedTableAuditEndpoint = async (payload: RecordPrintedTableAuditRequest): Promise<RecordPrintedTableAuditResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<RecordPrintedTableAuditResponse>(AUDIT_API_ENDPOINTS.print, {
+      method: 'POST',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, 'Recording print activity...')
 }
