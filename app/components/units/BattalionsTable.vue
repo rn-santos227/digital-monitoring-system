@@ -61,6 +61,10 @@ const visibleActions = computed(() => {
       return authStore.hasPermissionAccess(BATTALION_PRIVILEGES.view)
     }
 
+    if (action.key === 'assign-battalion') {
+      return authStore.hasPermissionAccess(BATTALION_PRIVILEGES.edit)
+    }
+
     if (action.key === 'edit-battalion') {
       return authStore.hasPermissionAccess(BATTALION_PRIVILEGES.edit)
     }

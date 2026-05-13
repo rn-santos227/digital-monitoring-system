@@ -61,6 +61,10 @@ const visibleActions = computed(() => {
       return authStore.hasPermissionAccess(COMPANY_PRIVILEGES.view)
     }
 
+    if (action.key === 'assign-company') {
+      return authStore.hasPermissionAccess(COMPANY_PRIVILEGES.edit)
+    }
+
     if (action.key === 'edit-company') {
       return authStore.hasPermissionAccess(COMPANY_PRIVILEGES.edit)
     }
