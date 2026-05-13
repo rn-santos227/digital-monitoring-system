@@ -6,6 +6,7 @@ export const BATTALION_ACTION_KEYS = Object.freeze({
   view: 'view-battalion',
   edit: 'edit-battalion',
   delete: 'delete-battalion',
+  assign: 'assign-battalion',
 })
 
 interface BattalionActionPayload {
@@ -20,6 +21,8 @@ interface UseBattalionActionHandlerOptions {
   canHandleViewBattalionAction: (actionKey: string) => boolean
   canHandleUpdateBattalionAction: (actionKey: string) => boolean
   canHandleDeleteBattalionAction: (actionKey: string) => boolean
+  canHandleAssignBattalionAction: (actionKey: string) => boolean
+  onAssignBattalionAction: (row: Record<string, unknown>) => Promise<boolean>
 }
 
 export const useBattalionActionHandler = ({
@@ -29,6 +32,8 @@ export const useBattalionActionHandler = ({
   canHandleViewBattalionAction,
   canHandleUpdateBattalionAction,
   canHandleDeleteBattalionAction,
+  canHandleAssignBattalionAction,
+  onAssignBattalionAction,
 }: UseBattalionActionHandlerOptions) => {
   const onBattalionAction = async (payload: BattalionActionPayload) => {
     if (canHandleViewBattalionAction(payload.actionKey)) {
@@ -43,6 +48,11 @@ export const useBattalionActionHandler = ({
 
     if (canHandleDeleteBattalionAction(payload.actionKey)) {
       await onDeleteBattalionAction(payload.row)
+      return
+    }
+
+    if (canHandleAssignBattalionAction(payload.actionKey)) {
+      await onAssignBattalionAction(payload.row)
     }
   }
 
