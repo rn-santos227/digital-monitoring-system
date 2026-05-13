@@ -7,6 +7,7 @@ import { getPersonnelSuggestionsEndpoint } from '~/utils/personnel-endpoints'
 interface SuggestionSelectionHandlers<TItem extends { id: string }> {
   suggestions: Ref<TItem[]>
   searchTerm: Ref<string>
+  suppressNextSearch: Ref<boolean>
   onModelValueUpdate: (value: string | string[] | null) => string | null
   onQueryChange: (value: string) => void
   emitSelectedItem: (value: string | null) => TItem | null
@@ -17,6 +18,7 @@ const useSuggestionSelectionHandlers = <TItem extends { id: string }>(
 ): SuggestionSelectionHandlers<TItem> => {
   const suggestions = shallowRef<TItem[]>([])
   const searchTerm = ref('')
+  const suppressNextSearch = ref(false)
 
   const onModelValueUpdate = (value: string | string[] | null): string | null => {
     if (Array.isArray(value)) {
@@ -34,6 +36,7 @@ const useSuggestionSelectionHandlers = <TItem extends { id: string }>(
       return null
     }
 
+    suppressNextSearch.value = true
     searchTerm.value = updateSearchTermFromSelection(selectedItem)
     return selectedItem
   }
@@ -45,6 +48,7 @@ const useSuggestionSelectionHandlers = <TItem extends { id: string }>(
   return {
     suggestions,
     searchTerm,
+    suppressNextSearch,
     onModelValueUpdate,
     onQueryChange,
     emitSelectedItem,
@@ -73,6 +77,7 @@ export const usePersonnelSuggestionsHandler = (
   modelValue: () => string | null
 ) => {
   const handlers = useSuggestionSelectionHandlers<PersonnelSuggestion>((item) => item.fullName)
+  const isLoading = ref(false)
 
   const suggestionOptions = computed<SuggestionFieldOption[]>(() => {
     return handlers.suggestions.value.map((item) => ({
@@ -83,13 +88,19 @@ export const usePersonnelSuggestionsHandler = (
   })
 
   const fetchSuggestions = async () => {
-    const response = await getPersonnelSuggestionsEndpoint({
-      term: handlers.searchTerm.value,
-      pageSize: 10,
-      selectedPersonnelId: selectedPersonnelId() ?? undefined,
-    })
+    isLoading.value = true
 
-    handlers.suggestions.value = response.items
+    try {
+      const response = await getPersonnelSuggestionsEndpoint({
+        term: handlers.searchTerm.value,
+        pageSize: 10,
+        selectedPersonnelId: selectedPersonnelId() ?? undefined,
+      })
+
+      handlers.suggestions.value = response.items
+    } finally {
+      isLoading.value = false
+    }
   }
 
   watch(modelValue, async (nextValue) => {
@@ -98,10 +109,18 @@ export const usePersonnelSuggestionsHandler = (
     }
   }, { immediate: true })
 
-  watchSuggestionsSearch(handlers.searchTerm, fetchSuggestions)
+  watchSuggestionsSearch(handlers.searchTerm, async () => {
+    if (handlers.suppressNextSearch.value) {
+      handlers.suppressNextSearch.value = false
+      return
+    }
+
+    await fetchSuggestions()
+  })
 
   return {
     ...handlers,
+    isLoading,
     suggestionOptions,
   }
 }
