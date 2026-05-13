@@ -18,10 +18,12 @@ export default defineEventHandler(async (event): Promise<PersonnelSuggestionsRes
   await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.userProfileManagement)
 
   const query = getQuery(event)
-  const { pageSize, selectedPersonnelId, term } = parsePersonnelSuggestionQuery({
+  const { pageSize, selectedPersonnelId, term, excludeCompanyId, excludeBattalionId } = parsePersonnelSuggestionQuery({
     term: query.term,
     pageSize: query.pageSize,
     selectedPersonnelId: query.selectedPersonnelId,
+    excludeCompanyId: query.excludeCompanyId,
+    excludeBattalionId: query.excludeBattalionId,
   })
 
   const supabase = getServiceSupabaseClient()
@@ -37,6 +39,8 @@ export default defineEventHandler(async (event): Promise<PersonnelSuggestionsRes
     filters.length > 0 ? filters.join(',') : undefined,
     selectedPersonnelId,
     term,
+    excludeCompanyId,
+    excludeBattalionId,
   )
 
   if (suggestionError) {
