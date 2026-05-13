@@ -6,6 +6,7 @@
     :placeholder="placeholder"
     :helper-text="helperText"
     :empty-message="emptyMessage"
+    :is-loading="isLoading"
     :error="error"
     :disabled="disabled"
     @update:model-value="onModelValueUpdate"
@@ -42,7 +43,7 @@ const emit = defineEmits<{
   (event: 'select', payload: TrainingSuggestionItem | null): void
 }>()
 
-const { suggestionOptions, onModelValueUpdate: mapNextValue, onQueryChange, emitSelectedItem } = useTrainingSuggestionsHandler(
+const { suggestionOptions, isLoading, onModelValueUpdate: mapNextValue, onQueryChange, emitSelectedItem } = useTrainingSuggestionsHandler(
   () => props.modelValue
 )
 
