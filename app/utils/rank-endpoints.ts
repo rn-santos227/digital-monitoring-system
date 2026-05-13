@@ -25,7 +25,7 @@ export const getRanksEndpoint = async (query: RankListQuery): Promise<RankListRe
       headers: createSessionHeaders(),
       query,
     })
-  }, API_LOADING_MESSAGES.fetchRanks)
+  }, API_LOADING_MESSAGES.fetchRanks, { useGlobalLoading: false })
 }
 
 export const createRankEndpoint = async (payload: CreateRankPayload): Promise<CreateRankResponse> => {

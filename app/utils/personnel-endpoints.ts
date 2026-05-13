@@ -50,7 +50,7 @@ export const getPersonnelSuggestionsEndpoint = async (
       headers: createSessionHeaders(),
       query,
     })
-  }, API_LOADING_MESSAGES.fetchPersonnel)
+  }, API_LOADING_MESSAGES.fetchPersonnel, { useGlobalLoading: false })
 }
 
 export const createPersonnelEndpoint = async (payload: CreatePersonnelPayload): Promise<CreatePersonnelResponse> => {

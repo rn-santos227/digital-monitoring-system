@@ -20,14 +20,17 @@ export const getDeploymentsEndpoint = async (query: DeploymentManagementSearchQu
   }, API_LOADING_MESSAGES.fetchDeployments)
 }
 
-export const searchDeploymentsEndpoint = async (query: DeploymentManagementSearchQuery): Promise<DeploymentManagementListResponse<DeploymentManagementListItem>> => {
+export const searchDeploymentsEndpoint = async (
+  query: DeploymentManagementSearchQuery,
+  options: { useGlobalLoading?: boolean } = {}
+): Promise<DeploymentManagementListResponse<DeploymentManagementListItem>> => {
   return await withApiLoading(async () => {
     return await $fetch<DeploymentManagementListResponse<DeploymentManagementListItem>>(DEPLOYMENT_MANAGEMENT_API_ENDPOINTS.deploymentsSearch, {
       method: 'GET',
       headers: createSessionHeaders(),
       query,
     })
-  }, API_LOADING_MESSAGES.fetchDeployments)
+  }, API_LOADING_MESSAGES.fetchDeployments, { useGlobalLoading: options.useGlobalLoading ?? true })
 }
 
 export const getDeploymentRecordsEndpoint = async (query: DeploymentManagementSearchQuery): Promise<DeploymentManagementListResponse<DeploymentManagementListItem>> => {

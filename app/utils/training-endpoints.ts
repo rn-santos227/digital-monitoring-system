@@ -228,5 +228,5 @@ export const getTrainingSuggestionsEndpoint = async (
       headers: createSessionHeaders(),
       query,
     })
-  }, API_LOADING_MESSAGES.fetchTrainingSuggestions)
+  }, API_LOADING_MESSAGES.fetchTrainingSuggestions, { useGlobalLoading: false })
 }

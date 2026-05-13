@@ -68,7 +68,7 @@ export const getBattalionSuggestionsEndpoint = async (query: { term?: string; pa
       headers: createSessionHeaders(),
       query,
     })
-  }, API_LOADING_MESSAGES.fetchBattalions)
+  }, API_LOADING_MESSAGES.fetchBattalions, { useGlobalLoading: false })
 }
 
 export const getCompanySuggestionsEndpoint = async (query: { term?: string; pageSize?: number; selectedId?: string; battalionId?: string }): Promise<{ items: CompanyListItem[] }> => {
@@ -78,7 +78,7 @@ export const getCompanySuggestionsEndpoint = async (query: { term?: string; page
       headers: createSessionHeaders(),
       query,
     })
-  }, API_LOADING_MESSAGES.fetchCompanies)
+  }, API_LOADING_MESSAGES.fetchCompanies, { useGlobalLoading: false })
 }
 
 export const createBattalionEndpoint = async (payload: CreateBattalionPayload): Promise<CreateBattalionResponse> => {
