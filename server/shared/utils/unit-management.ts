@@ -51,6 +51,7 @@ export const mapBattalionListItem = (row: BattalionRow): BattalionListItem => ({
   code: row.code,
   name: row.name,
   isActive: row.is_active,
+  companyCount: row.companies?.[0]?.count ?? 0,
   createdAt: row.created_at,
   updatedAt: row.updated_at,
 })

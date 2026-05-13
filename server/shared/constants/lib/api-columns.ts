@@ -78,7 +78,7 @@ export const RANK_LIST_SELECT_COLUMNS = 'id, code, name, sort_order, created_at,
 export const RANK_SUGGESTION_SELECT_COLUMNS = 'id, code, name, sort_order'
 export const RANK_REFERENCE_ID_SELECT_COLUMNS = ID_ONLY_SELECT_COLUMNS
 
-export const BATTALION_SELECT_COLUMNS = 'id, code, name, is_active, created_at, updated_at'
+export const BATTALION_SELECT_COLUMNS = 'id, code, name, is_active, created_at, updated_at, companies(count)'
 export const BATTALION_DETAIL_SELECT_COLUMNS = BATTALION_SELECT_COLUMNS
 export const BATTALION_SUGGESTION_SELECT_COLUMNS = 'id, code, name, is_active'
 export const BATTALION_REFERENCE_ID_SELECT_COLUMNS = ID_ONLY_SELECT_COLUMNS

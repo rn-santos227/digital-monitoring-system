@@ -11,6 +11,7 @@ export interface BattalionListItem {
   code: string
   name: string
   isActive: boolean
+  companyCount: number
   createdAt: string
   updatedAt: string
 }
@@ -43,6 +44,7 @@ export interface BattalionRow {
   code: string
   name: string
   is_active: boolean
+  companies?: Array<{ count: number | null }> | null
   created_at: string
   updated_at: string
 }

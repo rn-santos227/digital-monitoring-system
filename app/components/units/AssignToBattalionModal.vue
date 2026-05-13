@@ -2,7 +2,6 @@
   <BaseModal
     title="Assign Personnel to Battalion"
     description="Search and select personnel to assign to this battalion."
-    scroll-body
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
