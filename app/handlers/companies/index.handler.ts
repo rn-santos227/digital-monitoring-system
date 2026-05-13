@@ -6,6 +6,7 @@ export const COMPANY_ACTION_KEYS = Object.freeze({
   view: 'view-company',
   edit: 'edit-company',
   delete: 'delete-company',
+  assign: 'assign-company',
 })
 
 interface CompanyActionPayload {
@@ -20,6 +21,8 @@ interface UseCompanyActionHandlerOptions {
   canHandleViewCompanyAction: (actionKey: string) => boolean
   canHandleUpdateCompanyAction: (actionKey: string) => boolean
   canHandleDeleteCompanyAction: (actionKey: string) => boolean
+  canHandleAssignCompanyAction: (actionKey: string) => boolean
+  onAssignCompanyAction: (row: Record<string, unknown>) => Promise<boolean>
 }
 
 export const useCompanyActionHandler = ({
@@ -29,6 +32,8 @@ export const useCompanyActionHandler = ({
   canHandleViewCompanyAction,
   canHandleUpdateCompanyAction,
   canHandleDeleteCompanyAction,
+  canHandleAssignCompanyAction,
+  onAssignCompanyAction,
 }: UseCompanyActionHandlerOptions) => {
   const onCompanyAction = async (payload: CompanyActionPayload) => {
     if (canHandleViewCompanyAction(payload.actionKey)) {
@@ -43,6 +48,10 @@ export const useCompanyActionHandler = ({
 
     if (canHandleDeleteCompanyAction(payload.actionKey)) {
       await onDeleteCompanyAction(payload.row)
+    }
+
+    if (canHandleAssignCompanyAction(payload.actionKey)) {
+      await onAssignCompanyAction(payload.row)
     }
   }
 
