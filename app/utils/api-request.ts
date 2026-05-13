@@ -27,8 +27,14 @@ export const extractApiErrorMessage = (
 
 export const withApiLoading = async <T>(
   request: () => Promise<T>,
-  loadingMessage = 'Processing request...'
+  loadingMessage = 'Processing request...',
+  options: { useGlobalLoading?: boolean } = {}
 ): Promise<T> => {
+  const useGlobalLoading = options.useGlobalLoading ?? true
+  if (!useGlobalLoading) {
+    return await request()
+  }
+
   const loadingStore = useLoadingStore()
   loadingStore.start(loadingMessage)
 
