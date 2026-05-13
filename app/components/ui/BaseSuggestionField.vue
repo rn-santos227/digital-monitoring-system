@@ -19,19 +19,25 @@
       />
 
       <div v-if="isPanelVisible" :class="panelClasses">
-        <button
-          v-for="option in filteredOptions"
-          :key="option.value"
-          type="button"
-          :class="[SUGGESTION_FIELD_ITEM_CLASSES, isSelected(option.value) ? SUGGESTION_FIELD_ITEM_ACTIVE_CLASSES : '']"
-          @mousedown.prevent
-          @click="onSelect(option.value)"
-        >
-          <span class="block font-medium">{{ option.label }}</span>
-          <span v-if="option.description" class="block text-xs text-slate-500">{{ option.description }}</span>
-        </button>
+        <p v-if="isLoading" :class="SUGGESTION_FIELD_EMPTY_CLASSES">
+          Loading suggestions...
+        </p>
 
-        <p v-if="filteredOptions.length === 0" :class="SUGGESTION_FIELD_EMPTY_CLASSES">
+        <template v-else>
+          <button
+            v-for="option in filteredOptions"
+            :key="option.value"
+            type="button"
+            :class="[SUGGESTION_FIELD_ITEM_CLASSES, isSelected(option.value) ? SUGGESTION_FIELD_ITEM_ACTIVE_CLASSES : '']"
+            @mousedown.prevent
+            @click="onSelect(option.value)"
+          >
+            <span class="block font-medium">{{ option.label }}</span>
+            <span v-if="option.description" class="block text-xs text-slate-500">{{ option.description }}</span>
+          </button>
+        </template>
+
+        <p v-if="!isLoading && filteredOptions.length === 0" :class="SUGGESTION_FIELD_EMPTY_CLASSES">
           {{ emptyMessage }}
         </p>
       </div>
@@ -77,6 +83,7 @@ const props = withDefaults(
     emptyMessage?: string
     required?: boolean
     disabled?: boolean
+    isLoading?: boolean
     multiple?: boolean
     panelPosition?: 'top' | 'bottom'
     id?: string
@@ -90,6 +97,7 @@ const props = withDefaults(
     emptyMessage: 'No options found.',
     required: false,
     disabled: false,
+    isLoading: false,
     multiple: false,
     panelPosition: 'bottom',
     id: undefined,
