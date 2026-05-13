@@ -172,7 +172,6 @@ const personnelStoreOptions = {
     },
 
     async fetchPersonnelById(this: PersonnelState, id: string): Promise<PersonnelDetail> {
-      this.isLoading = true
       this.error = ''
 
       try {
@@ -180,13 +179,10 @@ const personnelStoreOptions = {
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to fetch personnel profile details.')
         throw error
-      } finally {
-        this.isLoading = false
       }
     },
 
     async updatePersonnel(this: PersonnelState, id: string, payload: UpdatePersonnelPayload) {
-      this.isLoading = true
       this.error = ''
 
       try {
@@ -215,8 +211,6 @@ const personnelStoreOptions = {
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to update personnel record.')
         throw error
-      } finally {
-        this.isLoading = false
       }
     },
 

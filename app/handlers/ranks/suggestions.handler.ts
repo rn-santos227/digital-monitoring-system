@@ -5,7 +5,7 @@ import type { RankSuggestionItem } from '~/types/domain/rank'
 import { getRankSuggestionsEndpoint } from '~/utils/rank-endpoints'
 
 export const useRankSuggestionsHandler = (modelValue: () => string | null) => {
-  const handlers = useSuggestionSelectionHandlers<RankSuggestionItem>((item) => `${item.code} ${item.name}`)
+  const handlers = useSuggestionSelectionHandlers<RankSuggestionItem>(() => '')
 
   const suggestionOptions = computed<SuggestionFieldOption[]>(() => {
     return handlers.suggestions.value.map((item) => ({

@@ -3,6 +3,7 @@
     :title="PERSONNEL_UPDATE_MODAL_TITLE"
     :description="PERSONNEL_UPDATE_MODAL_DESCRIPTION"
     size="lg"
+    scroll-body
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
@@ -269,8 +270,8 @@ const syncForm = (value: PersonnelDetail) => {
   form.rankId = value.rankId
   form.companyId = value.companyId ?? ''
   form.battalionId = value.battalionId ?? ''
-  form.employmentStatusId = value.employmentStatus ?? value.employmentStatusId ?? ''
-  form.serviceStatusId = value.serviceStatus ?? value.serviceStatusId ?? ''
+  form.employmentStatusId = value.employmentStatusId ?? value.employmentStatus ?? ''
+  form.serviceStatusId = value.serviceStatusId ?? value.serviceStatus ?? ''
   form.contactNumber = value.contactNumber ?? ''
   form.position = value.position ?? ''
   form.dateEnlisted = value.dateEnlisted ?? ''
