@@ -54,6 +54,12 @@ export const PERSONNEL_PROFILE_LIST_SELECT_COLUMNS =
 export const PERSONNEL_PROFILE_DETAIL_SELECT_COLUMNS =
   'id, personnel_code, service_number, email, full_name, last_name, first_name, middle_name, sex, birthdate, rank_id, rank_code, rank_name, company_id, company_code, company_name, battalion_id, battalion_code, battalion_name, employment_status_id, employment_status, service_status_id, service_status, contact_number, position, date_enlisted, created_at, updated_at'
 
+export const PERSONNEL_PATCH_EXISTING_SELECT_COLUMNS =
+  'id, personnel_code, service_number, last_name, first_name, middle_name, sex, birthdate, rank_id, company_id, battalion_id, employment_status_id, service_status_id, contact_number, position, date_enlisted'
+
+export const PERSONNEL_PATCH_UPDATED_SELECT_COLUMNS =
+  'id, personnel_code, service_number, email, last_name, first_name, middle_name, sex, birthdate, rank_id, company_id, battalion_id, employment_status_id, service_status_id, contact_number, position, date_enlisted, created_at, updated_at'
+
 export const PERSONNEL_REFERENCE_ID_SELECT_COLUMNS = ID_ONLY_SELECT_COLUMNS
 
 export const PERSONNEL_TRAINING_RECORD_LIST_SELECT_COLUMNS =
