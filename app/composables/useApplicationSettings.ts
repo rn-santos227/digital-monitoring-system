@@ -91,14 +91,3 @@ export const useApplicationSettings = () => {
     updateApplicationSettings,
   }
 }
-
-export const TIME_FORMAT_OPTIONS = Object.freeze([
-  { value: '12h', label: '12-hour' },
-  { value: '24h', label: '24-hour' },
-] as const)
-
-export const DENSITY_OPTIONS = Object.freeze([
-  { value: 'compact', label: 'Compact' },
-  { value: 'comfortable', label: 'Comfortable' },
-  { value: 'spacious', label: 'Spacious' },
-] as const)
