@@ -97,4 +97,12 @@ export type Timezone = (typeof TIMEZONE_VALUES)[number]
 export const PAGE_SIZE_VALUES = Object.freeze([10, 20, 25, 50, 100] as const)
 export type PageSize = (typeof PAGE_SIZE_VALUES)[number]
 
-
+export const DATE_FORMAT_VALUES = Object.freeze([
+  'yyyy-MM-dd',
+  'MM/dd/yyyy',
+  'dd/MM/yyyy',
+  'dd-MM-yyyy',
+  'MMMM d, yyyy',
+  'EEE, MMM d, yyyy',
+] as const)
+export type DateFormat = (typeof DATE_FORMAT_VALUES)[number]
