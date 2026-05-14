@@ -5,6 +5,7 @@ import {
   BATTALION_PRIVILEGES,
   COMPANY_PRIVILEGES,
   PERSONNEL_PRIVILEGES,
+  SETTINGS_PRIVILEGES,
   USER_PROFILE_PRIVILEGES,
 } from '~/constants/privileges.constants'
 
@@ -15,6 +16,7 @@ export const ROUTE_PERMISSION_MATRIX: Readonly<Record<string, readonly string[]>
   [ROUTE_PATHS.users]: Object.freeze([...USER_PROFILE_PRIVILEGES.view, ...ACCOUNT_TYPE_PRIVILEGES.view]),
   [ROUTE_PATHS.personnel]: PERSONNEL_PRIVILEGES.view,
   [ROUTE_PATHS.units]: Object.freeze([...BATTALION_PRIVILEGES.view, ...COMPANY_PRIVILEGES.view]),
+  [ROUTE_PATHS.settings]: SETTINGS_PRIVILEGES.update,
 })
 
 export const ROUTE_PERMISSION_ANY_MATRIX: Readonly<Record<string, true>> = Object.freeze({
