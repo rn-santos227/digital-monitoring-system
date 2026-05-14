@@ -6,6 +6,13 @@ import { getCachedApplicationSettings, refreshApplicationSettingsCache } from '.
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
-import type { ApplicationSettingsRow } from '../../shared/models'
-import { toApplicationSettingsAuditRecord } from '../../shared/utils'
+import { buildSettingsChangeSet, toApplicationSettingsAuditRecord } from '../../shared/utils'
 
+
+export default defineEventHandler(async (event) => {
+  const actor = await requirePermission(event, PERMISSION_CODES.userUpdate)
+  const body = await readBody<UpdateApplicationSettingsRequest>(event)
+  const updates = parseApplicationSettingsUpdates(body)
+  const existing = await getCachedApplicationSettings()
+
+})
