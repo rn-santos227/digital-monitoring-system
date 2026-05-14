@@ -15,3 +15,6 @@ interface ApplicationSettingsChangeItem {
   newValue: ApplicationSettingsRow[keyof ApplicationSettingsRow]
 }
 
+const buildSettingsChangeSet = (before: ApplicationSettingsRow, after: ApplicationSettingsRow): { changedValues: ApplicationSettingsChangeItem[] } => {
+
+}
