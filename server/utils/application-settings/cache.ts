@@ -30,3 +30,9 @@ export const getCachedApplicationSettings = async () => {
   return applicationSettingsCache
 }
 
+export const refreshApplicationSettingsCache = async () => {
+  const latest = await fetchApplicationSettings()
+  applicationSettingsCache = latest
+  applicationSettingsCacheUpdatedAt = latest.updated_at
+  return applicationSettingsCache
+}
