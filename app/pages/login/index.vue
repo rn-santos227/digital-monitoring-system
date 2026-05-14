@@ -5,7 +5,7 @@
         <div class="relative z-10 space-y-16">
           <header class="space-y-3">
             <p class="inline-flex items-center rounded-full bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-100">
-              {{ LOGIN_PAGE_BADGE }}
+              {{ landingBadge }}
             </p>
             <h1 class="max-w-xl text-4xl font-semibold leading-tight text-white sm:text-5xl">
               {{ landingAppName }}
@@ -136,6 +136,7 @@ const { item: settingsItem } = storeToRefs(applicationSettingsStore)
 
 const landingAppName = computed(() => settingsItem.value?.appName?.trim() || LOGIN_PAGE_TITLE)
 const landingAppDescription = computed(() => settingsItem.value?.appDescription?.trim() || LOGIN_PAGE_SUBTITLE)
+const landingBadge = computed(() => settingsItem.value?.appShortCode?.trim() || LOGIN_PAGE_BADGE)
 
 onMounted(async () => {
   if (applicationSettingsStore.hasLoaded) {
