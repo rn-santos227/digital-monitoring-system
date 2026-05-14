@@ -16,13 +16,25 @@ export default defineEventHandler(async (event) => {
   const existing = await getCachedApplicationSettings()
 
   try {
-
-  } catch (error: unknown) {
     const supabase = getServiceSupabaseClient()
     const { error } = await supabase
       .from('application_settings')
       .update(updates)
       .eq('singleton_key', 'default')
-
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error'
+    await recordManagementAuditLog(event, {
+      userId: actor.id,
+      action: AUDIT_LOG_ACTIONS.applicationSettingsUpdate,
+      tableName: 'application_settings',
+      endpoint: AUDIT_LOG_ENDPOINTS.applicationSettingsUpdate,
+      recordId: existing.id,
+      requestData: updates,
+      oldData: toApplicationSettingsAuditRecord(existing),
+      statusCode: 500,
+      outcome: AUDIT_LOG_OUTCOMES.failed,
+      message,
+    })
+    throw error
   }
 })

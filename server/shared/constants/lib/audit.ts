@@ -40,6 +40,7 @@ export const AUDIT_LOG_ACTIONS = {
   engagementRecordUpdate: 'ENGAGEMENT_RECORD_UPDATE',
   engagementRecordDelete: 'ENGAGEMENT_RECORD_DELETE',
   fileAttachmentCreate: 'FILE_ATTACHMENT_CREATE',
+  applicationSettingsUpdate: 'APPLICATION_SETTINGS_UPDATE',
   dataTablePrint: 'DATA_TABLE_PRINT',
 } as const
 
@@ -91,6 +92,7 @@ export const AUDIT_LOG_ENDPOINTS = {
   engagementRecordsCreate: '/api/engagement-records',
   engagementRecordsUpdate: '/api/engagement-records/:id',
   engagementRecordsDelete: '/api/engagement-records/:id',
+  applicationSettingsUpdate: '/api/application-settings',
   fileUpload: '/api/files/upload',
   auditPrint: '/api/audit/print',
 } as const
