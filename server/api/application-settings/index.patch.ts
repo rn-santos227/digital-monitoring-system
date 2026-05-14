@@ -21,6 +21,11 @@ export default defineEventHandler(async (event) => {
       .from('application_settings')
       .update(updates)
       .eq('singleton_key', 'default')
+
+    if (error) {
+      throw new Error(`Failed to update application settings: ${error.message}`)
+    }
+
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     await recordManagementAuditLog(event, {
