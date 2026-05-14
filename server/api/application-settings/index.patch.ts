@@ -6,8 +6,7 @@ import { getCachedApplicationSettings, refreshApplicationSettingsCache } from '.
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
-import { buildSettingsChangeSet, toApplicationSettingsAuditRecord } from '../../shared/utils'
-
+import { buildSettingsChangeSet, toApplicationSettingsAuditRecord, toApplicationSettingsItem } from '../../shared/utils'
 
 export default defineEventHandler(async (event) => {
   const actor = await requirePermission(event, PERMISSION_CODES.userUpdate)
@@ -45,7 +44,7 @@ export default defineEventHandler(async (event) => {
       message: 'Application settings updated successfully.',
     })
 
-    return { ok: true, item: latest }
+    return { ok: true, item: toApplicationSettingsItem(latest) }
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unknown error'
     await recordManagementAuditLog(event, {
