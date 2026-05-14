@@ -6,5 +6,12 @@ import { getCachedApplicationSettings, refreshApplicationSettingsCache } from '.
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import type { ApplicationSettingsRow } from '../../shared/models'
+import { toApplicationSettingsAuditRecord } from '../../shared/utils'
 
+interface ApplicationSettingsChangeItem {
+  field: keyof ApplicationSettingsRow
+  oldValue: ApplicationSettingsRow[keyof ApplicationSettingsRow]
+  newValue: ApplicationSettingsRow[keyof ApplicationSettingsRow]
+}
 
