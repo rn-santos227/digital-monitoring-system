@@ -9,6 +9,7 @@ import {
   DEPLOYMENT_PRIVILEGES,
   ENGAGEMENT_PRIVILEGES,
   USER_PROFILE_PRIVILEGES,
+  SETTINGS_PRIVILEGES,
 } from '~/constants/privileges.constants'
 import type { BaseMenuItem, NavigationItem, NavigationSection } from '~/types/domain/misc'
 
@@ -90,7 +91,8 @@ export const SIDEBAR_FOOTER_ITEMS: readonly NavigationItem[] = Object.freeze([
   {
     label: 'Settings',
     to: ROUTE_PATHS.settings,
-    icon: 'cog'
+    icon: 'cog',
+    requiredPermissions: SETTINGS_PRIVILEGES.update,
   }
 ])
 
