@@ -3,6 +3,7 @@ import { storeToRefs } from 'pinia'
 import { SETTINGS_PRIVILEGES } from '~/constants/privileges.constants'
 import { useApplicationSettingsStore } from '~/stores/application-settings'
 import { useAuthStore } from '~/stores/auth'
+import { APP_THEME_VALUES, DATE_FORMAT_VALUES, PAGE_SIZE_VALUES, TIMEZONE_VALUES } from '~/types/enums'
 import type { UpdateApplicationSettingsPayload } from '~/types/domain/application-settings'
 
 export const useApplicationSettings = () => {
@@ -22,6 +23,11 @@ export const useApplicationSettings = () => {
     { value: 'comfortable', label: 'Comfortable' },
     { value: 'spacious', label: 'Spacious' },
   ])
+
+  const themeOptions = Object.freeze(APP_THEME_VALUES.map((value) => ({ value, label: value[0]?.toUpperCase() + value.slice(1) })))
+  const timezoneOptions = Object.freeze(TIMEZONE_VALUES.map((value) => ({ value, label: value })))
+  const pageSizeOptions = Object.freeze(PAGE_SIZE_VALUES.map((value) => ({ value: String(value), label: String(value) })))
+  const dateFormatOptions = Object.freeze(DATE_FORMAT_VALUES.map((value) => ({ value, label: value })))
 
   const form = reactive({
     appName: '',
@@ -85,3 +91,14 @@ export const useApplicationSettings = () => {
     updateApplicationSettings,
   }
 }
+
+export const TIME_FORMAT_OPTIONS = Object.freeze([
+  { value: '12h', label: '12-hour' },
+  { value: '24h', label: '24-hour' },
+] as const)
+
+export const DENSITY_OPTIONS = Object.freeze([
+  { value: 'compact', label: 'Compact' },
+  { value: 'comfortable', label: 'Comfortable' },
+  { value: 'spacious', label: 'Spacious' },
+] as const)
