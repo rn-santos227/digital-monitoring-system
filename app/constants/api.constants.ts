@@ -103,6 +103,10 @@ export const FILE_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   upload: '/api/files/upload',
 })
 
+export const APPLICATION_SETTINGS_API_ENDPOINTS = Object.freeze({
+  settings: '/api/application-settings',
+})
+
 export const FILE_UPLOAD_CONSTRAINTS = Object.freeze({
   maxSizeBytes: 10 * 1024 * 1024,
   imageMimePrefixes: ['image/'],
@@ -110,7 +114,8 @@ export const FILE_UPLOAD_CONSTRAINTS = Object.freeze({
 
 export const AUTH_LOCAL_STORAGE_KEYS = Object.freeze({
   sessionToken: 'dms_session_token',
-  sessionTokenExpiresAt: 'dms_session_token_expires_at'
+  sessionTokenExpiresAt: 'dms_session_token_expires_at',
+  applicationSettings: 'dms_application_settings',
 })
 
 export const AUTH_HEADERS = Object.freeze({
@@ -189,4 +194,6 @@ export const API_LOADING_MESSAGES = Object.freeze({
   fetchEngagementPersonnel: 'Loading engagement personnel...',
   createEngagement: 'Creating engagement record...',
   uploadFile: 'Uploading file...',
+  fetchApplicationSettings: 'Loading application settings...',
+  updateApplicationSettings: 'Updating application settings...',
 })
