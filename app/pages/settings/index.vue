@@ -22,13 +22,14 @@
       <form class="grid gap-4 md:grid-cols-2" @submit.prevent="onSubmit">
         <BaseTextField v-model="form.appName" label="Application Name" :disabled="!canUpdate || isSubmitting" />
         <BaseTextField v-model="form.appShortCode" label="Short Code" :disabled="!canUpdate || isSubmitting" />
-        <BaseTextField v-model="form.defaultTimezone" label="Default Timezone" :disabled="!canUpdate || isSubmitting" />
+        <BaseTextArea v-model="form.appDescription" label="Application Description" :disabled="!canUpdate || isSubmitting" />
+        <BaseSelect v-model="form.defaultTimezone" label="Default Timezone" :options="timezoneOptions" :disabled="!canUpdate || isSubmitting" />
         <BaseTextField v-model="form.defaultLocale" label="Default Locale" :disabled="!canUpdate || isSubmitting" />
-        <BaseTextField v-model="form.defaultDateFormat" label="Date Format" :disabled="!canUpdate || isSubmitting" />
+        <BaseSelect v-model="form.defaultDateFormat" label="Date Format" :options="dateFormatOptions" :disabled="!canUpdate || isSubmitting" />
         <BaseSelect v-model="form.defaultTimeFormat" label="Time Format" :options="timeFormatOptions" :disabled="!canUpdate || isSubmitting" />
-        <BaseTextField v-model="form.appTheme" label="Theme" :disabled="!canUpdate || isSubmitting" />
+        <BaseSelect v-model="form.appTheme" label="Theme" :options="themeOptions" :disabled="!canUpdate || isSubmitting" />
         <BaseSelect v-model="form.densityMode" label="Density Mode" :options="densityOptions" :disabled="!canUpdate || isSubmitting" />
-        <BaseTextField v-model="form.pageSize" label="Page Size" type="number" :disabled="!canUpdate || isSubmitting" />
+        <BaseSelect v-model="form.pageSize" label="Page Size" :options="pageSizeOptions" :disabled="!canUpdate || isSubmitting" />
       </form>
       <template #actions>
         <BaseButton :disabled="!canUpdate || isSubmitting" @click="onSubmit">
@@ -44,17 +45,22 @@ import BaseAlert from '~/components/ui/BaseAlert.vue'
 import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseCard from '~/components/ui/BaseCard.vue'
 import BaseSelect from '~/components/ui/BaseSelect.vue'
+import BaseTextArea from '~/components/ui/BaseTextArea.vue'
 import BaseTextField from '~/components/ui/BaseTextField.vue'
 import { useApplicationSettings } from '~/composables/useApplicationSettings'
 import { useUpdateSettingsHandler } from '~/handlers/settings'
 
 const {
   canUpdate,
+  dateFormatOptions,
   densityOptions,
   form,
   isSubmitting,
   loadError,
+  pageSizeOptions,
+  themeOptions,
   timeFormatOptions,
+  timezoneOptions,
   toUpdatePayload,
   updateApplicationSettings,
 } = useApplicationSettings()
