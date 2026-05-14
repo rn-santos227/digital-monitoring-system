@@ -80,3 +80,17 @@ export const APP_THEME_VALUES = Object.freeze([
   'brown',
 ] as const)
 export type AppTheme = (typeof APP_THEME_VALUES)[number]
+
+export const TIMEZONE_VALUES = Object.freeze([
+  'UTC',
+  'Asia/Manila',
+  'Asia/Singapore',
+  'Asia/Tokyo',
+  'America/New_York',
+  'America/Chicago',
+  'America/Denver',
+  'America/Los_Angeles',
+  'Europe/London',
+] as const)
+export type Timezone = (typeof TIMEZONE_VALUES)[number]
+
