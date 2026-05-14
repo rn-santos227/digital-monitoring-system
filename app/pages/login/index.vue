@@ -8,10 +8,10 @@
               {{ LOGIN_PAGE_BADGE }}
             </p>
             <h1 class="max-w-xl text-4xl font-semibold leading-tight text-white sm:text-5xl">
-              {{ LOGIN_PAGE_TITLE }}
+              {{ landingAppName }}
             </h1>
             <p class="max-w-xl text-lg leading-relaxed text-emerald-100/95">
-              {{ LOGIN_PAGE_SUBTITLE }}
+              {{ landingAppDescription }}
             </p>
           </header>
 
@@ -86,6 +86,8 @@
 
 <script setup lang="ts">
 import { ShieldCheckIcon } from '@heroicons/vue/24/outline'
+import { storeToRefs } from 'pinia'
+import { computed, onMounted } from 'vue'
 import {
   LOGIN_PAGE_BADGE,
   LOGIN_PAGE_CARD_SUBTITLE,
@@ -115,6 +117,7 @@ import {
 } from '~/constants/shared.constants'
 import { useLoginForm } from '~/composables/useLogin'
 import { useLoginPageHandlers } from '~/handlers'
+import { useApplicationSettingsStore } from '~/stores/application-settings'
 
 const {
   formState,
@@ -126,4 +129,23 @@ const {
 } = useLoginForm()
 
 const { submitLoginForm } = useLoginPageHandlers(formState, loginError, validateForm)
+
+
+const applicationSettingsStore = useApplicationSettingsStore()
+const { item: settingsItem } = storeToRefs(applicationSettingsStore)
+
+const landingAppName = computed(() => settingsItem.value?.appName?.trim() || LOGIN_PAGE_TITLE)
+const landingAppDescription = computed(() => settingsItem.value?.appDescription?.trim() || LOGIN_PAGE_SUBTITLE)
+
+onMounted(async () => {
+  if (applicationSettingsStore.hasLoaded) {
+    return
+  }
+
+  try {
+    await applicationSettingsStore.initialize()
+  } catch {
+    // Keep default landing copy when settings are unavailable.
+  }
+})
 </script>
