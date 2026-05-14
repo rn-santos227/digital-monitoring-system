@@ -1,5 +1,11 @@
 import type { ApplicationSettingsRow } from '../../shared/models'
 
+export interface ApplicationSettingsChangeItem {
+  field: keyof ApplicationSettingsRow
+  oldValue: ApplicationSettingsRow[keyof ApplicationSettingsRow]
+  newValue: ApplicationSettingsRow[keyof ApplicationSettingsRow]
+}
+
 export const toApplicationSettingsAuditRecord = (settings: ApplicationSettingsRow): ApplicationSettingsRow => ({
   id: settings.id,
   singleton_key: settings.singleton_key,
@@ -27,3 +33,20 @@ export const toApplicationSettingsAuditRecord = (settings: ApplicationSettingsRo
   created_at: settings.created_at,
   updated_at: settings.updated_at,
 })
+
+export const buildSettingsChangeSet = (before: ApplicationSettingsRow, after: ApplicationSettingsRow): { changedValues: ApplicationSettingsChangeItem[] } => {
+  const beforeRecord = toApplicationSettingsAuditRecord(before)
+  const afterRecord = toApplicationSettingsAuditRecord(after)
+  const changedValues: ApplicationSettingsChangeItem[] = []
+
+  ;(Object.keys(afterRecord) as Array<keyof ApplicationSettingsRow>).forEach((field) => {
+    const oldValue = beforeRecord[field]
+    const newValue = afterRecord[field]
+
+    if (oldValue !== newValue) {
+      changedValues.push({ field, oldValue, newValue })
+    }
+  })
+
+  return { changedValues }
+}
