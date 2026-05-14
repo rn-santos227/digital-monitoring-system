@@ -10,6 +10,18 @@ export interface ApplicationSettingsItem {
   appTheme: string
   densityMode: 'compact' | 'comfortable' | 'spacious'
   pageSize: number
+  mapDefaultLatitude: string | number
+  mapDefaultLongitude: string | number
+  mapDefaultZoom: number
+  mapMinZoom: number
+  mapMaxZoom: number
+  personnelCodePrefix: string
+  equipmentAssetCodePrefix: string
+  enableAuditLogRetention: boolean
+  auditLogRetentionDays: number
+  enableIncidentNotifications: boolean
+  enableEquipmentMaintenanceReminders: boolean
+  createdAt: string
   updatedAt: string
 }
 
