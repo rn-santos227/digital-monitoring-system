@@ -15,4 +15,14 @@ export default defineEventHandler(async (event) => {
   const updates = parseApplicationSettingsUpdates(body)
   const existing = await getCachedApplicationSettings()
 
+  try {
+
+  } catch (error: unknown) {
+    const supabase = getServiceSupabaseClient()
+    const { error } = await supabase
+      .from('application_settings')
+      .update(updates)
+      .eq('singleton_key', 'default')
+
+  }
 })
