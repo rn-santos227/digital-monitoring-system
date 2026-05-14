@@ -94,3 +94,7 @@ export const TIMEZONE_VALUES = Object.freeze([
 ] as const)
 export type Timezone = (typeof TIMEZONE_VALUES)[number]
 
+export const PAGE_SIZE_VALUES = Object.freeze([10, 20, 25, 50, 100] as const)
+export type PageSize = (typeof PAGE_SIZE_VALUES)[number]
+
+
