@@ -1,3 +1,4 @@
+import { updateTrainingKpis } from '~/utils/training-state'
 import { defineStore } from 'pinia'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-size'
@@ -20,6 +21,8 @@ import {
   searchTrainingCategoriesEndpoint,
   searchTrainingsEndpoint,
   updateTrainingCategoryEndpoint,
+  updateTrainingEndpoint,
+  updateTrainingRecordEndpoint,
 } from '~/utils/training-endpoints'
 import type {
   CreateTrainingCategoryPayload,
@@ -95,22 +98,24 @@ const INITIAL_TRAININGS_STORE_STATE: TrainingsStoreState = {
   },
 }
 
-const updateTrainingKpis = (
-  kpis: TrainingManagementKpiCounts,
-  updates: Partial<TrainingManagementKpiCounts>,
-): TrainingManagementKpiCounts => ({
-  totalRecords: Math.max(0, updates.totalRecords ?? kpis.totalRecords),
-  totalTrainings: Math.max(0, updates.totalTrainings ?? kpis.totalTrainings),
-  totalCategories: Math.max(0, updates.totalCategories ?? kpis.totalCategories),
-  unusedCategories: Math.max(0, updates.unusedCategories ?? kpis.unusedCategories),
-})
-
 const trainingsStoreOptions = {
   state: (): TrainingsStoreState => ({
     ...INITIAL_TRAININGS_STORE_STATE,
-    trainings: { ...INITIAL_TRAININGS_STORE_STATE.trainings, pagination: { ...DEFAULT_PAGINATION } },
-    categories: { ...INITIAL_TRAININGS_STORE_STATE.categories, pagination: { ...DEFAULT_PAGINATION } },
-    records: { ...INITIAL_TRAININGS_STORE_STATE.records, pagination: { ...DEFAULT_PAGINATION } },
+    trainings: {
+      ...INITIAL_TRAININGS_STORE_STATE.trainings,
+      items: [],
+      pagination: { ...DEFAULT_PAGINATION },
+    },
+    categories: {
+      ...INITIAL_TRAININGS_STORE_STATE.categories,
+      items: [],
+      pagination: { ...DEFAULT_PAGINATION },
+    },
+    records: {
+      ...INITIAL_TRAININGS_STORE_STATE.records,
+      items: [],
+      pagination: { ...DEFAULT_PAGINATION },
+    },
     kpis: { ...DEFAULT_TRAINING_MANAGEMENT_KPIS },
     calendar: { ...INITIAL_TRAININGS_STORE_STATE.calendar, items: [], lastQuery: null },
   }),
@@ -392,6 +397,7 @@ const trainingsStoreOptions = {
       this.trainings.error = ''
 
       try {
+        await updateTrainingEndpoint(id, payload)
         this.trainings.items = this.trainings.items.map((item) => {
           if (item.id !== id) {
             return item
