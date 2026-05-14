@@ -1,5 +1,7 @@
 import type { Ref } from 'vue'
+import { ref } from 'vue'
 import type { UpdateApplicationSettingsPayload } from '~/types/domain/application-settings'
+import { validateApplicationSettingsUpdate } from '~/utils/application-settings-validation'
 
 interface UseUpdateSettingsHandlerOptions {
   canUpdate: Ref<boolean>
@@ -10,8 +12,18 @@ export const useUpdateSettingsHandler = ({
   canUpdate,
   updateApplicationSettings,
 }: UseUpdateSettingsHandlerOptions) => {
+  const validationError = ref('')
+
   const onUpdateSettings = async (payload: UpdateApplicationSettingsPayload) => {
+    validationError.value = ''
+
     if (!canUpdate.value) {
+      return
+    }
+
+    const updateValidationError = validateApplicationSettingsUpdate(payload)
+    if (updateValidationError) {
+      validationError.value = updateValidationError
       return
     }
 
@@ -20,5 +32,6 @@ export const useUpdateSettingsHandler = ({
 
   return {
     onUpdateSettings,
+    validationError,
   }
 }
