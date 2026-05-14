@@ -8,12 +8,20 @@ interface RecordManagementAuditLogInput {
   tableName: string
   endpoint: string
   recordId?: string | null
-  requestData?: Record<string, unknown> | null
-  oldData?: Record<string, unknown> | null
-  newData?: Record<string, unknown> | null
+  requestData?: object | null
+  oldData?: object | null
+  newData?: object | null
   statusCode: number
   outcome: (typeof AUDIT_LOG_OUTCOMES)[keyof typeof AUDIT_LOG_OUTCOMES]
   message?: string
+}
+
+const toAuditRecord = (value: object | null | undefined): Record<string, unknown> | null => {
+  if (!value) {
+    return null
+  }
+
+  return { ...value }
 }
 
 export const recordManagementAuditLog = async (event: H3Event, input: RecordManagementAuditLogInput): Promise<void> => {
@@ -23,9 +31,9 @@ export const recordManagementAuditLog = async (event: H3Event, input: RecordMana
       action: input.action,
       tableName: input.tableName,
       recordId: input.recordId ?? null,
-      requestData: input.requestData ?? null,
-      oldData: input.oldData ?? null,
-      newData: input.newData ?? null,
+      requestData: toAuditRecord(input.requestData),
+      oldData: toAuditRecord(input.oldData),
+      newData: toAuditRecord(input.newData),
       responseData: {
         outcome: input.outcome,
         message: input.message ?? null,

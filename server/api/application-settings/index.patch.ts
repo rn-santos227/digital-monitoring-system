@@ -9,12 +9,3 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import type { ApplicationSettingsRow } from '../../shared/models'
 import { toApplicationSettingsAuditRecord } from '../../shared/utils'
 
-interface ApplicationSettingsChangeItem {
-  field: keyof ApplicationSettingsRow
-  oldValue: ApplicationSettingsRow[keyof ApplicationSettingsRow]
-  newValue: ApplicationSettingsRow[keyof ApplicationSettingsRow]
-}
-
-const buildSettingsChangeSet = (before: ApplicationSettingsRow, after: ApplicationSettingsRow): { changedValues: ApplicationSettingsChangeItem[] } => {
-
-}
