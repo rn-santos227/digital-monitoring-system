@@ -81,10 +81,14 @@ export const useApplicationSettings = () => {
   return {
     canUpdate,
     densityOptions,
+    dateFormatOptions,
     form,
     isSubmitting,
     loadError,
+    pageSizeOptions,
+    themeOptions,
     timeFormatOptions,
+    timezoneOptions,
     toUpdatePayload,
     updateApplicationSettings,
   }
