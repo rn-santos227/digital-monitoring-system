@@ -20,3 +20,13 @@ const fetchApplicationSettings = async () => {
   return data
 }
 
+export const getCachedApplicationSettings = async () => {
+  if (!applicationSettingsCache || !applicationSettingsCacheUpdatedAt) {
+    const latest = await fetchApplicationSettings()
+    applicationSettingsCache = latest
+    applicationSettingsCacheUpdatedAt = latest.updated_at
+  }
+
+  return applicationSettingsCache
+}
+
