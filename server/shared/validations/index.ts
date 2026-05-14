@@ -1,4 +1,5 @@
 export * from './domain/audit'
+export * from './domain/application-settings'
 export * from './domain/deployment-management'
 export * from './domain/engagement-management'
 export * from './domain/file-management'
