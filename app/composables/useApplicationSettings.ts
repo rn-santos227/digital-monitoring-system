@@ -1,0 +1,87 @@
+import { computed, reactive, watch } from 'vue'
+import { storeToRefs } from 'pinia'
+import { SETTINGS_PRIVILEGES } from '~/constants/privileges.constants'
+import { useApplicationSettingsStore } from '~/stores/application-settings'
+import { useAuthStore } from '~/stores/auth'
+import type { UpdateApplicationSettingsPayload } from '~/types/domain/application-settings'
+
+export const useApplicationSettings = () => {
+  const authStore = useAuthStore()
+  const applicationSettingsStore = useApplicationSettingsStore()
+  const { isSubmitting, loadError } = storeToRefs(applicationSettingsStore)
+
+  const canUpdate = computed(() => authStore.hasPermissionAccess(SETTINGS_PRIVILEGES.update))
+
+  const timeFormatOptions = Object.freeze([
+    { value: '12h', label: '12-hour' },
+    { value: '24h', label: '24-hour' },
+  ])
+
+  const densityOptions = Object.freeze([
+    { value: 'compact', label: 'Compact' },
+    { value: 'comfortable', label: 'Comfortable' },
+    { value: 'spacious', label: 'Spacious' },
+  ])
+
+  const form = reactive({
+    appName: '',
+    appShortCode: '',
+    appDescription: '',
+    defaultTimezone: 'UTC',
+    defaultLocale: 'en-US',
+    defaultDateFormat: 'yyyy-MM-dd',
+    defaultTimeFormat: '24h',
+    appTheme: 'light',
+    densityMode: 'comfortable',
+    pageSize: '20',
+  })
+
+  watch(
+    () => applicationSettingsStore.item,
+    (item) => {
+      if (!item) {
+        return
+      }
+
+      form.appName = item.appName
+      form.appShortCode = item.appShortCode
+      form.appDescription = item.appDescription ?? ''
+      form.defaultTimezone = item.defaultTimezone
+      form.defaultLocale = item.defaultLocale
+      form.defaultDateFormat = item.defaultDateFormat
+      form.defaultTimeFormat = item.defaultTimeFormat
+      form.appTheme = item.appTheme
+      form.densityMode = item.densityMode
+      form.pageSize = String(item.pageSize)
+    },
+    { immediate: true },
+  )
+
+  const toUpdatePayload = (): UpdateApplicationSettingsPayload => ({
+    appName: form.appName.trim(),
+    appShortCode: form.appShortCode.trim(),
+    appDescription: form.appDescription.trim() || null,
+    defaultTimezone: form.defaultTimezone.trim(),
+    defaultLocale: form.defaultLocale.trim(),
+    defaultDateFormat: form.defaultDateFormat.trim(),
+    defaultTimeFormat: form.defaultTimeFormat as '12h' | '24h',
+    appTheme: form.appTheme.trim(),
+    densityMode: form.densityMode as 'compact' | 'comfortable' | 'spacious',
+    pageSize: Number(form.pageSize),
+  })
+
+  const updateApplicationSettings = async (payload: UpdateApplicationSettingsPayload) => {
+    await applicationSettingsStore.update(payload)
+  }
+
+  return {
+    canUpdate,
+    densityOptions,
+    form,
+    isSubmitting,
+    loadError,
+    timeFormatOptions,
+    toUpdatePayload,
+    updateApplicationSettings,
+  }
+}

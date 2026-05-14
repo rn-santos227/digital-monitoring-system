@@ -7,17 +7,23 @@ import {
   ROUTE_PERMISSION_PREFIX_MATRIX,
 } from '~/constants/auth.constants'
 import { ROUTE_PATHS } from '~/constants/routes.constants'
+import { fetchApplicationSettingsFromBackend } from '~/handlers/settings'
+import { useApplicationSettingsStore } from '~/stores/application-settings'
 import { useAuthStore } from '~/stores/auth'
 
 export default defineNuxtRouteMiddleware(async (to) => {
   const authStore = useAuthStore()
+  const applicationSettingsStore = useApplicationSettingsStore()
   if (!authStore.hasCheckedSession) {
     await authStore.fetchSession()
   }
-
   const isPublicRoute = PUBLIC_ROUTE_PATHS.includes(to.path as '/' | '/login')
 
   if (authStore.isAuthenticated) {
+    await fetchApplicationSettingsFromBackend({
+      initializeApplicationSettings: () => applicationSettingsStore.initialize(),
+    })
+
     if (isPublicRoute) {
       return navigateTo(DEFAULT_AUTHENTICATED_REDIRECT_PATH)
     }
