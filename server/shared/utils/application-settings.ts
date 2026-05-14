@@ -6,6 +6,33 @@ export interface ApplicationSettingsChangeItem {
   newValue: ApplicationSettingsRow[keyof ApplicationSettingsRow]
 }
 
+export const toApplicationSettingsItem = (settings: ApplicationSettingsRow) => ({
+  id: settings.id,
+  appName: settings.app_name,
+  appShortCode: settings.app_short_code,
+  appDescription: settings.app_description,
+  defaultTimezone: settings.default_timezone,
+  defaultLocale: settings.default_locale,
+  defaultDateFormat: settings.default_date_format,
+  defaultTimeFormat: settings.default_time_format,
+  appTheme: settings.app_theme,
+  densityMode: settings.density_mode,
+  pageSize: settings.page_size,
+  mapDefaultLatitude: settings.map_default_latitude,
+  mapDefaultLongitude: settings.map_default_longitude,
+  mapDefaultZoom: settings.map_default_zoom,
+  mapMinZoom: settings.map_min_zoom,
+  mapMaxZoom: settings.map_max_zoom,
+  personnelCodePrefix: settings.personnel_code_prefix,
+  equipmentAssetCodePrefix: settings.equipment_asset_code_prefix,
+  enableAuditLogRetention: settings.enable_audit_log_retention,
+  auditLogRetentionDays: settings.audit_log_retention_days,
+  enableIncidentNotifications: settings.enable_incident_notifications,
+  enableEquipmentMaintenanceReminders: settings.enable_equipment_maintenance_reminders,
+  createdAt: settings.created_at,
+  updatedAt: settings.updated_at,
+})
+
 export const toApplicationSettingsAuditRecord = (settings: ApplicationSettingsRow): ApplicationSettingsRow => ({
   id: settings.id,
   singleton_key: settings.singleton_key,
