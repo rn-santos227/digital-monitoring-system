@@ -70,3 +70,13 @@ export type AssetStatusName = 'In Stock' | 'Issued' | 'Lost' | 'Under Repair' | 
 export type IssuanceStatusName = 'Issued' | 'Returned' | 'Overdue'
 export type MaintenanceTypeName = 'Preventive' | 'Corrective' | 'Inspection' | 'Calibration'
 export type InvestigationStatusName = 'Reported' | 'Under Investigation' | 'Resolved' | 'Closed'
+
+export const APP_THEME_VALUES = Object.freeze([
+  'light',
+  'dark',
+  'amber',
+  'azure',
+  'emerald',
+  'brown',
+] as const)
+export type AppTheme = (typeof APP_THEME_VALUES)[number]

@@ -29,7 +29,6 @@
 
           <div v-if="canCreatePersonnel" :class="PERSONNEL_TABLE_ACTIONS_ROW_CLASSES">
             <PrintDataListButton
-              class="mx-2"
               table-name="personnel"
               :table-label="PERSONNEL_PRINT_BUTTON_TABLE_LABEL"
               :filters="filters"
