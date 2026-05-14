@@ -1,8 +1,19 @@
+import { doesRankMatchSearch, recalculateRankPaginationTotals } from '~/utils/rank-state'
 import { defineStore } from 'pinia'
-import type { CreateRankPayload, RankListItem, RankListQuery, RankState, RankTablePagination } from '~/types/domain/rank'
+import type {
+  CreateRankPayload,
+  RankListQuery,
+  RankState,
+  RankTablePagination,
+} from '~/types/domain/rank'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-size'
-import { createRankEndpoint, deleteRankEndpoint, getRanksEndpoint, searchRanksEndpoint } from '~/utils/rank-endpoints'
+import {
+  createRankEndpoint,
+  deleteRankEndpoint,
+  getRanksEndpoint,
+  searchRanksEndpoint,
+} from '~/utils/rank-endpoints'
 import { usePersonnelStore } from '~/stores/personnel'
 
 const DEFAULT_RANK_PAGINATION: RankTablePagination = {
@@ -20,39 +31,6 @@ const INITIAL_RANK_STATE: RankState = {
   searchTerm: '',
 }
 
-const doesRankMatchSearch = (rank: Pick<RankListItem, 'code' | 'name'>, searchTerm: string) => {
-  const normalizedSearchTerm = searchTerm.trim().toLowerCase()
-  if (!normalizedSearchTerm) {
-    return true
-  }
-
-  return rank.code.toLowerCase().includes(normalizedSearchTerm) || rank.name.toLowerCase().includes(normalizedSearchTerm)
-}
-
-const recalculateRankPaginationTotals = (pagination: RankTablePagination, totalItems: number): RankTablePagination => {
-  const normalizedTotalPages = totalItems > 0 ? Math.ceil(totalItems / pagination.pageSize) : 0
-
-  return {
-    ...pagination,
-    totalItems,
-    totalPages: normalizedTotalPages,
-    page: normalizedTotalPages === 0 ? 1 : Math.min(pagination.page, normalizedTotalPages),
-  }
-}
-
-const buildCreatedRankItem = (payload: CreateRankPayload, id: string): RankListItem => {
-  const nowIsoTimestamp = new Date().toISOString()
-
-  return {
-    id,
-    code: payload.code,
-    name: payload.name,
-    sortOrder: payload.sortOrder,
-    createdAt: nowIsoTimestamp,
-    updatedAt: nowIsoTimestamp,
-  }
-}
-
 interface RankStoreActionContext extends RankState {
   fetchRanks: (page?: number, filters?: Partial<RankListQuery>) => Promise<void>
 }
@@ -60,6 +38,7 @@ interface RankStoreActionContext extends RankState {
 const rankStoreOptions = {
   state: (): RankState => ({
     ...INITIAL_RANK_STATE,
+    items: [],
     pagination: { ...DEFAULT_RANK_PAGINATION },
   }),
 
@@ -108,7 +87,7 @@ const rankStoreOptions = {
 
       try {
         const result = await createRankEndpoint(payload)
-        const createdRank = buildCreatedRankItem(payload, result.id)
+        const createdRank = result.item
 
         if (doesRankMatchSearch(createdRank, this.searchTerm)) {
           this.items = [...this.items, createdRank]
