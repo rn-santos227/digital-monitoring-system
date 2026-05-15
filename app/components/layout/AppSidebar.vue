@@ -39,9 +39,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { storeToRefs } from 'pinia'
+import { computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { SIDEBAR_FOOTER_ITEMS, SIDEBAR_NAVIGATION_SECTIONS } from '~/constants/navigation.constants'
+import { useApplicationSettingsStore } from '~/stores/application-settings'
 import { useAuthStore } from '~/stores/auth'
 import type { NavigationItem } from '~/types/domain/misc'
 import {
@@ -54,6 +56,10 @@ import {
 
 const route = useRoute()
 const authStore = useAuthStore()
+const applicationSettingsStore = useApplicationSettingsStore()
+const { hasLoaded: hasApplicationSettingsLoaded } = storeToRefs(applicationSettingsStore)
+
+const isSidebarBrandingLoading = computed(() => !hasApplicationSettingsLoaded.value)
 
 const hasPermissionAccess = (item: NavigationItem) => {
   if (item.requiredPermissionMode === 'any') {
