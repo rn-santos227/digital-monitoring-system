@@ -39,14 +39,14 @@
                 <p><span class="font-semibold">Serial Number:</span> {{ personnel.serviceNumber }}</p>
                 <p><span class="font-semibold">Name:</span> {{ personnel.fullName }}</p>
                 <p><span class="font-semibold">Sex:</span> {{ personnel.sex }}</p>
-                <p><span class="font-semibold">Birthdate:</span> {{ personnel.birthdate ?? 'Not set' }}</p>
+                <p><span class="font-semibold">Birthdate:</span> {{ formatDate(personnel.birthdate, 'Not set') }}</p>
                 <p><span class="font-semibold">Age:</span> {{ personnel.age ?? 'Not available' }}</p>
                 <p><span class="font-semibold">Position:</span> {{ personnel.position ?? 'Not set' }}</p>
-                <p><span class="font-semibold">Date Enlisted:</span> {{ personnel.dateEnlisted ?? 'Not set' }}</p>
+                <p><span class="font-semibold">Date Enlisted:</span> {{ formatDate(personnel.dateEnlisted, 'Not set') }}</p>
                 <p><span class="font-semibold">Contact Number:</span> {{ personnel.contactNumber ?? 'Not set' }}</p>
                 <p><span class="font-semibold">Employment Status:</span> {{ personnel.employmentStatus }}</p>
-                <p><span class="font-semibold">Created At:</span> {{ personnel.createdAt }}</p>
-                <p><span class="font-semibold">Updated At:</span> {{ personnel.updatedAt }}</p>
+                <p><span class="font-semibold">Created At:</span> {{ formatDate(personnel.createdAt) }}</p>
+                <p><span class="font-semibold">Updated At:</span> {{ formatDate(personnel.updatedAt) }}</p>
               </div>
             </BaseCard>
           </div>
@@ -75,6 +75,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import { useDateDisplay } from '~/composables/useDateDisplay'
 import DeploymentTable from '~/components/personnel/PersonnelDeploymentsTable.vue'
 import EngagementTable from '~/components/personnel/PersonnelEngagementsTable.vue'
 import EquipmentAssignmentTable from '~/components/personnel/PersonnelEquipmentAssignmentsTable.vue'
@@ -106,6 +107,8 @@ import type {
   PersonnelProfileTabId,
   PersonnelTrainingRecordListItem
 } from '~/types/domain/personnel'
+
+const { formatDate } = useDateDisplay()
 
 const route = useRoute()
 const authStore = useAuthStore()
