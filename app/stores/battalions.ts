@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { extractApiErrorMessage } from '~/utils/api-request'
+import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-size'
 import {
   createBattalionEndpoint,
   deleteBattalionEndpoint,
@@ -22,7 +23,7 @@ import type {
 
 const DEFAULT_PAGINATION: UnitsTablePagination = {
   page: 1,
-  pageSize: 10,
+  pageSize: resolveDefaultFetchPageSize(),
   totalItems: 0,
   totalPages: 0,
 }
