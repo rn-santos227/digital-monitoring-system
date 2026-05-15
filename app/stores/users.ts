@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia'
+import { extractApiErrorMessage } from '~/utils/api-request'
+import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-size'
 import type {
   CreateAccountTypePayload,
   CreateUserProfilePayload,
@@ -19,7 +21,6 @@ import type {
   UserAccountsEndpointQuery,
   UserProfilesEndpointQuery,
 } from '~/types/domain/users'
-import { extractApiErrorMessage } from '~/utils/api-request'
 import {
   createAccountTypeEndpoint,
   createUserProfileEndpoint,
@@ -41,7 +42,7 @@ import {
 
 const DEFAULT_PAGINATION: UsersTablePagination = {
   page: 1,
-  pageSize: 10,
+  pageSize: resolveDefaultFetchPageSize(),
   totalItems: 0,
   totalPages: 0,
 }
