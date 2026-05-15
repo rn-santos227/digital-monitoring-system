@@ -80,7 +80,7 @@ const battalionsStoreOptions = {
         }
       } catch (error) {
         this.items = []
-        this.pagination = { ...DEFAULT_PAGINATION }
+        this.pagination = { ...DEFAULT_PAGINATION, pageSize: resolveDefaultFetchPageSize() }
         this.error = extractApiErrorMessage(error, 'Unable to fetch battalions.')
         throw error
       } finally {

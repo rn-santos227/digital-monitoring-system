@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { extractApiErrorMessage } from '~/utils/api-request'
+import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-size'
 import {
   createCompanyEndpoint,
   deleteCompanyEndpoint,
@@ -22,7 +23,7 @@ import type {
 
 const DEFAULT_PAGINATION: UnitsTablePagination = {
   page: 1,
-  pageSize: 10,
+  pageSize: resolveDefaultFetchPageSize(),
   totalItems: 0,
   totalPages: 0,
 }
@@ -86,7 +87,7 @@ const companiesStoreOptions = {
         }
       } catch (error) {
         this.items = []
-        this.pagination = { ...DEFAULT_PAGINATION }
+        this.pagination = { ...DEFAULT_PAGINATION, pageSize: resolveDefaultFetchPageSize() }
         this.error = extractApiErrorMessage(error, 'Unable to fetch companies.')
         throw error
       } finally {
