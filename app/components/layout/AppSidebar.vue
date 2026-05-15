@@ -94,4 +94,16 @@ const resolveItemClasses = (path: string) => {
     isActive ? APP_SIDEBAR_ITEM_ACTIVE_CLASSES : APP_SIDEBAR_ITEM_INACTIVE_CLASSES,
   ]
 }
+
+onMounted(async () => {
+  if (applicationSettingsStore.hasLoaded) {
+    return
+  }
+
+  try {
+    await applicationSettingsStore.initialize()
+  } catch {
+    // Keep fallback sidebar branding when settings are unavailable.
+  }
+})
 </script>
