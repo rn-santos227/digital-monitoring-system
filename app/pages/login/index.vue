@@ -7,7 +7,7 @@
             <BaseInlineLoader
               v-if="isBrandingLoading"
               label="Loading application branding..."
-              class="text-emerald-100"
+              class="text-white [&>span:first-child]:border-white [&>span:first-child]:border-t-transparent"
             />
             <template v-else>
               <p class="inline-flex items-center rounded-full bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-100">
