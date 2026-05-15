@@ -7,19 +7,35 @@
 
 <script setup lang="ts">
 import { ClockIcon } from '@heroicons/vue/24/outline'
+import { storeToRefs } from 'pinia'
+import { useDateDisplay } from '~/composables/useDateDisplay'
+import { useApplicationSettingsStore } from '~/stores/application-settings'
 
 const now = ref(new Date())
+const { formatDate } = useDateDisplay()
+const applicationSettingsStore = useApplicationSettingsStore()
+const { item } = storeToRefs(applicationSettingsStore)
+
+const formatTime = (date: Date): string => {
+  const hours = date.getHours()
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  const seconds = String(date.getSeconds()).padStart(2, '0')
+
+  if (item.value?.defaultTimeFormat === '12h') {
+    const meridiem = hours >= 12 ? 'PM' : 'AM'
+    const normalizedHour = hours % 12 || 12
+    return `${String(normalizedHour).padStart(2, '0')}:${minutes}:${seconds} ${meridiem}`
+  }
+
+  return `${String(hours).padStart(2, '0')}:${minutes}:${seconds}`
+}
 
 const formattedDateTime = computed(() => {
   const currentDate = now.value
-  const year = currentDate.getFullYear()
-  const month = String(currentDate.getMonth() + 1).padStart(2, '0')
-  const day = String(currentDate.getDate()).padStart(2, '0')
-  const hours = String(currentDate.getHours()).padStart(2, '0')
-  const minutes = String(currentDate.getMinutes()).padStart(2, '0')
-  const seconds = String(currentDate.getSeconds()).padStart(2, '0')
+  const formattedDate = formatDate(currentDate.toISOString(), '—')
+  const formattedTime = formatTime(currentDate)
 
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+  return `${formattedDate} ${formattedTime}`
 })
 
 let timer: ReturnType<typeof setInterval> | null = null
