@@ -10,12 +10,30 @@
         message="You do not have permission to update settings."
       />
       <BaseAlert
-        v-else-if="loadError"
+        v-if="infoMessage"
+        tone="info"
+        title="Info"
+        :message="infoMessage"
+      />
+      <BaseAlert
+        v-if="errorMessage"
+        tone="danger"
+        title="Error"
+        :message="errorMessage"
+      />
+      <BaseAlert
+        v-if="dangerMessage"
+        tone="danger"
+        title="Danger"
+        :message="dangerMessage"
+      />
+      <BaseAlert
+        v-if="loadError"
         tone="danger"
         :message="loadError"
       />
       <BaseAlert
-        v-else-if="validationError"
+        v-if="validationError"
         tone="danger"
         :message="validationError"
       />
@@ -68,7 +86,10 @@ const {
   toUpdatePayload,
   updateApplicationSettings,
 } = useApplicationSettings()
-const { onUpdateSettings, validationError } = useUpdateSettingsHandler({ canUpdate, updateApplicationSettings })
+const { dangerMessage, errorMessage, infoMessage, onUpdateSettings, validationError } = useUpdateSettingsHandler({
+  canUpdate,
+  updateApplicationSettings,
+})
 
 const onSubmit = async () => {
   await onUpdateSettings(toUpdatePayload())
