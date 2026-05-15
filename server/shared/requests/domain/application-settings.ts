@@ -9,4 +9,7 @@ export interface UpdateApplicationSettingsRequest {
   appTheme?: string
   densityMode?: 'compact' | 'comfortable' | 'spacious'
   pageSize?: number
+  mapDefaultLatitude?: number
+  mapDefaultLongitude?: number
+  mapDefaultZoom?: number
 }
