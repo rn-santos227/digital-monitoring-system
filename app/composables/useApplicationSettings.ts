@@ -12,6 +12,7 @@ import {
   TIME_FORMAT_OPTIONS,
 } from '~/types/enums'
 import type { UpdateApplicationSettingsPayload } from '~/types/domain/application-settings'
+import { normalizeDateFormat } from '~/utils/date-format'
 
 export const useApplicationSettings = () => {
   const authStore = useAuthStore()
@@ -52,7 +53,7 @@ export const useApplicationSettings = () => {
       form.appDescription = item.appDescription ?? ''
       form.defaultTimezone = item.defaultTimezone
       form.defaultLocale = item.defaultLocale
-      form.defaultDateFormat = item.defaultDateFormat
+      form.defaultDateFormat = normalizeDateFormat(item.defaultDateFormat)
       form.defaultTimeFormat = item.defaultTimeFormat
       form.appTheme = item.appTheme
       form.densityMode = item.densityMode
