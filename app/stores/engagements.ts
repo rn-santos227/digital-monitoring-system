@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia'
+import { extractApiErrorMessage } from '~/utils/api-request'
+import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-size'
 import type {
   CreateEngagementPayload,
   EngagementManagementListItem,
@@ -6,7 +8,6 @@ import type {
   EngagementPersonnelListItem,
   EngagementTablePagination,
 } from '~/types/domain/engagement'
-import { extractApiErrorMessage } from '~/utils/api-request'
 import {
   createEngagementEndpoint,
   deleteEngagementEndpoint,
@@ -21,7 +22,7 @@ import {
 
 const DEFAULT_PAGINATION: EngagementTablePagination = {
   page: 1,
-  pageSize: 10,
+  pageSize: resolveDefaultFetchPageSize(),
   totalItems: 0,
   totalPages: 0,
 }
