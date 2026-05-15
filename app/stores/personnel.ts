@@ -1,4 +1,7 @@
 import { defineStore } from 'pinia'
+import { extractApiErrorMessage } from '~/utils/api-request'
+import { mapParsedBatchRowToCreatePayload, parsePersonnelBatchExcelFile } from '~/utils/personnel-batch-upload'
+import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-size'
 import type {
   CreatePersonnelPayload,
   UpdatePersonnelPayload,
@@ -9,8 +12,6 @@ import type {
   PersonnelState,
   PersonnelTablePagination,
 } from '~/types/domain/personnel'
-import { extractApiErrorMessage } from '~/utils/api-request'
-import { mapParsedBatchRowToCreatePayload, parsePersonnelBatchExcelFile } from '~/utils/personnel-batch-upload'
 import {
   createPersonnelEndpoint,
   deletePersonnelEndpoint,
@@ -22,7 +23,7 @@ import {
 
 const DEFAULT_PAGINATION: PersonnelTablePagination = {
   page: 1,
-  pageSize: 10,
+  pageSize: resolveDefaultFetchPageSize(),
   totalItems: 0,
   totalPages: 0,
 }
@@ -101,7 +102,7 @@ const personnelStoreOptions = {
         }
       } catch (error) {
         this.items = []
-        this.pagination = { ...DEFAULT_PAGINATION }
+        this.pagination = { ...DEFAULT_PAGINATION, pageSize: resolveDefaultFetchPageSize() }
         this.error = extractApiErrorMessage(error, 'Unable to fetch personnel records.')
         throw error
       } finally {
