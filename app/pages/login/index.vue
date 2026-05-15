@@ -4,15 +4,22 @@
       <aside :class="LOGIN_PAGE_BRAND_PANEL_CLASSES">
         <div class="relative z-10 space-y-16">
           <header class="space-y-3">
-            <p class="inline-flex items-center rounded-full bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-100">
-              {{ landingBadge }}
-            </p>
-            <h1 class="max-w-xl text-4xl font-semibold leading-tight text-white sm:text-5xl">
-              {{ landingAppName }}
-            </h1>
-            <p class="max-w-xl text-lg leading-relaxed text-emerald-100/95">
-              {{ landingAppDescription }}
-            </p>
+            <BaseInlineLoader
+              v-if="isBrandingLoading"
+              label="Loading application branding..."
+              class="text-emerald-100"
+            />
+            <template v-else>
+              <p class="inline-flex items-center rounded-full bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-100">
+                {{ landingBadge }}
+              </p>
+              <h1 class="max-w-xl text-4xl font-semibold leading-tight text-white sm:text-5xl">
+                {{ landingAppName }}
+              </h1>
+              <p class="max-w-xl text-lg leading-relaxed text-emerald-100/95">
+                {{ landingAppDescription }}
+              </p>
+            </template>
           </header>
 
           <div class="rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-sm">
@@ -165,6 +172,8 @@ const landingBadge = computed(() => {
 
   return hasLoaded.value ? LOGIN_PAGE_BADGE : ''
 })
+
+const isBrandingLoading = computed(() => !hasLoaded.value)
 
 onMounted(async () => {
   if (applicationSettingsStore.hasLoaded) {
