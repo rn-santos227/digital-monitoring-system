@@ -10,6 +10,11 @@ export interface ApplicationSettingsItem {
   appTheme: string
   densityMode: 'compact' | 'comfortable' | 'spacious'
   pageSize: number
+  mapDefaultLatitude: string | number
+  mapDefaultLongitude: string | number
+  mapDefaultZoom: number
+  mapMinZoom: number
+  mapMaxZoom: number
 }
 
 export interface ApplicationSettingsResponse {
@@ -27,6 +32,9 @@ export interface UpdateApplicationSettingsPayload {
   appTheme: string
   densityMode: 'compact' | 'comfortable' | 'spacious'
   pageSize: number
+  mapDefaultLatitude: number
+  mapDefaultLongitude: number
+  mapDefaultZoom: number
 }
 
 export interface ApplicationSettingsState {
