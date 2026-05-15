@@ -1,6 +1,18 @@
 import { computed, reactive, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { SETTINGS_PRIVILEGES } from '~/constants/privileges.constants'
+import {
+  DEFAULT_MAP_LATITUDE,
+  DEFAULT_MAP_LONGITUDE,
+  DEFAULT_MAP_ZOOM,
+  DEFAULT_SETTINGS_DATE_FORMAT,
+  DEFAULT_SETTINGS_DENSITY_MODE,
+  DEFAULT_SETTINGS_LOCALE,
+  DEFAULT_SETTINGS_PAGE_SIZE,
+  DEFAULT_SETTINGS_THEME,
+  DEFAULT_SETTINGS_TIME_FORMAT,
+  DEFAULT_SETTINGS_TIMEZONE,
+} from '~/constants/settings.constants'
 import { useApplicationSettingsStore } from '~/stores/application-settings'
 import { useAuthStore } from '~/stores/auth'
 import {
@@ -32,16 +44,16 @@ export const useApplicationSettings = () => {
     appName: '',
     appShortCode: '',
     appDescription: '',
-    defaultTimezone: 'UTC',
-    defaultLocale: 'en-US',
-    defaultDateFormat: 'yyyy-MM-dd',
-    defaultTimeFormat: '24h',
-    appTheme: 'light',
-    densityMode: 'comfortable',
-    pageSize: '20',
-    mapDefaultLatitude: '12.879721',
-    mapDefaultLongitude: '121.774017',
-    mapDefaultZoom: '6',
+    defaultTimezone: DEFAULT_SETTINGS_TIMEZONE,
+    defaultLocale: DEFAULT_SETTINGS_LOCALE,
+    defaultDateFormat: DEFAULT_SETTINGS_DATE_FORMAT,
+    defaultTimeFormat: DEFAULT_SETTINGS_TIME_FORMAT,
+    appTheme: DEFAULT_SETTINGS_THEME,
+    densityMode: DEFAULT_SETTINGS_DENSITY_MODE,
+    pageSize: String(DEFAULT_SETTINGS_PAGE_SIZE),
+    mapDefaultLatitude: String(DEFAULT_MAP_LATITUDE),
+    mapDefaultLongitude: String(DEFAULT_MAP_LONGITUDE),
+    mapDefaultZoom: String(DEFAULT_MAP_ZOOM),
   })
 
   watch(
