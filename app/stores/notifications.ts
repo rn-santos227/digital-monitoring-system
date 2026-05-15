@@ -10,7 +10,10 @@ const INITIAL_NOTIFICATION_STATE: NotificationState = {
 }
 
 const notificationStoreOptions = {
-  state: (): NotificationState => ({ ...INITIAL_NOTIFICATION_STATE }),
+  state: (): NotificationState => ({
+    ...INITIAL_NOTIFICATION_STATE,
+    items: [],
+  }),
 
   getters: {
     hasUnreadNotifications: (state: NotificationState) => state.unreadCount > 0,
