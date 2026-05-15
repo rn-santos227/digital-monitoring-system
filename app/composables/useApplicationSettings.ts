@@ -39,6 +39,9 @@ export const useApplicationSettings = () => {
     appTheme: 'light',
     densityMode: 'comfortable',
     pageSize: '20',
+    mapDefaultLatitude: '12.879721',
+    mapDefaultLongitude: '121.774017',
+    mapDefaultZoom: '6',
   })
 
   watch(
@@ -58,6 +61,9 @@ export const useApplicationSettings = () => {
       form.appTheme = item.appTheme
       form.densityMode = item.densityMode
       form.pageSize = String(item.pageSize)
+      form.mapDefaultLatitude = String(item.mapDefaultLatitude)
+      form.mapDefaultLongitude = String(item.mapDefaultLongitude)
+      form.mapDefaultZoom = String(item.mapDefaultZoom)
     },
     { immediate: true },
   )
@@ -73,6 +79,9 @@ export const useApplicationSettings = () => {
     appTheme: form.appTheme.trim(),
     densityMode: form.densityMode as 'compact' | 'comfortable' | 'spacious',
     pageSize: Number(form.pageSize),
+    mapDefaultLatitude: Number(form.mapDefaultLatitude),
+    mapDefaultLongitude: Number(form.mapDefaultLongitude),
+    mapDefaultZoom: Number(form.mapDefaultZoom),
   })
 
   const updateApplicationSettings = async (payload: UpdateApplicationSettingsPayload) => {
