@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
 import type { CreateRankPayload, RankListItem, RankListQuery, RankState, RankTablePagination } from '~/types/domain/rank'
 import { extractApiErrorMessage } from '~/utils/api-request'
+import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-size'
 import { createRankEndpoint, deleteRankEndpoint, getRanksEndpoint } from '~/utils/rank-endpoints'
 
 const DEFAULT_RANK_PAGINATION: RankTablePagination = {
   page: 1,
-  pageSize: 10,
+  pageSize: resolveDefaultFetchPageSize(),
   totalItems: 0,
   totalPages: 0,
 }
