@@ -65,7 +65,7 @@
                 :name="`cell-${column.key}`"
                 :row="row"
               >
-                {{ getRowValue(row, column.key) }}
+                {{ resolveCellDisplayValue(row, column) }}
               </slot>
             </td>
 
@@ -114,6 +114,7 @@
 
 <script setup lang="ts" generic="TRow extends object">
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { useDateDisplay } from '~/composables/useDateDisplay'
 import {
   BASE_TABLE_ACTIONS_CELL_CLASSES,
   BASE_TABLE_ACTIONS_COLUMN_WIDTH_CLASSES,
@@ -182,8 +183,35 @@ const emit = defineEmits<{
   (event: 'update:pageSize', value: number): void
 }>()
 
+const { formatDate } = useDateDisplay()
+
 const getRowValue = (row: TRow, key: string): string | number | boolean | null | undefined =>
   (row as Record<string, string | number | boolean | null | undefined>)[key]
+
+const DATE_COLUMN_KEY_PATTERN = /(date|Date|At)$/
+
+const isLikelyIsoDateValue = (value: string): boolean => {
+  if (!value.trim()) {
+    return false
+  }
+
+  const parsed = new Date(value)
+  return !Number.isNaN(parsed.getTime())
+}
+
+const resolveCellDisplayValue = (row: TRow, column: DataTableColumn): string | number | boolean | null | undefined => {
+  const rawValue = getRowValue(row, column.key)
+  if (typeof rawValue !== 'string') {
+    return rawValue
+  }
+
+  const isDateColumn = column.dataType === 'date' || (column.dataType !== 'text' && DATE_COLUMN_KEY_PATTERN.test(column.key))
+  if (!isDateColumn || !isLikelyIsoDateValue(rawValue)) {
+    return rawValue
+  }
+
+  return formatDate(rawValue)
+}
 
 const hasActions = computed(() => props.actions.length > 0)
 
