@@ -43,6 +43,7 @@ import {
   BASE_GEO_MAP_TITLE_CLASSES,
   type BaseGeoMapPin,
 } from '~/constants/ui.constants'
+import { useGeoMap } from '~/composables/useGeoMap'
 import {
   loadLeafletApi,
   normalizeCoordinateValue,
@@ -103,6 +104,7 @@ const mapLoadError = ref('')
 const map = ref<LeafletMap | null>(null)
 const marker = ref<LeafletMarker | null>(null)
 const leafletApi = ref<LeafletApi | null>(null)
+const { center: geoMapCenter, defaultZoom: geoMapDefaultZoom, maxZoom: geoMapMaxZoom } = useGeoMap()
 
 const activeCenter = computed(() => {
   const latitude = normalizeCoordinateValue(props.latitude)
@@ -121,9 +123,17 @@ const activeCenter = computed(() => {
   }
 
   return {
-    latitude: 14.5886,
-    longitude: 120.9742,
+    latitude: geoMapCenter.value.latitude,
+    longitude: geoMapCenter.value.longitude,
   }
+})
+
+const defaultZoom = computed(() => {
+  return geoMapDefaultZoom.value
+})
+
+const maxZoom = computed(() => {
+  return geoMapMaxZoom.value
 })
 
 const subtitleText = computed(
@@ -145,11 +155,11 @@ const initializeMap = async () => {
     }
 
     map.value = leafletApi.value.map(mapElement.value)
-    map.value.setView([activeCenter.value.latitude, activeCenter.value.longitude], 14)
+    map.value.setView([activeCenter.value.latitude, activeCenter.value.longitude], defaultZoom.value)
 
     leafletApi.value
       .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
+        maxZoom: maxZoom.value,
         attribution: '&copy; OpenStreetMap contributors',
       })
       .addTo(map.value)
