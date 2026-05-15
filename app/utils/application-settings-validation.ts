@@ -38,5 +38,17 @@ export const validateApplicationSettingsUpdate = (payload: UpdateApplicationSett
     return `Page size must be between ${PAGE_SIZE_MIN} and ${PAGE_SIZE_MAX}.`
   }
 
+  if (!Number.isFinite(payload.mapDefaultLatitude) || payload.mapDefaultLatitude < -90 || payload.mapDefaultLatitude > 90) {
+    return 'Default map latitude must be between -90 and 90.'
+  }
+
+  if (!Number.isFinite(payload.mapDefaultLongitude) || payload.mapDefaultLongitude < -180 || payload.mapDefaultLongitude > 180) {
+    return 'Default map longitude must be between -180 and 180.'
+  }
+
+  if (!Number.isInteger(payload.mapDefaultZoom) || payload.mapDefaultZoom < 1 || payload.mapDefaultZoom > 22) {
+    return 'Default map zoom must be between 1 and 22.'
+  }
+
   return null
 }
