@@ -27,11 +27,11 @@
           </div>
           <div>
             <dt class="text-slate-500">Start Date</dt>
-            <dd class="font-medium text-slate-900">{{ training.startDate || '—' }}</dd>
+            <dd class="font-medium text-slate-900">{{ formatDate(training.startDate) }}</dd>
           </div>
           <div>
             <dt class="text-slate-500">End Date</dt>
-            <dd class="font-medium text-slate-900">{{ training.endDate || '—' }}</dd>
+            <dd class="font-medium text-slate-900">{{ formatDate(training.endDate) }}</dd>
           </div>
           <div class="md:col-span-2">
             <dt class="text-slate-500">Default Remarks</dt>
@@ -52,6 +52,7 @@
 </template>
 
 <script setup lang="ts">
+import { useDateDisplay } from '~/composables/useDateDisplay'
 import type { TrainingListItem } from '~/types/domain/training'
 import {
   TRAININGS_VIEW_MODAL_CLOSE_LABEL,
@@ -59,6 +60,8 @@ import {
   TRAININGS_VIEW_MODAL_TITLE,
 } from '~/constants/page.constants'
 import TrainingPersonnelTable from '~/components/trainings/view/TrainingPersonnelTable.vue'
+
+const { formatDate } = useDateDisplay()
 
 defineProps<{
   training: TrainingListItem

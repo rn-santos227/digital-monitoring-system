@@ -42,11 +42,11 @@
           </div>
           <div>
             <dt class="text-slate-500">Start Date</dt>
-            <dd class="font-medium text-slate-900">{{ deployment.startDate || '-' }}</dd>
+            <dd class="font-medium text-slate-900">{{ formatDate(deployment.startDate) || '-' }}</dd>
           </div>
           <div>
             <dt class="text-slate-500">End Date</dt>
-            <dd class="font-medium text-slate-900">{{ deployment.endDate || '-' }}</dd>
+            <dd class="font-medium text-slate-900">{{ formatDate(deployment.endDate) || '-' }}</dd>
           </div>
           <div class="md:col-span-2">
             <dt class="text-slate-500">Default Remarks</dt>
@@ -79,6 +79,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { useDateDisplay } from '~/composables/useDateDisplay'
 import type { DeploymentManagementListItem } from '~/types/domain/deployment'
 import {
   DEPLOYMENTS_VIEW_DETAILS_CARD_TITLE,
@@ -91,6 +92,8 @@ import {
   DEPLOYMENTS_VIEW_TAB_ITEMS,
 } from '~/constants/page.constants'
 import DeploymentPersonnelTable from '~/components/deployments/view/DeploymentPersonnelTable.vue'
+
+const { formatDate } = useDateDisplay()
 
 const props = defineProps<{
   deployment: DeploymentManagementListItem

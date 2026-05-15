@@ -46,11 +46,11 @@
           </div>
           <div>
             <dt class="text-slate-500">Start Date</dt>
-            <dd class="font-medium">{{ deploymentRecord.startDate || '—' }}</dd>
+            <dd class="font-medium">{{ formatDate(deploymentRecord.startDate) }}</dd>
           </div>
           <div>
             <dt class="text-slate-500">End Date</dt>
-            <dd class="font-medium">{{ deploymentRecord.endDate || '—' }}</dd>
+            <dd class="font-medium">{{ formatDate(deploymentRecord.startDate) }}</dd>
           </div>
           <div class="md:col-span-2">
             <dt class="text-slate-500">Remarks</dt>
@@ -78,9 +78,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useDateDisplay } from '~/composables/useDateDisplay'
 import BaseGeoMap from '~/components/ui/BaseGeoMap.vue'
 import type { BaseTabItem } from '~/constants/ui.constants'
 import type { DeploymentManagementListItem } from '~/types/domain/deployment'
+
+const { formatDate } = useDateDisplay()
 
 const VIEW_RECORD_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
   { id: 'details', label: 'Details' },

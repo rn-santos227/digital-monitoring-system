@@ -27,11 +27,11 @@
           </div>
           <div>
             <dt class="text-slate-500">Start Date</dt>
-            <dd class="font-medium">{{ engagement.startDate || '—' }}</dd>
+            <dd class="font-medium">{{ formatDate(engagement.startDate) }}</dd>
           </div>
           <div>
             <dt class="text-slate-500">End Date</dt>
-            <dd class="font-medium">{{ engagement.endDate || '—' }}</dd>
+            <dd class="font-medium">{{ formatDate(engagement.endDate) }}</dd>
           </div>
           <div class="md:col-span-2">
             <dt class="text-slate-500">Default Remarks</dt>
@@ -52,8 +52,11 @@
 </template>
 
 <script setup lang="ts">
+import { useDateDisplay } from '~/composables/useDateDisplay'
 import EngagementPersonnelTable from '~/components/engagements/views/EngagementPersonnelTable.vue'
 import type { EngagementManagementListItem } from '~/types/domain/engagement'
+
+const { formatDate } = useDateDisplay()
 
 defineProps<{
   engagement: EngagementManagementListItem
