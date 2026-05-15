@@ -28,7 +28,7 @@ export const useUsers = () => {
       email: item.email,
       accountTypes: item.accountTypeCodes.join(', ') || 'No account type',
       status: item.isActive ? 'Active' : 'Inactive',
-      lastLoginAt: item.lastLoginAt ? new Date(item.lastLoginAt).toLocaleString() : 'Never',
+      lastLoginAt: item.lastLoginAt ? item.lastLoginAt : 'Never',
     }))
   })
 

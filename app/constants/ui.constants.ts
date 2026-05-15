@@ -43,6 +43,7 @@ export interface DataTableColumn {
   label: string
   sortable?: boolean
   align?: 'left' | 'center' | 'right'
+  dataType?: 'text' | 'date'
 }
 
 export interface DataTableAction {

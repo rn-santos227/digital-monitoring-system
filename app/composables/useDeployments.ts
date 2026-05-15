@@ -27,7 +27,7 @@ export const useDeployments = () => {
     deploymentAreaLatitude: item.deploymentAreaLatitude ?? '',
     deploymentAreaLongitude: item.deploymentAreaLongitude ?? '',
     startDate: item.startDate ?? '',
-    endDate: normalizeDisplayValue(item.endDate),
+    endDate: item.endDate ?? '—',
     statusName: resolveDeploymentStatus(item as DeploymentManagementListItem & { statusName?: string | null }),
     statusId: item.statusId ?? '',
     location: item.location ?? '',
