@@ -132,11 +132,39 @@ const { submitLoginForm } = useLoginPageHandlers(formState, loginError, validate
 
 
 const applicationSettingsStore = useApplicationSettingsStore()
-const { item: settingsItem } = storeToRefs(applicationSettingsStore)
+const { hasLoaded, item: settingsItem } = storeToRefs(applicationSettingsStore)
 
-const landingAppName = computed(() => settingsItem.value?.appName?.trim() || LOGIN_PAGE_TITLE)
-const landingAppDescription = computed(() => settingsItem.value?.appDescription?.trim() || LOGIN_PAGE_SUBTITLE)
-const landingBadge = computed(() => settingsItem.value?.appShortCode?.trim() || LOGIN_PAGE_BADGE)
+const normalizeSettingLabel = (value: string | null | undefined) => value?.trim() ?? ''
+
+const landingAppName = computed(() => {
+  const appName = normalizeSettingLabel(settingsItem.value?.appName)
+
+  if (appName) {
+    return appName
+  }
+
+  return hasLoaded.value ? LOGIN_PAGE_TITLE : ''
+})
+
+const landingAppDescription = computed(() => {
+  const appDescription = normalizeSettingLabel(settingsItem.value?.appDescription)
+
+  if (appDescription) {
+    return appDescription
+  }
+
+  return hasLoaded.value ? LOGIN_PAGE_SUBTITLE : ''
+})
+
+const landingBadge = computed(() => {
+  const appShortCode = normalizeSettingLabel(settingsItem.value?.appShortCode)
+
+  if (appShortCode) {
+    return appShortCode
+  }
+
+  return hasLoaded.value ? LOGIN_PAGE_BADGE : ''
+})
 
 onMounted(async () => {
   if (applicationSettingsStore.hasLoaded) {
