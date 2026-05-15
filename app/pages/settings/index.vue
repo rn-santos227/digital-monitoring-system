@@ -19,17 +19,21 @@
         tone="danger"
         :message="validationError"
       />
-      <form class="grid gap-4 md:grid-cols-2" @submit.prevent="onSubmit">
-        <BaseTextField v-model="form.appName" label="Application Name" :disabled="!canUpdate || isSubmitting" />
-        <BaseTextField v-model="form.appShortCode" label="Short Code" :disabled="!canUpdate || isSubmitting" />
+      <form class="space-y-4" @submit.prevent="onSubmit">
+        <div class="grid gap-4 md:grid-cols-3">
+          <BaseTextField v-model="form.appName" label="Application Name" :disabled="!canUpdate || isSubmitting" />
+          <BaseTextField v-model="form.appShortCode" label="Short Code" :disabled="!canUpdate || isSubmitting" />
+          <BaseSelect v-model="form.defaultTimezone" label="Default Timezone" :options="timezoneOptions" :disabled="!canUpdate || isSubmitting" />
+        </div>
         <BaseTextArea v-model="form.appDescription" label="Application Description" :disabled="!canUpdate || isSubmitting" />
-        <BaseSelect v-model="form.defaultTimezone" label="Default Timezone" :options="timezoneOptions" :disabled="!canUpdate || isSubmitting" />
-        <BaseTextField v-model="form.defaultLocale" label="Default Locale" :disabled="!canUpdate || isSubmitting" />
-        <BaseSelect v-model="form.defaultDateFormat" label="Date Format" :options="dateFormatOptions" :disabled="!canUpdate || isSubmitting" />
-        <BaseSelect v-model="form.defaultTimeFormat" label="Time Format" :options="timeFormatOptions" :disabled="!canUpdate || isSubmitting" />
-        <BaseSelect v-model="form.appTheme" label="Theme" :options="themeOptions" :disabled="!canUpdate || isSubmitting" />
-        <BaseSelect v-model="form.densityMode" label="Density Mode" :options="densityOptions" :disabled="!canUpdate || isSubmitting" />
-        <BaseSelect v-model="form.pageSize" label="Page Size" :options="pageSizeOptions" :disabled="!canUpdate || isSubmitting" />
+        <div class="grid gap-4 md:grid-cols-2">
+          <BaseTextField v-model="form.defaultLocale" label="Default Locale" :disabled="!canUpdate || isSubmitting" />
+          <BaseSelect v-model="form.defaultDateFormat" label="Date Format" :options="dateFormatOptions" :disabled="!canUpdate || isSubmitting" />
+          <BaseSelect v-model="form.defaultTimeFormat" label="Time Format" :options="timeFormatOptions" :disabled="!canUpdate || isSubmitting" />
+          <BaseSelect v-model="form.appTheme" label="Theme" :options="themeOptions" :disabled="!canUpdate || isSubmitting" />
+          <BaseSelect v-model="form.densityMode" label="Density Mode" :options="densityOptions" :disabled="!canUpdate || isSubmitting" />
+          <BaseSelect v-model="form.pageSize" label="Page Size" :options="pageSizeOptions" :disabled="!canUpdate || isSubmitting" />
+        </div>
       </form>
       <template #actions>
         <BaseButton :disabled="!canUpdate || isSubmitting" @click="onSubmit">
