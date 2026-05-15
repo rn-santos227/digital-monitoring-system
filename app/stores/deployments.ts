@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
+import { extractApiErrorMessage } from '~/utils/api-request'
+import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-size'
 import type {
   CreateDeploymentPayload,
   DeploymentManagementListItem,
   DeploymentManagementSearchQuery,
   DeploymentTablePagination,
 } from '~/types/domain/deployment'
-import { extractApiErrorMessage } from '~/utils/api-request'
 import { 
   createDeploymentEndpoint,
   getDeploymentRecordsEndpoint,
@@ -22,7 +23,7 @@ import {
 
 const DEFAULT_PAGINATION: DeploymentTablePagination = {
   page: 1,
-  pageSize: 10,
+  pageSize: resolveDefaultFetchPageSize(),
   totalItems: 0,
   totalPages: 0,
 }
