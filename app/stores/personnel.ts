@@ -1,3 +1,4 @@
+import { applyPersonnelKpiDelta, applyPersonnelDeploymentTransition } from '~/utils/personnel-state'
 import { defineStore } from 'pinia'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { mapParsedBatchRowToCreatePayload, parsePersonnelBatchExcelFile } from '~/utils/personnel-batch-upload'
@@ -46,46 +47,10 @@ const INITIAL_PERSONNEL_STATE: PersonnelState = {
   error: '',
 }
 
-const isDeployedPersonnel = (item: Pick<PersonnelListCompactItem, 'serviceStatus'> | null | undefined) => {
-  return item?.serviceStatus.trim().toLowerCase().includes('deployed') ?? false
-}
-
-const applyPersonnelKpiDelta = (
-  kpis: PersonnelKpiCounts,
-  item: PersonnelListCompactItem,
-  delta: 1 | -1,
-): PersonnelKpiCounts => {
-  const totalPersonnel = Math.max(0, kpis.totalPersonnel + delta)
-  const deployedPersonnel = Math.max(0, kpis.deployedPersonnel + (isDeployedPersonnel(item) ? delta : 0))
-
-  return {
-    ...kpis,
-    totalPersonnel,
-    deployedPersonnel,
-  }
-}
-
-const applyPersonnelDeploymentTransition = (
-  kpis: PersonnelKpiCounts,
-  previousItem: PersonnelListCompactItem,
-  nextItem: Pick<PersonnelListCompactItem, 'serviceStatus'>,
-): PersonnelKpiCounts => {
-  const wasDeployed = isDeployedPersonnel(previousItem)
-  const isDeployed = isDeployedPersonnel(nextItem)
-
-  if (wasDeployed === isDeployed) {
-    return kpis
-  }
-
-  return {
-    ...kpis,
-    deployedPersonnel: Math.max(0, kpis.deployedPersonnel + (isDeployed ? 1 : -1)),
-  }
-}
-
 const personnelStoreOptions = {
   state: (): PersonnelState => ({
     ...INITIAL_PERSONNEL_STATE,
+    items: [],
     kpis: { ...DEFAULT_PERSONNEL_KPIS },
     pagination: { ...DEFAULT_PAGINATION },
   }),
