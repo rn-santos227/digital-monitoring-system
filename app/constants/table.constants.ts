@@ -6,7 +6,7 @@ export const AUDIT_TABLE_SEARCH_PLACEHOLDER = 'Search audit logs'
 export const AUDIT_TABLE_EMPTY_MESSAGE = 'No audit log entries found.'
 
 export const AUDIT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
-  { key: 'createdAt', label: 'Timestamp', sortable: true },
+  { key: 'createdAt', dataType: 'date', label: 'Timestamp', sortable: true },
   { key: 'actor', label: 'Actor', sortable: true },
   { key: 'action', label: 'Action', sortable: true },
   { key: 'tableName', label: 'Entity', sortable: true },
@@ -79,7 +79,7 @@ export const PERSONNEL_TRAINING_TABLE_EMPTY_MESSAGE = 'No training records avail
 export const PERSONNEL_TRAINING_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'courseName', label: 'Course', sortable: true },
   { key: 'provider', label: 'Provider', sortable: true },
-  { key: 'completedAt', label: 'Completed Date', sortable: true },
+  { key: 'completedAt', dataType: 'date', label: 'Completed Date', sortable: true },
   { key: 'remarks', label: 'Remarks', sortable: false },
 ])
 
@@ -88,8 +88,8 @@ export const PERSONNEL_DEPLOYMENT_TABLE_EMPTY_MESSAGE = 'No deployment records a
 export const PERSONNEL_DEPLOYMENT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'location', label: 'Location', sortable: true },
   { key: 'operationName', label: 'Operation', sortable: true },
-  { key: 'startedAt', label: 'Start Date', sortable: true },
-  { key: 'endedAt', label: 'End Date', sortable: true },
+  { key: 'startedAt', dataType: 'date', label: 'Start Date', sortable: true },
+  { key: 'endedAt', dataType: 'date', label: 'End Date', sortable: true },
   { key: 'status', label: 'Status', sortable: true },
 ])
 
@@ -98,7 +98,7 @@ export const PERSONNEL_ENGAGEMENT_TABLE_EMPTY_MESSAGE = 'No engagement records a
 export const PERSONNEL_ENGAGEMENT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'eventType', label: 'Event Type', sortable: true },
   { key: 'location', label: 'Location', sortable: true },
-  { key: 'recordedAt', label: 'Recorded Date', sortable: true },
+  { key: 'recordedAt', dataType: 'date', label: 'Recorded Date', sortable: true },
   { key: 'outcome', label: 'Outcome', sortable: true },
 ])
 
@@ -107,8 +107,8 @@ export const PERSONNEL_EQUIPMENT_ASSIGNMENT_TABLE_EMPTY_MESSAGE = 'No equipment 
 export const PERSONNEL_EQUIPMENT_ASSIGNMENT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'assetCode', label: 'Asset Code', sortable: true },
   { key: 'itemName', label: 'Item', sortable: true },
-  { key: 'issuedAt', label: 'Issued Date', sortable: true },
-  { key: 'returnedAt', label: 'Returned Date', sortable: true },
+  { key: 'issuedAt', dataType: 'date', label: 'Issued Date', sortable: true },
+  { key: 'returnedAt', dataType: 'date', label: 'Returned Date', sortable: true },
   { key: 'assignmentStatus', label: 'Assignment Status', sortable: true },
 ])
 
@@ -126,7 +126,7 @@ export const USERS_PROFILE_TABLE_COLUMNS: readonly DataTableColumn[] = Object.fr
   { key: 'email', label: 'Email', sortable: true },
   { key: 'accountTypes', label: 'Account Types', sortable: false },
   { key: 'status', label: 'Status', sortable: true },
-  { key: 'lastLoginAt', label: 'Last Login', sortable: true },
+  { key: 'lastLoginAt', dataType: 'date', label: 'Last Login', sortable: true },
 ])
 
 export const USERS_PROFILE_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
@@ -323,8 +323,8 @@ export const TRAININGS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze
   { key: 'trainingCategoryName', label: 'Category', sortable: true },
   { key: 'levelName', label: 'Level', sortable: true },
   { key: 'statusName', label: 'Status', sortable: true },
-  { key: 'startDate', label: 'Start Date', sortable: true },
-  { key: 'endDate', label: 'End Date', sortable: true },
+  { key: 'startDate', dataType: 'date', label: 'Start Date', sortable: true },
+  { key: 'endDate', dataType: 'date', label: 'End Date', sortable: true },
 ])
 export const TRAININGS_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
   { key: 'view-training', tooltip: 'View training', iconName: 'eye', variant: 'info' },
@@ -338,7 +338,7 @@ export const TRAINING_CATEGORIES_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
 export const TRAINING_CATEGORIES_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'code', label: 'Code', sortable: true },
   { key: 'name', label: 'Name', sortable: true },
-  { key: 'updatedAt', label: 'Updated At', sortable: true },
+  { key: 'updatedAt', dataType: 'date', label: 'Updated At', sortable: true },
 ])
 export const TRAINING_CATEGORIES_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
   { key: 'edit-training-category', tooltip: 'Update training category', iconName: 'pencil-square', variant: 'warning' },
@@ -367,8 +367,8 @@ export const DEPLOYMENTS_TABLE_ACTIONS: readonly DataTableAction[] = Object.free
 export const DEPLOYMENTS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'operationName', label: 'Operation', sortable: true },
   { key: 'deploymentArea', label: 'Deployment Area', sortable: true },
-  { key: 'startDate', label: 'Start Date', sortable: true },
-  { key: 'endDate', label: 'End Date', sortable: true },
+  { key: 'startDate', dataType: 'date', label: 'Start Date', sortable: true },
+  { key: 'endDate', dataType: 'date', label: 'End Date', sortable: true },
   { key: 'statusName', label: 'Status', sortable: true },
 ])
 
@@ -382,8 +382,8 @@ export const DEPLOYMENT_RECORDS_TABLE_COLUMNS: readonly DataTableColumn[] = Obje
   { key: 'deploymentArea', label: 'Deployment Area', sortable: true },
   { key: 'assignmentRole', label: 'Assignment Role', sortable: true },
   { key: 'location', label: 'Location', sortable: true },
-  { key: 'startDate', label: 'Start Date', sortable: true },
-  { key: 'endDate', label: 'End Date', sortable: true },
+  { key: 'startDate', dataType: 'date', label: 'Start Date', sortable: true },
+  { key: 'endDate', dataType: 'date', label: 'End Date', sortable: true },
   { key: 'statusName', label: 'Status', sortable: true },
 ])
 
@@ -404,8 +404,8 @@ export const ENGAGEMENTS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.free
   { key: 'engagementCategoryName', label: 'Category', sortable: true },
   { key: 'levelName', label: 'Level', sortable: true },
   { key: 'statusName', label: 'Status', sortable: true },
-  { key: 'startDate', label: 'Start Date', sortable: true },
-  { key: 'endDate', label: 'End Date', sortable: true },
+  { key: 'startDate', dataType: 'date', label: 'Start Date', sortable: true },
+  { key: 'endDate', dataType: 'date', label: 'End Date', sortable: true },
 ])
 
 export const ENGAGEMENT_RECORDS_TABLE_TITLE = 'Engagement Records'
@@ -418,6 +418,6 @@ export const ENGAGEMENT_RECORDS_TABLE_COLUMNS: readonly DataTableColumn[] = Obje
   { key: 'engagementCategoryName', label: 'Category', sortable: true },
   { key: 'levelName', label: 'Level', sortable: true },
   { key: 'statusName', label: 'Status', sortable: true },
-  { key: 'startDate', label: 'Start Date', sortable: true },
-  { key: 'endDate', label: 'End Date', sortable: true },
+  { key: 'startDate', dataType: 'date', label: 'Start Date', sortable: true },
+  { key: 'endDate', dataType: 'date', label: 'End Date', sortable: true },
 ])
