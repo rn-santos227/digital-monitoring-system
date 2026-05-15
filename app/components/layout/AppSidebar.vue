@@ -1,8 +1,12 @@
 <template>
   <aside :class="APP_SIDEBAR_CLASSES">
     <div class="border-b border-white/10 px-6 py-5">
-      <p class="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-200">AFP Monitoring</p>
-      <p class="mt-1 text-lg font-semibold text-white">Operations Console</p>
+      <BaseInlineLoader
+        v-if="isSidebarBrandingLoading"
+        label="Loading application branding..."
+        class="text-white [&>span:first-child]:border-white [&>span:first-child]:border-t-transparent"
+      />
+      <p v-else class="mt-1 text-lg font-semibold text-white">Operations Console</p>
     </div>
 
     <nav class="flex-1 overflow-y-auto px-3 py-4">
