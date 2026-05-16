@@ -14,6 +14,7 @@
           subtitle="Deployment profiles available for operations."
           icon-name="map-pin"
           tone="sky"
+          :value="totalDeployments"
           :loader="loadTotalDeployments"
         />
         <KpiCard
@@ -21,6 +22,7 @@
           subtitle="Personnel deployment history records."
           icon-name="clipboard-document-list"
           tone="amber"
+          :value="totalDeploymentRecords"
           :loader="loadTotalDeploymentRecords"
         />
       </div>

@@ -646,7 +646,7 @@ export const TRAINING_CATEGORIES_UPDATE_MODAL_DESCRIPTION = 'Update training cat
 export const DEPLOYMENTS_PAGE_TITLE = 'Deployments Management'
 export const DEPLOYMENTS_PAGE_SUBTITLE = 'Monitor deployments and deployment records for active personnel operations.'
 export const DEPLOYMENTS_PAGE_SECTION_CLASSES = 'space-y-6'
-export const DEPLOYMENTS_PAGE_KPI_GRID_CLASSES = 'grid gap-4 md:grid-cols-2 xl:grid-cols-3'
+export const DEPLOYMENTS_PAGE_KPI_GRID_CLASSES = 'grid gap-4 md:grid-cols-2 xl:grid-cols-2'
 export const DEPLOYMENTS_PAGE_TABS_ARIA_LABEL = 'Deployments management tabs'
 export const DEPLOYMENTS_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
   { id: 'records', label: 'Records' },  

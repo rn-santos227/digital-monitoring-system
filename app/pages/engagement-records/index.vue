@@ -14,6 +14,7 @@
           subtitle="Engagement profiles available for operations."
           icon-name="shield"
           tone="sky"
+          :value="totalEngagements"
           :loader="loadTotalEngagements"
         />
         <KpiCard
@@ -21,6 +22,7 @@
           subtitle="Personnel engagement history records."
           icon-name="clipboard-document-list"
           tone="amber"
+          :value="totalEngagementRecords"
           :loader="loadTotalEngagementRecords"
         />
       </div>
@@ -335,9 +337,21 @@ watch(visibleTabItems, async (tabs) => {
   hasLoadedPageData.value = true
 }, { immediate: true })
 
-const loadTotalEngagements = async (): Promise<KpiCardLoaderResult> => ({ value: totalEngagements.value })
-const loadTotalEngagementRecords = async (): Promise<KpiCardLoaderResult> => ({ value: totalEngagementRecords.value })
+const loadTotalEngagements = async (): Promise<KpiCardLoaderResult> => {
+  if (!hasLoadedPageData.value && visibleTabItems.value.some(tab => tab.id === 'engagements')) {
+    await loadEngagements()
+  }
 
+  return { value: totalEngagements.value }
+}
+
+const loadTotalEngagementRecords = async (): Promise<KpiCardLoaderResult> => {
+  if (!hasLoadedPageData.value && visibleTabItems.value.some(tab => tab.id === 'records')) {
+    await loadEngagementRecords()
+  }
+
+  return { value: totalEngagementRecords.value }
+}
 
 const handleTabChange = (tabId: string) => {
   activeTab.value = tabId as EngagementRecordsTabId
