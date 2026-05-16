@@ -35,6 +35,16 @@ export type CreateEngagementPayload = {
   default_remarks: string | null
 }
 
+export type CreateEngagementRecordPayload = {
+  personnel_id: string
+  engagement_id: string
+  role: string | null
+  location: string | null
+  start_date: string | null
+  end_date: string | null
+  remarks: string | null
+}
+
 export interface EngagementManagementSearchQuery {
   page?: number
   pageSize?: number
