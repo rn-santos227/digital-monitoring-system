@@ -2,6 +2,7 @@ import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import type {
   CreateEngagementPayload,
+  CreateEngagementRecordPayload,
   EngagementManagementSearchQuery,
   EngagementPersonnelListItem,
 } from '~/types/domain/engagement'
@@ -39,6 +40,7 @@ export const useEngagements = () => {
     error: computed(() => engagements.value.error),
     loadEngagements,
     createEngagement: async (payload: CreateEngagementPayload) => await engagementsStore.createEngagement(payload),
+    createEngagementRecord: async (payload: CreateEngagementRecordPayload) => await engagementsStore.createEngagementRecord(payload),
     updateEngagement: async (id: string, payload: CreateEngagementPayload) => await engagementsStore.updateEngagement(id, payload),
     deleteEngagement: async (id: string) => await engagementsStore.deleteEngagement(id),
     getEngagementById: async (id: string) => await engagementsStore.getEngagementById(id),

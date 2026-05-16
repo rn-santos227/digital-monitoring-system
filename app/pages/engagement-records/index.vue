@@ -33,6 +33,10 @@
       />
 
       <template v-if="activeTab === 'records'">
+        <div v-if="authStore.hasPermissionAccess(ENGAGEMENT_PRIVILEGES.create)" :class="TRAINING_TABLE_ACTIONS_ROW_CLASSES">
+          <BaseButton @click="isCreateEngagementRecordModalOpen = true">Create Engagement Record</BaseButton>
+        </div>
+
         <EngagementRecordsFilter
           :model-value="engagementRecordsFilters"
           :validation-errors="engagementRecordsFilterValidationErrors"
@@ -88,6 +92,13 @@
         @submit="onSubmitCreateEngagement"
       />
 
+      <CreateEngagementRecordModal
+        v-if="isCreateEngagementRecordModalOpen"
+        :is-submitting="isEngagementRecordsLoading"
+        @close="onCloseCreateEngagementRecordModal"
+        @submit="onSubmitCreateEngagementRecord"
+      />
+
       <UpdateEngagementModal
         v-if="selectedEngagement && isUpdateEngagementModalOpen"
         :initial-values="updateFormValues"
@@ -112,6 +123,7 @@ import { computed, ref, watch } from 'vue'
 import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateEngagementModal from '~/components/engagements/CreateEngagementModal.vue'
+import CreateEngagementRecordModal from '~/components/engagements/CreateEngagementRecordModal.vue'
 import EngagementRecordsFilter from '~/components/engagements/EngagementRecordsFilter.vue'
 import EngagementRecordsTable from '~/components/engagements/EngagementRecordsTable.vue'
 import EngagementsFilter from '~/components/engagements/EngagementsFilter.vue'
@@ -122,6 +134,7 @@ import { useDialog } from '~/composables/useDialog'
 import { useEngagements } from '~/composables/useEngagements'
 import {
   useCreateEngagementHandler,
+  useCreateEngagementRecordHandler,
   useDeleteEngagementHandler,
   useEngagementManagementPageHandlers,
   useUpdateEngagementHandler,
@@ -151,6 +164,7 @@ const engagementRecordsFilters = ref({})
 const engagementsFilterValidationErrors = ref<FieldValidationMap>({})
 const engagementRecordsFilterValidationErrors = ref<FieldValidationMap>({})
 const isCreateEngagementModalOpen = ref(false)
+const isCreateEngagementRecordModalOpen = ref(false)
 const isUpdateEngagementModalOpen = ref(false)
 const isViewEngagementModalOpen = ref(false)
 const createEngagementErrorMessage = ref('')
@@ -163,6 +177,7 @@ const engagementsStore = useEngagementsStore()
 const { showDialog } = useDialog()
 const {
   createEngagement,
+  createEngagementRecord,
   deleteEngagement,
   updateEngagement,
   getEngagementById,
@@ -216,7 +231,6 @@ const loadEngagementRecords = async (page = 1, pageSize?: number) => {
   await engagementsStore.fetchEngagementRecords(page, engagementRecordsFilters.value, pageSize)
 }
 
-
 const {
   onOpenCreateEngagementModal,
   onCloseCreateEngagementModal,
@@ -226,6 +240,15 @@ const {
   createEngagement,
   showDialog,
   errorMessage: createEngagementErrorMessage,
+})
+
+const {
+  onCloseCreateEngagementRecordModal,
+  onSubmitCreateEngagementRecord,
+} = useCreateEngagementRecordHandler({
+  isCreateEngagementRecordModalOpen,
+  createEngagementRecord,
+  showDialog,
 })
 
 const {
