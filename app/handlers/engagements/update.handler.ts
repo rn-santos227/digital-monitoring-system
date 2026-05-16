@@ -91,15 +91,21 @@ export const useUpdateEngagementRecordHandler = ({
 
   const onSubmitUpdateEngagementRecord = async (payload: CreateEngagementRecordPayload) => {
     const id = selectedEngagementRecord.value?.id ?? ''
+    const personnelId = selectedEngagementRecord.value?.personnelId ?? ''
+    const engagementId = selectedEngagementRecord.value?.engagementId ?? ''
 
-    if (!id) {
+    if (!id || !personnelId || !engagementId) {
       return
     }
 
     errorMessage.value = ''
 
     try {
-      await updateEngagementRecord(id, payload)
+      await updateEngagementRecord(id, {
+        ...payload,
+        personnel_id: personnelId,
+        engagement_id: engagementId,
+      })
       onCloseUpdateEngagementRecordModal()
       await showDialog({
         type: 'success',
