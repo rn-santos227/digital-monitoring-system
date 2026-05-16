@@ -47,19 +47,29 @@
 
 2. **Centralize UI/page contracts and classes**
    - Keep reusable UI interfaces/types and class-string constants in `app/constants/ui.constants.ts`.
-   - Keep reusable page-level labels, placeholders, and display configuration in `app/constants/pages.constants.ts`.
+   - Keep reusable page-level labels, placeholders, and display configuration in `app/constants/page.constants.ts (barrel) and split feature modules under app/constants/pages/*.constants.ts`.
    - Keep reusable table titles, columns, action definitions, and table empty/search fixed values in `app/constants/table.constants.ts`.
    - Keep reusable class-string constants for custom components in `app/constants/shared.constants.ts`.
    - Avoid defining repeated interface/class strings directly inside page/component files when they can be shared through constants.
 
-3. **Icon standardization**
+3. **Modular page constants structure is required**
+   - Keep `app/constants/page.constants.ts` as the public barrel entrypoint for page constants imports.
+   - Split page constants by feature under `app/constants/pages` (for example `personnel.constants.ts`, `training.constants.ts`, `deployments.constants.ts`, `engagements.constants.ts`, `units-users.constants.ts`, `dashboard-audit-login.constants.ts`).
+   - Do not introduce or reintroduce a single monolithic page constants file with hundreds of lines; use per-feature modules and update `app/constants/pages/index.ts`.
+
+4. **Theme tokens must be centralized and runtime-resolvable**
+   - Keep theme-variant class maps in `app/constants/ui.constants.ts` for layout surfaces and navigation states.
+   - For UI colors previously hardcoded to emerald (sidebar/header/footer/item states), prefer theme maps keyed by settings theme values and resolve classes in computed/component helpers.
+   - When adding new layout-level color styles, expose a reusable constant map first before using the classes directly in templates.
+
+5. **Icon standardization**
    - When adding UI icons, use `@heroicons/vue` (Heroicons) as the default icon set for consistency.
 
-4. **Keep store actions thin via endpoint utilities**
+6. **Keep store actions thin via endpoint utilities**
    - Supplementary logic used by store actions (for example session header building, token storage, request payload shaping) should be extracted into `app/utils` helpers instead of being declared inline inside stores.
    - For API communication, provide one utility function per API endpoint (e.g., one function for login endpoint, one for logout endpoint, one for session endpoint) so store files stay concise and focused on state transitions.
 
-5. **Centralize page handlers**
+7. **Centralize page handlers**
    - Create page-level handler modules under `app/handlers/{feature}` and place page component event handlers there.
    - Break down large CRUD flows into action-specific handler files to keep page `index.vue` files small and maintainable.
    - Use action-based handler naming per feature such as `create.handler.ts`, `update.handler.ts`, `password.handler.ts`, `activate.handler.ts`, and `delete.handler.ts` whenever those actions exist.
@@ -67,30 +77,30 @@
    - If a feature already has one large handler file, refactor it into action-specific modules and add/update a barrel export (`index.ts`) for discoverability.
    - This rule applies only to files under `app/pages`; component-local handlers for reusable components do not need to move.
 
-6. **Standardize Pinia store structure**
+8. **Standardize Pinia store structure**
    - All files under `app/stores` should use the options-style Pinia pattern with explicit `state`, `getters`, and `actions` sections in that order.
    - Keep getter names descriptive and ensure at least one getter exists for consistency across stores.
 
-7. **Frontend privilege-gated actions are required**
+9. **Frontend privilege-gated actions are required**
    - For every action button, modal trigger, or row action under `app/pages` and related feature components, hide or disable controls when the signed-in user lacks the required privilege code.
    - Use permission codes consistent with RBAC schema entries in `public.permissions` (for example `user.view`, `user.create`, `user.update`, `user.delete`, `account_type.view`, `account_type.create`, `account_type.update`, `account_type.delete`).
    - Keep permission checks centralized through store/composable helpers (e.g., auth store permission helpers) instead of duplicating ad-hoc checks in multiple templates.
 
-8. **Account type privilege checklist in forms**
+10. **Account type privilege checklist in forms**
    - Account type create/update forms must include a checklist of privileges sourced from the `permissions` table (through the privileges API), grouped for clear operator review.
    - Submitted account type payloads must include selected privilege identifiers so `account_type_permissions` stays aligned with UI selections.
    - Keep privilege checklist labels user-friendly while preserving schema-consistent privilege code mapping.
 
-9. **Table views must be extracted into feature components**
+11. **Table views must be extracted into feature components**
    - For table-heavy views under `app/pages`, implement feature table components (for example `UsersTable` and `AccountTypesTable`) instead of defining full table setup directly in page files.
    - Keep table column/action wiring, table-specific display behavior, and table event passthrough inside the table component to keep page script sections focused on orchestration.
    - Prefer reusable table components so they can be managed consistently across related pages and reduce page-level script bloat.
 
-10. **View modals must support scrolling when content grows**
+12. **View modals must support scrolling when content grows**
     - All read-only/view modal variants must enable a vertical scrollbar when modal content exceeds the viewport height.
     - Use the shared modal scroll behavior so scrollbars only appear when needed and remain hidden for shorter content.
 
-11. **Create/Update modal feedback is required**
+13. **Create/Update modal feedback is required**
     - All create and update modals under `app/components` must support inline `warning` and `error` alerts near the top of the form body.
     - Use shared alert components (for example `BaseAlert`) and optional props such as `warningMessage` / `errorMessage` so page handlers can pass runtime feedback.
     - When create or update API activities fail, page handlers under `app/pages` must show an error dialog via shared dialog helpers in addition to inline error messaging.
