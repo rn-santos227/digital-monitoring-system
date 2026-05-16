@@ -16,6 +16,7 @@
           <BaseChip :label="`${item.daysRemaining}d`" tone="warning" />
         </div>
         <p class="text-sm text-slate-700">{{ item.locationName }}</p>
+        <p class="text-xs text-amber-700">Rotation End: {{ formatDate(item.endDate, '—') }}</p>
       </article>
     </div>
 
@@ -27,7 +28,10 @@
 import BaseCard from '~/components/ui/BaseCard.vue'
 import BaseChip from '~/components/ui/BaseChip.vue'
 import BaseIcon from '~/components/ui/BaseIcon.vue'
+import { useDateDisplay } from '~/composables/useDateDisplay'
 import type { DashboardNearRotation } from '~/types/domain/dashboard'
+
+const { formatDate } = useDateDisplay()
 
 defineProps<{ data: DashboardNearRotation }>()
 </script>
