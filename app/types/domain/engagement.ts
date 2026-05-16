@@ -55,9 +55,13 @@ export interface EngagementManagementSearchQuery {
 export interface EngagementManagementListItem {
   id: UUID
   recordNo: string | null
+  personnelId?: string | null
   personnelName: string | null
+  personnelCode?: string | null
+  engagementId?: string | null
   engagementTitle: string
   engagementCategoryName: string | null
+  engagementCategoryId?: string | null
   engagementTypeId?: string | null
   levelName: string | null
   levelId?: string | null
@@ -65,6 +69,9 @@ export interface EngagementManagementListItem {
   statusId?: string | null
   startDate: string | null
   endDate: string | null
+  role?: string | null
+  location?: string | null
+  remarks?: string | null
   defaultRemarks?: string | null
 }
 
