@@ -193,6 +193,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   deleteEngagement: 'Deleting engagement record...',
   fetchEngagementPersonnel: 'Loading engagement personnel...',
   createEngagement: 'Creating engagement record...',
+  createEngagementRecord: 'Creating engagement personnel record...',
   uploadFile: 'Uploading file...',
   fetchApplicationSettings: 'Loading application settings...',
   updateApplicationSettings: 'Updating application settings...',

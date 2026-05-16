@@ -11,6 +11,16 @@ interface CreateEngagementFormValues {
   defaultRemarks: string
 }
 
+interface CreateEngagementRecordFormValues {
+  personnel_id: string
+  engagement_id: string
+  role: string
+  location: string
+  start_date: string
+  end_date: string
+  remarks: string
+}
+
 export const validateCreateEngagementForm = (values: CreateEngagementFormValues) => {
   const validation = validateFields([
     { field: 'engagementTitle', label: 'Engagement title', value: values.engagementTitle, maxLength: 160, required: true },
@@ -42,4 +52,30 @@ export const validateCreateEngagementForm = (values: CreateEngagementFormValues)
     errors: validation.errors,
     payload,
   }
+}
+
+export const validateCreateEngagementRecordForm = (values: CreateEngagementRecordFormValues) => {
+  const validation = validateFields([
+    { field: 'personnel_id', label: 'Personnel', value: values.personnel_id, maxLength: 80, required: true },
+    { field: 'engagement_id', label: 'Engagement', value: values.engagement_id, maxLength: 80, required: true },
+    { field: 'role', label: 'Role', value: values.role, maxLength: 120 },
+    { field: 'location', label: 'Location', value: values.location, maxLength: 180 },
+    { field: 'start_date', label: 'Start date', value: values.start_date, maxLength: 24 },
+    { field: 'end_date', label: 'End date', value: values.end_date, maxLength: 24 },
+    { field: 'remarks', label: 'Remarks', value: values.remarks, maxLength: 500 },
+  ])
+
+  const payload = Object.keys(validation.errors).length > 0
+    ? null
+    : {
+      personnel_id: validation.values.personnel_id ?? '',
+      engagement_id: validation.values.engagement_id ?? '',
+      role: validation.values.role || null,
+      location: validation.values.location || null,
+      start_date: validation.values.start_date || null,
+      end_date: validation.values.end_date || null,
+      remarks: validation.values.remarks || null,
+    }
+
+  return { errors: validation.errors, payload }
 }
