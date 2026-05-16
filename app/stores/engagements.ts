@@ -3,6 +3,7 @@ import { extractApiErrorMessage } from '~/utils/api-request'
 import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-size'
 import type {
   CreateEngagementPayload,
+  CreateEngagementRecordPayload,
   EngagementManagementListItem,
   EngagementManagementSearchQuery,
   EngagementPersonnelListItem,
@@ -10,6 +11,7 @@ import type {
 } from '~/types/domain/engagement'
 import {
   createEngagementEndpoint,
+  createEngagementRecordEndpoint,
   deleteEngagementEndpoint,
   getEngagementByIdEndpoint,
   getEngagementPersonnelEndpoint,
@@ -113,6 +115,20 @@ export const useEngagementsStore = defineStore('engagements', {
         return { id: response.id }
       } catch (error) {
         this.engagements.error = extractApiErrorMessage(error, 'Unable to create engagement.')
+        throw error
+      }
+    },
+
+    async createEngagementRecord(this: EngagementsStoreState, payload: CreateEngagementRecordPayload): Promise<{ id: string }> {
+      this.records.error = ''
+      try {
+        const response = await createEngagementRecordEndpoint(payload)
+        this.records.items = [response.item, ...this.records.items]
+        this.records.pagination.totalItems += 1
+        this.records.pagination.totalPages = Math.max(1, Math.ceil(this.records.pagination.totalItems / this.records.pagination.pageSize))
+        return { id: response.id }
+      } catch (error) {
+        this.records.error = extractApiErrorMessage(error, 'Unable to create engagement record.')
         throw error
       }
     },
