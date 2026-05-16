@@ -1,5 +1,6 @@
 import { createError } from 'h3'
 import { parseNumber } from './parsers'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import type {
   EngagementTypeListItem,
   EngagementTypeRow,
@@ -11,25 +12,10 @@ import type {
   EngagementRow,
   EngagementSuggestionItem,
 } from '../models'
-interface EngagementLevelLookupSupabaseClient {
-  from: (table: 'levels') => {
-    select: (columns: 'id') => {
-      eq: (column: 'id' | 'name', value: string) => {
-        maybeSingle: () => Promise<{ data: { id: string } | null, error: { message: string } | null }>
-      }
-    }
-  }
-}
 
-interface EngagementStatusLookupSupabaseClient {
-  from: (table: 'engagement_statuses') => {
-    select: (columns: 'id') => {
-      eq: (column: 'id' | 'name', value: string) => {
-        maybeSingle: () => Promise<{ data: { id: string } | null; error: { message: string } | null }>
-      }
-    }
-  }
-}
+type LookupTable = 'levels' | 'engagement_statuses' | 'engagement_types'
+type LookupColumn = 'id' | 'name'
+type EngagementLookupSupabaseClient = Pick<SupabaseClient, 'from'>
 
 const ENGAGEMENT_STATUS_NAMES = Object.freeze(['Planned', 'Ongoing', 'Completed', 'Expired', 'Cancelled'] as const)
 
@@ -200,14 +186,13 @@ export const buildEngagementRecordNo = (): string => {
   return `TR-${timestamp}-${suffix}`
 }
 
-export const resolveEngagementLevelId = async (supabase: unknown, value: string): Promise<string> => {
-  const supabaseClient = supabase as EngagementLevelLookupSupabaseClient
+export const resolveEngagementLevelId = async (supabase: EngagementLookupSupabaseClient, value: string): Promise<string> => {
   const isKnownName = ENGAGEMENT_LEVEL_NAMES.includes(value as (typeof ENGAGEMENT_LEVEL_NAMES)[number])
   const filterField: 'id' | 'name' = isKnownName ? 'name' : 'id'
-  const { data, error } = await supabaseClient
+  const { data, error } = await supabase
     .from('levels')
     .select('id')
-    .eq(filterField, value)
+    .eq(filterField as LookupColumn, value)
     .maybeSingle()
 
   if (error || !data?.id) {
@@ -217,14 +202,13 @@ export const resolveEngagementLevelId = async (supabase: unknown, value: string)
   return data.id
 }
 
-export const resolveEngagementStatusId = async (supabase: unknown, value: string): Promise<string> => {
-  const supabaseClient = supabase as EngagementStatusLookupSupabaseClient
+export const resolveEngagementStatusId = async (supabase: EngagementLookupSupabaseClient, value: string): Promise<string> => {
   const isKnownName = ENGAGEMENT_STATUS_NAMES.includes(value as (typeof ENGAGEMENT_STATUS_NAMES)[number])
   const filterField: 'id' | 'name' = isKnownName ? 'name' : 'id'
-  const { data, error } = await supabaseClient
+  const { data, error } = await supabase
     .from('engagement_statuses')
     .select('id')
-    .eq(filterField, value)
+    .eq(filterField as LookupColumn, value)
     .maybeSingle()
 
   if (error || !data?.id) {
@@ -232,4 +216,28 @@ export const resolveEngagementStatusId = async (supabase: unknown, value: string
   }
 
   return data.id
+}
+
+export const resolveEngagementTypeId = async (supabase: EngagementLookupSupabaseClient, value: string): Promise<string> => {
+  const { data } = await supabase
+    .from('engagement_types')
+    .select('id')
+    .eq('id', value)
+    .maybeSingle()
+
+  if (data?.id) {
+    return data.id
+  }
+
+  const nameLookup = await supabase
+    .from('engagement_types')
+    .select('id')
+    .eq('name', value)
+    .maybeSingle()
+
+  if (nameLookup.error || !nameLookup.data?.id) {
+    throw createError({ statusCode: 400, statusMessage: 'Invalid engagement category value.' })
+  }
+
+  return nameLookup.data.id
 }

@@ -3,7 +3,7 @@ import type { UpdateEngagementRequest } from '../../../shared/requests'
 import type { MutationSuccessResponse } from '../../../shared/responses'
 import type { EngagementUpdate } from '../../../shared/models'
 import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../../shared/constants'
-import { resolveEngagementLevelId, resolveEngagementStatusId, mapEngagementListItem } from '../../../shared/utils'
+import { resolveEngagementLevelId, resolveEngagementStatusId, resolveEngagementTypeId, mapEngagementListItem } from '../../../shared/utils'
 import { buildEngagementUpdates, requireRouteId, validateEngagementDateRange } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
@@ -35,6 +35,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
     default_remarks: parsedUpdates.default_remarks === undefined ? existingRow.default_remarks : parsedUpdates.default_remarks,
   }
 
+  if (updates.engagement_type_id) updates.engagement_type_id = await resolveEngagementTypeId(supabase, updates.engagement_type_id)
   if (updates.level_id) updates.level_id = await resolveEngagementLevelId(supabase, updates.level_id)
   updates.status_id = await resolveEngagementStatusId(supabase, updates.status_id)
 

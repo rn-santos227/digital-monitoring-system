@@ -3,7 +3,7 @@ import type { CreateEngagementRequest } from '../../shared/requests'
 import type { CreateEngagementResponse } from '../../shared/responses'
 import type { EngagementCreate } from '../../shared/models'
 import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
-import { resolveEngagementLevelId, resolveEngagementStatusId, mapEngagementListItem } from '../../shared/utils'
+import { resolveEngagementLevelId, resolveEngagementStatusId, resolveEngagementTypeId, mapEngagementListItem } from '../../shared/utils'
 import { parseCreateEngagementPayload } from '../../shared/validations'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
@@ -23,6 +23,7 @@ export default defineEventHandler(async (event): Promise<CreateEngagementRespons
   const requestData = { ...body }
 
   try {
+    if (payload.engagement_type_id) payload.engagement_type_id = await resolveEngagementTypeId(supabase, payload.engagement_type_id)
     if (payload.level_id) payload.level_id = await resolveEngagementLevelId(supabase, payload.level_id)
     payload.status_id = await resolveEngagementStatusId(supabase, payload.status_id)
 
