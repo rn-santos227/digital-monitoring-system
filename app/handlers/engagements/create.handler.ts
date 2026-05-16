@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
 import type { DialogInput } from '~/composables/useDialog'
-import type { CreateEngagementPayload } from '~/types/domain/engagement'
+import type { CreateEngagementPayload, CreateEngagementRecordPayload } from '~/types/domain/engagement'
 import { showErrorDialog } from '~/utils/error-handling'
 
 interface UseCreateEngagementHandlerOptions {
@@ -8,6 +8,12 @@ interface UseCreateEngagementHandlerOptions {
   createEngagement: (payload: CreateEngagementPayload) => Promise<{ id: string }>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   errorMessage: Ref<string>
+}
+
+interface UseCreateEngagementRecordHandlerOptions {
+  isCreateEngagementRecordModalOpen: Ref<boolean>
+  createEngagementRecord: (payload: CreateEngagementRecordPayload) => Promise<{ id: string }>
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
 }
 
 export const useCreateEngagementHandler = ({
@@ -50,5 +56,40 @@ export const useCreateEngagementHandler = ({
     onOpenCreateEngagementModal,
     onCloseCreateEngagementModal,
     onSubmitCreateEngagement,
+  }
+}
+
+export const useCreateEngagementRecordHandler = ({
+  isCreateEngagementRecordModalOpen,
+  createEngagementRecord,
+  showDialog,
+}: UseCreateEngagementRecordHandlerOptions) => {
+  const onCloseCreateEngagementRecordModal = () => {
+    isCreateEngagementRecordModalOpen.value = false
+  }
+
+  const onSubmitCreateEngagementRecord = async (payload: CreateEngagementRecordPayload) => {
+    try {
+      await createEngagementRecord(payload)
+      onCloseCreateEngagementRecordModal()
+      await showDialog({
+        type: 'success',
+        title: 'Engagement record created',
+        message: 'Personnel engagement record has been created successfully.',
+        confirmLabel: 'OK',
+      })
+    } catch (error) {
+      await showErrorDialog({
+        showDialog,
+        title: 'Engagement record creation failed',
+        error,
+        fallbackMessage: 'Unable to create personnel engagement record right now.',
+      })
+    }
+  }
+
+  return {
+    onCloseCreateEngagementRecordModal,
+    onSubmitCreateEngagementRecord,
   }
 }
