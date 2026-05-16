@@ -12,6 +12,7 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { generateSessionToken } from '../../utils/auth/sessionToken'
 import { recordApiAuditLog } from '../../utils/audit/recordApiAuditLog'
 import { fetchUserPrivilegeClaims } from '../../utils/auth/privileges'
+import { updateUserLastLoginAt } from '../../utils/auth/updateUserLastLoginAt'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<LoginBody>(event)
@@ -125,6 +126,14 @@ export default defineEventHandler(async (event) => {
   if (sessionError) {
     await writeLoginAttempt(500, AUDIT_LOG_OUTCOMES.failed, authenticatedUser.user_id, sessionError.message)
     throw createError({ statusCode: 500, statusMessage: `Failed to create session: ${sessionError.message}` })
+  }
+
+  try {
+    await updateUserLastLoginAt(supabase, authenticatedUser.user_id)
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Failed to update last login.'
+    await writeLoginAttempt(500, AUDIT_LOG_OUTCOMES.failed, authenticatedUser.user_id, message)
+    throw createError({ statusCode: 500, statusMessage: message })
   }
 
   await writeLoginAttempt(200, AUDIT_LOG_OUTCOMES.success, authenticatedUser.user_id, 'Authentication successful.')
