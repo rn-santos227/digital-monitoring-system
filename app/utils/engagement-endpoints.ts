@@ -5,6 +5,7 @@ import {
 import type {
   CreateEngagementPayload,
   CreateEngagementApiResponse,
+  CreateEngagementRecordApiResponse,
   CreateEngagementRecordPayload,
   EngagementManagementListItem,
   EngagementManagementListResponse,
@@ -71,9 +72,11 @@ export const createEngagementEndpoint = async (payload: CreateEngagementPayload)
   }, API_LOADING_MESSAGES.createEngagement)
 }
 
-export const createEngagementRecordEndpoint = async (payload: CreateEngagementRecordPayload): Promise<CreateEngagementApiResponse> => {
+export const createEngagementRecordEndpoint = async (
+  payload: CreateEngagementRecordPayload,
+): Promise<CreateEngagementRecordApiResponse> => {
   return await withApiLoading(async () => {
-    return await $fetch<CreateEngagementApiResponse>(ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.engagementRecords, {
+    return await $fetch<CreateEngagementRecordApiResponse>(ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.engagementRecords, {
       method: 'POST',
       headers: createSessionHeaders(),
       body: payload,
@@ -91,6 +94,19 @@ export const updateEngagementEndpoint = async (id: string, payload: CreateEngage
   }, API_LOADING_MESSAGES.updateEngagement)
 }
 
+export const updateEngagementRecordEndpoint = async (
+  id: string,
+  payload: CreateEngagementRecordPayload,
+): Promise<CreateEngagementRecordApiResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<CreateEngagementRecordApiResponse>(ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.engagementRecordById(id), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updateEngagementRecord)
+}
+
 export const deleteEngagementEndpoint = async (id: string): Promise<{ ok: boolean }> => {
   return await withApiLoading(async () => {
     return await $fetch<{ ok: boolean }>(ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.engagementById(id), {
@@ -98,6 +114,15 @@ export const deleteEngagementEndpoint = async (id: string): Promise<{ ok: boolea
       headers: createSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.deleteEngagement)
+}
+
+export const deleteEngagementRecordEndpoint = async (id: string): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.engagementRecordById(id), {
+      method: 'DELETE',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.deleteEngagementRecord)
 }
 
 export const getEngagementPersonnelEndpoint = async (
@@ -121,4 +146,13 @@ export const getEngagementByIdEndpoint = async (id: string): Promise<EngagementM
       headers: createSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchEngagements)
+}
+
+export const getEngagementRecordByIdEndpoint = async (id: string): Promise<EngagementManagementListItem> => {
+  return await withApiLoading(async () => {
+    return await $fetch(ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.engagementRecordById(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchEngagementRecords)
 }
