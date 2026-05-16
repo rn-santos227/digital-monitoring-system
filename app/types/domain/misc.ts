@@ -65,3 +65,21 @@ export type DashboardMetric = {
   value: string
   change: string
 }
+
+export interface KpiToneStyle {
+  iconWrapper: string
+  icon: string
+  context: string
+}
+
+export interface LoginPageThemeStyle {
+  brandPanel: string
+  brandOverlay: string
+  formPanel: string
+  forgotLink: string
+  badge: string
+  description: string
+  securityIcon: string
+  securityText: string
+  footerNotice: string
+}

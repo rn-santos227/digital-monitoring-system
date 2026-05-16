@@ -1,13 +1,8 @@
+import type { LoginPageThemeStyle, KpiToneStyle } from '~/types/domain/misc'
+
 export type UiSize = 'sm' | 'md' | 'lg'
 export type UiTone = 'neutral' | 'success' | 'warning' | 'danger' | 'info'
-
 export type KpiTone = 'emerald' | 'sky' | 'violet' | 'amber'
-
-export interface KpiToneStyle {
-  iconWrapper: string
-  icon: string
-  context: string
-}
 
 export const KPI_TONE_STYLES: Record<KpiTone, KpiToneStyle> = {
   emerald: {
@@ -165,6 +160,75 @@ export const APP_SURFACE_THEME_CLASSES = Object.freeze({
   emerald: 'border-emerald-900/50 bg-emerald-100 text-emerald-900',
   brown: 'border-orange-900/50 bg-orange-100 text-orange-900',
 } as const)
+
+export const LOGIN_PAGE_THEME_CLASSES = Object.freeze({
+  light: {
+    brandPanel: 'bg-gradient-to-b from-emerald-950 via-emerald-900 to-emerald-950 text-emerald-50',
+    brandOverlay: 'bg-emerald-500/20',
+    formPanel: 'bg-emerald-50/80',
+    forgotLink: 'text-emerald-700 hover:text-emerald-900 focus-visible:ring-emerald-500',
+    badge: 'bg-white/10 text-emerald-100',
+    description: 'text-emerald-100/95',
+    securityIcon: 'text-emerald-100',
+    securityText: 'text-emerald-50',
+    footerNotice: 'text-emerald-100/80',
+  },
+  dark: {
+    brandPanel: 'bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100',
+    brandOverlay: 'bg-slate-400/20',
+    formPanel: 'bg-slate-100',
+    forgotLink: 'text-slate-700 hover:text-slate-900 focus-visible:ring-slate-500',
+    badge: 'bg-white/10 text-slate-200',
+    description: 'text-slate-200/95',
+    securityIcon: 'text-slate-200',
+    securityText: 'text-slate-100',
+    footerNotice: 'text-slate-300/90',
+  },
+  amber: {
+    brandPanel: 'bg-gradient-to-b from-amber-950 via-amber-900 to-amber-950 text-amber-50',
+    brandOverlay: 'bg-amber-500/20',
+    formPanel: 'bg-amber-50/80',
+    forgotLink: 'text-amber-700 hover:text-amber-900 focus-visible:ring-amber-500',
+    badge: 'bg-white/10 text-amber-100',
+    description: 'text-amber-100/95',
+    securityIcon: 'text-amber-100',
+    securityText: 'text-amber-50',
+    footerNotice: 'text-amber-100/80',
+  },
+  azure: {
+    brandPanel: 'bg-gradient-to-b from-sky-950 via-sky-900 to-sky-950 text-sky-50',
+    brandOverlay: 'bg-sky-500/20',
+    formPanel: 'bg-sky-50/80',
+    forgotLink: 'text-sky-700 hover:text-sky-900 focus-visible:ring-sky-500',
+    badge: 'bg-white/10 text-sky-100',
+    description: 'text-sky-100/95',
+    securityIcon: 'text-sky-100',
+    securityText: 'text-sky-50',
+    footerNotice: 'text-sky-100/80',
+  },
+  emerald: {
+    brandPanel: 'bg-gradient-to-b from-emerald-950 via-emerald-900 to-emerald-950 text-emerald-50',
+    brandOverlay: 'bg-emerald-500/20',
+    formPanel: 'bg-emerald-50/80',
+    forgotLink: 'text-emerald-700 hover:text-emerald-900 focus-visible:ring-emerald-500',
+    badge: 'bg-white/10 text-emerald-100',
+    description: 'text-emerald-100/95',
+    securityIcon: 'text-emerald-100',
+    securityText: 'text-emerald-50',
+    footerNotice: 'text-emerald-100/80',
+  },
+  brown: {
+    brandPanel: 'bg-gradient-to-b from-orange-950 via-orange-900 to-orange-950 text-orange-50',
+    brandOverlay: 'bg-orange-500/20',
+    formPanel: 'bg-orange-50/80',
+    forgotLink: 'text-orange-700 hover:text-orange-900 focus-visible:ring-orange-500',
+    badge: 'bg-white/10 text-orange-100',
+    description: 'text-orange-100/95',
+    securityIcon: 'text-orange-100',
+    securityText: 'text-orange-50',
+    footerNotice: 'text-orange-100/80',
+  },
+} as const satisfies Record<string, LoginPageThemeStyle>)
 
 export const BASE_MENU_TRIGGER_CLASSES =
   'inline-flex w-full items-center justify-between gap-2 rounded-xl border border-transparent px-2 py-1 text-sm text-slate-700 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600'

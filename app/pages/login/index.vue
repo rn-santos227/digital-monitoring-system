@@ -1,7 +1,7 @@
 <template>
   <main :class="LOGIN_PAGE_LAYOUT_CLASSES">
     <section :class="LOGIN_PAGE_CONTAINER_CLASSES">
-      <aside :class="LOGIN_PAGE_BRAND_PANEL_CLASSES">
+      <aside :class="brandPanelClasses">
         <div class="relative z-10 space-y-16">
           <header class="space-y-3">
             <BaseInlineLoader
@@ -10,13 +10,13 @@
               class="text-white [&>span:first-child]:border-white [&>span:first-child]:border-t-transparent"
             />
             <template v-else>
-              <p class="inline-flex items-center rounded-full bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-emerald-100">
+              <p :class="badgeClasses">
                 {{ landingBadge }}
               </p>
               <h1 class="max-w-xl text-4xl font-semibold leading-tight text-white sm:text-5xl">
                 {{ landingAppName }}
               </h1>
-              <p class="max-w-xl text-lg leading-relaxed text-emerald-100/95">
+              <p :class="descriptionClasses">
                 {{ landingAppDescription }}
               </p>
             </template>
@@ -24,17 +24,17 @@
 
           <div class="rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-sm">
             <div class="flex items-center gap-3">
-              <ShieldCheckIcon class="h-6 w-6 text-emerald-100" aria-hidden="true" />
-              <p class="text-sm font-medium text-emerald-50">Mission-ready operations start with secure authentication.</p>
+              <ShieldCheckIcon :class="securityIconClasses" aria-hidden="true" />
+              <p :class="securityTextClasses">Mission-ready operations start with secure authentication.</p>
             </div>
           </div>
         </div>
 
-        <p class="relative z-10 text-xs text-emerald-100/80">{{ LOGIN_PAGE_FOOTER_NOTICE }}</p>
-        <div :class="LOGIN_PAGE_BRAND_OVERLAY_CLASSES" />
+        <p :class="footerNoticeClasses">{{ LOGIN_PAGE_FOOTER_NOTICE }}</p>
+        <div :class="brandOverlayClasses" />
       </aside>
 
-      <section :class="LOGIN_PAGE_FORM_PANEL_CLASSES">
+      <section :class="formPanelClasses">
         <div :class="LOGIN_PAGE_FORM_CARD_WRAPPER_CLASSES">
           <BaseCard :title="LOGIN_PAGE_CARD_TITLE" :subtitle="LOGIN_PAGE_CARD_SUBTITLE" padding="lg">
             <form class="space-y-5" @submit.prevent="submitLoginForm">
@@ -64,7 +64,7 @@
                   :label="LOGIN_PAGE_REMEMBER_LABEL"
                   :disabled="isSubmitting"
                 />
-                <NuxtLink to="#" :class="LOGIN_PAGE_FORGOT_LINK_CLASSES">{{ LOGIN_PAGE_FORGOT_LABEL }}</NuxtLink>
+                <NuxtLink to="#" :class="forgotLinkClasses">{{ LOGIN_PAGE_FORGOT_LABEL }}</NuxtLink>
               </div>
 
               <BaseButton
@@ -122,6 +122,7 @@ import {
   LOGIN_PAGE_FORM_PANEL_CLASSES,
   LOGIN_PAGE_LAYOUT_CLASSES,
 } from '~/constants/shared.constants'
+import { LOGIN_PAGE_THEME_CLASSES } from '~/constants/ui.constants'
 import { useLoginForm } from '~/composables/useLogin'
 import { useLoginPageHandlers } from '~/handlers'
 import { useApplicationSettingsStore } from '~/stores/application-settings'
@@ -174,6 +175,25 @@ const landingBadge = computed(() => {
 })
 
 const isBrandingLoading = computed(() => !hasLoaded.value)
+const resolvedTheme = computed(() => {
+  const appTheme = settingsItem.value?.appTheme ?? 'light'
+
+  return appTheme as keyof typeof LOGIN_PAGE_THEME_CLASSES
+})
+
+const themeClasses = computed(() => LOGIN_PAGE_THEME_CLASSES[resolvedTheme.value] ?? LOGIN_PAGE_THEME_CLASSES.light)
+const brandPanelClasses = computed(() => [LOGIN_PAGE_BRAND_PANEL_CLASSES, themeClasses.value.brandPanel])
+const brandOverlayClasses = computed(() => [LOGIN_PAGE_BRAND_OVERLAY_CLASSES, themeClasses.value.brandOverlay])
+const formPanelClasses = computed(() => [LOGIN_PAGE_FORM_PANEL_CLASSES, themeClasses.value.formPanel])
+const forgotLinkClasses = computed(() => [LOGIN_PAGE_FORGOT_LINK_CLASSES, themeClasses.value.forgotLink])
+const badgeClasses = computed(() => [
+  'inline-flex items-center rounded-full px-4 py-1 text-xs font-semibold uppercase tracking-[0.16em]',
+  themeClasses.value.badge,
+])
+const descriptionClasses = computed(() => ['max-w-xl text-lg leading-relaxed', themeClasses.value.description])
+const securityIconClasses = computed(() => ['h-6 w-6', themeClasses.value.securityIcon])
+const securityTextClasses = computed(() => ['text-sm font-medium', themeClasses.value.securityText])
+const footerNoticeClasses = computed(() => ['relative z-10 text-xs', themeClasses.value.footerNotice])
 
 onMounted(async () => {
   if (applicationSettingsStore.hasLoaded) {
