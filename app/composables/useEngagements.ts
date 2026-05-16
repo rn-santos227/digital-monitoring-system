@@ -45,5 +45,8 @@ export const useEngagements = () => {
     deleteEngagement: async (id: string) => await engagementsStore.deleteEngagement(id),
     getEngagementById: async (id: string) => await engagementsStore.getEngagementById(id),
     getEngagementPersonnel: async (id: string): Promise<EngagementPersonnelListItem[]> => await engagementsStore.fetchEngagementPersonnel(id),
+    getEngagementRecordById: async (id: string) => await engagementsStore.getEngagementRecordById(id),
+    updateEngagementRecord: async (id: string, payload: CreateEngagementRecordPayload) => await engagementsStore.updateEngagementRecord(id, payload),
+    deleteEngagementRecord: async (id: string) => await engagementsStore.deleteEngagementRecord(id),
   }
 }
