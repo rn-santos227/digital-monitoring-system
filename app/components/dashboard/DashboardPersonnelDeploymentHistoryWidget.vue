@@ -15,6 +15,7 @@
           <div>
             <p class="font-semibold text-slate-900">{{ item.fullName }}</p>
             <p class="text-sm text-slate-600">{{ item.locationName }}</p>
+            <p class="text-xs text-slate-500">Logged: {{ formatDate(item.loggedAt, '—') }}</p>
           </div>
           <BaseChip :label="item.statusName.toUpperCase()" tone="success" />
         </div>
@@ -27,7 +28,10 @@
 import BaseCard from '~/components/ui/BaseCard.vue'
 import BaseChip from '~/components/ui/BaseChip.vue'
 import BaseIcon from '~/components/ui/BaseIcon.vue'
+import { useDateDisplay } from '~/composables/useDateDisplay'
 import type { DashboardPersonnelDeploymentHistory } from '~/types/domain/dashboard'
+
+const { formatDate } = useDateDisplay()
 
 defineProps<{ data: DashboardPersonnelDeploymentHistory }>()
 </script>
