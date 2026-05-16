@@ -9,6 +9,12 @@ interface UseViewEngagementHandlerOptions {
   getEngagementPersonnel: (id: string) => Promise<EngagementPersonnelListItem[]>
 }
 
+interface UseViewEngagementRecordHandlerOptions {
+  selectedEngagementRecord: Ref<EngagementManagementListItem | null>
+  isViewEngagementRecordModalOpen: Ref<boolean>
+  getEngagementRecordById: (id: string) => Promise<EngagementManagementListItem>
+}
+
 const mapPersonnelRows = (personnelItems: EngagementPersonnelListItem[]): Record<string, unknown>[] => {
   return personnelItems.map(item => ({
     personnelCode: item.personnelCode ?? '—',
@@ -40,5 +46,25 @@ export const useViewEngagementHandler = ({
   return {
     onOpenViewEngagementModal,
     onCloseViewEngagementModal,
+  }
+}
+
+export const useViewEngagementRecordHandler = ({
+  selectedEngagementRecord,
+  isViewEngagementRecordModalOpen,
+  getEngagementRecordById,
+}: UseViewEngagementRecordHandlerOptions) => {
+  const onOpenViewEngagementRecordModal = async (id: string) => {
+    selectedEngagementRecord.value = await getEngagementRecordById(id)
+    isViewEngagementRecordModalOpen.value = true
+  }
+
+  const onCloseViewEngagementRecordModal = () => {
+    isViewEngagementRecordModalOpen.value = false
+  }
+
+  return {
+    onOpenViewEngagementRecordModal,
+    onCloseViewEngagementRecordModal,
   }
 }
