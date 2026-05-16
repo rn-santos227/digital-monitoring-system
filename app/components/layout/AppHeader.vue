@@ -1,5 +1,5 @@
 <template>
-  <header :class="APP_HEADER_CLASSES">
+  <header :class="headerClasses">
     <div class="flex flex-1 items-center gap-4 pr-4">
       <GeneralSearchField
         v-model="searchQuery"
@@ -41,16 +41,21 @@
 import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { DASHBOARD_SEARCH_PLACEHOLDER, HEADER_ACCOUNT_MENU_ITEMS } from '~/constants/navigation.constants'
-import { APP_HEADER_CLASSES } from '~/constants/ui.constants'
+import { APP_HEADER_CLASSES, APP_SURFACE_THEME_CLASSES } from '~/constants/ui.constants'
 import type { BaseMenuItem } from '~/types/domain/misc'
 import { useLogoutHandler } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
+import { useApplicationSettingsStore } from '~/stores/application-settings'
 
 const authStore = useAuthStore()
+const applicationSettingsStore = useApplicationSettingsStore()
 const { currentUser } = storeToRefs(authStore)
+const { item: applicationSettingsItem } = storeToRefs(applicationSettingsStore)
 
 const searchQuery = ref('')
 const accountLabel = computed(() => currentUser.value?.fullName || currentUser.value?.email || 'Authenticated User')
+const resolvedTheme = computed(() => (applicationSettingsItem.value?.appTheme ?? 'light') as keyof typeof APP_SURFACE_THEME_CLASSES)
+const headerClasses = computed(() => [APP_HEADER_CLASSES, 'border-b', APP_SURFACE_THEME_CLASSES[resolvedTheme.value] ?? APP_SURFACE_THEME_CLASSES.light])
 
 const userInitials = computed(() => {
   const name = currentUser.value?.fullName || currentUser.value?.email || 'AU'

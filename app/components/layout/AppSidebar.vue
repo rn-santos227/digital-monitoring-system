@@ -1,5 +1,5 @@
 <template>
-  <aside :class="APP_SIDEBAR_CLASSES">
+  <aside :class="sidebarClasses">
     <div class="border-b border-white/10 px-6 py-5">
       <BaseInlineLoader
         v-if="isSidebarBrandingLoading"
@@ -15,7 +15,7 @@
         :key="section.title"
         class="mb-5 space-y-2"
       >
-        <h2 :class="APP_SIDEBAR_SECTION_TITLE_CLASSES">{{ section.title }}</h2>
+        <h2 :class="sidebarSectionTitleClasses">{{ section.title }}</h2>
         <NuxtLink
           v-for="item in section.items"
           :key="item.to"
@@ -52,18 +52,39 @@ import { useAuthStore } from '~/stores/auth'
 import type { NavigationItem } from '~/types/domain/misc'
 import {
   APP_SIDEBAR_CLASSES,
-  APP_SIDEBAR_ITEM_ACTIVE_CLASSES,
   APP_SIDEBAR_ITEM_BASE_CLASSES,
-  APP_SIDEBAR_ITEM_INACTIVE_CLASSES,
+  APP_SIDEBAR_ITEM_THEME_CLASSES,
   APP_SIDEBAR_SECTION_TITLE_CLASSES,
+  APP_SIDEBAR_THEME_CLASSES,
 } from '~/constants/ui.constants'
 
 const route = useRoute()
 const authStore = useAuthStore()
 const applicationSettingsStore = useApplicationSettingsStore()
-const { hasLoaded: hasApplicationSettingsLoaded } = storeToRefs(applicationSettingsStore)
+const { hasLoaded: hasApplicationSettingsLoaded, item: applicationSettingsItem } = storeToRefs(applicationSettingsStore)
 
 const isSidebarBrandingLoading = computed(() => !hasApplicationSettingsLoaded.value)
+
+
+const resolvedTheme = computed(() => {
+  const appTheme = applicationSettingsItem.value?.appTheme ?? 'light'
+
+  return appTheme as keyof typeof APP_SIDEBAR_THEME_CLASSES
+})
+
+const sidebarClasses = computed(() => {
+  const themeKey = resolvedTheme.value
+  const themeClasses = APP_SIDEBAR_THEME_CLASSES[themeKey] ?? APP_SIDEBAR_THEME_CLASSES.light
+
+  return [APP_SIDEBAR_CLASSES, themeClasses]
+})
+
+const sidebarSectionTitleClasses = computed(() => {
+  const themeKey = resolvedTheme.value
+  const itemTheme = APP_SIDEBAR_ITEM_THEME_CLASSES[themeKey] ?? APP_SIDEBAR_ITEM_THEME_CLASSES.light
+
+  return [APP_SIDEBAR_SECTION_TITLE_CLASSES, itemTheme.sectionTitle]
+})
 
 const hasPermissionAccess = (item: NavigationItem) => {
   if (item.requiredPermissionMode === 'any') {
@@ -95,7 +116,7 @@ const resolveItemClasses = (path: string) => {
 
   return [
     APP_SIDEBAR_ITEM_BASE_CLASSES,
-    isActive ? APP_SIDEBAR_ITEM_ACTIVE_CLASSES : APP_SIDEBAR_ITEM_INACTIVE_CLASSES,
+    isActive ? (APP_SIDEBAR_ITEM_THEME_CLASSES[resolvedTheme.value] ?? APP_SIDEBAR_ITEM_THEME_CLASSES.light).active : (APP_SIDEBAR_ITEM_THEME_CLASSES[resolvedTheme.value] ?? APP_SIDEBAR_ITEM_THEME_CLASSES.light).inactive,
   ]
 }
 

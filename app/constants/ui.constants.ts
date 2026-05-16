@@ -132,14 +132,39 @@ export const BASE_TABLE_ACTIONS_COLUMN_WIDTH_CLASSES = Object.freeze({
   4: 'w-40'
 })
 
-export const APP_SIDEBAR_CLASSES = 'sticky top-0 flex h-screen w-72 flex-col border-r border-emerald-800 bg-emerald-950 text-emerald-50'
-export const APP_SIDEBAR_SECTION_TITLE_CLASSES = 'px-2 text-xs font-semibold uppercase tracking-wide text-emerald-300/90'
-export const APP_SIDEBAR_ITEM_BASE_CLASSES = 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition'
-export const APP_SIDEBAR_ITEM_ACTIVE_CLASSES = 'bg-emerald-500 text-emerald-950 font-semibold'
-export const APP_SIDEBAR_ITEM_INACTIVE_CLASSES = 'text-emerald-50 hover:bg-white/10'
+export const APP_SIDEBAR_CLASSES = 'sticky top-0 flex h-screen w-72 flex-col'
 
-export const APP_HEADER_CLASSES = 'sticky top-0 z-20 flex h-16 items-center justify-between border-b border-emerald-900/50 bg-emerald-100 px-6'
-export const APP_FOOTER_CLASSES = 'border-t border-emerald-900/50 bg-emerald-100 px-6 py-3 text-xs text-emerald-900'
+export const APP_SIDEBAR_THEME_CLASSES = Object.freeze({
+  light: 'border-r border-emerald-800 bg-emerald-950 text-emerald-50',
+  dark: 'border-r border-slate-800 bg-slate-950 text-slate-100',
+  amber: 'border-r border-amber-800 bg-amber-950 text-amber-50',
+  azure: 'border-r border-sky-800 bg-sky-950 text-sky-50',
+  emerald: 'border-r border-emerald-800 bg-emerald-950 text-emerald-50',
+  brown: 'border-r border-orange-800 bg-orange-950 text-orange-50',
+} as const)
+
+export const APP_SIDEBAR_SECTION_TITLE_CLASSES = 'px-2 text-xs font-semibold uppercase tracking-wide'
+
+export const APP_SIDEBAR_ITEM_BASE_CLASSES = 'flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition'
+export const APP_SIDEBAR_ITEM_THEME_CLASSES = Object.freeze({
+  light: { sectionTitle: 'text-emerald-300/90', active: 'bg-emerald-500 text-emerald-950 font-semibold', inactive: 'text-emerald-50 hover:bg-white/10' },
+  dark: { sectionTitle: 'text-slate-300/90', active: 'bg-slate-200 text-slate-950 font-semibold', inactive: 'text-slate-100 hover:bg-white/10' },
+  amber: { sectionTitle: 'text-amber-300/90', active: 'bg-amber-400 text-amber-950 font-semibold', inactive: 'text-amber-50 hover:bg-white/10' },
+  azure: { sectionTitle: 'text-sky-300/90', active: 'bg-sky-400 text-sky-950 font-semibold', inactive: 'text-sky-50 hover:bg-white/10' },
+  emerald: { sectionTitle: 'text-emerald-300/90', active: 'bg-emerald-500 text-emerald-950 font-semibold', inactive: 'text-emerald-50 hover:bg-white/10' },
+  brown: { sectionTitle: 'text-orange-300/90', active: 'bg-orange-400 text-orange-950 font-semibold', inactive: 'text-orange-50 hover:bg-white/10' },
+} as const)
+
+export const APP_HEADER_CLASSES = 'sticky top-0 z-20 flex h-16 items-center justify-between px-6'
+export const APP_FOOTER_CLASSES = 'px-6 py-3 text-xs'
+export const APP_SURFACE_THEME_CLASSES = Object.freeze({
+  light: 'border-emerald-900/50 bg-emerald-100 text-emerald-900',
+  dark: 'border-slate-800/80 bg-slate-900 text-slate-100',
+  amber: 'border-amber-900/50 bg-amber-100 text-amber-900',
+  azure: 'border-sky-900/40 bg-sky-100 text-sky-900',
+  emerald: 'border-emerald-900/50 bg-emerald-100 text-emerald-900',
+  brown: 'border-orange-900/50 bg-orange-100 text-orange-900',
+} as const)
 
 export const BASE_MENU_TRIGGER_CLASSES =
   'inline-flex w-full items-center justify-between gap-2 rounded-xl border border-transparent px-2 py-1 text-sm text-slate-700 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600'
