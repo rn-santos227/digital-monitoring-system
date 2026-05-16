@@ -56,6 +56,7 @@
           :page-size="engagementRecordsPagination.pageSize"
           @update:current-page="onEngagementRecordsPageChange"
           @update:page-size="onEngagementRecordsPageSizeChange"
+          @action="onEngagementRecordAction"
         />
       </template>
 
@@ -110,11 +111,26 @@
         @submit="onSubmitUpdateEngagement"
       />
 
+      <UpdateEngagementRecordModal
+        v-if="selectedEngagementRecord && isUpdateEngagementRecordModalOpen"
+        :initial-values="updateRecordFormValues"
+        :is-submitting="isEngagementRecordsLoading"
+        :error-message="updateEngagementRecordErrorMessage"
+        @close="onCloseUpdateEngagementRecordModal"
+        @submit="onSubmitUpdateEngagementRecord"
+      />
+
       <ViewEngagementModal
         v-if="selectedEngagement && isViewEngagementModalOpen"
         :engagement="selectedEngagement"
         :personnel-rows="engagementPersonnelRows"
         @close="onCloseViewEngagementModal"
+      />
+
+      <ViewEngagementRecordModal
+        v-if="selectedEngagementRecord && isViewEngagementRecordModalOpen"
+        :record="selectedEngagementRecord"
+        @close="onCloseViewEngagementRecordModal"
       />
     </section>
   </main>
@@ -131,16 +147,21 @@ import EngagementRecordsTable from '~/components/engagements/EngagementRecordsTa
 import EngagementsFilter from '~/components/engagements/EngagementsFilter.vue'
 import EngagementsTable from '~/components/engagements/EngagementsTable.vue'
 import UpdateEngagementModal from '~/components/engagements/UpdateEngagementModal.vue'
+import UpdateEngagementRecordModal from '~/components/engagements/UpdateEngagementRecordModal.vue'
 import ViewEngagementModal from '~/components/engagements/ViewEngagementModal.vue'
+import ViewEngagementRecordModal from '~/components/engagements/ViewEngagementRecordModal.vue'
 import { useDialog } from '~/composables/useDialog'
 import { useEngagements } from '~/composables/useEngagements'
 import {
   useCreateEngagementHandler,
   useCreateEngagementRecordHandler,
   useDeleteEngagementHandler,
+  useDeleteEngagementRecordHandler,
   useEngagementManagementPageHandlers,
   useUpdateEngagementHandler,
+  useUpdateEngagementRecordHandler,
   useViewEngagementHandler,
+  useViewEngagementRecordHandler,
 } from '~/handlers/engagements'
 import { useAuthStore } from '~/stores/auth'
 import { useEngagementsStore } from '~/stores/engagements'
@@ -169,9 +190,13 @@ const isCreateEngagementModalOpen = ref(false)
 const isCreateEngagementRecordModalOpen = ref(false)
 const isUpdateEngagementModalOpen = ref(false)
 const isViewEngagementModalOpen = ref(false)
+const isUpdateEngagementRecordModalOpen = ref(false)
+const isViewEngagementRecordModalOpen = ref(false)
 const createEngagementErrorMessage = ref('')
 const updateEngagementErrorMessage = ref('')
+const updateEngagementRecordErrorMessage = ref('')
 const selectedEngagement = ref<EngagementManagementListItem | null>(null)
+const selectedEngagementRecord = ref<EngagementManagementListItem | null>(null)
 const engagementPersonnelRows = ref<Record<string, unknown>[]>([])
 
 const authStore = useAuthStore()
@@ -184,6 +209,9 @@ const {
   updateEngagement,
   getEngagementById,
   getEngagementPersonnel,
+  getEngagementRecordById,
+  updateEngagementRecord,
+  deleteEngagementRecord,
 } = useEngagements()
 
 const visibleTabItems = computed(() => {
@@ -223,6 +251,18 @@ const updateFormValues = computed(() => ({
   startDate: selectedEngagement.value?.startDate ?? '',
   endDate: selectedEngagement.value?.endDate ?? '',
   defaultRemarks: selectedEngagement.value?.defaultRemarks ?? '',
+}))
+
+const updateRecordFormValues = computed(() => ({
+  personnel_id: selectedEngagementRecord.value?.personnelId ?? '',
+  engagement_id: selectedEngagementRecord.value?.engagementId ?? '',
+  personnel_name: selectedEngagementRecord.value?.personnelName ?? '',
+  engagement_title: selectedEngagementRecord.value?.engagementTitle ?? '',
+  role: selectedEngagementRecord.value?.role ?? '',
+  location: selectedEngagementRecord.value?.location ?? '',
+  start_date: selectedEngagementRecord.value?.startDate ?? '',
+  end_date: selectedEngagementRecord.value?.endDate ?? '',
+  remarks: selectedEngagementRecord.value?.remarks ?? '',
 }))
 
 const loadEngagements = async (page = 1, pageSize?: number) => {
@@ -282,6 +322,33 @@ const { onDeleteEngagement } = useDeleteEngagementHandler({
   showDialog,
 })
 
+const { onDeleteEngagementRecord } = useDeleteEngagementRecordHandler({
+  deleteEngagementRecord,
+  showDialog,
+})
+
+const {
+  onOpenViewEngagementRecordModal,
+  onCloseViewEngagementRecordModal,
+} = useViewEngagementRecordHandler({
+  selectedEngagementRecord,
+  isViewEngagementRecordModalOpen,
+  getEngagementRecordById,
+})
+
+const {
+  onOpenUpdateEngagementRecordModal,
+  onCloseUpdateEngagementRecordModal,
+  onSubmitUpdateEngagementRecord,
+} = useUpdateEngagementRecordHandler({
+  selectedEngagementRecord,
+  isUpdateEngagementRecordModalOpen,
+  errorMessage: updateEngagementRecordErrorMessage,
+  getEngagementRecordById,
+  updateEngagementRecord,
+  showDialog,
+})
+
 const onEngagementAction = async ({ actionKey, row }: { actionKey: string; row: Record<string, unknown> }) => {
   const id = String(row.id ?? '')
 
@@ -301,6 +368,28 @@ const onEngagementAction = async ({ actionKey, row }: { actionKey: string; row: 
 
   if (actionKey === 'delete-engagement') {
     await onDeleteEngagement(id)
+  }
+}
+
+const onEngagementRecordAction = async ({ actionKey, row }: { actionKey: string; row: Record<string, unknown> }) => {
+  const id = String(row.id ?? '')
+
+  if (!id) {
+    return
+  }
+
+  if (actionKey === 'view-engagement-record') {
+    await onOpenViewEngagementRecordModal(id)
+    return
+  }
+
+  if (actionKey === 'edit-engagement-record') {
+    await onOpenUpdateEngagementRecordModal(id)
+    return
+  }
+
+  if (actionKey === 'delete-engagement-record') {
+    await onDeleteEngagementRecord(id)
   }
 }
 
