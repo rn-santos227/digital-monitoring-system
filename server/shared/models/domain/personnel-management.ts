@@ -160,6 +160,31 @@ export interface PersonnelDeploymentRecordListRow {
   deployment_status: PersonnelLinkedReferenceRow | PersonnelLinkedReferenceRow[] | null
 }
 
+export interface PersonnelDeploymentLocationReferenceRow {
+  full_name?: string
+  first_name?: string
+  middle_name?: string | null
+  last_name?: string
+}
+
+export interface PersonnelDeploymentLocationRow {
+  personnel_id: string
+  operation_name: string | null
+  deployment_area: string
+  deployment_area_latitude: number | null
+  deployment_area_longitude: number | null
+  personnel: PersonnelDeploymentLocationReferenceRow | PersonnelDeploymentLocationReferenceRow[] | null
+}
+
+export interface PersonnelDeploymentLocationItem {
+  personnelId: string
+  personnelName: string | null
+  operationName: string | null
+  deploymentArea: string
+  latitude: number | null
+  longitude: number | null
+}
+
 export interface PersonnelEngagementRecordListRow {
   id: string
   engagement_title: string
