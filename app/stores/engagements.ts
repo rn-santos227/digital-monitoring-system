@@ -13,13 +13,16 @@ import {
   createEngagementEndpoint,
   createEngagementRecordEndpoint,
   deleteEngagementEndpoint,
+  deleteEngagementRecordEndpoint,
   getEngagementByIdEndpoint,
+  getEngagementRecordByIdEndpoint,
   getEngagementPersonnelEndpoint,
   getEngagementRecordsEndpoint,
   getEngagementsEndpoint,
   searchEngagementRecordsEndpoint,
   searchEngagementsEndpoint,
   updateEngagementEndpoint,
+  updateEngagementRecordEndpoint,
 } from '~/utils/engagement-endpoints'
 
 const DEFAULT_PAGINATION: EngagementTablePagination = {
@@ -169,6 +172,33 @@ export const useEngagementsStore = defineStore('engagements', {
       const response = await getEngagementPersonnelEndpoint(id)
       this.engagementPersonnel = response.items
       return response.items
+    },
+
+    async updateEngagementRecord(this: EngagementsStoreState, id: string, payload: CreateEngagementRecordPayload): Promise<void> {
+      this.records.error = ''
+      try {
+        const response = await updateEngagementRecordEndpoint(id, payload)
+        this.records.items = this.records.items.map(item => (item.id === id ? response.item : item))
+      } catch (error) {
+        this.records.error = extractApiErrorMessage(error, 'Unable to update engagement record.')
+        throw error
+      }
+    },
+
+    async deleteEngagementRecord(this: EngagementsStoreState, id: string): Promise<void> {
+      this.records.error = ''
+      try {
+        await deleteEngagementRecordEndpoint(id)
+        this.records.items = this.records.items.filter(item => item.id !== id)
+        this.records.pagination.totalItems = Math.max(0, this.records.pagination.totalItems - 1)
+      } catch (error) {
+        this.records.error = extractApiErrorMessage(error, 'Unable to delete engagement record.')
+        throw error
+      }
+    },
+
+    async getEngagementRecordById(this: EngagementsStoreState, id: string): Promise<EngagementManagementListItem> {
+      return await getEngagementRecordByIdEndpoint(id)
     },
 
     async fetchEngagementRecords(this: EngagementsStoreState, page = 1, filters: Partial<EngagementManagementSearchQuery> = {}, pageSize?: number) {
