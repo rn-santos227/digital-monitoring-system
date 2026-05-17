@@ -14,6 +14,7 @@ import {
   searchDeploymentsEndpoint,
   updateDeploymentDetailsEndpoint,
   updateDeploymentLocationEndpoint,
+  updateDeploymentRecordLocationEndpoint,
   deleteDeploymentEndpoint,
   createDeploymentRecordEndpoint,
   updateDeploymentRecordEndpoint,

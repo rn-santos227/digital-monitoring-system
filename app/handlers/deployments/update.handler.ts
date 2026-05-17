@@ -5,6 +5,7 @@ import type {
   DeploymentManagementListItem,
   CreateDeploymentPayload,
   DeploymentRecordFormValues,
+  UpdateDeploymentRecordPayload,
 } from '~/types/domain/deployment'
 import { showErrorDialog } from '~/utils/error-handling'
 
@@ -17,14 +18,6 @@ interface UseUpdateDeploymentHandlerOptions {
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   errorMessage: Ref<string>
   isUpdateDeploymentLocationModalOpen?: Ref<boolean>
-}
-
-interface UseUpdateDeploymentRecordHandlerOptions {
-  isUpdateDeploymentRecordModalOpen: Ref<boolean>
-  selectedDeploymentRecord: Ref<DeploymentManagementListItem | null>
-  updateDeploymentRecord: (id: string, payload: import('~/types/domain/deployment').UpdateDeploymentRecordPayload) => Promise<void>
-  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
-  errorMessage: Ref<string>
 }
 
 export const useUpdateDeploymentHandler = ({
@@ -156,7 +149,7 @@ export const useUpdateDeploymentHandler = ({
 interface UseUpdateDeploymentRecordHandlerOptions {
   isUpdateDeploymentRecordModalOpen: Ref<boolean>
   selectedDeploymentRecord: Ref<DeploymentManagementListItem | null>
-  updateDeploymentRecord: (id: string, payload: import('~/types/domain/deployment').UpdateDeploymentRecordPayload) => Promise<void>
+  updateDeploymentRecord: (id: string, payload: UpdateDeploymentRecordPayload) => Promise<void>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   errorMessage: Ref<string>
 }
@@ -186,7 +179,7 @@ export const useUpdateDeploymentRecordHandler = ({
     remarks: selectedDeploymentRecord.value?.remarks ?? '',
   }))
 
-  const onSubmitUpdateDeploymentRecord = async (payload: import('~/types/domain/deployment').UpdateDeploymentRecordPayload) => {
+  const onSubmitUpdateDeploymentRecord = async (payload: UpdateDeploymentRecordPayload) => {
     errorMessage.value = ''
     const id = selectedDeploymentRecord.value?.id
     if (!id) {

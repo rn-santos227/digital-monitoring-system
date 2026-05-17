@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
 import type { DialogInput } from '~/composables/useDialog'
-import type { CreateDeploymentPayload } from '~/types/domain/deployment'
+import type { CreateDeploymentPayload, CreateDeploymentRecordPayload } from '~/types/domain/deployment'
 import { showErrorDialog } from '~/utils/error-handling'
 
 interface UseCreateDeploymentHandlerOptions {
@@ -12,7 +12,7 @@ interface UseCreateDeploymentHandlerOptions {
 
 interface UseCreateDeploymentRecordHandlerOptions {
   isCreateDeploymentRecordModalOpen: Ref<boolean>
-  createDeploymentRecord: (payload: import('~/types/domain/deployment').CreateDeploymentRecordPayload) => Promise<{ id: string }>
+  createDeploymentRecord: (payload: CreateDeploymentRecordPayload) => Promise<{ id: string }>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   errorMessage: Ref<string>
 }
@@ -70,7 +70,7 @@ export const useCreateDeploymentRecordHandler = ({
     isCreateDeploymentRecordModalOpen.value = false
   }
 
-  const onSubmitCreateDeploymentRecord = async (payload: import('~/types/domain/deployment').CreateDeploymentRecordPayload) => {
+  const onSubmitCreateDeploymentRecord = async (payload: CreateDeploymentRecordPayload) => {
     errorMessage.value = ''
 
     try {
