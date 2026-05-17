@@ -8,7 +8,9 @@
     <form class="space-y-4" @submit.prevent="onSubmit">
       <DeploymentSuggestionField v-model="form.deployment_id" :error="errors.deployment_id" @select="onDeploymentSelected" />
       <PersonnelSuggestionField v-model="form.personnel_id" :error="errors.personnel_id" />
-      <div class="grid gap-4 md:grid-cols-2">
+      <BaseTab :model-value="activeTab" :items="CREATE_DEPLOYMENT_RECORD_TAB_ITEMS" aria-label="Create deployment record sections" @update:model-value="onTabChange" />
+
+      <div v-if="activeTab === 'details'" class="grid gap-4 md:grid-cols-2">
         <BaseTextField 
           v-model="form.assignment_role"
           label="Assignment Role"
@@ -33,6 +35,29 @@
           :error="errors.end_date"
         />
       </div>
+      <div v-else class="space-y-4">
+        <div class="grid gap-4 md:grid-cols-2">
+          <BaseTextField
+            v-model="form.deployment_area_latitude"
+            label="Deployment Latitude"
+            :error="errors.deployment_area_latitude"
+          />
+          <BaseTextField
+            v-model="form.deployment_area_longitude"
+            label="Deployment Longitude"
+            :error="errors.deployment_area_longitude"
+          />
+        </div>
+        <BaseGeoMap
+          title="Deployment Geomap"
+          subtitle="Set deployment coordinates for this personnel record."
+          :latitude="parsedLatitude"
+          :longitude="parsedLongitude"
+          mode="input"
+          @update:latitude="onMapLatitudeUpdate"
+          @update:longitude="onMapLongitudeUpdate"
+        />
+      </div>
 
       <BaseTextArea
         v-model="form.remarks"
@@ -51,7 +76,9 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
+import BaseGeoMap from '~/components/ui/BaseGeoMap.vue'
+import type { BaseTabItem } from '~/constants/ui.constants'
 import DeploymentSuggestionField from '~/components/general/DeploymentSuggestionField.vue'
 import PersonnelSuggestionField from '~/components/general/PersonnelSuggestionField.vue'
 import type { CreateDeploymentRecordPayload } from '~/types/domain/deployment'
@@ -67,11 +94,19 @@ const emit = defineEmits<{
   (event: 'submit', payload: CreateDeploymentRecordPayload): void
 }>()
 
+const CREATE_DEPLOYMENT_RECORD_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
+  { id: 'details', label: 'Details' },
+  { id: 'location', label: 'Geomap' },
+])
+const activeTab = ref<'details' | 'location'>('details')
+
 interface CreateDeploymentRecordForm {
   personnel_id: string
   deployment_id: string
   assignment_role: string
   deployment_area: string
+  deployment_area_latitude: string
+  deployment_area_longitude: string
   start_date: string
   end_date: string
   remarks: string
@@ -82,6 +117,8 @@ const form = reactive<CreateDeploymentRecordForm>({
   personnel_id: '',
   assignment_role: '',
   deployment_area: '',
+  deployment_area_latitude: '',
+  deployment_area_longitude: '',
   start_date: '',
   end_date: '',
   remarks: '',
@@ -96,8 +133,21 @@ const onDeploymentSelected = (deployment: DeploymentManagementListItem | null) =
 
   form.assignment_role = deployment.assignmentRole ?? ''
   form.deployment_area = deployment.deploymentArea ?? ''
-  form.start_date = deployment.startDate ?? ''
-  form.end_date = deployment.endDate ?? ''
+  form.deployment_area_latitude = String(deployment.deploymentAreaLatitude ?? '')
+  form.deployment_area_longitude = String(deployment.deploymentAreaLongitude ?? '')
+}
+const parsedLatitude = computed(() => Number.parseFloat(form.deployment_area_latitude))
+const parsedLongitude = computed(() => Number.parseFloat(form.deployment_area_longitude))
+
+const onMapLatitudeUpdate = (value: number) => {
+  form.deployment_area_latitude = value.toFixed(6)
+}
+
+const onMapLongitudeUpdate = (value: number) => {
+  form.deployment_area_longitude = value.toFixed(6)
+}
+const onTabChange = (value: string) => {
+  activeTab.value = value === 'location' ? 'location' : 'details'
 }
 
 const onSubmit = () => {

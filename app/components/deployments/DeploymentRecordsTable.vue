@@ -57,6 +57,7 @@ const authStore = useAuthStore()
 const DEPLOYMENT_RECORDS_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
   { key: 'view-deployment-record', tooltip: 'View record', iconName: 'eye', variant: 'info' },
   { key: 'edit-deployment-record', tooltip: 'Update record', iconName: 'pencil-square', variant: 'warning' },
+  { key: 'edit-deployment-record-location', tooltip: 'Update location', iconName: 'map-pin', variant: 'warning' },
   { key: 'delete-deployment-record', tooltip: 'Delete record', iconName: 'trash', variant: 'danger' },
 ])
 
