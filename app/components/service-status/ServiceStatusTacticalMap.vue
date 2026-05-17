@@ -16,6 +16,22 @@
         <rect width="1000" height="650" fill="#0f172a" />
         <rect width="1000" height="650" fill="url(#grid)" />
       </svg>
+
+      <button
+        v-for="group in groupedPins"
+        :key="group.id"
+        :class="SERVICE_STATUS_TACTICAL_PIN_BUTTON_CLASSES"
+        :style="{ left: `${group.x}%`, top: `${group.y}%` }"
+        @click="onPinClick(group)"
+      >
+        <span :class="SERVICE_STATUS_TACTICAL_PIN_WRAPPER_CLASSES">
+          <img :src="serviceStatusPinIcon" alt="Personnel map pin" :class="SERVICE_STATUS_TACTICAL_PIN_ICON_CLASSES">
+          <span
+            v-if="group.items.length > 1"
+            :class="SERVICE_STATUS_TACTICAL_PIN_BADGE_CLASSES"
+          >{{ group.items.length }}</span>
+        </span>
+      </button>
     </div>
   </BaseCard>
 </template>
