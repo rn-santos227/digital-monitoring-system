@@ -259,16 +259,6 @@ export const BASE_ALERT_TONE_CLASSES: Record<UiTone, string> = {
   info: 'border-sky-200 bg-sky-50 text-sky-700'
 }
 
-export const SERVICE_STATUS_PAGE_MAIN_CLASSES = 'space-y-6'
-export const SERVICE_STATUS_PAGE_HEADER_CLASSES = 'space-y-1'
-export const SERVICE_STATUS_PAGE_TITLE_CLASSES = 'text-3xl font-semibold text-slate-900'
-export const SERVICE_STATUS_PAGE_SUBTITLE_CLASSES = 'text-sm text-slate-600'
-export const SERVICE_STATUS_PAGE_CONTENT_CLASSES = 'space-y-4'
-export const SERVICE_STATUS_PAGE_MAP_WRAPPER_CLASSES = 'min-h-[70vh]'
-export const SERVICE_STATUS_PAGE_DETAILS_CLASSES = 'rounded-lg border border-slate-200 bg-white'
-export const SERVICE_STATUS_PAGE_DETAILS_SUMMARY_CLASSES = 'cursor-pointer px-4 py-3 text-sm font-medium text-slate-700'
-export const SERVICE_STATUS_PAGE_DETAILS_BODY_CLASSES = 'p-4 pt-0'
-
 export const SERVICE_STATUS_PERSONNEL_TABLE_CARD_CLASSES = 'overflow-hidden'
 export const SERVICE_STATUS_PERSONNEL_TABLE_HEADER_CLASSES = 'border-b border-slate-200 px-4 py-3'
 export const SERVICE_STATUS_PERSONNEL_TABLE_TITLE_CLASSES = 'text-sm font-semibold text-slate-800'
