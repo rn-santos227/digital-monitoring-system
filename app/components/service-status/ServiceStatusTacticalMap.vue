@@ -1,5 +1,5 @@
 <template>
-  <BaseCard class="p-4">
+  <BaseCard :class="SERVICE_STATUS_TACTICAL_CARD_CLASSES">
     <div :class="SERVICE_STATUS_TACTICAL_HEADER_CLASSES">
       <div>
         <h3 :class="SERVICE_STATUS_TACTICAL_TITLE_CLASSES">Tactical Map</h3>
