@@ -24,4 +24,12 @@ import {
 } from '~/constants/page.constants'
 import { fetchPersonnelLocationsEndpoint } from '~/utils/service-status-endpoints'
 import type {  PersonnelLocationItem } from '~/types/domain/personnel'
+
+const activeTab = ref('service-map')
+const isLoading = ref(false)
+const errorMessage = ref('')
+const locationItems = ref<PersonnelLocationItem[]>([])
+const selectedPersonnelId = ref<string | null>(null)
+
+
 </script>
