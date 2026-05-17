@@ -1,4 +1,12 @@
 <template>
+  <BaseCard class="p-4">
+    <div class="mb-3 flex items-center justify-between">
+      <div>
+        <h3 class="text-sm font-semibold text-slate-800">Tactical Map</h3>
+        <p class="text-xs text-slate-500">Select pin or table row to view personnel details.</p>
+      </div>
+    </div>
+  </BaseCard>
 </template>
 
 <script setup lang="ts">
