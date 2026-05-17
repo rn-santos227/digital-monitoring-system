@@ -1,5 +1,34 @@
 <template>
+  <BaseModal
+    title="Update Deployment Record"
+    description="Update deployment record details."
+    size="xl"
+    @close="emit('close')"
+  >
+    <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
 
+      <div class="grid gap-4 md:grid-cols-2">
+        <BaseTextField :model-value="initialValues.personnelName" label="Personnel" disabled />
+        <BaseTextField :model-value="initialValues.operationName" label="Deployment" disabled />
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <BaseTextField v-model="form.assignment_role" label="Assignment Role" :error="errors.assignment_role" />
+        <BaseDatePicker v-model="form.start_date" label="Start Date" :error="errors.start_date" />
+        <BaseDatePicker v-model="form.end_date" label="End Date" :error="errors.end_date" />
+      </div>
+
+      <BaseTextArea v-model="form.remarks" label="Remarks" :error="errors.remarks" />
+    </form>
+
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton :disabled="isSubmitting" @click="onSubmit">Update</BaseButton>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
