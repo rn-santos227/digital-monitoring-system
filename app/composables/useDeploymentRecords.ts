@@ -16,6 +16,7 @@ export const useDeploymentRecords = () => {
     startDate: item.startDate ?? '—',
     endDate: item.endDate ?? '—',
     statusName: item.statusName ?? '—',
+    remarks: item.remarks ?? '—',
   })))
 
   const loadDeploymentRecords = async (page = records.value.pagination.page, nextFilters: Partial<DeploymentManagementSearchQuery> = filters.value, pageSize = records.value.pagination.pageSize) => {
@@ -29,6 +30,7 @@ export const useDeploymentRecords = () => {
 
   const createDeploymentRecord = async (payload: CreateDeploymentRecordPayload) => deploymentsStore.createDeploymentRecord(payload)
   const updateDeploymentRecord = async (id: string, payload: UpdateDeploymentRecordPayload) => deploymentsStore.updateDeploymentRecord(id, payload)
+  const updateDeploymentRecordLocation = async (id: string, payload: UpdateDeploymentRecordPayload) => deploymentsStore.updateDeploymentRecordLocation(id, payload)
   const deleteDeploymentRecord = async (id: string) => deploymentsStore.deleteDeploymentRecord(id)
   const getDeploymentRecordById = async (id: string) => deploymentsStore.fetchDeploymentRecordById(id)
 
@@ -42,6 +44,7 @@ export const useDeploymentRecords = () => {
     loadDeploymentRecords,
     createDeploymentRecord,
     updateDeploymentRecord,
+    updateDeploymentRecordLocation,
     deleteDeploymentRecord,
     getDeploymentRecordById,
   }
