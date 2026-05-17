@@ -421,3 +421,16 @@ export const ENGAGEMENT_RECORDS_TABLE_COLUMNS: readonly DataTableColumn[] = Obje
   { key: 'startDate', dataType: 'date', label: 'Start Date', sortable: true },
   { key: 'endDate', dataType: 'date', label: 'End Date', sortable: true },
 ])
+
+export const SERVICE_STATUS_PERSONNEL_TABLE_CARD_CLASSES = 'overflow-hidden'
+export const SERVICE_STATUS_PERSONNEL_TABLE_HEADER_CLASSES = 'border-b border-slate-200 px-4 py-3'
+export const SERVICE_STATUS_PERSONNEL_TABLE_TITLE_CLASSES = 'text-sm font-semibold text-slate-800'
+export const SERVICE_STATUS_PERSONNEL_TABLE_SUBTITLE_CLASSES = 'mt-1 text-xs text-slate-500'
+export const SERVICE_STATUS_PERSONNEL_TABLE_SCROLL_CLASSES = 'max-h-72 overflow-auto'
+export const SERVICE_STATUS_PERSONNEL_TABLE_CLASSES = 'min-w-full divide-y divide-slate-200 text-xs'
+export const SERVICE_STATUS_PERSONNEL_TABLE_HEAD_CLASSES = 'bg-slate-50 text-left uppercase tracking-wide text-slate-500'
+export const SERVICE_STATUS_PERSONNEL_TABLE_TH_CLASSES = 'px-4 py-2'
+export const SERVICE_STATUS_PERSONNEL_TABLE_BODY_CLASSES = 'divide-y divide-slate-100'
+export const SERVICE_STATUS_PERSONNEL_TABLE_ROW_CLASSES = 'cursor-pointer hover:bg-slate-50'
+export const SERVICE_STATUS_PERSONNEL_TABLE_CELL_PRIMARY_CLASSES = 'px-4 py-2 font-medium text-slate-700'
+export const SERVICE_STATUS_PERSONNEL_TABLE_CELL_CLASSES = 'px-4 py-2 text-slate-600'
