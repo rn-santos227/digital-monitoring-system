@@ -5,7 +5,7 @@
 import { computed, ref } from 'vue'
 import BaseCard from '~/components/ui/BaseCard.vue'
 import serviceStatusPinIcon from '~/assets/icons/service-status-pin.svg'
-import type { PersonnelLocationItem } from '~/utils/service-status-endpoints'
+import type { PersonnelLocationItem } from '~/types/domain/personnel'
 
 const props = defineProps<{ items: PersonnelLocationItem[]; selectedPersonnelId: string | null }>()
 const emit = defineEmits<{ (event: 'select', item: PersonnelLocationItem): void }>()
@@ -49,4 +49,12 @@ const onPinClick = (group: { items: PersonnelLocationItem[] }) => {
   clusterSelection.value = group.items
 }
 
+const selectItem = (item: PersonnelLocationItem | null) => {
+  if (!item) {
+    return
+  }
+
+  clusterSelection.value = []
+  emit('select', item)
+}
 </script>
