@@ -3,9 +3,11 @@ import { extractApiErrorMessage } from '~/utils/api-request'
 import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-size'
 import type {
   CreateDeploymentPayload,
+  CreateDeploymentRecordPayload,
   DeploymentManagementListItem,
   DeploymentManagementSearchQuery,
   DeploymentTablePagination,
+  UpdateDeploymentRecordPayload,
 } from '~/types/domain/deployment'
 import { 
   createDeploymentEndpoint,
@@ -14,10 +16,10 @@ import {
   searchDeploymentsEndpoint,
   updateDeploymentDetailsEndpoint,
   updateDeploymentLocationEndpoint,
-  updateDeploymentRecordLocationEndpoint,
   deleteDeploymentEndpoint,
   createDeploymentRecordEndpoint,
   updateDeploymentRecordEndpoint,
+  updateDeploymentRecordLocationEndpoint,
   deleteDeploymentRecordEndpoint,
   getDeploymentRecordByIdEndpoint
 } from '~/utils/deployment-endpoints'
@@ -115,7 +117,7 @@ export const useDeploymentsStore = defineStore('deployments', {
       }
     },
 
-    async createDeploymentRecord(this: DeploymentsStoreState, payload: import('~/types/domain/deployment').CreateDeploymentRecordPayload): Promise<{ id: string }> {
+    async createDeploymentRecord(this: DeploymentsStoreState, payload: CreateDeploymentRecordPayload): Promise<{ id: string }> {
       this.records.error = ''
       try {
         const response = await createDeploymentRecordEndpoint(payload)
@@ -164,7 +166,7 @@ export const useDeploymentsStore = defineStore('deployments', {
       }
     },
 
-    async updateDeploymentRecord(this: DeploymentsStoreState, id: string, payload: import('~/types/domain/deployment').UpdateDeploymentRecordPayload) {
+    async updateDeploymentRecord(this: DeploymentsStoreState, id: string, payload: UpdateDeploymentRecordPayload) {
       this.records.error = ''
       try {
         await updateDeploymentRecordEndpoint(id, payload)
@@ -172,6 +174,18 @@ export const useDeploymentsStore = defineStore('deployments', {
         this.records.items = this.records.items.map(item => item.id === id ? updated : item)
       } catch (error) {
         this.records.error = extractApiErrorMessage(error, 'Unable to update deployment record.')
+        throw error
+      }
+    },
+
+    async updateDeploymentRecordLocation(this: DeploymentsStoreState, id: string, payload: UpdateDeploymentRecordPayload) {
+      this.records.error = ''
+      try {
+        await updateDeploymentRecordLocationEndpoint(id, payload)
+        const updated = await getDeploymentRecordByIdEndpoint(id)
+        this.records.items = this.records.items.map(item => item.id === id ? updated : item)
+      } catch (error) {
+        this.records.error = extractApiErrorMessage(error, 'Unable to update deployment record location.')
         throw error
       }
     },
