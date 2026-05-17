@@ -32,6 +32,21 @@
           >{{ group.items.length }}</span>
         </span>
       </button>
+
+      <aside
+        v-if="selectedItem"
+        :class="SERVICE_STATUS_TACTICAL_PANEL_CLASSES"
+      >
+        <h4 :class="SERVICE_STATUS_TACTICAL_PANEL_TITLE_CLASSES">Personnel Snapshot</h4>
+        <p :class="SERVICE_STATUS_TACTICAL_PANEL_LABEL_CLASSES">Personnel</p>
+        <p :class="SERVICE_STATUS_TACTICAL_PANEL_VALUE_PRIMARY_CLASSES">{{ selectedItem.personnelName ?? 'Unnamed Personnel' }}</p>
+        <p :class="SERVICE_STATUS_TACTICAL_PANEL_LABEL_CLASSES">Operation</p>
+        <p :class="SERVICE_STATUS_TACTICAL_PANEL_VALUE_CLASSES">{{ selectedItem.operationName ?? 'Unspecified' }}</p>
+        <p :class="SERVICE_STATUS_TACTICAL_PANEL_LABEL_CLASSES">Deployment Area</p>
+        <p :class="SERVICE_STATUS_TACTICAL_PANEL_VALUE_CLASSES">{{ selectedItem.deploymentArea }}</p>
+        <p :class="SERVICE_STATUS_TACTICAL_PANEL_LABEL_CLASSES">Coordinates</p>
+        <p :class="SERVICE_STATUS_TACTICAL_PANEL_VALUE_CLASSES">{{ selectedItem.latitude }}, {{ selectedItem.longitude }}</p>
+      </aside>
     </div>
   </BaseCard>
 </template>
