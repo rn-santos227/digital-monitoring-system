@@ -31,5 +31,26 @@ const errorMessage = ref('')
 const locationItems = ref<PersonnelLocationItem[]>([])
 const selectedPersonnelId = ref<string | null>(null)
 
+const onSelectItem = (item: PersonnelLocationItem) => {
+  selectedPersonnelId.value = item.personnelId
+}
 
+const loadLocations = async () => {
+  isLoading.value = true
+  errorMessage.value = ''
+
+  try {
+    locationItems.value = await fetchPersonnelLocationsEndpoint()
+    selectedPersonnelId.value = locationItems.value[0]?.personnelId ?? null
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unable to load personnel locations.'
+    errorMessage.value = message
+  } finally {
+    isLoading.value = false
+  }
+}
+
+onMounted(async () => {
+  await loadLocations()
+})
 </script>
