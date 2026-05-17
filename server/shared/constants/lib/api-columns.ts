@@ -69,7 +69,7 @@ export const PERSONNEL_DEPLOYMENT_RECORD_LIST_SELECT_COLUMNS =
   'id, deployment_area, operation_name, start_date, end_date, location, assignment_role, deployment_status:deployment_statuses(name)'
 
 export const PERSONNEL_DEPLOYMENT_LOCATION_SELECT_COLUMNS =
-  'personnel_id, operation_name, deployment_area, deployment_area_latitude, deployment_area_longitude, personnel:personnel!deployment_records_personnel_id_fkey(full_name, first_name, middle_name, last_name), deployment_statuses!inner(name)'
+  'personnel_id, operation_name, deployment_area, deployment_area_latitude, deployment_area_longitude, personnel:personnel!deployment_records_personnel_id_fkey(first_name, middle_name, last_name), deployment_statuses!inner(name)'
 
 export const PERSONNEL_ENGAGEMENT_RECORD_LIST_SELECT_COLUMNS =
   'id, engagement_title, start_date, end_date, engagement_type:engagement_types(name), engagement_status:engagement_statuses(name)'

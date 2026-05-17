@@ -7,7 +7,7 @@ export const SERVICE_STATUSES_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.fr
   { id: 'service-map', label: 'Service Status Tactical Map' },
 ])
 
-export const SERVICE_STATUS_PAGE_MAIN_CLASSES = 'space-y-6'
+export const SERVICE_STATUS_PAGE_MAIN_CLASSES = 'w-full px-4 py-8 space-y-6 sm:px-6 lg:px-8 xl:px-10'
 export const SERVICE_STATUS_PAGE_HEADER_CLASSES = 'space-y-1'
 export const SERVICE_STATUS_PAGE_TITLE_CLASSES = 'text-3xl font-semibold text-slate-900'
 export const SERVICE_STATUS_PAGE_SUBTITLE_CLASSES = 'text-sm text-slate-600'
