@@ -88,7 +88,9 @@ export const parseCreateDeploymentRecordPayload = (body: CreateDeploymentRecordR
   const deploymentArea = normalizeRequiredText(body.deploymentArea, 'Deployment area')
   const deploymentAreaLatitude = normalizeOptionalCoordinate(body.deploymentAreaLatitude, 'Deployment area latitude', -90, 90)
   const deploymentAreaLongitude = normalizeOptionalCoordinate(body.deploymentAreaLongitude, 'Deployment area longitude', -180, 180)
-  const assignmentRole = body.assignmentRole === undefined ? null : normalizeOptionalText(body.assignmentRole)
+  const assignmentRole = body.assignmentRole === undefined
+    ? (rawBody.assignmentRole === undefined ? null : normalizeOptionalText(rawBody.assignmentRole))
+    : normalizeOptionalText(body.assignmentRole)
   const operationName = body.operationName === undefined ? null : normalizeOptionalText(body.operationName)
   const startDate = normalizeRequiredDate(body.startDate, 'Start date')
   const endDate = normalizeOptionalDate(body.endDate)
@@ -140,7 +142,9 @@ export const parseCreateDeploymentPayload = (body: CreateDeploymentRequest) => {
   const deploymentArea = normalizeRequiredText(body.deploymentArea, 'Deployment area')
   const deploymentAreaLatitude = normalizeOptionalCoordinate(body.deploymentAreaLatitude, 'Deployment area latitude', -90, 90)
   const deploymentAreaLongitude = normalizeOptionalCoordinate(body.deploymentAreaLongitude, 'Deployment area longitude', -180, 180)
-  const assignmentRole = body.assignmentRole === undefined ? null : normalizeOptionalText(body.assignmentRole)
+  const assignmentRole = body.assignmentRole === undefined
+    ? (rawBody.assignmentRole === undefined ? null : normalizeOptionalText(rawBody.assignmentRole))
+    : normalizeOptionalText(body.assignmentRole)
   const operationName = body.operationName === undefined ? null : normalizeOptionalText(body.operationName)
   const startDate = normalizeRequiredDate(body.startDate, 'Start date')
   const endDate = normalizeOptionalDate(body.endDate)
@@ -184,12 +188,28 @@ export const parseCreateDeploymentPayload = (body: CreateDeploymentRequest) => {
 export const parseCreateDeploymentRecordFromDeploymentPayload = (
   body: CreateDeploymentRecordFromDeploymentRequest,
 ) => {
-  const personnelId = normalizeRequiredText(body.personnelId, 'Personnel id')
-  const deploymentId = normalizeRequiredText(body.deploymentId, 'Deployment id')
-  const assignmentRole = body.assignmentRole === undefined ? null : normalizeOptionalText(body.assignmentRole)
-  const deploymentArea = body.deploymentArea === undefined ? null : normalizeOptionalText(body.deploymentArea)
-  const startDate = body.startDate === undefined ? null : normalizeRequiredDate(body.startDate, 'Start date')
-  const endDate = body.endDate === undefined ? null : normalizeOptionalDate(body.endDate)
+  const rawBody = body as CreateDeploymentRecordFromDeploymentRequest & {
+    personnel_id?: string
+    deployment_id?: string
+    assignment_role?: string | null
+    deployment_area?: string
+    start_date?: string
+    end_date?: string | null
+  }
+  const personnelId = normalizeRequiredText(body.personnelId ?? rawBody.personnel_id, 'Personnel id')
+  const deploymentId = normalizeRequiredText(body.deploymentId ?? rawBody.deployment_id, 'Deployment id')
+  const assignmentRole = body.assignmentRole === undefined
+    ? (rawBody.assignment_role === undefined ? null : normalizeOptionalText(rawBody.assignment_role))
+    : normalizeOptionalText(body.assignmentRole)
+  const deploymentArea = body.deploymentArea === undefined
+    ? (rawBody.deployment_area === undefined ? null : normalizeOptionalText(rawBody.deployment_area))
+    : normalizeOptionalText(body.deploymentArea)
+  const startDate = body.startDate === undefined
+    ? (rawBody.start_date === undefined ? null : normalizeRequiredDate(rawBody.start_date, 'Start date'))
+    : normalizeRequiredDate(body.startDate, 'Start date')
+  const endDate = body.endDate === undefined
+    ? (rawBody.end_date === undefined ? null : normalizeOptionalDate(rawBody.end_date))
+    : normalizeOptionalDate(body.endDate)
   const remarks = body.remarks === undefined ? null : normalizeOptionalText(body.remarks)
 
   if (startDate && endDate && endDate < startDate) {
