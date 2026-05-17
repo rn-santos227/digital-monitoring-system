@@ -38,4 +38,7 @@ const groupedPins = computed(() => {
   })
 })
 
+const selectedItem = computed(() => props.items.find(item => item.personnelId === props.selectedPersonnelId) ?? null)
+
+
 </script>
