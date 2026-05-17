@@ -59,6 +59,8 @@ export const DEPLOYMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   deploymentsSearch: '/api/deployments/search',
   deploymentRecords: '/api/deployment-records',
   deploymentRecordsSearch: '/api/deployment-records/search',
+  deploymentRecordById: (id: string) => `/api/deployment-records/${id}`,
+  deploymentRecordByIdLocation: (id: string) => `/api/deployment-records/${id}/location`,
   deploymentByIdDetails: (id: string) => `/api/deployments/${id}/details`,
   deploymentByIdLocation: (id: string) => `/api/deployments/${id}/location`,
 })

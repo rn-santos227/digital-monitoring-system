@@ -111,6 +111,16 @@ export const updateDeploymentRecordEndpoint = async (id: string, payload: Update
   ), API_LOADING_MESSAGES.updateDeployment)
 }
 
+export const updateDeploymentRecordLocationEndpoint = async (id: string, payload: UpdateDeploymentRecordPayload): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () =>
+    await $fetch<{ ok: boolean }>(DEPLOYMENT_MANAGEMENT_API_ENDPOINTS.deploymentRecordByIdLocation(id), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    }
+  ), API_LOADING_MESSAGES.updateDeployment)
+}
+
 export const deleteDeploymentEndpoint = async (id: string): Promise<{ ok: boolean }> => {
   return await withApiLoading(async () => {
     return await $fetch<{ ok: boolean }>(`${DEPLOYMENT_MANAGEMENT_API_ENDPOINTS.deployments}/${id}`, {

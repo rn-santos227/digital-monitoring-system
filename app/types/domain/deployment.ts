@@ -30,6 +30,8 @@ export interface CreateDeploymentRecordPayload {
   deployment_id: string
   assignment_role?: string | null
   deployment_area?: string
+  deployment_area_latitude?: number | null
+  deployment_area_longitude?: number | null
   start_date?: string
   end_date?: string | null
   remarks?: string | null
@@ -37,6 +39,8 @@ export interface CreateDeploymentRecordPayload {
 
 export interface UpdateDeploymentRecordPayload {
   deployment_area?: string
+  deployment_area_latitude?: number | null
+  deployment_area_longitude?: number | null
   assignment_role?: string | null
   operation_name?: string | null
   start_date?: string
