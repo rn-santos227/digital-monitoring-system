@@ -40,5 +40,13 @@ const groupedPins = computed(() => {
 
 const selectedItem = computed(() => props.items.find(item => item.personnelId === props.selectedPersonnelId) ?? null)
 
+const onPinClick = (group: { items: PersonnelLocationItem[] }) => {
+  if (group.items.length === 1) {
+    selectItem(group.items[0] ?? null)
+    return
+  }
+
+  clusterSelection.value = group.items
+}
 
 </script>
