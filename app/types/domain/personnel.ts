@@ -263,5 +263,14 @@ export interface PersonnelRecordListResponse<TItem> {
   totalPages: number
 }
 
+export interface PersonnelLocationItem {
+  personnelId: string
+  personnelName: string | null
+  operationName: string | null
+  deploymentArea: string
+  latitude: number | null
+  longitude: number | null
+}
+
 export type PersonnelProfileTabId = 'core' | 'training' | 'deployment' | 'engagement' | 'equipment-assignment'
 export type PersonnelManagementTabId = 'personnel-records' | 'rank-management'
