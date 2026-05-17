@@ -6,6 +6,17 @@
         <p :class="SERVICE_STATUS_TACTICAL_SUBTITLE_CLASSES">Select pin or table row to view personnel details.</p>
       </div>
     </div>
+    <div :class="SERVICE_STATUS_TACTICAL_MAP_CLASSES">
+      <svg :class="SERVICE_STATUS_TACTICAL_GRID_CLASSES" viewBox="0 0 1000 650" preserveAspectRatio="none">
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#334155" stroke-width="1" />
+          </pattern>
+        </defs>
+        <rect width="1000" height="650" fill="#0f172a" />
+        <rect width="1000" height="650" fill="url(#grid)" />
+      </svg>
+    </div>
   </BaseCard>
 </template>
 
