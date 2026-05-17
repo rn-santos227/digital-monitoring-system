@@ -34,6 +34,8 @@ export interface CreateDeploymentRecordFromDeploymentRequest {
   deploymentId?: string
   assignmentRole?: string | null
   deploymentArea?: string
+  deploymentAreaLatitude?: number | null
+  deploymentAreaLongitude?: number | null
   startDate?: string
   endDate?: string | null
   remarks?: string | null
@@ -75,4 +77,3 @@ export interface UpdateDeploymentLocationRequest {
   deployment_area_longitude?: number | null
   location?: string | null
 }
-

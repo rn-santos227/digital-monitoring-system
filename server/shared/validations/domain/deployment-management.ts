@@ -204,6 +204,18 @@ export const parseCreateDeploymentRecordFromDeploymentPayload = (
   const deploymentArea = body.deploymentArea === undefined
     ? (rawBody.deployment_area === undefined ? null : normalizeOptionalText(rawBody.deployment_area))
     : normalizeOptionalText(body.deploymentArea)
+  const deploymentAreaLatitude = normalizeOptionalCoordinate(
+    body.deploymentAreaLatitude,
+    'Deployment area latitude',
+    -90,
+    90,
+  )
+  const deploymentAreaLongitude = normalizeOptionalCoordinate(
+    body.deploymentAreaLongitude,
+    'Deployment area longitude',
+    -180,
+    180,
+  )
   const startDate = body.startDate === undefined
     ? (rawBody.start_date === undefined ? null : normalizeRequiredDate(rawBody.start_date, 'Start date'))
     : normalizeRequiredDate(body.startDate, 'Start date')
@@ -221,6 +233,8 @@ export const parseCreateDeploymentRecordFromDeploymentPayload = (
     deployment_id: deploymentId,
     assignment_role: assignmentRole,
     deployment_area: deploymentArea,
+    deployment_area_latitude: deploymentAreaLatitude,
+    deployment_area_longitude: deploymentAreaLongitude,
     start_date: startDate,
     end_date: endDate,
     remarks,
