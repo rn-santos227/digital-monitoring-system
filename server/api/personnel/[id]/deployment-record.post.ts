@@ -16,4 +16,11 @@ import { getPersonnelServiceStatusById } from '../../../utils/deployments/getPer
 import { getNextDeploymentRecordNo } from '../../../utils/deployment-records/getNextDeploymentRecordNo'
 import { updatePersonnelServiceStatusById } from '../../../utils/deployments/updatePersonnelServiceStatusById'
 
+export default defineEventHandler(async (event): Promise<CreateDeploymentRecordResponse> => {
+  const actor = await requireAnyPermission(event, DEPLOYMENT_PERMISSION_GROUPS.deploymentManagement)
+  const personnelId = requireRouteId(getRouterParam(event, PERSONNEL_ROUTE_PARAM_KEY), PERSONNEL_ROUTE_ID_REQUIRED_MESSAGE)
+  const body = await readBody<CreateDeploymentRecordFromDeploymentRequest>(event)
+  const supabase = getServiceSupabaseClient()
+  const requestData = withPersonnelId(body, personnelId)
 
+})
