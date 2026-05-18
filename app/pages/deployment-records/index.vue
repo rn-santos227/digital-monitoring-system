@@ -133,6 +133,15 @@
         @submit="onSubmitUpdateDeploymentRecord"
       />
 
+      <UpdateDeploymentRecordLocationModal
+        v-if="isUpdateDeploymentRecordLocationModalOpen && selectedDeploymentRecord"
+        :initial-values="selectedDeploymentRecordFormValues"
+        :is-submitting="isDeploymentRecordsLoading"
+        :error-message="deploymentRecordErrorMessage"
+        @close="onCloseUpdateDeploymentRecordLocationModal"
+        @submit="onSubmitUpdateDeploymentRecordLocation"
+      />
+
       <ViewDeploymentModal
         v-if="isViewDeploymentModalOpen && selectedDeployment"
         :deployment="selectedDeployment"
@@ -158,6 +167,7 @@ import DeploymentsTable from '~/components/deployments/DeploymentsTable.vue'
 import DeploymentRecordsTable from '~/components/deployments/DeploymentRecordsTable.vue'
 import CreateDeploymentRecordModal from '~/components/deployments/CreateDeploymentRecordModal.vue'
 import UpdateDeploymentRecordModal from '~/components/deployments/UpdateDeploymentRecordModal.vue'
+import UpdateDeploymentRecordLocationModal from '~/components/deployments/UpdateDeploymentRecordLocationModal.vue'
 import ViewDeploymentRecordModal from '~/components/deployments/ViewDeploymentRecordModal.vue'
 import CreateDeploymentModal from '~/components/deployments/CreateDeploymentModal.vue'
 import UpdateDeploymentDetailModal from '~/components/deployments/UpdateDeploymentDetailModal.vue'
@@ -194,7 +204,7 @@ import {
   useViewDeploymentRecordHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
-import type { DeploymentManagementListItem, DeploymentManagementTabId } from '~/types/domain/deployment'
+import type { DeploymentManagementListItem, DeploymentManagementTabId, UpdateDeploymentRecordPayload } from '~/types/domain/deployment'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
 const activeTab = ref<DeploymentManagementTabId>('deployments')
@@ -211,6 +221,7 @@ const selectedDeployment = ref<DeploymentManagementListItem | null>(null)
 const isViewDeploymentModalOpen = ref(false)
 const isCreateDeploymentRecordModalOpen = ref(false)
 const isUpdateDeploymentRecordModalOpen = ref(false)
+const isUpdateDeploymentRecordLocationModalOpen = ref(false)
 const isViewDeploymentRecordModalOpen = ref(false)
 const selectedDeploymentRecord = ref<DeploymentManagementListItem | null>(null)
 const authStore = useAuthStore()
@@ -240,6 +251,7 @@ const {
   loadDeploymentRecords,
   createDeploymentRecord,
   updateDeploymentRecord,
+  updateDeploymentRecordLocation,
   deleteDeploymentRecord,
   getDeploymentRecordById,
 } = useDeploymentRecords()
@@ -345,6 +357,31 @@ const { onDeleteDeploymentRecord } = useDeleteDeploymentRecordHandler({
   deleteDeploymentRecord,
 })
 
+const onCloseUpdateDeploymentRecordLocationModal = () => {
+  isUpdateDeploymentRecordLocationModalOpen.value = false
+  selectedDeploymentRecord.value = null
+}
+
+const onSubmitUpdateDeploymentRecordLocation = async (payload: UpdateDeploymentRecordPayload) => {
+  deploymentRecordErrorMessage.value = ''
+  const id = selectedDeploymentRecord.value?.id
+  if (!id) {
+    return
+  }
+
+  try {
+    await updateDeploymentRecordLocation(String(id), payload)
+    onCloseUpdateDeploymentRecordLocationModal()
+  } catch (error) {
+    deploymentRecordErrorMessage.value = await showErrorDialog({
+      showDialog,
+      title: 'Deployment record location update failed',
+      error,
+      fallbackMessage: 'Unable to update deployment record location right now.',
+    })
+  }
+}
+
 const visibleTabItems = computed(() => {
   return DEPLOYMENTS_PAGE_TAB_ITEMS.filter((tabItem) => {
     const requiredPermissions = DEPLOYMENTS_PAGE_TAB_REQUIRED_PERMISSIONS[tabItem.id as keyof typeof DEPLOYMENTS_PAGE_TAB_REQUIRED_PERMISSIONS]
@@ -431,7 +468,17 @@ const onDeploymentRecordsTableAction = async (payload: { actionKey: string; row:
   }
 
   if (payload.actionKey === 'delete-deployment-record') {
-    await onDeleteDeploymentRecord(payload.row)
+    return
+  }
+
+  if (payload.actionKey === 'edit-deployment-record-location') {
+    const id = String(payload.row.id ?? '')
+    if (!id) {
+      return
+    }
+
+    selectedDeploymentRecord.value = await getDeploymentRecordById(id)
+    isUpdateDeploymentRecordLocationModalOpen.value = true
   }
 }
 

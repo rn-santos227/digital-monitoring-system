@@ -3,6 +3,7 @@
     title="Update Deployment Record Location"
     description="Update deployment area coordinates and location."
     size="xl"
+    scroll-body
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
