@@ -51,4 +51,14 @@ type LeafletApi = {
 const props = defineProps<{ items: PersonnelLocationItem[]; selectedPersonnelId: string | null }>()
 const emit = defineEmits<{ (event: 'select', item: PersonnelLocationItem): void }>()
 
+const mapElement = ref<HTMLDivElement | null>(null)
+const mapInstance = ref<LeafletMap | null>(null)
+const leafletApi = ref<LeafletApi | null>(null)
+const mapLoadError = ref('')
+const markerRecords = ref<Array<{ marker: LeafletMarker; items: PersonnelLocationItem[] }>>([])
+const selectedClusterKey = ref<string | null>(null)
+const { center: geoMapCenter, defaultZoom: geoMapDefaultZoom, maxZoom: geoMapMaxZoom } = useGeoMap()
+
+const selectedItem = computed(() => props.items.find(item => item.personnelId === props.selectedPersonnelId) ?? null)
+
 </script>
