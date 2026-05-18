@@ -6,6 +6,13 @@
         <p :class="SERVICE_STATUS_TACTICAL_SUBTITLE_CLASSES">Select pin or table row to view personnel details.</p>
       </div>
     </div>
+    <div :class="SERVICE_STATUS_TACTICAL_MAP_CLASSES">
+     <div ref="mapElement" class="absolute inset-0" />
+      <div v-if="mapLoadError" class="absolute inset-0 z-20 grid place-items-center bg-slate-900/90 text-sm text-white">
+        {{ mapLoadError }}
+      </div>
+ 
+    </div>
   </BaseCard>
 </template>
 
