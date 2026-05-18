@@ -147,5 +147,11 @@ const renderMarkers = () => {
     mapInstance.value.setView([geoMapCenter.value.latitude, geoMapCenter.value.longitude], geoMapDefaultZoom.value)
     return
   }
+
+  if (points.length === 1) {
+    const point = points[0] ?? [geoMapCenter.value.latitude, geoMapCenter.value.longitude]
+    mapInstance.value.setView(point, Math.max(geoMapDefaultZoom.value, 13))
+    return
+  }
 }
 </script>
