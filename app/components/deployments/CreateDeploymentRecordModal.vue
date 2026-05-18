@@ -3,6 +3,7 @@
     title="Create Deployment Record"
     description="Assign personnel to an existing deployment profile."
     size="lg"
+    scroll-body
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
