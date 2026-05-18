@@ -161,4 +161,11 @@ const renderMarkers = () => {
     mapInstance.value.fitBounds([[sw.lat, sw.lng], [ne.lat, ne.lng]], { padding: [40, 40], maxZoom: geoMapMaxZoom.value })
   }
 }
+
+const initializeMap = async () => {
+  if (!mapElement.value || mapInstance.value) {
+    return
+  }
+
+}
 </script>
