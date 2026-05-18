@@ -61,4 +61,28 @@ const { center: geoMapCenter, defaultZoom: geoMapDefaultZoom, maxZoom: geoMapMax
 
 const selectedItem = computed(() => props.items.find(item => item.personnelId === props.selectedPersonnelId) ?? null)
 
+
+const groupedPins = computed(() => {
+  const groups = new Map<string, PersonnelLocationItem[]>()
+  for (const item of props.items) {
+    if (item.latitude === null || item.longitude === null) {
+      continue
+    }
+
+    const key = `${item.latitude.toFixed(5)}:${item.longitude.toFixed(5)}`
+    const current = groups.get(key) ?? []
+    current.push(item)
+    groups.set(key, current)
+  }
+
+  return Array.from(groups.entries()).map(([id, items]) => {
+    const sample = items[0]
+    return {
+      items,
+      latitude: sample?.latitude ?? 0,
+      longitude: sample?.longitude ?? 0,
+    }
+  })
+})
+
 </script>
