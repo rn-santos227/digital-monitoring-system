@@ -24,6 +24,16 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
   const requestData = withPersonnelId(body, personnelId)
 
   try {
+    const payload = parseCreateDeploymentRecordFromDeploymentPayload(withPersonnelId(body, personnelId))
+    const deployment = await getDeploymentSourceById(supabase, payload.deployment_id)
+    if (!deployment) {
+      throw createError({ statusCode: 404, statusMessage: 'Deployment not found.' })
+    }
+
+    await assertPersonnelExists({ supabase, personnelId: payload.personnel_id, idSelectColumns: ID_ONLY_SELECT_COLUMNS })
+    if (deployment.supervisor_id) {
+      await assertPersonnelExists({ supabase, personnelId: deployment.supervisor_id, idSelectColumns: ID_ONLY_SELECT_COLUMNS })
+    }
 
   } catch (error: unknown) {
     const statusCode = (error as { statusCode?: number })?.statusCode ?? 500
