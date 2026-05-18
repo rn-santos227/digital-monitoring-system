@@ -1,6 +1,11 @@
 <template>
   <BaseCard :class="SERVICE_STATUS_TACTICAL_CARD_CLASSES">
-
+    <div :class="SERVICE_STATUS_TACTICAL_HEADER_CLASSES">
+      <div>
+        <h3 :class="SERVICE_STATUS_TACTICAL_TITLE_CLASSES">Tactical Map</h3>
+        <p :class="SERVICE_STATUS_TACTICAL_SUBTITLE_CLASSES">Select pin or table row to view personnel details.</p>
+      </div>
+    </div>
   </BaseCard>
 </template>
 
