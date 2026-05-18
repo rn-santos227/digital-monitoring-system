@@ -141,5 +141,11 @@ const renderMarkers = () => {
 
     markerRecords.value.push({ marker, items: group.items })
   }
+
+  const points = groupedPins.value.map(group => [group.latitude, group.longitude] as [number, number])
+  if (points.length === 0) {
+    mapInstance.value.setView([geoMapCenter.value.latitude, geoMapCenter.value.longitude], geoMapDefaultZoom.value)
+    return
+  }
 }
 </script>
