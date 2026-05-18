@@ -85,4 +85,12 @@ const groupedPins = computed(() => {
   })
 })
 
+const selectedClusterItems = computed(() => {
+  if (!selectedClusterKey.value) {
+    return []
+  }
+  const selectedGroup = groupedPins.value.find(group => group.id === selectedClusterKey.value)
+  return selectedGroup?.items ?? []
+})
+
 </script>
