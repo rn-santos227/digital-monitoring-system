@@ -61,7 +61,6 @@ const { center: geoMapCenter, defaultZoom: geoMapDefaultZoom, maxZoom: geoMapMax
 
 const selectedItem = computed(() => props.items.find(item => item.personnelId === props.selectedPersonnelId) ?? null)
 
-
 const groupedPins = computed(() => {
   const groups = new Map<string, PersonnelLocationItem[]>()
   for (const item of props.items) {
@@ -78,6 +77,7 @@ const groupedPins = computed(() => {
   return Array.from(groups.entries()).map(([id, items]) => {
     const sample = items[0]
     return {
+      id,
       items,
       latitude: sample?.latitude ?? 0,
       longitude: sample?.longitude ?? 0,
@@ -98,5 +98,16 @@ const selectItem = (item: PersonnelLocationItem | null) => {
     return
   }
   emit('select', item)
+}
+
+const buildPinMarkup = (count: number) => {
+  const badgeMarkup = count > 1
+    ? '<span class="absolute -right-2 -top-2 rounded-full bg-amber-500 px-1.5 py-0.5 text-[10px] font-semibold text-white">' + count + '</span>'
+    : ''
+
+  return '<div class="relative">'
+    + '<span class="block h-5 w-5 rounded-full border-2 border-white bg-emerald-500 shadow-lg"></span>'
+    + badgeMarkup
+    + '</div>'
 }
 </script>
