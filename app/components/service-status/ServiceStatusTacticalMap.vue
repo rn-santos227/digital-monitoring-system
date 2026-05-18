@@ -93,4 +93,10 @@ const selectedClusterItems = computed(() => {
   return selectedGroup?.items ?? []
 })
 
+const selectItem = (item: PersonnelLocationItem | null) => {
+  if (!item) {
+    return
+  }
+  emit('select', item)
+}
 </script>
