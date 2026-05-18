@@ -153,5 +153,12 @@ const renderMarkers = () => {
     mapInstance.value.setView(point, Math.max(geoMapDefaultZoom.value, 13))
     return
   }
+
+  const bounds = leafletApi.value.latLngBounds(points)
+  if (bounds.isValid()) {
+    const sw = bounds.getSouthWest()
+    const ne = bounds.getNorthEast()
+    mapInstance.value.fitBounds([[sw.lat, sw.lng], [ne.lat, ne.lng]], { padding: [40, 40], maxZoom: geoMapMaxZoom.value })
+  }
 }
 </script>
