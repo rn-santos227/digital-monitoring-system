@@ -139,7 +139,7 @@ const buildPinMarkup = (count: number) => {
     : ''
 
   return '<div class="relative">'
-    + '<span class="block h-5 w-5 rounded-full border-2 border-white bg-emerald-500 shadow-lg"></span>'
+    + '<img src="' + serviceStatusPinIcon + '" alt="Service status pin" class="h-9 w-7 drop-shadow-lg" />'
     + badgeMarkup
     + '</div>'
 }
