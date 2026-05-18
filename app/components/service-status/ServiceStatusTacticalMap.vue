@@ -26,4 +26,27 @@ import serviceStatusPinIcon from '~/assets/icons/service-status-pin.svg'
 import { useGeoMap } from '~/composables/useGeoMap'
 import { loadLeafletApi } from '~/utils/geo-map'
 import type { PersonnelLocationItem } from '~/types/domain/personnel'
+
+
+type LeafletMarker = {
+  on: (eventName: string, callback: () => void) => void
+  addTo: (map: LeafletMap) => LeafletMarker
+  remove: () => void
+}
+
+type LeafletMap = {
+  setView: (coords: [number, number], zoom: number) => unknown
+  fitBounds: (bounds: [[number, number], [number, number]], options?: Record<string, unknown>) => unknown
+  remove: () => unknown
+}
+
+type LeafletApi = {
+  map: (element: HTMLDivElement) => LeafletMap
+  tileLayer: (url: string, options: Record<string, unknown>) => { addTo: (map: LeafletMap) => unknown }
+  marker: (coords: [number, number], options: Record<string, unknown>) => LeafletMarker
+  divIcon: (options: Record<string, unknown>) => unknown
+  latLngBounds: (coords: [number, number][]) => { isValid: () => boolean; getSouthWest: () => { lat: number; lng: number }; getNorthEast: () => { lat: number; lng: number } }
+}
+
+
 </script>
