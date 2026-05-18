@@ -48,5 +48,7 @@ type LeafletApi = {
   latLngBounds: (coords: [number, number][]) => { isValid: () => boolean; getSouthWest: () => { lat: number; lng: number }; getNorthEast: () => { lat: number; lng: number } }
 }
 
+const props = defineProps<{ items: PersonnelLocationItem[]; selectedPersonnelId: string | null }>()
+const emit = defineEmits<{ (event: 'select', item: PersonnelLocationItem): void }>()
 
 </script>
