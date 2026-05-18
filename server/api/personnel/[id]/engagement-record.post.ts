@@ -13,7 +13,11 @@ import { deleteEngagementRecordById } from '../../../utils/engagement-records/de
 import { getEngagementRecordById } from '../../../utils/engagement-records/getEngagementRecordById'
 import { getEngagementSourceById } from '../../../utils/engagement-records/getEngagementSourceById'
 
-
 export default defineEventHandler(async (event): Promise<CreateEngagementRecordResponse> => {
+  const actor = await requirePermission(event, PERMISSION_CODES.engagementManage)
+  const personnelId = requireRouteId(getRouterParam(event, PERSONNEL_ROUTE_PARAM_KEY), PERSONNEL_ROUTE_ID_REQUIRED_MESSAGE)
+  const body = await readBody<CreateEngagementRecordRequest>(event)
+  const supabase = getServiceSupabaseClient()
+  const requestData = withPersonnelId(body, personnelId)
 
 })
