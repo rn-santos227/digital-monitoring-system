@@ -201,4 +201,14 @@ watch(() => props.selectedPersonnelId, (personnelId) => {
   const selectedGroup = groupedPins.value.find(group => group.items.some(item => item.personnelId === personnelId))
   selectedClusterKey.value = selectedGroup?.id ?? null
 })
+
+onMounted(async () => {
+  await initializeMap()
+})
+
+onBeforeUnmount(() => {
+  clearMarkers()
+  mapInstance.value?.remove()
+  mapInstance.value = null
+})
 </script>
