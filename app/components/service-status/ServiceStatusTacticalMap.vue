@@ -122,5 +122,24 @@ const renderMarkers = () => {
   if (!leafletApi.value || !mapInstance.value) {
     return
   }
+
+  clearMarkers()
+  for (const group of groupedPins.value) {
+    const icon = leafletApi.value.divIcon({
+      className: 'service-status-leaflet-pin',
+      html: buildPinMarkup(group.items.length),
+      iconSize: [20, 20],
+      iconAnchor: [10, 10],
+    })
+
+    const marker = leafletApi.value.marker([group.latitude, group.longitude], { icon })
+    marker.addTo(mapInstance.value)
+    marker.on('click', () => {
+      selectedClusterKey.value = group.id
+      selectItem(group.items[0] ?? null)
+    })
+
+    markerRecords.value.push({ marker, items: group.items })
+  }
 }
 </script>
