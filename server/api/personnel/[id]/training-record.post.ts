@@ -20,5 +20,23 @@ export default defineEventHandler(async (event): Promise<CreateTrainingRecordRes
   const supabase = getServiceSupabaseClient()
   const requestData = withPersonnelId(body, personnelId)
 
+  try {
 
+  } catch (error: unknown) {
+    const statusCode = (error as { statusCode?: number })?.statusCode ?? 500
+    const message = error instanceof Error ? error.message : 'Unknown error'
+
+    await recordManagementAuditLog(event, {
+      userId: actor.id,
+      action: AUDIT_LOG_ACTIONS.trainingRecordCreate,
+      tableName: 'training_records',
+      endpoint: AUDIT_LOG_ENDPOINTS.personnelAssignTrainingRecord,
+      requestData,
+      statusCode,
+      outcome: AUDIT_LOG_OUTCOMES.failed,
+      message,
+    })
+
+    throw error
+  }
 })
