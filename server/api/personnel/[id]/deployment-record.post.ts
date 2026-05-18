@@ -35,6 +35,23 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
       await assertPersonnelExists({ supabase, personnelId: deployment.supervisor_id, idSelectColumns: ID_ONLY_SELECT_COLUMNS })
     }
 
+    const insertPayload = {
+      personnel_id: payload.personnel_id,
+      deployment_id: deployment.id,
+      deployment_area: payload.deployment_area ?? deployment.deployment_area,
+      deployment_area_latitude: deployment.deployment_area_latitude,
+      deployment_area_longitude: deployment.deployment_area_longitude,
+      assignment_role: payload.assignment_role ?? deployment.assignment_role,
+      operation_name: deployment.operation_name,
+      start_date: payload.start_date ?? deployment.start_date,
+      end_date: payload.end_date === null ? null : (payload.end_date ?? deployment.end_date),
+      status_id: deployment.status_id,
+      location: deployment.location,
+      supervisor_id: deployment.supervisor_id,
+      remarks: payload.remarks ?? deployment.default_remarks ?? null,
+      record_no: await getNextDeploymentRecordNo(supabase),
+    }
+
   } catch (error: unknown) {
     const statusCode = (error as { statusCode?: number })?.statusCode ?? 500
     const message = error instanceof Error ? error.message : 'Unknown error'
