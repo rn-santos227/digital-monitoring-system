@@ -167,9 +167,23 @@ const initializeMap = async () => {
     return
   }
 
-
   try {
+    leafletApi.value = await loadLeafletApi() as LeafletApi | null
+    if (!leafletApi.value) {
+      throw new Error('Leaflet not available.')
+    }
 
+    mapInstance.value = leafletApi.value.map(mapElement.value)
+    mapInstance.value.setView([geoMapCenter.value.latitude, geoMapCenter.value.longitude], geoMapDefaultZoom.value)
+
+    leafletApi.value
+      .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: geoMapMaxZoom.value,
+        attribution: '&copy; OpenStreetMap contributors',
+      })
+      .addTo(mapInstance.value)
+
+    renderMarkers()
   } catch {
     mapLoadError.value = 'Unable to load interactive map at the moment.'
   }
