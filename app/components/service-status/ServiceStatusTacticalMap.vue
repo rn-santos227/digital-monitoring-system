@@ -188,4 +188,17 @@ const initializeMap = async () => {
     mapLoadError.value = 'Unable to load interactive map at the moment.'
   }
 }
+
+watch(() => props.items, () => {
+  renderMarkers()
+}, { deep: true })
+
+watch(() => props.selectedPersonnelId, (personnelId) => {
+  if (!personnelId) {
+    return
+  }
+
+  const selectedGroup = groupedPins.value.find(group => group.items.some(item => item.personnelId === personnelId))
+  selectedClusterKey.value = selectedGroup?.id ?? null
+})
 </script>
