@@ -22,7 +22,16 @@
         <p :class="SERVICE_STATUS_TACTICAL_PANEL_VALUE_CLASSES">{{ selectedItem.deploymentArea }}</p>
         <p :class="SERVICE_STATUS_TACTICAL_PANEL_LABEL_CLASSES">Coordinates</p>
         <p :class="SERVICE_STATUS_TACTICAL_PANEL_VALUE_CLASSES">{{ selectedItem.latitude }}, {{ selectedItem.longitude }}</p>
-
+        <div v-if="selectedClusterItems.length > 1" class="mt-4">
+          <p :class="SERVICE_STATUS_TACTICAL_CLUSTER_TITLE_CLASSES">Overlapping Coordinates</p>
+          <ul :class="SERVICE_STATUS_TACTICAL_CLUSTER_LIST_CLASSES">
+            <li v-for="option in selectedClusterItems" :key="option.personnelId">
+              <button :class="SERVICE_STATUS_TACTICAL_CLUSTER_BUTTON_CLASSES" @click="selectItem(option)">
+                {{ option.personnelName ?? 'Unnamed Personnel' }} · {{ option.operationName ?? 'Unspecified' }}
+              </button>
+            </li>
+          </ul>
+        </div>
       </aside>
     </div>
   </BaseCard>
