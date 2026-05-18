@@ -52,6 +52,43 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
       record_no: await getNextDeploymentRecordNo(supabase),
     }
 
+    const deployedServiceStatusId = await resolvePersonnelServiceStatusId(supabase, 'Deployed')
+    const previousServiceStatusId = await getPersonnelServiceStatusById(supabase, payload.personnel_id, 'Failed to read personnel service status')
+
+    const { createdId } = await executeWithRollback({
+      operation: async () => {
+        const createdId = await createDeploymentRecord(supabase, insertPayload)
+        await updatePersonnelServiceStatusById(supabase, payload.personnel_id, deployedServiceStatusId, 'Failed to update personnel service status')
+        return { createdId }
+      },
+      rollback: async () => {
+        await deleteDeploymentRecordByRecordNo(supabase, insertPayload.record_no)
+        await updatePersonnelServiceStatusById(supabase, payload.personnel_id, previousServiceStatusId, 'personnel service status rollback failed')
+      },
+      onRollbackError: (rollbackError) => {
+        console.error('Deployment record assign rollback error:', rollbackError)
+      },
+    })
+
+    const newRow = await getDeploymentRecordById(supabase, createdId)
+    await recordManagementAuditLog(event, {
+      userId: actor.id,
+      action: AUDIT_LOG_ACTIONS.deploymentRecordCreate,
+      tableName: 'deployment_records',
+      endpoint: AUDIT_LOG_ENDPOINTS.personnelAssignDeploymentRecord,
+      recordId: createdId,
+      requestData,
+      newData: newRow ? ({ ...mapDeploymentRecordListItem(newRow) } as Record<string, unknown>) : insertPayload,
+      statusCode: 201,
+      outcome: AUDIT_LOG_OUTCOMES.success,
+      message: 'Deployment record assigned successfully.',
+    })
+
+    if (!newRow) {
+      throw createError({ statusCode: 500, statusMessage: 'Failed to load created deployment record.' })
+    }
+
+    return { ok: true, id: createdId, item: mapDeploymentRecordListItem(newRow) }
   } catch (error: unknown) {
     const statusCode = (error as { statusCode?: number })?.statusCode ?? 500
     const message = error instanceof Error ? error.message : 'Unknown error'
