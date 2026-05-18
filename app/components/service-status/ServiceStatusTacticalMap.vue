@@ -167,5 +167,11 @@ const initializeMap = async () => {
     return
   }
 
+
+  try {
+
+  } catch {
+    mapLoadError.value = 'Unable to load interactive map at the moment.'
+  }
 }
 </script>
