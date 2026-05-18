@@ -110,4 +110,17 @@ const buildPinMarkup = (count: number) => {
     + badgeMarkup
     + '</div>'
 }
+
+const clearMarkers = () => {
+  for (const record of markerRecords.value) {
+    record.marker.remove()
+  }
+  markerRecords.value = []
+}
+
+const renderMarkers = () => {
+  if (!leafletApi.value || !mapInstance.value) {
+    return
+  }
+}
 </script>
