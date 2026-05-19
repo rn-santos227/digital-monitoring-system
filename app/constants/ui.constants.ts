@@ -46,7 +46,7 @@ export interface DataTableAction {
   key: string
   tooltip: string
   iconName?: import('~/types/domain/misc').IconName
-  variant?: 'ghost' | 'danger' | 'info' | 'warning'
+  variant?: UiVariant
 }
 
 export interface SuggestionFieldOption {

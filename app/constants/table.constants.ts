@@ -82,19 +82,19 @@ export const SERVICE_STATUS_PERSONNEL_TABLE_ACTIONS: readonly DataTableAction[] 
     key: 'assign-deployment',
     tooltip: 'Assign deployment',
     iconName: 'map',
-    variant: 'info',
+    variant: 'success',
   },
   {
     key: 'assign-engagement',
     tooltip: 'Assign engagement',
     iconName: 'shield-exclamation',
-    variant: 'warning',
+    variant: 'success',
   },
   {
     key: 'assign-training',
     tooltip: 'Assign training',
     iconName: 'academic-cap',
-    variant: 'ghost',
+    variant: 'success',
   },
 ])
 export const SERVICE_STATUS_PERSONNEL_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
