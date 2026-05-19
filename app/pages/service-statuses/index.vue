@@ -55,4 +55,34 @@ const activeModal = ref<ActiveServiceStatusModal>(null)
 const modalErrorMessage = ref('')
 const personnelFilter = ref<{ term?: string; fields?: string }>({})
 
+const filteredLocationItems = computed(() => {
+  const query = (personnelFilter.value.term ?? '').trim().toLowerCase()
+
+  if (!query) {
+    return locationItems.value
+  }
+
+  const selectedFields = (personnelFilter.value.fields ?? '')
+    .split(',')
+    .map((field) => field.trim())
+    .filter(Boolean)
+
+  return locationItems.value.filter((item) => {
+    const fieldValueMap: Record<string, string> = {
+      personnelCode: (item as PersonnelLocationItem & { personnelCode?: string | null }).personnelCode ?? '',
+      serviceNumber: (item as PersonnelLocationItem & { serviceNumber?: string | null }).serviceNumber ?? '',
+      email: (item as PersonnelLocationItem & { email?: string | null }).email ?? '',
+      lastName: (item as PersonnelLocationItem & { lastName?: string | null }).lastName ?? '',
+      firstName: (item as PersonnelLocationItem & { firstName?: string | null }).firstName ?? '',
+      rankName: (item as PersonnelLocationItem & { rankName?: string | null }).rankName ?? '',
+      personnelName: item.personnelName ?? '',
+    }
+    const haystack = selectedFields.length > 0
+      ? selectedFields.map((field) => fieldValueMap[field] ?? '').join(' ')
+      : Object.values(fieldValueMap).join(' ')
+
+    return haystack.toLowerCase().includes(query)
+  })
+})
+
 </script>
