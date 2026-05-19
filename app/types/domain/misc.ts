@@ -25,6 +25,7 @@ export type IconName =
   | 'map'
   | 'map-pin'
   | 'shield'
+  | 'shield-exclamation'
   | 'squares'
   | 'cube'
   | 'archive'

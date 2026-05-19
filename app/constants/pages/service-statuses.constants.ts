@@ -5,6 +5,7 @@ export const SERVICE_STATUSES_PAGE_SUBTITLE = 'Track personnel service and emplo
 export const SERVICE_STATUSES_PAGE_TABS_ARIA_LABEL = 'Service and employment status tabs'
 export const SERVICE_STATUSES_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
   { id: 'service-map', label: 'Service Status Tactical Map' },
+  { id: 'personnel-assignment', label: 'Personnel Assignment' },
 ])
 
 export const SERVICE_STATUS_PAGE_MAIN_CLASSES = 'w-full px-4 py-8 space-y-6 sm:px-6 lg:px-8 xl:px-10'
