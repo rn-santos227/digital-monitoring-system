@@ -34,5 +34,38 @@ const emit = defineEmits<{
   (event: 'assign-training', item: PersonnelLocationItem): void
 }>()
 
+const searchQuery = ref('')
 
+const formatCoordinates = (latitude: number | null, longitude: number | null) => {
+  if (latitude === null || longitude === null) {
+    return SERVICE_STATUS_PERSONNEL_TABLE_NO_COORDINATES
+  }
+
+  return `${latitude.toFixed(5)}, ${longitude.toFixed(5)}`
+}
+
+const rows = computed<ServiceStatusTableRow[]>(() => {
+  const query = searchQuery.value.trim().toLowerCase()
+
+  const mapped = props.items.map((item) => ({
+    id: item.personnelId,
+    personnelName: item.personnelName ?? SERVICE_STATUS_PERSONNEL_TABLE_UNNAMED_PERSONNEL,
+    operationName: item.operationName ?? SERVICE_STATUS_PERSONNEL_TABLE_UNSPECIFIED_OPERATION,
+    deploymentArea: item.deploymentArea,
+    coordinates: formatCoordinates(item.latitude, item.longitude),
+    actions: '',
+    item,
+  }))
+
+  if (!query) {
+    return mapped
+  }
+
+  return mapped.filter((row) => {
+    return [row.personnelName, row.operationName, row.deploymentArea, row.coordinates]
+      .join(' ')
+      .toLowerCase()
+      .includes(query)
+  })
+})
 </script>
