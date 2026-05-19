@@ -1,5 +1,81 @@
 <template>
+  <BaseModal
+    title="Quick Assign Deployment"
+    description="Assign the selected personnel to an existing deployment profile."
+    size="lg"
+    scroll-body
+    @close="emit('close')"
+  >
+    <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert
+        v-if="errorMessage"
+        tone="danger"
+        :message="errorMessage"
+      />
 
+      <DeploymentSuggestionField
+        v-model="form.deployment_id"
+        :error="errors.deployment_id"
+        @select="onDeploymentSelected"
+      />
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <BaseTextField
+          v-model="form.assignment_role"
+          label="Assignment Role"
+          :error="errors.assignment_role"
+        />
+        <BaseTextField
+          v-model="form.deployment_area"
+          label="Deployment Area"
+          :error="errors.deployment_area"
+        />
+        <BaseDatePicker
+          v-model="form.start_date"
+          label="Start Date"
+          :error="errors.start_date"
+        />
+        <BaseDatePicker
+          v-model="form.end_date"
+          label="End Date"
+          :error="errors.end_date"
+        />
+        <BaseTextField
+          v-model="form.deployment_area_latitude"
+          label="Deployment Latitude"
+          :error="errors.deployment_area_latitude"
+        />
+        <BaseTextField
+          v-model="form.deployment_area_longitude"
+          label="Deployment Longitude"
+          :error="errors.deployment_area_longitude"
+        />
+      </div>
+
+      <BaseGeoMap
+        title="Deployment Geomap"
+        subtitle="Set or adjust deployment coordinates for this assignment."
+        :latitude="parsedLatitude"
+        :longitude="parsedLongitude"
+        mode="input"
+        @update:latitude="onMapLatitudeUpdate"
+        @update:longitude="onMapLongitudeUpdate"
+      />
+
+      <BaseTextArea
+        v-model="form.remarks"
+        label="Remarks"
+        placeholder="Optional deployment remarks"
+      />
+    </form>
+
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton :disabled="isSubmitting" @click="onSubmit">Assign</BaseButton>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
