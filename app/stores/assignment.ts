@@ -19,6 +19,19 @@ export const useAssignmentsStore = defineStore('assignments', {
     hasError: (state) => state.error.length > 0,
   },
   actions: {
+    async assignDeployment(personnelId: string, payload: CreateDeploymentRecordPayload) {
+      this.isSubmitting = true
+      this.error = ''
+      try {
+        await assignPersonnelDeploymentRecordEndpoint(personnelId, payload)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to assign deployment record.')
+        throw error
+      } finally {
+        this.isSubmitting = false
+      }
+    },
+
     clearError() {
       this.error = ''
     },
