@@ -85,4 +85,31 @@ const filteredLocationItems = computed(() => {
   })
 })
 
+const onApplyPersonnelFilter = (value: { term?: string; fields?: string }) => {
+  personnelFilter.value = {
+    term: value.term ?? '',
+    fields: value.fields ?? '',
+  }
+}
+
+const onResetPersonnelFilter = () => {
+  personnelFilter.value = {}
+}
+
+const loadLocations = async () => {
+  isLoading.value = true
+  errorMessage.value = ''
+
+  try {
+    locationItems.value = await fetchPersonnelLocationsEndpoint()
+    selectedPersonnelId.value = locationItems.value[0]?.personnelId ?? null
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unable to load personnel locations.'
+    errorMessage.value = message
+  } finally {
+    isLoading.value = false
+  }
+}
+
+
 </script>
