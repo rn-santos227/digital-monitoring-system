@@ -31,4 +31,33 @@ const form = reactive({
   remarks: '',
 })
 
+const errors = reactive<Record<string, string>>({})
+
+const onDeploymentSelected = (deployment: DeploymentManagementListItem | null) => {
+  if (!deployment) {
+    return
+  }
+
+  form.assignment_role = deployment.assignmentRole ?? ''
+  form.deployment_area = deployment.deploymentArea ?? ''
+  form.deployment_area_latitude = String(deployment.deploymentAreaLatitude ?? '')
+  form.deployment_area_longitude = String(deployment.deploymentAreaLongitude ?? '')
+}
+
+const onSubmit = () => {
+  const result = validateQuickAssignDeploymentForm(form)
+
+  Object.keys(errors).forEach((key) => {
+    delete errors[key]
+  })
+
+  Object.assign(errors, result.errors)
+
+  if (!result.payload) {
+    return
+  }
+
+  emit('submit', result.payload)
+}
+
 </script>
