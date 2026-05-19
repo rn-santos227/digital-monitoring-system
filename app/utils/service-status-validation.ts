@@ -28,3 +28,29 @@ export const validateQuickAssignDeploymentForm = (form: {
 
   return { errors: result.errors, payload }
 }
+
+export const validateQuickAssignEngagementForm = (form: {
+  engagement_id: string
+  certificate_no: string
+  valid_until: string
+  remarks: string
+}): { errors: Record<string, string>; payload: Omit<CreateEngagementRecordPayload, 'personnel_id'> | null } => {
+  const validation = validateFields([
+    { field: 'engagement_id', label: 'Engagement', value: form.engagement_id, maxLength: 80, required: true, pattern: REGEX_PATTERNS.uuid, patternMessage: 'Selected engagement must be valid.' },
+    { field: 'certificate_no', label: 'Certificate no.', value: form.certificate_no, maxLength: 120, pattern: REGEX_PATTERNS.alphaNumericSpace, patternMessage: 'Certificate no. allows letters, numbers, spaces, periods, underscores, and hyphens only.' },
+    { field: 'remarks', label: 'Remarks', value: form.remarks, maxLength: 500 },
+  ])
+
+  const payload = Object.keys(validation.errors).length > 0
+    ? null
+    : {
+      engagement_id: validation.values.engagement_id ?? '',
+      role: null,
+      location: null,
+      start_date: null,
+      end_date: null,
+      remarks: validation.values.remarks || null,
+    }
+
+  return { errors: validation.errors, payload }
+}
