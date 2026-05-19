@@ -272,5 +272,5 @@ export interface PersonnelLocationItem {
   longitude: number | null
 }
 
-export type PersonnelProfileTabId = 'core' | 'training' | 'deployment' | 'engagement' | 'equipment-assignment'
+export type PersonnelProfileTabId = 'training' | 'deployment' | 'engagement' | 'equipment-assignment'
 export type PersonnelManagementTabId = 'personnel-records' | 'rank-management'

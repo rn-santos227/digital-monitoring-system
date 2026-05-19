@@ -33,7 +33,7 @@
               </div>
             </BaseCard>
 
-            <BaseCard :title="PERSONNEL_PROFILE_TAB_CARD_TITLES.core">
+            <BaseCard title="Personal Overview">
               <div :class="PERSONNEL_PROFILE_GRID_CLASSES">
                 <p><span class="font-semibold">Personnel Code:</span> {{ personnel.personnelCode }}</p>
                 <p><span class="font-semibold">Serial Number:</span> {{ personnel.serviceNumber }}</p>
@@ -70,15 +70,10 @@
             </BaseButton>
           </div>
 
-          <TrainingTable v-if="activeTab === 'training'" :rows="trainingRows" />
-          <DeploymentTable v-else-if="activeTab === 'deployment'" :rows="deploymentRows" />
+          <DeploymentTable v-if="activeTab === 'deployment'" :rows="deploymentRows" />
           <EngagementTable v-else-if="activeTab === 'engagement'" :rows="engagementRows" />
           <EquipmentAssignmentTable v-else-if="activeTab === 'equipment-assignment'" />
-          <BaseCard v-else :title="PERSONNEL_PROFILE_TAB_CARD_TITLES.core">
-            <p class="text-sm text-slate-600">
-              Use the profile  tabs to review training records, deployment records, engagement records, and equipment assignments.
-            </p>
-          </BaseCard>
+          <TrainingTable v-else :rows="trainingRows" />
 
           <QuickAssignDeploymentModal
             v-if="activeAssignModal === 'deployment'"
@@ -163,7 +158,7 @@ const route = useRoute()
 const authStore = useAuthStore()
 const personnelStore = usePersonnelStore()
 
-const activeTab = ref<PersonnelProfileTabId>('core')
+const activeTab = ref<PersonnelProfileTabId>('training')
 const personnel = ref<(PersonnelDetail & { fullName: string }) | null>(null)
 const personnelError = ref('')
 const trainingRows = ref<{ id: string; courseName: string; provider: string; completedAt: string; remarks: string }[]>([])
@@ -297,7 +292,7 @@ const onSubmitAssignTraining = async (payload: Omit<CreateTrainingRecordPayload,
 }
 
 const onTabChange = (nextTab: string) => {
-  if (nextTab === 'core' || nextTab === 'training' || nextTab === 'deployment' || nextTab === 'engagement' || nextTab === 'equipment-assignment') {
+  if (nextTab === 'training' || nextTab === 'deployment' || nextTab === 'engagement' || nextTab === 'equipment-assignment') {
     activeTab.value = nextTab
   }
 }

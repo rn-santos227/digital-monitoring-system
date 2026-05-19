@@ -97,7 +97,6 @@ export const PERSONNEL_PROFILE_PAGE_TITLE = 'Personnel Profile'
 export const PERSONNEL_PROFILE_PAGE_SUBTITLE = 'Profile details, assignments, and readiness context for operational review.'
 export const PERSONNEL_PROFILE_TABS_ARIA_LABEL = 'Personnel profile tabs'
 export const PERSONNEL_PROFILE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
-  { id: 'core', label: 'Core Profile' },
   { id: 'training', label: 'Training Records' },
   { id: 'deployment', label: 'Deployment Records' },
   { id: 'engagement', label: 'Engagement Records' },
@@ -105,7 +104,6 @@ export const PERSONNEL_PROFILE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze
 ])
 
 export const PERSONNEL_PROFILE_TAB_CARD_TITLES: Readonly<Record<PersonnelProfileTabId, string>> = Object.freeze({
-  core: 'Personal and Assignment Overview',
   training: 'Training Records',
   deployment: 'Deployment Records',
   engagement: 'Engagement Records',
