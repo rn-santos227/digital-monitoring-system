@@ -58,6 +58,18 @@
             @update:model-value="onTabChange"
           />
 
+          <div v-if="activeTab === 'training' || activeTab === 'deployment' || activeTab === 'engagement'" class="mb-4 flex justify-end">
+            <BaseButton v-if="activeTab === 'deployment'" @click="activeAssignModal = 'deployment'">
+              Quick Assign Deployment
+            </BaseButton>
+            <BaseButton v-else-if="activeTab === 'engagement'" @click="activeAssignModal = 'engagement'">
+              Quick Assign Engagement
+            </BaseButton>
+            <BaseButton v-else @click="activeAssignModal = 'training'">
+              Quick Assign Training
+            </BaseButton>
+          </div>
+
           <TrainingTable v-if="activeTab === 'training'" :rows="trainingRows" />
           <DeploymentTable v-else-if="activeTab === 'deployment'" :rows="deploymentRows" />
           <EngagementTable v-else-if="activeTab === 'engagement'" :rows="engagementRows" />
@@ -67,6 +79,30 @@
               Use the profile  tabs to review training records, deployment records, engagement records, and equipment assignments.
             </p>
           </BaseCard>
+
+          <QuickAssignDeploymentModal
+            v-if="activeAssignModal === 'deployment'"
+            :is-submitting="isSubmitting"
+            :error-message="assignError"
+            @close="onCloseAssignModal"
+            @submit="onSubmitAssignDeployment"
+          />
+
+          <QuickAssignEngagementModal
+            v-if="activeAssignModal === 'engagement'"
+            :is-submitting="isSubmitting"
+            :error-message="assignError"
+            @close="onCloseAssignModal"
+            @submit="onSubmitAssignEngagement"
+          />
+
+          <QuickAssignTrainingModal
+            v-if="activeAssignModal === 'training'"
+            :is-submitting="isSubmitting"
+            :error-message="assignError"
+            @close="onCloseAssignModal"
+            @submit="onSubmitAssignTraining"
+          />
         </template>
       </template>
     </section>
@@ -76,10 +112,16 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { useDateDisplay } from '~/composables/useDateDisplay'
+import { useDialog } from '~/composables/useDialog'
+import { useAssignments } from '~/composables/useAssignments'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import DeploymentTable from '~/components/personnel/PersonnelDeploymentsTable.vue'
 import EngagementTable from '~/components/personnel/PersonnelEngagementsTable.vue'
 import EquipmentAssignmentTable from '~/components/personnel/PersonnelEquipmentAssignmentsTable.vue'
 import TrainingTable from '~/components/personnel/PersonnelTrainingsTable.vue'
+import QuickAssignDeploymentModal from '~/components/service-status/QuickAssignDeploymentModal.vue'
+import QuickAssignEngagementModal from '~/components/service-status/QuickAssignEngagementModal.vue'
+import QuickAssignTrainingModal from '~/components/service-status/QuickAssignTrainingModal.vue'
 import {
   PERSONNEL_PAGE_REQUIRED_PERMISSIONS,
   PERSONNEL_PROFILE_PAGE_SUBTITLE,
@@ -107,8 +149,15 @@ import type {
   PersonnelProfileTabId,
   PersonnelTrainingRecordListItem
 } from '~/types/domain/personnel'
+import type { CreateDeploymentRecordPayload } from '~/types/domain/deployment'
+import type { CreateEngagementRecordPayload } from '~/types/domain/engagement'
+import type { CreateTrainingRecordPayload } from '~/types/domain/training'
+import type { ActiveServiceStatusModal } from '~/types/domain/service-status'
+import { showErrorDialog } from '~/utils/error-handling'
 
 const { formatDate } = useDateDisplay()
+const { showDialog } = useDialog()
+const { isSubmitting, error: assignError, assignDeployment, assignEngagement, assignTraining } = useAssignments()
 
 const route = useRoute()
 const authStore = useAuthStore()
@@ -120,6 +169,7 @@ const personnelError = ref('')
 const trainingRows = ref<{ id: string; courseName: string; provider: string; completedAt: string; remarks: string }[]>([])
 const deploymentRows = ref<{ id: string; location: string; operationName: string; startedAt: string; endedAt: string; status: string }[]>([])
 const engagementRows = ref<{ id: string; eventType: string; location: string; recordedAt: string; outcome: string }[]>([])
+const activeAssignModal = ref<ActiveServiceStatusModal>(null)
 
 const canViewPersonnel = computed(() => {
   return authStore.hasPermissionAccess(PERSONNEL_PAGE_REQUIRED_PERMISSIONS.view)
@@ -130,6 +180,44 @@ const personnelId = computed(() => {
   return Array.isArray(idValue) ? (idValue[0] ?? '') : (idValue ?? '')
 })
 
+
+const loadPersonnelProfile = async (id: string) => {
+  const response = await personnelStore.fetchPersonnelById(id)
+  const [trainingResponse, deploymentResponse, engagementResponse] = await Promise.all([
+    getPersonnelTrainingRecordsEndpoint(id),
+    getPersonnelDeploymentRecordsEndpoint(id),
+    getPersonnelEngagementRecordsEndpoint(id),
+  ])
+
+  const fullName = [response.firstName, response.middleName, response.lastName].filter(Boolean).join(' ')
+  personnel.value = {
+    ...response,
+    fullName,
+  }
+  trainingRows.value = trainingResponse.items.map((item: PersonnelTrainingRecordListItem) => ({
+    id: item.id,
+    courseName: item.title,
+    provider: item.category ?? 'N/A',
+    completedAt: item.endDate ?? item.validUntil ?? item.startDate ?? 'Not set',
+    remarks: item.remarks ?? '—',
+  }))
+  deploymentRows.value = deploymentResponse.items.map((item: PersonnelDeploymentRecordListItem) => ({
+    id: item.id,
+    location: item.location ?? item.deploymentArea,
+    operationName: item.operationName ?? 'N/A',
+    startedAt: item.startDate,
+    endedAt: item.endDate ?? 'Ongoing',
+    status: item.status,
+  }))
+  engagementRows.value = engagementResponse.items.map((item: PersonnelEngagementRecordListItem) => ({
+    id: item.id,
+    eventType: item.type,
+    location: item.title,
+    recordedAt: item.startDate ?? 'Not set',
+    outcome: item.status,
+  }))
+}
+
 watch([canViewPersonnel, personnelId], async ([hasAccess, id]) => {
   if (!hasAccess || !id) {
     return
@@ -138,43 +226,75 @@ watch([canViewPersonnel, personnelId], async ([hasAccess, id]) => {
   personnelError.value = ''
 
   try {
-    const response = await personnelStore.fetchPersonnelById(id)
-      const [trainingResponse, deploymentResponse, engagementResponse] = await Promise.all([
-      getPersonnelTrainingRecordsEndpoint(id),
-      getPersonnelDeploymentRecordsEndpoint(id),
-      getPersonnelEngagementRecordsEndpoint(id),
-    ])
-    const fullName = [response.firstName, response.middleName, response.lastName].filter(Boolean).join(' ')
-    personnel.value = {
-      ...response,
-      fullName,
-    }
-    trainingRows.value = trainingResponse.items.map((item: PersonnelTrainingRecordListItem) => ({
-      id: item.id,
-      courseName: item.title,
-      provider: item.category ?? 'N/A',
-      completedAt: item.endDate ?? item.validUntil ?? item.startDate ?? 'Not set',
-      remarks: item.remarks ?? '—',
-    }))
-    deploymentRows.value = deploymentResponse.items.map((item: PersonnelDeploymentRecordListItem) => ({
-      id: item.id,
-      location: item.location ?? item.deploymentArea,
-      operationName: item.operationName ?? 'N/A',
-      startedAt: item.startDate,
-      endedAt: item.endDate ?? 'Ongoing',
-      status: item.status,
-    }))
-    engagementRows.value = engagementResponse.items.map((item: PersonnelEngagementRecordListItem) => ({
-      id: item.id,
-      eventType: item.type,
-      location: item.title,
-      recordedAt: item.startDate ?? 'Not set',
-      outcome: item.status,
-    }))
+    await loadPersonnelProfile(id)
   } catch {
     personnelError.value = personnelStore.error || 'Unable to load personnel profile.'
   }
 }, { immediate: true })
+
+const onCloseAssignModal = () => {
+  activeAssignModal.value = null
+}
+
+const onSubmitAssignDeployment = async (payload: Omit<CreateDeploymentRecordPayload, 'personnel_id'>) => {
+  const id = personnelId.value
+  if (!id) {
+    return
+  }
+
+  try {
+    await assignDeployment(id, { ...payload, personnel_id: id })
+    onCloseAssignModal()
+    await loadPersonnelProfile(id)
+  } catch (error) {
+    await showErrorDialog({
+      showDialog,
+      title: 'Deployment assignment failed',
+      error,
+      fallbackMessage: 'Unable to assign deployment record right now.',
+    })
+  }
+}
+
+const onSubmitAssignEngagement = async (payload: Omit<CreateEngagementRecordPayload, 'personnel_id'>) => {
+  const id = personnelId.value
+  if (!id) {
+    return
+  }
+
+  try {
+    await assignEngagement(id, { ...payload, personnel_id: id })
+    onCloseAssignModal()
+    await loadPersonnelProfile(id)
+  } catch (error) {
+    await showErrorDialog({
+      showDialog,
+      title: 'Engagement assignment failed',
+      error,
+      fallbackMessage: 'Unable to assign engagement record right now.',
+    })
+  }
+}
+
+const onSubmitAssignTraining = async (payload: Omit<CreateTrainingRecordPayload, 'personnelId'>) => {
+  const id = personnelId.value
+  if (!id) {
+    return
+  }
+
+  try {
+    await assignTraining(id, { ...payload, personnelId: id })
+    onCloseAssignModal()
+    await loadPersonnelProfile(id)
+  } catch (error) {
+    await showErrorDialog({
+      showDialog,
+      title: 'Training assignment failed',
+      error,
+      fallbackMessage: 'Unable to assign training record right now.',
+    })
+  }
+}
 
 const onTabChange = (nextTab: string) => {
   if (nextTab === 'core' || nextTab === 'training' || nextTab === 'deployment' || nextTab === 'engagement' || nextTab === 'equipment-assignment') {
