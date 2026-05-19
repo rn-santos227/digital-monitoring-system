@@ -37,6 +37,13 @@ import type { CreateTrainingRecordPayload } from '~/types/domain/training'
 import { fetchPersonnelLocationsEndpoint } from '~/utils/service-status-endpoints'
 import type { ActiveServiceStatusModal } from '~/types/domain/service-status'
 
-
+const { showDialog } = useDialog()
+const {
+  isSubmitting,
+  error: assignmentError,
+  assignDeployment,
+  assignEngagement,
+  assignTraining,
+} = useAssignment()
 
 </script>
