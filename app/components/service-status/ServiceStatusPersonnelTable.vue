@@ -37,7 +37,7 @@ interface ServiceStatusTableRow {
   item: PersonnelLocationItem
 }
 
-type ServiceStatusTableActionKey = 'assign-deployment' | 'assign-engagement' | 'assign-training'
+type ServiceStatusTableActionKey = 'view-personnel' | 'assign-deployment' | 'assign-engagement' | 'assign-training'
 
 const props = defineProps<{ items: PersonnelLocationItem[] }>()
 const emit = defineEmits<{
@@ -68,6 +68,11 @@ const rows = computed<ServiceStatusTableRow[]>(() => {
 const handleAction = (payload: { actionKey: string; row: ServiceStatusTableRow }) => {
   const actionKey = payload.actionKey as ServiceStatusTableActionKey
   const { item } = payload.row
+
+  if (actionKey === 'view-personnel') {
+    void navigateTo(`/personnel/${item.personnelId}`)
+    return
+  }
 
   if (actionKey === 'assign-deployment') {
     emit('assign-deployment', item)

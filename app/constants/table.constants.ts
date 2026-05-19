@@ -79,6 +79,12 @@ export const SERVICE_STATUS_PERSONNEL_TABLE_EMPTY_MESSAGE = 'No personnel locati
 export const SERVICE_STATUS_PERSONNEL_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
 export const SERVICE_STATUS_PERSONNEL_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
   {
+    key: 'view-personnel',
+    tooltip: 'View personnel profile',
+    iconName: 'eye',
+    variant: 'info',
+  },
+  {
     key: 'assign-deployment',
     tooltip: 'Assign deployment',
     iconName: 'map',
