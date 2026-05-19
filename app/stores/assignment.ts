@@ -45,6 +45,19 @@ export const useAssignmentsStore = defineStore('assignments', {
       }
     },
 
+    async assignTraining(personnelId: string, payload: CreateTrainingRecordPayload) {
+      this.isSubmitting = true
+      this.error = ''
+      try {
+        await assignPersonnelTrainingRecordEndpoint(personnelId, payload)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to assign training record.')
+        throw error
+      } finally {
+        this.isSubmitting = false
+      }
+    },
+
     clearError() {
       this.error = ''
     },
