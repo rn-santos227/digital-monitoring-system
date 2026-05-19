@@ -5,7 +5,7 @@ import type { CreateDeploymentRecordPayload } from '~/types/domain/deployment'
 import type { CreateEngagementRecordPayload } from '~/types/domain/engagement'
 import type { CreateTrainingRecordPayload } from '~/types/domain/training'
 
-export const useAssignment = () => {
+export const useAssignments = () => {
   const assignmentsStore = useAssignmentsStore()
   const { isSubmitting, error } = storeToRefs(assignmentsStore)
 
