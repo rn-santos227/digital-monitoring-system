@@ -16,4 +16,23 @@ import {
   SERVICE_STATUS_PERSONNEL_TABLE_UNSPECIFIED_OPERATION,
 } from '~/constants/table.constants'
 import type { PersonnelLocationItem } from '~/types/domain/personnel'
+
+interface ServiceStatusTableRow {
+  id: string
+  personnelName: string
+  operationName: string
+  deploymentArea: string
+  coordinates: string
+  actions: string
+  item: PersonnelLocationItem
+}
+
+const props = defineProps<{ items: PersonnelLocationItem[] }>()
+const emit = defineEmits<{
+  (event: 'assign-deployment', item: PersonnelLocationItem): void
+  (event: 'assign-engagement', item: PersonnelLocationItem): void
+  (event: 'assign-training', item: PersonnelLocationItem): void
+}>()
+
+
 </script>
