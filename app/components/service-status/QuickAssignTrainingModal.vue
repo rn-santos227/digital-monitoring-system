@@ -25,4 +25,22 @@ const form = reactive({
   valid_until: '',
   remarks: '',
 })
+
+const errors = reactive<Record<string, string>>({})
+
+const onSubmit = () => {
+  const result = validateQuickAssignTrainingForm(form)
+
+  Object.keys(errors).forEach((key) => {
+    delete errors[key]
+  })
+
+  Object.assign(errors, result.errors)
+
+  if (!result.payload) {
+    return
+  }
+
+  emit('submit', result.payload)
+}
 </script>
