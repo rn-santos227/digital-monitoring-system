@@ -1,6 +1,78 @@
 <template>
   <main :class="SERVICE_STATUS_PAGE_MAIN_CLASSES">
+    <header :class="SERVICE_STATUS_PAGE_HEADER_CLASSES">
+      <h1 :class="SERVICE_STATUS_PAGE_TITLE_CLASSES">{{ SERVICE_STATUSES_PAGE_TITLE }}</h1>
+      <p :class="SERVICE_STATUS_PAGE_SUBTITLE_CLASSES">{{ SERVICE_STATUSES_PAGE_SUBTITLE }}</p>
+    </header>
 
+    <BaseTab
+      :model-value="activeTab"
+      :items="SERVICE_STATUSES_PAGE_TAB_ITEMS"
+      :aria-label="SERVICE_STATUSES_PAGE_TABS_ARIA_LABEL"
+      @update:model-value="activeTab = $event"
+    />
+
+    <BaseAlert v-if="errorMessage" tone="danger" :message="errorMessage" />
+
+    <BaseInlineLoader v-if="isLoading" message="Loading personnel locations..." />
+    <template v-else-if="activeTab === 'service-map'">
+      <section class="mt-4">
+        <PersonnelFilter
+          :model-value="personnelFilter"
+          @apply="onApplyPersonnelFilter"
+          @reset="onResetPersonnelFilter"
+        />
+      </section>
+
+      <section :class="SERVICE_STATUS_PAGE_CONTENT_CLASSES">
+        <ServiceStatusTacticalMap
+          :class="SERVICE_STATUS_PAGE_MAP_WRAPPER_CLASSES"
+          :items="filteredLocationItems"
+          :selected-personnel-id="selectedPersonnelId"
+        /> 
+      </section>
+    </template>
+
+    <template v-else>
+      <section class="mt-4">
+        <PersonnelFilter
+          :model-value="personnelFilter"
+          @apply="onApplyPersonnelFilter"
+          @reset="onResetPersonnelFilter"
+        />
+
+        <ServiceStatusPersonnelTable
+          :items="filteredLocationItems"
+          @assign-deployment="onOpenAssignDeployment"
+          @assign-engagement="onOpenAssignEngagement"
+          @assign-training="onOpenAssignTraining"
+        />
+      </section>
+    </template>
+
+    <QuickAssignDeploymentModal
+      v-if="activeModal === 'deployment'"
+      :is-submitting="isSubmitting"
+      :error-message="modalErrorMessage || assignmentError"
+      @close="onCloseModal"
+      @submit="onSubmitAssignDeployment"
+    />
+
+    <QuickAssignEngagementModal
+      v-if="activeModal === 'engagement'"
+      :is-submitting="isSubmitting"
+      :error-message="modalErrorMessage || assignmentError"
+      @close="onCloseModal"
+      @submit="onSubmitAssignEngagement"
+    />
+
+    <QuickAssignTrainingModal
+      v-if="activeModal === 'training'"
+      :is-submitting="isSubmitting"
+      :error-message="modalErrorMessage || assignmentError"
+      @close="onCloseModal"
+      @submit="onSubmitAssignTraining"
+    />
   </main>
 </template>
 

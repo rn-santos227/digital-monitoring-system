@@ -21,8 +21,8 @@ export interface ServiceStatusAssignmentHandlerOptions {
   activeModal: Ref<ActiveServiceStatusModal>
   modalErrorMessage: Ref<string>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
-  assignDeployment: (personnelId: string, payload: CreateDeploymentRecordPayload) => Promise<void>
-  assignEngagement: (personnelId: string, payload: CreateEngagementRecordPayload) => Promise<void>
-  assignTraining: (personnelId: string, payload: CreateTrainingRecordPayload) => Promise<void>
+  assignDeployment: (personnelId: string, payload: Omit<CreateDeploymentRecordPayload, 'personnel_id'>) => Promise<void>
+  assignEngagement: (personnelId: string, payload: Omit<CreateEngagementRecordPayload, 'personnel_id'>) => Promise<void>
+  assignTraining: (personnelId: string, payload: Omit<CreateTrainingRecordPayload, 'personnelId'>) => Promise<void>
   reload: () => Promise<void>
 }

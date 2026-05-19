@@ -30,7 +30,7 @@ export const useServiceStatusAssignmentHandler = (options: ServiceStatusAssignme
     options.modalErrorMessage.value = ''
   }
 
-  const onSubmitAssignDeployment = async (payload: CreateDeploymentRecordPayload) => {
+const onSubmitAssignDeployment = async (payload: Omit<CreateDeploymentRecordPayload, 'personnel_id'>) => {
     if (!options.selectedPersonnelId.value) {
       return
     }
@@ -49,7 +49,7 @@ export const useServiceStatusAssignmentHandler = (options: ServiceStatusAssignme
     }
   }
 
-  const onSubmitAssignEngagement = async (payload: CreateEngagementRecordPayload) => {
+const onSubmitAssignEngagement = async (payload: Omit<CreateEngagementRecordPayload, 'personnel_id'>) => {
     if (!options.selectedPersonnelId.value) {
       return
     }
@@ -68,7 +68,7 @@ export const useServiceStatusAssignmentHandler = (options: ServiceStatusAssignme
     }
   }
 
-  const onSubmitAssignTraining = async (payload: CreateTrainingRecordPayload) => {
+const onSubmitAssignTraining = async (payload: Omit<CreateTrainingRecordPayload, 'personnelId'>) => {
     if (!options.selectedPersonnelId.value) {
       return
     }
