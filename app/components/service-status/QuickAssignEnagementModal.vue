@@ -26,5 +26,31 @@ const form = reactive({
   remarks: '',
 })
 
+const errors = reactive<Record<string, string>>({})
 
+const onEngagementSelected = (engagement: EngagementManagementListItem | null) => {
+  if (!engagement) {
+    return
+  }
+
+  if (!form.remarks) {
+    form.remarks = engagement.defaultRemarks ?? ''
+  }
+}
+
+const onSubmit = () => {
+  const result = validateQuickAssignEngagementForm(form)
+
+  Object.keys(errors).forEach((key) => {
+    delete errors[key]
+  })
+
+  Object.assign(errors, result.errors)
+
+  if (!result.payload) {
+    return
+  }
+
+  emit('submit', result.payload)
+}
 </script>
