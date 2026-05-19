@@ -76,12 +76,32 @@ export const RANK_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
 
 export const SERVICE_STATUS_PERSONNEL_TABLE_SEARCH_PLACEHOLDER = 'Search personnel by name, operation, area, or code'
 export const SERVICE_STATUS_PERSONNEL_TABLE_EMPTY_MESSAGE = 'No personnel location records found.'
+export const SERVICE_STATUS_PERSONNEL_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
+export const SERVICE_STATUS_PERSONNEL_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  {
+    key: 'assign-deployment',
+    tooltip: 'Assign deployment',
+    iconName: 'map',
+    variant: 'info',
+  },
+  {
+    key: 'assign-engagement',
+    tooltip: 'Assign engagement',
+    iconName: 'shield-exclamation',
+    variant: 'warning',
+  },
+  {
+    key: 'assign-training',
+    tooltip: 'Assign training',
+    iconName: 'academic-cap',
+    variant: 'ghost',
+  },
+])
 export const SERVICE_STATUS_PERSONNEL_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'personnelName', label: 'Personnel', sortable: false },
   { key: 'operationName', label: 'Operation', sortable: false },
   { key: 'deploymentArea', label: 'Area', sortable: false },
   { key: 'coordinates', label: 'Coordinates', sortable: false },
-  { key: 'actions', label: 'Actions', sortable: false },
 ])
 
 export const PERSONNEL_TRAINING_TABLE_TITLE = 'Training Records'
