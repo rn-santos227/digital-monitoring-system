@@ -111,5 +111,32 @@ const loadLocations = async () => {
   }
 }
 
+const {
+  onOpenAssignDeployment,
+  onOpenAssignEngagement,
+  onOpenAssignTraining,
+  onCloseModal,
+  onSubmitAssignDeployment,
+  onSubmitAssignEngagement,
+  onSubmitAssignTraining,
+} = useServiceStatusAssignmentHandler({
+  selectedPersonnelId,
+  activeModal,
+  modalErrorMessage,
+  showDialog,
+  assignDeployment: async (personnelId, payload: Omit<CreateDeploymentRecordPayload, 'personnel_id'>) => {
+    await assignDeployment(personnelId, { ...payload, personnel_id: personnelId })
+  },
+  assignEngagement: async (personnelId, payload: Omit<CreateEngagementRecordPayload, 'personnel_id'>) => {
+    await assignEngagement(personnelId, { ...payload, personnel_id: personnelId })
+  },
+  assignTraining: async (personnelId, payload: Omit<CreateTrainingRecordPayload, 'personnelId'>) => {
+    await assignTraining(personnelId, { ...payload, personnelId: personnelId })
+  },
+  reload: loadLocations,
+})
 
+onMounted(async () => {
+  await loadLocations()
+})
 </script>
