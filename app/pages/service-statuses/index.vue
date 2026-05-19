@@ -44,6 +44,15 @@ const {
   assignDeployment,
   assignEngagement,
   assignTraining,
-} = useAssignment()
+} = useAssignments()
+
+const activeTab = ref('service-map')
+const isLoading = ref(false)
+const errorMessage = ref('')
+const locationItems = ref<PersonnelLocationItem[]>([])
+const selectedPersonnelId = ref<string | null>(null)
+const activeModal = ref<ActiveServiceStatusModal>(null)
+const modalErrorMessage = ref('')
+const personnelFilter = ref<{ term?: string; fields?: string }>({})
 
 </script>
