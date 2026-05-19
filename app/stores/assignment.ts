@@ -32,6 +32,19 @@ export const useAssignmentsStore = defineStore('assignments', {
       }
     },
 
+    async assignEngagement(personnelId: string, payload: CreateEngagementRecordPayload) {
+      this.isSubmitting = true
+      this.error = ''
+      try {
+        await assignPersonnelEngagementRecordEndpoint(personnelId, payload)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to assign engagement record.')
+        throw error
+      } finally {
+        this.isSubmitting = false
+      }
+    },
+
     clearError() {
       this.error = ''
     },
