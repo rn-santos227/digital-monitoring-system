@@ -1,5 +1,39 @@
 <template>
-
+  <DataTable
+    :title="SERVICE_STATUS_PERSONNEL_TABLE_TITLE"
+    :columns="SERVICE_STATUS_PERSONNEL_TABLE_COLUMNS"
+    :rows="rows"
+    row-key="id"
+    :show-search="true"
+    :search-query="searchQuery"
+    :search-placeholder="SERVICE_STATUS_PERSONNEL_TABLE_SEARCH_PLACEHOLDER"
+    :empty-message="SERVICE_STATUS_PERSONNEL_TABLE_EMPTY_MESSAGE"
+    @update:search-query="searchQuery = $event"
+  >
+    <template #cell-actions="{ row }">
+      <BaseButton
+        size="sm"
+        variant="secondary"
+        @click.stop="emit('assign-deployment', row.item)"
+      >
+        Deployment
+      </BaseButton>
+      <BaseButton
+        size="sm"
+        variant="secondary"
+        @click.stop="emit('assign-engagement', row.item)"
+      >
+        Engagement
+      </BaseButton>
+      <BaseButton
+        size="sm"
+        variant="secondary"
+        @click.stop="emit('assign-training', row.item)"
+      >
+        Training
+      </BaseButton>
+    </template>
+  </DataTable>
 </template>
 
 <script setup lang="ts">
