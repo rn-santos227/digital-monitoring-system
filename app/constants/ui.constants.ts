@@ -2,6 +2,7 @@ import type { LoginPageThemeStyle, KpiToneStyle } from '~/types/domain/misc'
 
 export type UiSize = 'sm' | 'md' | 'lg'
 export type UiTone = 'neutral' | 'success' | 'warning' | 'danger' | 'info'
+export type UiVariant =  'primary' | 'secondary' | 'ghost' | 'danger' | 'info' | 'warning' | 'success'
 export type KpiTone = 'emerald' | 'sky' | 'violet' | 'amber'
 
 export const KPI_TONE_STYLES: Record<KpiTone, KpiToneStyle> = {

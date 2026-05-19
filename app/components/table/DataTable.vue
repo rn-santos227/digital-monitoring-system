@@ -78,15 +78,7 @@
                   size="sm"
                   :aria-label="action.tooltip"
                   :title="action.tooltip"
-                  :variant="
-                    action.variant === 'danger'
-                      ? 'danger'
-                      : action.variant === 'info'
-                        ? 'info'
-                        : action.variant === 'warning'
-                          ? 'warning'
-                          : 'ghost'
-                  "
+                  :variant="resolveActionButtonVariant(action)"
                   :icon-name="action.iconName"
                   @click="emit('action', { actionKey: action.key, row })"
                 />
@@ -130,6 +122,7 @@ import {
   BASE_TABLE_WINDOW_WRAPPER_CLASSES,
   type DataTableAction,
   type DataTableColumn,
+  type UiVariant,
 } from '~/constants/ui.constants'
 import { resolveDataTableAlignClass, resolveDataTableRowKey } from '~/utils/data-table'
 
@@ -214,6 +207,14 @@ const resolveCellDisplayValue = (row: TRow, column: DataTableColumn): string | n
 }
 
 const hasActions = computed(() => props.actions.length > 0)
+
+const resolveActionButtonVariant = (action: DataTableAction): UiVariant => {
+  if (!action.variant) {
+    return 'ghost'
+  }
+
+  return action.variant
+}
 
 const LOADING_STATE_RENDER_DELAY_MS = 180
 const shouldRenderLoadingState = ref(false)

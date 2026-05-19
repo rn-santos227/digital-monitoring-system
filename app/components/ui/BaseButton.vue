@@ -29,13 +29,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { UiSize } from '../../constants/ui.constants'
+import type { UiSize, UiVariant } from '../../constants/ui.constants'
 import type { IconName } from '~/types/domain/misc'
 import BaseIcon from './BaseIcon.vue'
 
 const props = withDefaults(
   defineProps<{
-    variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'info' | 'warning'
+    variant?: UiVariant
     size?: UiSize
     type?: 'button' | 'submit' | 'reset'
     disabled?: boolean
@@ -81,12 +81,13 @@ const iconSizeByButtonSize: Record<UiSize, 'sm' | 'md' | 'lg'> = {
   lg: 'lg'
 }
 
-const variantClasses: Record<'primary' | 'secondary' | 'ghost' | 'danger' | 'info' | 'warning', string> = {
+const variantClasses: Record<UiVariant, string> = {
   primary: 'bg-emerald-700 text-white hover:bg-emerald-900',
   secondary: 'bg-white text-slate-900 border border-slate-300 hover:bg-slate-100',
   ghost: 'bg-transparent text-slate-700 hover:bg-slate-100',
   danger: 'bg-rose-600 text-white hover:bg-rose-700',
   info: 'bg-sky-500 text-white hover:bg-sky-600',
-  warning: 'bg-amber-400 text-slate-900 hover:bg-amber-500'
+  warning: 'bg-amber-400 text-slate-900 hover:bg-amber-500',
+  success: 'bg-emerald-600 text-white hover:bg-emerald-700'
 }
 </script>
