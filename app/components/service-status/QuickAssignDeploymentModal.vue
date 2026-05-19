@@ -3,8 +3,9 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import BaseAlert from '~/components/ui/BaseAlert.vue'
+import BaseGeoMap from '~/components/ui/BaseGeoMap.vue'
 import DeploymentSuggestionField from '~/components/general/DeploymentSuggestionField.vue'
 import type { CreateDeploymentRecordPayload, DeploymentManagementListItem } from '~/types/domain/deployment'
 import { validateQuickAssignDeploymentForm } from '~/utils/service-status-validation'
@@ -44,6 +45,17 @@ const onDeploymentSelected = (deployment: DeploymentManagementListItem | null) =
   form.deployment_area_longitude = String(deployment.deploymentAreaLongitude ?? '')
 }
 
+const parsedLatitude = computed(() => Number.parseFloat(form.deployment_area_latitude))
+const parsedLongitude = computed(() => Number.parseFloat(form.deployment_area_longitude))
+
+const onMapLatitudeUpdate = (value: number) => {
+  form.deployment_area_latitude = value.toFixed(6)
+}
+
+const onMapLongitudeUpdate = (value: number) => {
+  form.deployment_area_longitude = value.toFixed(6)
+}
+
 const onSubmit = () => {
   const result = validateQuickAssignDeploymentForm(form)
 
@@ -59,5 +71,4 @@ const onSubmit = () => {
 
   emit('submit', result.payload)
 }
-
 </script>
