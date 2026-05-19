@@ -4,47 +4,24 @@
     :columns="SERVICE_STATUS_PERSONNEL_TABLE_COLUMNS"
     :rows="rows"
     row-key="id"
-    :show-search="true"
-    :search-query="searchQuery"
-    :search-placeholder="SERVICE_STATUS_PERSONNEL_TABLE_SEARCH_PLACEHOLDER"
+    :actions="SERVICE_STATUS_PERSONNEL_TABLE_ACTIONS"
+    :action-button-count="SERVICE_STATUS_PERSONNEL_TABLE_ACTIONS.length"
+    :actions-column-label="SERVICE_STATUS_PERSONNEL_TABLE_ACTIONS_COLUMN_LABEL"
+    :show-search="false"
     :empty-message="SERVICE_STATUS_PERSONNEL_TABLE_EMPTY_MESSAGE"
-    @update:search-query="searchQuery = $event"
-  >
-    <template #cell-actions="{ row }">
-      <BaseButton
-        size="sm"
-        variant="secondary"
-        @click.stop="emit('assign-deployment', row.item)"
-      >
-        Deployment
-      </BaseButton>
-      <BaseButton
-        size="sm"
-        variant="secondary"
-        @click.stop="emit('assign-engagement', row.item)"
-      >
-        Engagement
-      </BaseButton>
-      <BaseButton
-        size="sm"
-        variant="secondary"
-        @click.stop="emit('assign-training', row.item)"
-      >
-        Training
-      </BaseButton>
-    </template>
-  </DataTable>
+    @action="handleAction"
+  />
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import DataTable from '~/components/table/DataTable.vue'
-import BaseButton from '~/components/ui/BaseButton.vue'
 import {
+  SERVICE_STATUS_PERSONNEL_TABLE_ACTIONS,
+  SERVICE_STATUS_PERSONNEL_TABLE_ACTIONS_COLUMN_LABEL,
   SERVICE_STATUS_PERSONNEL_TABLE_COLUMNS,
   SERVICE_STATUS_PERSONNEL_TABLE_EMPTY_MESSAGE,
   SERVICE_STATUS_PERSONNEL_TABLE_NO_COORDINATES,
-  SERVICE_STATUS_PERSONNEL_TABLE_SEARCH_PLACEHOLDER,
   SERVICE_STATUS_PERSONNEL_TABLE_TITLE,
   SERVICE_STATUS_PERSONNEL_TABLE_UNNAMED_PERSONNEL,
   SERVICE_STATUS_PERSONNEL_TABLE_UNSPECIFIED_OPERATION,
@@ -57,9 +34,10 @@ interface ServiceStatusTableRow {
   operationName: string
   deploymentArea: string
   coordinates: string
-  actions: string
   item: PersonnelLocationItem
 }
+
+type ServiceStatusTableActionKey = 'assign-deployment' | 'assign-engagement' | 'assign-training'
 
 const props = defineProps<{ items: PersonnelLocationItem[] }>()
 const emit = defineEmits<{
@@ -67,8 +45,6 @@ const emit = defineEmits<{
   (event: 'assign-engagement', item: PersonnelLocationItem): void
   (event: 'assign-training', item: PersonnelLocationItem): void
 }>()
-
-const searchQuery = ref('')
 
 const formatCoordinates = (latitude: number | null, longitude: number | null) => {
   if (latitude === null || longitude === null) {
@@ -79,27 +55,32 @@ const formatCoordinates = (latitude: number | null, longitude: number | null) =>
 }
 
 const rows = computed<ServiceStatusTableRow[]>(() => {
-  const query = searchQuery.value.trim().toLowerCase()
-
-  const mapped = props.items.map((item) => ({
+  return props.items.map((item) => ({
     id: item.personnelId,
     personnelName: item.personnelName ?? SERVICE_STATUS_PERSONNEL_TABLE_UNNAMED_PERSONNEL,
     operationName: item.operationName ?? SERVICE_STATUS_PERSONNEL_TABLE_UNSPECIFIED_OPERATION,
     deploymentArea: item.deploymentArea,
     coordinates: formatCoordinates(item.latitude, item.longitude),
-    actions: '',
     item,
   }))
+})
 
-  if (!query) {
-    return mapped
+const handleAction = (payload: { actionKey: string; row: ServiceStatusTableRow }) => {
+  const actionKey = payload.actionKey as ServiceStatusTableActionKey
+  const { item } = payload.row
+
+  if (actionKey === 'assign-deployment') {
+    emit('assign-deployment', item)
+    return
   }
 
-  return mapped.filter((row) => {
-    return [row.personnelName, row.operationName, row.deploymentArea, row.coordinates]
-      .join(' ')
-      .toLowerCase()
-      .includes(query)
-  })
-})
+  if (actionKey === 'assign-engagement') {
+    emit('assign-engagement', item)
+    return
+  }
+
+  if (actionKey === 'assign-training') {
+    emit('assign-training', item)
+  }
+}
 </script>
