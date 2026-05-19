@@ -1,5 +1,52 @@
 <template>
+  <BaseModal
+    title="Quick Assign Training"
+    description="Assign the selected personnel to an existing training profile."
+    size="lg"
+    @close="emit('close')"
+  >
+    <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert
+        v-if="errorMessage"
+        tone="danger"
+        :message="errorMessage"
+      />
 
+      <TrainingSuggestionField
+        v-model="form.training_id"
+        label="Training"
+        placeholder="Search training profile"
+        helper-text="Select a training profile for this personnel assignment."
+        :error="errors.training_id"
+      />
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <BaseTextField
+          v-model="form.certificate_no"
+          label="Certificate No"
+          :error="errors.certificate_no"
+        />
+        <BaseDatePicker
+          v-model="form.valid_until"
+          label="Valid Until"
+          :error="errors.valid_until"
+        />
+      </div>
+
+      <BaseTextArea
+        v-model="form.remarks"
+        label="Remarks"
+        placeholder="Optional training remarks"
+      />
+    </form>
+
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton :disabled="isSubmitting" @click="onSubmit">Assign</BaseButton>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
