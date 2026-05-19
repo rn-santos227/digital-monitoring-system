@@ -40,3 +40,16 @@ export const assignPersonnelEngagementRecordEndpoint = async (
     })
   }, API_LOADING_MESSAGES.createEngagementRecord)
 }
+
+export const assignPersonnelTrainingRecordEndpoint = async (
+  personnelId: string,
+  payload: CreateTrainingRecordPayload,
+) => {
+  return await withApiLoading(async () => {
+    return await $fetch(PERSONNEL_API_ENDPOINTS.personnelTrainingRecord(personnelId), {
+      method: 'POST',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.createTrainingRecord)
+}
