@@ -3,7 +3,7 @@
     title="Update Engagement"
     description="Update engagement profile details."
     size="lg"
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
@@ -58,7 +58,8 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton variant="ghost" @click="onResetForm">Reset</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">Cancel</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">Update</BaseButton>
       </div>
     </template>
@@ -67,6 +68,7 @@
 
 <script setup lang="ts">
 import { reactive, watch } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import {
   ENGAGEMENT_CREATE_LEVEL_OPTIONS,
   ENGAGEMENT_CREATE_STATUS_OPTIONS,
@@ -74,6 +76,7 @@ import {
 } from '~/constants/page.constants'
 import type { CreateEngagementPayload } from '~/types/domain/engagement'
 import { validateCreateEngagementForm } from '~/utils/engagement-validation'
+import { requestCloseForChangedValues, resetFormValues } from '~/utils/form-close-guard'
 
 interface EngagementUpdateFormValues {
   engagementTitle: string
@@ -103,6 +106,7 @@ const emit = defineEmits<{
 
 const form = reactive<EngagementUpdateFormValues>({ ...props.initialValues })
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 
 watch(() => props.initialValues, (nextValues) => {
   Object.assign(form, nextValues)
@@ -122,5 +126,24 @@ const onSubmit = () => {
   }
 
   emit('submit', result.payload)
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForChangedValues({
+    formValues: form,
+    originalValues: props.initialValues,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
+}
+
+const onResetForm = () => {
+  resetFormValues(
+    form,
+    props.initialValues,
+  )
 }
 </script>
