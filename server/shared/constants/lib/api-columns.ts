@@ -109,6 +109,12 @@ export const EQUIPMENT_CATEGORY_SELECT_COLUMNS =
 
 export const EQUIPMENT_CATEGORY_SUGGESTION_SELECT_COLUMNS = 'id, code, name, is_active'
 
+export const EQUIPMENT_ITEM_SELECT_COLUMNS =
+  'id, equipment_code, category_id, name, model, manufacturer, description, unit_of_measure, minimum_stock_level, is_serialized, is_active, created_at, updated_at, category:equipment_categories(id, code, name)'
+
+export const EQUIPMENT_ITEM_SUGGESTION_SELECT_COLUMNS =
+  'id, equipment_code, name, is_active, category:equipment_categories(name)'
+
 export const TRAINING_CATEGORY_SELECT_COLUMNS = 'id, code, name, created_at, updated_at'
 
 export const TRAINING_SELECT_COLUMNS =
