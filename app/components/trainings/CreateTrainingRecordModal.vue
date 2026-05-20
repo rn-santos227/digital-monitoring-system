@@ -3,7 +3,7 @@
     :title="TRAINING_RECORDS_CREATE_MODAL_TITLE"
     :description="TRAINING_RECORDS_CREATE_MODAL_DESCRIPTION"
     size="lg"
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <div class="grid gap-4 md:grid-cols-2">
@@ -51,7 +51,7 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">{{ TRAININGS_MODAL_CANCEL_LABEL }}</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">{{ TRAININGS_MODAL_CANCEL_LABEL }}</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">{{ TRAININGS_MODAL_CREATE_LABEL }}</BaseButton>
       </div>
     </template>
@@ -60,6 +60,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import PersonnelSuggestionField from '~/components/general/PersonnelSuggestionField.vue'
 import TrainingSuggestionField from '~/components/general/TrainingSuggestionField.vue'
 import {
@@ -82,6 +83,7 @@ import {
 import type { PersonnelSuggestion } from '~/types/domain/personnel'
 import type { CreateTrainingRecordPayload, TrainingSuggestionItem } from '~/types/domain/training'
 import { validateCreateTrainingRecordForm } from '~/utils/training-validation'
+import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
 withDefaults(defineProps<{ isSubmitting?: boolean }>(), { isSubmitting: false })
 
@@ -99,6 +101,7 @@ const form = reactive({
 })
 
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 
 const onPersonnelSelected = (personnel: PersonnelSuggestion | null) => {
   if (!personnel) {
@@ -145,5 +148,16 @@ const onSubmit = () => {
   }
 
   emit('submit', result.payload)
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForRequiredFields({
+    formValues: form,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
 }
 </script>
