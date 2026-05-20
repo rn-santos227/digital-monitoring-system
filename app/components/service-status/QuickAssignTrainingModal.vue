@@ -3,7 +3,7 @@
     title="Quick Assign Training"
     description="Assign the selected personnel to an existing training profile."
     size="lg"
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert
@@ -42,7 +42,7 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">Cancel</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">Assign</BaseButton>
       </div>
     </template>
@@ -51,10 +51,12 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import BaseAlert from '~/components/ui/BaseAlert.vue'
 import TrainingSuggestionField from '~/components/general/TrainingSuggestionField.vue'
 import type { CreateTrainingRecordPayload } from '~/types/domain/training'
 import { validateQuickAssignTrainingForm } from '~/utils/service-status-validation'
+import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
 withDefaults(defineProps<{ isSubmitting?: boolean; errorMessage?: string }>(), {
   isSubmitting: false,
@@ -74,6 +76,7 @@ const form = reactive({
 })
 
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 
 const onSubmit = () => {
   const result = validateQuickAssignTrainingForm(form)
@@ -89,5 +92,16 @@ const onSubmit = () => {
   }
 
   emit('submit', result.payload)
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForRequiredFields({
+    formValues: form,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
 }
 </script>
