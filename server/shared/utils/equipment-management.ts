@@ -3,6 +3,10 @@ import type {
   EquipmentCategoryRow,
   EquipmentCategorySuggestionItem,
   EquipmentCategorySuggestionRow,
+  EquipmentItemListItem,
+  EquipmentItemRow,
+  EquipmentItemSuggestionItem,
+  EquipmentItemSuggestionRow,
 } from '../models'
 import { parseNumber } from './parsers'
 
@@ -26,6 +30,51 @@ export const mapEquipmentCategorySuggestionItem = (row: EquipmentCategorySuggest
 })
 
 export const parseEquipmentCategorySuggestionQuery = (query: {
+  term?: unknown
+  pageSize?: unknown
+  selectedId?: unknown
+}) => {
+  const term = typeof query.term === 'string' ? query.term.trim() : ''
+  const selectedId = typeof query.selectedId === 'string' && query.selectedId.length > 0
+    ? query.selectedId
+    : null
+  const rawPageSize = Math.trunc(parseNumber(query.pageSize, 10))
+  const pageSize = Math.min(Math.max(rawPageSize, 1), 20)
+
+  return {
+    term,
+    pageSize,
+    selectedId,
+  }
+}
+
+export const mapEquipmentItemListItem = (row: EquipmentItemRow): EquipmentItemListItem => ({
+  id: row.id,
+  equipmentCode: row.equipment_code,
+  categoryId: row.category_id,
+  categoryCode: row.category?.code ?? '',
+  categoryName: row.category?.name ?? '',
+  name: row.name,
+  model: row.model,
+  manufacturer: row.manufacturer,
+  description: row.description,
+  unitOfMeasure: row.unit_of_measure,
+  minimumStockLevel: row.minimum_stock_level,
+  isSerialized: row.is_serialized,
+  isActive: row.is_active,
+  createdAt: row.created_at,
+  updatedAt: row.updated_at,
+})
+
+export const mapEquipmentItemSuggestionItem = (row: EquipmentItemSuggestionRow): EquipmentItemSuggestionItem => ({
+  id: row.id,
+  equipmentCode: row.equipment_code,
+  name: row.name,
+  categoryName: row.category?.name ?? '',
+  isActive: row.is_active,
+})
+
+export const parseEquipmentItemSuggestionQuery = (query: {
   term?: unknown
   pageSize?: unknown
   selectedId?: unknown
