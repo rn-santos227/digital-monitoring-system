@@ -4,7 +4,7 @@
     :description="PERSONNEL_UPDATE_MODAL_DESCRIPTION"
     size="lg"
     scroll-body
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form id="update-personnel-form" class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert v-if="resolvedWarningMessage" :message="resolvedWarningMessage" tone="warning" />
@@ -165,7 +165,8 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">{{ PERSONNEL_MODAL_CANCEL_LABEL }}</BaseButton>
+        <BaseButton variant="ghost" @click="onResetForm">Reset</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">{{ PERSONNEL_MODAL_CANCEL_LABEL }}</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">{{ PERSONNEL_MODAL_UPDATE_LABEL }}</BaseButton>
       </div>
     </template>
@@ -174,6 +175,7 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import BattalionsSuggestionField from '~/components/general/BattalionsSuggestionField.vue'
 import CompaniesSuggestionField from '~/components/general/CompaniesSuggestionField.vue'
 import RankSuggestionField from '~/components/general/RankSuggestionField.vue'
@@ -226,6 +228,7 @@ import { uploadFileEndpoint } from '~/utils/file-management-endpoints'
 import { formatFileSizeLabel } from '~/utils/file-upload'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { validateCreatePersonnelForm } from '~/utils/personnel-validation'
+import { requestCloseForChangedValues, resetFormValues } from '~/utils/form-close-guard'
 
 const props = withDefaults(defineProps<{ initialValues: PersonnelDetail, isSubmitting?: boolean; warningMessage?: string; errorMessage?: string }>(), {
   isSubmitting: false,
@@ -281,6 +284,8 @@ const syncForm = (value: PersonnelDetail) => {
 watch(() => props.initialValues, syncForm, { immediate: true, deep: true })
 
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
+
 const localWarningMessage = ref('')
 const isProfileImageUploading = ref(false)
 const profileImageFile = ref<File | null>(null)
@@ -342,5 +347,24 @@ const onSubmit = async () => {
   }
 
   emit('submit', result.payload)
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForChangedValues({
+    formValues: form,
+    originalValues: props.initialValues,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
+}
+
+const onResetForm = () => {
+  resetFormValues(
+    form,
+    props.initialValues,
+  )
 }
 </script>
