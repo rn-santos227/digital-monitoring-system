@@ -4,7 +4,7 @@
     description="Assign the selected personnel to an existing deployment profile."
     size="lg"
     scroll-body
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert
@@ -71,7 +71,7 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">Cancel</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">Assign</BaseButton>
       </div>
     </template>
@@ -80,11 +80,13 @@
 
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import BaseAlert from '~/components/ui/BaseAlert.vue'
 import BaseGeoMap from '~/components/ui/BaseGeoMap.vue'
 import DeploymentSuggestionField from '~/components/general/DeploymentSuggestionField.vue'
 import type { CreateDeploymentRecordPayload, DeploymentManagementListItem } from '~/types/domain/deployment'
 import { validateQuickAssignDeploymentForm } from '~/utils/service-status-validation'
+import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
 withDefaults(defineProps<{ isSubmitting?: boolean; errorMessage?: string }>(), {
   isSubmitting: false,
@@ -109,6 +111,7 @@ const form = reactive({
 })
 
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 
 const onDeploymentSelected = (deployment: DeploymentManagementListItem | null) => {
   if (!deployment) {
@@ -146,5 +149,16 @@ const onSubmit = () => {
   }
 
   emit('submit', result.payload)
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForRequiredFields({
+    formValues: form,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
 }
 </script>

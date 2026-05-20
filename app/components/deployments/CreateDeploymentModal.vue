@@ -113,7 +113,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed } from 'vue'
+import { reactive } from 'vue'
 import { useDialog } from '~/composables/useDialog'
 import BaseGeoMap from '~/components/ui/BaseGeoMap.vue'
 import PersonnelSuggestionField from '~/components/general/PersonnelSuggestionField.vue'
