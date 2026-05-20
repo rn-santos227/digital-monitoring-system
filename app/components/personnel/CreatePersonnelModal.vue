@@ -4,7 +4,7 @@
     :description="PERSONNEL_CREATE_MODAL_DESCRIPTION"
     size="lg"
     scroll-body
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
@@ -172,7 +172,7 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">{{ PERSONNEL_MODAL_CANCEL_LABEL }}</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">{{ PERSONNEL_MODAL_CANCEL_LABEL }}</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">{{ PERSONNEL_MODAL_CREATE_LABEL }}</BaseButton>
       </div>
     </template>
@@ -181,6 +181,7 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import BattalionsSuggestionField from '~/components/general/BattalionsSuggestionField.vue'
 import CompaniesSuggestionField from '~/components/general/CompaniesSuggestionField.vue'
 import RankSuggestionField from '~/components/general/RankSuggestionField.vue'
@@ -233,6 +234,7 @@ import { uploadFileEndpoint } from '~/utils/file-management-endpoints'
 import { formatFileSizeLabel } from '~/utils/file-upload'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { validateCreatePersonnelForm } from '~/utils/personnel-validation'
+import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
 withDefaults(defineProps<{ isSubmitting?: boolean; warningMessage?: string; errorMessage?: string }>(), {
   isSubmitting: false,
@@ -266,6 +268,7 @@ const form = reactive({
 })
 
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 const isProfileImageUploading = ref(false)
 const profileImageFile = ref<File | null>(null)
 
@@ -323,5 +326,16 @@ const onSubmit = async () => {
   }
 
   emit('submit', result.payload)
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForRequiredFields({
+    formValues: form,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
 }
 </script>
