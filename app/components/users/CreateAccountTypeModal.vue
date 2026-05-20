@@ -3,7 +3,7 @@
     :title="USERS_ACCOUNT_CREATE_MODAL_TITLE"
     :description="USERS_ACCOUNT_CREATE_MODAL_DESCRIPTION"
     size="lg"
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseTextField
@@ -65,7 +65,7 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">{{ USERS_MODAL_CANCEL_LABEL }}</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">{{ USERS_MODAL_CANCEL_LABEL }}</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">{{ USERS_MODAL_CREATE_LABEL }}</BaseButton>
       </div>
     </template>
@@ -74,6 +74,7 @@
 
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import {
   USERS_ACCOUNT_CODE_LABEL,
   USERS_ACCOUNT_CODE_PLACEHOLDER,
@@ -98,6 +99,7 @@ import {
 import type { SuggestionFieldOption } from '~/constants/ui.constants'
 import type { CreateAccountTypePayload } from '~/types/domain/users'
 import { validateAccountTypeForm } from '~/utils/users-validation'
+import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
 interface PrivilegeOption {
   value: string
@@ -131,6 +133,7 @@ const form = reactive<{
 })
 
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 
 const onSubmit = () => {
   const result = validateAccountTypeForm(form)
@@ -209,6 +212,17 @@ const onSelectAllPrivileges = (isChecked: boolean) => {
   }
 
   form.permissionIds = [...allPrivilegeIds.value]
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForRequiredFields({
+    formValues: form,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
 }
 
 void props
