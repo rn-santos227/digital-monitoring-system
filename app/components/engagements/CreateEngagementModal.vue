@@ -3,7 +3,7 @@
     title="Create Engagement"
     description="Add a new engagement profile for operational monitoring."
     size="lg"
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
@@ -49,7 +49,7 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">Cancel</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">Create</BaseButton>
       </div>
     </template>
@@ -57,7 +57,8 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import {
   ENGAGEMENT_CREATE_LEVEL_OPTIONS,
   ENGAGEMENT_CREATE_STATUS_OPTIONS,
@@ -65,6 +66,7 @@ import {
 } from '~/constants/page.constants'
 import type { CreateEngagementPayload } from '~/types/domain/engagement'
 import { validateCreateEngagementForm } from '~/utils/engagement-validation'
+import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
 withDefaults(defineProps<{ isSubmitting?: boolean; warningMessage?: string; errorMessage?: string }>(), {
   isSubmitting: false,
@@ -88,6 +90,7 @@ const form = reactive({
 })
 
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 
 const onSubmit = () => {
   const result = validateCreateEngagementForm(form)
@@ -103,5 +106,16 @@ const onSubmit = () => {
   }
 
   emit('submit', result.payload)
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForRequiredFields({
+    formValues: form,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
 }
 </script>
