@@ -2,7 +2,7 @@
   <BaseModal
     :title="BATTALION_CREATE_MODAL_TITLE"
     :description="BATTALION_CREATE_MODAL_DESCRIPTION"
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
@@ -34,7 +34,7 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">{{ UNITS_MODAL_CANCEL_LABEL }}</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">{{ UNITS_MODAL_CANCEL_LABEL }}</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">{{ UNITS_MODAL_CREATE_LABEL }}</BaseButton>
       </div>
     </template>
@@ -43,6 +43,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import {
   BATTALION_CREATE_ACTIVE_DESCRIPTION,
   BATTALION_CREATE_ACTIVE_LABEL,
@@ -57,6 +58,7 @@ import {
 } from '~/constants/page.constants'
 import type { CreateBattalionPayload } from '~/types/domain/units'
 import { validateCreateBattalionForm } from '~/utils/units-validation'
+import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
 withDefaults(defineProps<{ isSubmitting?: boolean; warningMessage?: string; errorMessage?: string }>(), {
   isSubmitting: false,
@@ -76,6 +78,7 @@ const form = reactive({
 })
 
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 
 const onSubmit = () => {
   const result = validateCreateBattalionForm(form)
@@ -91,5 +94,16 @@ const onSubmit = () => {
   }
 
   emit('submit', result.payload)
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForRequiredFields({
+    formValues: form,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
 }
 </script>
