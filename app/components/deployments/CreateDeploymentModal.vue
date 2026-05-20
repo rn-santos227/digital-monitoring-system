@@ -3,7 +3,7 @@
     :title="DEPLOYMENTS_CREATE_MODAL_TITLE"
     :description="DEPLOYMENTS_CREATE_MODAL_DESCRIPTION"
     size="xl"
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form :class="DEPLOYMENTS_CREATE_MODAL_FORM_CLASSES" @submit.prevent="onSubmit">
       <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
@@ -105,7 +105,7 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">{{ TRAININGS_MODAL_CANCEL_LABEL }}</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">{{ TRAININGS_MODAL_CANCEL_LABEL }}</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">{{ TRAININGS_MODAL_CREATE_LABEL }}</BaseButton>
       </div>
     </template>
@@ -113,7 +113,8 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import BaseGeoMap from '~/components/ui/BaseGeoMap.vue'
 import PersonnelSuggestionField from '~/components/general/PersonnelSuggestionField.vue'
 import {
@@ -147,6 +148,7 @@ import {
 } from '~/constants/page.constants'
 import type { CreateDeploymentPayload } from '~/types/domain/deployment'
 import { validateCreateDeploymentForm } from '~/utils/deployment-validation'
+import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 import {
   DEPLOYMENTS_CREATE_MODAL_FORM_CLASSES,
   DEPLOYMENTS_CREATE_MODAL_FORM_PANE_CLASSES,
@@ -181,6 +183,7 @@ const form = reactive({
 })
 
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 
 const onMapLatitudeUpdate = (value: number) => {
   form.deploymentAreaLatitude = value.toFixed(6)
@@ -204,5 +207,16 @@ const onSubmit = () => {
   }
 
   emit('submit', result.payload)
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForRequiredFields({
+    formValues: form,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
 }
 </script>
