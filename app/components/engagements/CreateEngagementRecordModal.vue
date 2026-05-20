@@ -3,7 +3,7 @@
     title="Create Engagement Record"
     description="Assign personnel to an existing engagement profile."
     size="lg"
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <div class="grid gap-4 md:grid-cols-2">
@@ -35,7 +35,7 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">Cancel</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">Create</BaseButton>
       </div>
     </template>
@@ -43,11 +43,13 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import EngagementSuggestionField from '~/components/general/EngagementSuggestionField.vue'
 import PersonnelSuggestionField from '~/components/general/PersonnelSuggestionField.vue'
 import type { CreateEngagementRecordPayload, EngagementManagementListItem } from '~/types/domain/engagement'
 import { validateCreateEngagementRecordForm } from '~/utils/engagement-validation'
+import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
 withDefaults(defineProps<{ isSubmitting?: boolean }>(), {
   isSubmitting: false,
@@ -69,6 +71,7 @@ const form = reactive({
 })
 
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 
 const onEngagementSelected = (engagement: EngagementManagementListItem | null) => {
   if (!engagement) {
@@ -95,5 +98,16 @@ const onSubmit = () => {
   }
 
   emit('submit', result.payload)
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForRequiredFields({
+    formValues: form,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
 }
 </script>
