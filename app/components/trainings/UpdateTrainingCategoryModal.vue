@@ -2,7 +2,7 @@
   <BaseModal
     :title="TRAINING_CATEGORIES_UPDATE_MODAL_TITLE"
     :description="TRAINING_CATEGORIES_UPDATE_MODAL_DESCRIPTION"
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
@@ -26,7 +26,8 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">{{ TRAININGS_MODAL_CANCEL_LABEL }}</BaseButton>
+        <BaseButton variant="ghost" @click="onResetForm">Reset</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">{{ TRAININGS_MODAL_CANCEL_LABEL }}</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">{{ TRAININGS_MODAL_UPDATE_LABEL }}</BaseButton>
       </div>
     </template>
@@ -35,6 +36,7 @@
 
 <script setup lang="ts">
 import { reactive, watch } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import {
   TRAINING_CATEGORIES_CREATE_CODE_LABEL,
   TRAINING_CATEGORIES_CREATE_CODE_PLACEHOLDER,
@@ -47,6 +49,7 @@ import {
 } from '~/constants/page.constants'
 import type { UpdateTrainingCategoryPayload } from '~/types/domain/training'
 import { validateUpdateTrainingCategoryForm } from '~/utils/training-validation'
+import { requestCloseForChangedValues, resetFormValues } from '~/utils/form-close-guard'
 
 const props = withDefaults(defineProps<{
   initialValues: {
@@ -78,6 +81,7 @@ watch(() => props.initialValues, (value) => {
 }, { immediate: true, deep: true })
 
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 
 const onSubmit = () => {
   const result = validateUpdateTrainingCategoryForm(form)
@@ -96,5 +100,24 @@ const onSubmit = () => {
     code: result.payload.code,
     name: result.payload.name,
   })
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForChangedValues({
+    formValues: form,
+    originalValues: props.initialValues,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
+}
+
+const onResetForm = () => {
+  resetFormValues(
+    form,
+    props.initialValues,
+  )
 }
 </script>
