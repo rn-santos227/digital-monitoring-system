@@ -104,6 +104,11 @@ export const UNIT_EQUIPMENT_ASSET_LIST_SELECT_COLUMNS =
 export const UNIT_EQUIPMENT_ASSET_DETAIL_SELECT_COLUMNS =
   'equipment_asset_id, asset_tag, serial_no, equipment_code, item_name, category_code, category_name, assigned_personnel_code, assigned_personnel_last_name, assigned_personnel_first_name, assigned_company_code, assigned_company_name, assigned_battalion_code, assigned_battalion_name, current_location, condition_status, serviceability_status, asset_status, latest_issue_no, latest_issue_date, latest_issuance_status'
 
+export const EQUIPMENT_CATEGORY_SELECT_COLUMNS =
+  'id, code, name, requires_serial, is_consumable, is_controlled, is_active, created_at, updated_at'
+
+export const EQUIPMENT_CATEGORY_SUGGESTION_SELECT_COLUMNS = 'id, code, name, is_active'
+
 export const TRAINING_CATEGORY_SELECT_COLUMNS = 'id, code, name, created_at, updated_at'
 
 export const TRAINING_SELECT_COLUMNS =
