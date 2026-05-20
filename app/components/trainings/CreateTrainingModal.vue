@@ -3,7 +3,7 @@
     :title="TRAININGS_CREATE_MODAL_TITLE"
     :description="TRAININGS_CREATE_MODAL_DESCRIPTION"
     size="lg"
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert
@@ -77,7 +77,7 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">{{ TRAININGS_MODAL_CANCEL_LABEL }}</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">{{ TRAININGS_MODAL_CANCEL_LABEL }}</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">{{ TRAININGS_MODAL_CREATE_LABEL }}</BaseButton>
       </div>
     </template>
@@ -86,6 +86,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, shallowRef } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import {
   TRAININGS_CREATE_CATEGORY_EMPTY_MESSAGE,
   TRAININGS_CREATE_CATEGORY_LABEL,
@@ -111,6 +112,7 @@ import type { SuggestionFieldOption } from '~/constants/ui.constants'
 import type { CreateTrainingPayload, TrainingCategoryListItem } from '~/types/domain/training'
 import { getTrainingCategoriesEndpoint } from '~/utils/training-endpoints'
 import { validateCreateTrainingForm } from '~/utils/training-validation'
+import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
 withDefaults(defineProps<{ isSubmitting?: boolean; warningMessage?: string; errorMessage?: string }>(), {
   isSubmitting: false,
@@ -149,6 +151,7 @@ onMounted(async () => {
 })
 
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 
 const onSubmit = () => {
   const result = validateCreateTrainingForm(form)
@@ -164,5 +167,16 @@ const onSubmit = () => {
   }
 
   emit('submit', result.payload)
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForRequiredFields({
+    formValues: form,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
 }
 </script>
