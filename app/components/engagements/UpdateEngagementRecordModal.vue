@@ -3,7 +3,7 @@
     :title="ENGAGEMENT_RECORDS_UPDATE_MODAL_TITLE"
     :description="ENGAGEMENT_RECORDS_UPDATE_MODAL_DESCRIPTION"
     size="lg"
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
@@ -40,7 +40,8 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">{{ TRAININGS_MODAL_CANCEL_LABEL }}</BaseButton>
+        <BaseButton variant="ghost" @click="onResetForm">Reset</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">{{ TRAININGS_MODAL_CANCEL_LABEL }}</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">{{ TRAININGS_MODAL_UPDATE_LABEL }}</BaseButton>
       </div>
     </template>
@@ -49,6 +50,7 @@
 
 <script setup lang="ts">
 import { computed, reactive, watch } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import {
   ENGAGEMENT_RECORDS_END_DATE_LABEL,
   ENGAGEMENT_RECORDS_ENGAGEMENT_LABEL,
@@ -65,6 +67,7 @@ import {
 } from '~/constants/page.constants'
 import type { CreateEngagementRecordPayload } from '~/types/domain/engagement'
 import { validateCreateEngagementRecordForm } from '~/utils/engagement-validation'
+import { requestCloseForChangedValues, resetFormValues } from '~/utils/form-close-guard'
 
 interface EngagementRecordUpdateFormValues {
   personnel_id: string
@@ -110,6 +113,7 @@ const form = reactive<EngagementRecordUpdateFormValues>({
 })
 
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 
 watch(
   () => props.initialValues,
@@ -144,5 +148,25 @@ const onSubmit = () => {
   }
 
   emit('submit', result.payload)
+}
+
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForChangedValues({
+    formValues: form,
+    originalValues: props.initialValues,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
+}
+
+const onResetForm = () => {
+  resetFormValues(
+    form,
+    props.initialValues,
+  )
 }
 </script>

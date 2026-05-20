@@ -6,6 +6,7 @@ type FormShape = Record<string, FormFieldValue>
 
 type RequestCloseForRequiredFieldsInput<TFormValues extends object> = {
   formValues: TFormValues
+  initialValues?: Partial<TFormValues>
   requiredKeys?: string[]
   shouldConfirmWhenEmpty?: boolean
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
@@ -24,36 +25,31 @@ const toFormShape = (values: object): FormShape => {
   ) as FormShape
 }
 
-const hasFieldContent = (value: FormFieldValue): boolean => {
-  if (typeof value === 'string') {
-    return value.trim().length > 0
-  }
-
-  if (typeof value === 'number') {
-    return true
-  }
-
-  if (typeof value === 'boolean') {
-    return value
-  }
-
-  if (Array.isArray(value)) {
-    return value.length > 0
-  }
-
-  return Boolean(value)
+const hasTextFieldContent = (value: FormFieldValue): boolean => {
+  return typeof value === 'string' && value.trim().length > 0
 }
 
 export const requestCloseForRequiredFields = async <TFormValues extends object>({
   formValues,
+  initialValues,
   requiredKeys,
-  shouldConfirmWhenEmpty = true,
+  shouldConfirmWhenEmpty = false,
   showDialog,
 }: RequestCloseForRequiredFieldsInput<TFormValues>): Promise<boolean> => {
   const normalizedFormValues = toFormShape(formValues)
+  const normalizedInitialValues = initialValues ? toFormShape(initialValues) : {}
   const keysToCheck = requiredKeys?.length ? requiredKeys : Object.keys(normalizedFormValues)
 
-  const hasContent = keysToCheck.some((key) => hasFieldContent(normalizedFormValues[key] ?? null))
+  const hasContent = keysToCheck.some((key) => {
+    const fieldValue = normalizedFormValues[key] ?? null
+    const initialFieldValue = normalizedInitialValues[key] ?? null
+
+    if (fieldValue === initialFieldValue) {
+      return false
+    }
+
+    return hasTextFieldContent(fieldValue)
+  })
 
   if (!hasContent && !shouldConfirmWhenEmpty) {
     return true

@@ -247,7 +247,7 @@ const emit = defineEmits<{
   (event: 'submit', payload: CreatePersonnelPayload): void
 }>()
 
-const form = reactive({
+const INITIAL_FORM_VALUES = {
   personnelCode: '',
   serviceNumber: '',
   email: '',
@@ -265,6 +265,10 @@ const form = reactive({
   position: '',
   dateEnlisted: '',
   profileImageUrl: '',
+}
+
+const form = reactive({
+  ...INITIAL_FORM_VALUES,
 })
 
 const errors = reactive<Record<string, string>>({})
@@ -331,6 +335,7 @@ const onSubmit = async () => {
 const onCloseRequest = async () => {
   const shouldClose = await requestCloseForRequiredFields({
     formValues: form,
+    initialValues: INITIAL_FORM_VALUES,
     showDialog,
   })
 

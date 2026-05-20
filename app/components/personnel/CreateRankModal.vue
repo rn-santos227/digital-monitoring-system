@@ -40,10 +40,14 @@ const emit = defineEmits<{
   (event: 'submit', payload: CreateRankPayload): void
 }>()
 
-const form = reactive({
+const INITIAL_FORM_VALUES = {
   code: '',
   name: '',
   sortOrder: '0',
+}
+
+const form = reactive({
+  ...INITIAL_FORM_VALUES,
 })
 
 const onSubmit = () => {
@@ -57,6 +61,7 @@ const onSubmit = () => {
 const onCloseRequest = async () => {
   const shouldClose = await requestCloseForRequiredFields({
     formValues: form,
+    initialValues: INITIAL_FORM_VALUES,
     showDialog,
   })
 
