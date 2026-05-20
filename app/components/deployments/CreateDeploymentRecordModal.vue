@@ -4,7 +4,7 @@
     description="Assign personnel to an existing deployment profile."
     size="lg"
     scroll-body
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <DeploymentSuggestionField v-model="form.deployment_id" :error="errors.deployment_id" @select="onDeploymentSelected" />
@@ -69,7 +69,7 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">Cancel</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">Create</BaseButton>
       </div>
     </template>
@@ -78,6 +78,7 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import BaseGeoMap from '~/components/ui/BaseGeoMap.vue'
 import type { BaseTabItem } from '~/constants/ui.constants'
 import DeploymentSuggestionField from '~/components/general/DeploymentSuggestionField.vue'
@@ -85,6 +86,7 @@ import PersonnelSuggestionField from '~/components/general/PersonnelSuggestionFi
 import type { CreateDeploymentRecordPayload } from '~/types/domain/deployment'
 import { validateCreateDeploymentRecordForm } from '~/utils/deployment-validation'
 import type { DeploymentManagementListItem } from '~/types/domain/deployment'
+import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
 withDefaults(defineProps<{ isSubmitting?: boolean }>(), {
   isSubmitting: false,
@@ -126,6 +128,7 @@ const form = reactive<CreateDeploymentRecordForm>({
 })
 
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 
 const onDeploymentSelected = (deployment: DeploymentManagementListItem | null) => {
   if (!deployment) {
@@ -165,5 +168,16 @@ const onSubmit = () => {
   }
 
   emit('submit', result.payload)
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForRequiredFields({
+    formValues: form,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
 }
 </script>
