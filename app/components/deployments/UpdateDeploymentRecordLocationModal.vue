@@ -4,7 +4,7 @@
     description="Update deployment area coordinates and location."
     size="xl"
     scroll-body
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
@@ -34,7 +34,8 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton variant="ghost" @click="onResetForm">Reset</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">Cancel</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">Update Location</BaseButton>
       </div>
     </template>
@@ -43,15 +44,18 @@
 
 <script setup lang="ts">
 import { computed, reactive, watch } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import BaseGeoMap from '~/components/ui/BaseGeoMap.vue'
 import type { DeploymentRecordFormValues, UpdateDeploymentRecordPayload } from '~/types/domain/deployment'
 import { validateUpdateDeploymentRecordForm } from '~/utils/deployment-validation'
+import { requestCloseForChangedValues, resetFormValues } from '~/utils/form-close-guard'
 
 const props = withDefaults(defineProps<{ initialValues: DeploymentRecordFormValues; isSubmitting?: boolean; errorMessage?: string }>(), { isSubmitting: false, errorMessage: '' })
 const emit = defineEmits<{ (event: 'close'): void; (event: 'submit', payload: UpdateDeploymentRecordPayload): void }>()
 
 const form = reactive({ deployment_area: '', deployment_area_latitude: '', deployment_area_longitude: '', start_date: '', end_date: '', assignment_role: '', location: '', remarks: '' })
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 
 watch(() => props.initialValues, (value) => {
   form.deployment_area = value.deploymentArea
@@ -81,5 +85,24 @@ const onSubmit = () => {
     deployment_area_longitude: result.payload.deployment_area_longitude,
     location: result.payload.location,
   })
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForChangedValues({
+    formValues: form,
+    originalValues: props.initialValues,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
+}
+
+const onResetForm = () => {
+  resetFormValues(
+    form,
+    props.initialValues,
+  )
 }
 </script>
