@@ -4,7 +4,7 @@
     :description="USERS_PROFILE_CREATE_MODAL_DESCRIPTION"
     size="lg"
     scroll-body
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <PersonnelSuggestionField
@@ -100,7 +100,7 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">{{ USERS_MODAL_CANCEL_LABEL }}</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">{{ USERS_MODAL_CANCEL_LABEL }}</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">{{ USERS_MODAL_CREATE_LABEL }}</BaseButton>
       </div>
     </template>
@@ -109,6 +109,7 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import { FILE_UPLOAD_CONSTRAINTS } from '~/constants/api.constants'
 import {
   USERS_MODAL_CANCEL_LABEL,
@@ -133,11 +134,12 @@ import {
 } from '~/constants/page.constants'
 import type { SelectOption } from '~/types/domain/misc'
 import type { CreateUserProfilePayload } from '~/types/domain/users'
+import type { PersonnelSuggestion } from '~/types/domain/personnel'
 import { uploadFileEndpoint } from '~/utils/file-management-endpoints'
 import { formatFileSizeLabel } from '~/utils/file-upload'
 import { validateUserProfileForm } from '~/utils/users-validation'
-import type { PersonnelSuggestion } from '~/types/domain/personnel'
 import { extractApiErrorMessage } from '~/utils/api-request'
+import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
 const props = withDefaults(
   defineProps<{
@@ -165,6 +167,7 @@ const form = reactive({
 })
 
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 const isAvatarUploading = ref(false)
 const avatarFile = ref<File | null>(null)
 
@@ -239,6 +242,17 @@ const onSubmit = async () => {
   }
 
   emit('submit', result.payload)
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForRequiredFields({
+    formValues: form,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
 }
 
 const onGeneratePassword = () => {
