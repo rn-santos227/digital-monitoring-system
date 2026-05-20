@@ -3,7 +3,7 @@
     :title="DEPLOYMENTS_UPDATE_MODAL_TITLE"
     :description="DEPLOYMENTS_UPDATE_MODAL_DESCRIPTION"
     size="xl"
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form :class="DEPLOYMENTS_CREATE_MODAL_FORM_CLASSES" @submit.prevent="onSubmit">
       <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
@@ -53,7 +53,8 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">{{ TRAININGS_MODAL_CANCEL_LABEL }}</BaseButton>
+        <BaseButton variant="ghost" @click="onResetForm">Reset</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">{{ TRAININGS_MODAL_CANCEL_LABEL }}</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">{{ TRAININGS_MODAL_UPDATE_LABEL }}</BaseButton>
       </div>
     </template>
@@ -62,6 +63,7 @@
 
 <script setup lang="ts">
 import { reactive, watch } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import PersonnelSuggestionField from '~/components/general/PersonnelSuggestionField.vue'
 import {
   DEPLOYMENTS_CREATE_ASSIGNMENT_ROLE_LABEL,
@@ -85,6 +87,7 @@ import {
 import { DEPLOYMENTS_CREATE_MODAL_FORM_CLASSES, DEPLOYMENTS_CREATE_MODAL_FORM_PANE_CLASSES } from '~/constants/shared.constants'
 import type { CreateDeploymentPayload } from '~/types/domain/deployment'
 import { validateCreateDeploymentForm } from '~/utils/deployment-validation'
+import { requestCloseForChangedValues, resetFormValues } from '~/utils/form-close-guard'
 
 interface DeploymentFormValues {
   deploymentArea: string
@@ -118,6 +121,7 @@ const emit = defineEmits<{
 
 const form = reactive<DeploymentFormValues>({ ...props.initialValues })
 const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 
 watch(() => props.initialValues, (nextValues) => {
   Object.assign(form, nextValues)
@@ -131,5 +135,24 @@ const onSubmit = () => {
   if (result.payload) {
     emit('submit', result.payload)
   }
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForChangedValues({
+    formValues: form,
+    originalValues: props.initialValues,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
+}
+
+const onResetForm = () => {
+  resetFormValues(
+    form,
+    props.initialValues,
+  )
 }
 </script>

@@ -2,17 +2,25 @@ import type { DialogInput } from '~/composables/useDialog'
 
 type FormFieldValue = string | number | boolean | null | undefined | unknown[]
 
-type RequestCloseForRequiredFieldsInput = {
-  formValues: Record<string, FormFieldValue>
+type FormShape = Record<string, FormFieldValue>
+
+type RequestCloseForRequiredFieldsInput<TFormValues extends object> = {
+  formValues: TFormValues
   requiredKeys?: string[]
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
 }
 
-type RequestCloseForChangedValuesInput = {
-  formValues: Record<string, FormFieldValue>
-  originalValues: Record<string, FormFieldValue>
+type RequestCloseForChangedValuesInput<TFormValues extends object, TOriginalValues extends object> = {
+  formValues: TFormValues
+  originalValues: TOriginalValues
   keysToCompare?: string[]
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
+}
+
+const toFormShape = (values: object): FormShape => {
+  return Object.fromEntries(
+    Object.entries(values).map(([key, value]) => [key, value as FormFieldValue]),
+  ) as FormShape
 }
 
 const hasFieldContent = (value: FormFieldValue): boolean => {
@@ -35,14 +43,15 @@ const hasFieldContent = (value: FormFieldValue): boolean => {
   return Boolean(value)
 }
 
-export const requestCloseForRequiredFields = async ({
+export const requestCloseForRequiredFields = async <TFormValues extends object>({
   formValues,
   requiredKeys,
   showDialog,
-}: RequestCloseForRequiredFieldsInput): Promise<boolean> => {
-  const keysToCheck = requiredKeys?.length ? requiredKeys : Object.keys(formValues)
+}: RequestCloseForRequiredFieldsInput<TFormValues>): Promise<boolean> => {
+  const normalizedFormValues = toFormShape(formValues)
+  const keysToCheck = requiredKeys?.length ? requiredKeys : Object.keys(normalizedFormValues)
 
-  const hasContent = keysToCheck.some((key) => hasFieldContent(formValues[key]))
+  const hasContent = keysToCheck.some((key) => hasFieldContent(normalizedFormValues[key] ?? null))
 
   if (!hasContent) {
     return true
@@ -65,23 +74,28 @@ const areValuesEqual = (left: FormFieldValue, right: FormFieldValue): boolean =>
       return false
     }
 
-    return left.every((value, index) => value === right[index])
+    return left.every((value, index) => value === (right[index] ?? undefined))
   }
 
   return left === right
 }
 
-export const requestCloseForChangedValues = async ({
+export const requestCloseForChangedValues = async <TFormValues extends object, TOriginalValues extends object>({
   formValues,
   originalValues,
   keysToCompare,
   showDialog,
-}: RequestCloseForChangedValuesInput): Promise<boolean> => {
+}: RequestCloseForChangedValuesInput<TFormValues, TOriginalValues>): Promise<boolean> => {
+  const normalizedFormValues = toFormShape(formValues)
+  const normalizedOriginalValues = toFormShape(originalValues)
   const resolvedKeys = keysToCompare?.length
     ? keysToCompare
-    : Array.from(new Set([...Object.keys(formValues), ...Object.keys(originalValues)]))
+    : Array.from(new Set([...Object.keys(normalizedFormValues), ...Object.keys(normalizedOriginalValues)]))
 
-  const hasChanges = resolvedKeys.some((key) => !areValuesEqual(formValues[key], originalValues[key]))
+  const hasChanges = resolvedKeys.some((key) => !areValuesEqual(
+    normalizedFormValues[key] ?? null,
+    normalizedOriginalValues[key] ?? null,
+  ))
 
   if (!hasChanges) {
     return true
@@ -98,12 +112,13 @@ export const requestCloseForChangedValues = async ({
   return result.confirmed
 }
 
-export const resetFormValues = (
-  targetFormValues: Record<string, FormFieldValue>,
-  originalValues: Record<string, FormFieldValue>,
+export const resetFormValues = <TTargetValues extends object, TOriginalValues extends object>(
+  targetFormValues: TTargetValues,
+  originalValues: TOriginalValues,
 ): void => {
-  Object.keys(originalValues).forEach((key) => {
-    const nextValue = originalValues[key]
-    targetFormValues[key] = Array.isArray(nextValue) ? [...nextValue] : nextValue
+  const normalizedOriginalValues = toFormShape(originalValues)
+  Object.keys(normalizedOriginalValues).forEach((key) => {
+    const nextValue = normalizedOriginalValues[key] ?? null
+    ;(targetFormValues as Record<string, FormFieldValue>)[key] = Array.isArray(nextValue) ? [...nextValue] : nextValue
   })
 }
