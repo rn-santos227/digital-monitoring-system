@@ -3,7 +3,7 @@
     title="Update Deployment Record"
     description="Update deployment record details."
     size="xl"
-    @close="emit('close')"
+    @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
@@ -24,7 +24,8 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton variant="ghost" @click="onResetForm">Reset</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">Cancel</BaseButton>
         <BaseButton :disabled="isSubmitting" @click="onSubmit">Update</BaseButton>
       </div>
     </template>
@@ -33,6 +34,7 @@
 
 <script setup lang="ts">
 import { reactive, watch } from 'vue'
+import { useDialog } from '~/composables/useDialog'
 import type { UpdateDeploymentRecordPayload } from '~/types/domain/deployment'
 
 import type { DeploymentRecordFormValues } from '~/types/domain/deployment'
@@ -72,7 +74,10 @@ watch(() => props.initialValues, (value) => {
   form.remarks = value.remarks
 }, { immediate: true, deep: true })
 
+
 const errors = reactive<Record<string, string>>({})
+
+const { showDialog } = useDialog()
 
 const onSubmit = () => {
   Object.keys(errors).forEach((key) => { delete errors[key] })
@@ -91,4 +96,24 @@ const onSubmit = () => {
     remarks: form.remarks.trim() || null,
   })
 }
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForChangedValues({
+    formValues: form,
+    originalValues: props.initialValues,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
+}
+
+const onResetForm = () => {
+  resetFormValues(
+    form,
+    props.initialValues,
+  )
+}
+
 </script>

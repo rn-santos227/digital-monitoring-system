@@ -182,13 +182,13 @@ export const USERS_PROFILE_TABLE_ACTIONS: readonly DataTableAction[] = Object.fr
     key: 'change-user-password',
     tooltip: 'Change password',
     iconName: 'cog',
-    variant: 'info',
+    variant: 'warning',
   },
   {
     key: 'toggle-user-activation',
     tooltip: 'Activate or deactivate user',
     iconName: 'arrow-path',
-    variant: 'info',
+    variant: 'warning',
   },
   {
     key: 'delete-user-profile',
