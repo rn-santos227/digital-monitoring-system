@@ -48,29 +48,38 @@ export const parseEquipmentCategorySuggestionQuery = (query: {
   }
 }
 
-export const mapEquipmentItemListItem = (row: EquipmentItemRow): EquipmentItemListItem => ({
-  id: row.id,
-  equipmentCode: row.equipment_code,
-  categoryId: row.category_id,
-  categoryCode: row.category?.code ?? '',
-  categoryName: row.category?.name ?? '',
-  name: row.name,
-  model: row.model,
-  manufacturer: row.manufacturer,
-  description: row.description,
-  unitOfMeasure: row.unit_of_measure,
-  minimumStockLevel: row.minimum_stock_level,
-  isSerialized: row.is_serialized,
-  isActive: row.is_active,
-  createdAt: row.created_at,
-  updatedAt: row.updated_at,
-})
+
+export const mapEquipmentItemListItem = (row: EquipmentItemRow): EquipmentItemListItem => {
+  const categoryValue = Array.isArray(row.category)
+    ? (row.category[0] ?? null)
+    : row.category
+
+  return {
+    id: row.id,
+    equipmentCode: row.equipment_code,
+    categoryId: row.category_id,
+    categoryCode: categoryValue?.code ?? '',
+    categoryName: categoryValue?.name ?? '',
+    name: row.name,
+    model: row.model,
+    manufacturer: row.manufacturer,
+    description: row.description,
+    unitOfMeasure: row.unit_of_measure,
+    minimumStockLevel: row.minimum_stock_level,
+    isSerialized: row.is_serialized,
+    isActive: row.is_active,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  }
+}
 
 export const mapEquipmentItemSuggestionItem = (row: EquipmentItemSuggestionRow): EquipmentItemSuggestionItem => ({
   id: row.id,
   equipmentCode: row.equipment_code,
   name: row.name,
-  categoryName: row.category?.name ?? '',
+  categoryName: Array.isArray(row.category)
+    ? (row.category[0]?.name ?? '')
+    : (row.category?.name ?? ''),
   isActive: row.is_active,
 })
 

@@ -1,6 +1,7 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { EQUIPMENT_ITEM_SELECT_COLUMNS } from '../../shared/constants'
+import type { EquipmentItemRow } from '../../shared/models'
 
 interface FetchEquipmentItemsListOptions {
   search: string
@@ -13,7 +14,7 @@ export async function fetchEquipmentItemsList(supabase: SupabaseClient, options:
 
   let equipmentItemQuery = supabase
     .from('equipment_items')
-    .select(EQUIPMENT_ITEM_SELECT_COLUMNS, { count: 'exact' })
+    .select<string, EquipmentItemRow>(EQUIPMENT_ITEM_SELECT_COLUMNS, { count: 'exact' })
     .order('name', { ascending: true })
     .range(rangeFrom, rangeTo)
 

@@ -136,7 +136,11 @@ export interface EquipmentItemRow {
     id: string
     code: string
     name: string
-  } | null
+  } | {
+    id: string
+    code: string
+    name: string
+  }[] | null
 }
 
 export interface EquipmentItemSuggestionRow {
@@ -146,7 +150,9 @@ export interface EquipmentItemSuggestionRow {
   is_active: boolean
   category: {
     name: string
-  } | null
+  } | {
+    name: string
+  }[] | null
 }
 
 export interface EquipmentItemListResponse {
