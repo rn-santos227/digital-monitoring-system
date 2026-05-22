@@ -1,6 +1,13 @@
 import { createError } from 'h3'
-import type { CreateEquipmentCategoryRequest, CreateEquipmentItemRequest, UpdateEquipmentCategoryRequest, UpdateEquipmentItemRequest } from '../../requests'
-import type { EquipmentCategoryUpdate, EquipmentItemUpdate } from '../../models'
+import type { 
+  CreateEquipmentAssetRequest,
+  CreateEquipmentCategoryRequest,
+  CreateEquipmentItemRequest,
+  UpdateEquipmentAssetRequest,
+  UpdateEquipmentCategoryRequest,
+  UpdateEquipmentItemRequest
+} from '../../requests'
+import type { EquipmentAssetUpdate, EquipmentCategoryUpdate, EquipmentItemUpdate } from '../../models'
 import { normalizeOptionalText } from '../../utils'
 
 export const parseCreateEquipmentCategoryPayload = (body: CreateEquipmentCategoryRequest) => {
@@ -147,6 +154,73 @@ export const buildEquipmentItemUpdates = (body: UpdateEquipmentItemRequest): Equ
   if (typeof body.isActive === 'boolean') {
     updates.is_active = body.isActive
   }
+
+  return updates
+}
+
+export const parseCreateEquipmentAssetPayload = (body: CreateEquipmentAssetRequest) => {
+  const assetTag = normalizeOptionalText(body.assetTag)?.toUpperCase()
+  const equipmentItemId = normalizeOptionalText(body.equipmentItemId)
+  const assetStatusId = normalizeOptionalText(body.assetStatusId)
+
+  if (!assetTag) throw createError({ statusCode: 400, statusMessage: 'Equipment asset tag is required.' })
+  if (!equipmentItemId) throw createError({ statusCode: 400, statusMessage: 'Equipment item is required.' })
+  if (!assetStatusId) throw createError({ statusCode: 400, statusMessage: 'Asset status is required.' })
+
+  const acquisitionCostValue = body.acquisitionCost
+  const acquisitionCost = acquisitionCostValue == null ? null : Number(acquisitionCostValue)
+
+  if (acquisitionCost !== null && (!Number.isFinite(acquisitionCost) || acquisitionCost < 0)) {
+    throw createError({ statusCode: 400, statusMessage: 'Acquisition cost must be a non-negative number.' })
+  }
+
+  return {
+    asset_tag: assetTag,
+    equipment_item_id: equipmentItemId,
+    serial_no: normalizeOptionalText(body.serialNo ?? undefined) ?? null,
+    batch_no: normalizeOptionalText(body.batchNo ?? undefined) ?? null,
+    procurement_date: normalizeOptionalText(body.procurementDate ?? undefined) ?? null,
+    acquisition_cost: acquisitionCost,
+    fund_source: normalizeOptionalText(body.fundSource ?? undefined) ?? null,
+    current_location: normalizeOptionalText(body.currentLocation ?? undefined) ?? null,
+    condition_status_id: normalizeOptionalText(body.conditionStatusId ?? undefined) ?? null,
+    serviceability_status_id: normalizeOptionalText(body.serviceabilityStatusId ?? undefined) ?? null,
+    asset_status_id: assetStatusId,
+    remarks: normalizeOptionalText(body.remarks ?? undefined) ?? null,
+  }
+}
+
+export const buildEquipmentAssetUpdates = (body: UpdateEquipmentAssetRequest): EquipmentAssetUpdate => {
+  const updates: EquipmentAssetUpdate = {}
+
+  const assetTag = normalizeOptionalText(body.assetTag)
+  if (assetTag) updates.asset_tag = assetTag.toUpperCase()
+
+  const equipmentItemId = normalizeOptionalText(body.equipmentItemId)
+  if (equipmentItemId) updates.equipment_item_id = equipmentItemId
+
+  if ('serialNo' in body) updates.serial_no = normalizeOptionalText(body.serialNo ?? undefined) ?? null
+  if ('batchNo' in body) updates.batch_no = normalizeOptionalText(body.batchNo ?? undefined) ?? null
+  if ('procurementDate' in body) updates.procurement_date = normalizeOptionalText(body.procurementDate ?? undefined) ?? null
+
+  if ('acquisitionCost' in body) {
+    const value = body.acquisitionCost
+    const acquisitionCost = value == null ? null : Number(value)
+    if (acquisitionCost !== null && (!Number.isFinite(acquisitionCost) || acquisitionCost < 0)) {
+      throw createError({ statusCode: 400, statusMessage: 'Acquisition cost must be a non-negative number.' })
+    }
+    updates.acquisition_cost = acquisitionCost
+  }
+
+  if ('fundSource' in body) updates.fund_source = normalizeOptionalText(body.fundSource ?? undefined) ?? null
+  if ('currentLocation' in body) updates.current_location = normalizeOptionalText(body.currentLocation ?? undefined) ?? null
+  if ('conditionStatusId' in body) updates.condition_status_id = normalizeOptionalText(body.conditionStatusId ?? undefined) ?? null
+  if ('serviceabilityStatusId' in body) updates.serviceability_status_id = normalizeOptionalText(body.serviceabilityStatusId ?? undefined) ?? null
+
+  const assetStatusId = normalizeOptionalText(body.assetStatusId)
+  if (assetStatusId) updates.asset_status_id = assetStatusId
+
+  if ('remarks' in body) updates.remarks = normalizeOptionalText(body.remarks ?? undefined) ?? null
 
   return updates
 }
