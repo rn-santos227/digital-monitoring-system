@@ -167,3 +167,88 @@ export interface EquipmentItemSuggestionResponse {
   items: EquipmentItemSuggestionItem[]
 }
 
+export interface EquipmentAssetListItem {
+  id: string
+  assetTag: string
+  equipmentItemId: string
+  equipmentItemCode: string
+  equipmentItemName: string
+  serialNo: string | null
+  batchNo: string | null
+  procurementDate: string | null
+  acquisitionCost: number | null
+  fundSource: string | null
+  currentLocation: string | null
+  conditionStatusId: string | null
+  conditionStatusName: string | null
+  serviceabilityStatusId: string | null
+  serviceabilityStatusName: string | null
+  assetStatusId: string
+  assetStatusName: string
+  remarks: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export interface EquipmentAssetSuggestionItem {
+  id: string
+  assetTag: string
+  equipmentItemName: string
+}
+
+export interface EquipmentAssetCreate {
+  asset_tag: string
+  equipment_item_id: string
+  serial_no: string | null
+  batch_no: string | null
+  procurement_date: string | null
+  acquisition_cost: number | null
+  fund_source: string | null
+  current_location: string | null
+  condition_status_id: string | null
+  serviceability_status_id: string | null
+  asset_status_id: string
+  remarks: string | null
+}
+
+export interface EquipmentAssetUpdate extends Partial<EquipmentAssetCreate> {}
+
+export interface EquipmentAssetRow {
+  id: string
+  asset_tag: string
+  equipment_item_id: string
+  serial_no: string | null
+  batch_no: string | null
+  procurement_date: string | null
+  acquisition_cost: number | null
+  fund_source: string | null
+  current_location: string | null
+  condition_status_id: string | null
+  serviceability_status_id: string | null
+  asset_status_id: string
+  remarks: string | null
+  created_at: string
+  updated_at: string
+  equipment_item: { id: string; equipment_code: string; name: string } | { id: string; equipment_code: string; name: string }[] | null
+  condition_status: { id: string; name: string } | { id: string; name: string }[] | null
+  serviceability_status: { id: string; name: string } | { id: string; name: string }[] | null
+  asset_status: { id: string; name: string } | { id: string; name: string }[] | null
+}
+
+export interface EquipmentAssetSuggestionRow {
+  id: string
+  asset_tag: string
+  equipment_item: { name: string } | { name: string }[] | null
+}
+
+export interface EquipmentAssetListResponse {
+  items: EquipmentAssetListItem[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
+
+export interface EquipmentAssetSuggestionResponse {
+  items: EquipmentAssetSuggestionItem[]
+}
