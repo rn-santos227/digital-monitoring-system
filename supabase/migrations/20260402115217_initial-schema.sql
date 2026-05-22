@@ -333,7 +333,6 @@ create table if not exists public.equipment_issuances (
   )
 );
 
-
 comment on table public.equipment_issuances is
 'App-level rules: only one active/open issuance per asset at a time; only serviceable assets should normally be issued.';
 
@@ -420,7 +419,6 @@ create table if not exists public.personnel_medical_readiness (
     next_exam_date is null or last_exam_date is null or next_exam_date >= last_exam_date
   )
 );
-
 
 create table if not exists public.personnel_weapon_assignments (
   id uuid primary key default gen_random_uuid(),
