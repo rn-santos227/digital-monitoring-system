@@ -41,3 +41,20 @@ export interface UpdateEquipmentItemRequest {
   isSerialized?: boolean
   isActive?: boolean
 }
+
+export interface CreateEquipmentAssetRequest {
+  assetTag?: string
+  equipmentItemId?: string
+  serialNo?: string | null
+  batchNo?: string | null
+  procurementDate?: string | null
+  acquisitionCost?: number | null
+  fundSource?: string | null
+  currentLocation?: string | null
+  conditionStatusId?: string | null
+  serviceabilityStatusId?: string | null
+  assetStatusId?: string
+  remarks?: string | null
+}
+
+export interface UpdateEquipmentAssetRequest extends CreateEquipmentAssetRequest {}
