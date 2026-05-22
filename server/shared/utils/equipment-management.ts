@@ -1,4 +1,8 @@
 import type {
+  EquipmentAssetListItem,
+  EquipmentAssetRow,
+  EquipmentAssetSuggestionItem,
+  EquipmentAssetSuggestionRow,
   EquipmentCategoryListItem,
   EquipmentCategoryRow,
   EquipmentCategorySuggestionItem,
@@ -101,3 +105,39 @@ export const parseEquipmentItemSuggestionQuery = (query: {
     selectedId,
   }
 }
+
+export const mapEquipmentAssetListItem = (row: EquipmentAssetRow): EquipmentAssetListItem => {
+  const equipmentItem = Array.isArray(row.equipment_item) ? (row.equipment_item[0] ?? null) : row.equipment_item
+  const conditionStatus = Array.isArray(row.condition_status) ? (row.condition_status[0] ?? null) : row.condition_status
+  const serviceabilityStatus = Array.isArray(row.serviceability_status) ? (row.serviceability_status[0] ?? null) : row.serviceability_status
+  const assetStatus = Array.isArray(row.asset_status) ? (row.asset_status[0] ?? null) : row.asset_status
+
+  return {
+    id: row.id,
+    assetTag: row.asset_tag,
+    equipmentItemId: row.equipment_item_id,
+    equipmentItemCode: equipmentItem?.equipment_code ?? '',
+    equipmentItemName: equipmentItem?.name ?? '',
+    serialNo: row.serial_no,
+    batchNo: row.batch_no,
+    procurementDate: row.procurement_date,
+    acquisitionCost: row.acquisition_cost,
+    fundSource: row.fund_source,
+    currentLocation: row.current_location,
+    conditionStatusId: row.condition_status_id,
+    conditionStatusName: conditionStatus?.name ?? null,
+    serviceabilityStatusId: row.serviceability_status_id,
+    serviceabilityStatusName: serviceabilityStatus?.name ?? null,
+    assetStatusId: row.asset_status_id,
+    assetStatusName: assetStatus?.name ?? '',
+    remarks: row.remarks,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  }
+}
+
+export const mapEquipmentAssetSuggestionItem = (row: EquipmentAssetSuggestionRow): EquipmentAssetSuggestionItem => ({
+  id: row.id,
+  assetTag: row.asset_tag,
+  equipmentItemName: Array.isArray(row.equipment_item) ? (row.equipment_item[0]?.name ?? '') : (row.equipment_item?.name ?? ''),
+})
