@@ -163,7 +163,34 @@ const normalizeSingleRelation = <T>(value: T | T[] | null): T | null => {
 }
 
 export const mapEquipmentIssuanceListItem = (
-  row: EquipmentIssuanceRow,
+  row: Pick<
+    EquipmentIssuanceRow,
+    | 'id'
+    | 'issue_no'
+    | 'equipment_asset_id'
+    | 'issued_to_personnel_id'
+    | 'issued_by_personnel_id'
+    | 'deployment_id'
+    | 'status_id'
+    | 'created_at'
+    | 'equipment_asset'
+    | 'issued_to_personnel'
+    | 'issued_by_personnel'
+    | 'deployment'
+    | 'issuance_status'
+  > & Partial<
+    Pick<
+      EquipmentIssuanceRow,
+      | 'issue_date'
+      | 'expected_return_date'
+      | 'actual_return_date'
+      | 'quantity_issued'
+      | 'issued_location'
+      | 'return_location'
+      | 'remarks'
+      | 'updated_at'
+    >
+  >,
 ): EquipmentIssuanceListItem => {
   const equipmentAssetValue = normalizeSingleRelation(row.equipment_asset)
   const equipmentItemValue = normalizeSingleRelation(equipmentAssetValue?.equipment_item ?? null)
@@ -184,16 +211,16 @@ export const mapEquipmentIssuanceListItem = (
     issuedByPersonnelName: mapPersonnelDisplayName(issuedByPersonnelValue),
     deploymentId: row.deployment_id,
     deploymentLabel: deploymentValue ? `${deploymentValue.operation_name} (${deploymentValue.deployment_area})` : null,
-    issueDate: row.issue_date,
-    expectedReturnDate: row.expected_return_date,
-    actualReturnDate: row.actual_return_date,
-    quantityIssued: row.quantity_issued,
+    issueDate: row.issue_date ?? '',
+    expectedReturnDate: row.expected_return_date ?? null,
+    actualReturnDate: row.actual_return_date ?? null,
+    quantityIssued: row.quantity_issued ?? 0,
     statusId: row.status_id,
     statusName: issuanceStatusValue?.name ?? '',
-    issuedLocation: row.issued_location,
-    returnLocation: row.return_location,
-    remarks: row.remarks,
+    issuedLocation: row.issued_location ?? null,
+    returnLocation: row.return_location ?? null,
+    remarks: row.remarks ?? null,
     createdAt: row.created_at,
-    updatedAt: row.updated_at,
+    updatedAt: row.updated_at ?? row.created_at,
   }
 }
