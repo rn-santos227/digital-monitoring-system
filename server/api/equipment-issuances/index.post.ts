@@ -32,6 +32,10 @@ export default defineEventHandler(async (event): Promise<CreateEquipmentIssuance
       },
     })
 
+    if (!createdId) {
+      throw createError({ statusCode: 500, statusMessage: 'Failed to create equipment issuance.' })
+    }
+
     const newRow = await getEquipmentIssuanceById(supabase, createdId)
     if (!newRow) throw createError({ statusCode: 500, statusMessage: 'Failed to load created equipment issuance.' })
 
