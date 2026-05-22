@@ -1,4 +1,7 @@
 import type {
+  EquipmentAssetListItem,
+  EquipmentAssetListResponse,
+  EquipmentAssetSuggestionResponse,
   EquipmentCategoryListItem,
   EquipmentCategoryListResponse,
   EquipmentCategorySuggestionResponse,
@@ -24,3 +27,12 @@ export interface CreateEquipmentItemApiResponse {
 
 export type EquipmentItemListApiResponse = EquipmentItemListResponse
 export type EquipmentItemSuggestionApiResponse = EquipmentItemSuggestionResponse
+
+export interface CreateEquipmentAssetApiResponse {
+  ok: true
+  id: string
+  item: EquipmentAssetListItem
+}
+
+export type EquipmentAssetListApiResponse = EquipmentAssetListResponse
+export type EquipmentAssetSuggestionApiResponse = EquipmentAssetSuggestionResponse
