@@ -2,12 +2,19 @@ import { createError } from 'h3'
 import type { 
   CreateEquipmentAssetRequest,
   CreateEquipmentCategoryRequest,
+  CreateEquipmentIssuanceRequest,
   CreateEquipmentItemRequest,
   UpdateEquipmentAssetRequest,
   UpdateEquipmentCategoryRequest,
+  UpdateEquipmentIssuanceRequest,
   UpdateEquipmentItemRequest
 } from '../../requests'
-import type { EquipmentAssetUpdate, EquipmentCategoryUpdate, EquipmentItemUpdate } from '../../models'
+import type {
+  EquipmentAssetUpdate,
+  EquipmentCategoryUpdate,
+  EquipmentIssuanceUpdate,
+  EquipmentItemUpdate,
+} from '../../models'
 import { normalizeOptionalText } from '../../utils'
 
 export const parseCreateEquipmentCategoryPayload = (body: CreateEquipmentCategoryRequest) => {
@@ -221,6 +228,82 @@ export const buildEquipmentAssetUpdates = (body: UpdateEquipmentAssetRequest): E
   if (assetStatusId) updates.asset_status_id = assetStatusId
 
   if ('remarks' in body) updates.remarks = normalizeOptionalText(body.remarks ?? undefined) ?? null
+
+  return updates
+}
+
+
+export const parseCreateEquipmentIssuancePayload = (body: CreateEquipmentIssuanceRequest) => {
+  const equipmentAssetId = normalizeOptionalText(body.equipmentAssetId)
+  const issuedToPersonnelId = normalizeOptionalText(body.issuedToPersonnelId)
+  const issuedByPersonnelId = normalizeOptionalText(body.issuedByPersonnelId)
+  const issueDate = normalizeOptionalText(body.issueDate)
+  const statusId = normalizeOptionalText(body.statusId)
+
+  if (!equipmentAssetId) throw createError({ statusCode: 400, statusMessage: 'Equipment asset is required.' })
+  if (!issuedToPersonnelId) throw createError({ statusCode: 400, statusMessage: 'Issued to personnel is required.' })
+  if (!issuedByPersonnelId) throw createError({ statusCode: 400, statusMessage: 'Issued by personnel is required.' })
+  if (!issueDate) throw createError({ statusCode: 400, statusMessage: 'Issue date is required.' })
+  if (!statusId) throw createError({ statusCode: 400, statusMessage: 'Issuance status is required.' })
+
+  const quantityIssued = Math.trunc(Number(body.quantityIssued ?? 1))
+  if (!Number.isFinite(quantityIssued) || quantityIssued <= 0) {
+    throw createError({ statusCode: 400, statusMessage: 'Quantity issued must be a positive whole number.' })
+  }
+
+  return {
+    equipment_asset_id: equipmentAssetId,
+    issued_to_personnel_id: issuedToPersonnelId,
+    issued_by_personnel_id: issuedByPersonnelId,
+    deployment_id: normalizeOptionalText(body.deploymentId ?? undefined) ?? null,
+    issue_date: issueDate,
+    expected_return_date: normalizeOptionalText(body.expectedReturnDate ?? undefined) ?? null,
+    actual_return_date: normalizeOptionalText(body.actualReturnDate ?? undefined) ?? null,
+    quantity_issued: quantityIssued,
+    status_id: statusId,
+    issued_location: normalizeOptionalText(body.issuedLocation ?? undefined) ?? null,
+    return_location: normalizeOptionalText(body.returnLocation ?? undefined) ?? null,
+    remarks: normalizeOptionalText(body.remarks ?? undefined) ?? null,
+  }
+}
+
+export const buildEquipmentIssuanceUpdates = (
+  body: UpdateEquipmentIssuanceRequest,
+): EquipmentIssuanceUpdate => {
+  const updates: EquipmentIssuanceUpdate = {}
+
+  const equipmentAssetId = normalizeOptionalText(body.equipmentAssetId)
+  if (equipmentAssetId) updates.equipment_asset_id = equipmentAssetId
+
+  const issuedToPersonnelId = normalizeOptionalText(body.issuedToPersonnelId)
+  if (issuedToPersonnelId) updates.issued_to_personnel_id = issuedToPersonnelId
+
+  const issuedByPersonnelId = normalizeOptionalText(body.issuedByPersonnelId)
+  if (issuedByPersonnelId) updates.issued_by_personnel_id = issuedByPersonnelId
+
+  if ('deploymentId' in body) updates.deployment_id = normalizeOptionalText(body.deploymentId ?? undefined) ?? null
+  if ('issueDate' in body) {
+    const issueDate = normalizeOptionalText(body.issueDate)
+    if (!issueDate) throw createError({ statusCode: 400, statusMessage: 'Issue date cannot be empty.' })
+    updates.issue_date = issueDate
+  }
+
+  if ('quantityIssued' in body) {
+    const quantityIssued = Math.trunc(Number(body.quantityIssued))
+    if (!Number.isFinite(quantityIssued) || quantityIssued <= 0) {
+      throw createError({ statusCode: 400, statusMessage: 'Quantity issued must be a positive whole number.' })
+    }
+    updates.quantity_issued = quantityIssued
+  }
+
+  if ('expectedReturnDate' in body) updates.expected_return_date = normalizeOptionalText(body.expectedReturnDate ?? undefined) ?? null
+  if ('actualReturnDate' in body) updates.actual_return_date = normalizeOptionalText(body.actualReturnDate ?? undefined) ?? null
+  if ('issuedLocation' in body) updates.issued_location = normalizeOptionalText(body.issuedLocation ?? undefined) ?? null
+  if ('returnLocation' in body) updates.return_location = normalizeOptionalText(body.returnLocation ?? undefined) ?? null
+  if ('remarks' in body) updates.remarks = normalizeOptionalText(body.remarks ?? undefined) ?? null
+
+  const statusId = normalizeOptionalText(body.statusId)
+  if (statusId) updates.status_id = statusId
 
   return updates
 }
