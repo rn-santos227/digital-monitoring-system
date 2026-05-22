@@ -58,3 +58,20 @@ export interface CreateEquipmentAssetRequest {
 }
 
 export interface UpdateEquipmentAssetRequest extends CreateEquipmentAssetRequest {}
+
+export interface CreateEquipmentIssuanceRequest {
+  equipmentAssetId?: string
+  issuedToPersonnelId?: string
+  issuedByPersonnelId?: string
+  deploymentId?: string | null
+  issueDate?: string
+  expectedReturnDate?: string | null
+  actualReturnDate?: string | null
+  quantityIssued?: number
+  statusId?: string
+  issuedLocation?: string | null
+  returnLocation?: string | null
+  remarks?: string | null
+}
+
+export interface UpdateEquipmentIssuanceRequest extends CreateEquipmentIssuanceRequest {}
