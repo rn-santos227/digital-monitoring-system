@@ -115,6 +115,15 @@ export const EQUIPMENT_ITEM_SELECT_COLUMNS =
 export const EQUIPMENT_ITEM_SUGGESTION_SELECT_COLUMNS =
   'id, equipment_code, name, is_active, category:equipment_categories(name)'
 
+export const EQUIPMENT_ASSET_SELECT_COLUMNS =
+  'id, asset_tag, equipment_item_id, serial_no, batch_no, asset_status_id, created_at, updated_at, equipment_item:equipment_items(id, equipment_code, name), asset_status:asset_statuses(id, name)'
+
+export const EQUIPMENT_ASSET_DETAILS_COLUMNS =
+  'id, asset_tag, equipment_item_id, serial_no, batch_no, procurement_date, acquisition_cost, fund_source, current_location, condition_status_id, serviceability_status_id, asset_status_id, remarks, created_at, updated_at, equipment_item:equipment_items(id, equipment_code, name), condition_status:condition_statuses(id, name), serviceability_status:serviceability_statuses(id, name), asset_status:asset_statuses(id, name)'
+
+export const EQUIPMENT_ASSET_SUGGESTION_SELECT_COLUMNS =
+  'id, asset_tag, equipment_item:equipment_items(name)'
+
 export const TRAINING_CATEGORY_SELECT_COLUMNS = 'id, code, name, created_at, updated_at'
 
 export const TRAINING_SELECT_COLUMNS =
