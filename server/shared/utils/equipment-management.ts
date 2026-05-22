@@ -3,6 +3,8 @@ import type {
   EquipmentAssetRow,
   EquipmentAssetSuggestionItem,
   EquipmentAssetSuggestionRow,
+  EquipmentIssuanceListItem,
+  EquipmentIssuanceRow,
   EquipmentCategoryListItem,
   EquipmentCategoryRow,
   EquipmentCategorySuggestionItem,
@@ -141,3 +143,57 @@ export const mapEquipmentAssetSuggestionItem = (row: EquipmentAssetSuggestionRow
   assetTag: row.asset_tag,
   equipmentItemName: Array.isArray(row.equipment_item) ? (row.equipment_item[0]?.name ?? '') : (row.equipment_item?.name ?? ''),
 })
+
+const mapPersonnelDisplayName = (personnel: { personnel_code: string; first_name: string; middle_name: string | null; last_name: string } | null) => {
+  if (!personnel) {
+    return ''
+  }
+
+  const middleName = personnel.middle_name ? ` ${personnel.middle_name}` : ''
+
+  return `${personnel.last_name}, ${personnel.first_name}${middleName} (${personnel.personnel_code})`
+}
+
+const normalizeSingleRelation = <T>(value: T | T[] | null): T | null => {
+  if (Array.isArray(value)) {
+    return value[0] ?? null
+  }
+
+  return value
+}
+
+export const mapEquipmentIssuanceListItem = (
+  row: EquipmentIssuanceRow,
+): EquipmentIssuanceListItem => {
+  const equipmentAssetValue = normalizeSingleRelation(row.equipment_asset)
+  const equipmentItemValue = normalizeSingleRelation(equipmentAssetValue?.equipment_item ?? null)
+  const issuedToPersonnelValue = normalizeSingleRelation(row.issued_to_personnel)
+  const issuedByPersonnelValue = normalizeSingleRelation(row.issued_by_personnel)
+  const deploymentValue = normalizeSingleRelation(row.deployment)
+  const issuanceStatusValue = normalizeSingleRelation(row.issuance_status)
+
+  return {
+    id: row.id,
+    issueNo: row.issue_no,
+    equipmentAssetId: row.equipment_asset_id,
+    equipmentAssetTag: equipmentAssetValue?.asset_tag ?? '',
+    equipmentItemName: equipmentItemValue?.name ?? '',
+    issuedToPersonnelId: row.issued_to_personnel_id,
+    issuedToPersonnelName: mapPersonnelDisplayName(issuedToPersonnelValue),
+    issuedByPersonnelId: row.issued_by_personnel_id,
+    issuedByPersonnelName: mapPersonnelDisplayName(issuedByPersonnelValue),
+    deploymentId: row.deployment_id,
+    deploymentLabel: deploymentValue ? `${deploymentValue.operation_name} (${deploymentValue.deployment_area})` : null,
+    issueDate: row.issue_date,
+    expectedReturnDate: row.expected_return_date,
+    actualReturnDate: row.actual_return_date,
+    quantityIssued: row.quantity_issued,
+    statusId: row.status_id,
+    statusName: issuanceStatusValue?.name ?? '',
+    issuedLocation: row.issued_location,
+    returnLocation: row.return_location,
+    remarks: row.remarks,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  }
+}
