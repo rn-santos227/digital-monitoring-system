@@ -8,6 +8,8 @@ import type {
   EquipmentItemListItem,
   EquipmentItemListResponse,
   EquipmentItemSuggestionResponse,
+  EquipmentIssuanceListItem,
+  EquipmentIssuanceListResponse,
 } from '../../models'
 
 export interface CreateEquipmentCategoryApiResponse {
@@ -36,3 +38,11 @@ export interface CreateEquipmentAssetApiResponse {
 
 export type EquipmentAssetListApiResponse = EquipmentAssetListResponse
 export type EquipmentAssetSuggestionApiResponse = EquipmentAssetSuggestionResponse
+
+export interface CreateEquipmentIssuanceApiResponse {
+  ok: true
+  id: string
+  item: EquipmentIssuanceListItem
+}
+
+export type EquipmentIssuanceListApiResponse = EquipmentIssuanceListResponse
