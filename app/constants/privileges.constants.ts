@@ -38,6 +38,8 @@ export const PRIVILEGE_CODES = Object.freeze({
   engagementCreate: 'engagement.create',
   engagementUpdate: 'engagement.update',
   engagementDelete: 'engagement.delete',
+  equipmentView: 'equipment.view',
+  equipmentManage: 'equipment.manage',
   settingsUpdate: 'settings.update',
 })
 
@@ -108,6 +110,11 @@ export const ENGAGEMENT_PRIVILEGES = Object.freeze({
   create: Object.freeze([PRIVILEGE_CODES.engagementCreate]),
   edit: Object.freeze([PRIVILEGE_CODES.engagementUpdate]),
   delete: Object.freeze([PRIVILEGE_CODES.engagementDelete]),
+})
+
+export const EQUIPMENT_PRIVILEGES = Object.freeze({
+  view: Object.freeze([PRIVILEGE_CODES.equipmentView]),
+  manage: Object.freeze([PRIVILEGE_CODES.equipmentManage]),
 })
 
 export const SETTINGS_PRIVILEGES = Object.freeze({
