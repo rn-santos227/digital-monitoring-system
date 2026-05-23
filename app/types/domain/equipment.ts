@@ -103,3 +103,8 @@ export interface CreateEquipmentCategoryPayload {
   isActive?: boolean
 }
 
+export interface UpdateEquipmentCategoryPayload {
+  code?: string
+  name?: string
+  isActive?: boolean
+}
