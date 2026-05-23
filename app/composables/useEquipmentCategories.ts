@@ -23,4 +23,20 @@ export const useEquipmentCategories = () => {
     filters.value = { ...nextFilters }
     await store.fetchEquipmentCategories(page, filters.value, pageSize)
   }
+
+  onMounted(() => {
+    void loadEquipmentCategories(1)
+  })
+
+  return {
+    filters,
+    tableRows,
+    pagination,
+    isLoading,
+    error,
+    loadEquipmentCategories,
+    createEquipmentCategory: store.createEquipmentCategory,
+    updateEquipmentCategory: store.updateEquipmentCategory,
+    deleteEquipmentCategory: store.deleteEquipmentCategory,
+  }
 }
