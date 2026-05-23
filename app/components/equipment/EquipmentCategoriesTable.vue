@@ -1,5 +1,23 @@
 <template>
-
+  <DataTable
+    :title="EQUIPMENT_CATEGORIES_TABLE_TITLE"
+    :columns="EQUIPMENT_CATEGORIES_TABLE_COLUMNS"
+    :rows="rows"
+    row-key="id"
+    :actions="visibleActions"
+    :action-button-count="visibleActions.length"
+    :actions-column-label="EQUIPMENT_CATEGORIES_TABLE_ACTIONS_COLUMN_LABEL"
+    :is-loading="isLoading"
+    :show-search="false"
+    :empty-message="EQUIPMENT_CATEGORIES_TABLE_EMPTY_MESSAGE"
+    :current-page="currentPage"
+    :total-pages="totalPages"
+    :total-items="totalItems"
+    :page-size="pageSize"
+    @action="emit('action', $event)"
+    @update:current-page="emit('update:currentPage', $event)"
+    @update:page-size="emit('update:pageSize', $event)"
+  />
 </template>
 
 <script setup lang="ts">
