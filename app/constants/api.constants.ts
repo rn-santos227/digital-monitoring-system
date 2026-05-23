@@ -75,6 +75,12 @@ export const ENGAGEMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   engagementPersonnel: (id: string) => `/api/engagements/${id}/personnel`,
 })
 
+export const EQUIPMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
+  equipmentCategories: '/api/equipment-categories',
+  equipmentCategoriesSearch: '/api/equipment-categories/search',
+  equipmentCategoryById: (id: string) => `/api/equipment-categories/${id}`,
+})
+
 export const DASHBOARD_API_ENDPOINTS = Object.freeze({
   unitManagementKpis: '/api/dashboard/unit-management',
   topKpis: '/api/dashboard/top-kpis',
