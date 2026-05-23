@@ -26,3 +26,15 @@ export const getEquipmentCategoriesEndpoint = async (
     })
   }, API_LOADING_MESSAGES.fetchEquipmentCategories)
 }
+
+export const searchEquipmentCategoriesEndpoint = async (
+  query: EquipmentCategorySearchQuery,
+): Promise<EquipmentCategoryListResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentCategoryListResponse>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentCategoriesSearch, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentCategories)
+}
