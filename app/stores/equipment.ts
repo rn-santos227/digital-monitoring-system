@@ -122,5 +122,17 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
         throw error
       }
     },
+
+    async deleteEquipmentCategory(this: EquipmentCategoriesState, id: string) {
+      this.error = ''
+
+      try {
+        await deleteEquipmentCategoryEndpoint(id)
+        this.items = this.items.filter((item) => item.id !== id)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to delete equipment category.')
+        throw error
+      }
+    },
   },
 })
