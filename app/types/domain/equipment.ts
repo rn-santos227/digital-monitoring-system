@@ -83,3 +83,8 @@ export interface EquipmentCategoryEndpointQuery {
   pageSize?: number
 }
 
+export interface EquipmentCategorySearchQuery extends EquipmentCategoryEndpointQuery {
+  term?: string
+  fields?: string
+  isActive?: boolean
+}
