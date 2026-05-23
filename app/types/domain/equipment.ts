@@ -114,3 +114,15 @@ export interface CreateEquipmentCategoryResponse {
   id: string
   item: EquipmentCategoryListItem
 }
+
+export interface EquipmentCategoriesState {
+  items: EquipmentCategoryListItem[]
+  pagination: {
+    page: number
+    pageSize: number
+    totalItems: number
+    totalPages: number
+  }
+  isLoading: boolean
+  error: string
+}
