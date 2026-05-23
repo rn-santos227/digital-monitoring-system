@@ -110,5 +110,17 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
         throw error
       }
     },
+
+    async updateEquipmentCategory(this: EquipmentCategoriesState, id: string, payload: UpdateEquipmentCategoryPayload) {
+      this.error = ''
+
+      try {
+        await updateEquipmentCategoryEndpoint(id, payload)
+        this.items = this.items.map((item) => item.id === id ? { ...item, ...payload } : item)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to update equipment category.')
+        throw error
+      }
+    },
   },
 })
