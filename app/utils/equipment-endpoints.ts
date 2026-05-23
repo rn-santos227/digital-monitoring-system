@@ -50,3 +50,15 @@ export const createEquipmentCategoryEndpoint = async (
     })
   }, API_LOADING_MESSAGES.createEquipmentCategory)
 }
+
+export const getEquipmentCategoryByIdEndpoint = async (
+  id: string,
+): Promise<EquipmentCategoryDetailItem> => {
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentCategoryDetailItem>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentCategoryById(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentCategories)
+}
+
