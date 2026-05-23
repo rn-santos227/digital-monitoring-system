@@ -97,3 +97,9 @@ export interface EquipmentCategoryListResponse {
   totalPages: number
 }
 
+export interface CreateEquipmentCategoryPayload {
+  code: string
+  name: string
+  isActive?: boolean
+}
+
