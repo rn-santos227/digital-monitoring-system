@@ -25,6 +25,13 @@ const DEFAULT_EQUIPMENT_CATEGORIES_PAGINATION = {
 
 
 export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
+  state: (): EquipmentCategoriesState => ({
+    items: [],
+    pagination: { ...DEFAULT_EQUIPMENT_CATEGORIES_PAGINATION },
+    isLoading: false,
+    error: '',
+  }),
+
 
 
 })
