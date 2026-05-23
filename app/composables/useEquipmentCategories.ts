@@ -15,4 +15,12 @@ export const useEquipmentCategories = () => {
     }))
   })
 
+  const loadEquipmentCategories = async (
+    page = pagination.value.page,
+    nextFilters: Partial<EquipmentCategorySearchQuery> = filters.value,
+    pageSize = pagination.value.pageSize,
+  ) => {
+    filters.value = { ...nextFilters }
+    await store.fetchEquipmentCategories(page, filters.value, pageSize)
+  }
 }
