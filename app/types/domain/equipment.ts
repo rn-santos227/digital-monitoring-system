@@ -65,3 +65,12 @@ export interface EquipmentFilters {
   serviceability_status_id?: UUID
   asset_status_id?: UUID
 }
+
+export interface EquipmentCategoryListItem {
+  id: string
+  code: string
+  name: string
+  isActive: boolean
+  itemCount: number
+  updatedAt: string
+}
