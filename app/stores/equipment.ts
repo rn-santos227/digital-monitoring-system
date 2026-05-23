@@ -23,3 +23,8 @@ const DEFAULT_EQUIPMENT_CATEGORIES_PAGINATION = {
   totalPages: 0,
 }
 
+
+export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
+
+
+})
