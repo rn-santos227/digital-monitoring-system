@@ -15,3 +15,11 @@ import type {
   EquipmentCategorySearchQuery,
   UpdateEquipmentCategoryPayload,
 } from '~/types/domain/equipment'
+
+const DEFAULT_EQUIPMENT_CATEGORIES_PAGINATION = {
+  page: 1,
+  pageSize: resolveDefaultFetchPageSize(),
+  totalItems: 0,
+  totalPages: 0,
+}
+
