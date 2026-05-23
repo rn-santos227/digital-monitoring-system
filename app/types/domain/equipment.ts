@@ -88,3 +88,12 @@ export interface EquipmentCategorySearchQuery extends EquipmentCategoryEndpointQ
   fields?: string
   isActive?: boolean
 }
+
+export interface EquipmentCategoryListResponse {
+  items: EquipmentCategoryListItem[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
+
