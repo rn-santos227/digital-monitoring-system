@@ -74,3 +74,12 @@ export interface EquipmentCategoryListItem {
   itemCount: number
   updatedAt: string
 }
+
+export interface EquipmentCategoryDetailItem extends EquipmentCategoryListItem {
+}
+
+export interface EquipmentCategoryEndpointQuery {
+  page?: number
+  pageSize?: number
+}
+
