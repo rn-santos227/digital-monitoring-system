@@ -99,5 +99,16 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
         throw error
       }
     },
+
+    async getEquipmentCategoryById(this: EquipmentCategoriesState, id: string) {
+      this.error = ''
+
+      try {
+        return await getEquipmentCategoryByIdEndpoint(id)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to load equipment category details.')
+        throw error
+      }
+    },
   },
 })
