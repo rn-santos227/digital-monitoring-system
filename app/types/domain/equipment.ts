@@ -108,3 +108,9 @@ export interface UpdateEquipmentCategoryPayload {
   name?: string
   isActive?: boolean
 }
+
+export interface CreateEquipmentCategoryResponse {
+  ok: boolean
+  id: string
+  item: EquipmentCategoryListItem
+}
