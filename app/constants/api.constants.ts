@@ -204,6 +204,10 @@ export const API_LOADING_MESSAGES = Object.freeze({
   updateEngagementRecord: 'Updating engagement personnel record...',
   deleteEngagementRecord: 'Deleting engagement personnel record...',
   uploadFile: 'Uploading file...',
+  fetchEquipmentCategories: 'Loading equipment categories...',
+  createEquipmentCategory: 'Creating equipment category...',
+  updateEquipmentCategory: 'Updating equipment category...',
+  deleteEquipmentCategory: 'Deleting equipment category...',
   fetchApplicationSettings: 'Loading application settings...',
   updateApplicationSettings: 'Updating application settings...',
 })
