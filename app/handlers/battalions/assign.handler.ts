@@ -1,40 +1,53 @@
 import type { Ref } from 'vue'
+import type { BattalionDetailItem } from '~/types/domain/units'
+import { BATTALION_ACTION_KEYS } from './index.handler'
 
-interface UseAssignBattalionHandlerOptions {
-  selectedBattalionId: Ref<string>
-  isAssignToBattalionModalOpen: Ref<boolean>
-  assignPersonnel: (battalionId: string, personnelId: string) => Promise<void>
+type BattalionRow = Record<string, unknown>
+
+const resolveBattalionId = (row: BattalionRow): string => {
+  return String(row.id ?? '')
 }
 
-export const BATTALION_ASSIGN_ACTION_KEY = 'assign-battalion'
+interface UseViewBattalionHandlerOptions {
+  selectedBattalionId: Ref<string>
+  selectedBattalionView: Ref<BattalionDetailItem | null>
+  isViewBattalionModalOpen: Ref<boolean>
+  getBattalionById: (id: string) => Promise<BattalionDetailItem>
+}
 
-export const useAssignBattalionHandler = ({ selectedBattalionId, isAssignToBattalionModalOpen, assignPersonnel }: UseAssignBattalionHandlerOptions) => {
-  const canHandleAssignBattalionAction = (actionKey: string) => actionKey === BATTALION_ASSIGN_ACTION_KEY
+export const useViewBattalionHandler = ({
+  selectedBattalionId,
+  selectedBattalionView,
+  isViewBattalionModalOpen,
+  getBattalionById,
+}: UseViewBattalionHandlerOptions) => {
+  const onCloseViewBattalionModal = () => {
+    selectedBattalionId.value = ''
+    selectedBattalionView.value = null
+    isViewBattalionModalOpen.value = false
+  }
 
-  const onOpenAssignBattalionAction = async (row: Record<string, unknown>) => {
-    const battalionId = typeof row.id === 'string' ? row.id : ''
+  const onViewBattalionAction = async (row: BattalionRow): Promise<boolean> => {
+    const battalionId = resolveBattalionId(row)
     if (!battalionId) {
-      return false
+      return true
     }
 
+    const battalion = await getBattalionById(battalionId)
     selectedBattalionId.value = battalionId
-    isAssignToBattalionModalOpen.value = true
+    selectedBattalionView.value = battalion
+    isViewBattalionModalOpen.value = true
+
     return true
   }
 
-  const onCloseAssignToBattalionModal = () => {
-    isAssignToBattalionModalOpen.value = false
-    selectedBattalionId.value = ''
+  const canHandleViewBattalionAction = (actionKey: string): boolean => {
+    return actionKey === BATTALION_ACTION_KEYS.view
   }
 
-  const onAssignToBattalion = async (personnelId: string) => {
-    if (!selectedBattalionId.value) {
-      return
-    }
-
-    await assignPersonnel(selectedBattalionId.value, personnelId)
-    onCloseAssignToBattalionModal()
+  return {
+    canHandleViewBattalionAction,
+    onViewBattalionAction,
+    onCloseViewBattalionModal,
   }
-
-  return { canHandleAssignBattalionAction, onOpenAssignBattalionAction, onCloseAssignToBattalionModal, onAssignToBattalion }
 }
