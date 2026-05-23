@@ -38,3 +38,15 @@ export const searchEquipmentCategoriesEndpoint = async (
     })
   }, API_LOADING_MESSAGES.fetchEquipmentCategories)
 }
+
+export const createEquipmentCategoryEndpoint = async (
+  body: CreateEquipmentCategoryPayload,
+): Promise<CreateEquipmentCategoryResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<CreateEquipmentCategoryResponse>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentCategories, {
+      method: 'POST',
+      headers: createSessionHeaders(),
+      body,
+    })
+  }, API_LOADING_MESSAGES.createEquipmentCategory)
+}
