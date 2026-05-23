@@ -467,3 +467,16 @@ export const SERVICE_STATUS_PERSONNEL_TABLE_COLUMN_COORDINATES = 'Coordinates'
 export const SERVICE_STATUS_PERSONNEL_TABLE_NO_COORDINATES = 'No coordinates'
 export const SERVICE_STATUS_PERSONNEL_TABLE_UNNAMED_PERSONNEL = 'Unnamed Personnel'
 export const SERVICE_STATUS_PERSONNEL_TABLE_UNSPECIFIED_OPERATION = 'Unspecified'
+
+export const EQUIPMENT_CATEGORIES_TABLE_TITLE = 'Equipment Categories'
+export const EQUIPMENT_CATEGORIES_TABLE_EMPTY_MESSAGE = 'No equipment category records found.'
+export const EQUIPMENT_CATEGORIES_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
+export const EQUIPMENT_CATEGORIES_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'code', label: 'Code', sortable: true },
+  { key: 'name', label: 'Name', sortable: true },
+  { key: 'status', label: 'Status', sortable: true },
+  { key: 'itemCount', label: 'Equipment Items', sortable: true },
+])
+export const EQUIPMENT_CATEGORIES_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  { key: 'delete-equipment-category', tooltip: 'Delete equipment category', iconName: 'trash', variant: 'danger' },
+])
