@@ -80,5 +80,24 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
         this.isLoading = false
       }
     },
+
+    async createEquipmentCategory(this: EquipmentCategoriesState, payload: CreateEquipmentCategoryPayload) {
+      this.error = ''
+
+      try {
+        const response = await createEquipmentCategoryEndpoint(payload)
+        this.items = [response.item, ...this.items]
+        this.pagination.totalItems += 1
+        this.pagination.totalPages = Math.max(
+          1,
+          Math.ceil(this.pagination.totalItems / this.pagination.pageSize),
+        )
+
+        return response
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to create equipment category.')
+        throw error
+      }
+    },
   },
 })
