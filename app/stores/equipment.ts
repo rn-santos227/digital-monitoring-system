@@ -32,6 +32,53 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
     error: '',
   }),
 
+  getters: {
+    hasEquipmentCategories: (state) => state.items.length > 0,
+  },
 
+  actions: {
+    async fetchEquipmentCategories(
+      this: EquipmentCategoriesState,
+      page = 1,
+      filters: Partial<EquipmentCategorySearchQuery> = {},
+      pageSize?: number,
+    ) {
+      this.isLoading = true
+      this.error = ''
 
+      const resolvedPageSize = pageSize ?? this.pagination.pageSize
+
+      const query = {
+        page,
+        pageSize: resolvedPageSize,
+        term: filters.term?.trim() || undefined,
+        fields: filters.fields?.trim() || undefined,
+        isActive: typeof filters.isActive === 'boolean' ? filters.isActive : undefined,
+      }
+
+      try {
+        const response = query.term || typeof query.isActive === 'boolean'
+          ? await searchEquipmentCategoriesEndpoint(query)
+          : await getEquipmentCategoriesEndpoint(query)
+
+        this.items = response.items
+        this.pagination = {
+          page: response.page,
+          pageSize: response.pageSize,
+          totalItems: response.totalItems,
+          totalPages: response.totalPages,
+        }
+      } catch (error) {
+        this.items = []
+        this.pagination = {
+          ...DEFAULT_EQUIPMENT_CATEGORIES_PAGINATION,
+          pageSize: resolveDefaultFetchPageSize(),
+        }
+        this.error = extractApiErrorMessage(error, 'Unable to fetch equipment categories.')
+        throw error
+      } finally {
+        this.isLoading = false
+      }
+    },
+  },
 })
