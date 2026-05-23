@@ -38,6 +38,11 @@
    - Prefer explicit normalization such as `const value = arr[index] ?? defaultValue` before reuse in expressions.
    - Do not silence these errors with unsafe casts when a deterministic fallback can be provided.
 
+8.  **Readable formatting is mandatory**
+   - Do not minify or fold any file content in this repository (including Vue, TypeScript, JavaScript, JSON, SQL, Markdown, and config files).
+   - Keep all files multi-line and human-readable with consistent indentation and spacing.
+   - Avoid one-line component files except for truly trivial single-line constants.
+
 ## Frontend Rules
 
 1. **Use shared UI components in pages**
