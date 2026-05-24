@@ -291,6 +291,13 @@ const loadDeployedPersonnel = async (): Promise<KpiCardLoaderResult> => {
   }
 }
 
+const loadTotalRanks = async (): Promise<KpiCardLoaderResult> => ({
+  value: rankPagination.value.totalItems,
+  context: 'Ranks available in rank management.',
+})
+
+
+
 watch(canViewPersonnel, (hasAccess) => {
   if (!hasAccess) {
     return
