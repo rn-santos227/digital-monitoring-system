@@ -478,5 +478,7 @@ export const EQUIPMENT_CATEGORIES_TABLE_COLUMNS: readonly DataTableColumn[] = Ob
   { key: 'itemCount', label: 'Equipment Items', sortable: true },
 ])
 export const EQUIPMENT_CATEGORIES_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  { key: 'view-equipment-category', tooltip: 'View equipment category', iconName: 'eye', variant: 'info' },
+  { key: 'edit-equipment-category', tooltip: 'Edit equipment category', iconName: 'pencil-square', variant: 'warning' },
   { key: 'delete-equipment-category', tooltip: 'Delete equipment category', iconName: 'trash', variant: 'danger' },
 ])
