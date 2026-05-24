@@ -13,6 +13,37 @@
       />
 
       <template v-else>
+        <div :class="PERSONNEL_PAGE_KPI_GRID_CLASSES">
+          <KpiCard
+            title="Total Personnel"
+            subtitle="Total personnel records currently tracked."
+            icon-name="users"
+            tone="emerald"
+            :loader="loadTotalPersonnel"
+          />
+          <KpiCard
+            title="Deployed Personnel"
+            subtitle="Personnel currently tagged with deployed service status."
+            icon-name="shield"
+            tone="sky"
+            :loader="loadDeployedPersonnel"
+          />
+          <KpiCard
+            title="Total Ranks"
+            subtitle="All rank records available for assignment."
+            icon-name="chart-bar"
+            tone="violet"
+            :loader="loadTotalRanks"
+          />
+          <KpiCard
+            title="Unused Ranks"
+            subtitle="Rank records not currently used in loaded personnel rows."
+            icon-name="document"
+            tone="amber"
+            :loader="loadUnusedRanks"
+          />
+        </div>
+
         <BaseTab
           :model-value="activeTab"
           :items="visibleTabItems"
