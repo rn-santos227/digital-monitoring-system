@@ -23,4 +23,15 @@ import {
 } from '~/constants/shared.constants'
 import type { EquipmentCategorySearchQuery } from '~/types/domain/equipment'
 
+
+const props = withDefaults(defineProps<{ modelValue: Partial<EquipmentCategorySearchQuery> }>(), {
+  modelValue: () => ({}),
+})
+
+const emit = defineEmits<{
+  (event: 'apply', value: Partial<EquipmentCategorySearchQuery>): void
+  (event: 'reset'): void
+}>()
+
+
 </script>
