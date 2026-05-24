@@ -29,4 +29,10 @@ const {
   deleteEquipmentCategory,
 } = useEquipmentCategories()
 
+const { handleFilterApply, handleFilterReset } = useEquipmentCategoryPageHandlers(filters)
+
+const onApply = async (value: Record<string, unknown>) => {
+  const next = handleFilterApply(value)
+  await loadEquipmentCategories(1, next)
+}
 </script>
