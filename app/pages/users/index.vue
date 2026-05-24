@@ -309,13 +309,11 @@ const { onOpenCreateUserProfileModal, onCreateUserProfile } = useCreateUserProfi
   profileWarning,
   loadUserAccounts,
   createUserProfile,
-  loadUserProfiles,
 })
 
 const { onOpenCreateAccountTypeModal, onCreateAccountType } = useCreateAccountTypeHandler({
   isAccountTypeModalOpen,
   createAccountType,
-  loadUserAccounts,
 })
 
 const {
@@ -339,10 +337,7 @@ const {
   selectedUserProfileId,
   selectedUserProfile,
   isUpdateUserProfileModalOpen,
-  profilePagination,
-  profileFilters,
   loadUserAccounts,
-  loadUserProfiles,
   getUserProfileById,
   updateUserProfile,
 })
@@ -361,17 +356,11 @@ const {
 const { canHandleActivationAction, onActivationAction } = useUserActivationHandler({
   showDialog,
   updateUserActivation,
-  loadUserProfiles,
-  profilePagination,
-  profileFilters,
 })
 
 const { canHandleDeleteAction, onDeleteAction } = useDeleteUserProfileHandler({
   showDialog,
   deleteUserProfile,
-  loadUserProfiles,
-  profilePagination,
-  profileFilters,
   profileWarning,
   onDeleteSuccess: async () => { await showDialog({
     type: 'success',
@@ -397,17 +386,11 @@ const {
   isUpdateAccountTypeModalOpen,
   getAccountTypeById,
   updateAccountType,
-  loadUserAccounts,
-  accountPagination,
-  accountFilters,
 })
 
 const { canHandleDeleteAccountTypeAction, onDeleteAccountTypeAction } = useDeleteAccountTypeHandler({
   showDialog,
   deleteAccountType,
-  loadUserAccounts,
-  accountPagination,
-  accountFilters,
   onDeleteSuccess: async () => { await showDialog({
     type: 'success',
     title: 'Account type deleted',
