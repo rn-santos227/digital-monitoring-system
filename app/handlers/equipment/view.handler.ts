@@ -1,0 +1,29 @@
+import type { Ref } from 'vue'
+import type { EquipmentCategoryDetailItem } from '~/types/domain/equipment'
+
+interface UseViewEquipmentCategoryHandlerOptions {
+  isViewEquipmentCategoryModalOpen: Ref<boolean>
+  selectedEquipmentCategory: Ref<EquipmentCategoryDetailItem | null>
+  getEquipmentCategoryById: (id: string) => Promise<EquipmentCategoryDetailItem>
+}
+
+export const useViewEquipmentCategoryHandler = ({
+  isViewEquipmentCategoryModalOpen,
+  selectedEquipmentCategory,
+  getEquipmentCategoryById,
+}: UseViewEquipmentCategoryHandlerOptions) => {
+  const closeViewEquipmentCategoryModal = () => {
+    isViewEquipmentCategoryModalOpen.value = false
+    selectedEquipmentCategory.value = null
+  }
+
+  const onViewEquipmentCategory = async (equipmentCategoryId: string) => {
+    selectedEquipmentCategory.value = await getEquipmentCategoryById(equipmentCategoryId)
+    isViewEquipmentCategoryModalOpen.value = true
+  }
+
+  return {
+    closeViewEquipmentCategoryModal,
+    onViewEquipmentCategory,
+  }
+}
