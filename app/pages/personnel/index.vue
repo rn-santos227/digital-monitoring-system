@@ -296,7 +296,16 @@ const loadTotalRanks = async (): Promise<KpiCardLoaderResult> => ({
   context: 'Ranks available in rank management.',
 })
 
-
+const loadUnusedRanks = async (): Promise<KpiCardLoaderResult> => {
+  const usedRankNames = new Set(
+    tableRows.value.map((row) => row.rankName.trim().toLowerCase()).filter((rankName) => rankName.length > 0),
+  )
+  const unusedRanks = Math.max(0, rankPagination.value.totalItems - usedRankNames.size)
+  return {
+    value: unusedRanks,
+    context: 'Computed from loaded personnel rows versus total ranks.',
+  }
+}
 
 watch(canViewPersonnel, (hasAccess) => {
   if (!hasAccess) {
