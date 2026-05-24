@@ -14,6 +14,25 @@ import type {
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
 
+const normalizeEquipmentCategoryQuery = (
+  query: Partial<EquipmentCategorySearchQuery>,
+): EquipmentCategorySearchQuery => {
+  return {
+    page: query.page,
+    pageSize: query.pageSize,
+    term: query.term?.trim() || undefined,
+    fields: query.fields?.trim() || undefined,
+    isActive: typeof query.isActive === 'boolean' ? query.isActive : undefined,
+  }
+}
+
+export const hasEquipmentCategorySearchFilters = (
+  query: Partial<EquipmentCategorySearchQuery>,
+): boolean => {
+  const normalizedQuery = normalizeEquipmentCategoryQuery(query)
+
+  return Boolean(normalizedQuery.term) || typeof normalizedQuery.isActive === 'boolean'
+}
 
 export const getEquipmentCategoriesEndpoint = async (
   query: EquipmentCategoryEndpointQuery,
@@ -30,11 +49,13 @@ export const getEquipmentCategoriesEndpoint = async (
 export const searchEquipmentCategoriesEndpoint = async (
   query: EquipmentCategorySearchQuery,
 ): Promise<EquipmentCategoryListResponse> => {
+  const normalizedQuery = normalizeEquipmentCategoryQuery(query)
+  
   return await withApiLoading(async () => {
     return await $fetch<EquipmentCategoryListResponse>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentCategoriesSearch, {
       method: 'GET',
       headers: createSessionHeaders(),
-      query,
+      query: normalizedQuery,
     })
   }, API_LOADING_MESSAGES.fetchEquipmentCategories)
 }
