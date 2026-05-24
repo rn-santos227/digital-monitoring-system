@@ -19,6 +19,8 @@
             subtitle="Total personnel records currently tracked."
             icon-name="users"
             tone="emerald"
+            :value="totalPersonnelCount"
+            context="Personnel records in the current registry."
             :loader="loadTotalPersonnel"
           />
           <KpiCard
@@ -26,6 +28,8 @@
             subtitle="Personnel currently tagged with deployed service status."
             icon-name="shield"
             tone="sky"
+            :value="deployedPersonnelCount"
+            context="Based on the loaded personnel page."
             :loader="loadDeployedPersonnel"
           />
           <KpiCard
@@ -33,6 +37,8 @@
             subtitle="All rank records available for assignment."
             icon-name="clipboard-document-list"
             tone="violet"
+            :value="totalRanksCount"
+            context="Ranks available in rank management."
             :loader="loadTotalRanks"
           />
           <KpiCard
@@ -40,6 +46,8 @@
             subtitle="Rank records not currently used in loaded personnel rows."
             icon-name="archive"
             tone="amber"
+            :value="unusedRanksCount"
+            context="Computed from loaded personnel rows versus total ranks."
             :loader="loadUnusedRanks"
           />
         </div>
@@ -305,35 +313,45 @@ const canDeleteRanks = computed(() => {
   return authStore.hasPermissionAccess(RANK_PRIVILEGES.delete)
 })
 
+const totalPersonnelCount = computed(() => pagination.value.totalItems)
+
+const deployedPersonnelCount = computed(() => {
+  return tableRows.value.reduce((count, row) => {
+    const serviceStatus = row.serviceStatus.trim().toLowerCase()
+    return serviceStatus.includes('deployed') ? count + 1 : count
+  }, 0)
+})
+
+const totalRanksCount = computed(() => rankPagination.value.totalItems)
+
+const unusedRanksCount = computed(() => {
+  const usedRankNames = new Set(
+    tableRows.value.map((row) => row.rankName.trim().toLowerCase()).filter((rankName) => rankName.length > 0),
+  )
+  return Math.max(0, rankPagination.value.totalItems - usedRankNames.size)
+})
+
 const loadTotalPersonnel = async (): Promise<KpiCardLoaderResult> => ({
-  value: pagination.value.totalItems,
+  value: totalPersonnelCount.value,
   context: 'Personnel records in the current registry.',
 })
 
 const loadDeployedPersonnel = async (): Promise<KpiCardLoaderResult> => {
-  const deployedCount = tableRows.value.reduce((count, row) => {
-    const serviceStatus = row.serviceStatus.trim().toLowerCase()
-    return serviceStatus.includes('deployed') ? count + 1 : count
-  }, 0)
-
   return {
-    value: deployedCount,
+    value: deployedPersonnelCount.value,
     context: 'Based on the loaded personnel page.',
   }
 }
 
 const loadTotalRanks = async (): Promise<KpiCardLoaderResult> => ({
-  value: rankPagination.value.totalItems,
+  value: totalRanksCount.value,
   context: 'Ranks available in rank management.',
 })
 
+
 const loadUnusedRanks = async (): Promise<KpiCardLoaderResult> => {
-  const usedRankNames = new Set(
-    tableRows.value.map((row) => row.rankName.trim().toLowerCase()).filter((rankName) => rankName.length > 0),
-  )
-  const unusedRanks = Math.max(0, rankPagination.value.totalItems - usedRankNames.size)
   return {
-    value: unusedRanks,
+    value: unusedRanksCount.value,
     context: 'Computed from loaded personnel rows versus total ranks.',
   }
 }
