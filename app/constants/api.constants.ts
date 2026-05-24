@@ -78,6 +78,7 @@ export const ENGAGEMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
 export const EQUIPMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   equipmentCategories: '/api/equipment-categories',
   equipmentCategoriesSearch: '/api/equipment-categories/search',
+  equipmentCategoriesSuggestions: '/api/equipment-categories/suggestions',
   equipmentCategoryById: (id: string) => `/api/equipment-categories/${id}`,
 })
 
@@ -211,6 +212,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   deleteEngagementRecord: 'Deleting engagement personnel record...',
   uploadFile: 'Uploading file...',
   fetchEquipmentCategories: 'Loading equipment categories...',
+  fetchEquipmentCategorySuggestions: 'Loading equipment category suggestions...',
   createEquipmentCategory: 'Creating equipment category...',
   updateEquipmentCategory: 'Updating equipment category...',
   deleteEquipmentCategory: 'Deleting equipment category...',
