@@ -7,6 +7,17 @@
         </h1>
         <p class="text-sm text-slate-600">{{ EQUIPMENT_CATEGORIES_PAGE_SUBTITLE }}</p>
       </header>
+
+      <div :class="EQUIPMENT_CATEGORIES_PAGE_KPI_GRID_CLASSES">
+        <KpiCard
+          title="Total Equipment Categories"
+          subtitle="Tracked category records in registry."
+          icon-name="squares"
+          tone="emerald"
+          :loader="loadCategoryKpi"
+        />
+      </div>
+
     </section>
   </main>
 </template>
