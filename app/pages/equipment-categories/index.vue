@@ -16,6 +16,14 @@
           tone="emerald"
           :loader="loadCategoryKpi"
         />
+
+        <KpiCard
+          title="Unused Categories"
+          subtitle="Categories with no equipment items assigned."
+          icon-name="archive"
+          tone="amber"
+          :loader="loadUnusedCategoryKpi"
+        />
       </div>
 
       <BaseAlert
@@ -93,6 +101,16 @@ const loadCategoryKpi = async (): Promise<KpiCardLoaderResult> => {
 
   return {
     value: pagination.value.totalItems.toLocaleString(),
+  }
+}
+
+const loadUnusedCategoryKpi = async (): Promise<KpiCardLoaderResult> => {
+  await loadEquipmentCategories(1, filters.value, pagination.value.pageSize)
+
+  const unusedCategoryCount = tableRows.value.filter((row) => (row.itemCount ?? 0) === 0).length
+
+  return {
+    value: unusedCategoryCount.toLocaleString(),
   }
 }
 </script>
