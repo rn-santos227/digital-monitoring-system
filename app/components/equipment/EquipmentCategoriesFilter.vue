@@ -33,5 +33,17 @@ const emit = defineEmits<{
   (event: 'reset'): void
 }>()
 
+const localValue = reactive({ term: '', fields: '', status: '' })
+
+watch(
+  () => props.modelValue,
+  (value) => {
+    localValue.term = value.term ?? ''
+    localValue.fields = value.fields ?? ''
+    localValue.status = value.isActive === true ? 'active' : value.isActive === false ? 'inactive' : ''
+  },
+  { immediate: true, deep: true },
+)
+
 
 </script>
