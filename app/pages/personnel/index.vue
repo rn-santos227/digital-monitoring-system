@@ -279,6 +279,18 @@ const loadTotalPersonnel = async (): Promise<KpiCardLoaderResult> => ({
   context: 'Personnel records in the current registry.',
 })
 
+const loadDeployedPersonnel = async (): Promise<KpiCardLoaderResult> => {
+  const deployedCount = tableRows.value.reduce((count, row) => {
+    const serviceStatus = row.serviceStatus.trim().toLowerCase()
+    return serviceStatus.includes('deployed') ? count + 1 : count
+  }, 0)
+
+  return {
+    value: deployedCount,
+    context: 'Based on the loaded personnel page.',
+  }
+}
+
 watch(canViewPersonnel, (hasAccess) => {
   if (!hasAccess) {
     return
