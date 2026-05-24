@@ -18,6 +18,28 @@
         />
       </div>
 
+      <BaseAlert
+        v-if="error"
+        :message="error"
+        tone="danger"
+      />
+
+      <EquipmentCategoriesFilter
+        :model-value="filters"
+        @apply="onApply"
+        @reset="onReset"
+      />
+
+      <EquipmentCategoriesTable
+        :rows="tableRows"
+        :is-loading="isLoading"
+        :current-page="pagination.page"
+        :total-pages="pagination.totalPages"
+        :total-items="pagination.totalItems"
+        :page-size="pagination.pageSize"
+        @update:current-page="onPageChange"
+        @update:page-size="onPageSizeChange"
+      />
     </section>
   </main>
 </template>
