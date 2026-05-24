@@ -1,5 +1,37 @@
 <template>
+  <BaseAccordion :title="EQUIPMENT_CATEGORIES_FILTER_CARD_TITLE" :initially-open="true">
+    <form :class="UNITS_FILTER_FORM_CLASSES" @submit.prevent="emitApply">
+      <div :class="UNITS_FILTER_FIELDS_GRID_CLASSES">
+        <BaseTextField
+          v-model="localValue.term"
+          type="search"
+          :label="EQUIPMENT_CATEGORIES_FILTER_TERM_LABEL"
+          :placeholder="EQUIPMENT_CATEGORIES_FILTER_TERM_PLACEHOLDER"
+        />
 
+        <BaseSelect
+          v-model="localValue.fields"
+          :label="EQUIPMENT_CATEGORIES_FILTER_FIELDS_LABEL"
+          :options="fieldOptions"
+        />
+
+        <BaseSelect
+          v-model="localValue.status"
+          :label="EQUIPMENT_CATEGORIES_FILTER_STATUS_LABEL"
+          :options="statusOptions"
+        />
+      </div>
+
+      <footer :class="UNITS_FILTER_FOOTER_CLASSES">
+        <div :class="UNITS_FILTER_ACTIONS_CLASSES">
+          <BaseButton type="submit" size="sm">{{ EQUIPMENT_CATEGORIES_FILTER_APPLY_LABEL }}</BaseButton>
+          <BaseButton type="button" variant="secondary" size="sm" @click="emit('reset')">
+            {{ EQUIPMENT_CATEGORIES_FILTER_RESET_LABEL }}
+          </BaseButton>
+        </div>
+      </footer>
+    </form>
+  </BaseAccordion>
 </template>
 
 <script setup lang="ts">
