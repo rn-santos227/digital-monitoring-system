@@ -252,6 +252,30 @@ const loadInactiveUsersKpi = async (): Promise<KpiCardLoaderResult> => {
   }
 }
 
+
+const loadUnusedAccountTypesKpi = async (): Promise<KpiCardLoaderResult> => {
+  await Promise.all([
+    loadUserAccounts(1, accountFilters.value, accountPagination.value.pageSize),
+    loadUserProfiles(1, profileFilters.value, profilePagination.value.pageSize),
+  ])
+
+  const usedAccountTypeCodes = new Set(
+    profileTableRows.value
+      .flatMap(profile => profile.accountTypes.split(','))
+      .map(accountTypeCode => accountTypeCode.trim())
+      .filter(accountTypeCode => accountTypeCode.length > 0 && accountTypeCode !== 'No account type'),
+  )
+
+  const unusedAccountTypeCount = accountTableRows.value.filter(
+    accountType => !usedAccountTypeCodes.has(accountType.code),
+  ).length
+
+  return {
+    value: unusedAccountTypeCount.toLocaleString(),
+    context: 'Account types with no linked user profiles.',
+  }
+}
+
 const profileFilterValidationErrors = ref<FieldValidationMap>({})
 const accountFilterValidationErrors = ref<FieldValidationMap>({})
 
