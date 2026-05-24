@@ -12,6 +12,7 @@ export const useTrainings = () => {
     return trainings.value.items.map((item) => ({
       id: item.id,
       trainingTitle: item.trainingTitle,
+      trainingCategoryId: item.trainingCategoryId ?? null,
       trainingCategoryName: item.trainingCategoryName ?? '—',
       levelName: item.levelName ?? '—',
       statusName: item.statusName ?? '—',

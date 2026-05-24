@@ -34,6 +34,13 @@
           context="Training categories currently available in the training module."
           :loader="loadTotalCategories"
         />
+        <KpiCard
+          title="Unused Categories"
+          subtitle="Training categories with no training records assigned."
+          icon-name="archive"
+          tone="amber"
+          :loader="loadUnusedTrainingCategories"
+        />
       </div>
 
       <BaseTab
@@ -680,6 +687,28 @@ const loadTotalCategories = async (): Promise<KpiCardLoaderResult> => {
   return {
     value: totalCategories.value,
     context: 'Training categories currently available in the training module.',
+  }
+}
+
+
+const loadUnusedTrainingCategories = async (): Promise<KpiCardLoaderResult> => {
+  await Promise.all([
+    loadTrainings(1, trainingFilters.value, 100),
+    loadTrainingCategories(1, categoryFilters.value, 100),
+  ])
+
+  const usedCategoryIds = new Set(
+    trainingTableRows.value
+      .map(training => training.trainingCategoryId)
+      .filter((trainingCategoryId): trainingCategoryId is string => Boolean(trainingCategoryId)),
+  )
+  const unusedCategoryCount = categoryTableRows.value.filter(
+    category => !usedCategoryIds.has(category.id),
+  ).length
+
+  return {
+    value: unusedCategoryCount.toLocaleString(),
+    context: 'Training categories not used by any training master record.',
   }
 }
 
