@@ -47,7 +47,7 @@ const props = withDefaults(
     subtitle?: string
     value?: number | string
     context?: string
-    loader: () => Promise<KpiCardLoaderResult>
+    loader?: () => Promise<KpiCardLoaderResult>
     iconName?: IconName
     tone?: KpiTone
     fallbackValue?: string
@@ -81,6 +81,14 @@ const loadValue = async (): Promise<void> => {
 
   isLoading.value = true
   hasError.value = false
+
+  if (!props.loader) {
+    hasError.value = true
+    displayValue.value = props.fallbackValue
+    displayContext.value = props.fallbackContext
+    isLoading.value = false
+    return
+  }
 
   try {
     const result = await props.loader()
