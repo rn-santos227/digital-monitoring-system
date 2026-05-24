@@ -6,6 +6,30 @@
         <p class="text-sm text-slate-600">{{ USERS_PAGE_SUBTITLE }}</p>
       </header>
 
+      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <KpiCard
+            title="Total Active Users"
+            subtitle="User profiles currently marked as active."
+            icon-name="check-circle"
+            tone="emerald"
+            :loader="loadActiveUsersKpi"
+          />
+          <KpiCard
+            title="Total Inactive Users"
+            subtitle="User profiles currently marked as inactive."
+            icon-name="x-circle"
+            tone="amber"
+            :loader="loadInactiveUsersKpi"
+          />
+          <KpiCard
+            title="Unused Account Types"
+            subtitle="Account types with no user profile assignments."
+            icon-name="archive"
+            tone="amber"
+            :loader="loadUnusedAccountTypesKpi"
+          />
+      </div>
+
       <BaseTab
         :model-value="activeTab"
         :items="visibleTabItems"
