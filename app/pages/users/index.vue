@@ -241,6 +241,17 @@ const loadActiveUsersKpi = async (): Promise<KpiCardLoaderResult> => {
   }
 }
 
+const loadInactiveUsersKpi = async (): Promise<KpiCardLoaderResult> => {
+  await loadUserProfiles(1, profileFilters.value, profilePagination.value.pageSize)
+
+  const inactiveUsersCount = profileTableRows.value.filter(profile => profile.status === 'Inactive').length
+
+  return {
+    value: inactiveUsersCount.toLocaleString(),
+    context: 'User profiles with inactive login status.',
+  }
+}
+
 const profileFilterValidationErrors = ref<FieldValidationMap>({})
 const accountFilterValidationErrors = ref<FieldValidationMap>({})
 
