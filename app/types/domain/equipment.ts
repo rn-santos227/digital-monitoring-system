@@ -89,6 +89,24 @@ export interface EquipmentCategorySearchQuery extends EquipmentCategoryEndpointQ
   isActive?: boolean
 }
 
+export interface EquipmentCategorySuggestionItem {
+  id: string
+  code: string
+  name: string
+  isActive: boolean
+  itemCount: number
+}
+
+export interface EquipmentCategorySuggestionQuery {
+  term?: string
+  pageSize?: number
+  selectedId?: string
+}
+
+export interface EquipmentCategorySuggestionResponse {
+  items: EquipmentCategorySuggestionItem[]
+}
+
 export interface EquipmentCategoryFormValues {
   code: string
   name: string

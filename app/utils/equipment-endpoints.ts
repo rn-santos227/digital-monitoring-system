@@ -9,6 +9,8 @@ import type {
   EquipmentCategoryEndpointQuery,
   EquipmentCategoryListResponse,
   EquipmentCategorySearchQuery,
+  EquipmentCategorySuggestionQuery,
+  EquipmentCategorySuggestionResponse,
   UpdateEquipmentCategoryPayload,
 } from '~/types/domain/equipment'
 import { withApiLoading } from '~/utils/api-request'
@@ -53,6 +55,24 @@ export const searchEquipmentCategoriesEndpoint = async (
   
   return await withApiLoading(async () => {
     return await $fetch<EquipmentCategoryListResponse>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentCategoriesSearch, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query: normalizedQuery,
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentCategories)
+}
+
+export const getEquipmentCategorySuggestionsEndpoint = async (
+  query: EquipmentCategorySuggestionQuery,
+): Promise<EquipmentCategorySuggestionResponse> => {
+  const normalizedQuery = {
+    term: query.term?.trim() || undefined,
+    pageSize: query.pageSize,
+    selectedId: query.selectedId?.trim() || undefined,
+  }
+
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentCategorySuggestionResponse>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentCategoriesSuggestions, {
       method: 'GET',
       headers: createSessionHeaders(),
       query: normalizedQuery,
