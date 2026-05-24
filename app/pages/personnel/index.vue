@@ -31,14 +31,14 @@
           <KpiCard
             title="Total Ranks"
             subtitle="All rank records available for assignment."
-            icon-name="chart-bar"
+            icon-name="clipboard-document-list"
             tone="violet"
             :loader="loadTotalRanks"
           />
           <KpiCard
             title="Unused Ranks"
             subtitle="Rank records not currently used in loaded personnel rows."
-            icon-name="document"
+            icon-name="archive"
             tone="amber"
             :loader="loadUnusedRanks"
           />
