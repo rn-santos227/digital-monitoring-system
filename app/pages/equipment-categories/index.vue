@@ -35,4 +35,17 @@ const onApply = async (value: Record<string, unknown>) => {
   const next = handleFilterApply(value)
   await loadEquipmentCategories(1, next)
 }
+
+const onReset = async () => {
+  const next = handleFilterReset()
+  await loadEquipmentCategories(1, next)
+}
+
+const onPageChange = async (page: number) => {
+  await loadEquipmentCategories(page)
+}
+
+const onPageSizeChange = async (pageSize: number) => {
+  await loadEquipmentCategories(1, filters.value, pageSize)
+}
 </script>
