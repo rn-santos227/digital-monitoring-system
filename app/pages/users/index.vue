@@ -133,6 +133,8 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
+import KpiCard from '~/components/general/KpiCard.vue'
 import UsersFilter from '~/components/users/UsersFilter.vue'
 import AccountTypesFilter from '~/components/users/AccountTypesFilter.vue'
 import UsersTable from '~/components/users/UsersTable.vue'
@@ -226,6 +228,17 @@ const {
 
 const onTabChange = (nextTab: string) => {
   handleTabChange(nextTab)
+}
+
+const loadActiveUsersKpi = async (): Promise<KpiCardLoaderResult> => {
+  await loadUserProfiles(1, profileFilters.value, profilePagination.value.pageSize)
+
+  const activeUsersCount = profileTableRows.value.filter(profile => profile.status === 'Active').length
+
+  return {
+    value: activeUsersCount.toLocaleString(),
+    context: 'User profiles with active login status.',
+  }
 }
 
 const profileFilterValidationErrors = ref<FieldValidationMap>({})
