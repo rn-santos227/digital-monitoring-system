@@ -45,5 +45,14 @@ watch(
   { immediate: true, deep: true },
 )
 
+const fieldOptions = [...EQUIPMENT_CATEGORIES_FILTER_FIELD_OPTIONS]
+const statusOptions = [...EQUIPMENT_CATEGORIES_FILTER_STATUS_OPTIONS]
 
+const emitApply = () => {
+  emit('apply', {
+    term: localValue.term,
+    fields: localValue.fields,
+    isActive: localValue.status === 'active' ? true : localValue.status === 'inactive' ? false : undefined,
+  })
+}
 </script>
