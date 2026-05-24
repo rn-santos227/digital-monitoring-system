@@ -89,6 +89,26 @@ export interface EquipmentCategorySearchQuery extends EquipmentCategoryEndpointQ
   isActive?: boolean
 }
 
+export interface EquipmentCategoryFormValues {
+  code: string
+  name: string
+  isActive: boolean
+}
+
+export type EquipmentCategoryTableActionKey =
+  | 'view-equipment-category'
+  | 'edit-equipment-category'
+  | 'delete-equipment-category'
+
+export interface EquipmentCategoryTableRow extends EquipmentCategoryListItem {
+  status: 'Active' | 'Inactive'
+}
+
+export interface EquipmentCategoryTableActionPayload {
+  actionKey: EquipmentCategoryTableActionKey
+  row: EquipmentCategoryTableRow
+}
+
 export interface EquipmentCategoryListResponse {
   items: EquipmentCategoryListItem[]
   page: number
