@@ -187,6 +187,7 @@ export const TEMPORARY_ROUTE_PAGE_CONTENT = Object.freeze({
 })
 
 export const USERS_PAGE_SECTION_CLASSES = 'space-y-6'
+export const USERS_PAGE_KPI_GRID_CLASSES = 'grid gap-4 md:grid-cols-2 xl:grid-cols-3'
 export const USERS_PAGE_TABS_ARIA_LABEL = 'Users management tabs'
 export const USERS_PROFILE_TAB_LABEL = 'User Profile'
 export const USERS_ACCOUNT_TAB_LABEL = 'User Account'

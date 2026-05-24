@@ -1,30 +1,18 @@
 import type { BaseTabItem } from '~/constants/ui.constants'
 import {
-  ACCOUNT_TYPE_PRIVILEGES,
-  BATTALION_PRIVILEGES,
-  COMPANY_PRIVILEGES,
   PERSONNEL_PRIVILEGES,
   RANK_PRIVILEGES,
-  USER_PROFILE_PRIVILEGES,
-  TRAINING_PRIVILEGES,
 } from '~/constants/privileges.constants'
 import type { PersonnelManagementTabId, PersonnelProfileTabId } from '~/types/domain/personnel'
-import type { UserManagementTabId } from '~/types/domain/users'
-import type { TrainingManagementTabId } from '~/types/domain/training'
-import type { UnitManagementTabId } from '~/types/domain/units'
 import {
-  DEPLOYMENT_STATUS_VALUES,
   EMPLOYMENT_STATUS_VALUES,
   SERVICE_STATUS_VALUES,
-  LEVEL_VALUES,
-  TRAINING_STATUS_VALUES,
-  ENGAGEMENT_TYPE_VALUES,
-  ENGAGEMENT_STATUS_VALUES,
 } from '~/types/enums'
 export const PERSONNEL_PAGE_TITLE = 'Personnel'
 export const PERSONNEL_PAGE_SUBTITLE =
   'Monitor AFP personnel records, unit assignments, and service status in a centralized operational view.'
 export const PERSONNEL_PAGE_SECTION_CLASSES = 'space-y-6'
+export const PERSONNEL_PAGE_KPI_GRID_CLASSES = 'grid gap-4 md:grid-cols-2 xl:grid-cols-4'
 export const PERSONNEL_PAGE_REQUIRED_PERMISSIONS = PERSONNEL_PRIVILEGES
 export const PERSONNEL_PAGE_TABS_ARIA_LABEL = 'Personnel and rank management tabs'
 export const PERSONNEL_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([

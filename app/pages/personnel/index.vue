@@ -129,6 +129,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import KpiCard, { type KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import BatchUploadPersonnelModal from '~/components/personnel/BatchUploadPersonnelModal.vue'
 import CreateRankModal from '~/components/personnel/CreateRankModal.vue'
@@ -144,6 +145,7 @@ import {
   PERSONNEL_PAGE_REQUIRED_PERMISSIONS,
   PERSONNEL_PAGE_SECTION_CLASSES,
   PERSONNEL_PAGE_SUBTITLE,
+  PERSONNEL_PAGE_KPI_GRID_CLASSES,
   PERSONNEL_PAGE_TAB_ITEMS,
   PERSONNEL_PAGE_TAB_REQUIRED_PERMISSIONS,
   PERSONNEL_PAGE_TABS_ARIA_LABEL,
@@ -270,6 +272,11 @@ const canCreateRanks = computed(() => {
 
 const canDeleteRanks = computed(() => {
   return authStore.hasPermissionAccess(RANK_PRIVILEGES.delete)
+})
+
+const loadTotalPersonnel = async (): Promise<KpiCardLoaderResult> => ({
+  value: pagination.value.totalItems,
+  context: 'Personnel records in the current registry.',
 })
 
 watch(canViewPersonnel, (hasAccess) => {

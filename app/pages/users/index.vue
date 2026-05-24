@@ -6,7 +6,7 @@
         <p class="text-sm text-slate-600">{{ USERS_PAGE_SUBTITLE }}</p>
       </header>
 
-      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div :class="USERS_PAGE_KPI_GRID_CLASSES">
           <KpiCard
             title="Total Active Users"
             subtitle="User profiles currently marked as active."
@@ -171,6 +171,7 @@ import {
   USERS_ACCOUNT_CREATE_BUTTON_LABEL,
   USERS_ACCOUNT_REQUIRED_PERMISSIONS,
   USERS_PAGE_SECTION_CLASSES,
+  USERS_PAGE_KPI_GRID_CLASSES,
   USERS_PAGE_SUBTITLE,
   USERS_PAGE_TAB_ITEMS,
   USERS_PAGE_TAB_REQUIRED_PERMISSIONS,
