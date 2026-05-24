@@ -8,7 +8,6 @@ import KpiCard from '~/components/general/KpiCard.vue'
 import EquipmentCategoriesFilter from '~/components/equipment/EquipmentCategoriesFilter.vue'
 import EquipmentCategoriesTable from '~/components/equipment/EquipmentCategoriesTable.vue'
 import { useEquipmentCategories } from '~/composables/useEquipmentCategories'
-import { useDialog } from '~/composables/useDialog'
 import {
   EQUIPMENT_CATEGORIES_PAGE_KPI_GRID_CLASSES,
   EQUIPMENT_CATEGORIES_PAGE_SECTION_CLASSES,
@@ -18,7 +17,6 @@ import {
 import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
 import { useEquipmentCategoryPageHandlers } from '~/handlers'
 
-const { showDialog } = useDialog()
 const {
   filters,
   tableRows,
@@ -26,7 +24,6 @@ const {
   isLoading,
   error,
   loadEquipmentCategories,
-  deleteEquipmentCategory,
 } = useEquipmentCategories()
 
 const { handleFilterApply, handleFilterReset } = useEquipmentCategoryPageHandlers(filters)
@@ -47,5 +44,13 @@ const onPageChange = async (page: number) => {
 
 const onPageSizeChange = async (pageSize: number) => {
   await loadEquipmentCategories(1, filters.value, pageSize)
+}
+
+const loadCategoryKpi = async (): Promise<KpiCardLoaderResult> => {
+  await loadEquipmentCategories(1, filters.value, pagination.value.pageSize)
+
+  return {
+    value: pagination.value.totalItems.toLocaleString(),
+  }
 }
 </script>
