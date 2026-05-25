@@ -114,6 +114,12 @@ const { onOpenCreateEquipmentCategoryModal, onCloseCreateEquipmentCategoryModal,
   createEquipmentCategory,
 })
 
+const { closeUpdateEquipmentCategoryModal, onOpenUpdateEquipmentCategoryModal, onUpdateEquipmentCategory, selectedEquipmentCategoryFormValues } = useUpdateEquipmentCategoryHandler({
+  isUpdateEquipmentCategoryModalOpen,
+  selectedEquipmentCategory,
+  getEquipmentCategoryById,
+  updateEquipmentCategory,
+})
 
 const onApply = async (value: Partial<EquipmentCategorySearchQuery>) => {
   const next = handleFilterApply(value)
