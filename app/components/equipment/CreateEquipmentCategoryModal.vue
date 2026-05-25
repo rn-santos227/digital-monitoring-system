@@ -1,5 +1,24 @@
 <template>
+  <BaseModal
+    title="Create Equipment Category"
+    description="Register a new equipment category for equipment item classification."
+    @close="onCloseRequest"
+  >
+    <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
+      <BaseTextField v-model="form.code" label="Category code" placeholder="e.g., WEAPONS" :error="errors.code" required />
+      <BaseTextField v-model="form.name" label="Category name" placeholder="e.g., Weapons and Arms" :error="errors.name" required />
+      <BaseCheckbox v-model="form.isActive" label="Active" />
+    </form>
 
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        <BaseButton variant="ghost" @click="onCloseRequest">Cancel</BaseButton>
+        <BaseButton :disabled="isSubmitting" @click="onSubmit">Create</BaseButton>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
