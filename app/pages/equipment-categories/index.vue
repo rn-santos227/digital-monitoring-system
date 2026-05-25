@@ -121,6 +121,14 @@ const { closeUpdateEquipmentCategoryModal, onOpenUpdateEquipmentCategoryModal, o
   updateEquipmentCategory,
 })
 
+const { closeViewEquipmentCategoryModal, onViewEquipmentCategory } = useViewEquipmentCategoryHandler({
+  isViewEquipmentCategoryModalOpen,
+  selectedEquipmentCategory,
+  getEquipmentCategoryById,
+})
+
+const { onDeleteEquipmentCategory } = useDeleteEquipmentCategoryHandler({ deleteEquipmentCategory, showDialog })
+
 const onApply = async (value: Partial<EquipmentCategorySearchQuery>) => {
   const next = handleFilterApply(value)
   await loadEquipmentCategories(1, next)
