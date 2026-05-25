@@ -170,13 +170,14 @@ const onTableAction = async (payload: { actionKey: string; row: EquipmentCategor
   }
 }
 
+const loadCategoryKpi = async (): Promise<KpiCardLoaderResult> => {
+  await loadEquipmentCategories(1, filters.value, pagination.value.pageSize)
+  return { value: pagination.value.totalItems.toLocaleString() }
+}
+
 const loadUnusedCategoryKpi = async (): Promise<KpiCardLoaderResult> => {
   await loadEquipmentCategories(1, filters.value, pagination.value.pageSize)
-
   const unusedCategoryCount = tableRows.value.filter((row) => (row.itemCount ?? 0) === 0).length
-
-  return {
-    value: unusedCategoryCount.toLocaleString(),
-  }
+  return { value: unusedCategoryCount.toLocaleString() }
 }
 </script>
