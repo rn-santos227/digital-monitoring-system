@@ -36,4 +36,11 @@ const onSubmit = () => {
   emit('submit', result.payload)
 }
 
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForRequiredFields({ formValues: form, showDialog })
+
+  if (shouldClose) {
+    emit('close')
+  }
+}
 </script>
