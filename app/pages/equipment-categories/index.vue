@@ -109,6 +109,11 @@ const isUpdateEquipmentCategoryModalOpen = ref(false)
 const isViewEquipmentCategoryModalOpen = ref(false)
 const selectedEquipmentCategory = ref<EquipmentCategoryDetailItem | null>(null)
 
+const { onOpenCreateEquipmentCategoryModal, onCloseCreateEquipmentCategoryModal, onCreateEquipmentCategory } = useCreateEquipmentCategoryHandler({
+  isCreateEquipmentCategoryModalOpen,
+  createEquipmentCategory,
+})
+
 
 const onApply = async (value: Partial<EquipmentCategorySearchQuery>) => {
   const next = handleFilterApply(value)
