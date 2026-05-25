@@ -1,5 +1,17 @@
 <template>
-
+  <BaseSuggestionField
+    :model-value="modelValue"
+    :options="suggestionOptions"
+    :label="label"
+    :placeholder="placeholder"
+    :helper-text="helperText"
+    :empty-message="emptyMessage"
+    :is-loading="isLoading"
+    :error="error"
+    :disabled="disabled"
+    @update:model-value="onModelValueUpdate"
+    @query-change="onQueryChange"
+  />
 </template>
 
 <script setup lang="ts">
