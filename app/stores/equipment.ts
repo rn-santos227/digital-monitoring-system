@@ -6,18 +6,30 @@ import {
   deleteEquipmentCategoryEndpoint,
   getEquipmentCategoriesEndpoint,
   getEquipmentCategoryByIdEndpoint,
+  getEquipmentItemsEndpoint,
   hasEquipmentCategorySearchFilters,
+  hasEquipmentItemSearchFilters,
   searchEquipmentCategoriesEndpoint,
+  searchEquipmentItemsEndpoint,
   updateEquipmentCategoryEndpoint,
 } from '~/utils/equipment-endpoints'
 import type {
   CreateEquipmentCategoryPayload,
   EquipmentCategoriesState,
   EquipmentCategorySearchQuery,
+  EquipmentItemsState,
+  EquipmentItemSearchQuery,
   UpdateEquipmentCategoryPayload,
 } from '~/types/domain/equipment'
 
 const DEFAULT_EQUIPMENT_CATEGORIES_PAGINATION = {
+  page: 1,
+  pageSize: resolveDefaultFetchPageSize(),
+  totalItems: 0,
+  totalPages: 0,
+}
+
+const DEFAULT_EQUIPMENT_ITEMS_PAGINATION = {
   page: 1,
   pageSize: resolveDefaultFetchPageSize(),
   totalItems: 0,
@@ -152,6 +164,63 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to delete equipment category.')
         throw error
+      }
+    },
+  },
+})
+
+export const useEquipmentItemsStore = defineStore('equipment-items', {
+  state: (): EquipmentItemsState => ({
+    items: [],
+    pagination: { ...DEFAULT_EQUIPMENT_ITEMS_PAGINATION },
+    isLoading: false,
+    error: '',
+  }),
+
+  getters: {
+    hasEquipmentItems: (state) => state.items.length > 0,
+  },
+
+  actions: {
+    async fetchEquipmentItems(
+      this: EquipmentItemsState,
+      page = 1,
+      filters: Partial<EquipmentItemSearchQuery> = {},
+      pageSize?: number,
+    ) {
+      this.isLoading = true
+      this.error = ''
+
+      const resolvedPageSize = pageSize ?? this.pagination.pageSize
+      const query = {
+        page,
+        pageSize: resolvedPageSize,
+        term: filters.term,
+        fields: filters.fields,
+      }
+
+      try {
+        const response = hasEquipmentItemSearchFilters(query)
+          ? await searchEquipmentItemsEndpoint(query)
+          : await getEquipmentItemsEndpoint(query)
+
+        this.items = response.items
+        this.pagination = {
+          page: response.page,
+          pageSize: response.pageSize,
+          totalItems: response.totalItems,
+          totalPages: response.totalPages,
+        }
+      } catch (error) {
+        this.items = []
+        this.pagination = {
+          ...DEFAULT_EQUIPMENT_ITEMS_PAGINATION,
+          pageSize: resolveDefaultFetchPageSize(),
+        }
+        this.error = extractApiErrorMessage(error, 'Unable to fetch equipment items.')
+        throw error
+      } finally {
+        this.isLoading = false
       }
     },
   },
