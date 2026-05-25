@@ -57,7 +57,7 @@
       <CreateEquipmentCategoryModal
         v-if="isCreateEquipmentCategoryModalOpen"
         @close="onCloseCreateEquipmentCategoryModal"
-        @submit="onCreateEquipmentCategory"
+        @submit="onCreateEquipmentCategoryWithFeedback"
       />
 
       <UpdateEquipmentCategoryModal
@@ -103,6 +103,7 @@ import {
   useViewEquipmentCategoryHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
+import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 import type {
   EquipmentCategoryDetailItem,
   EquipmentCategorySearchQuery,
@@ -136,6 +137,13 @@ const selectedEquipmentCategory = ref<EquipmentCategoryDetailItem | null>(null)
 const { onOpenCreateEquipmentCategoryModal, onCloseCreateEquipmentCategoryModal, onCreateEquipmentCategory } = useCreateEquipmentCategoryHandler({
   isCreateEquipmentCategoryModalOpen,
   createEquipmentCategory,
+})
+
+const onCreateEquipmentCategoryWithFeedback = createModalFeedbackHandler(onCreateEquipmentCategory, showDialog, {
+  successTitle: 'Equipment category created',
+  successMessage: 'Equipment category has been created successfully.',
+  errorTitle: 'Create failed',
+  errorMessage: 'Unable to create equipment category right now.',
 })
 
 const { closeUpdateEquipmentCategoryModal, onOpenUpdateEquipmentCategoryModal, onUpdateEquipmentCategory, selectedEquipmentCategoryFormValues } = useUpdateEquipmentCategoryHandler({
