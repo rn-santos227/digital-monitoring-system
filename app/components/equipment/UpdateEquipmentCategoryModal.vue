@@ -25,4 +25,11 @@ const emit = defineEmits<{
   (event: 'submit', payload: UpdateEquipmentCategoryPayload): void
 }>()
 
+const form = reactive({ code: '', name: '', isActive: true })
+watch(() => props.initialValues, (value) => {
+  form.code = value.code
+  form.name = value.name
+  form.isActive = value.isActive
+}, { immediate: true, deep: true })
+
 </script>
