@@ -164,3 +164,55 @@ export interface EquipmentCategoriesState {
   isLoading: boolean
   error: string
 }
+
+export interface EquipmentItemListItem {
+  id: string
+  equipmentCode: string
+  categoryId: string
+  categoryCode: string
+  categoryName: string
+  name: string
+  model: string | null
+  manufacturer: string | null
+  description: string | null
+  unitOfMeasure: string | null
+  minimumStockLevel: number
+  isSerialized: boolean
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+export interface EquipmentItemSearchQuery extends EquipmentCategoryEndpointQuery {
+  term?: string
+  fields?: string
+}
+
+export type EquipmentItemTableActionKey =
+  | 'view-equipment-item'
+  | 'edit-equipment-item'
+  | 'delete-equipment-item'
+
+export interface EquipmentItemTableRow extends EquipmentItemListItem {
+  status: 'Active' | 'Inactive'
+}
+
+export interface EquipmentItemListResponse {
+  items: EquipmentItemListItem[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
+
+export interface EquipmentItemsState {
+  items: EquipmentItemListItem[]
+  pagination: {
+    page: number
+    pageSize: number
+    totalItems: number
+    totalPages: number
+  }
+  isLoading: boolean
+  error: string
+}
