@@ -32,6 +32,10 @@
         tone="danger"
       />
 
+      <div v-if="canManageEquipmentCategories" class="flex justify-end">
+        <BaseButton @click="onOpenCreateEquipmentCategoryModal">Create Equipment Category</BaseButton>
+      </div>
+
       <EquipmentCategoriesFilter
         :model-value="filters"
         @apply="onApply"
@@ -45,8 +49,28 @@
         :total-pages="pagination.totalPages"
         :total-items="pagination.totalItems"
         :page-size="pagination.pageSize"
+        @action="onTableAction"
         @update:current-page="onPageChange"
         @update:page-size="onPageSizeChange"
+      />
+
+      <CreateEquipmentCategoryModal
+        v-if="isCreateEquipmentCategoryModalOpen"
+        @close="onCloseCreateEquipmentCategoryModal"
+        @submit="onCreateEquipmentCategory"
+      />
+
+      <UpdateEquipmentCategoryModal
+        v-if="isUpdateEquipmentCategoryModalOpen && selectedEquipmentCategory"
+        :initial-values="selectedEquipmentCategoryFormValues"
+        @close="closeUpdateEquipmentCategoryModal"
+        @submit="onUpdateEquipmentCategory"
+      />
+
+      <ViewEquipmentCategoryModal
+        v-if="isViewEquipmentCategoryModalOpen && selectedEquipmentCategory"
+        :category="selectedEquipmentCategory"
+        @close="closeViewEquipmentCategoryModal"
       />
     </section>
   </main>
