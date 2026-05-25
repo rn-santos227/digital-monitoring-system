@@ -35,5 +35,13 @@ const { suggestionOptions, isLoading, onModelValueUpdate: mapNextValue, onQueryC
   () => props.modelValue
 )
 
+const onModelValueUpdate = (value: string | string[] | null) => {
+  if (Array.isArray(value)) {
+    return
+  }
 
+  const nextValue = mapNextValue(value)
+  emit('update:modelValue', nextValue)
+  emit('select', emitSelectedItem(nextValue))
+}
 </script>
