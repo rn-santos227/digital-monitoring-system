@@ -27,3 +27,21 @@ export const EQUIPMENT_CATEGORIES_FILTER_STATUS_OPTIONS = Object.freeze([
 ])
 
 export const EQUIPMENT_CATEGORIES_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGES
+
+export const EQUIPMENT_ITEMS_PAGE_TITLE = 'Equipment Items'
+export const EQUIPMENT_ITEMS_PAGE_SUBTITLE = 'Manage equipment item records and their operational classifications.'
+export const EQUIPMENT_ITEMS_PAGE_SECTION_CLASSES = 'space-y-6'
+export const EQUIPMENT_ITEMS_FILTER_CARD_TITLE = 'Filter Equipment Items'
+export const EQUIPMENT_ITEMS_FILTER_TERM_LABEL = 'Search Term'
+export const EQUIPMENT_ITEMS_FILTER_TERM_PLACEHOLDER = 'Search equipment item value'
+export const EQUIPMENT_ITEMS_FILTER_FIELDS_LABEL = 'Search Field'
+export const EQUIPMENT_ITEMS_FILTER_APPLY_LABEL = 'Apply Filters'
+export const EQUIPMENT_ITEMS_FILTER_RESET_LABEL = 'Reset'
+export const EQUIPMENT_ITEMS_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: '', label: 'All searchable fields' },
+  { value: 'equipmentCode', label: 'Equipment Code' },
+  { value: 'name', label: 'Item Name' },
+  { value: 'model', label: 'Model' },
+  { value: 'manufacturer', label: 'Manufacturer' },
+])
+export const EQUIPMENT_ITEMS_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGES

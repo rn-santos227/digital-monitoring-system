@@ -80,6 +80,9 @@ export const EQUIPMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   equipmentCategoriesSearch: '/api/equipment-categories/search',
   equipmentCategoriesSuggestions: '/api/equipment-categories/suggestions',
   equipmentCategoryById: (id: string) => `/api/equipment-categories/${id}`,
+  equipmentItems: '/api/equipment-items',
+  equipmentItemsSearch: '/api/equipment-items/search',
+  equipmentItemById: (id: string) => `/api/equipment-items/${id}`,
 })
 
 export const DASHBOARD_API_ENDPOINTS = Object.freeze({
@@ -216,6 +219,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   createEquipmentCategory: 'Creating equipment category...',
   updateEquipmentCategory: 'Updating equipment category...',
   deleteEquipmentCategory: 'Deleting equipment category...',
+  fetchEquipmentItems: 'Loading equipment items...',
   fetchApplicationSettings: 'Loading application settings...',
   updateApplicationSettings: 'Updating application settings...',
 })

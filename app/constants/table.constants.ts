@@ -482,3 +482,20 @@ export const EQUIPMENT_CATEGORIES_TABLE_ACTIONS: readonly DataTableAction[] = Ob
   { key: 'edit-equipment-category', tooltip: 'Edit equipment category', iconName: 'pencil-square', variant: 'warning' },
   { key: 'delete-equipment-category', tooltip: 'Delete equipment category', iconName: 'trash', variant: 'danger' },
 ])
+
+export const EQUIPMENT_ITEMS_TABLE_TITLE = 'Equipment Items'
+export const EQUIPMENT_ITEMS_TABLE_EMPTY_MESSAGE = 'No equipment item records found.'
+export const EQUIPMENT_ITEMS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
+export const EQUIPMENT_ITEMS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'equipmentCode', label: 'Equipment Code', sortable: true },
+  { key: 'name', label: 'Item Name', sortable: true },
+  { key: 'categoryName', label: 'Category', sortable: true },
+  { key: 'model', label: 'Model', sortable: true },
+  { key: 'manufacturer', label: 'Manufacturer', sortable: true },
+  { key: 'status', label: 'Status', sortable: true },
+])
+export const EQUIPMENT_ITEMS_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  { key: 'view-equipment-item', tooltip: 'View equipment item', iconName: 'eye', variant: 'info' },
+  { key: 'edit-equipment-item', tooltip: 'Edit equipment item', iconName: 'pencil-square', variant: 'warning' },
+  { key: 'delete-equipment-item', tooltip: 'Delete equipment item', iconName: 'trash', variant: 'danger' },
+])
