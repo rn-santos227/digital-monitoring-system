@@ -104,7 +104,13 @@ const { showDialog } = useDialog()
 
 const { handleFilterApply, handleFilterReset } = useEquipmentCategoryPageHandlers(filters)
 
-const onApply = async (value: Record<string, unknown>) => {
+const isCreateEquipmentCategoryModalOpen = ref(false)
+const isUpdateEquipmentCategoryModalOpen = ref(false)
+const isViewEquipmentCategoryModalOpen = ref(false)
+const selectedEquipmentCategory = ref<EquipmentCategoryDetailItem | null>(null)
+
+
+const onApply = async (value: Partial<EquipmentCategorySearchQuery>) => {
   const next = handleFilterApply(value)
   await loadEquipmentCategories(1, next)
 }
