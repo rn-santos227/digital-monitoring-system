@@ -24,5 +24,16 @@ const form = reactive({ code: '', name: '', isActive: true })
 const errors = reactive<Record<string, string>>({})
 const { showDialog } = useDialog()
 
+const onSubmit = () => {
+  const result = validateCreateEquipmentCategoryForm(form)
+  Object.keys(errors).forEach((key) => delete errors[key])
+  Object.assign(errors, result.errors)
+
+  if (!result.payload) {
+    return
+  }
+
+  emit('submit', result.payload)
+}
 
 </script>
