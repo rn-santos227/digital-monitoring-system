@@ -31,4 +31,9 @@ const emit = defineEmits<{
   (event: 'select', payload: EquipmentCategorySuggestionItem | null): void
 }>()
 
+const { suggestionOptions, isLoading, onModelValueUpdate: mapNextValue, onQueryChange, emitSelectedItem } = useEquipmentCategorySuggestionsHandler(
+  () => props.modelValue
+)
+
+
 </script>
