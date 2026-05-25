@@ -98,6 +98,10 @@ const {
   updateEquipmentCategory,
 } = useEquipmentCategories()
 
+const authStore = useAuthStore()
+const canManageEquipmentCategories = computed(() => authStore.hasPermissionAccess(EQUIPMENT_CATEGORIES_PAGE_REQUIRED_PERMISSIONS.create))
+const { showDialog } = useDialog()
+
 const { handleFilterApply, handleFilterReset } = useEquipmentCategoryPageHandlers(filters)
 
 const onApply = async (value: Record<string, unknown>) => {
