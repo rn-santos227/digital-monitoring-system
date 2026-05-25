@@ -1,10 +1,12 @@
 import type { Ref } from 'vue'
-import type { EquipmentCategorySearchQuery } from '~/types/domain/equipment'
+import type { EquipmentCategorySearchQuery, EquipmentItemSearchQuery } from '~/types/domain/equipment'
 
-export const useEquipmentCategoryPageHandlers = (
-  filters: Ref<Partial<EquipmentCategorySearchQuery>>,
+type EquipmentFilters = Partial<EquipmentCategorySearchQuery> | Partial<EquipmentItemSearchQuery>
+
+export const useEquipmentPageHandlers = (
+  filters: Ref<EquipmentFilters>,
 ) => {
-  const handleFilterApply = (value: Partial<EquipmentCategorySearchQuery>) => {
+  const handleFilterApply = (value: EquipmentFilters) => {
     filters.value = { ...value }
     return filters.value
   }
@@ -18,4 +20,10 @@ export const useEquipmentCategoryPageHandlers = (
     handleFilterApply,
     handleFilterReset,
   }
+}
+
+export const useEquipmentCategoryPageHandlers = (
+  filters: Ref<Partial<EquipmentCategorySearchQuery>>,
+) => {
+  return useEquipmentPageHandlers(filters as Ref<EquipmentFilters>)
 }
