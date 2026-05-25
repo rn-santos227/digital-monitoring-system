@@ -1,5 +1,25 @@
 <template>
+  <BaseModal
+    title="Update Equipment Category"
+    description="Update equipment category details and status."
+    @close="onCloseRequest"
+  >
+    <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
+      <BaseTextField v-model="form.code" label="Category code" :error="errors.code" required />
+      <BaseTextField v-model="form.name" label="Category name" :error="errors.name" required />
+      <BaseCheckbox v-model="form.isActive" label="Active" />
+    </form>
 
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        <BaseButton variant="ghost" @click="onResetForm">Reset</BaseButton>
+        <BaseButton variant="ghost" @click="onCloseRequest">Cancel</BaseButton>
+        <BaseButton :disabled="isSubmitting" @click="onSubmit">Update</BaseButton>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
