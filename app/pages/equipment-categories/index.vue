@@ -92,6 +92,10 @@ const {
   isLoading,
   error,
   loadEquipmentCategories,
+  createEquipmentCategory,
+  deleteEquipmentCategory,
+  getEquipmentCategoryById,
+  updateEquipmentCategory,
 } = useEquipmentCategories()
 
 const { handleFilterApply, handleFilterReset } = useEquipmentCategoryPageHandlers(filters)
