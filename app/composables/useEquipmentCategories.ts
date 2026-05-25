@@ -1,14 +1,19 @@
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useEquipmentCategoriesStore } from '~/stores/equipment'
-import type { EquipmentCategorySearchQuery } from '~/types/domain/equipment'
+import type { EquipmentCategorySearchQuery, EquipmentCategoryTableRow } from '~/types/domain/equipment'
+import { hasEquipmentCategorySearchFilters } from '~/utils/equipment-endpoints'
 
 export const useEquipmentCategories = () => {
   const store = useEquipmentCategoriesStore()
   const { items, pagination, isLoading, error } = storeToRefs(store)
   const filters = ref<Partial<EquipmentCategorySearchQuery>>({})
 
-  const tableRows = computed(() => {
+  const hasActiveFilters = computed(() => {
+    return hasEquipmentCategorySearchFilters(filters.value)
+  })
+
+  const tableRows = computed<EquipmentCategoryTableRow[]>(() => {
     return items.value.map((item) => ({
       ...item,
       status: item.isActive ? 'Active' : 'Inactive',
@@ -30,12 +35,14 @@ export const useEquipmentCategories = () => {
 
   return {
     filters,
+    hasActiveFilters,
     tableRows,
     pagination,
     isLoading,
     error,
     loadEquipmentCategories,
     createEquipmentCategory: store.createEquipmentCategory,
+    getEquipmentCategoryById: store.getEquipmentCategoryById,
     updateEquipmentCategory: store.updateEquipmentCategory,
     deleteEquipmentCategory: store.deleteEquipmentCategory,
   }
