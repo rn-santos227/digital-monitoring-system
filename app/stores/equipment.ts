@@ -6,6 +6,7 @@ import {
   deleteEquipmentCategoryEndpoint,
   getEquipmentCategoriesEndpoint,
   getEquipmentCategoryByIdEndpoint,
+  hasEquipmentCategorySearchFilters,
   searchEquipmentCategoriesEndpoint,
   updateEquipmentCategoryEndpoint,
 } from '~/utils/equipment-endpoints'
@@ -22,7 +23,6 @@ const DEFAULT_EQUIPMENT_CATEGORIES_PAGINATION = {
   totalItems: 0,
   totalPages: 0,
 }
-
 
 export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
   state: (): EquipmentCategoriesState => ({
@@ -47,17 +47,16 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
       this.error = ''
 
       const resolvedPageSize = pageSize ?? this.pagination.pageSize
-
       const query = {
         page,
         pageSize: resolvedPageSize,
-        term: filters.term?.trim() || undefined,
-        fields: filters.fields?.trim() || undefined,
-        isActive: typeof filters.isActive === 'boolean' ? filters.isActive : undefined,
+        term: filters.term,
+        fields: filters.fields,
+        isActive: filters.isActive,
       }
 
       try {
-        const response = query.term || typeof query.isActive === 'boolean'
+        const response = hasEquipmentCategorySearchFilters(query)
           ? await searchEquipmentCategoriesEndpoint(query)
           : await getEquipmentCategoriesEndpoint(query)
 
@@ -87,11 +86,10 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
       try {
         const response = await createEquipmentCategoryEndpoint(payload)
         this.items = [response.item, ...this.items]
-        this.pagination.totalItems += 1
-        this.pagination.totalPages = Math.max(
-          1,
-          Math.ceil(this.pagination.totalItems / this.pagination.pageSize),
-        )
+
+        const nextTotalItems = this.pagination.totalItems + 1
+        this.pagination.totalItems = nextTotalItems
+        this.pagination.totalPages = Math.max(1, Math.ceil(nextTotalItems / this.pagination.pageSize))
 
         return response
       } catch (error) {
@@ -116,7 +114,16 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
 
       try {
         await updateEquipmentCategoryEndpoint(id, payload)
-        this.items = this.items.map((item) => item.id === id ? { ...item, ...payload } : item)
+        this.items = this.items.map((item) => {
+          if (item.id !== id) {
+            return item
+          }
+
+          return {
+            ...item,
+            ...payload,
+          }
+        })
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to update equipment category.')
         throw error
@@ -128,7 +135,20 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
 
       try {
         await deleteEquipmentCategoryEndpoint(id)
+  
+        const existingItemCount = this.items.length
         this.items = this.items.filter((item) => item.id !== id)
+        const deletedItemCount = existingItemCount - this.items.length
+
+        if (deletedItemCount <= 0) {
+          return
+        }
+
+        const nextTotalItems = Math.max(0, this.pagination.totalItems - deletedItemCount)
+        this.pagination.totalItems = nextTotalItems
+        this.pagination.totalPages = nextTotalItems === 0
+          ? 0
+          : Math.max(1, Math.ceil(nextTotalItems / this.pagination.pageSize))
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to delete equipment category.')
         throw error
