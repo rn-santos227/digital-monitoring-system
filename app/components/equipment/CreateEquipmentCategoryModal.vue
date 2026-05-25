@@ -20,5 +20,9 @@ const emit = defineEmits<{
   (event: 'submit', payload: CreateEquipmentCategoryPayload): void
 }>()
 
+const form = reactive({ code: '', name: '', isActive: true })
+const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
+
 
 </script>
