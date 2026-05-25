@@ -14,7 +14,7 @@
           subtitle="Tracked category records in registry."
           icon-name="squares"
           tone="emerald"
-          :loader="loadCategoryKpi"
+          :value="totalEquipmentCategoriesKpi"
         />
 
         <KpiCard
@@ -22,7 +22,7 @@
           subtitle="Categories with no equipment items assigned."
           icon-name="archive"
           tone="amber"
-          :loader="loadUnusedCategoryKpi"
+          :value="unusedEquipmentCategoriesKpi"
         />
       </div>
 
@@ -161,6 +161,11 @@ const { closeViewEquipmentCategoryModal, onViewEquipmentCategory } = useViewEqui
 
 const { onDeleteEquipmentCategory } = useDeleteEquipmentCategoryHandler({ deleteEquipmentCategory, showDialog })
 
+const totalEquipmentCategoriesKpi = computed(() => pagination.value.totalItems)
+const unusedEquipmentCategoriesKpi = computed(() => {
+  return tableRows.value.filter((row) => (row.itemCount ?? 0) === 0).length
+})
+
 const onApply = async (value: Partial<EquipmentCategorySearchQuery>) => {
   const next = handleFilterApply(value)
   await loadEquipmentCategories(1, next)
@@ -200,16 +205,5 @@ const onTableAction = async (payload: { actionKey: string; row: EquipmentCategor
   if (payload.actionKey === 'delete-equipment-category') {
     await onDeleteEquipmentCategory(equipmentCategoryId)
   }
-}
-
-const loadCategoryKpi = async (): Promise<KpiCardLoaderResult> => {
-  await loadEquipmentCategories(1, filters.value, pagination.value.pageSize)
-  return { value: pagination.value.totalItems.toLocaleString() }
-}
-
-const loadUnusedCategoryKpi = async (): Promise<KpiCardLoaderResult> => {
-  await loadEquipmentCategories(1, filters.value, pagination.value.pageSize)
-  const unusedCategoryCount = tableRows.value.filter((row) => (row.itemCount ?? 0) === 0).length
-  return { value: unusedCategoryCount.toLocaleString() }
 }
 </script>
