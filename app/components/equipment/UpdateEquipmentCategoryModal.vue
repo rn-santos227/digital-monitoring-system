@@ -20,5 +20,9 @@ const props = withDefaults(defineProps<{
   errorMessage: '',
 })
 
+const emit = defineEmits<{
+  (event: 'close'): void
+  (event: 'submit', payload: UpdateEquipmentCategoryPayload): void
+}>()
 
 </script>
