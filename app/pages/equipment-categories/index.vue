@@ -147,11 +147,26 @@ const onPageSizeChange = async (pageSize: number) => {
   await loadEquipmentCategories(1, filters.value, pageSize)
 }
 
-const loadCategoryKpi = async (): Promise<KpiCardLoaderResult> => {
-  await loadEquipmentCategories(1, filters.value, pagination.value.pageSize)
+const onTableAction = async (payload: { actionKey: string; row: EquipmentCategoryTableRow }) => {
+  const equipmentCategoryId = String(payload.row.id ?? '')
 
-  return {
-    value: pagination.value.totalItems.toLocaleString(),
+
+  if (!equipmentCategoryId) {
+    return
+  }
+
+  if (payload.actionKey === 'view-equipment-category') {
+    await onViewEquipmentCategory(equipmentCategoryId)
+    return
+  }
+
+  if (payload.actionKey === 'edit-equipment-category') {
+    await onOpenUpdateEquipmentCategoryModal(equipmentCategoryId)
+    return
+  }
+
+  if (payload.actionKey === 'delete-equipment-category') {
+    await onDeleteEquipmentCategory(equipmentCategoryId)
   }
 }
 
