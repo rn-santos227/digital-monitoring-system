@@ -26,5 +26,9 @@ const props = withDefaults(
   }
 )
 
+const emit = defineEmits<{
+  (event: 'update:modelValue', value: string | null): void
+  (event: 'select', payload: EquipmentCategorySuggestionItem | null): void
+}>()
 
 </script>
