@@ -9,5 +9,16 @@ import type { UpdateEquipmentCategoryPayload } from '~/types/domain/equipment'
 import { validateUpdateEquipmentCategoryForm } from '~/utils/equipment-validation'
 import { requestCloseForChangedValues, resetFormValues } from '~/utils/form-close-guard'
 
+const props = withDefaults(defineProps<{
+  initialValues: { code: string; name: string; isActive: boolean }
+  isSubmitting?: boolean
+  warningMessage?: string
+  errorMessage?: string
+}>(), {
+  isSubmitting: false,
+  warningMessage: '',
+  errorMessage: '',
+})
+
 
 </script>
