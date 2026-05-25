@@ -53,19 +53,37 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import KpiCard from '~/components/general/KpiCard.vue'
+import CreateEquipmentCategoryModal from '~/components/equipment/CreateEquipmentCategoryModal.vue'
 import EquipmentCategoriesFilter from '~/components/equipment/EquipmentCategoriesFilter.vue'
 import EquipmentCategoriesTable from '~/components/equipment/EquipmentCategoriesTable.vue'
+import UpdateEquipmentCategoryModal from '~/components/equipment/UpdateEquipmentCategoryModal.vue'
+import ViewEquipmentCategoryModal from '~/components/equipment/ViewEquipmentCategoryModal.vue'
 import { useEquipmentCategories } from '~/composables/useEquipmentCategories'
+import { useDialog } from '~/composables/useDialog'
 import {
   EQUIPMENT_CATEGORIES_PAGE_KPI_GRID_CLASSES,
   EQUIPMENT_CATEGORIES_PAGE_SECTION_CLASSES,
   EQUIPMENT_CATEGORIES_PAGE_SUBTITLE,
   EQUIPMENT_CATEGORIES_PAGE_TITLE,
+  EQUIPMENT_CATEGORIES_PAGE_REQUIRED_PERMISSIONS,
 } from '~/constants/page.constants'
 import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
-import { useEquipmentCategoryPageHandlers } from '~/handlers'
+import {
+  useCreateEquipmentCategoryHandler,
+  useDeleteEquipmentCategoryHandler,
+  useEquipmentCategoryPageHandlers,
+  useUpdateEquipmentCategoryHandler,
+  useViewEquipmentCategoryHandler,
+} from '~/handlers'
+import { useAuthStore } from '~/stores/auth'
+import type {
+  EquipmentCategoryDetailItem,
+  EquipmentCategorySearchQuery,
+  EquipmentCategoryTableRow,
+} from '~/types/domain/equipment'
 
 const {
   filters,

@@ -1,3 +1,6 @@
+
+import { EQUIPMENT_PRIVILEGES } from '~/constants/privileges.constants'
+
 export const EQUIPMENT_CATEGORIES_PAGE_TITLE = 'Equipment Categories'
 export const EQUIPMENT_CATEGORIES_PAGE_SUBTITLE = 'Manage equipment category records for standardized equipment classification.'
 export const EQUIPMENT_CATEGORIES_PAGE_SECTION_CLASSES = 'space-y-6'
@@ -22,3 +25,5 @@ export const EQUIPMENT_CATEGORIES_FILTER_STATUS_OPTIONS = Object.freeze([
   { value: 'active', label: 'Active' },
   { value: 'inactive', label: 'Inactive' },
 ])
+
+export const EQUIPMENT_CATEGORIES_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGES
