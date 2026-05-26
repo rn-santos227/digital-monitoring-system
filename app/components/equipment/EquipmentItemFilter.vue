@@ -19,6 +19,9 @@
       <footer :class="UNITS_FILTER_FOOTER_CLASSES">
         <div :class="UNITS_FILTER_ACTIONS_CLASSES">
           <BaseButton type="submit" size="sm">{{ EQUIPMENT_ITEMS_FILTER_APPLY_LABEL }}</BaseButton>
+          <BaseButton type="button" variant="secondary" size="sm" @click="emit('reset')">
+            {{ EQUIPMENT_ITEMS_FILTER_RESET_LABEL }}
+          </BaseButton>
         </div>       
       </footer>
     </form>
