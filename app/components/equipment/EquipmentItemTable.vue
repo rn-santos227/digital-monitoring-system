@@ -46,6 +46,8 @@ const visibleActions = computed(() => {
     if (action.key === 'edit-equipment-item') {
       return authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.edit)
     }
+
+    return authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.delete)
   }
 }
 </script>
