@@ -19,4 +19,11 @@ export const useEquipmentItems = () => {
       status: item.isActive ? 'Active' : 'Inactive',
     }))
   })
+
+  const loadEquipmentItems = async (
+
+  ) => {
+    filters.value = { ...nextFilters }
+    await store.fetchEquipmentItems(page, filters.value, pageSize)
+  }
 }
