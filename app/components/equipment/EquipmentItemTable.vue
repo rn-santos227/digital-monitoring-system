@@ -36,4 +36,10 @@ const emit = defineEmits<{
 }>()
 
 const authStore = useAuthStore()
+
+const visibleActions = computed(() => {
+  return EQUIPMENT_ITEMS_TABLE_ACTIONS.filter((action) => {
+
+  }
+}
 </script>
