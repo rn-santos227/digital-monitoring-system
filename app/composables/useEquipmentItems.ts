@@ -28,4 +28,8 @@ export const useEquipmentItems = () => {
     filters.value = { ...nextFilters }
     await store.fetchEquipmentItems(page, filters.value, pageSize)
   }
+
+  onMounted(() => {
+    void loadEquipmentItems(1)
+  })
 }
