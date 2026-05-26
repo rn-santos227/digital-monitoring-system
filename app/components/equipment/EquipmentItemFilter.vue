@@ -18,4 +18,6 @@ import {
   UNITS_FILTER_FOOTER_CLASSES,
   UNITS_FILTER_FORM_CLASSES,
 } from '~/constants/shared.constants'
+import type { EquipmentItemSearchQuery } from '~/types/domain/equipment'
+
 </script>
