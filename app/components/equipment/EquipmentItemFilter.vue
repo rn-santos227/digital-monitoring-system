@@ -15,6 +15,10 @@
           :options="fieldOptions"
         />
       </div>
+
+      <footer :class="UNITS_FILTER_FOOTER_CLASSES">
+        
+      </footer>
     </form>
   </BaseAccordion>
 </template>
