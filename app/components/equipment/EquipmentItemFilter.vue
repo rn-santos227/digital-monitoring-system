@@ -1,7 +1,14 @@
 <template>
   <BaseAccordion :title="EQUIPMENT_ITEMS_FILTER_CARD_TITLE" :initially-open="true">
     <form :class="UNITS_FILTER_FORM_CLASSES" @submit.prevent="emitApply">
-      <div :class="UNITS_FILTER_FIELDS_GRID_CLASSES"></div>
+      <div :class="UNITS_FILTER_FIELDS_GRID_CLASSES">
+        <BaseTextField
+          v-model="localValue.term"
+          type="search"
+          :label="EQUIPMENT_ITEMS_FILTER_TERM_LABEL"
+          :placeholder="EQUIPMENT_ITEMS_FILTER_TERM_PLACEHOLDER"
+        />  
+      </div>
     </form>
   </BaseAccordion>
 </template>
