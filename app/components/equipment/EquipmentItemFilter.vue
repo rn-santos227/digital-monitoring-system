@@ -1,5 +1,8 @@
 <template>
   <BaseAccordion :title="EQUIPMENT_ITEMS_FILTER_CARD_TITLE" :initially-open="true">
+    <form :class="UNITS_FILTER_FORM_CLASSES" @submit.prevent="emitApply">
+      
+    </form>
   </BaseAccordion>
 </template>
 
