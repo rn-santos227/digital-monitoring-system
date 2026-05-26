@@ -13,4 +13,19 @@ import {
 } from '~/constants/table.constants'
 import { useAuthStore } from '~/stores/auth'
 import type { EquipmentItemTableRow } from '~/types/domain/equipment'
+
+const props = withDefaults(defineProps<{
+  rows: readonly EquipmentItemTableRow[]
+  isLoading?: boolean
+  currentPage?: number
+  totalPages?: number
+  totalItems?: number
+  pageSize?: number
+}>(), {
+  isLoading: false,
+  currentPage: 1,
+  totalPages: 1,
+  totalItems: 0,
+  pageSize: 10,
+})
 </script>
