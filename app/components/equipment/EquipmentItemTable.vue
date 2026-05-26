@@ -1,4 +1,9 @@
 <template>
+  <DataTable
+    :title="EQUIPMENT_ITEMS_TABLE_TITLE"
+    :columns="EQUIPMENT_ITEMS_TABLE_COLUMNS"
+    :rows="props.rows"
+  />
 </template>
 
 <script setup lang="ts">
