@@ -39,7 +39,9 @@ const authStore = useAuthStore()
 
 const visibleActions = computed(() => {
   return EQUIPMENT_ITEMS_TABLE_ACTIONS.filter((action) => {
-
+    if (action.key === 'view-equipment-item') {
+      return authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.view)
+    }
   }
 }
 </script>
