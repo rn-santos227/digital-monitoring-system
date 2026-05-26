@@ -3,6 +3,16 @@
     :title="EQUIPMENT_ITEMS_TABLE_TITLE"
     :columns="EQUIPMENT_ITEMS_TABLE_COLUMNS"
     :rows="props.rows"
+    row-key="id"
+    :actions="visibleActions"
+    :action-button-count="visibleActions.length"
+    :actions-column-label="EQUIPMENT_ITEMS_TABLE_ACTIONS_COLUMN_LABEL"
+    :is-loading="props.isLoading"
+    :show-search="false"
+    :empty-message="EQUIPMENT_ITEMS_TABLE_EMPTY_MESSAGE"
+    :current-page="props.currentPage"
+    :total-pages="props.totalPages"
+    :total-items="props.totalItems"
   />
 </template>
 
