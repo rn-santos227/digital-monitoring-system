@@ -11,4 +11,6 @@ import {
   EQUIPMENT_ITEMS_TABLE_EMPTY_MESSAGE,
   EQUIPMENT_ITEMS_TABLE_TITLE,
 } from '~/constants/table.constants'
+import { useAuthStore } from '~/stores/auth'
+import type { EquipmentItemTableRow } from '~/types/domain/equipment'
 </script>
