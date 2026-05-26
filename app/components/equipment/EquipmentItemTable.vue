@@ -13,6 +13,9 @@
     :current-page="props.currentPage"
     :total-pages="props.totalPages"
     :total-items="props.totalItems"
+    @action="emit('action', $event)"
+    @update:current-page="emit('update:currentPage', $event)"
+    @update:page-size="emit('update:pageSize', $event)"
   />
 </template>
 
