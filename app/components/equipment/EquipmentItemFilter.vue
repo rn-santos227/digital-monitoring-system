@@ -17,7 +17,9 @@
       </div>
 
       <footer :class="UNITS_FILTER_FOOTER_CLASSES">
-        <div :class="UNITS_FILTER_ACTIONS_CLASSES"></div>       
+        <div :class="UNITS_FILTER_ACTIONS_CLASSES">
+          <BaseButton type="submit" size="sm">{{ EQUIPMENT_ITEMS_FILTER_APPLY_LABEL }}</BaseButton>
+        </div>       
       </footer>
     </form>
   </BaseAccordion>
