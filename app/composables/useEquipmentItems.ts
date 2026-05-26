@@ -5,5 +5,7 @@ import type { EquipmentItemSearchQuery, EquipmentItemTableRow } from '~/types/do
 import { hasEquipmentItemSearchFilters } from '~/utils/equipment-endpoints'
 
 export const useEquipmentItems = () => {
-
+  const store = useEquipmentItemsStore()
+  const { items, pagination, isLoading, error } = storeToRefs(store)
+  const filters = ref<Partial<EquipmentItemSearchQuery>>({})
 }
