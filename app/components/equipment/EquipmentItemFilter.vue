@@ -41,4 +41,11 @@ watch(
 )
 
 const fieldOptions = [...EQUIPMENT_ITEMS_FILTER_FIELD_OPTIONS]
+
+const emitApply = () => {
+  emit('apply', {
+    term: localValue.term,
+    fields: localValue.fields,
+  })
+}
 </script>
