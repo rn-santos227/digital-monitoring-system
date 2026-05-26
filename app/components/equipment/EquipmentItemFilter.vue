@@ -20,4 +20,7 @@ import {
 } from '~/constants/shared.constants'
 import type { EquipmentItemSearchQuery } from '~/types/domain/equipment'
 
+const props = withDefaults(defineProps<{ modelValue: Partial<EquipmentItemSearchQuery> }>(), {
+  modelValue: () => ({}),
+})
 </script>
