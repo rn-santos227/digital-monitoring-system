@@ -39,4 +39,6 @@ watch(
   },
   { immediate: true, deep: true },
 )
+
+const fieldOptions = [...EQUIPMENT_ITEMS_FILTER_FIELD_OPTIONS]
 </script>
