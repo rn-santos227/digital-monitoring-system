@@ -32,4 +32,14 @@ export const useEquipmentItems = () => {
   onMounted(() => {
     void loadEquipmentItems(1)
   })
+
+  return {
+    filters,
+    hasActiveFilters,
+    tableRows,
+    pagination,
+    isLoading,
+    error,
+    loadEquipmentItems,
+  }
 }
