@@ -17,7 +17,7 @@
       </div>
 
       <footer :class="UNITS_FILTER_FOOTER_CLASSES">
-        
+        <div :class="UNITS_FILTER_ACTIONS_CLASSES"></div>       
       </footer>
     </form>
   </BaseAccordion>
