@@ -21,7 +21,9 @@ export const useEquipmentItems = () => {
   })
 
   const loadEquipmentItems = async (
-
+    page = pagination.value.page,
+    nextFilters: Partial<EquipmentItemSearchQuery> = filters.value,
+    pageSize = pagination.value.pageSize,
   ) => {
     filters.value = { ...nextFilters }
     await store.fetchEquipmentItems(page, filters.value, pageSize)
