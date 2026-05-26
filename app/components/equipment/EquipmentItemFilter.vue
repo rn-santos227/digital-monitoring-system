@@ -1,4 +1,6 @@
 <template>
+  <BaseAccordion :title="EQUIPMENT_ITEMS_FILTER_CARD_TITLE" :initially-open="true">
+  </BaseAccordion>
 </template>
 
 <script setup lang="ts">
