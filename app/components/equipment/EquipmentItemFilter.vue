@@ -7,7 +7,13 @@
           type="search"
           :label="EQUIPMENT_ITEMS_FILTER_TERM_LABEL"
           :placeholder="EQUIPMENT_ITEMS_FILTER_TERM_PLACEHOLDER"
-        />  
+        />
+
+        <BaseSelect
+          v-model="localValue.fields"
+          :label="EQUIPMENT_ITEMS_FILTER_FIELDS_LABEL"
+          :options="fieldOptions"
+        />
       </div>
     </form>
   </BaseAccordion>
