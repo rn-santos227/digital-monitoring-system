@@ -12,4 +12,11 @@ export const useEquipmentItems = () => {
   const hasActiveFilters = computed(() => {
     return hasEquipmentItemSearchFilters(filters.value)
   })
+
+  const tableRows = computed<EquipmentItemTableRow[]>(() => {
+    return items.value.map((item) => ({
+      ...item,
+      status: item.isActive ? 'Active' : 'Inactive',
+    }))
+  })
 }
