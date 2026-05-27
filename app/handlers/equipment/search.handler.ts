@@ -1,15 +1,20 @@
 import type { Ref } from 'vue'
-import type { EquipmentCategorySearchQuery, EquipmentItemSearchQuery } from '~/types/domain/equipment'
+import type { 
+  EquipmentAssetSearchQuery,
+  EquipmentCategorySearchQuery,
+  EquipmentItemSearchQuery
+} from '~/types/domain/equipment'
 import { validateField, validateFields } from '~/utils/field-validation'
 import { REGEX_PATTERNS } from '~/utils/regex'
 
 const EQUIPMENT_CATEGORY_SEARCHABLE_FIELDS = ['code', 'name'] as const
 const EQUIPMENT_ITEM_SEARCHABLE_FIELDS = ['equipmentCode', 'name', 'model', 'manufacturer'] as const
+const EQUIPMENT_ASSET_SEARCHABLE_FIELDS = ['assetTag', 'equipmentItemCode', 'equipmentItemName', 'serialNo'] as const
 
 export const useEquipmentSearchHandlers = (
-  filters: Ref<Partial<EquipmentItemSearchQuery>>,
+  filters: Ref<Partial<EquipmentItemSearchQuery> | Partial<EquipmentAssetSearchQuery>>,
 ) => {
-  const handleFilterApply = (value: Partial<EquipmentItemSearchQuery>) => {
+  const handleFilterApply = (value: Partial<EquipmentItemSearchQuery> | Partial<EquipmentAssetSearchQuery>) => {
     const commonValidation = validateFields([
       {
         field: 'term',
@@ -28,14 +33,16 @@ export const useEquipmentSearchHandlers = (
     ])
 
     const normalizedField = commonValidation.values.fields
-    const isFieldValid = !normalizedField || EQUIPMENT_ITEM_SEARCHABLE_FIELDS.includes(normalizedField as (typeof EQUIPMENT_ITEM_SEARCHABLE_FIELDS)[number])
+    const isItemFieldValid = EQUIPMENT_ITEM_SEARCHABLE_FIELDS.includes(normalizedField as (typeof EQUIPMENT_ITEM_SEARCHABLE_FIELDS)[number])
+    const isAssetFieldValid = EQUIPMENT_ASSET_SEARCHABLE_FIELDS.includes(normalizedField as (typeof EQUIPMENT_ASSET_SEARCHABLE_FIELDS)[number])
+    const isFieldValid = !normalizedField || isItemFieldValid || isAssetFieldValid
 
     const errors = {
       ...commonValidation.errors,
       ...(!isFieldValid ? { fields: 'Selected equipment item field is invalid.' } : {}),
     }
 
-    const nextFilters: Partial<EquipmentItemSearchQuery> = {
+    const nextFilters: Partial<EquipmentItemSearchQuery> | Partial<EquipmentAssetSearchQuery> = {
       term: commonValidation.values.term || undefined,
       fields: normalizedField || undefined,
     }
@@ -49,7 +56,7 @@ export const useEquipmentSearchHandlers = (
     }
   }
 
-  const handleFilterReset = (): Partial<EquipmentItemSearchQuery> => {
+  const handleFilterReset = (): Partial<EquipmentItemSearchQuery> | Partial<EquipmentAssetSearchQuery> => {
     const resetFilters: Partial<EquipmentItemSearchQuery> = {}
     filters.value = resetFilters
     return resetFilters
