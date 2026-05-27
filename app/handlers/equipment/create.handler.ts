@@ -37,3 +37,27 @@ export const useCreateEquipmentCategoryHandler = ({
     onCreateEquipmentCategory,
   }
 }
+
+export const useCreateEquipmentItemHandler = ({
+  isCreateEquipmentItemModalOpen,
+  createEquipmentItem,
+}: UseCreateEquipmentItemHandlerOptions) => {
+  const onOpenCreateEquipmentItemModal = () => {
+    isCreateEquipmentItemModalOpen.value = true
+  }
+
+  const onCloseCreateEquipmentItemModal = () => {
+    isCreateEquipmentItemModalOpen.value = false
+  }
+
+  const onCreateEquipmentItem = async (payload: CreateEquipmentItemPayload) => {
+    await createEquipmentItem(payload)
+    onCloseCreateEquipmentItemModal()
+  }
+
+  return {
+    onOpenCreateEquipmentItemModal,
+    onCloseCreateEquipmentItemModal,
+    onCreateEquipmentItem,
+  }
+}
