@@ -36,3 +36,24 @@ export const useViewEquipmentCategoryHandler = ({
     onViewEquipmentCategory,
   }
 }
+
+export const useViewEquipmentItemHandler = ({
+  isViewEquipmentItemModalOpen,
+  selectedEquipmentItem,
+  getEquipmentItemById,
+}: UseViewEquipmentItemHandlerOptions) => {
+  const closeViewEquipmentItemModal = () => {
+    isViewEquipmentItemModalOpen.value = false
+    selectedEquipmentItem.value = null
+  }
+
+  const onViewEquipmentItem = async (equipmentItemId: string) => {
+    selectedEquipmentItem.value = await getEquipmentItemById(equipmentItemId)
+    isViewEquipmentItemModalOpen.value = true
+  }
+
+  return {
+    closeViewEquipmentItemModal,
+    onViewEquipmentItem,
+  }
+}
