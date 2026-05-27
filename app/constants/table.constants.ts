@@ -499,3 +499,15 @@ export const EQUIPMENT_ITEMS_TABLE_ACTIONS: readonly DataTableAction[] = Object.
   { key: 'edit-equipment-item', tooltip: 'Edit equipment item', iconName: 'pencil-square', variant: 'warning' },
   { key: 'delete-equipment-item', tooltip: 'Delete equipment item', iconName: 'trash', variant: 'danger' },
 ])
+
+export const EQUIPMENT_ASSETS_TABLE_TITLE = 'Equipment Assets'
+export const EQUIPMENT_ASSETS_TABLE_EMPTY_MESSAGE = 'No equipment asset records found.'
+export const EQUIPMENT_ASSETS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'assetTag', label: 'Asset Tag', sortable: true },
+  { key: 'equipmentItemCode', label: 'Equipment Code', sortable: true },
+  { key: 'equipmentItemName', label: 'Equipment Item', sortable: true },
+  { key: 'serialNo', label: 'Serial Number', sortable: true },
+  { key: 'currentLocation', label: 'Current Location', sortable: true },
+  { key: 'serviceabilityStatusName', label: 'Serviceability', sortable: true },
+  { key: 'assetStatusName', label: 'Asset Status', sortable: true },
+])
