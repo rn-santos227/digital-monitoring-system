@@ -66,6 +66,6 @@ const visibleActions = computed(() => {
     }
 
     return authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.delete)
-  }
-}
+  })
+})
 </script>
