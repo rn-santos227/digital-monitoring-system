@@ -65,3 +65,51 @@ export const useUpdateEquipmentCategoryHandler = ({
     selectedEquipmentCategoryFormValues,
   }
 }
+
+export const useUpdateEquipmentItemHandler = ({
+  isUpdateEquipmentItemModalOpen,
+  selectedEquipmentItem,
+  getEquipmentItemById,
+  updateEquipmentItem,
+}: UseUpdateEquipmentItemHandlerOptions) => {
+  const closeUpdateEquipmentItemModal = () => {
+    isUpdateEquipmentItemModalOpen.value = false
+    selectedEquipmentItem.value = null
+  }
+
+  const onOpenUpdateEquipmentItemModal = async (equipmentItemId: string) => {
+    selectedEquipmentItem.value = await getEquipmentItemById(equipmentItemId)
+    isUpdateEquipmentItemModalOpen.value = true
+  }
+
+  const onUpdateEquipmentItem = async (payload: UpdateEquipmentItemPayload) => {
+    const equipmentItemId = selectedEquipmentItem.value?.id
+
+    if (!equipmentItemId) {
+      return
+    }
+
+    await updateEquipmentItem(equipmentItemId, payload)
+    closeUpdateEquipmentItemModal()
+  }
+
+  const selectedEquipmentItemFormValues = computed(() => ({
+    equipmentCode: selectedEquipmentItem.value?.equipmentCode ?? '',
+    categoryId: selectedEquipmentItem.value?.categoryId ?? '',
+    name: selectedEquipmentItem.value?.name ?? '',
+    model: selectedEquipmentItem.value?.model ?? '',
+    manufacturer: selectedEquipmentItem.value?.manufacturer ?? '',
+    description: selectedEquipmentItem.value?.description ?? '',
+    unitOfMeasure: selectedEquipmentItem.value?.unitOfMeasure ?? '',
+    minimumStockLevel: selectedEquipmentItem.value?.minimumStockLevel ?? 0,
+    isSerialized: selectedEquipmentItem.value?.isSerialized ?? false,
+    isActive: selectedEquipmentItem.value?.isActive ?? true,
+  }))
+
+  return {
+    closeUpdateEquipmentItemModal,
+    onOpenUpdateEquipmentItemModal,
+    onUpdateEquipmentItem,
+    selectedEquipmentItemFormValues,
+  }
+}
