@@ -281,6 +281,17 @@ export interface EquipmentAssetListResponse {
   totalPages: number
 }
 
+export interface EquipmentAssetsState {
+  items: EquipmentAssetListItem[]
+  pagination: {
+    page: number
+    pageSize: number
+    totalItems: number
+    totalPages: number
+  }
+  isLoading: boolean
+  error: string
+}
 
 export interface EquipmentItemsState {
   items: EquipmentItemListItem[]
