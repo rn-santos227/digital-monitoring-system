@@ -1,10 +1,19 @@
 import type { Ref } from 'vue'
-import type { EquipmentCategoryDetailItem } from '~/types/domain/equipment'
+import type {
+  EquipmentCategoryDetailItem,
+  EquipmentItemListItem,
+} from '~/types/domain/equipment'
 
 interface UseViewEquipmentCategoryHandlerOptions {
   isViewEquipmentCategoryModalOpen: Ref<boolean>
   selectedEquipmentCategory: Ref<EquipmentCategoryDetailItem | null>
   getEquipmentCategoryById: (id: string) => Promise<EquipmentCategoryDetailItem>
+}
+
+interface UseViewEquipmentItemHandlerOptions {
+  isViewEquipmentItemModalOpen: Ref<boolean>
+  selectedEquipmentItem: Ref<EquipmentItemListItem | null>
+  getEquipmentItemById: (id: string) => Promise<EquipmentItemListItem>
 }
 
 export const useViewEquipmentCategoryHandler = ({
