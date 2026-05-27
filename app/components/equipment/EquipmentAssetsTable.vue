@@ -1,5 +1,18 @@
 <template>
-  
+  <DataTable
+    :title="EQUIPMENT_ASSETS_TABLE_TITLE"
+    :columns="EQUIPMENT_ASSETS_TABLE_COLUMNS"
+    :rows="props.rows"
+    row-key="id"
+    :is-loading="props.isLoading"
+    :show-search="false"
+    :empty-message="EQUIPMENT_ASSETS_TABLE_EMPTY_MESSAGE"
+    :current-page="props.currentPage"
+    :total-pages="props.totalPages"
+    :total-items="props.totalItems"
+    @update:current-page="emit('update:currentPage', $event)"
+    @update:page-size="emit('update:pageSize', $event)"
+  />
 </template>
 
 <script setup lang="ts">
