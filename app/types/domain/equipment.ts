@@ -273,6 +273,15 @@ export interface EquipmentAssetSearchQuery extends EquipmentCategoryEndpointQuer
 
 export interface EquipmentAssetTableRow extends EquipmentAssetListItem {}
 
+export interface EquipmentAssetListResponse {
+  items: EquipmentAssetListItem[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
+
+
 export interface EquipmentItemsState {
   items: EquipmentItemListItem[]
   pagination: {
