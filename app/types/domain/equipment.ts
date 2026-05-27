@@ -222,6 +222,27 @@ export interface EquipmentItemListResponse {
   totalPages: number
 }
 
+export interface CreateEquipmentItemPayload {
+  equipmentCode: string
+  categoryId: string
+  name: string
+  model?: string
+  manufacturer?: string
+  description?: string
+  unitOfMeasure?: string
+  minimumStockLevel: number
+  isSerialized?: boolean
+  isActive?: boolean
+}
+
+export interface UpdateEquipmentItemPayload extends Partial<CreateEquipmentItemPayload> {}
+
+export interface CreateEquipmentItemResponse {
+  ok: boolean
+  id: string
+  item: EquipmentItemListItem
+}
+
 export interface EquipmentItemsState {
   items: EquipmentItemListItem[]
   pagination: {
