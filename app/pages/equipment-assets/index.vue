@@ -5,6 +5,33 @@
         <h1 class="text-3xl font-semibold text-slate-900">{{ EQUIPMENT_ASSETS_PAGE_TITLE }}</h1>
         <p class="text-sm text-slate-600">{{ EQUIPMENT_ASSETS_PAGE_SUBTITLE }}</p>
       </header>
+
+
+      <div :class="EQUIPMENT_CATEGORIES_PAGE_KPI_GRID_CLASSES">
+        <KpiCard
+          title="Total Equipment Assets"
+          subtitle="Tracked equipment asset records."
+          icon-name="archive"
+          tone="emerald"
+          :value="totalEquipmentAssetsKpi"
+        />
+
+        <KpiCard
+          title="Issued Assets"
+          subtitle="Assets currently issued to personnel or units."
+          icon-name="check-circle"
+          tone="sky"
+          :value="issuedEquipmentAssetsKpi"
+        />
+
+        <KpiCard
+          title="Not Issued Assets"
+          subtitle="Assets currently not issued and available for assignment."
+          icon-name="clock"
+          tone="amber"
+          :value="notIssuedEquipmentAssetsKpi"
+        />
+      </div>
     </section>
   </main>
 </template>
