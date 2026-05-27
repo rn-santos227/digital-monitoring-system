@@ -38,4 +38,16 @@ const onApply = async (value: Partial<EquipmentAssetSearchQuery>) => {
   await loadEquipmentAssets(1, result.filters)
 }
 
+const onReset = async () => {
+  const next = handleFilterReset()
+  await loadEquipmentAssets(1, next)
+}
+
+const onPageChange = async (page: number) => {
+  await loadEquipmentAssets(page)
+}
+
+const onPageSizeChange = async (pageSize: number) => {
+  await loadEquipmentAssets(1, filters.value, pageSize)
+}
 </script>
