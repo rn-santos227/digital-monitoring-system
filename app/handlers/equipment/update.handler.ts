@@ -2,7 +2,9 @@ import { computed } from 'vue'
 import type { ComputedRef, Ref } from 'vue'
 import type {
   EquipmentCategoryDetailItem,
+  EquipmentItemListItem,
   UpdateEquipmentCategoryPayload,
+  UpdateEquipmentItemPayload,
 } from '~/types/domain/equipment'
 
 interface UseUpdateEquipmentCategoryHandlerOptions {
@@ -10,6 +12,13 @@ interface UseUpdateEquipmentCategoryHandlerOptions {
   selectedEquipmentCategory: Ref<EquipmentCategoryDetailItem | null>
   getEquipmentCategoryById: (id: string) => Promise<EquipmentCategoryDetailItem>
   updateEquipmentCategory: (id: string, payload: UpdateEquipmentCategoryPayload) => Promise<void>
+}
+
+interface UseUpdateEquipmentItemHandlerOptions {
+  isUpdateEquipmentItemModalOpen: Ref<boolean>
+  selectedEquipmentItem: Ref<EquipmentItemListItem | null>
+  getEquipmentItemById: (id: string) => Promise<EquipmentItemListItem>
+  updateEquipmentItem: (id: string, payload: UpdateEquipmentItemPayload) => Promise<void>
 }
 
 export const useUpdateEquipmentCategoryHandler = ({
