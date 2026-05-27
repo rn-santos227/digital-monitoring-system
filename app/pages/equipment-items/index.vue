@@ -1,5 +1,27 @@
 <template>
+ <main :class="APP_MAIN_CONTENT_CLASSES">
+    <section :class="EQUIPMENT_ITEMS_PAGE_SECTION_CLASSES">
+      <header :class="UNITS_PAGE_HEADER_CLASSES">
+        <h1 class="text-3xl font-semibold text-slate-900">{{ EQUIPMENT_ITEMS_PAGE_TITLE }}</h1>
+        <p class="text-sm text-slate-600">{{ EQUIPMENT_ITEMS_PAGE_SUBTITLE }}</p>
+      </header>
 
+      <BaseAlert v-if="error" :message="error" tone="danger" />
+
+      <EquipmentItemFilter :model-value="filters" @apply="onApply" @reset="onReset" />
+
+      <EquipmentItemsTable
+        :rows="tableRows"
+        :is-loading="isLoading"
+        :current-page="pagination.page"
+        :total-pages="pagination.totalPages"
+        :total-items="pagination.totalItems"
+        :page-size="pagination.pageSize"
+        @update:current-page="onPageChange"
+        @update:page-size="onPageSizeChange"
+      />
+    </section>
+  </main>
 </template>
 
 <script setup lang="ts">
