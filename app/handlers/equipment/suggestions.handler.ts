@@ -67,3 +67,58 @@ export const useEquipmentCategorySuggestionsHandler = (modelValue: () => string 
     suggestionOptions,
   }
 }
+
+export const useEquipmentItemSuggestionsHandler = (modelValue: () => string | null) => {
+  const handlers = useSuggestionSelectionHandlers<EquipmentItemSuggestionItem>(
+    (item) => `${item.equipmentCode} — ${item.name}`,
+  )
+  const isLoading = ref(false)
+
+  const suggestionOptions = computed<SuggestionFieldOption[]>(() => {
+    return handlers.suggestions.value.map((item) => ({
+      value: item.id,
+      label: `${item.equipmentCode} — ${item.name}`,
+      description: item.isActive ? 'Active' : 'Inactive',
+    }))
+  })
+
+  const fetchSuggestions = async () => {
+    isLoading.value = true
+
+    try {
+      const response = await getEquipmentItemSuggestionsEndpoint({
+        term: handlers.searchTerm.value,
+        pageSize: 10,
+        selectedId: modelValue() ?? undefined,
+      })
+      handlers.suggestions.value = response.items
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  watch(
+    modelValue,
+    async (nextValue) => {
+      if (nextValue && !handlers.suggestions.value.some((item) => item.id === nextValue)) {
+        await fetchSuggestions()
+      }
+    },
+    { immediate: true },
+  )
+
+  watchSuggestionsSearch(handlers.searchTerm, async () => {
+    if (handlers.suppressNextSearch.value) {
+      handlers.suppressNextSearch.value = false
+      return
+    }
+
+    await fetchSuggestions()
+  })
+
+  return {
+    ...handlers,
+    isLoading,
+    suggestionOptions,
+  }
+}
