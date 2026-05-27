@@ -1,8 +1,34 @@
 <template>
+  <BaseAccordion :title="EQUIPMENT_ASSETS_FILTER_CARD_TITLE" :initially-open="true">
+    <form :class="UNITS_FILTER_FORM_CLASSES" @submit.prevent="emitApply">
+      <div :class="UNITS_FILTER_FIELDS_GRID_CLASSES">
+        <BaseTextField
+          v-model="localValue.term"
+          type="search"
+          :label="EQUIPMENT_ASSETS_FILTER_TERM_LABEL"
+          :placeholder="EQUIPMENT_ASSETS_FILTER_TERM_PLACEHOLDER"
+        />
 
+        <BaseSelect
+          v-model="localValue.fields"
+          :label="EQUIPMENT_ASSETS_FILTER_FIELDS_LABEL"
+          :options="fieldOptions"
+        />
+      </div>
+
+      <footer :class="UNITS_FILTER_FOOTER_CLASSES">
+        <div :class="UNITS_FILTER_ACTIONS_CLASSES">
+          <BaseButton type="submit" size="sm">{{ EQUIPMENT_ASSETS_FILTER_APPLY_LABEL }}</BaseButton>
+          <BaseButton type="button" variant="secondary" size="sm" @click="emit('reset')">
+            {{ EQUIPMENT_ASSETS_FILTER_RESET_LABEL }}
+          </BaseButton>
+        </div>
+      </footer>
+    </form>
+  </BaseAccordion>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { reactive, watch } from 'vue'
 import {
   EQUIPMENT_ASSETS_FILTER_APPLY_LABEL,
