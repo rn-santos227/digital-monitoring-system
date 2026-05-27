@@ -75,6 +75,14 @@ export const hasEquipmentItemSearchFilters = (
   return Boolean(normalizedQuery.term)
 }
 
+export const hasEquipmentAssetSearchFilters = (
+  query: Partial<EquipmentAssetSearchQuery>,
+): boolean => {
+  const normalizedQuery = normalizeEquipmentAssetQuery(query)
+
+  return Boolean(normalizedQuery.term)
+}
+
 export const getEquipmentCategoriesEndpoint = async (
   query: EquipmentCategoryEndpointQuery,
 ): Promise<EquipmentCategoryListResponse> => {
