@@ -266,6 +266,13 @@ export interface EquipmentAssetListItem {
   updatedAt: string
 }
 
+export interface EquipmentAssetSearchQuery extends EquipmentCategoryEndpointQuery {
+  term?: string
+  fields?: string
+}
+
+export interface EquipmentAssetTableRow extends EquipmentAssetListItem {}
+
 export interface EquipmentItemsState {
   items: EquipmentItemListItem[]
   pagination: {
