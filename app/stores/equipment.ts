@@ -1,26 +1,32 @@
 import { defineStore } from 'pinia'
+import type {
+  CreateEquipmentCategoryPayload,
+  CreateEquipmentItemPayload,
+  EquipmentCategoriesState,
+  EquipmentCategorySearchQuery,
+  EquipmentItemsState,
+  EquipmentItemSearchQuery,
+  UpdateEquipmentCategoryPayload,
+  UpdateEquipmentItemPayload,
+} from '~/types/domain/equipment'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-size'
 import {
   createEquipmentCategoryEndpoint,
+  createEquipmentItemEndpoint,
   deleteEquipmentCategoryEndpoint,
+  deleteEquipmentItemEndpoint,
   getEquipmentCategoriesEndpoint,
   getEquipmentCategoryByIdEndpoint,
+  getEquipmentItemByIdEndpoint,
   getEquipmentItemsEndpoint,
   hasEquipmentCategorySearchFilters,
   hasEquipmentItemSearchFilters,
   searchEquipmentCategoriesEndpoint,
   searchEquipmentItemsEndpoint,
   updateEquipmentCategoryEndpoint,
+  updateEquipmentItemEndpoint,
 } from '~/utils/equipment-endpoints'
-import type {
-  CreateEquipmentCategoryPayload,
-  EquipmentCategoriesState,
-  EquipmentCategorySearchQuery,
-  EquipmentItemsState,
-  EquipmentItemSearchQuery,
-  UpdateEquipmentCategoryPayload,
-} from '~/types/domain/equipment'
 
 const DEFAULT_EQUIPMENT_CATEGORIES_PAGINATION = {
   page: 1,
@@ -43,11 +49,9 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
     isLoading: false,
     error: '',
   }),
-
   getters: {
     hasEquipmentCategories: (state) => state.items.length > 0,
   },
-
   actions: {
     async fetchEquipmentCategories(
       this: EquipmentCategoriesState,
@@ -91,28 +95,22 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
         this.isLoading = false
       }
     },
-
     async createEquipmentCategory(this: EquipmentCategoriesState, payload: CreateEquipmentCategoryPayload) {
       this.error = ''
-
       try {
         const response = await createEquipmentCategoryEndpoint(payload)
         this.items = [response.item, ...this.items]
-
         const nextTotalItems = this.pagination.totalItems + 1
         this.pagination.totalItems = nextTotalItems
         this.pagination.totalPages = Math.max(1, Math.ceil(nextTotalItems / this.pagination.pageSize))
-
         return response
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create equipment category.')
         throw error
       }
     },
-
     async getEquipmentCategoryById(this: EquipmentCategoriesState, id: string) {
       this.error = ''
-
       try {
         return await getEquipmentCategoryByIdEndpoint(id)
       } catch (error) {
@@ -120,42 +118,26 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
         throw error
       }
     },
-
     async updateEquipmentCategory(this: EquipmentCategoriesState, id: string, payload: UpdateEquipmentCategoryPayload) {
       this.error = ''
-
       try {
         await updateEquipmentCategoryEndpoint(id, payload)
-        this.items = this.items.map((item) => {
-          if (item.id !== id) {
-            return item
-          }
-
-          return {
-            ...item,
-            ...payload,
-          }
-        })
+        this.items = this.items.map((item) => (item.id === id ? { ...item, ...payload } : item))
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to update equipment category.')
         throw error
       }
     },
-
     async deleteEquipmentCategory(this: EquipmentCategoriesState, id: string) {
       this.error = ''
-
       try {
         await deleteEquipmentCategoryEndpoint(id)
-  
-        const existingItemCount = this.items.length
+        const previousLength = this.items.length
         this.items = this.items.filter((item) => item.id !== id)
-        const deletedItemCount = existingItemCount - this.items.length
-
+        const deletedItemCount = previousLength - this.items.length
         if (deletedItemCount <= 0) {
           return
         }
-
         const nextTotalItems = Math.max(0, this.pagination.totalItems - deletedItemCount)
         this.pagination.totalItems = nextTotalItems
         this.pagination.totalPages = nextTotalItems === 0
@@ -176,11 +158,9 @@ export const useEquipmentItemsStore = defineStore('equipment-items', {
     isLoading: false,
     error: '',
   }),
-
   getters: {
     hasEquipmentItems: (state) => state.items.length > 0,
   },
-
   actions: {
     async fetchEquipmentItems(
       this: EquipmentItemsState,
