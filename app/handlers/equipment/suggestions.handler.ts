@@ -14,7 +14,9 @@ import {
 } from '~/utils/equipment-endpoints'
 
 export const useEquipmentCategorySuggestionsHandler = (modelValue: () => string | null) => {
-  const handlers = useSuggestionSelectionHandlers<EquipmentCategorySuggestionItem>((item) => `${item.code} — ${item.name}`)
+  const handlers = useSuggestionSelectionHandlers<EquipmentCategorySuggestionItem>(
+    (item) => `${item.code} — ${item.name}`,
+  )
   const isLoading = ref(false)
 
   const suggestionOptions = computed<SuggestionFieldOption[]>(() => {
