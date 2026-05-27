@@ -45,3 +45,21 @@ export const EQUIPMENT_ITEMS_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: 'manufacturer', label: 'Manufacturer' },
 ])
 export const EQUIPMENT_ITEMS_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGES
+
+export const EQUIPMENT_ASSETS_PAGE_TITLE = 'Equipment Assets'
+export const EQUIPMENT_ASSETS_PAGE_SUBTITLE = 'Monitor and track equipment asset records and operational statuses.'
+export const EQUIPMENT_ASSETS_PAGE_SECTION_CLASSES = 'space-y-6'
+export const EQUIPMENT_ASSETS_FILTER_CARD_TITLE = 'Filter Equipment Assets'
+export const EQUIPMENT_ASSETS_FILTER_TERM_LABEL = 'Search Term'
+export const EQUIPMENT_ASSETS_FILTER_TERM_PLACEHOLDER = 'Search equipment asset value'
+export const EQUIPMENT_ASSETS_FILTER_FIELDS_LABEL = 'Search Field'
+export const EQUIPMENT_ASSETS_FILTER_APPLY_LABEL = 'Apply Filters'
+export const EQUIPMENT_ASSETS_FILTER_RESET_LABEL = 'Reset'
+export const EQUIPMENT_ASSETS_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: '', label: 'All searchable fields' },
+  { value: 'assetTag', label: 'Asset Tag' },
+  { value: 'equipmentItemCode', label: 'Equipment Code' },
+  { value: 'equipmentItemName', label: 'Equipment Item' },
+  { value: 'serialNo', label: 'Serial Number' },
+])
+export const EQUIPMENT_ASSETS_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGES
