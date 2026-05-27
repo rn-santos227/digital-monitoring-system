@@ -30,4 +30,12 @@ const emit = defineEmits<{
   (event: 'reset'): void
 }>()
 
+const localValue = reactive({ term: '', fields: '' })
+watch(() => props.modelValue, (value) => {
+  localValue.term = value.term ?? ''
+  localValue.fields = value.fields ?? ''
+}, { immediate: true, deep: true })
+
+const fieldOptions = [...EQUIPMENT_ASSETS_FILTER_FIELD_OPTIONS]
+const emitApply = () => emit('apply', { term: localValue.term, fields: localValue.fields })
 </script>
