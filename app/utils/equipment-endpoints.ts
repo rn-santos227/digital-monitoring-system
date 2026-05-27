@@ -181,6 +181,19 @@ export const getEquipmentCategoryByIdEndpoint = async (
   }, API_LOADING_MESSAGES.fetchEquipmentCategories)
 }
 
+export const getEquipmentItemsByCategoryEndpoint = async (
+  categoryId: string,
+  query: EquipmentCategoryEndpointQuery,
+): Promise<EquipmentItemListResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentItemListResponse>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentCategoryItemsById(categoryId), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentItems)
+}
+
 export const getEquipmentItemByIdEndpoint = async (id: string): Promise<{ item: import('~/types/domain/equipment').EquipmentItemListItem }> => {
   return await withApiLoading(async () => {
     return await $fetch<{ item: import('~/types/domain/equipment').EquipmentItemListItem }>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentItemById(id), {
