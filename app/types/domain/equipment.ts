@@ -243,6 +243,29 @@ export interface CreateEquipmentItemResponse {
   item: EquipmentItemListItem
 }
 
+export interface EquipmentAssetListItem {
+  id: string
+  assetTag: string
+  equipmentItemId: string
+  equipmentItemCode: string
+  equipmentItemName: string
+  serialNo: string | null
+  batchNo: string | null
+  procurementDate: string | null
+  acquisitionCost: number | null
+  fundSource: string | null
+  currentLocation: string | null
+  conditionStatusId: string | null
+  conditionStatusName: string | null
+  serviceabilityStatusId: string | null
+  serviceabilityStatusName: string | null
+  assetStatusId: string
+  assetStatusName: string
+  remarks: string | null
+  createdAt: string
+  updatedAt: string
+}
+
 export interface EquipmentItemsState {
   items: EquipmentItemListItem[]
   pagination: {
