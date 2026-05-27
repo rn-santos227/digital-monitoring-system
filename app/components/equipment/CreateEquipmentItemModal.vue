@@ -49,4 +49,28 @@ const minimumStockLevelInput = computed({
     form.minimumStockLevel = Number(value) || 0
   },
 })
+
+const onSubmit = () => {
+  const result = validateCreateEquipmentItemForm(form)
+
+  Object.keys(errors).forEach((key) => delete errors[key])
+  Object.assign(errors, result.errors)
+
+  if (!result.payload) {
+    return
+  }
+
+  emit('submit', result.payload)
+}
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForRequiredFields({
+    formValues: form,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
+}
 </script>
