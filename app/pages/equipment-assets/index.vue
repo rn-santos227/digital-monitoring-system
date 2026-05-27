@@ -32,6 +32,20 @@
           :value="notIssuedEquipmentAssetsKpi"
         />
       </div>
+
+      <BaseAlert v-if="error" :message="error" tone="danger" />
+
+      <EquipmentAssetsFilter :model-value="filters" @apply="onApply" @reset="onReset" />
+
+      <EquipmentAssetsTable
+        :rows="tableRows"
+        :is-loading="isLoading"
+        :current-page="pagination.page"
+        :total-pages="pagination.totalPages"
+        :total-items="pagination.totalItems"
+        @update:current-page="onPageChange"
+        @update:page-size="onPageSizeChange"
+      />
     </section>
   </main>
 </template>
