@@ -39,4 +39,14 @@ const form = reactive({
   isSerialized: false,
   isActive: true,
 })
+
+const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
+
+const minimumStockLevelInput = computed({
+  get: () => String(form.minimumStockLevel),
+  set: (value: string) => {
+    form.minimumStockLevel = Number(value) || 0
+  },
+})
 </script>
