@@ -51,3 +51,41 @@ export const useDeleteEquipmentCategoryHandler = ({
     onDeleteEquipmentCategory,
   }
 }
+
+export const useDeleteEquipmentItemHandler = ({
+  deleteEquipmentItem,
+  showDialog,
+  onDeleteSuccess,
+  onDeleteCancelled,
+}: UseDeleteEquipmentItemHandlerOptions) => {
+  const onDeleteEquipmentItem = async (equipmentItemId: string) => {
+    const result = await showDialog({
+      type: 'warning',
+      title: 'Delete equipment item?',
+      message: 'This action cannot be undone. Do you want to continue?',
+      confirmLabel: 'Delete',
+      cancelLabel: 'Cancel',
+    })
+
+    if (!result.confirmed) {
+      onDeleteCancelled?.()
+      return
+    }
+
+    try {
+      await deleteEquipmentItem(equipmentItemId)
+      onDeleteSuccess?.()
+    } catch (error) {
+      await showErrorDialog({
+        showDialog,
+        title: 'Equipment item deletion failed',
+        error,
+        fallbackMessage: 'Unable to delete equipment item right now.',
+      })
+    }
+  }
+
+  return {
+    onDeleteEquipmentItem,
+  }
+}
