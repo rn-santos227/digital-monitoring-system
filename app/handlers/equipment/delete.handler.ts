@@ -7,6 +7,13 @@ interface UseDeleteEquipmentCategoryHandlerOptions {
   onDeleteCancelled?: () => void
 }
 
+interface UseDeleteEquipmentItemHandlerOptions {
+  deleteEquipmentItem: (id: string) => Promise<void>
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
+  onDeleteSuccess?: () => void
+  onDeleteCancelled?: () => void
+}
+
 export const useDeleteEquipmentCategoryHandler = ({
   deleteEquipmentCategory,
   showDialog,
