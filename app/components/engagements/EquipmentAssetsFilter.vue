@@ -20,4 +20,14 @@ import {
   UNITS_FILTER_FORM_CLASSES,
 } from '~/constants/shared.constants'
 import type { EquipmentAssetSearchQuery } from '~/types/domain/equipment'
+
+const props = withDefaults(defineProps<{ modelValue: Partial<EquipmentAssetSearchQuery> }>(), {
+  modelValue: () => ({}),
+})
+
+const emit = defineEmits<{
+  (event: 'apply', value: Partial<EquipmentAssetSearchQuery>): void
+  (event: 'reset'): void
+}>()
+
 </script>
