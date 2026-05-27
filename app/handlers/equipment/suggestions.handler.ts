@@ -1,8 +1,17 @@
 import { computed, ref, watch } from 'vue'
 import type { SuggestionFieldOption } from '~/constants/ui.constants'
-import { useSuggestionSelectionHandlers, watchSuggestionsSearch } from '~/handlers/personnel/suggestions.handler'
-import type { EquipmentCategorySuggestionItem } from '~/types/domain/equipment'
-import { getEquipmentCategorySuggestionsEndpoint } from '~/utils/equipment-endpoints'
+import {
+  useSuggestionSelectionHandlers,
+  watchSuggestionsSearch,
+} from '~/handlers/personnel/suggestions.handler'
+import type {
+  EquipmentCategorySuggestionItem,
+  EquipmentItemSuggestionItem,
+} from '~/types/domain/equipment'
+import {
+  getEquipmentCategorySuggestionsEndpoint,
+  getEquipmentItemSuggestionsEndpoint,
+} from '~/utils/equipment-endpoints'
 
 export const useEquipmentCategorySuggestionsHandler = (modelValue: () => string | null) => {
   const handlers = useSuggestionSelectionHandlers<EquipmentCategorySuggestionItem>((item) => `${item.code} — ${item.name}`)

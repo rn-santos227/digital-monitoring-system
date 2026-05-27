@@ -126,3 +126,5 @@ export const useEquipmentCategorySearchHandlers = (
     handleFilterReset,
   }
 }
+
+export const useEquipmentItemSearchHandlers = useEquipmentSearchHandlers
