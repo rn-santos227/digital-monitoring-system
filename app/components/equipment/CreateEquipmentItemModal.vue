@@ -21,4 +21,22 @@ withDefaults(
     errorMessage: '',
   },
 )
+
+const emit = defineEmits<{
+  (event: 'close'): void
+  (event: 'submit', payload: CreateEquipmentItemPayload): void
+}>()
+
+const form = reactive({
+  equipmentCode: '',
+  categoryId: '',
+  name: '',
+  model: '',
+  manufacturer: '',
+  description: '',
+  unitOfMeasure: '',
+  minimumStockLevel: 0,
+  isSerialized: false,
+  isActive: true,
+})
 </script>
