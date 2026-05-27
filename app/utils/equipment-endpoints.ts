@@ -125,6 +125,20 @@ export const searchEquipmentCategoriesEndpoint = async (
   }, API_LOADING_MESSAGES.fetchEquipmentCategories)
 }
 
+export const searchEquipmentAssetsEndpoint = async (
+  query: EquipmentAssetSearchQuery,
+): Promise<EquipmentAssetListResponse> => {
+  const normalizedQuery = normalizeEquipmentAssetQuery(query)
+
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentAssetListResponse>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentAssetsSearch, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query: normalizedQuery,
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentAssets)
+}
+
 export const searchEquipmentItemsEndpoint = async (
   query: EquipmentItemSearchQuery,
 ): Promise<EquipmentItemListResponse> => {
