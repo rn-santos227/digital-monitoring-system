@@ -17,4 +17,12 @@ import {
 import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
 import { useEquipmentSearchHandlers } from '~/handlers'
 import type { EquipmentAssetSearchQuery } from '~/types/domain/equipment'
+
+const { filters, tableRows, pagination, isLoading, error, loadEquipmentAssets } = useEquipmentAssets()
+const { handleFilterApply, handleFilterReset } = useEquipmentSearchHandlers(filters)
+const totalEquipmentAssetsKpi = computed(() => pagination.value.totalItems)
+
+const issuedEquipmentAssetsKpi = computed(() => {
+  return tableRows.value.filter((item) => item.assetStatusName.toLowerCase().includes('issued')).length
+})
 </script>
