@@ -19,4 +19,13 @@ const { filters, tableRows, pagination, isLoading, error, loadEquipmentItems } =
 const { handleFilterReset } = useEquipmentPageHandlers(filters)
 const { handleFilterApply } = useEquipmentSearchHandlers(filters)
 
+const onApply = async (value: Partial<EquipmentItemSearchQuery>) => {
+  const result = handleFilterApply(value)
+
+  if (!result.isValid) {
+    return
+  }
+
+  await loadEquipmentItems(1, result.filters)
+}
 </script>
