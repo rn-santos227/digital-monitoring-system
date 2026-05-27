@@ -35,12 +35,31 @@ const normalizeEquipmentCategoryQuery = (
   }
 }
 
+const normalizeEquipmentItemQuery = (
+  query: Partial<EquipmentItemSearchQuery>,
+): EquipmentItemSearchQuery => {
+  return {
+    page: query.page,
+    pageSize: query.pageSize,
+    term: query.term?.trim() || undefined,
+    fields: query.fields?.trim() || undefined,
+  }
+}
+
 export const hasEquipmentCategorySearchFilters = (
   query: Partial<EquipmentCategorySearchQuery>,
 ): boolean => {
   const normalizedQuery = normalizeEquipmentCategoryQuery(query)
 
   return Boolean(normalizedQuery.term) || typeof normalizedQuery.isActive === 'boolean'
+}
+
+export const hasEquipmentItemSearchFilters = (
+  query: Partial<EquipmentItemSearchQuery>,
+): boolean => {
+  const normalizedQuery = normalizeEquipmentItemQuery(query)
+
+  return Boolean(normalizedQuery.term)
 }
 
 export const getEquipmentCategoriesEndpoint = async (
@@ -55,6 +74,18 @@ export const getEquipmentCategoriesEndpoint = async (
   }, API_LOADING_MESSAGES.fetchEquipmentCategories)
 }
 
+export const getEquipmentItemsEndpoint = async (
+  query: EquipmentCategoryEndpointQuery,
+): Promise<EquipmentItemListResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentItemListResponse>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentItems, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentItems)
+}
+
 export const searchEquipmentCategoriesEndpoint = async (
   query: EquipmentCategorySearchQuery,
 ): Promise<EquipmentCategoryListResponse> => {
@@ -67,6 +98,20 @@ export const searchEquipmentCategoriesEndpoint = async (
       query: normalizedQuery,
     })
   }, API_LOADING_MESSAGES.fetchEquipmentCategories)
+}
+
+export const searchEquipmentItemsEndpoint = async (
+  query: EquipmentItemSearchQuery,
+): Promise<EquipmentItemListResponse> => {
+  const normalizedQuery = normalizeEquipmentItemQuery(query)
+
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentItemListResponse>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentItemsSearch, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query: normalizedQuery,
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentItems)
 }
 
 export const getEquipmentCategorySuggestionsEndpoint = async (
@@ -182,49 +227,4 @@ export const deleteEquipmentItemEndpoint = async (id: string): Promise<{ ok: boo
       method: 'DELETE', headers: createSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.deleteEquipmentItem)
-}
-
-const normalizeEquipmentItemQuery = (
-  query: Partial<EquipmentItemSearchQuery>,
-): EquipmentItemSearchQuery => {
-  return {
-    page: query.page,
-    pageSize: query.pageSize,
-    term: query.term?.trim() || undefined,
-    fields: query.fields?.trim() || undefined,
-  }
-}
-
-export const hasEquipmentItemSearchFilters = (
-  query: Partial<EquipmentItemSearchQuery>,
-): boolean => {
-  const normalizedQuery = normalizeEquipmentItemQuery(query)
-
-  return Boolean(normalizedQuery.term)
-}
-
-export const getEquipmentItemsEndpoint = async (
-  query: EquipmentCategoryEndpointQuery,
-): Promise<EquipmentItemListResponse> => {
-  return await withApiLoading(async () => {
-    return await $fetch<EquipmentItemListResponse>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentItems, {
-      method: 'GET',
-      headers: createSessionHeaders(),
-      query,
-    })
-  }, API_LOADING_MESSAGES.fetchEquipmentItems)
-}
-
-export const searchEquipmentItemsEndpoint = async (
-  query: EquipmentItemSearchQuery,
-): Promise<EquipmentItemListResponse> => {
-  const normalizedQuery = normalizeEquipmentItemQuery(query)
-
-  return await withApiLoading(async () => {
-    return await $fetch<EquipmentItemListResponse>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentItemsSearch, {
-      method: 'GET',
-      headers: createSessionHeaders(),
-      query: normalizedQuery,
-    })
-  }, API_LOADING_MESSAGES.fetchEquipmentItems)
 }
