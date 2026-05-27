@@ -1,9 +1,17 @@
 import type { Ref } from 'vue'
-import type { CreateEquipmentCategoryPayload } from '~/types/domain/equipment'
+import type {
+  CreateEquipmentCategoryPayload,
+  CreateEquipmentItemPayload,
+} from '~/types/domain/equipment'
 
 interface UseCreateEquipmentCategoryHandlerOptions {
   isCreateEquipmentCategoryModalOpen: Ref<boolean>
   createEquipmentCategory: (payload: CreateEquipmentCategoryPayload) => Promise<{ id: string }>
+}
+
+interface UseCreateEquipmentItemHandlerOptions {
+  isCreateEquipmentItemModalOpen: Ref<boolean>
+  createEquipmentItem: (payload: CreateEquipmentItemPayload) => Promise<{ id: string }>
 }
 
 export const useCreateEquipmentCategoryHandler = ({
