@@ -1,12 +1,20 @@
 <template>
-  <TemporaryRoutePage
-    :title="TEMPORARY_ROUTE_PAGE_CONTENT.equipmentAssets.title"
-    :subtitle="TEMPORARY_ROUTE_PAGE_CONTENT.equipmentAssets.subtitle"
-    :feature-label="TEMPORARY_ROUTE_PAGE_CONTENT.equipmentAssets.featureLabel"
-  />
+
 </template>
 
 <script setup lang="ts">
-import TemporaryRoutePage from '~/components/general/TemporaryRoutePage.vue'
-import { TEMPORARY_ROUTE_PAGE_CONTENT } from '~/constants/page.constants'
+import { computed } from 'vue'
+import KpiCard from '~/components/general/KpiCard.vue'
+import EquipmentAssetsFilter from '~/components/equipment/EquipmentAssetsFilter.vue'
+import EquipmentAssetsTable from '~/components/equipment/EquipmentAssetsTable.vue'
+import { useEquipmentAssets } from '~/composables/useEquipmentAssets'
+import {
+  EQUIPMENT_ASSETS_PAGE_SECTION_CLASSES,
+  EQUIPMENT_ASSETS_PAGE_SUBTITLE,
+  EQUIPMENT_ASSETS_PAGE_TITLE,
+  EQUIPMENT_CATEGORIES_PAGE_KPI_GRID_CLASSES,
+} from '~/constants/page.constants'
+import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
+import { useEquipmentSearchHandlers } from '~/handlers'
+import type { EquipmentAssetSearchQuery } from '~/types/domain/equipment'
 </script>
