@@ -158,6 +158,14 @@ export const deleteEquipmentCategoryEndpoint = async (
   }, API_LOADING_MESSAGES.deleteEquipmentCategory)
 }
 
+export const deleteEquipmentItemEndpoint = async (id: string): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentItemById(id), {
+      method: 'DELETE', headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.deleteEquipmentItem)
+}
+
 const normalizeEquipmentItemQuery = (
   query: Partial<EquipmentItemSearchQuery>,
 ): EquipmentItemSearchQuery => {
