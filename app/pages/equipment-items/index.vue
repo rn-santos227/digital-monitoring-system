@@ -8,7 +8,7 @@
 
       <BaseAlert v-if="error" :message="error" tone="danger" />
 
-      <EquipmentItemFilter :model-value="filters" @apply="onApply" @reset="onReset" />
+      <EquipmentItemsFilter :model-value="filters" @apply="onApply" @reset="onReset" />
 
       <EquipmentItemsTable
         :rows="tableRows"

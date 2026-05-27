@@ -183,6 +183,23 @@ export interface EquipmentItemListItem {
   updatedAt: string
 }
 
+export interface EquipmentItemSuggestionItem {
+  id: string
+  equipmentCode: string
+  name: string
+  isActive: boolean
+}
+
+export interface EquipmentItemSuggestionQuery {
+  term?: string
+  pageSize?: number
+  selectedId?: string
+}
+
+export interface EquipmentItemSuggestionResponse {
+  items: EquipmentItemSuggestionItem[]
+}
+
 export interface EquipmentItemSearchQuery extends EquipmentCategoryEndpointQuery {
   term?: string
   fields?: string
