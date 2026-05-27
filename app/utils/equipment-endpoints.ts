@@ -13,7 +13,12 @@ import type {
   EquipmentCategorySuggestionResponse,
   EquipmentItemListResponse,
   EquipmentItemSearchQuery,
+  EquipmentItemSuggestionQuery,
+  EquipmentItemSuggestionResponse,
+  CreateEquipmentItemPayload,
+  CreateEquipmentItemResponse,
   UpdateEquipmentCategoryPayload,
+  UpdateEquipmentItemPayload,
 } from '~/types/domain/equipment'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
