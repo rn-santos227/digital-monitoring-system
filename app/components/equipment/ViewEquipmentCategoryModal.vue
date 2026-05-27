@@ -26,6 +26,11 @@
       </dl>
     </BaseCard>
 
+    <EquipmentCategoryItemsTable
+      :rows="categoryItems"
+      :is-loading="isItemsLoading"
+    />
+
     <template #footer>
       <div class="flex justify-end">
         <BaseButton variant="ghost" @click="emit('close')">Close</BaseButton>
