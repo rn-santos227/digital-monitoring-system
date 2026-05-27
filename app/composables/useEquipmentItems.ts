@@ -41,5 +41,9 @@ export const useEquipmentItems = () => {
     isLoading,
     error,
     loadEquipmentItems,
+    createEquipmentItem: store.createEquipmentItem,
+    getEquipmentItemById: store.getEquipmentItemById,
+    updateEquipmentItem: store.updateEquipmentItem,
+    deleteEquipmentItem: store.deleteEquipmentItem,
   }
 }
