@@ -28,4 +28,17 @@ const onApply = async (value: Partial<EquipmentItemSearchQuery>) => {
 
   await loadEquipmentItems(1, result.filters)
 }
+
+const onReset = async () => {
+  const next = handleFilterReset()
+  await loadEquipmentItems(1, next)
+}
+
+const onPageChange = async (page: number) => {
+  await loadEquipmentItems(page)
+}
+
+const onPageSizeChange = async (pageSize: number) => {
+  await loadEquipmentItems(1, filters.value, pageSize)
+}
 </script>
