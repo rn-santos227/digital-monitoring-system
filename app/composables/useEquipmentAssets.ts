@@ -12,5 +12,10 @@ export const useEquipmentAssets = () => {
   const hasActiveFilters = computed(() => hasEquipmentAssetSearchFilters(filters.value))
   const tableRows = computed<EquipmentAssetTableRow[]>(() => [...items.value])
 
+  const loadEquipmentAssets = async (page = pagination.value.page, nextFilters: Partial<EquipmentAssetSearchQuery> = filters.value, pageSize = pagination.value.pageSize) => {
+    filters.value = { ...nextFilters }
+    await store.fetchEquipmentAssets(page, filters.value, pageSize)
+  }
 
+  onMounted(() => { void loadEquipmentAssets(1) })
 }
