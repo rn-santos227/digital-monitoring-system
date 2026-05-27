@@ -87,6 +87,24 @@ export const getEquipmentCategorySuggestionsEndpoint = async (
   }, API_LOADING_MESSAGES.fetchEquipmentCategories)
 }
 
+export const getEquipmentItemSuggestionsEndpoint = async (
+  query: EquipmentItemSuggestionQuery,
+): Promise<EquipmentItemSuggestionResponse> => {
+  const normalizedQuery = {
+    term: query.term?.trim() || undefined,
+    pageSize: query.pageSize,
+    selectedId: query.selectedId?.trim() || undefined,
+  }
+
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentItemSuggestionResponse>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentItemsSuggestions, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query: normalizedQuery,
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentItems)
+}
+
 export const createEquipmentCategoryEndpoint = async (
   body: CreateEquipmentCategoryPayload,
 ): Promise<CreateEquipmentCategoryResponse> => {
