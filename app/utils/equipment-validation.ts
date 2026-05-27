@@ -51,3 +51,40 @@ export const validateUpdateEquipmentCategoryForm = validateCreateEquipmentCatego
   errors: Record<string, string>
   payload: UpdateEquipmentCategoryPayload | null
 }
+
+export const validateCreateEquipmentItemForm = (form: {
+  equipmentCode: string
+  categoryId: string
+  name: string
+  model: string
+  manufacturer: string
+  description: string
+  unitOfMeasure: string
+  minimumStockLevel: number
+  isSerialized: boolean
+  isActive: boolean
+}) => {
+  const result = validateFields([
+    { field: 'equipmentCode', label: 'Equipment code', value: form.equipmentCode, required: true, maxLength: 40 },
+    { field: 'categoryId', label: 'Equipment category', value: form.categoryId, required: true },
+    { field: 'name', label: 'Item name', value: form.name, required: true, maxLength: 160 },
+  ])
+
+  return {
+    errors: result.errors,
+    payload: Object.keys(result.errors).length === 0 ? {
+      equipmentCode: result.values.equipmentCode ?? '',
+      categoryId: result.values.categoryId ?? '',
+      name: result.values.name ?? '',
+      model: form.model || undefined,
+      manufacturer: form.manufacturer || undefined,
+      description: form.description || undefined,
+      unitOfMeasure: form.unitOfMeasure || undefined,
+      minimumStockLevel: Number(form.minimumStockLevel) || 0,
+      isSerialized: form.isSerialized,
+      isActive: form.isActive,
+    } : null,
+  }
+}
+
+export const validateUpdateEquipmentItemForm = validateCreateEquipmentItemForm
