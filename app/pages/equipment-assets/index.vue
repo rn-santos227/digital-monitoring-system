@@ -25,4 +25,17 @@ const totalEquipmentAssetsKpi = computed(() => pagination.value.totalItems)
 const issuedEquipmentAssetsKpi = computed(() => {
   return tableRows.value.filter((item) => item.assetStatusName.toLowerCase().includes('issued')).length
 })
+
+const notIssuedEquipmentAssetsKpi = computed(() => {
+  return Math.max(0, totalEquipmentAssetsKpi.value - issuedEquipmentAssetsKpi.value)
+})
+
+const onApply = async (value: Partial<EquipmentAssetSearchQuery>) => {
+  const result = handleFilterApply(value)
+  if (!result.isValid) {
+    return
+  }
+  await loadEquipmentAssets(1, result.filters)
+}
+
 </script>
