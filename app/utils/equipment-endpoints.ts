@@ -11,6 +11,8 @@ import type {
   EquipmentCategorySearchQuery,
   EquipmentCategorySuggestionQuery,
   EquipmentCategorySuggestionResponse,
+  EquipmentAssetListResponse,
+  EquipmentAssetSearchQuery,
   EquipmentItemListResponse,
   EquipmentItemSearchQuery,
   EquipmentItemSuggestionQuery,
@@ -32,6 +34,17 @@ const normalizeEquipmentCategoryQuery = (
     term: query.term?.trim() || undefined,
     fields: query.fields?.trim() || undefined,
     isActive: typeof query.isActive === 'boolean' ? query.isActive : undefined,
+  }
+}
+
+const normalizeEquipmentAssetQuery = (
+  query: Partial<EquipmentAssetSearchQuery>,
+): EquipmentAssetSearchQuery => {
+  return {
+    page: query.page,
+    pageSize: query.pageSize,
+    term: query.term?.trim() || undefined,
+    fields: query.fields?.trim() || undefined,
   }
 }
 
