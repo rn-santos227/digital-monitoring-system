@@ -35,8 +35,34 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import EquipmentCategoryItemsTable from '~/components/equipment/views/EquipmentCategoryItemsTable.vue'
+import { getEquipmentItemsByCategoryEndpoint } from '~/utils/equipment-endpoints'
 import type { EquipmentCategoryDetailItem } from '~/types/domain/equipment'
 
-defineProps<{ category: EquipmentCategoryDetailItem }>()
+const props = defineProps<{ category: EquipmentCategoryDetailItem }>()
 const emit = defineEmits<{ (event: 'close'): void }>()
+
+const categoryItems = ref<import('~/types/domain/equipment').EquipmentItemListItem[]>([])
+const isItemsLoading = ref(false)
+
+const loadCategoryItems = async () => {
+  isItemsLoading.value = true
+
+  try {
+    const response = await getEquipmentItemsByCategoryEndpoint(props.category.id, {
+      page: 1,
+      pageSize: 100,
+    })
+    categoryItems.value = response.items
+  } catch {
+    categoryItems.value = []
+  } finally {
+    isItemsLoading.value = false
+  }
+}
+
+onMounted(() => {
+  void loadCategoryItems()
+})
 </script>
