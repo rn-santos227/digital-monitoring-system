@@ -139,6 +139,14 @@ export const updateEquipmentCategoryEndpoint = async (
   }, API_LOADING_MESSAGES.updateEquipmentCategory)
 }
 
+export const updateEquipmentItemEndpoint = async (id: string, body: UpdateEquipmentItemPayload): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentItemById(id), {
+      method: 'PATCH', headers: createSessionHeaders(), body,
+    })
+  }, API_LOADING_MESSAGES.updateEquipmentItem)
+}
+
 export const deleteEquipmentCategoryEndpoint = async (
   id: string,
 ): Promise<{ ok: boolean }> => {
