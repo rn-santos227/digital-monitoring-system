@@ -80,6 +80,7 @@ export const EQUIPMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   equipmentCategoriesSearch: '/api/equipment-categories/search',
   equipmentCategoriesSuggestions: '/api/equipment-categories/suggestions',
   equipmentCategoryById: (id: string) => `/api/equipment-categories/${id}`,
+  equipmentCategoryItemsById: (id: string) => `/api/equipment-categories/${id}/items`,
   equipmentItems: '/api/equipment-items',
   equipmentItemsSearch: '/api/equipment-items/search',
   equipmentItemsSuggestions: '/api/equipment-items/suggestions',
