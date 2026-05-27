@@ -42,11 +42,15 @@ export const useEquipmentCategorySuggestionsHandler = (modelValue: () => string 
     }
   }
 
-  watch(modelValue, async (nextValue) => {
-    if (nextValue && !handlers.suggestions.value.some((item) => item.id === nextValue)) {
-      await fetchSuggestions()
-    }
-  }, { immediate: true })
+  watch(
+    modelValue,
+    async (nextValue) => {
+      if (nextValue && !handlers.suggestions.value.some((item) => item.id === nextValue)) {
+        await fetchSuggestions()
+      }
+    },
+    { immediate: true },
+  )
 
   watchSuggestionsSearch(handlers.searchTerm, async () => {
     if (handlers.suppressNextSearch.value) {
