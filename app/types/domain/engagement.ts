@@ -110,3 +110,8 @@ export interface EngagementTablePagination {
   totalItems: number
   totalPages: number
 }
+
+export interface EngagementManagementKpiCounts {
+  totalEngagements: number
+  totalEngagementRecords: number
+}
