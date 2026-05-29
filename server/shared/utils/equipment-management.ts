@@ -1,3 +1,4 @@
+import { createError } from 'h3'
 import type {
   EquipmentAssetListItem,
   EquipmentAssetRow,
@@ -15,6 +16,40 @@ import type {
   EquipmentItemSuggestionRow,
 } from '../models'
 import { parseNumber } from './parsers'
+import { UUID_PATTERN } from './regex'
+
+interface EquipmentLookupSupabaseClient {
+  from: (table: 'asset_statuses' | 'condition_statuses' | 'serviceability_statuses') => {
+    select: (columns: 'id') => {
+      eq: (column: 'id' | 'name', value: string) => {
+        maybeSingle: () => Promise<{ data: { id: string } | null; error: { message: string } | null }>
+      }
+    }
+  }
+}
+
+const resolveEquipmentLookupId = async (
+  supabase: unknown,
+  table: 'asset_statuses' | 'condition_statuses' | 'serviceability_statuses',
+  value: string,
+  invalidMessage: string,
+): Promise<string> => {
+  const supabaseClient = supabase as EquipmentLookupSupabaseClient
+  const normalizedValue = value.trim()
+  const filterField: 'id' | 'name' = UUID_PATTERN.test(normalizedValue) ? 'id' : 'name'
+
+  const { data, error } = await supabaseClient
+    .from(table)
+    .select('id')
+    .eq(filterField, normalizedValue)
+    .maybeSingle()
+
+  if (error || !data?.id) {
+    throw createError({ statusCode: 400, statusMessage: invalidMessage })
+  }
+
+  return data.id
+}
 
 export const mapEquipmentCategoryListItem = (row: EquipmentCategoryRow): EquipmentCategoryListItem => ({
   id: row.id,
@@ -108,6 +143,33 @@ export const parseEquipmentItemSuggestionQuery = (query: {
   }
 }
 
+export const resolveEquipmentAssetStatusId = async (supabase: unknown, value: string): Promise<string> => {
+  return await resolveEquipmentLookupId(
+    supabase,
+    'asset_statuses',
+    value,
+    'Invalid asset status value.',
+  )
+}
+
+export const resolveEquipmentConditionStatusId = async (supabase: unknown, value: string): Promise<string> => {
+  return await resolveEquipmentLookupId(
+    supabase,
+    'condition_statuses',
+    value,
+    'Invalid condition status value.',
+  )
+}
+
+export const resolveEquipmentServiceabilityStatusId = async (supabase: unknown, value: string): Promise<string> => {
+  return await resolveEquipmentLookupId(
+    supabase,
+    'serviceability_statuses',
+    value,
+    'Invalid serviceability status value.',
+  )
+}
+
 export const mapEquipmentAssetListItem = (row: EquipmentAssetRow): EquipmentAssetListItem => {
   const equipmentItem = Array.isArray(row.equipment_item) ? (row.equipment_item[0] ?? null) : row.equipment_item
   const conditionStatus = Array.isArray(row.condition_status) ? (row.condition_status[0] ?? null) : row.condition_status
@@ -138,11 +200,21 @@ export const mapEquipmentAssetListItem = (row: EquipmentAssetRow): EquipmentAsse
   }
 }
 
-export const mapEquipmentAssetSuggestionItem = (row: EquipmentAssetSuggestionRow): EquipmentAssetSuggestionItem => ({
-  id: row.id,
-  assetTag: row.asset_tag,
-  equipmentItemName: Array.isArray(row.equipment_item) ? (row.equipment_item[0]?.name ?? '') : (row.equipment_item?.name ?? ''),
-})
+export const mapEquipmentAssetSuggestionItem = (row: EquipmentAssetSuggestionRow): EquipmentAssetSuggestionItem => {
+  const equipmentItem = Array.isArray(row.equipment_item)
+    ? (row.equipment_item[0] ?? null)
+    : row.equipment_item
+  const category = Array.isArray(equipmentItem?.category)
+    ? (equipmentItem.category[0] ?? null)
+    : (equipmentItem?.category ?? null)
+
+  return {
+    id: row.id,
+    assetTag: row.asset_tag,
+    equipmentItemName: equipmentItem?.name ?? '',
+    categoryName: category?.name ?? '',
+  }
+}
 
 const mapPersonnelDisplayName = (personnel: { personnel_code: string; first_name: string; middle_name: string | null; last_name: string } | null) => {
   if (!personnel) {
