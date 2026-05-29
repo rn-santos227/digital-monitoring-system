@@ -1,5 +1,6 @@
 import type { Ref } from 'vue'
 import type {
+  CreateEquipmentAssetPayload,
   CreateEquipmentCategoryPayload,
   CreateEquipmentItemPayload,
 } from '~/types/domain/equipment'
@@ -12,6 +13,11 @@ interface UseCreateEquipmentCategoryHandlerOptions {
 interface UseCreateEquipmentItemHandlerOptions {
   isCreateEquipmentItemModalOpen: Ref<boolean>
   createEquipmentItem: (payload: CreateEquipmentItemPayload) => Promise<{ id: string }>
+}
+
+interface UseCreateEquipmentAssetHandlerOptions {
+  isCreateEquipmentAssetModalOpen: Ref<boolean>
+  createEquipmentAsset: (payload: CreateEquipmentAssetPayload) => Promise<{ id: string }>
 }
 
 export const useCreateEquipmentCategoryHandler = ({
@@ -59,5 +65,29 @@ export const useCreateEquipmentItemHandler = ({
     onOpenCreateEquipmentItemModal,
     onCloseCreateEquipmentItemModal,
     onCreateEquipmentItem,
+  }
+}
+
+export const useCreateEquipmentAssetHandler = ({
+  isCreateEquipmentAssetModalOpen,
+  createEquipmentAsset,
+}: UseCreateEquipmentAssetHandlerOptions) => {
+  const onOpenCreateEquipmentAssetModal = () => {
+    isCreateEquipmentAssetModalOpen.value = true
+  }
+
+  const onCloseCreateEquipmentAssetModal = () => {
+    isCreateEquipmentAssetModalOpen.value = false
+  }
+
+  const onCreateEquipmentAsset = async (payload: CreateEquipmentAssetPayload) => {
+    await createEquipmentAsset(payload)
+    onCloseCreateEquipmentAssetModal()
+  }
+
+  return {
+    onOpenCreateEquipmentAssetModal,
+    onCloseCreateEquipmentAssetModal,
+    onCreateEquipmentAsset,
   }
 }
