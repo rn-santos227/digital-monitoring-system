@@ -3,6 +3,7 @@ import type {
   UnitPersonnelListItem,
   TrainingCategoryListItem,
   TrainingCategorySuggestionItem,
+  TrainingManagementKpiCounts,
   TrainingManagementListResponse,
   TrainingListItem,
   TrainingRecordListItem,
@@ -15,6 +16,7 @@ export type TrainingListResponse = TrainingManagementListResponse<TrainingListIt
 export type TrainingCategorySuggestionsResponse = TrainingManagementSuggestionResponse<TrainingCategorySuggestionItem>
 export type TrainingSuggestionsResponse = TrainingManagementSuggestionResponse<TrainingSuggestionItem>
 export type TrainingRecordListResponse = TrainingManagementListResponse<TrainingRecordListItem>
+export type TrainingManagementKpiApiResponse = TrainingManagementKpiCounts
 export interface TrainingRecordDetailResponse extends TrainingRecordListItem {}
 
 export interface CreateTrainingCategoryResponse {
