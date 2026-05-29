@@ -14,6 +14,13 @@ interface UseDeleteEquipmentItemHandlerOptions {
   onDeleteCancelled?: () => void
 }
 
+interface UseDeleteEquipmentAssetHandlerOptions {
+  deleteEquipmentAsset: (id: string) => Promise<void>
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
+  onDeleteSuccess?: () => void
+  onDeleteCancelled?: () => void
+}
+
 export const useDeleteEquipmentCategoryHandler = ({
   deleteEquipmentCategory,
   showDialog,
@@ -87,5 +94,43 @@ export const useDeleteEquipmentItemHandler = ({
 
   return {
     onDeleteEquipmentItem,
+  }
+}
+
+export const useDeleteEquipmentAssetHandler = ({
+  deleteEquipmentAsset,
+  showDialog,
+  onDeleteSuccess,
+  onDeleteCancelled,
+}: UseDeleteEquipmentAssetHandlerOptions) => {
+  const onDeleteEquipmentAsset = async (equipmentAssetId: string) => {
+    const result = await showDialog({
+      type: 'warning',
+      title: 'Delete equipment asset?',
+      message: 'This action cannot be undone. Do you want to continue?',
+      confirmLabel: 'Delete',
+      cancelLabel: 'Cancel',
+    })
+
+    if (!result.confirmed) {
+      onDeleteCancelled?.()
+      return
+    }
+
+    try {
+      await deleteEquipmentAsset(equipmentAssetId)
+      onDeleteSuccess?.()
+    } catch (error) {
+      await showErrorDialog({
+        showDialog,
+        title: 'Equipment asset deletion failed',
+        error,
+        fallbackMessage: 'Unable to delete equipment asset right now.',
+      })
+    }
+  }
+
+  return {
+    onDeleteEquipmentAsset,
   }
 }
