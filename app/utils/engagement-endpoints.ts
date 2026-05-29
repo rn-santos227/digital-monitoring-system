@@ -7,12 +7,14 @@ import type {
   CreateEngagementApiResponse,
   CreateEngagementRecordApiResponse,
   CreateEngagementRecordPayload,
+  EngagementManagementKpiCounts,
   EngagementManagementListItem,
   EngagementManagementListResponse,
   EngagementManagementSearchQuery,
   EngagementPersonnelListItem,
 } from '~/types/domain/engagement'
 import { withApiLoading } from '~/utils/api-request'
+import { createSessionHeaders } from '~/utils/auth-session'
 
 export const getEngagementsEndpoint = async (
   query: EngagementManagementSearchQuery,
@@ -24,6 +26,15 @@ export const getEngagementsEndpoint = async (
       query,
     })
   }, API_LOADING_MESSAGES.fetchEngagements)
+}
+
+export const getEngagementManagementKpisEndpoint = async (): Promise<EngagementManagementKpiCounts> => {
+  return await withApiLoading(async () => {
+    return await $fetch<EngagementManagementKpiCounts>(ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.kpis, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchEngagementManagementKpis)
 }
 
 export const searchEngagementsEndpoint = async (
