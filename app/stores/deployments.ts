@@ -4,6 +4,7 @@ import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-s
 import type {
   CreateDeploymentPayload,
   CreateDeploymentRecordPayload,
+  DeploymentManagementKpiCounts,
   DeploymentManagementListItem,
   DeploymentManagementSearchQuery,
   DeploymentTablePagination,
@@ -11,6 +12,8 @@ import type {
 } from '~/types/domain/deployment'
 import { 
   createDeploymentEndpoint,
+  getDeploymentByIdEndpoint,
+  getDeploymentManagementKpisEndpoint,
   getDeploymentRecordsEndpoint,
   getDeploymentsEndpoint,
   searchDeploymentsEndpoint,
@@ -31,6 +34,11 @@ const DEFAULT_PAGINATION: DeploymentTablePagination = {
   totalPages: 0,
 }
 
+const DEFAULT_DEPLOYMENT_MANAGEMENT_KPIS: DeploymentManagementKpiCounts = {
+  totalDeployments: 0,
+  totalDeploymentRecords: 0,
+}
+
 interface DeploymentsStoreState {
   deployments: {
     items: DeploymentManagementListItem[]
@@ -44,17 +52,42 @@ interface DeploymentsStoreState {
     isLoading: boolean
     error: string
   }
+  kpis: DeploymentManagementKpiCounts
+  hasLoadedKpis: boolean
 }
 
 export const useDeploymentsStore = defineStore('deployments', {
   state: (): DeploymentsStoreState => ({
     deployments: { items: [], pagination: { ...DEFAULT_PAGINATION }, isLoading: false, error: '' },
     records: { items: [], pagination: { ...DEFAULT_PAGINATION }, isLoading: false, error: '' },
+    kpis: { ...DEFAULT_DEPLOYMENT_MANAGEMENT_KPIS },
+    hasLoadedKpis: false,
   }),
   getters: {
     hasDeployments: state => state.deployments.items.length > 0,
+    deploymentManagementKpis: state => state.kpis,
   },
   actions: {
+    async fetchDeploymentManagementKpisOnce(
+      this: DeploymentsStoreState,
+    ) {
+      if (this.hasLoadedKpis) {
+        return
+      }
+
+      this.deployments.error = ''
+
+      try {
+        this.kpis = await getDeploymentManagementKpisEndpoint()
+        this.hasLoadedKpis = true
+      } catch (error) {
+        this.kpis = { ...DEFAULT_DEPLOYMENT_MANAGEMENT_KPIS }
+        this.hasLoadedKpis = false
+        this.deployments.error = extractApiErrorMessage(error, 'Unable to fetch deployment KPI counts.')
+        throw error
+      }
+    },
+
     async fetchDeployments(
       this: DeploymentsStoreState,
       page = 1,
@@ -110,6 +143,12 @@ export const useDeploymentsStore = defineStore('deployments', {
         ]
         this.deployments.pagination.totalItems += 1
         this.deployments.pagination.totalPages = Math.max(1, Math.ceil(this.deployments.pagination.totalItems / this.deployments.pagination.pageSize))
+        if (this.hasLoadedKpis) {
+          this.kpis = {
+            ...this.kpis,
+            totalDeployments: this.kpis.totalDeployments + 1,
+          }
+        }
         return { id: response.id }
       } catch (error) {
         this.deployments.error = extractApiErrorMessage(error, 'Unable to create deployment.')
@@ -127,6 +166,12 @@ export const useDeploymentsStore = defineStore('deployments', {
         ]
         this.records.pagination.totalItems += 1
         this.records.pagination.totalPages = Math.max(1, Math.ceil(this.records.pagination.totalItems / this.records.pagination.pageSize))
+        if (this.hasLoadedKpis) {
+          this.kpis = {
+            ...this.kpis,
+            totalDeploymentRecords: this.kpis.totalDeploymentRecords + 1,
+          }
+        }
         return { id: response.id }
       } catch (error) {
         this.records.error = extractApiErrorMessage(error, 'Unable to create deployment record.')
@@ -196,12 +241,19 @@ export const useDeploymentsStore = defineStore('deployments', {
     ) {
       this.deployments.error = ''
       try {
+        const deletedDeployment = this.deployments.items.find(item => item.id === id) ?? null
         await deleteDeploymentEndpoint(id)
         this.deployments.items = this.deployments.items.filter(item => item.id !== id)
         this.deployments.pagination.totalItems = Math.max(0, this.deployments.pagination.totalItems - 1)
         this.deployments.pagination.totalPages = this.deployments.pagination.totalItems === 0
           ? 0
           : Math.max(1, Math.ceil(this.deployments.pagination.totalItems / this.deployments.pagination.pageSize))
+        if (this.hasLoadedKpis && deletedDeployment) {
+          this.kpis = {
+            ...this.kpis,
+            totalDeployments: Math.max(0, this.kpis.totalDeployments - 1),
+          }
+        }
       } catch (error) {
         this.deployments.error = extractApiErrorMessage(error, 'Unable to delete deployment.')
         throw error
@@ -211,8 +263,22 @@ export const useDeploymentsStore = defineStore('deployments', {
     async deleteDeploymentRecord(this: DeploymentsStoreState, id: string) {
       this.records.error = ''
       try {
+        const previousLength = this.records.items.length
         await deleteDeploymentRecordEndpoint(id)
         this.records.items = this.records.items.filter(item => item.id !== id)
+        const deletedItemCount = previousLength - this.records.items.length
+        if (deletedItemCount > 0) {
+          this.records.pagination.totalItems = Math.max(0, this.records.pagination.totalItems - deletedItemCount)
+          this.records.pagination.totalPages = this.records.pagination.totalItems === 0
+            ? 0
+            : Math.max(1, Math.ceil(this.records.pagination.totalItems / this.records.pagination.pageSize))
+        }
+        if (this.hasLoadedKpis && deletedItemCount > 0) {
+          this.kpis = {
+            ...this.kpis,
+            totalDeploymentRecords: Math.max(0, this.kpis.totalDeploymentRecords - deletedItemCount),
+          }
+        }
       } catch (error) {
         this.records.error = extractApiErrorMessage(error, 'Unable to delete deployment record.')
         throw error
