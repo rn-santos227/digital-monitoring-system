@@ -15,6 +15,7 @@ import type {
   UnitEquipmentAssetListItem,
   UpdateBattalionPayload,
   UpdateCompanyPayload,
+  UnitManagementKpis,
   UnitListResponse,
   UnitPersonnelListItem,
   AssignUnitPersonnelPayload,
@@ -30,6 +31,15 @@ export const getBattalionsEndpoint = async (query: BattalionEndpointQuery): Prom
       query,
     })
   }, API_LOADING_MESSAGES.fetchBattalions)
+}
+
+export const getUnitManagementPageKpisEndpoint = async (): Promise<UnitManagementKpis> => {
+  return await withApiLoading(async () => {
+    return await $fetch<UnitManagementKpis>(UNIT_MANAGEMENT_API_ENDPOINTS.kpis, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchUnitManagementPageKpis)
 }
 
 export const searchBattalionsEndpoint = async (query: BattalionSearchQuery): Promise<UnitListResponse<BattalionListItem>> => {
