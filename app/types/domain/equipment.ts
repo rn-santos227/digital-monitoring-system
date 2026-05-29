@@ -187,6 +187,7 @@ export interface EquipmentItemSuggestionItem {
   id: string
   equipmentCode: string
   name: string
+  categoryName: string
   isActive: boolean
 }
 
@@ -266,12 +267,60 @@ export interface EquipmentAssetListItem {
   updatedAt: string
 }
 
+export interface EquipmentAssetKpiCounts {
+  totalAssets: number
+  issuedAssets: number
+  notIssuedAssets: number
+}
+
+export interface EquipmentAssetSuggestionItem {
+  id: string
+  assetTag: string
+  equipmentItemName: string
+  categoryName: string
+}
+
+export interface EquipmentAssetSuggestionQuery {
+  term?: string
+  pageSize?: number
+  selectedId?: string
+}
+
+export interface EquipmentAssetSuggestionResponse {
+  items: EquipmentAssetSuggestionItem[]
+}
+
 export interface EquipmentAssetSearchQuery extends EquipmentCategoryEndpointQuery {
   term?: string
   fields?: string
 }
 
+export interface EquipmentAssetFormValues {
+  assetTag: string
+  equipmentItemId: string
+  serialNo: string
+  batchNo: string
+  procurementDate: string
+  acquisitionCost: number | null
+  fundSource: string
+  currentLocation: string
+  conditionStatusId: string
+  serviceabilityStatusId: string
+  assetStatusId: string
+  remarks: string
+}
+
 export interface EquipmentAssetTableRow extends EquipmentAssetListItem {}
+
+export type EquipmentAssetTableActionKey =
+  | 'view-equipment-asset'
+  | 'edit-equipment-asset'
+  | 'delete-equipment-asset'
+
+export interface EquipmentAssetTableActionPayload {
+  actionKey: EquipmentAssetTableActionKey
+  row: EquipmentAssetTableRow
+}
 
 export interface EquipmentAssetListResponse {
   items: EquipmentAssetListItem[]
@@ -281,8 +330,33 @@ export interface EquipmentAssetListResponse {
   totalPages: number
 }
 
+export interface CreateEquipmentAssetPayload {
+  assetTag: string
+  equipmentItemId: string
+  serialNo?: string | null
+  batchNo?: string | null
+  procurementDate?: string | null
+  acquisitionCost?: number | null
+  fundSource?: string | null
+  currentLocation?: string | null
+  conditionStatusId?: string | null
+  serviceabilityStatusId?: string | null
+  assetStatusId: string
+  remarks?: string | null
+}
+
+export interface UpdateEquipmentAssetPayload extends Partial<CreateEquipmentAssetPayload> {}
+
+export interface CreateEquipmentAssetResponse {
+  ok: boolean
+  id: string
+  item: EquipmentAssetListItem
+}
+
 export interface EquipmentAssetsState {
   items: EquipmentAssetListItem[]
+  kpis: EquipmentAssetKpiCounts
+  hasLoadedKpis: boolean
   pagination: {
     page: number
     pageSize: number
