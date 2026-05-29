@@ -132,3 +132,8 @@ export interface DeploymentTablePagination {
   totalItems: number
   totalPages: number
 }
+
+export interface DeploymentManagementKpiCounts {
+  totalDeployments: number
+  totalDeploymentRecords: number
+}
