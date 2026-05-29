@@ -9,8 +9,12 @@ import { mapEquipmentAssetSuggestionItem, parseEquipmentItemSuggestionQuery } fr
 export default defineEventHandler(async (event): Promise<EquipmentAssetSuggestionApiResponse> => {
   await requirePermission(event, PERMISSION_CODES.equipmentView)
   const query = getQuery(event)
-  const { term, pageSize } = parseEquipmentItemSuggestionQuery({ term: query.term, pageSize: query.pageSize })
+  const { term, pageSize, selectedId } = parseEquipmentItemSuggestionQuery({
+    term: query.term,
+    pageSize: query.pageSize,
+    selectedId: query.selectedId,
+  })
   const supabase = getServiceSupabaseClient()
-  const rows = await fetchEquipmentAssetSuggestions(supabase, term, pageSize)
+  const rows = await fetchEquipmentAssetSuggestions(supabase, term, pageSize, selectedId)
   return { items: rows.map(mapEquipmentAssetSuggestionItem) }
 })
