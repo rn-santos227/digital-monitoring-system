@@ -194,6 +194,7 @@ export interface EquipmentAssetSuggestionItem {
   id: string
   assetTag: string
   equipmentItemName: string
+  categoryName: string
 }
 
 export interface EquipmentAssetCreate {
@@ -238,7 +239,13 @@ export interface EquipmentAssetRow {
 export interface EquipmentAssetSuggestionRow {
   id: string
   asset_tag: string
-  equipment_item: { name: string } | { name: string }[] | null
+  equipment_item: {
+    name: string
+    category: { name: string } | { name: string }[] | null
+  } | {
+    name: string
+    category: { name: string } | { name: string }[] | null
+  }[] | null
 }
 
 export interface EquipmentAssetListResponse {
@@ -247,6 +254,12 @@ export interface EquipmentAssetListResponse {
   pageSize: number
   totalItems: number
   totalPages: number
+}
+
+export interface EquipmentAssetKpiCounts {
+  totalAssets: number
+  issuedAssets: number
+  notIssuedAssets: number
 }
 
 export interface EquipmentAssetSuggestionResponse {
