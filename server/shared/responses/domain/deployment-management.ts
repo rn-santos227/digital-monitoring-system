@@ -1,4 +1,5 @@
 import type {
+  DeploymentManagementKpiCounts,
   DeploymentRecordListItem,
   DeploymentSuggestionItem,
   UnitListResponse,
@@ -20,6 +21,8 @@ export interface DeploymentListResponse {
   totalItems: number
   totalPages: number
 }
+
+export type DeploymentManagementKpiApiResponse = DeploymentManagementKpiCounts
 
 export interface DeploymentRecordDetailResponse extends DeploymentRecordListItem {}
 
