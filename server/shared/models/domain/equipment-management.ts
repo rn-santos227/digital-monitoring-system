@@ -62,6 +62,11 @@ export interface EquipmentCategoryListResponse {
   totalPages: number
 }
 
+export interface EquipmentCategoryKpiCounts {
+  totalCategories: number
+  unusedCategories: number
+}
+
 export interface EquipmentCategorySuggestionResponse {
   items: EquipmentCategorySuggestionItem[]
 }
@@ -161,6 +166,10 @@ export interface EquipmentItemListResponse {
   pageSize: number
   totalItems: number
   totalPages: number
+}
+
+export interface EquipmentItemKpiCounts {
+  totalItems: number
 }
 
 export interface EquipmentItemSuggestionResponse {
