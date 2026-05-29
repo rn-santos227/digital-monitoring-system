@@ -6,6 +6,7 @@ import type {
   BattalionSuggestionItem,
   CompanySuggestionItem,
   UnitEquipmentAssetListItem,
+  UnitManagementKpiCounts,
   UnitListResponse,
   UnitPersonnelListItem,
   UnitSuggestionResponse,
@@ -13,6 +14,7 @@ import type {
 
 export type BattalionListResponse = UnitListResponse<BattalionListItem>
 export type CompanyListResponse = UnitListResponse<CompanyListItem>
+export type UnitManagementKpiApiResponse = UnitManagementKpiCounts
 
 export type BattalionDetailResponse = BattalionDetailItem
 export type CompanyDetailResponse = CompanyDetailItem
