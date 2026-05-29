@@ -1,4 +1,4 @@
-import type { PersonnelDeploymentLocationItem, PersonnelRelationshipKey } from '../../models'
+import type { PersonnelDeploymentLocationItem, PersonnelKpiCounts, PersonnelRelationshipKey } from '../../models'
 
 export interface PersonnelListItemCompact {
   id: string
@@ -19,6 +19,8 @@ export interface PersonnelListCompactResponse {
   totalItems: number
   totalPages: number
 }
+
+export type PersonnelKpiApiResponse = PersonnelKpiCounts
 
 export interface PersonnelDetailResponse {
   id: string
