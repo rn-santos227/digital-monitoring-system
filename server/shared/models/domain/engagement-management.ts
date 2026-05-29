@@ -101,6 +101,11 @@ export interface EngagementRecordListItem {
   updatedAt: string
 }
 
+export interface EngagementManagementKpiCounts {
+  totalEngagements: number
+  totalEngagementRecords: number
+}
+
 export interface EngagementReferenceRow {
   id: string
   code?: string
