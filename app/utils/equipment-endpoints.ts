@@ -9,6 +9,7 @@ import type {
   CreateEquipmentAssetResponse,
   EquipmentCategoryDetailItem,
   EquipmentCategoryEndpointQuery,
+  EquipmentCategoryKpiCounts,
   EquipmentCategoryListResponse,
   EquipmentCategorySearchQuery,
   EquipmentCategorySuggestionQuery,
@@ -19,6 +20,7 @@ import type {
   EquipmentAssetSearchQuery,
   EquipmentAssetSuggestionQuery,
   EquipmentAssetSuggestionResponse,
+  EquipmentItemKpiCounts,
   EquipmentItemListItem,
   EquipmentItemListResponse,
   EquipmentItemSearchQuery,
@@ -122,6 +124,24 @@ export const getEquipmentAssetKpisEndpoint = async (): Promise<EquipmentAssetKpi
       headers: createSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchEquipmentAssetKpis)
+}
+
+export const getEquipmentCategoryKpisEndpoint = async (): Promise<EquipmentCategoryKpiCounts> => {
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentCategoryKpiCounts>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentCategoriesKpis, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentCategoryKpis)
+}
+
+export const getEquipmentItemKpisEndpoint = async (): Promise<EquipmentItemKpiCounts> => {
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentItemKpiCounts>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentItemsKpis, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentItemKpis)
 }
 
 export const getEquipmentItemsEndpoint = async (
