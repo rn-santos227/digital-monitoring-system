@@ -1,6 +1,7 @@
 import type {
   EquipmentAssetListItem,
   EquipmentAssetListResponse,
+  EquipmentAssetKpiCounts,
   EquipmentAssetSuggestionResponse,
   EquipmentCategoryListItem,
   EquipmentCategoryListResponse,
@@ -37,6 +38,7 @@ export interface CreateEquipmentAssetApiResponse {
 }
 
 export type EquipmentAssetListApiResponse = EquipmentAssetListResponse
+export type EquipmentAssetKpiApiResponse = EquipmentAssetKpiCounts
 export type EquipmentAssetSuggestionApiResponse = EquipmentAssetSuggestionResponse
 
 export interface CreateEquipmentIssuanceApiResponse {
