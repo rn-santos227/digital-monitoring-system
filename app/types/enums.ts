@@ -64,9 +64,29 @@ export const ENGAGEMENT_TYPE_VALUES = Object.freeze([
 ] as const)
 export type EngagementTypeName = (typeof ENGAGEMENT_TYPE_VALUES)[number]
 
-export type ConditionStatusName = 'Excellent' | 'Good' | 'Fair' | 'Damaged'
-export type ServiceabilityStatusName = 'Serviceable' | 'Limited Serviceability' | 'Unserviceable'
-export type AssetStatusName = 'In Stock' | 'Issued' | 'Lost' | 'Under Repair' | 'Condemned'
+export const CONDITION_STATUS_VALUES = Object.freeze([
+  'Excellent',
+  'Good',
+  'Fair',
+  'Damaged',
+] as const)
+export type ConditionStatusName = (typeof CONDITION_STATUS_VALUES)[number]
+
+export const SERVICEABILITY_STATUS_VALUES = Object.freeze([
+  'Serviceable',
+  'Limited Serviceability',
+  'Unserviceable',
+] as const)
+export type ServiceabilityStatusName = (typeof SERVICEABILITY_STATUS_VALUES)[number]
+
+export const ASSET_STATUS_VALUES = Object.freeze([
+  'In Stock',
+  'Issued',
+  'Lost',
+  'Under Repair',
+  'Condemned',
+] as const)
+export type AssetStatusName = (typeof ASSET_STATUS_VALUES)[number]
 export type IssuanceStatusName = 'Issued' | 'Returned' | 'Overdue'
 export type MaintenanceTypeName = 'Preventive' | 'Corrective' | 'Inspection' | 'Calibration'
 export type InvestigationStatusName = 'Reported' | 'Under Investigation' | 'Resolved' | 'Closed'
@@ -117,4 +137,3 @@ export const DENSITY_OPTIONS = Object.freeze([
   { value: 'comfortable', label: 'Comfortable' },
   { value: 'spacious', label: 'Spacious' },
 ] as const)
-
