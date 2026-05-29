@@ -5,20 +5,28 @@ import {
 import type {
   CreateEquipmentCategoryPayload,
   CreateEquipmentCategoryResponse,
+  CreateEquipmentAssetPayload,
+  CreateEquipmentAssetResponse,
   EquipmentCategoryDetailItem,
   EquipmentCategoryEndpointQuery,
   EquipmentCategoryListResponse,
   EquipmentCategorySearchQuery,
   EquipmentCategorySuggestionQuery,
   EquipmentCategorySuggestionResponse,
+  EquipmentAssetKpiCounts,
+  EquipmentAssetListItem,
   EquipmentAssetListResponse,
   EquipmentAssetSearchQuery,
+  EquipmentAssetSuggestionQuery,
+  EquipmentAssetSuggestionResponse,
+  EquipmentItemListItem,
   EquipmentItemListResponse,
   EquipmentItemSearchQuery,
   EquipmentItemSuggestionQuery,
   EquipmentItemSuggestionResponse,
   CreateEquipmentItemPayload,
   CreateEquipmentItemResponse,
+  UpdateEquipmentAssetPayload,
   UpdateEquipmentCategoryPayload,
   UpdateEquipmentItemPayload,
 } from '~/types/domain/equipment'
@@ -105,6 +113,15 @@ export const getEquipmentAssetsEndpoint = async (
       query,
     })
   }, API_LOADING_MESSAGES.fetchEquipmentAssets)
+}
+
+export const getEquipmentAssetKpisEndpoint = async (): Promise<EquipmentAssetKpiCounts> => {
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentAssetKpiCounts>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentAssetsKpis, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentAssetKpis)
 }
 
 export const getEquipmentItemsEndpoint = async (
@@ -197,6 +214,24 @@ export const getEquipmentItemSuggestionsEndpoint = async (
   }, API_LOADING_MESSAGES.fetchEquipmentItems)
 }
 
+export const getEquipmentAssetSuggestionsEndpoint = async (
+  query: EquipmentAssetSuggestionQuery,
+): Promise<EquipmentAssetSuggestionResponse> => {
+  const normalizedQuery = {
+    term: query.term?.trim() || undefined,
+    pageSize: query.pageSize,
+    selectedId: query.selectedId?.trim() || undefined,
+  }
+
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentAssetSuggestionResponse>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentAssetsSuggestions, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query: normalizedQuery,
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentAssets)
+}
+
 export const createEquipmentCategoryEndpoint = async (
   body: CreateEquipmentCategoryPayload,
 ): Promise<CreateEquipmentCategoryResponse> => {
@@ -215,6 +250,16 @@ export const createEquipmentItemEndpoint = async (body: CreateEquipmentItemPaylo
       method: 'POST', headers: createSessionHeaders(), body,
     })
   }, API_LOADING_MESSAGES.createEquipmentItem)
+}
+
+export const createEquipmentAssetEndpoint = async (body: CreateEquipmentAssetPayload): Promise<CreateEquipmentAssetResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<CreateEquipmentAssetResponse>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentAssets, {
+      method: 'POST',
+      headers: createSessionHeaders(),
+      body,
+    })
+  }, API_LOADING_MESSAGES.createEquipmentAsset)
 }
 
 export const getEquipmentCategoryByIdEndpoint = async (
@@ -241,12 +286,21 @@ export const getEquipmentItemsByCategoryEndpoint = async (
   }, API_LOADING_MESSAGES.fetchEquipmentItems)
 }
 
-export const getEquipmentItemByIdEndpoint = async (id: string): Promise<{ item: import('~/types/domain/equipment').EquipmentItemListItem }> => {
+export const getEquipmentItemByIdEndpoint = async (id: string): Promise<{ item: EquipmentItemListItem }> => {
   return await withApiLoading(async () => {
-    return await $fetch<{ item: import('~/types/domain/equipment').EquipmentItemListItem }>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentItemById(id), {
+    return await $fetch<{ item: EquipmentItemListItem }>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentItemById(id), {
       method: 'GET', headers: createSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchEquipmentItems)
+}
+
+export const getEquipmentAssetByIdEndpoint = async (id: string): Promise<{ item: EquipmentAssetListItem }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ item: EquipmentAssetListItem }>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentAssetById(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentAssets)
 }
 
 export const updateEquipmentCategoryEndpoint = async (
@@ -270,6 +324,16 @@ export const updateEquipmentItemEndpoint = async (id: string, body: UpdateEquipm
   }, API_LOADING_MESSAGES.updateEquipmentItem)
 }
 
+export const updateEquipmentAssetEndpoint = async (id: string, body: UpdateEquipmentAssetPayload): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentAssetById(id), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body,
+    })
+  }, API_LOADING_MESSAGES.updateEquipmentAsset)
+}
+
 export const deleteEquipmentCategoryEndpoint = async (
   id: string,
 ): Promise<{ ok: boolean }> => {
@@ -287,4 +351,13 @@ export const deleteEquipmentItemEndpoint = async (id: string): Promise<{ ok: boo
       method: 'DELETE', headers: createSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.deleteEquipmentItem)
+}
+
+export const deleteEquipmentAssetEndpoint = async (id: string): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentAssetById(id), {
+      method: 'DELETE',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.deleteEquipmentAsset)
 }
