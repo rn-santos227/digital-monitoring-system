@@ -13,6 +13,7 @@ import type {
   UserAccountsEndpointQuery,
   UserAccountsSearchQuery,
   UserAccountsEndpointResponse,
+  UserManagementKpiCounts,
   PrivilegesEndpointResponse,
   UpdateAccountTypePayload,
   UserAccountDetailEndpointResponse,
@@ -38,6 +39,15 @@ export const getUserProfilesEndpoint = async (query: UserProfilesEndpointQuery):
       query,
     })
   }, API_LOADING_MESSAGES.fetchUserProfiles)
+}
+
+export const getUserManagementKpisEndpoint = async (): Promise<UserManagementKpiCounts> => {
+  return await withApiLoading(async () => {
+    return await $fetch<UserManagementKpiCounts>(USER_MANAGEMENT_API_ENDPOINTS.kpis, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchUserManagementKpis)
 }
 
 export const searchUserAccountsEndpoint = async (query: UserAccountsSearchQuery): Promise<UserAccountsEndpointResponse> => {
