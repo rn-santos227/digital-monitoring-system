@@ -114,6 +114,13 @@ export interface PersonnelTablePagination {
   totalPages: number
 }
 
+export interface PersonnelKpiCounts {
+  totalPersonnel: number
+  deployedPersonnel: number
+  totalRanks: number
+  unusedRanks: number
+}
+
 export interface PersonnelTableRow {
   id: string
   personnelCode: string
@@ -127,6 +134,8 @@ export interface PersonnelTableRow {
 
 export interface PersonnelState {
   items: PersonnelListCompactItem[]
+  kpis: PersonnelKpiCounts
+  hasLoadedKpis: boolean
   pagination: PersonnelTablePagination
   isLoading: boolean
   error: string
