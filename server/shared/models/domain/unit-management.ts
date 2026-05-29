@@ -39,6 +39,12 @@ export interface CompanyDetailItem extends CompanyListItem {
   equipmentAssetCount: number
 }
 
+export interface UnitManagementKpiCounts {
+  totalCompanies: number
+  totalBattalions: number
+  totalUnassignedPersonnel: number
+}
+
 export interface BattalionRow {
   id: string
   code: string
