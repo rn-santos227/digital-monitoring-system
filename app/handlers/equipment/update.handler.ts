@@ -1,8 +1,11 @@
 import { computed } from 'vue'
 import type { ComputedRef, Ref } from 'vue'
 import type {
+  EquipmentAssetFormValues,
+  EquipmentAssetListItem,
   EquipmentCategoryDetailItem,
   EquipmentItemListItem,
+  UpdateEquipmentAssetPayload,
   UpdateEquipmentCategoryPayload,
   UpdateEquipmentItemPayload,
 } from '~/types/domain/equipment'
@@ -19,6 +22,13 @@ interface UseUpdateEquipmentItemHandlerOptions {
   selectedEquipmentItem: Ref<EquipmentItemListItem | null>
   getEquipmentItemById: (id: string) => Promise<EquipmentItemListItem>
   updateEquipmentItem: (id: string, payload: UpdateEquipmentItemPayload) => Promise<void>
+}
+
+interface UseUpdateEquipmentAssetHandlerOptions {
+  isUpdateEquipmentAssetModalOpen: Ref<boolean>
+  selectedEquipmentAsset: Ref<EquipmentAssetListItem | null>
+  getEquipmentAssetById: (id: string) => Promise<EquipmentAssetListItem>
+  updateEquipmentAsset: (id: string, payload: UpdateEquipmentAssetPayload) => Promise<void>
 }
 
 export const useUpdateEquipmentCategoryHandler = ({
@@ -111,5 +121,55 @@ export const useUpdateEquipmentItemHandler = ({
     onOpenUpdateEquipmentItemModal,
     onUpdateEquipmentItem,
     selectedEquipmentItemFormValues,
+  }
+}
+
+export const useUpdateEquipmentAssetHandler = ({
+  isUpdateEquipmentAssetModalOpen,
+  selectedEquipmentAsset,
+  getEquipmentAssetById,
+  updateEquipmentAsset,
+}: UseUpdateEquipmentAssetHandlerOptions) => {
+  const closeUpdateEquipmentAssetModal = () => {
+    isUpdateEquipmentAssetModalOpen.value = false
+    selectedEquipmentAsset.value = null
+  }
+
+  const onOpenUpdateEquipmentAssetModal = async (equipmentAssetId: string) => {
+    selectedEquipmentAsset.value = await getEquipmentAssetById(equipmentAssetId)
+    isUpdateEquipmentAssetModalOpen.value = true
+  }
+
+  const onUpdateEquipmentAsset = async (payload: UpdateEquipmentAssetPayload) => {
+    const equipmentAssetId = selectedEquipmentAsset.value?.id
+
+    if (!equipmentAssetId) {
+      return
+    }
+
+    await updateEquipmentAsset(equipmentAssetId, payload)
+    closeUpdateEquipmentAssetModal()
+  }
+
+  const selectedEquipmentAssetFormValues: ComputedRef<EquipmentAssetFormValues> = computed(() => ({
+    assetTag: selectedEquipmentAsset.value?.assetTag ?? '',
+    equipmentItemId: selectedEquipmentAsset.value?.equipmentItemId ?? '',
+    serialNo: selectedEquipmentAsset.value?.serialNo ?? '',
+    batchNo: selectedEquipmentAsset.value?.batchNo ?? '',
+    procurementDate: selectedEquipmentAsset.value?.procurementDate ?? '',
+    acquisitionCost: selectedEquipmentAsset.value?.acquisitionCost ?? null,
+    fundSource: selectedEquipmentAsset.value?.fundSource ?? '',
+    currentLocation: selectedEquipmentAsset.value?.currentLocation ?? '',
+    conditionStatusId: selectedEquipmentAsset.value?.conditionStatusName ?? '',
+    serviceabilityStatusId: selectedEquipmentAsset.value?.serviceabilityStatusName ?? '',
+    assetStatusId: selectedEquipmentAsset.value?.assetStatusName ?? 'In Stock',
+    remarks: selectedEquipmentAsset.value?.remarks ?? '',
+  }))
+
+  return {
+    closeUpdateEquipmentAssetModal,
+    onOpenUpdateEquipmentAssetModal,
+    onUpdateEquipmentAsset,
+    selectedEquipmentAssetFormValues,
   }
 }
