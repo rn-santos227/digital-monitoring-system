@@ -4,6 +4,7 @@ import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-s
 import type {
   CreateEngagementPayload,
   CreateEngagementRecordPayload,
+  EngagementManagementKpiCounts,
   EngagementManagementListItem,
   EngagementManagementSearchQuery,
   EngagementPersonnelListItem,
@@ -15,6 +16,7 @@ import {
   deleteEngagementEndpoint,
   deleteEngagementRecordEndpoint,
   getEngagementByIdEndpoint,
+  getEngagementManagementKpisEndpoint,
   getEngagementRecordByIdEndpoint,
   getEngagementPersonnelEndpoint,
   getEngagementRecordsEndpoint,
@@ -32,6 +34,11 @@ const DEFAULT_PAGINATION: EngagementTablePagination = {
   totalPages: 0,
 }
 
+const DEFAULT_ENGAGEMENT_MANAGEMENT_KPIS: EngagementManagementKpiCounts = {
+  totalEngagements: 0,
+  totalEngagementRecords: 0,
+}
+
 interface EngagementsStoreSection {
   items: EngagementManagementListItem[]
   pagination: EngagementTablePagination
@@ -42,6 +49,8 @@ interface EngagementsStoreSection {
 interface EngagementsStoreState {
   engagements: EngagementsStoreSection
   records: EngagementsStoreSection
+  kpis: EngagementManagementKpiCounts
+  hasLoadedKpis: boolean
   selectedEngagement: EngagementManagementListItem | null
   engagementPersonnel: EngagementPersonnelListItem[]
 }
@@ -60,6 +69,8 @@ export const useEngagementsStore = defineStore('engagements', {
       isLoading: false,
       error: '',
     },
+    kpis: { ...DEFAULT_ENGAGEMENT_MANAGEMENT_KPIS },
+    hasLoadedKpis: false,
     selectedEngagement: null,
     engagementPersonnel: [],
   }),
@@ -67,9 +78,28 @@ export const useEngagementsStore = defineStore('engagements', {
   getters: {
     hasEngagements: state => state.engagements.items.length > 0,
     hasRecords: state => state.records.items.length > 0,
+    engagementManagementKpis: state => state.kpis,
   },
 
   actions: {
+    async fetchEngagementManagementKpisOnce(this: EngagementsStoreState) {
+      if (this.hasLoadedKpis) {
+        return
+      }
+
+      this.engagements.error = ''
+
+      try {
+        this.kpis = await getEngagementManagementKpisEndpoint()
+        this.hasLoadedKpis = true
+      } catch (error) {
+        this.kpis = { ...DEFAULT_ENGAGEMENT_MANAGEMENT_KPIS }
+        this.hasLoadedKpis = false
+        this.engagements.error = extractApiErrorMessage(error, 'Unable to fetch engagement KPI counts.')
+        throw error
+      }
+    },
+
     async fetchEngagements(this: EngagementsStoreState, page = 1, filters: Partial<EngagementManagementSearchQuery> = {}, pageSize?: number) {
       this.engagements.isLoading = true
       this.engagements.error = ''
@@ -115,6 +145,13 @@ export const useEngagementsStore = defineStore('engagements', {
           Math.ceil(this.engagements.pagination.totalItems / this.engagements.pagination.pageSize),
         )
 
+        if (this.hasLoadedKpis) {
+          this.kpis = {
+            ...this.kpis,
+            totalEngagements: this.kpis.totalEngagements + 1,
+          }
+        }
+
         return { id: response.id }
       } catch (error) {
         this.engagements.error = extractApiErrorMessage(error, 'Unable to create engagement.')
@@ -129,6 +166,12 @@ export const useEngagementsStore = defineStore('engagements', {
         this.records.items = [response.item, ...this.records.items]
         this.records.pagination.totalItems += 1
         this.records.pagination.totalPages = Math.max(1, Math.ceil(this.records.pagination.totalItems / this.records.pagination.pageSize))
+        if (this.hasLoadedKpis) {
+          this.kpis = {
+            ...this.kpis,
+            totalEngagementRecords: this.kpis.totalEngagementRecords + 1,
+          }
+        }
         return { id: response.id }
       } catch (error) {
         this.records.error = extractApiErrorMessage(error, 'Unable to create engagement record.')
@@ -153,9 +196,20 @@ export const useEngagementsStore = defineStore('engagements', {
       this.engagements.error = ''
 
       try {
+        const deletedEngagement = this.engagements.items.find(item => item.id === id) ?? null
         await deleteEngagementEndpoint(id)
         this.engagements.items = this.engagements.items.filter(item => item.id !== id)
         this.engagements.pagination.totalItems = Math.max(0, this.engagements.pagination.totalItems - 1)
+        this.engagements.pagination.totalPages = this.engagements.pagination.totalItems === 0
+          ? 0
+          : Math.max(1, Math.ceil(this.engagements.pagination.totalItems / this.engagements.pagination.pageSize))
+
+        if (this.hasLoadedKpis && deletedEngagement) {
+          this.kpis = {
+            ...this.kpis,
+            totalEngagements: Math.max(0, this.kpis.totalEngagements - 1),
+          }
+        }
       } catch (error) {
         this.engagements.error = extractApiErrorMessage(error, 'Unable to delete engagement.')
         throw error
@@ -188,9 +242,22 @@ export const useEngagementsStore = defineStore('engagements', {
     async deleteEngagementRecord(this: EngagementsStoreState, id: string): Promise<void> {
       this.records.error = ''
       try {
+        const previousLength = this.records.items.length
         await deleteEngagementRecordEndpoint(id)
         this.records.items = this.records.items.filter(item => item.id !== id)
-        this.records.pagination.totalItems = Math.max(0, this.records.pagination.totalItems - 1)
+        const deletedItemCount = previousLength - this.records.items.length
+        if (deletedItemCount > 0) {
+          this.records.pagination.totalItems = Math.max(0, this.records.pagination.totalItems - deletedItemCount)
+          this.records.pagination.totalPages = this.records.pagination.totalItems === 0
+            ? 0
+            : Math.max(1, Math.ceil(this.records.pagination.totalItems / this.records.pagination.pageSize))
+        }
+        if (this.hasLoadedKpis && deletedItemCount > 0) {
+          this.kpis = {
+            ...this.kpis,
+            totalEngagementRecords: Math.max(0, this.kpis.totalEngagementRecords - deletedItemCount),
+          }
+        }
       } catch (error) {
         this.records.error = extractApiErrorMessage(error, 'Unable to delete engagement record.')
         throw error
