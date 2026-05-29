@@ -135,6 +135,11 @@ export interface EquipmentCategoryListResponse {
   totalPages: number
 }
 
+export interface EquipmentCategoryKpiCounts {
+  totalCategories: number
+  unusedCategories: number
+}
+
 export interface CreateEquipmentCategoryPayload {
   code: string
   name: string
@@ -155,6 +160,8 @@ export interface CreateEquipmentCategoryResponse {
 
 export interface EquipmentCategoriesState {
   items: EquipmentCategoryListItem[]
+  kpis: EquipmentCategoryKpiCounts
+  hasLoadedKpis: boolean
   pagination: {
     page: number
     pageSize: number
@@ -221,6 +228,10 @@ export interface EquipmentItemListResponse {
   pageSize: number
   totalItems: number
   totalPages: number
+}
+
+export interface EquipmentItemKpiCounts {
+  totalItems: number
 }
 
 export interface CreateEquipmentItemPayload {
@@ -369,6 +380,8 @@ export interface EquipmentAssetsState {
 
 export interface EquipmentItemsState {
   items: EquipmentItemListItem[]
+  kpis: EquipmentItemKpiCounts
+  hasLoadedKpis: boolean
   pagination: {
     page: number
     pageSize: number
