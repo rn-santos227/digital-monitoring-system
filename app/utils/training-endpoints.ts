@@ -13,6 +13,7 @@ import type {
   TrainingCategorySearchQuery,
   TrainingEndpointQuery,
   TrainingListItem,
+  TrainingManagementKpiCounts,
   TrainingManagementListResponse,
   TrainingSuggestionItem,
   TrainingSuggestionResponse,
@@ -32,6 +33,15 @@ export const getTrainingsEndpoint = async (query: TrainingEndpointQuery): Promis
       query,
     })
   }, API_LOADING_MESSAGES.fetchTrainings)
+}
+
+export const getTrainingManagementKpisEndpoint = async (): Promise<TrainingManagementKpiCounts> => {
+  return await withApiLoading(async () => {
+    return await $fetch<TrainingManagementKpiCounts>(TRAINING_MANAGEMENT_API_ENDPOINTS.kpis, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchTrainingManagementKpis)
 }
 
 export const searchTrainingsEndpoint = async (query: TrainingSearchQuery): Promise<TrainingManagementListResponse<TrainingListItem>> => {
