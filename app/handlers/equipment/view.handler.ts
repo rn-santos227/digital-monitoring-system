@@ -1,5 +1,6 @@
 import type { Ref } from 'vue'
 import type {
+  EquipmentAssetListItem,
   EquipmentCategoryDetailItem,
   EquipmentItemListItem,
 } from '~/types/domain/equipment'
@@ -14,6 +15,12 @@ interface UseViewEquipmentItemHandlerOptions {
   isViewEquipmentItemModalOpen: Ref<boolean>
   selectedEquipmentItem: Ref<EquipmentItemListItem | null>
   getEquipmentItemById: (id: string) => Promise<EquipmentItemListItem>
+}
+
+interface UseViewEquipmentAssetHandlerOptions {
+  isViewEquipmentAssetModalOpen: Ref<boolean>
+  selectedEquipmentAsset: Ref<EquipmentAssetListItem | null>
+  getEquipmentAssetById: (id: string) => Promise<EquipmentAssetListItem>
 }
 
 export const useViewEquipmentCategoryHandler = ({
@@ -55,5 +62,26 @@ export const useViewEquipmentItemHandler = ({
   return {
     closeViewEquipmentItemModal,
     onViewEquipmentItem,
+  }
+}
+
+export const useViewEquipmentAssetHandler = ({
+  isViewEquipmentAssetModalOpen,
+  selectedEquipmentAsset,
+  getEquipmentAssetById,
+}: UseViewEquipmentAssetHandlerOptions) => {
+  const closeViewEquipmentAssetModal = () => {
+    isViewEquipmentAssetModalOpen.value = false
+    selectedEquipmentAsset.value = null
+  }
+
+  const onViewEquipmentAsset = async (equipmentAssetId: string) => {
+    selectedEquipmentAsset.value = await getEquipmentAssetById(equipmentAssetId)
+    isViewEquipmentAssetModalOpen.value = true
+  }
+
+  return {
+    closeViewEquipmentAssetModal,
+    onViewEquipmentAsset,
   }
 }
