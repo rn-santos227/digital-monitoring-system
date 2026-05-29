@@ -21,6 +21,13 @@ export interface PersonnelListResponse {
   totalPages: number
 }
 
+export interface PersonnelKpiCounts {
+  totalPersonnel: number
+  deployedPersonnel: number
+  totalRanks: number
+  unusedRanks: number
+}
+
 export interface PersonnelCreate {
   personnelCode?: string
   serviceNumber?: string
