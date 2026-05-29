@@ -8,6 +8,11 @@ import {
 import type { UpdateEquipmentAssetRequest } from '../../../shared/requests'
 import type { MutationSuccessResponse } from '../../../shared/responses'
 import { buildEquipmentAssetUpdates, requireRouteId } from '../../../shared/validations'
+import {
+  resolveEquipmentAssetStatusId,
+  resolveEquipmentConditionStatusId,
+  resolveEquipmentServiceabilityStatusId,
+} from '../../../shared/utils/equipment-management'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
@@ -35,6 +40,18 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   const existingRowRecord = existingRow as unknown as Record<string, unknown>
 
   try {
+    if (typeof updates.asset_status_id === 'string') {
+      updates.asset_status_id = await resolveEquipmentAssetStatusId(supabase, updates.asset_status_id)
+    }
+
+    if (typeof updates.condition_status_id === 'string') {
+      updates.condition_status_id = await resolveEquipmentConditionStatusId(supabase, updates.condition_status_id)
+    }
+
+    if (typeof updates.serviceability_status_id === 'string') {
+      updates.serviceability_status_id = await resolveEquipmentServiceabilityStatusId(supabase, updates.serviceability_status_id)
+    }
+
     await executeWithRollback({
       operation: async () => {
         await updateEquipmentAssetById(supabase, id, updates)
