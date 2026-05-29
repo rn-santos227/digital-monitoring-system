@@ -111,6 +111,13 @@ export interface UnitManagementKpis {
   totalUnassignedPersonnel: number
 }
 
+export interface UnitManagementKpisState {
+  kpis: UnitManagementKpis
+  hasLoadedKpis: boolean
+  isLoading: boolean
+  error: string
+}
+
 export interface UnitListResponse<TItem> {
   items: TItem[]
   page: number
