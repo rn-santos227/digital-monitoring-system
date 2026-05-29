@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-size'
+import { useUnitManagementKpisStore } from '~/stores/units'
 import {
   createBattalionEndpoint,
   deleteBattalionEndpoint,
@@ -97,6 +98,7 @@ const battalionsStoreOptions = {
         this.items = [createdBattalion, ...this.items]
         this.pagination.totalItems += 1
         this.pagination.totalPages = Math.max(1, Math.ceil(this.pagination.totalItems / this.pagination.pageSize))
+        useUnitManagementKpisStore().applyBattalionKpiDelta(1)
 
         return response
       } catch (error) {
@@ -151,6 +153,7 @@ const battalionsStoreOptions = {
           this.pagination.totalPages = this.pagination.totalItems === 0
             ? 0
             : Math.ceil(this.pagination.totalItems / this.pagination.pageSize)
+          useUnitManagementKpisStore().applyBattalionKpiDelta(-1)
         }
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to delete battalion.')
