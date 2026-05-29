@@ -178,6 +178,13 @@ export interface TrainingTablePagination {
   totalPages: number
 }
 
+export interface TrainingManagementKpiCounts {
+  totalRecords: number
+  totalTrainings: number
+  totalCategories: number
+  unusedCategories: number
+}
+
 export interface TrainingsState {
   items: TrainingListItem[]
   pagination: TrainingTablePagination
