@@ -64,10 +64,19 @@ export interface UsersTablePagination {
   totalPages: number
 }
 
+export interface UserManagementKpiCounts {
+  activeUsers: number
+  inactiveUsers: number
+  totalAccountTypes: number
+  unusedAccountTypes: number
+}
+
 export interface UsersState {
   profileItems: UserProfileRecord[]
   accountItems: UserAccountRecord[]
   privilegeItems: PrivilegeRecord[]
+  kpis: UserManagementKpiCounts
+  hasLoadedKpis: boolean
   profilePagination: UsersTablePagination
   accountPagination: UsersTablePagination
   isLoading: boolean
