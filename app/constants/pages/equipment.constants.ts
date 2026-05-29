@@ -1,5 +1,10 @@
 
 import { EQUIPMENT_PRIVILEGES } from '~/constants/privileges.constants'
+import {
+  ASSET_STATUS_VALUES,
+  CONDITION_STATUS_VALUES,
+  SERVICEABILITY_STATUS_VALUES,
+} from '~/types/enums'
 
 export const EQUIPMENT_CATEGORIES_PAGE_TITLE = 'Equipment Categories'
 export const EQUIPMENT_CATEGORIES_PAGE_SUBTITLE = 'Manage equipment category records for standardized equipment classification.'
@@ -62,4 +67,13 @@ export const EQUIPMENT_ASSETS_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: 'equipmentItemName', label: 'Equipment Item' },
   { value: 'serialNo', label: 'Serial Number' },
 ])
+export const EQUIPMENT_ASSETS_CONDITION_STATUS_OPTIONS = Object.freeze(
+  CONDITION_STATUS_VALUES.map((value) => ({ label: value, value })),
+)
+export const EQUIPMENT_ASSETS_SERVICEABILITY_STATUS_OPTIONS = Object.freeze(
+  SERVICEABILITY_STATUS_VALUES.map((value) => ({ label: value, value })),
+)
+export const EQUIPMENT_ASSETS_ASSET_STATUS_OPTIONS = Object.freeze(
+  ASSET_STATUS_VALUES.map((value) => ({ label: value, value })),
+)
 export const EQUIPMENT_ASSETS_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGES
