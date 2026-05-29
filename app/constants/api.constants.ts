@@ -12,6 +12,7 @@ export const AUDIT_API_ENDPOINTS = Object.freeze({
 })
 
 export const USER_MANAGEMENT_API_ENDPOINTS = Object.freeze({
+  kpis: '/api/users/kpis',
   userProfiles: '/api/users',
   userProfilesSearch: '/api/users/search',
   userProfileById: (id: string) => `/api/users/${id}`,
@@ -24,6 +25,7 @@ export const USER_MANAGEMENT_API_ENDPOINTS = Object.freeze({
 })
 
 export const UNIT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
+  kpis: '/api/units/kpis',
   battalions: '/api/battalions',
   battalionsSearch: '/api/battalions/search',
   battalionsSuggestions: '/api/battalions/suggestions',
@@ -42,6 +44,7 @@ export const UNIT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
 })
 
 export const TRAINING_MANAGEMENT_API_ENDPOINTS = Object.freeze({
+  kpis: '/api/trainings/kpis',
   trainings: '/api/trainings',
   trainingsSearch: '/api/trainings/search',
   trainingsSuggestions: '/api/trainings/suggestions',
@@ -55,6 +58,7 @@ export const TRAINING_MANAGEMENT_API_ENDPOINTS = Object.freeze({
 })
 
 export const DEPLOYMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
+  kpis: '/api/deployments/kpis',
   deployments: '/api/deployments',
   deploymentsSearch: '/api/deployments/search',
   deploymentRecords: '/api/deployment-records',
@@ -66,6 +70,7 @@ export const DEPLOYMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
 })
 
 export const ENGAGEMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
+  kpis: '/api/engagements/kpis',
   engagements: '/api/engagements',
   engagementsSearch: '/api/engagements/search',
   engagementRecords: '/api/engagement-records',
@@ -77,11 +82,13 @@ export const ENGAGEMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
 
 export const EQUIPMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   equipmentCategories: '/api/equipment-categories',
+  equipmentCategoriesKpis: '/api/equipment-categories/kpis',
   equipmentCategoriesSearch: '/api/equipment-categories/search',
   equipmentCategoriesSuggestions: '/api/equipment-categories/suggestions',
   equipmentCategoryById: (id: string) => `/api/equipment-categories/${id}`,
   equipmentCategoryItemsById: (id: string) => `/api/equipment-categories/${id}/items`,
   equipmentItems: '/api/equipment-items',
+  equipmentItemsKpis: '/api/equipment-items/kpis',
   equipmentItemsSearch: '/api/equipment-items/search',
   equipmentItemsSuggestions: '/api/equipment-items/suggestions',
   equipmentItemById: (id: string) => `/api/equipment-items/${id}`,
@@ -107,6 +114,7 @@ export const DASHBOARD_API_ENDPOINTS = Object.freeze({
 
 export const PERSONNEL_API_ENDPOINTS = Object.freeze({
   personnel: '/api/personnel',
+  personnelKpis: '/api/personnel/kpis',
   personnelSearch: '/api/personnel/search',
   personnelSuggestions: '/api/personnel/suggestions',
   personnelBatchUpload: '/api/personnel/batch-upload',
@@ -154,6 +162,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   fetchAuditLogDetail: 'Loading audit log details...',
   fetchUserProfiles: 'Loading user profiles...',
   fetchUserAccounts: 'Loading user accounts...',
+  fetchUserManagementKpis: 'Loading user management KPIs...',
   fetchPrivileges: 'Loading privileges...',
   createUserProfile: 'Creating user profile...',
   updateUserProfile: 'Updating user profile...',
@@ -164,6 +173,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   updateAccountType: 'Updating account type...',
   deleteAccountType: 'Deleting account type...',
   fetchPersonnel: 'Loading personnel records...',
+  fetchPersonnelKpis: 'Loading personnel KPIs...',
   fetchPersonnelDetails: 'Loading personnel profile...',
   createPersonnel: 'Creating personnel record...',
   uploadPersonnelBatch: 'Uploading personnel batch...',
@@ -174,6 +184,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   deleteRank: 'Deleting rank record...',
   fetchBattalions: 'Loading battalion records...',
   fetchCompanies: 'Loading company records...',
+  fetchUnitManagementPageKpis: 'Loading unit page KPIs...',
   fetchUnitManagementKpis: 'Loading unit KPIs...',
   fetchDashboardTopKpis: 'Loading dashboard top KPI cards...',
   fetchDashboardPersonnelDeploymentSummary: 'Loading dashboard personnel deployment summary...',
@@ -193,6 +204,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   assignBattalionPersonnel: 'Assigning personnel to battalion...',
   assignCompanyPersonnel: 'Assigning personnel to company...',
   fetchTrainings: 'Loading training records...',
+  fetchTrainingManagementKpis: 'Loading training KPIs...',
   fetchTrainingRecords: 'Loading training records...',
   fetchTrainingCategories: 'Loading training categories...',
   createTraining: 'Creating training record...',
@@ -207,11 +219,13 @@ export const API_LOADING_MESSAGES = Object.freeze({
   fetchTrainingPersonnel: 'Loading assigned training personnel...',
   fetchTrainingSuggestions: 'Loading training suggestions...',
   fetchDeployments: 'Loading deployments...',
+  fetchDeploymentManagementKpis: 'Loading deployment KPIs...',
   fetchDeploymentRecords: 'Loading deployment records...',
   createDeployment: 'Creating deployment record...',
   updateDeployment: 'Updating deployment record...',
   deleteDeployment: 'Deleting deployment record...',
   fetchEngagements: 'Loading engagements...',
+  fetchEngagementManagementKpis: 'Loading engagement KPIs...',
   fetchEngagementRecords: 'Loading engagement records...',
   updateEngagement: 'Updating engagement record...',
   deleteEngagement: 'Deleting engagement record...',
@@ -222,11 +236,13 @@ export const API_LOADING_MESSAGES = Object.freeze({
   deleteEngagementRecord: 'Deleting engagement personnel record...',
   uploadFile: 'Uploading file...',
   fetchEquipmentCategories: 'Loading equipment categories...',
+  fetchEquipmentCategoryKpis: 'Loading equipment category KPIs...',
   fetchEquipmentCategorySuggestions: 'Loading equipment category suggestions...',
   createEquipmentCategory: 'Creating equipment category...',
   updateEquipmentCategory: 'Updating equipment category...',
   deleteEquipmentCategory: 'Deleting equipment category...',
   fetchEquipmentItems: 'Loading equipment items...',
+  fetchEquipmentItemKpis: 'Loading equipment item KPIs...',
   createEquipmentItem: 'Creating equipment item...',
   updateEquipmentItem: 'Updating equipment item...',
   deleteEquipmentItem: 'Deleting equipment item...',
