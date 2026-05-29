@@ -1,6 +1,8 @@
 import type {
+  CreateEquipmentAssetPayload,
   CreateEquipmentCategoryPayload,
   UpdateEquipmentCategoryPayload,
+  UpdateEquipmentAssetPayload,
 } from '~/types/domain/equipment'
 import { validateFields } from '~/utils/field-validation'
 import { REGEX_PATTERNS } from '~/utils/regex'
@@ -88,3 +90,71 @@ export const validateCreateEquipmentItemForm = (form: {
 }
 
 export const validateUpdateEquipmentItemForm = validateCreateEquipmentItemForm
+
+export const validateCreateEquipmentAssetForm = (form: {
+  assetTag: string
+  equipmentItemId: string
+  serialNo: string
+  batchNo: string
+  procurementDate: string
+  acquisitionCost: number | null
+  fundSource: string
+  currentLocation: string
+  conditionStatusId: string
+  serviceabilityStatusId: string
+  assetStatusId: string
+  remarks: string
+}) => {
+  const result = validateFields([
+    { field: 'assetTag', label: 'Asset tag', value: form.assetTag, required: true, maxLength: 80 },
+    { field: 'equipmentItemId', label: 'Equipment item', value: form.equipmentItemId, required: true },
+    { field: 'assetStatusId', label: 'Asset status', value: form.assetStatusId, required: true },
+  ])
+
+  const errors = { ...result.errors }
+  const acquisitionCost = form.acquisitionCost
+
+  if (acquisitionCost !== null && (!Number.isFinite(acquisitionCost) || acquisitionCost < 0)) {
+    errors.acquisitionCost = 'Acquisition cost must be a non-negative number.'
+  }
+
+  const payload: CreateEquipmentAssetPayload | null = Object.keys(errors).length === 0
+    ? {
+      assetTag: result.values.assetTag ?? '',
+      equipmentItemId: result.values.equipmentItemId ?? '',
+      serialNo: form.serialNo || null,
+      batchNo: form.batchNo || null,
+      procurementDate: form.procurementDate || null,
+      acquisitionCost,
+      fundSource: form.fundSource || null,
+      currentLocation: form.currentLocation || null,
+      conditionStatusId: form.conditionStatusId || null,
+      serviceabilityStatusId: form.serviceabilityStatusId || null,
+      assetStatusId: result.values.assetStatusId ?? '',
+      remarks: form.remarks || null,
+    }
+    : null
+
+  return {
+    errors,
+    payload,
+  }
+}
+
+export const validateUpdateEquipmentAssetForm = validateCreateEquipmentAssetForm as (form: {
+  assetTag: string
+  equipmentItemId: string
+  serialNo: string
+  batchNo: string
+  procurementDate: string
+  acquisitionCost: number | null
+  fundSource: string
+  currentLocation: string
+  conditionStatusId: string
+  serviceabilityStatusId: string
+  assetStatusId: string
+  remarks: string
+}) => {
+  errors: Record<string, string>
+  payload: UpdateEquipmentAssetPayload | null
+}
