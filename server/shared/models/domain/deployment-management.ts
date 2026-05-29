@@ -31,6 +31,11 @@ export interface DeploymentSuggestionItem {
   endDate: string | null
 }
 
+export interface DeploymentManagementKpiCounts {
+  totalDeployments: number
+  totalDeploymentRecords: number
+}
+
 export interface DeploymentRecordReferenceRow {
   id?: string
   name?: string
