@@ -5,6 +5,7 @@ import type {
   CreatePersonnelResponse,
   DeletePersonnelResponse,
   PersonnelDetail,
+  PersonnelKpiCounts,
   PersonnelListCompactResponse,
   PersonnelListResponse,
   PersonnelSearchQuery,
@@ -39,6 +40,15 @@ export const searchPersonnelEndpoint = async (query: PersonnelSearchQuery): Prom
       query,
     })
   }, API_LOADING_MESSAGES.fetchPersonnel)
+}
+
+export const getPersonnelKpisEndpoint = async (): Promise<PersonnelKpiCounts> => {
+  return await withApiLoading(async () => {
+    return await $fetch<PersonnelKpiCounts>(PERSONNEL_API_ENDPOINTS.personnelKpis, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchPersonnelKpis)
 }
 
 export const getPersonnelSuggestionsEndpoint = async (
