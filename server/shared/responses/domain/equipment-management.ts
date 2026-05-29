@@ -3,9 +3,11 @@ import type {
   EquipmentAssetListResponse,
   EquipmentAssetKpiCounts,
   EquipmentAssetSuggestionResponse,
+  EquipmentCategoryKpiCounts,
   EquipmentCategoryListItem,
   EquipmentCategoryListResponse,
   EquipmentCategorySuggestionResponse,
+  EquipmentItemKpiCounts,
   EquipmentItemListItem,
   EquipmentItemListResponse,
   EquipmentItemSuggestionResponse,
@@ -20,6 +22,7 @@ export interface CreateEquipmentCategoryApiResponse {
 }
 
 export type EquipmentCategoryListApiResponse = EquipmentCategoryListResponse
+export type EquipmentCategoryKpiApiResponse = EquipmentCategoryKpiCounts
 export type EquipmentCategorySuggestionApiResponse = EquipmentCategorySuggestionResponse
 
 export interface CreateEquipmentItemApiResponse {
@@ -29,6 +32,7 @@ export interface CreateEquipmentItemApiResponse {
 }
 
 export type EquipmentItemListApiResponse = EquipmentItemListResponse
+export type EquipmentItemKpiApiResponse = EquipmentItemKpiCounts
 export type EquipmentItemSuggestionApiResponse = EquipmentItemSuggestionResponse
 
 export interface CreateEquipmentAssetApiResponse {
