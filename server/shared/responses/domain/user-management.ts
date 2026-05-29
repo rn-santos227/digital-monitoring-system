@@ -1,4 +1,4 @@
-import { AccountTypeListItem, UserProfileListItem } from "../../models"
+import type { AccountTypeListItem, UserManagementKpiCounts, UserProfileListItem } from "../../models"
 
 export interface UserListAccountTypeSummary {
   code: string
@@ -20,6 +20,8 @@ export interface UserProfileListCompactResponse {
   totalItems: number
   totalPages: number
 }
+
+export type UserManagementKpiApiResponse = UserManagementKpiCounts
 
 export interface UserDetailAccountTypeSummary {
   id: string
