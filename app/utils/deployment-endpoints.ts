@@ -2,6 +2,7 @@ import { API_LOADING_MESSAGES, DEPLOYMENT_MANAGEMENT_API_ENDPOINTS } from '~/con
 import type {
   CreateDeploymentPayload,
   CreateDeploymentRecordPayload,
+  DeploymentManagementKpiCounts,
   DeploymentManagementListItem,
   DeploymentManagementListResponse,
   DeploymentManagementSearchQuery,
@@ -9,6 +10,7 @@ import type {
   CreateDeploymentManagementResponse,
 } from '~/types/domain/deployment'
 import { withApiLoading } from '~/utils/api-request'
+import { createSessionHeaders } from '~/utils/auth-session'
 
 export const getDeploymentsEndpoint = async (query: DeploymentManagementSearchQuery): Promise<DeploymentManagementListResponse<DeploymentManagementListItem>> => {
   return await withApiLoading(async () => {
@@ -18,6 +20,15 @@ export const getDeploymentsEndpoint = async (query: DeploymentManagementSearchQu
       query,
     })
   }, API_LOADING_MESSAGES.fetchDeployments)
+}
+
+export const getDeploymentManagementKpisEndpoint = async (): Promise<DeploymentManagementKpiCounts> => {
+  return await withApiLoading(async () => {
+    return await $fetch<DeploymentManagementKpiCounts>(DEPLOYMENT_MANAGEMENT_API_ENDPOINTS.kpis, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchDeploymentManagementKpis)
 }
 
 export const searchDeploymentsEndpoint = async (
