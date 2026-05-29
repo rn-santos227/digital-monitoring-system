@@ -71,6 +71,13 @@ export interface UserProfileListItem {
   accountTypes: UserAccountTypeSummary[]
 }
 
+export interface UserManagementKpiCounts {
+  activeUsers: number
+  inactiveUsers: number
+  totalAccountTypes: number
+  unusedAccountTypes: number
+}
+
 export interface CreateUserProfilePayload {
   personnelId: string | null
   email: string
