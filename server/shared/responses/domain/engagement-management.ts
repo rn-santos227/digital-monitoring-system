@@ -3,6 +3,7 @@ import type {
   UnitPersonnelListItem,
   EngagementTypeListItem,
   EngagementTypeSuggestionItem,
+  EngagementManagementKpiCounts,
   EngagementManagementListResponse,
   EngagementListItem,
   EngagementRecordListItem,
@@ -15,6 +16,7 @@ export type EngagementListResponse = EngagementManagementListResponse<Engagement
 export type EngagementTypeSuggestionsResponse = EngagementManagementSuggestionResponse<EngagementTypeSuggestionItem>
 export type EngagementSuggestionsResponse = EngagementManagementSuggestionResponse<EngagementSuggestionItem>
 export type EngagementRecordListResponse = EngagementManagementListResponse<EngagementRecordListItem>
+export type EngagementManagementKpiApiResponse = EngagementManagementKpiCounts
 export interface EngagementRecordDetailResponse extends EngagementRecordListItem {}
 
 export interface CreateEngagementResponse {
