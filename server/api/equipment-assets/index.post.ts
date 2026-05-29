@@ -8,7 +8,12 @@ import {
 import type { CreateEquipmentAssetRequest } from '../../shared/requests'
 import type { CreateEquipmentAssetApiResponse } from '../../shared/responses'
 import { parseCreateEquipmentAssetPayload } from '../../shared/validations'
-import { mapEquipmentAssetListItem } from '../../shared/utils/equipment-management'
+import {
+  mapEquipmentAssetListItem,
+  resolveEquipmentAssetStatusId,
+  resolveEquipmentConditionStatusId,
+  resolveEquipmentServiceabilityStatusId,
+} from '../../shared/utils/equipment-management'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
@@ -25,6 +30,16 @@ export default defineEventHandler(async (event): Promise<CreateEquipmentAssetApi
   let createdId: string | null = null
 
   try {
+    payload.asset_status_id = await resolveEquipmentAssetStatusId(supabase, payload.asset_status_id)
+
+    if (payload.condition_status_id) {
+      payload.condition_status_id = await resolveEquipmentConditionStatusId(supabase, payload.condition_status_id)
+    }
+
+    if (payload.serviceability_status_id) {
+      payload.serviceability_status_id = await resolveEquipmentServiceabilityStatusId(supabase, payload.serviceability_status_id)
+    }
+
     createdId = await executeWithRollback({
       operation: async () => createEquipmentAsset(supabase, payload),
       rollback: async () => {
