@@ -116,13 +116,13 @@ export const EQUIPMENT_ITEM_SUGGESTION_SELECT_COLUMNS =
   'id, equipment_code, name, is_active, category:equipment_categories(name)'
 
 export const EQUIPMENT_ASSET_SELECT_COLUMNS =
-  'id, asset_tag, equipment_item_id, serial_no, batch_no, asset_status_id, created_at, updated_at, equipment_item:equipment_items(id, equipment_code, name), asset_status:asset_statuses(id, name)'
+  'id, asset_tag, equipment_item_id, serial_no, batch_no, procurement_date, acquisition_cost, fund_source, current_location, condition_status_id, serviceability_status_id, asset_status_id, remarks, created_at, updated_at, equipment_item:equipment_items(id, equipment_code, name), condition_status:condition_statuses(id, name), serviceability_status:serviceability_statuses(id, name), asset_status:asset_statuses(id, name)'
 
 export const EQUIPMENT_ASSET_DETAILS_COLUMNS =
   'id, asset_tag, equipment_item_id, serial_no, batch_no, procurement_date, acquisition_cost, fund_source, current_location, condition_status_id, serviceability_status_id, asset_status_id, remarks, created_at, updated_at, equipment_item:equipment_items(id, equipment_code, name), condition_status:condition_statuses(id, name), serviceability_status:serviceability_statuses(id, name), asset_status:asset_statuses(id, name)'
 
 export const EQUIPMENT_ASSET_SUGGESTION_SELECT_COLUMNS =
-  'id, asset_tag, equipment_item:equipment_items(name)'
+  'id, asset_tag, equipment_item:equipment_items(name, category:equipment_categories(name))'
 
 export const EQUIPMENT_ISSUANCE_SELECT_COLUMNS =
   'id, issue_no, equipment_asset_id, issued_to_personnel_id, issued_by_personnel_id, deployment_id, status_id, created_at, equipment_asset:equipment_assets(id, asset_tag, equipment_item:equipment_items(id, name)), issued_to_personnel:personnel!equipment_issuances_issued_to_personnel_id_fkey(id, personnel_code, first_name, middle_name, last_name), issued_by_personnel:personnel!equipment_issuances_issued_by_personnel_id_fkey(id, personnel_code, first_name, middle_name, last_name), deployment:deployments(id, operation_name, deployment_area), issuance_status:issuance_statuses(id, name)'
