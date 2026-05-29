@@ -502,6 +502,7 @@ export const EQUIPMENT_ITEMS_TABLE_ACTIONS: readonly DataTableAction[] = Object.
 
 export const EQUIPMENT_ASSETS_TABLE_TITLE = 'Equipment Assets'
 export const EQUIPMENT_ASSETS_TABLE_EMPTY_MESSAGE = 'No equipment asset records found.'
+export const EQUIPMENT_ASSETS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
 export const EQUIPMENT_ASSETS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'assetTag', label: 'Asset Tag', sortable: true },
   { key: 'equipmentItemCode', label: 'Equipment Code', sortable: true },
@@ -510,4 +511,9 @@ export const EQUIPMENT_ASSETS_TABLE_COLUMNS: readonly DataTableColumn[] = Object
   { key: 'currentLocation', label: 'Current Location', sortable: true },
   { key: 'serviceabilityStatusName', label: 'Serviceability', sortable: true },
   { key: 'assetStatusName', label: 'Asset Status', sortable: true },
+])
+export const EQUIPMENT_ASSETS_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  { key: 'view-equipment-asset', tooltip: 'View equipment asset', iconName: 'eye', variant: 'info' },
+  { key: 'edit-equipment-asset', tooltip: 'Edit equipment asset', iconName: 'pencil-square', variant: 'warning' },
+  { key: 'delete-equipment-asset', tooltip: 'Delete equipment asset', iconName: 'trash', variant: 'danger' },
 ])
