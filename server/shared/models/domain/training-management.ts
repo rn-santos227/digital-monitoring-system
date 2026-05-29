@@ -101,6 +101,13 @@ export interface TrainingRecordListItem {
   updatedAt: string
 }
 
+export interface TrainingManagementKpiCounts {
+  totalRecords: number
+  totalTrainings: number
+  totalCategories: number
+  unusedCategories: number
+}
+
 export interface TrainingReferenceRow {
   id: string
   code?: string
