@@ -379,6 +379,17 @@ export const getEquipmentAssetByIdEndpoint = async (id: string): Promise<{ item:
   }, API_LOADING_MESSAGES.fetchEquipmentAssets)
 }
 
+export const getEquipmentIssuanceByIdEndpoint = async (
+  id: string,
+): Promise<{ item: EquipmentIssuanceListItem }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ item: EquipmentIssuanceListItem }>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentIssuanceById(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentIssuances)
+}
+
 export const updateEquipmentCategoryEndpoint = async (
   id: string,
   body: UpdateEquipmentCategoryPayload,
