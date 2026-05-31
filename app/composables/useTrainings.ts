@@ -5,7 +5,7 @@ import type { TrainingSearchQuery } from '~/types/domain/training'
 
 export const useTrainings = () => {
   const trainingsStore = useTrainingsStore()
-  const { trainings } = storeToRefs(trainingsStore)
+  const { trainings, kpis } = storeToRefs(trainingsStore)
   const filters = ref<Partial<TrainingSearchQuery>>({})
 
   const tableRows = computed(() => {
@@ -32,6 +32,7 @@ export const useTrainings = () => {
   }
 
   onMounted(() => {
+    void trainingsStore.fetchTrainingManagementKpisOnce().catch(() => {})
     void loadTrainings(1)
   })
 
@@ -50,6 +51,7 @@ export const useTrainings = () => {
   return {
     filters,
     tableRows,
+    kpis,
     pagination: computed(() => trainings.value.pagination),
     isLoading: computed(() => trainings.value.isLoading),
     error: computed(() => trainings.value.error),
