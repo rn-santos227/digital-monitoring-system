@@ -6,7 +6,7 @@ import { hasEquipmentCategorySearchFilters } from '~/utils/equipment-endpoints'
 
 export const useEquipmentCategories = () => {
   const store = useEquipmentCategoriesStore()
-  const { items, pagination, isLoading, error } = storeToRefs(store)
+  const { items, kpis, pagination, isLoading, error } = storeToRefs(store)
   const filters = ref<Partial<EquipmentCategorySearchQuery>>({})
 
   const hasActiveFilters = computed(() => {
@@ -30,6 +30,7 @@ export const useEquipmentCategories = () => {
   }
 
   onMounted(() => {
+    void store.fetchEquipmentCategoryKpisOnce().catch(() => {})
     void loadEquipmentCategories(1)
   })
 
@@ -37,6 +38,7 @@ export const useEquipmentCategories = () => {
     filters,
     hasActiveFilters,
     tableRows,
+    kpis,
     pagination,
     isLoading,
     error,
