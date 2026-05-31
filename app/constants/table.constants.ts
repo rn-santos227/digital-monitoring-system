@@ -517,3 +517,21 @@ export const EQUIPMENT_ASSETS_TABLE_ACTIONS: readonly DataTableAction[] = Object
   { key: 'edit-equipment-asset', tooltip: 'Edit equipment asset', iconName: 'pencil-square', variant: 'warning' },
   { key: 'delete-equipment-asset', tooltip: 'Delete equipment asset', iconName: 'trash', variant: 'danger' },
 ])
+
+export const EQUIPMENT_ISSUANCES_TABLE_TITLE = 'Equipment Issuances'
+export const EQUIPMENT_ISSUANCES_TABLE_EMPTY_MESSAGE = 'No equipment issuance records found.'
+export const EQUIPMENT_ISSUANCES_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
+export const EQUIPMENT_ISSUANCES_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'issueNo', label: 'Issue No.', sortable: true },
+  { key: 'equipmentAssetTag', label: 'Asset Tag', sortable: true },
+  { key: 'equipmentItemName', label: 'Equipment Item', sortable: true },
+  { key: 'issuedToPersonnelName', label: 'Issued To', sortable: true },
+  { key: 'issueDate', dataType: 'date', label: 'Issue Date', sortable: true },
+  { key: 'expectedReturnDate', dataType: 'date', label: 'Expected Return', sortable: true },
+  { key: 'actualReturnDate', dataType: 'date', label: 'Actual Return', sortable: true },
+  { key: 'statusName', label: 'Status', sortable: true },
+])
+export const EQUIPMENT_ISSUANCES_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  { key: 'view-equipment-issuance', tooltip: 'View equipment issuance', iconName: 'eye', variant: 'info' },
+  { key: 'delete-equipment-issuance', tooltip: 'Delete equipment issuance', iconName: 'trash', variant: 'danger' },
+])
