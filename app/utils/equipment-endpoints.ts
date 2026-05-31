@@ -75,6 +75,18 @@ const normalizeEquipmentItemQuery = (
   }
 }
 
+const normalizeEquipmentIssuanceQuery = (
+  query: Partial<EquipmentIssuanceSearchQuery>,
+): EquipmentIssuanceSearchQuery => {
+  return {
+    page: query.page,
+    pageSize: query.pageSize,
+    term: query.term?.trim() || undefined,
+    issuedToPersonnelId: query.issuedToPersonnelId?.trim() || undefined,
+    statusId: query.statusId?.trim() || undefined,
+  }
+}
+
 export const hasEquipmentCategorySearchFilters = (
   query: Partial<EquipmentCategorySearchQuery>,
 ): boolean => {
