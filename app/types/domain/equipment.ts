@@ -441,3 +441,18 @@ export interface EquipmentIssuanceListResponse {
   totalItems: number
   totalPages: number
 }
+
+export interface CreateEquipmentIssuancePayload {
+  equipmentAssetId: string
+  issuedToPersonnelId: string
+  issuedByPersonnelId: string
+  deploymentId?: string | null
+  issueDate: string
+  expectedReturnDate?: string | null
+  actualReturnDate?: string | null
+  quantityIssued: number
+  statusId: string
+  issuedLocation?: string | null
+  returnLocation?: string | null
+  remarks?: string | null
+}
