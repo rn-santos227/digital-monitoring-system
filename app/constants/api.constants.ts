@@ -97,6 +97,9 @@ export const EQUIPMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   equipmentAssetsSuggestions: '/api/equipment-assets/suggestions',
   equipmentAssetsKpis: '/api/equipment-assets/kpis',
   equipmentAssetById: (id: string) => `/api/equipment-assets/${id}`,
+  equipmentIssuances: '/api/equipment-issuances',
+  equipmentIssuancesSearch: '/api/equipment-issuances/search',
+  equipmentIssuanceById: (id: string) => `/api/equipment-issuances/${id}`,
 })
 
 export const DASHBOARD_API_ENDPOINTS = Object.freeze({
@@ -251,6 +254,10 @@ export const API_LOADING_MESSAGES = Object.freeze({
   createEquipmentAsset: 'Creating equipment asset...',
   updateEquipmentAsset: 'Updating equipment asset...',
   deleteEquipmentAsset: 'Deleting equipment asset...',
+  fetchEquipmentIssuances: 'Loading equipment issuances...',
+  createEquipmentIssuance: 'Creating equipment issuance...',
+  updateEquipmentIssuance: 'Updating equipment issuance...',
+  deleteEquipmentIssuance: 'Deleting equipment issuance...',
   fetchApplicationSettings: 'Loading application settings...',
   updateApplicationSettings: 'Updating application settings...',
 })
