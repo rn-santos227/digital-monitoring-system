@@ -464,3 +464,15 @@ export interface CreateEquipmentIssuanceResponse {
   id: string
   item: EquipmentIssuanceListItem
 }
+
+export interface EquipmentIssuancesState {
+  items: EquipmentIssuanceListItem[]
+  pagination: {
+    page: number
+    pageSize: number
+    totalItems: number
+    totalPages: number
+  }
+  isLoading: boolean
+  error: string
+}
