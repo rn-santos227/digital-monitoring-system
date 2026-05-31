@@ -78,7 +78,6 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateEquipmentCategoryModal from '~/components/equipment/CreateEquipmentCategoryModal.vue'
 import EquipmentCategoriesFilter from '~/components/equipment/EquipmentCategoriesFilter.vue'
@@ -113,6 +112,7 @@ import type {
 const {
   filters,
   tableRows,
+  kpis,
   pagination,
   isLoading,
   error,
@@ -161,10 +161,8 @@ const { closeViewEquipmentCategoryModal, onViewEquipmentCategory } = useViewEqui
 
 const { onDeleteEquipmentCategory } = useDeleteEquipmentCategoryHandler({ deleteEquipmentCategory, showDialog })
 
-const totalEquipmentCategoriesKpi = computed(() => pagination.value.totalItems)
-const unusedEquipmentCategoriesKpi = computed(() => {
-  return tableRows.value.filter((row) => (row.itemCount ?? 0) === 0).length
-})
+const totalEquipmentCategoriesKpi = computed(() => kpis.value.totalCategories)
+const unusedEquipmentCategoriesKpi = computed(() => kpis.value.unusedCategories)
 
 const onApply = async (value: Partial<EquipmentCategorySearchQuery>) => {
   const next = handleFilterApply(value)
