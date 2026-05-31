@@ -1,11 +1,11 @@
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import type { CreateDeploymentPayload, DeploymentManagementListItem, DeploymentManagementSearchQuery } from '~/types/domain/deployment'
 import { useDeploymentsStore } from '~/stores/deployments'
 
 export const useDeployments = () => {
   const deploymentsStore = useDeploymentsStore()
-  const { deployments } = storeToRefs(deploymentsStore)
+  const { deployments, kpis } = storeToRefs(deploymentsStore)
   const filters = ref<Partial<DeploymentManagementSearchQuery>>({})
 
   const normalizeDisplayValue = (value: unknown): string => {
@@ -64,9 +64,14 @@ export const useDeployments = () => {
     return await deploymentsStore.fetchDeploymentById(id)
   }
 
+  onMounted(() => {
+    void deploymentsStore.fetchDeploymentManagementKpisOnce().catch(() => {})
+  })
+
   return { 
     filters,
     tableRows,
+    kpis,
     pagination: computed(() => deployments.value.pagination),
     isLoading: computed(() => deployments.value.isLoading),
     error: computed(() => deployments.value.error),

@@ -3,6 +3,7 @@
     title="Create Equipment Asset"
     description="Register a trackable equipment asset for accountability monitoring."
     scroll-body
+    size="lg"
     @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
