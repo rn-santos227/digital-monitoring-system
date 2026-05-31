@@ -10,6 +10,7 @@ import {
   deleteTrainingEndpoint,
   getTrainingByIdEndpoint,
   getTrainingCategoryByIdEndpoint,
+  getTrainingManagementKpisEndpoint,
   getTrainingRecordByIdEndpoint,
   getTrainingCategoriesEndpoint,
   getTrainingRecordsEndpoint,
@@ -28,6 +29,7 @@ import type {
   TrainingCategorySearchQuery,
   TrainingEndpointQuery,
   TrainingListItem,
+  TrainingManagementKpiCounts,
   TrainingRecordSearchQuery,
   TrainingRecordsState,
   TrainingsState,
@@ -45,10 +47,19 @@ const DEFAULT_PAGINATION: TrainingTablePagination = {
   totalPages: 0,
 }
 
+const DEFAULT_TRAINING_MANAGEMENT_KPIS: TrainingManagementKpiCounts = {
+  totalRecords: 0,
+  totalTrainings: 0,
+  totalCategories: 0,
+  unusedCategories: 0,
+}
+
 interface TrainingsStoreState {
   trainings: TrainingsState
   categories: TrainingCategoriesState
   records: TrainingRecordsState
+  kpis: TrainingManagementKpiCounts
+  hasLoadedKpis: boolean
 }
 
 const INITIAL_TRAININGS_STORE_STATE: TrainingsStoreState = {
@@ -70,7 +81,19 @@ const INITIAL_TRAININGS_STORE_STATE: TrainingsStoreState = {
     isLoading: false,
     error: '',
   },
+  kpis: { ...DEFAULT_TRAINING_MANAGEMENT_KPIS },
+  hasLoadedKpis: false,
 }
+
+const updateTrainingKpis = (
+  kpis: TrainingManagementKpiCounts,
+  updates: Partial<TrainingManagementKpiCounts>,
+): TrainingManagementKpiCounts => ({
+  totalRecords: Math.max(0, updates.totalRecords ?? kpis.totalRecords),
+  totalTrainings: Math.max(0, updates.totalTrainings ?? kpis.totalTrainings),
+  totalCategories: Math.max(0, updates.totalCategories ?? kpis.totalCategories),
+  unusedCategories: Math.max(0, updates.unusedCategories ?? kpis.unusedCategories),
+})
 
 const trainingsStoreOptions = {
   state: (): TrainingsStoreState => ({
@@ -78,15 +101,35 @@ const trainingsStoreOptions = {
     trainings: { ...INITIAL_TRAININGS_STORE_STATE.trainings, pagination: { ...DEFAULT_PAGINATION } },
     categories: { ...INITIAL_TRAININGS_STORE_STATE.categories, pagination: { ...DEFAULT_PAGINATION } },
     records: { ...INITIAL_TRAININGS_STORE_STATE.records, pagination: { ...DEFAULT_PAGINATION } },
+    kpis: { ...DEFAULT_TRAINING_MANAGEMENT_KPIS },
   }),
 
   getters: {
     hasTrainings: (state: TrainingsStoreState) => state.trainings.items.length > 0,
     hasTrainingCategories: (state: TrainingsStoreState) => state.categories.items.length > 0,
     hasTrainingRecords: (state: TrainingsStoreState) => state.records.items.length > 0,
+    trainingManagementKpis: (state: TrainingsStoreState) => state.kpis,
   },
 
   actions: {
+    async fetchTrainingManagementKpisOnce(this: TrainingsStoreState) {
+      if (this.hasLoadedKpis) {
+        return
+      }
+
+      this.trainings.error = ''
+
+      try {
+        this.kpis = await getTrainingManagementKpisEndpoint()
+        this.hasLoadedKpis = true
+      } catch (error) {
+        this.kpis = { ...DEFAULT_TRAINING_MANAGEMENT_KPIS }
+        this.hasLoadedKpis = false
+        this.trainings.error = extractApiErrorMessage(error, 'Unable to fetch training KPI counts.')
+        throw error
+      }
+    },
+
     async fetchTrainings(this: TrainingsStoreState, page = 1, filters: Partial<TrainingSearchQuery> = {}, pageSize = this.trainings.pagination.pageSize) {
       this.trainings.isLoading = true
       this.trainings.error = ''
@@ -216,12 +259,26 @@ const trainingsStoreOptions = {
 
       try {
         const response = await createTrainingEndpoint(payload)
+        const wasCategoryUnused = response.item.trainingCategoryId
+          ? !this.trainings.items.some(item => item.trainingCategoryId === response.item.trainingCategoryId)
+          : false
+
         this.trainings.items = [
           ...this.trainings.items,
           response.item,
         ]
         this.trainings.pagination.totalItems += 1
         this.trainings.pagination.totalPages = Math.max(1, Math.ceil(this.trainings.pagination.totalItems / this.trainings.pagination.pageSize))
+
+        if (this.hasLoadedKpis) {
+          this.kpis = updateTrainingKpis(this.kpis, {
+            totalTrainings: this.kpis.totalTrainings + 1,
+            unusedCategories: wasCategoryUnused
+              ? this.kpis.unusedCategories - 1
+              : this.kpis.unusedCategories,
+          })
+        }
+
         return { id: response.id }
       } catch (error) {
         this.trainings.error = extractApiErrorMessage(error, 'Unable to create training.')
@@ -240,6 +297,14 @@ const trainingsStoreOptions = {
         ]
         this.categories.pagination.totalItems += 1
         this.categories.pagination.totalPages = Math.max(1, Math.ceil(this.categories.pagination.totalItems / this.categories.pagination.pageSize))
+
+        if (this.hasLoadedKpis) {
+          this.kpis = updateTrainingKpis(this.kpis, {
+            totalCategories: this.kpis.totalCategories + 1,
+            unusedCategories: this.kpis.unusedCategories + 1,
+          })
+        }
+
         return { id: response.id }
       } catch (error) {
         this.categories.error = extractApiErrorMessage(error, 'Unable to create training category.')
@@ -257,6 +322,13 @@ const trainingsStoreOptions = {
         ]
         this.records.pagination.totalItems += 1
         this.records.pagination.totalPages = Math.max(1, Math.ceil(this.records.pagination.totalItems / this.records.pagination.pageSize))
+
+        if (this.hasLoadedKpis) {
+          this.kpis = updateTrainingKpis(this.kpis, {
+            totalRecords: this.kpis.totalRecords + 1,
+          })
+        }
+
         return { id: response.id }
       } catch (error) {
         this.records.error = extractApiErrorMessage(error, 'Unable to create training record.')
@@ -330,12 +402,26 @@ const trainingsStoreOptions = {
       this.trainings.error = ''
 
       try {
+        const deletedTraining = this.trainings.items.find(item => item.id === id) ?? null
         await deleteTrainingEndpoint(id)
         this.trainings.items = this.trainings.items.filter(item => item.id !== id)
         this.trainings.pagination.totalItems = Math.max(0, this.trainings.pagination.totalItems - 1)
         this.trainings.pagination.totalPages = this.trainings.pagination.totalItems === 0
           ? 0
           : Math.max(1, Math.ceil(this.trainings.pagination.totalItems / this.trainings.pagination.pageSize))
+
+        if (this.hasLoadedKpis) {
+          const remainingCategoryUse = deletedTraining?.trainingCategoryId
+            ? this.trainings.items.some(item => item.trainingCategoryId === deletedTraining.trainingCategoryId)
+            : true
+
+          this.kpis = updateTrainingKpis(this.kpis, {
+            totalTrainings: this.kpis.totalTrainings - 1,
+            unusedCategories: deletedTraining?.trainingCategoryId && !remainingCategoryUse
+              ? this.kpis.unusedCategories + 1
+              : this.kpis.unusedCategories,
+          })
+        }
       } catch (error) {
         this.trainings.error = extractApiErrorMessage(error, 'Unable to delete training.')
         throw error
@@ -346,12 +432,20 @@ const trainingsStoreOptions = {
       this.categories.error = ''
 
       try {
+        const deletedCategory = this.categories.items.find(item => item.id === id) ?? null
         await deleteTrainingCategoryEndpoint(id)
         this.categories.items = this.categories.items.filter(item => item.id !== id)
         this.categories.pagination.totalItems = Math.max(0, this.categories.pagination.totalItems - 1)
         this.categories.pagination.totalPages = this.categories.pagination.totalItems === 0
           ? 0
           : Math.max(1, Math.ceil(this.categories.pagination.totalItems / this.categories.pagination.pageSize))
+
+        if (this.hasLoadedKpis && deletedCategory) {
+          this.kpis = updateTrainingKpis(this.kpis, {
+            totalCategories: this.kpis.totalCategories - 1,
+            unusedCategories: this.kpis.unusedCategories - 1,
+          })
+        }
       } catch (error) {
         this.categories.error = extractApiErrorMessage(error, 'Unable to delete training category.')
         throw error
@@ -361,10 +455,17 @@ const trainingsStoreOptions = {
     async deleteTrainingRecord(this: TrainingsStoreState, id: string) {
       this.records.error = ''
       try {
+        const deletedRecord = this.records.items.find(item => item.id === id) ?? null
         await deleteTrainingRecordEndpoint(id)
         this.records.items = this.records.items.filter(item => item.id !== id)
         this.records.pagination.totalItems = Math.max(0, this.records.pagination.totalItems - 1)
         this.records.pagination.totalPages = this.records.pagination.totalItems === 0 ? 0 : Math.max(1, Math.ceil(this.records.pagination.totalItems / this.records.pagination.pageSize))
+
+        if (this.hasLoadedKpis && deletedRecord) {
+          this.kpis = updateTrainingKpis(this.kpis, {
+            totalRecords: this.kpis.totalRecords - 1,
+          })
+        }
       } catch (error) {
         this.records.error = extractApiErrorMessage(error, 'Unable to delete training record.')
         throw error
