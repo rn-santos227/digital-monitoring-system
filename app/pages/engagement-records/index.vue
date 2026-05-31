@@ -15,7 +15,6 @@
           icon-name="shield"
           tone="sky"
           :value="totalEngagements"
-          :loader="loadTotalEngagements"
         />
         <KpiCard
           title="Total Engagement Records"
@@ -23,7 +22,6 @@
           icon-name="clipboard-document-list"
           tone="amber"
           :value="totalEngagementRecords"
-          :loader="loadTotalEngagementRecords"
         />
       </div>
 
@@ -138,7 +136,6 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateEngagementModal from '~/components/engagements/CreateEngagementModal.vue'
 import CreateEngagementRecordModal from '~/components/engagements/CreateEngagementRecordModal.vue'
@@ -240,8 +237,8 @@ const engagementsError = computed(() => engagementsStore.engagements.error)
 const engagementRecordsError = computed(() => engagementsStore.records.error)
 const engagementsPagination = computed(() => engagementsStore.engagements.pagination)
 const engagementRecordsPagination = computed(() => engagementsStore.records.pagination)
-const totalEngagements = computed(() => engagementsPagination.value.totalItems)
-const totalEngagementRecords = computed(() => engagementRecordsPagination.value.totalItems)
+const totalEngagements = computed(() => engagementsStore.kpis.totalEngagements)
+const totalEngagementRecords = computed(() => engagementsStore.kpis.totalEngagementRecords)
 
 const updateFormValues = computed(() => ({
   engagementTitle: selectedEngagement.value?.engagementTitle ?? '',
@@ -425,22 +422,6 @@ watch(visibleTabItems, async (tabs) => {
   await Promise.all(loadTasks)
   hasLoadedPageData.value = true
 }, { immediate: true })
-
-const loadTotalEngagements = async (): Promise<KpiCardLoaderResult> => {
-  if (!hasLoadedPageData.value && visibleTabItems.value.some(tab => tab.id === 'engagements')) {
-    await loadEngagements()
-  }
-
-  return { value: totalEngagements.value }
-}
-
-const loadTotalEngagementRecords = async (): Promise<KpiCardLoaderResult> => {
-  if (!hasLoadedPageData.value && visibleTabItems.value.some(tab => tab.id === 'records')) {
-    await loadEngagementRecords()
-  }
-
-  return { value: totalEngagementRecords.value }
-}
 
 const handleTabChange = (tabId: string) => {
   activeTab.value = tabId as EngagementRecordsTabId
