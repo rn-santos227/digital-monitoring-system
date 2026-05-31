@@ -416,3 +416,15 @@ export interface EquipmentIssuanceListItem {
   createdAt: string
   updatedAt: string
 }
+
+export interface EquipmentIssuanceSearchQuery extends EquipmentCategoryEndpointQuery {
+  term?: string
+  issuedToPersonnelId?: string
+  statusId?: string
+}
+
+export interface EquipmentIssuanceTableRow extends EquipmentIssuanceListItem {}
+
+export type EquipmentIssuanceTableActionKey =
+  | 'view-equipment-issuance'
+  | 'delete-equipment-issuance'
