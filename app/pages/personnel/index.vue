@@ -21,7 +21,6 @@
             tone="emerald"
             :value="totalPersonnelCount"
             context="Personnel records in the current registry."
-            :loader="loadTotalPersonnel"
           />
           <KpiCard
             title="Deployed Personnel"
@@ -29,8 +28,7 @@
             icon-name="shield"
             tone="sky"
             :value="deployedPersonnelCount"
-            context="Based on the loaded personnel page."
-            :loader="loadDeployedPersonnel"
+            context="Personnel currently tagged with deployed service status."
           />
           <KpiCard
             title="Total Ranks"
@@ -39,7 +37,6 @@
             tone="violet"
             :value="totalRanksCount"
             context="Ranks available in rank management."
-            :loader="loadTotalRanks"
           />
           <KpiCard
             title="Unused Ranks"
@@ -47,8 +44,7 @@
             icon-name="archive"
             tone="amber"
             :value="unusedRanksCount"
-            context="Computed from loaded personnel rows versus total ranks."
-            :loader="loadUnusedRanks"
+            context="Rank records with no personnel assignment."
           />
         </div>
 
@@ -168,7 +164,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import KpiCard, { type KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
+import KpiCard from '~/components/general/KpiCard.vue'
 import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import BatchUploadPersonnelModal from '~/components/personnel/BatchUploadPersonnelModal.vue'
 import CreateRankModal from '~/components/personnel/CreateRankModal.vue'
@@ -217,7 +213,7 @@ import type { CreateRankPayload } from '~/types/domain/rank'
 import type { PersonnelDetail, PersonnelSearchQuery, UpdatePersonnelPayload } from '~/types/domain/personnel'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
-const { filters, tableRows, pagination, isLoading, error, loadPersonnel, createPersonnel, updatePersonnel, deletePersonnel, getPersonnelById, uploadPersonnelBatch } = usePersonnel()
+const { filters, tableRows, kpis, pagination, isLoading, error, loadPersonnel, createPersonnel, updatePersonnel, deletePersonnel, getPersonnelById, uploadPersonnelBatch } = usePersonnel()
 const { tableRows: rankRows, pagination: rankPagination, isLoading: isRanksLoading, error: rankError, search: rankSearchTerm, loadRanks, createRank, deleteRank } = useRanks()
 const { handleFilterApply, handleFilterReset } = usePersonnelPageHandlers(filters)
 const { handleDownloadAndPrintPersonnel } = usePrintPersonnelHandler()
@@ -313,48 +309,10 @@ const canDeleteRanks = computed(() => {
   return authStore.hasPermissionAccess(RANK_PRIVILEGES.delete)
 })
 
-const totalPersonnelCount = computed(() => pagination.value.totalItems)
-
-const deployedPersonnelCount = computed(() => {
-  return tableRows.value.reduce((count, row) => {
-    const serviceStatus = row.serviceStatus.trim().toLowerCase()
-    return serviceStatus.includes('deployed') ? count + 1 : count
-  }, 0)
-})
-
-const totalRanksCount = computed(() => rankPagination.value.totalItems)
-
-const unusedRanksCount = computed(() => {
-  const usedRankNames = new Set(
-    tableRows.value.map((row) => row.rankName.trim().toLowerCase()).filter((rankName) => rankName.length > 0),
-  )
-  return Math.max(0, rankPagination.value.totalItems - usedRankNames.size)
-})
-
-const loadTotalPersonnel = async (): Promise<KpiCardLoaderResult> => ({
-  value: totalPersonnelCount.value,
-  context: 'Personnel records in the current registry.',
-})
-
-const loadDeployedPersonnel = async (): Promise<KpiCardLoaderResult> => {
-  return {
-    value: deployedPersonnelCount.value,
-    context: 'Based on the loaded personnel page.',
-  }
-}
-
-const loadTotalRanks = async (): Promise<KpiCardLoaderResult> => ({
-  value: totalRanksCount.value,
-  context: 'Ranks available in rank management.',
-})
-
-
-const loadUnusedRanks = async (): Promise<KpiCardLoaderResult> => {
-  return {
-    value: unusedRanksCount.value,
-    context: 'Computed from loaded personnel rows versus total ranks.',
-  }
-}
+const totalPersonnelCount = computed(() => kpis.value.totalPersonnel)
+const deployedPersonnelCount = computed(() => kpis.value.deployedPersonnel)
+const totalRanksCount = computed(() => kpis.value.totalRanks)
+const unusedRanksCount = computed(() => kpis.value.unusedRanks)
 
 watch(canViewPersonnel, (hasAccess) => {
   if (!hasAccess) {
