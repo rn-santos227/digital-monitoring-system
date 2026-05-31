@@ -434,3 +434,10 @@ export interface EquipmentIssuanceTableActionPayload {
   row: EquipmentIssuanceTableRow
 }
 
+export interface EquipmentIssuanceListResponse {
+  items: EquipmentIssuanceListItem[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
