@@ -14,7 +14,6 @@
           tone="amber"
           :value="totalTrainingRecords"
           context="Personnel training records currently available in the training module."
-          :loader="loadTotalRecords"
         />
         <KpiCard
           title="Total Trainings"
@@ -23,7 +22,6 @@
           tone="sky"
           :value="totalTrainings"
           context="Trainings currently available in the training module."
-          :loader="loadTotalTrainings"
         />
         <KpiCard
           title="Total Categories"
@@ -32,14 +30,14 @@
           tone="violet"
           :value="totalCategories"
           context="Training categories currently available in the training module."
-          :loader="loadTotalCategories"
         />
         <KpiCard
           title="Unused Categories"
           subtitle="Training categories with no training records assigned."
           icon-name="archive"
           tone="amber"
-          :loader="loadUnusedTrainingCategories"
+          :value="unusedTrainingCategories"
+          context="Training categories not used by any training master record."
         />
       </div>
 
@@ -187,7 +185,6 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
-import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateTrainingModal from '~/components/trainings/CreateTrainingModal.vue'
 import CreateTrainingRecordModal from '~/components/trainings/CreateTrainingRecordModal.vue'
@@ -264,10 +261,10 @@ const hasLoadedCategories = ref(false)
 const {
   filters: trainingFilters,
   tableRows: trainingTableRows,
+  kpis,
   pagination: trainingPagination,
   isLoading: isTrainingLoading,
   error: trainingError,
-  totalItems: totalTrainings,
   loadTrainings,
   createTraining,
   updateTraining,
@@ -281,7 +278,6 @@ const {
   pagination: trainingRecordsPagination,
   isLoading: isTrainingRecordsLoading,
   error: trainingRecordsError,
-  totalItems: totalTrainingRecords,
   loadTrainingRecords,
   createTrainingRecord,
   updateTrainingRecord,
@@ -295,7 +291,6 @@ const {
   pagination: categoryPagination,
   isLoading: isCategoryLoading,
   error: categoryError,
-  totalItems: totalCategories,
   loadTrainingCategories,
   createTrainingCategory,
   updateTrainingCategory,
@@ -372,6 +367,11 @@ const showCreateButton = computed(() => {
 
   return activeTab.value === 'trainings' || activeTab.value === 'categories'
 })
+
+const totalTrainingRecords = computed(() => kpis.value.totalRecords)
+const totalTrainings = computed(() => kpis.value.totalTrainings)
+const totalCategories = computed(() => kpis.value.totalCategories)
+const unusedTrainingCategories = computed(() => kpis.value.unusedCategories)
 
 const createButtonLabel = computed(() => {
   if (activeTab.value === 'records') {
@@ -660,57 +660,6 @@ const onUpdateTrainingCategoryWithFeedback = createModalFeedbackHandler(onUpdate
   errorTitle: 'Update failed',
   errorMessage: 'Unable to update training category right now.',
 })
-
-const loadTotalRecords = async (): Promise<KpiCardLoaderResult> => {
-  if (canManageTrainingRecords.value) {
-    await loadTrainingRecords(1, trainingRecordsFilters.value, 10)
-  }
-
-  return {
-    value: totalTrainingRecords.value,
-    context: 'Personnel training records currently available in the training module.',
-  }
-}
-
-const loadTotalTrainings = async (): Promise<KpiCardLoaderResult> => {
-  await loadTrainings(1, trainingFilters.value, 10)
-
-  return {
-    value: totalTrainings.value,
-    context: 'Trainings currently available in the training module.',
-  }
-}
-
-const loadTotalCategories = async (): Promise<KpiCardLoaderResult> => {
-  await loadTrainingCategories(1, categoryFilters.value, 10)
-
-  return {
-    value: totalCategories.value,
-    context: 'Training categories currently available in the training module.',
-  }
-}
-
-
-const loadUnusedTrainingCategories = async (): Promise<KpiCardLoaderResult> => {
-  await Promise.all([
-    loadTrainings(1, trainingFilters.value, 100),
-    loadTrainingCategories(1, categoryFilters.value, 100),
-  ])
-
-  const usedCategoryIds = new Set(
-    trainingTableRows.value
-      .map(training => training.trainingCategoryId)
-      .filter((trainingCategoryId): trainingCategoryId is string => Boolean(trainingCategoryId)),
-  )
-  const unusedCategoryCount = categoryTableRows.value.filter(
-    category => !usedCategoryIds.has(category.id),
-  ).length
-
-  return {
-    value: unusedCategoryCount.toLocaleString(),
-    context: 'Training categories not used by any training master record.',
-  }
-}
 
 onMounted(async () => {
   const loadTasks: Promise<unknown>[] = []
