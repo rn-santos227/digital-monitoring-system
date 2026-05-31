@@ -428,3 +428,9 @@ export interface EquipmentIssuanceTableRow extends EquipmentIssuanceListItem {}
 export type EquipmentIssuanceTableActionKey =
   | 'view-equipment-issuance'
   | 'delete-equipment-issuance'
+
+export interface EquipmentIssuanceTableActionPayload {
+  actionKey: EquipmentIssuanceTableActionKey
+  row: EquipmentIssuanceTableRow
+}
+
