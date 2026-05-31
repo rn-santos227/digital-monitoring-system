@@ -456,3 +456,11 @@ export interface CreateEquipmentIssuancePayload {
   returnLocation?: string | null
   remarks?: string | null
 }
+
+export interface UpdateEquipmentIssuancePayload extends Partial<CreateEquipmentIssuancePayload> {}
+
+export interface CreateEquipmentIssuanceResponse {
+  ok: boolean
+  id: string
+  item: EquipmentIssuanceListItem
+}
