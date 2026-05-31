@@ -43,6 +43,7 @@ export const PRIVILEGE_CODES = Object.freeze({
   equipmentUpdate: 'equipment.update',
   equipmentDelete: 'equipment.delete',
   equipmentManage: 'equipment.manage',
+  equipmentIssue: 'equipment.issue',
   settingsUpdate: 'settings.update',
 })
 
@@ -121,6 +122,8 @@ export const EQUIPMENT_PRIVILEGES = Object.freeze({
   edit: Object.freeze([PRIVILEGE_CODES.equipmentUpdate]),
   delete: Object.freeze([PRIVILEGE_CODES.equipmentDelete]),
   manage: Object.freeze([PRIVILEGE_CODES.equipmentManage]),
+  issue: Object.freeze([PRIVILEGE_CODES.equipmentIssue]),
+  mutateIssuance: Object.freeze([PRIVILEGE_CODES.equipmentIssue, PRIVILEGE_CODES.equipmentManage]),
 })
 
 export const SETTINGS_PRIVILEGES = Object.freeze({
