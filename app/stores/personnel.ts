@@ -7,6 +7,7 @@ import type {
   UpdatePersonnelPayload,
   PersonnelDetail,
   PersonnelEndpointQuery,
+  PersonnelKpiCounts,
   PersonnelListCompactItem,
   PersonnelSearchQuery,
   PersonnelState,
@@ -16,6 +17,7 @@ import {
   createPersonnelEndpoint,
   deletePersonnelEndpoint,
   getPersonnelByIdEndpoint,
+  getPersonnelKpisEndpoint,
   getPersonnelEndpoint,
   searchPersonnelEndpoint,
   updatePersonnelEndpoint,
@@ -28,24 +30,102 @@ const DEFAULT_PAGINATION: PersonnelTablePagination = {
   totalPages: 0,
 }
 
+const DEFAULT_PERSONNEL_KPIS: PersonnelKpiCounts = {
+  totalPersonnel: 0,
+  deployedPersonnel: 0,
+  totalRanks: 0,
+  unusedRanks: 0,
+}
+
 const INITIAL_PERSONNEL_STATE: PersonnelState = {
   items: [],
+  kpis: { ...DEFAULT_PERSONNEL_KPIS },
+  hasLoadedKpis: false,
   pagination: { ...DEFAULT_PAGINATION },
   isLoading: false,
   error: '',
 }
 
+const isDeployedPersonnel = (item: Pick<PersonnelListCompactItem, 'serviceStatus'> | null | undefined) => {
+  return item?.serviceStatus.trim().toLowerCase().includes('deployed') ?? false
+}
+
+const applyPersonnelKpiDelta = (
+  kpis: PersonnelKpiCounts,
+  item: PersonnelListCompactItem,
+  delta: 1 | -1,
+): PersonnelKpiCounts => {
+  const totalPersonnel = Math.max(0, kpis.totalPersonnel + delta)
+  const deployedPersonnel = Math.max(0, kpis.deployedPersonnel + (isDeployedPersonnel(item) ? delta : 0))
+
+  return {
+    ...kpis,
+    totalPersonnel,
+    deployedPersonnel,
+  }
+}
+
+const applyPersonnelDeploymentTransition = (
+  kpis: PersonnelKpiCounts,
+  previousItem: PersonnelListCompactItem,
+  nextItem: Pick<PersonnelListCompactItem, 'serviceStatus'>,
+): PersonnelKpiCounts => {
+  const wasDeployed = isDeployedPersonnel(previousItem)
+  const isDeployed = isDeployedPersonnel(nextItem)
+
+  if (wasDeployed === isDeployed) {
+    return kpis
+  }
+
+  return {
+    ...kpis,
+    deployedPersonnel: Math.max(0, kpis.deployedPersonnel + (isDeployed ? 1 : -1)),
+  }
+}
+
 const personnelStoreOptions = {
   state: (): PersonnelState => ({
     ...INITIAL_PERSONNEL_STATE,
+    kpis: { ...DEFAULT_PERSONNEL_KPIS },
     pagination: { ...DEFAULT_PAGINATION },
   }),
 
   getters: {
     hasPersonnelItems: (state: PersonnelState) => state.items.length > 0,
+    personnelKpis: (state: PersonnelState) => state.kpis,
   },
 
   actions: {
+    async fetchPersonnelKpisOnce(this: PersonnelState) {
+      if (this.hasLoadedKpis) {
+        return
+      }
+
+      this.error = ''
+
+      try {
+        this.kpis = await getPersonnelKpisEndpoint()
+        this.hasLoadedKpis = true
+      } catch (error) {
+        this.kpis = { ...DEFAULT_PERSONNEL_KPIS }
+        this.hasLoadedKpis = false
+        this.error = extractApiErrorMessage(error, 'Unable to fetch personnel KPI counts.')
+        throw error
+      }
+    },
+
+    applyRankKpiDelta(this: PersonnelState, delta: 1 | -1) {
+      if (!this.hasLoadedKpis) {
+        return
+      }
+
+      this.kpis = {
+        ...this.kpis,
+        totalRanks: Math.max(0, this.kpis.totalRanks + delta),
+        unusedRanks: Math.max(0, this.kpis.unusedRanks + delta),
+      }
+    },
+
     async fetchPersonnel(this: PersonnelState, page = 1, filters: Partial<PersonnelSearchQuery> = {}, pageSize = this.pagination.pageSize) {
       this.isLoading = true
       this.error = ''
@@ -122,6 +202,10 @@ const personnelStoreOptions = {
         this.pagination.totalItems += 1
         this.pagination.totalPages = Math.max(1, Math.ceil(this.pagination.totalItems / this.pagination.pageSize))
 
+        if (this.hasLoadedKpis) {
+          this.kpis = applyPersonnelKpiDelta(this.kpis, createdPersonnelListItem, 1)
+        }
+
         return response
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create personnel record.')
@@ -160,6 +244,13 @@ const personnelStoreOptions = {
           }
         }
 
+        if (this.hasLoadedKpis && insertedCount > 0) {
+          this.kpis = {
+            ...this.kpis,
+            totalPersonnel: this.kpis.totalPersonnel + insertedCount,
+          }
+        }
+
         return {
           insertedCount,
           totalCount: parsedRows.length,
@@ -185,6 +276,7 @@ const personnelStoreOptions = {
 
     async updatePersonnel(this: PersonnelState, id: string, payload: UpdatePersonnelPayload) {
       this.error = ''
+      const previousPersonnel = this.items.find((item) => item.id === id) ?? null
 
       try {
         const response = await updatePersonnelEndpoint(id, payload)
@@ -208,6 +300,12 @@ const personnelStoreOptions = {
           }
         })
 
+        if (this.hasLoadedKpis && previousPersonnel) {
+          this.kpis = applyPersonnelDeploymentTransition(this.kpis, previousPersonnel, {
+            serviceStatus: updatedPersonnel.serviceStatus,
+          })
+        }
+
         return response
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to update personnel record.')
@@ -221,6 +319,7 @@ const personnelStoreOptions = {
 
       try {
         const response = await deletePersonnelEndpoint(id)
+        const deletedPersonnel = this.items.find(item => item.id === id) ?? null
         const nextItems = this.items.filter(item => item.id !== id)
 
         if (nextItems.length !== this.items.length) {
@@ -229,6 +328,10 @@ const personnelStoreOptions = {
           this.pagination.totalPages = this.pagination.totalItems === 0
             ? 0
             : Math.ceil(this.pagination.totalItems / this.pagination.pageSize)
+
+          if (this.hasLoadedKpis && deletedPersonnel) {
+            this.kpis = applyPersonnelKpiDelta(this.kpis, deletedPersonnel, -1)
+          }
         }
 
         return response
