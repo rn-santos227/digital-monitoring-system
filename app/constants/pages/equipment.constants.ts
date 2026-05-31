@@ -77,3 +77,13 @@ export const EQUIPMENT_ASSETS_ASSET_STATUS_OPTIONS = Object.freeze(
   ASSET_STATUS_VALUES.map((value) => ({ label: value, value })),
 )
 export const EQUIPMENT_ASSETS_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGES
+
+export const EQUIPMENT_ISSUANCES_PAGE_TITLE = 'Equipment Issuances'
+export const EQUIPMENT_ISSUANCES_PAGE_SUBTITLE = 'Monitor issued equipment assets, assigned personnel, return timelines, and issuance status.'
+export const EQUIPMENT_ISSUANCES_PAGE_SECTION_CLASSES = 'space-y-6'
+export const EQUIPMENT_ISSUANCES_FILTER_CARD_TITLE = 'Filter Equipment Issuances'
+export const EQUIPMENT_ISSUANCES_FILTER_TERM_LABEL = 'Search Term'
+export const EQUIPMENT_ISSUANCES_FILTER_TERM_PLACEHOLDER = 'Search issue number, issued location, or remarks'
+export const EQUIPMENT_ISSUANCES_FILTER_APPLY_LABEL = 'Apply Filters'
+export const EQUIPMENT_ISSUANCES_FILTER_RESET_LABEL = 'Reset'
+export const EQUIPMENT_ISSUANCES_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGES
