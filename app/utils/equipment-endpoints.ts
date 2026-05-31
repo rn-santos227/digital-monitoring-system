@@ -326,6 +326,18 @@ export const createEquipmentAssetEndpoint = async (body: CreateEquipmentAssetPay
   }, API_LOADING_MESSAGES.createEquipmentAsset)
 }
 
+export const createEquipmentIssuanceEndpoint = async (
+  body: CreateEquipmentIssuancePayload,
+): Promise<CreateEquipmentIssuanceResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<CreateEquipmentIssuanceResponse>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentIssuances, {
+      method: 'POST',
+      headers: createSessionHeaders(),
+      body,
+    })
+  }, API_LOADING_MESSAGES.createEquipmentIssuance)
+}
+
 export const getEquipmentCategoryByIdEndpoint = async (
   id: string,
 ): Promise<EquipmentCategoryDetailItem> => {
