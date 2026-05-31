@@ -391,3 +391,28 @@ export interface EquipmentItemsState {
   isLoading: boolean
   error: string
 }
+
+export interface EquipmentIssuanceListItem {
+  id: string
+  issueNo: string
+  equipmentAssetId: string
+  equipmentAssetTag: string
+  equipmentItemName: string
+  issuedToPersonnelId: string
+  issuedToPersonnelName: string
+  issuedByPersonnelId: string
+  issuedByPersonnelName: string
+  deploymentId: string | null
+  deploymentLabel: string | null
+  issueDate: string
+  expectedReturnDate: string | null
+  actualReturnDate: string | null
+  quantityIssued: number
+  statusId: string
+  statusName: string
+  issuedLocation: string | null
+  returnLocation: string | null
+  remarks: string | null
+  createdAt: string
+  updatedAt: string
+}
