@@ -1,4 +1,4 @@
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import type {
   CreateEngagementPayload,
@@ -10,7 +10,7 @@ import { useEngagementsStore } from '~/stores/engagements'
 
 export const useEngagements = () => {
   const engagementsStore = useEngagementsStore()
-  const { engagements } = storeToRefs(engagementsStore)
+  const { engagements, kpis } = storeToRefs(engagementsStore)
   const filters = ref<Partial<EngagementManagementSearchQuery>>({})
 
   const tableRows = computed(() => engagements.value.items.map((item) => ({
@@ -32,9 +32,14 @@ export const useEngagements = () => {
     await engagementsStore.fetchEngagements(page, filters.value, pageSize)
   }
 
+  onMounted(() => {
+    void engagementsStore.fetchEngagementManagementKpisOnce().catch(() => {})
+  })
+
   return {
     filters,
     tableRows,
+    kpis,
     pagination: computed(() => engagements.value.pagination),
     isLoading: computed(() => engagements.value.isLoading),
     error: computed(() => engagements.value.error),
