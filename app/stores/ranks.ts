@@ -3,6 +3,7 @@ import type { CreateRankPayload, RankListItem, RankListQuery, RankState, RankTab
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-size'
 import { createRankEndpoint, deleteRankEndpoint, getRanksEndpoint } from '~/utils/rank-endpoints'
+import { usePersonnelStore } from '~/stores/personnel'
 
 const DEFAULT_RANK_PAGINATION: RankTablePagination = {
   page: 1,
@@ -110,6 +111,8 @@ const rankStoreOptions = {
           this.pagination = recalculateRankPaginationTotals(this.pagination, this.pagination.totalItems + 1)
         }
 
+        usePersonnelStore().applyRankKpiDelta(1)
+
         return result
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create rank record.')
@@ -132,6 +135,8 @@ const rankStoreOptions = {
         if (wasRankPresent) {
           this.pagination = recalculateRankPaginationTotals(this.pagination, Math.max(this.pagination.totalItems - 1, 0))
         }
+
+        usePersonnelStore().applyRankKpiDelta(-1)
 
         return result
       } catch (error) {
