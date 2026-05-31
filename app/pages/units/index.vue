@@ -12,21 +12,22 @@
           subtitle="Tracked company units in the registry."
           icon-name="building"
           tone="violet"
-          :loader="loadTotalCompanies"
+          :value="totalCompanies"
         />
         <KpiCard
           title="Total Battalions"
           subtitle="Tracked battalion units in the registry."
           icon-name="shield"
           tone="sky"
-          :loader="loadTotalBattalions"
+          :value="totalBattalions"
         />
         <KpiCard
           title="Unassigned Personnel"
           subtitle="Personnel without company assignment."
           icon-name="users"
           tone="amber"
-          :loader="loadUnassignedPersonnel"
+          :value="totalUnassignedPersonnel"
+          context="Personnel without company assignment currently available in unit data."
         />
       </div>
 
@@ -152,7 +153,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
+import { storeToRefs } from 'pinia'
 import { useDialog } from '~/composables/useDialog'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateBattalionModal from '~/components/units/CreateBattalionModal.vue'
@@ -205,16 +206,18 @@ import {
   useAssignCompanyHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
+import { useUnitManagementKpisStore } from '~/stores/units'
 import type {
   UnitManagementTabId,
   BattalionDetailItem,
   CompanyDetailItem,
 } from '~/types/domain/units'
-import { getUnitManagementKpisEndpoint } from '~/utils/dashboard-endpoints'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
 const activeTab = ref<UnitManagementTabId>('battalion')
 const authStore = useAuthStore()
+const unitKpisStore = useUnitManagementKpisStore()
+const { kpis: unitKpis } = storeToRefs(unitKpisStore)
 const { addToast } = useToast()
 const { showDialog } = useDialog()
 const isCreateBattalionModalOpen = ref(false)
@@ -480,42 +483,9 @@ const onCompanyPageSizeChange = (nextPageSize: number) => {
   void loadCompanies(1, companyFilters.value, nextPageSize)
 }
 
-const isUnitsKpiWarmupLoaded = ref(false)
-const totalUnassignedPersonnel = ref(0)
-
-const warmupUnitsKpiData = async () => {
-  if (isUnitsKpiWarmupLoaded.value) {
-    return
-  }
-
-  await Promise.all([
-    loadBattalions(1, battalionFilters.value, battalionPagination.value.pageSize),
-    loadCompanies(1, companyFilters.value, companyPagination.value.pageSize),
-    getUnitManagementKpisEndpoint().then((kpis) => {
-      totalUnassignedPersonnel.value = kpis.totalUnassignedPersonnel
-    }),
-  ])
-
-  isUnitsKpiWarmupLoaded.value = true
-}
-
-const loadTotalCompanies = async (): Promise<KpiCardLoaderResult> => {
-  await warmupUnitsKpiData()
-  return { value: companyPagination.value.totalItems }
-}
-
-const loadTotalBattalions = async (): Promise<KpiCardLoaderResult> => {
-  await warmupUnitsKpiData()
-  return { value: battalionPagination.value.totalItems }
-}
-
-const loadUnassignedPersonnel = async (): Promise<KpiCardLoaderResult> => {
-  await warmupUnitsKpiData()
-  return {
-    value: totalUnassignedPersonnel.value,
-    context: 'Personnel without company assignment currently available in unit data.',
-  }
-}
+const totalCompanies = computed(() => unitKpis.value.totalCompanies)
+const totalBattalions = computed(() => unitKpis.value.totalBattalions)
+const totalUnassignedPersonnel = computed(() => unitKpis.value.totalUnassignedPersonnel)
 
 const handleCreateBattalion = createModalFeedbackHandler(handleCreateUnitBattalion, showDialog, {
   successTitle: 'Battalion created',
@@ -556,6 +526,18 @@ watch(
     if (firstVisibleTab) {
       activeTab.value = firstVisibleTab.id as UnitManagementTabId
     }
+  },
+  { immediate: true }
+)
+
+watch(
+  visibleTabItems,
+  (items) => {
+    if (items.length === 0) {
+      return
+    }
+
+    void unitKpisStore.fetchUnitManagementKpisOnce().catch(() => {})
   },
   { immediate: true }
 )
