@@ -1,11 +1,11 @@
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { usePersonnelStore } from '~/stores/personnel'
 import type { CreatePersonnelPayload, PersonnelSearchQuery, UpdatePersonnelPayload } from '~/types/domain/personnel'
 
 export const usePersonnel = () => {
   const personnelStore = usePersonnelStore()
-  const { items, pagination, isLoading, error } = storeToRefs(personnelStore)
+  const { items, kpis, pagination, isLoading, error } = storeToRefs(personnelStore)
 
   const filters = ref<Partial<PersonnelSearchQuery>>({})
 
@@ -64,9 +64,14 @@ export const usePersonnel = () => {
     return response
   }
 
+  onMounted(() => {
+    void personnelStore.fetchPersonnelKpisOnce().catch(() => {})
+  })
+
   return {
     filters,
     tableRows,
+    kpis,
     pagination,
     isLoading,
     error,
