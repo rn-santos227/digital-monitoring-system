@@ -15,7 +15,7 @@ import type {
 
 export const useUsers = () => {
   const usersStore = useUsersStore()
-  const { profileItems, accountItems, privilegeItems, profilePagination, accountPagination, isLoading, error } = storeToRefs(usersStore)
+  const { profileItems, accountItems, privilegeItems, kpis, profilePagination, accountPagination, isLoading, error } = storeToRefs(usersStore)
 
   const activeTab = ref<UserManagementTabId>('user-profile')
   const profileFilters = ref<Partial<UserProfilesSearchQuery>>({})
@@ -131,6 +131,7 @@ export const useUsers = () => {
   }
 
   onMounted(() => {
+    void usersStore.fetchUserManagementKpisOnce().catch(() => {})
     void Promise.all([
       loadUserProfiles(1),
       loadUserAccounts(1),
@@ -143,6 +144,7 @@ export const useUsers = () => {
     accountFilters,
     profileTableRows,
     accountTableRows,
+    kpis,
     profilePagination,
     accountPagination,
     isLoading,
