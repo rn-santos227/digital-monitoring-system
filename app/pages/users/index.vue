@@ -12,21 +12,24 @@
             subtitle="User profiles currently marked as active."
             icon-name="check-circle"
             tone="emerald"
-            :loader="loadActiveUsersKpi"
+            :value="activeUsersKpi"
+            context="User profiles with active login status."
           />
           <KpiCard
             title="Total Inactive Users"
             subtitle="User profiles currently marked as inactive."
             icon-name="x-circle"
             tone="amber"
-            :loader="loadInactiveUsersKpi"
+            :value="inactiveUsersKpi"
+            context="User profiles with inactive login status."
           />
           <KpiCard
             title="Unused Account Types"
             subtitle="Account types with no user profile assignments."
             icon-name="archive"
             tone="amber"
-            :loader="loadUnusedAccountTypesKpi"
+            :value="unusedAccountTypesKpi"
+            context="Account types with no linked user profiles."
           />
       </div>
 
@@ -157,7 +160,6 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import UsersFilter from '~/components/users/UsersFilter.vue'
 import AccountTypesFilter from '~/components/users/AccountTypesFilter.vue'
@@ -207,6 +209,7 @@ const {
   accountFilters,
   profileTableRows,
   accountTableRows,
+  kpis,
   profilePagination,
   accountPagination,
   isLoading,
@@ -255,51 +258,9 @@ const onTabChange = (nextTab: string) => {
   handleTabChange(nextTab)
 }
 
-const loadActiveUsersKpi = async (): Promise<KpiCardLoaderResult> => {
-  await loadUserProfiles(1, profileFilters.value, profilePagination.value.pageSize)
-
-  const activeUsersCount = profileTableRows.value.filter(profile => profile.status === 'Active').length
-
-  return {
-    value: activeUsersCount.toLocaleString(),
-    context: 'User profiles with active login status.',
-  }
-}
-
-const loadInactiveUsersKpi = async (): Promise<KpiCardLoaderResult> => {
-  await loadUserProfiles(1, profileFilters.value, profilePagination.value.pageSize)
-
-  const inactiveUsersCount = profileTableRows.value.filter(profile => profile.status === 'Inactive').length
-
-  return {
-    value: inactiveUsersCount.toLocaleString(),
-    context: 'User profiles with inactive login status.',
-  }
-}
-
-
-const loadUnusedAccountTypesKpi = async (): Promise<KpiCardLoaderResult> => {
-  await Promise.all([
-    loadUserAccounts(1, accountFilters.value, accountPagination.value.pageSize),
-    loadUserProfiles(1, profileFilters.value, profilePagination.value.pageSize),
-  ])
-
-  const usedAccountTypeCodes = new Set(
-    profileTableRows.value
-      .flatMap(profile => profile.accountTypes.split(','))
-      .map(accountTypeCode => accountTypeCode.trim())
-      .filter(accountTypeCode => accountTypeCode.length > 0 && accountTypeCode !== 'No account type'),
-  )
-
-  const unusedAccountTypeCount = accountTableRows.value.filter(
-    accountType => !usedAccountTypeCodes.has(accountType.code),
-  ).length
-
-  return {
-    value: unusedAccountTypeCount.toLocaleString(),
-    context: 'Account types with no linked user profiles.',
-  }
-}
+const activeUsersKpi = computed(() => kpis.value.activeUsers)
+const inactiveUsersKpi = computed(() => kpis.value.inactiveUsers)
+const unusedAccountTypesKpi = computed(() => kpis.value.unusedAccountTypes)
 
 const profileFilterValidationErrors = ref<FieldValidationMap>({})
 const accountFilterValidationErrors = ref<FieldValidationMap>({})
