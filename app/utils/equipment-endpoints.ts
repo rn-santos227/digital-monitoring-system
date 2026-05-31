@@ -28,9 +28,15 @@ import type {
   EquipmentItemSuggestionResponse,
   CreateEquipmentItemPayload,
   CreateEquipmentItemResponse,
+  CreateEquipmentIssuancePayload,
+  CreateEquipmentIssuanceResponse,
+  EquipmentIssuanceListItem,
+  EquipmentIssuanceListResponse,
+  EquipmentIssuanceSearchQuery,
   UpdateEquipmentAssetPayload,
   UpdateEquipmentCategoryPayload,
   UpdateEquipmentItemPayload,
+  UpdateEquipmentIssuancePayload,
 } from '~/types/domain/equipment'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
