@@ -461,3 +461,12 @@ export const deleteEquipmentAssetEndpoint = async (id: string): Promise<{ ok: bo
     })
   }, API_LOADING_MESSAGES.deleteEquipmentAsset)
 }
+
+export const deleteEquipmentIssuanceEndpoint = async (id: string): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentIssuanceById(id), {
+      method: 'DELETE',
+      headers: createSessionHeaders(),
+    })
+  }, API_LOADING_MESSAGES.deleteEquipmentIssuance)
+}
