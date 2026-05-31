@@ -95,6 +95,7 @@ import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 const {
   filters,
   tableRows,
+  kpis,
   pagination,
   isLoading,
   error,
@@ -159,7 +160,7 @@ const { onDeleteEquipmentItem } = useDeleteEquipmentItemHandler({
   showDialog,
 })
 
-const totalEquipmentItemsKpi = computed(() => pagination.value.totalItems)
+const totalEquipmentItemsKpi = computed(() => kpis.value.totalItems)
 
 const onApply = async (value: Partial<EquipmentItemSearchQuery>) => {
   const result = handleFilterApply(value)
