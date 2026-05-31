@@ -5,10 +5,12 @@ import type {
   CreateEquipmentItemPayload,
   EquipmentAssetKpiCounts,
   EquipmentAssetListItem,
+  EquipmentCategoryKpiCounts,
   EquipmentCategoriesState,
   EquipmentCategorySearchQuery,
   EquipmentAssetsState,
   EquipmentAssetSearchQuery,
+  EquipmentItemKpiCounts,
   EquipmentItemsState,
   EquipmentItemSearchQuery,
   UpdateEquipmentAssetPayload,
@@ -27,10 +29,12 @@ import {
   getEquipmentAssetByIdEndpoint,
   getEquipmentAssetKpisEndpoint,
   getEquipmentAssetsEndpoint,
+  getEquipmentCategoryKpisEndpoint,
   hasEquipmentAssetSearchFilters,
   searchEquipmentAssetsEndpoint,
   getEquipmentCategoriesEndpoint,
   getEquipmentCategoryByIdEndpoint,
+  getEquipmentItemKpisEndpoint,
   getEquipmentItemByIdEndpoint,
   getEquipmentItemsEndpoint,
   hasEquipmentCategorySearchFilters,
@@ -47,6 +51,11 @@ const DEFAULT_EQUIPMENT_CATEGORIES_PAGINATION = {
   pageSize: resolveDefaultFetchPageSize(),
   totalItems: 0,
   totalPages: 0,
+}
+
+const DEFAULT_EQUIPMENT_CATEGORY_KPIS: EquipmentCategoryKpiCounts = {
+  totalCategories: 0,
+  unusedCategories: 0,
 }
 
 const DEFAULT_EQUIPMENT_ASSETS_PAGINATION = {
@@ -68,6 +77,18 @@ const DEFAULT_EQUIPMENT_ITEMS_PAGINATION = {
   totalItems: 0,
   totalPages: 0,
 }
+
+const DEFAULT_EQUIPMENT_ITEM_KPIS: EquipmentItemKpiCounts = {
+  totalItems: 0,
+}
+
+const updateEquipmentCategoryKpis = (
+  kpis: EquipmentCategoryKpiCounts,
+  updates: Partial<EquipmentCategoryKpiCounts>,
+): EquipmentCategoryKpiCounts => ({
+  totalCategories: Math.max(0, updates.totalCategories ?? kpis.totalCategories),
+  unusedCategories: Math.max(0, updates.unusedCategories ?? kpis.unusedCategories),
+})
 
 const isIssuedEquipmentAsset = (asset: Pick<EquipmentAssetListItem, 'assetStatusName'> | null | undefined) => {
   return asset?.assetStatusName.toLowerCase().includes('issued') ?? false
@@ -112,14 +133,64 @@ const applyEquipmentAssetStatusTransition = (
 export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
   state: (): EquipmentCategoriesState => ({
     items: [],
+    kpis: { ...DEFAULT_EQUIPMENT_CATEGORY_KPIS },
+    hasLoadedKpis: false,
     pagination: { ...DEFAULT_EQUIPMENT_CATEGORIES_PAGINATION },
     isLoading: false,
     error: '',
   }),
   getters: {
     hasEquipmentCategories: (state) => state.items.length > 0,
+    equipmentCategoryKpis: (state) => state.kpis,
   },
   actions: {
+    async fetchEquipmentCategoryKpisOnce(this: EquipmentCategoriesState) {
+      if (this.hasLoadedKpis) {
+        return
+      }
+
+      this.error = ''
+
+      try {
+        this.kpis = await getEquipmentCategoryKpisEndpoint()
+        this.hasLoadedKpis = true
+      } catch (error) {
+        this.kpis = { ...DEFAULT_EQUIPMENT_CATEGORY_KPIS }
+        this.hasLoadedKpis = false
+        this.error = extractApiErrorMessage(error, 'Unable to fetch equipment category KPI counts.')
+        throw error
+      }
+    },
+    applyEquipmentCategoryItemDelta(this: EquipmentCategoriesState, categoryId: string, delta: 1 | -1) {
+      const category = this.items.find((item) => item.id === categoryId) ?? null
+      const wasUnused = (category?.itemCount ?? 1) === 0
+
+      this.items = this.items.map((item) => {
+        if (item.id !== categoryId) {
+          return item
+        }
+
+        return {
+          ...item,
+          itemCount: Math.max(0, item.itemCount + delta),
+        }
+      })
+
+      if (!this.hasLoadedKpis || !category) {
+        return
+      }
+
+      const nextItemCount = Math.max(0, category.itemCount + delta)
+      const isUnused = nextItemCount === 0
+
+      if (wasUnused === isUnused) {
+        return
+      }
+
+      this.kpis = updateEquipmentCategoryKpis(this.kpis, {
+        unusedCategories: this.kpis.unusedCategories + (isUnused ? 1 : -1),
+      })
+    },
     async fetchEquipmentCategories(
       this: EquipmentCategoriesState,
       page = 1,
@@ -170,6 +241,12 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
         const nextTotalItems = this.pagination.totalItems + 1
         this.pagination.totalItems = nextTotalItems
         this.pagination.totalPages = Math.max(1, Math.ceil(nextTotalItems / this.pagination.pageSize))
+        if (this.hasLoadedKpis) {
+          this.kpis = updateEquipmentCategoryKpis(this.kpis, {
+            totalCategories: this.kpis.totalCategories + 1,
+            unusedCategories: this.kpis.unusedCategories + 1,
+          })
+        }
         return response
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create equipment category.')
@@ -198,6 +275,7 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
     async deleteEquipmentCategory(this: EquipmentCategoriesState, id: string) {
       this.error = ''
       try {
+        const deletedCategory = this.items.find((item) => item.id === id) ?? null
         await deleteEquipmentCategoryEndpoint(id)
         const previousLength = this.items.length
         this.items = this.items.filter((item) => item.id !== id)
@@ -210,6 +288,12 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
         this.pagination.totalPages = nextTotalItems === 0
           ? 0
           : Math.max(1, Math.ceil(nextTotalItems / this.pagination.pageSize))
+        if (this.hasLoadedKpis && deletedCategory) {
+          this.kpis = updateEquipmentCategoryKpis(this.kpis, {
+            totalCategories: this.kpis.totalCategories - 1,
+            unusedCategories: this.kpis.unusedCategories - 1,
+          })
+        }
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to delete equipment category.')
         throw error
@@ -348,14 +432,34 @@ export const useEquipmentAssetsStore = defineStore('equipment-assets', {
 export const useEquipmentItemsStore = defineStore('equipment-items', {
   state: (): EquipmentItemsState => ({
     items: [],
+    kpis: { ...DEFAULT_EQUIPMENT_ITEM_KPIS },
+    hasLoadedKpis: false,
     pagination: { ...DEFAULT_EQUIPMENT_ITEMS_PAGINATION },
     isLoading: false,
     error: '',
   }),
   getters: {
     hasEquipmentItems: (state) => state.items.length > 0,
+    equipmentItemKpis: (state) => state.kpis,
   },
   actions: {
+    async fetchEquipmentItemKpisOnce(this: EquipmentItemsState) {
+      if (this.hasLoadedKpis) {
+        return
+      }
+
+      this.error = ''
+
+      try {
+        this.kpis = await getEquipmentItemKpisEndpoint()
+        this.hasLoadedKpis = true
+      } catch (error) {
+        this.kpis = { ...DEFAULT_EQUIPMENT_ITEM_KPIS }
+        this.hasLoadedKpis = false
+        this.error = extractApiErrorMessage(error, 'Unable to fetch equipment item KPI counts.')
+        throw error
+      }
+    },
     async fetchEquipmentItems(
       this: EquipmentItemsState,
       page = 1,
@@ -405,6 +509,12 @@ export const useEquipmentItemsStore = defineStore('equipment-items', {
         const nextTotalItems = this.pagination.totalItems + 1
         this.pagination.totalItems = nextTotalItems
         this.pagination.totalPages = Math.max(1, Math.ceil(nextTotalItems / this.pagination.pageSize))
+        if (this.hasLoadedKpis) {
+          this.kpis = {
+            totalItems: this.kpis.totalItems + 1,
+          }
+        }
+        useEquipmentCategoriesStore().applyEquipmentCategoryItemDelta(response.item.categoryId, 1)
         return response
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create equipment item.')
@@ -434,6 +544,7 @@ export const useEquipmentItemsStore = defineStore('equipment-items', {
     async deleteEquipmentItem(this: EquipmentItemsState, id: string) {
       this.error = ''
       try {
+        const deletedItem = this.items.find((item) => item.id === id) ?? null
         await deleteEquipmentItemEndpoint(id)
         const previousLength = this.items.length
         this.items = this.items.filter((item) => item.id !== id)
@@ -447,6 +558,14 @@ export const useEquipmentItemsStore = defineStore('equipment-items', {
         this.pagination.totalPages = nextTotalItems === 0
           ? 0
           : Math.max(1, Math.ceil(nextTotalItems / this.pagination.pageSize))
+        if (this.hasLoadedKpis) {
+          this.kpis = {
+            totalItems: Math.max(0, this.kpis.totalItems - deletedItemCount),
+          }
+        }
+        if (deletedItem) {
+          useEquipmentCategoriesStore().applyEquipmentCategoryItemDelta(deletedItem.categoryId, -1)
+        }
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to delete equipment item.')
         throw error
