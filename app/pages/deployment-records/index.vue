@@ -15,7 +15,6 @@
           icon-name="map-pin"
           tone="sky"
           :value="totalDeployments"
-          :loader="loadTotalDeployments"
         />
         <KpiCard
           title="Total Deployment Records"
@@ -23,7 +22,6 @@
           icon-name="clipboard-document-list"
           tone="amber"
           :value="totalDeploymentRecords"
-          :loader="loadTotalDeploymentRecords"
         />
       </div>
 
@@ -159,7 +157,6 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import type { KpiCardLoaderResult } from '~/components/general/KpiCard.vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import DeploymentsFilter from '~/components/deployments/DeploymentsFilter.vue'
 import DeploymentRecordsFilter from '~/components/deployments/DeploymentRecordsFilter.vue'
@@ -231,6 +228,7 @@ const { addToast } = useToast()
 const {
   filters: deploymentsFilters,
   tableRows: deploymentRows,
+  kpis,
   pagination: deploymentsPagination,
   isLoading: isDeploymentsLoading,
   error: deploymentsError,
@@ -256,26 +254,8 @@ const {
   getDeploymentRecordById,
 } = useDeploymentRecords()
 
-const totalDeployments = computed(() => deploymentsPagination.value.totalItems)
-const totalDeploymentRecords = computed(() => deploymentRecordsPagination.value.totalItems)
-
-const loadTotalDeployments = async (): Promise<KpiCardLoaderResult> => {
-  if (!hasLoadedDeployments.value && authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.manage)) {
-    await loadDeployments(1, deploymentsFilters.value, deploymentsPagination.value.pageSize)
-    hasLoadedDeployments.value = true
-  }
-
-  return { value: totalDeployments.value }
-}
-
-const loadTotalDeploymentRecords = async (): Promise<KpiCardLoaderResult> => {
-  if (!hasLoadedDeploymentRecords.value && authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.manage)) {
-    await loadDeploymentRecords(1, {}, deploymentRecordsPagination.value.pageSize)
-    hasLoadedDeploymentRecords.value = true
-  }
-
-  return { value: totalDeploymentRecords.value }
-}
+const totalDeployments = computed(() => kpis.value.totalDeployments)
+const totalDeploymentRecords = computed(() => kpis.value.totalDeploymentRecords)
 
 const {
   handleTabChange,
