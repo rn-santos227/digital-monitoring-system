@@ -53,4 +53,25 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
     hasEquipmentCategories: (state) => state.items.length > 0,
     equipmentCategoryKpis: (state) => state.kpis,
   },
+
+  actions: {
+    async fetchEquipmentCategoryKpisOnce(this: EquipmentCategoriesState) {
+      if (this.hasLoadedKpis) {
+        return
+      }
+
+      this.error = ''
+
+      try {
+        this.kpis = await getEquipmentCategoryKpisEndpoint()
+        this.hasLoadedKpis = true
+      } catch (error) {
+        this.kpis = { ...DEFAULT_EQUIPMENT_CATEGORY_KPIS }
+        this.hasLoadedKpis = false
+        this.error = extractApiErrorMessage(error, 'Unable to fetch equipment category KPI counts.')
+        throw error
+      }
+    },
+
+  },
 })
