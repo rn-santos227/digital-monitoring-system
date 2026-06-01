@@ -83,5 +83,8 @@ export const useEquipmentAssetsStore = defineStore('equipment-assets', {
     error: '',
   }),
 
-
+  getters: {
+    hasEquipmentAssets: (state) => state.items.length > 0,
+    equipmentAssetKpis: (state) => state.kpis,
+  },
 })
