@@ -59,4 +59,9 @@ const onApply = async (value: Partial<EquipmentIssuanceSearchQuery>) => {
 
   await loadEquipmentIssuances(1, result.filters)
 }
+
+const onReset = async () => {
+  const resetFilters = handleFilterReset()
+  await loadEquipmentIssuances(1, resetFilters)
+}
 </script>
