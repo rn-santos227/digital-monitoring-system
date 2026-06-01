@@ -1,7 +1,11 @@
 import type { Ref } from 'vue'
-import type { EquipmentCategorySearchQuery, EquipmentItemSearchQuery } from '~/types/domain/equipment'
-
-type EquipmentFilters = Partial<EquipmentCategorySearchQuery> | Partial<EquipmentItemSearchQuery>
+import type { 
+  EquipmentAssetSearchQuery,
+  EquipmentCategorySearchQuery,
+  EquipmentIssuanceSearchQuery,
+  EquipmentItemSearchQuery
+} from '~/types/domain/equipment'
+type EquipmentFilters = Partial<EquipmentCategorySearchQuery> | Partial<EquipmentItemSearchQuery> | Partial<EquipmentAssetSearchQuery> | Partial<EquipmentIssuanceSearchQuery>
 
 export const useEquipmentPageHandlers = (
   filters: Ref<EquipmentFilters>,
