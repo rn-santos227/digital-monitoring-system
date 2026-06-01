@@ -25,5 +25,10 @@ const DEFAULT_EQUIPMENT_ISSUANCES_PAGINATION = {
 }
 
 export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
-
+  state: (): EquipmentIssuancesState => ({
+    items: [],
+    pagination: { ...DEFAULT_EQUIPMENT_ISSUANCES_PAGINATION },
+    isLoading: false,
+    error: '',
+  }),
 })
