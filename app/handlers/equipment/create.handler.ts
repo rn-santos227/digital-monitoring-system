@@ -97,3 +97,28 @@ export const useCreateEquipmentAssetHandler = ({
     onCreateEquipmentAsset,
   }
 }
+
+
+export const useCreateEquipmentIssuanceHandler = ({
+  isCreateEquipmentIssuanceModalOpen,
+  createEquipmentIssuance,
+}: UseCreateEquipmentIssuanceHandlerOptions) => {
+  const onOpenCreateEquipmentIssuanceModal = () => {
+    isCreateEquipmentIssuanceModalOpen.value = true
+  }
+
+  const onCloseCreateEquipmentIssuanceModal = () => {
+    isCreateEquipmentIssuanceModalOpen.value = false
+  }
+
+  const onCreateEquipmentIssuance = async (payload: CreateEquipmentIssuancePayload) => {
+    await createEquipmentIssuance(payload)
+    onCloseCreateEquipmentIssuanceModal()
+  }
+
+  return {
+    onOpenCreateEquipmentIssuanceModal,
+    onCloseCreateEquipmentIssuanceModal,
+    onCreateEquipmentIssuance,
+  }
+}
