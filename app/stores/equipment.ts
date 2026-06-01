@@ -590,3 +590,12 @@ export const useEquipmentItemsStore = defineStore('equipment-items', {
     },
   },
 })
+
+export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
+  state: (): EquipmentIssuancesState => ({
+    items: [],
+    pagination: { ...DEFAULT_EQUIPMENT_ISSUANCES_PAGINATION },
+    isLoading: false,
+    error: '',
+  }),
+})
