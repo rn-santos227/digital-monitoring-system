@@ -38,3 +38,14 @@ const updateEquipmentCategoryKpis = (
   totalCategories: Math.max(0, updates.totalCategories ?? kpis.totalCategories),
   unusedCategories: Math.max(0, updates.unusedCategories ?? kpis.unusedCategories),
 })
+
+export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
+  state: (): EquipmentCategoriesState => ({
+    items: [],
+    kpis: { ...DEFAULT_EQUIPMENT_CATEGORY_KPIS },
+    hasLoadedKpis: false,
+    pagination: { ...DEFAULT_EQUIPMENT_CATEGORIES_PAGINATION },
+    isLoading: false,
+    error: '',
+  }),
+})
