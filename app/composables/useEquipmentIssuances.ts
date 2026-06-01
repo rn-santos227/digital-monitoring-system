@@ -5,5 +5,8 @@ import type { EquipmentIssuanceSearchQuery, EquipmentIssuanceTableRow } from '~/
 import { hasEquipmentIssuanceSearchFilters } from '~/utils/equipment-endpoints'
 
 export const useEquipmentIssuances = () => {
+  const store = useEquipmentIssuancesStore()
+  const { items, pagination, isLoading, error } = storeToRefs(store)
+  const filters = ref<Partial<EquipmentIssuanceSearchQuery>>({})
 
 }
