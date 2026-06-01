@@ -37,3 +37,17 @@ const isIssuedEquipmentAsset = (asset: Pick<EquipmentAssetListItem, 'assetStatus
   return asset?.assetStatusName.toLowerCase().includes('issued') ?? false
 }
 
+const applyEquipmentAssetKpiDelta = (
+  kpis: EquipmentAssetKpiCounts,
+  asset: EquipmentAssetListItem,
+  delta: 1 | -1,
+): EquipmentAssetKpiCounts => {
+  const totalAssets = Math.max(0, kpis.totalAssets + delta)
+  const issuedAssets = Math.max(0, kpis.issuedAssets + (isIssuedEquipmentAsset(asset) ? delta : 0))
+
+  return {
+    totalAssets,
+    issuedAssets,
+    notIssuedAssets: Math.max(0, totalAssets - issuedAssets),
+  }
+}
