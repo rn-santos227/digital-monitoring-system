@@ -87,4 +87,62 @@ export const useEquipmentAssetsStore = defineStore('equipment-assets', {
     hasEquipmentAssets: (state) => state.items.length > 0,
     equipmentAssetKpis: (state) => state.kpis,
   },
+
+  actions: {
+    async fetchEquipmentAssetKpisOnce(this: EquipmentAssetsState) {
+      if (this.hasLoadedKpis) {
+        return
+      }
+
+      this.error = ''
+
+      try {
+        this.kpis = await getEquipmentAssetKpisEndpoint()
+        this.hasLoadedKpis = true
+      } catch (error) {
+        this.kpis = { ...DEFAULT_EQUIPMENT_ASSET_KPIS }
+        this.hasLoadedKpis = false
+        this.error = extractApiErrorMessage(error, 'Unable to fetch equipment asset KPI counts.')
+        throw error
+      }
+    },
+    async fetchEquipmentAssets(
+      this: EquipmentAssetsState,
+      page = 1,
+      filters: Partial<EquipmentAssetSearchQuery> = {},
+      pageSize?: number,
+    ) {
+      this.isLoading = true
+      this.error = ''
+      const resolvedPageSize = pageSize ?? this.pagination.pageSize
+      const query = {
+        page,
+        pageSize: resolvedPageSize,
+        term: filters.term,
+        fields: filters.fields,
+      }
+      try {
+        const response = hasEquipmentAssetSearchFilters(query)
+          ? await searchEquipmentAssetsEndpoint(query)
+          : await getEquipmentAssetsEndpoint(query)
+        this.items = response.items
+        this.pagination = {
+          page: response.page,
+          pageSize: response.pageSize,
+          totalItems: response.totalItems,
+          totalPages: response.totalPages,
+        }
+      } catch (error) {
+        this.items = []
+        this.pagination = {
+          ...DEFAULT_EQUIPMENT_ASSETS_PAGINATION,
+          pageSize: resolveDefaultFetchPageSize(),
+        }
+        this.error = extractApiErrorMessage(error, 'Unable to fetch equipment assets.')
+        throw error
+      } finally {
+        this.isLoading = false
+      }
+    },
+  },
 })
