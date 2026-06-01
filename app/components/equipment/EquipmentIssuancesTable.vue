@@ -30,4 +30,11 @@ const props = withDefaults(defineProps<{
   pageSize: 10,
 })
 
+const emit = defineEmits<{
+  (event: 'action', payload: { actionKey: string; row: EquipmentIssuanceTableRow }): void
+  (event: 'update:currentPage', value: number): void
+  (event: 'update:pageSize', value: number): void
+}>()
+
+
 </script>
