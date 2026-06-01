@@ -146,5 +146,26 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
         this.isLoading = false
       }
     },
+
+    async createEquipmentCategory(this: EquipmentCategoriesState, payload: CreateEquipmentCategoryPayload) {
+      this.error = ''
+      try {
+        const response = await createEquipmentCategoryEndpoint(payload)
+        this.items = [response.item, ...this.items]
+        const nextTotalItems = this.pagination.totalItems + 1
+        this.pagination.totalItems = nextTotalItems
+        this.pagination.totalPages = Math.max(1, Math.ceil(nextTotalItems / this.pagination.pageSize))
+        if (this.hasLoadedKpis) {
+          this.kpis = updateEquipmentCategoryKpis(this.kpis, {
+            totalCategories: this.kpis.totalCategories + 1,
+            unusedCategories: this.kpis.unusedCategories + 1,
+          })
+        }
+        return response
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to create equipment category.')
+        throw error
+      }
+    },
   },
 })
