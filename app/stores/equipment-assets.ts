@@ -175,5 +175,23 @@ export const useEquipmentAssetsStore = defineStore('equipment-assets', {
         throw error
       }
     },
+
+    async updateEquipmentAsset(this: EquipmentAssetsState, id: string, payload: UpdateEquipmentAssetPayload) {
+      this.error = ''
+      const previousAsset = this.items.find((item) => item.id === id) ?? null
+
+      try {
+        await updateEquipmentAssetEndpoint(id, payload)
+        const response = await getEquipmentAssetByIdEndpoint(id)
+        this.items = this.items.map((item) => (item.id === id ? response.item : item))
+
+        if (this.hasLoadedKpis && previousAsset) {
+          this.kpis = applyEquipmentAssetStatusTransition(this.kpis, previousAsset, response.item)
+        }
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to update equipment asset.')
+        throw error
+      }
+    },
   },
 })
