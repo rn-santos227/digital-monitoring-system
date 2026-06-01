@@ -87,3 +87,39 @@ export const useViewEquipmentAssetHandler = ({
     onViewEquipmentAsset,
   }
 }
+
+interface UseViewEquipmentIssuanceHandlerOptions {
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
+}
+
+const formatEquipmentIssuanceDetailMessage = (row: EquipmentIssuanceTableRow) => {
+  return [
+    `Issue No.: ${row.issueNo}`,
+    `Asset Tag: ${row.equipmentAssetTag}`,
+    `Equipment Item: ${row.equipmentItemName}`,
+    `Issued To: ${row.issuedToPersonnelName}`,
+    `Issued By: ${row.issuedByPersonnelName}`,
+    `Status: ${row.statusName}`,
+    `Deployment: ${row.deploymentLabel ?? 'Not assigned'}`,
+    `Issued Location: ${row.issuedLocation ?? 'Not specified'}`,
+    `Return Location: ${row.returnLocation ?? 'Not specified'}`,
+    `Remarks: ${row.remarks ?? 'None'}`,
+  ].join('\n')
+}
+
+export const useViewEquipmentIssuanceHandler = ({
+  showDialog,
+}: UseViewEquipmentIssuanceHandlerOptions) => {
+  const onViewEquipmentIssuance = async (row: EquipmentIssuanceTableRow) => {
+    await showDialog({
+      type: 'info',
+      title: 'Equipment issuance details',
+      message: formatEquipmentIssuanceDetailMessage(row),
+      confirmLabel: 'Close',
+    })
+  }
+
+  return {
+    onViewEquipmentIssuance,
+  }
+}
