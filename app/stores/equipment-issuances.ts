@@ -17,4 +17,13 @@ import {
   updateEquipmentIssuanceEndpoint,
 } from '~/utils/equipment-endpoints'
 
+const DEFAULT_EQUIPMENT_ISSUANCES_PAGINATION = {
+  page: 1,
+  pageSize: resolveDefaultFetchPageSize(),
+  totalItems: 0,
+  totalPages: 0,
+}
 
+export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
+
+})
