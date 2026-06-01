@@ -36,5 +36,15 @@ const emit = defineEmits<{
   (event: 'update:pageSize', value: number): void
 }>()
 
+const authStore = useAuthStore()
 
+const visibleActions = computed(() => {
+  return EQUIPMENT_ISSUANCES_TABLE_ACTIONS.filter((action) => {
+    if (action.key === 'view-equipment-issuance') {
+      return authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.view)
+    }
+
+    return authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.manage)
+  })
+})
 </script>
