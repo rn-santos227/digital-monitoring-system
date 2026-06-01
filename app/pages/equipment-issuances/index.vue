@@ -1,12 +1,26 @@
 <template>
-  <TemporaryRoutePage
-    :title="TEMPORARY_ROUTE_PAGE_CONTENT.equipmentIssuances.title"
-    :subtitle="TEMPORARY_ROUTE_PAGE_CONTENT.equipmentIssuances.subtitle"
-    :feature-label="TEMPORARY_ROUTE_PAGE_CONTENT.equipmentIssuances.featureLabel"
-  />
+
 </template>
 
 <script setup lang="ts">
-import TemporaryRoutePage from '~/components/general/TemporaryRoutePage.vue'
-import { TEMPORARY_ROUTE_PAGE_CONTENT } from '~/constants/page.constants'
+import { computed } from 'vue'
+import KpiCard from '~/components/general/KpiCard.vue'
+import EquipmentIssuancesFilter from '~/components/equipment/EquipmentIssuancesFilter.vue'
+import EquipmentIssuancesTable from '~/components/equipment/EquipmentIssuancesTable.vue'
+import { useEquipmentIssuances } from '~/composables/useEquipmentIssuances'
+import { useDialog } from '~/composables/useDialog'
+import {
+  EQUIPMENT_CATEGORIES_PAGE_KPI_GRID_CLASSES,
+  EQUIPMENT_ISSUANCES_PAGE_SECTION_CLASSES,
+  EQUIPMENT_ISSUANCES_PAGE_SUBTITLE,
+  EQUIPMENT_ISSUANCES_PAGE_TITLE,
+} from '~/constants/page.constants'
+import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
+import {
+  useDeleteEquipmentIssuanceHandler,
+  useEquipmentPageHandlers,
+  useEquipmentSearchHandlers,
+  useViewEquipmentIssuanceHandler,
+} from '~/handlers'
+import type { EquipmentIssuanceSearchQuery, EquipmentIssuanceTableRow } from '~/types/domain/equipment'
 </script>
