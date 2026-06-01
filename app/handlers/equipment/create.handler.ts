@@ -3,6 +3,7 @@ import type {
   CreateEquipmentAssetPayload,
   CreateEquipmentCategoryPayload,
   CreateEquipmentItemPayload,
+  CreateEquipmentIssuancePayload,
 } from '~/types/domain/equipment'
 
 interface UseCreateEquipmentCategoryHandlerOptions {
@@ -18,6 +19,11 @@ interface UseCreateEquipmentItemHandlerOptions {
 interface UseCreateEquipmentAssetHandlerOptions {
   isCreateEquipmentAssetModalOpen: Ref<boolean>
   createEquipmentAsset: (payload: CreateEquipmentAssetPayload) => Promise<{ id: string }>
+}
+
+interface UseCreateEquipmentIssuanceHandlerOptions {
+  isCreateEquipmentIssuanceModalOpen: Ref<boolean>
+  createEquipmentIssuance: (payload: CreateEquipmentIssuancePayload) => Promise<{ id: string }>
 }
 
 export const useCreateEquipmentCategoryHandler = ({
