@@ -50,5 +50,13 @@ const { onViewEquipmentIssuance } = useViewEquipmentIssuanceHandler({
   showDialog,
 })
 
+const onApply = async (value: Partial<EquipmentIssuanceSearchQuery>) => {
+  const result = handleFilterApply(value)
 
+  if (!result.isValid) {
+    return
+  }
+
+  await loadEquipmentIssuances(1, result.filters)
+}
 </script>
