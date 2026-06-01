@@ -9,4 +9,7 @@ export const useEquipmentIssuances = () => {
   const { items, pagination, isLoading, error } = storeToRefs(store)
   const filters = ref<Partial<EquipmentIssuanceSearchQuery>>({})
 
+  const hasActiveFilters = computed(() => hasEquipmentIssuanceSearchFilters(filters.value))
+  const tableRows = computed<EquipmentIssuanceTableRow[]>(() => [...items.value])
+
 }
