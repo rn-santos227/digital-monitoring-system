@@ -51,3 +51,24 @@ const applyEquipmentAssetKpiDelta = (
     notIssuedAssets: Math.max(0, totalAssets - issuedAssets),
   }
 }
+
+const applyEquipmentAssetStatusTransition = (
+  kpis: EquipmentAssetKpiCounts,
+  previousAsset: EquipmentAssetListItem,
+  nextAsset: EquipmentAssetListItem,
+): EquipmentAssetKpiCounts => {
+  const wasIssued = isIssuedEquipmentAsset(previousAsset)
+  const isIssued = isIssuedEquipmentAsset(nextAsset)
+
+  if (wasIssued === isIssued) {
+    return kpis
+  }
+
+  const issuedAssets = Math.max(0, kpis.issuedAssets + (isIssued ? 1 : -1))
+
+  return {
+    totalAssets: kpis.totalAssets,
+    issuedAssets,
+    notIssuedAssets: Math.max(0, kpis.totalAssets - issuedAssets),
+  }
+}
