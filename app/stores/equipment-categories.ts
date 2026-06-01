@@ -73,5 +73,35 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
       }
     },
 
+    applyEquipmentCategoryItemDelta(this: EquipmentCategoriesState, categoryId: string, delta: 1 | -1) {
+      const category = this.items.find((item) => item.id === categoryId) ?? null
+      const wasUnused = (category?.itemCount ?? 1) === 0
+
+      this.items = this.items.map((item) => {
+        if (item.id !== categoryId) {
+          return item
+        }
+
+        return {
+          ...item,
+          itemCount: Math.max(0, item.itemCount + delta),
+        }
+      })
+
+      if (!this.hasLoadedKpis || !category) {
+        return
+      }
+
+      const nextItemCount = Math.max(0, category.itemCount + delta)
+      const isUnused = nextItemCount === 0
+
+      if (wasUnused === isUnused) {
+        return
+      }
+
+      this.kpis = updateEquipmentCategoryKpis(this.kpis, {
+        unusedCategories: this.kpis.unusedCategories + (isUnused ? 1 : -1),
+      })
+    },
   },
 })
