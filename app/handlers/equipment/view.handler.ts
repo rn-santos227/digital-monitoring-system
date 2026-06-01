@@ -1,7 +1,9 @@
 import type { Ref } from 'vue'
+import type { DialogInput } from '~/composables/useDialog'
 import type {
   EquipmentAssetListItem,
   EquipmentCategoryDetailItem,
+  EquipmentIssuanceTableRow,
   EquipmentItemListItem,
 } from '~/types/domain/equipment'
 
