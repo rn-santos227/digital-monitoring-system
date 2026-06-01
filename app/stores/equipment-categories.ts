@@ -19,4 +19,15 @@ import {
   updateEquipmentCategoryEndpoint,
 } from '~/utils/equipment-endpoints'
 
+const DEFAULT_EQUIPMENT_CATEGORIES_PAGINATION = {
+  page: 1,
+  pageSize: resolveDefaultFetchPageSize(),
+  totalItems: 0,
+  totalPages: 0,
+}
+
+const DEFAULT_EQUIPMENT_CATEGORY_KPIS: EquipmentCategoryKpiCounts = {
+  totalCategories: 0,
+  unusedCategories: 0,
+}
 
