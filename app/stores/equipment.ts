@@ -685,5 +685,26 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
         throw error
       }
     },
+
+    async deleteEquipmentIssuance(this: EquipmentIssuancesState, id: string) {
+      this.error = ''
+      try {
+        await deleteEquipmentIssuanceEndpoint(id)
+        const previousLength = this.items.length
+        this.items = this.items.filter((item) => item.id !== id)
+        const deletedItemCount = previousLength - this.items.length
+        if (deletedItemCount <= 0) {
+          return
+        }
+        const nextTotalItems = Math.max(0, this.pagination.totalItems - deletedItemCount)
+        this.pagination.totalItems = nextTotalItems
+        this.pagination.totalPages = nextTotalItems === 0
+          ? 0
+          : Math.max(1, Math.ceil(nextTotalItems / this.pagination.pageSize))
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to delete equipment issuance.')
+        throw error
+      }
+    },
   },
 })
