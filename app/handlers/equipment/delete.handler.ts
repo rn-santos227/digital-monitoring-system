@@ -142,3 +142,13 @@ export const useDeleteEquipmentAssetHandler = ({
     onDeleteEquipmentAsset,
   }
 }
+
+export const useDeleteEquipmentIssuanceHandler = ({
+  deleteEquipmentIssuance,
+  showDialog,
+  onDeleteSuccess,
+  onDeleteCancelled,
+}: UseDeleteEquipmentIssuanceHandlerOptions) => {
+
+
+}
