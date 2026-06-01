@@ -64,4 +64,8 @@ const onReset = async () => {
   const resetFilters = handleFilterReset()
   await loadEquipmentIssuances(1, resetFilters)
 }
+
+const onPageChange = async (page: number) => {
+  await loadEquipmentIssuances(page, filters.value)
+}
 </script>
