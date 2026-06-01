@@ -46,5 +46,9 @@ const { onDeleteEquipmentIssuance } = useDeleteEquipmentIssuanceHandler({
   showDialog,
 })
 
+const { onViewEquipmentIssuance } = useViewEquipmentIssuanceHandler({
+  showDialog,
+})
+
 
 </script>
