@@ -1,3 +1,4 @@
+import type { DialogInput } from '~/composables/useDialog'
 import { showErrorDialog } from '~/utils/error-handling'
 
 interface UseDeleteEquipmentCategoryHandlerOptions {
@@ -16,6 +17,13 @@ interface UseDeleteEquipmentItemHandlerOptions {
 
 interface UseDeleteEquipmentAssetHandlerOptions {
   deleteEquipmentAsset: (id: string) => Promise<void>
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
+  onDeleteSuccess?: () => void
+  onDeleteCancelled?: () => void
+}
+
+interface UseDeleteEquipmentIssuanceHandlerOptions {
+  deleteEquipmentIssuance: (id: string) => Promise<void>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   onDeleteSuccess?: () => void
   onDeleteCancelled?: () => void
