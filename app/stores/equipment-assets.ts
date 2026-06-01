@@ -193,5 +193,33 @@ export const useEquipmentAssetsStore = defineStore('equipment-assets', {
         throw error
       }
     },
+
+    async deleteEquipmentAsset(this: EquipmentAssetsState, id: string) {
+      this.error = ''
+      const deletedAsset = this.items.find((item) => item.id === id) ?? null
+
+      try {
+        await deleteEquipmentAssetEndpoint(id)
+        const previousLength = this.items.length
+        this.items = this.items.filter((item) => item.id !== id)
+        const deletedItemCount = previousLength - this.items.length
+        if (deletedItemCount <= 0) {
+          return
+        }
+
+        const nextTotalItems = Math.max(0, this.pagination.totalItems - deletedItemCount)
+        this.pagination.totalItems = nextTotalItems
+        this.pagination.totalPages = nextTotalItems === 0
+          ? 0
+          : Math.max(1, Math.ceil(nextTotalItems / this.pagination.pageSize))
+
+        if (this.hasLoadedKpis && deletedAsset) {
+          this.kpis = applyEquipmentAssetKpiDelta(this.kpis, deletedAsset, -1)
+        }
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to delete equipment asset.')
+        throw error
+      }
+    },
   },
 })
