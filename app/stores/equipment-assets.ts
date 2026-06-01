@@ -72,3 +72,8 @@ const applyEquipmentAssetStatusTransition = (
     notIssuedAssets: Math.max(0, kpis.totalAssets - issuedAssets),
   }
 }
+
+export const useEquipmentAssetsStore = defineStore('equipment-assets', {
+
+
+})
