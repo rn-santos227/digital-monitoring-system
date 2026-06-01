@@ -37,6 +37,48 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
   },
 
   actions: {
+    async fetchEquipmentIssuances(
+      this: EquipmentIssuancesState,
+      page = 1,
+      filters: Partial<EquipmentIssuanceSearchQuery> = {},
+      pageSize?: number,
+    ) {
+      this.isLoading = true
+      this.error = ''
 
+      const resolvedPageSize = pageSize ?? this.pagination.pageSize
+      const query = {
+        page,
+        pageSize: resolvedPageSize,
+        term: filters.term,
+        issuedToPersonnelId: filters.issuedToPersonnelId,
+        statusId: filters.statusId,
+      }
+
+
+      try {
+        const response = hasEquipmentIssuanceSearchFilters(query)
+          ? await searchEquipmentIssuancesEndpoint(query)
+          : await getEquipmentIssuancesEndpoint(query)
+
+        this.items = response.items
+        this.pagination = {
+          page: response.page,
+          pageSize: response.pageSize,
+          totalItems: response.totalItems,
+          totalPages: response.totalPages,
+        }
+      } catch (error) {
+        this.items = []
+        this.pagination = {
+          ...DEFAULT_EQUIPMENT_ISSUANCES_PAGINATION,
+          pageSize: resolveDefaultFetchPageSize(),
+        }
+        this.error = extractApiErrorMessage(error, 'Unable to fetch equipment issuances.')
+        throw error
+      } finally {
+        this.isLoading = false
+      }
+    },
   },
 })
