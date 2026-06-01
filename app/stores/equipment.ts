@@ -88,6 +88,13 @@ const DEFAULT_EQUIPMENT_ITEMS_PAGINATION = {
   totalPages: 0,
 }
 
+const DEFAULT_EQUIPMENT_ISSUANCES_PAGINATION = {
+  page: 1,
+  pageSize: resolveDefaultFetchPageSize(),
+  totalItems: 0,
+  totalPages: 0,
+}
+
 const DEFAULT_EQUIPMENT_ITEM_KPIS: EquipmentItemKpiCounts = {
   totalItems: 0,
 }
