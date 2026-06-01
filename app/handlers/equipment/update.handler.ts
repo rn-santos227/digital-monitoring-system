@@ -182,3 +182,53 @@ export const useUpdateEquipmentAssetHandler = ({
     selectedEquipmentAssetFormValues,
   }
 }
+
+export const useUpdateEquipmentIssuanceHandler = ({
+  isUpdateEquipmentIssuanceModalOpen,
+  selectedEquipmentIssuance,
+  getEquipmentIssuanceById,
+  updateEquipmentIssuance,
+}: UseUpdateEquipmentIssuanceHandlerOptions) => {
+  const closeUpdateEquipmentIssuanceModal = () => {
+    isUpdateEquipmentIssuanceModalOpen.value = false
+    selectedEquipmentIssuance.value = null
+  }
+
+  const onOpenUpdateEquipmentIssuanceModal = async (equipmentIssuanceId: string) => {
+    selectedEquipmentIssuance.value = await getEquipmentIssuanceById(equipmentIssuanceId)
+    isUpdateEquipmentIssuanceModalOpen.value = true
+  }
+
+  const onUpdateEquipmentIssuance = async (payload: UpdateEquipmentIssuancePayload) => {
+    const equipmentIssuanceId = selectedEquipmentIssuance.value?.id
+
+    if (!equipmentIssuanceId) {
+      return
+    }
+
+    await updateEquipmentIssuance(equipmentIssuanceId, payload)
+    closeUpdateEquipmentIssuanceModal()
+  }
+
+  const selectedEquipmentIssuanceFormValues = computed(() => ({
+    equipmentAssetId: selectedEquipmentIssuance.value?.equipmentAssetId ?? '',
+    issuedToPersonnelId: selectedEquipmentIssuance.value?.issuedToPersonnelId ?? '',
+    issuedByPersonnelId: selectedEquipmentIssuance.value?.issuedByPersonnelId ?? '',
+    deploymentId: selectedEquipmentIssuance.value?.deploymentId ?? null,
+    issueDate: selectedEquipmentIssuance.value?.issueDate ?? '',
+    expectedReturnDate: selectedEquipmentIssuance.value?.expectedReturnDate ?? null,
+    actualReturnDate: selectedEquipmentIssuance.value?.actualReturnDate ?? null,
+    quantityIssued: selectedEquipmentIssuance.value?.quantityIssued ?? 1,
+    statusId: selectedEquipmentIssuance.value?.statusId ?? '',
+    issuedLocation: selectedEquipmentIssuance.value?.issuedLocation ?? null,
+    returnLocation: selectedEquipmentIssuance.value?.returnLocation ?? null,
+    remarks: selectedEquipmentIssuance.value?.remarks ?? null,
+  }))
+
+  return {
+    closeUpdateEquipmentIssuanceModal,
+    onOpenUpdateEquipmentIssuanceModal,
+    onUpdateEquipmentIssuance,
+    selectedEquipmentIssuanceFormValues,
+  }
+}
