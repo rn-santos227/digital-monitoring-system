@@ -106,5 +106,17 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
         throw error
       }
     },
+
+    async updateEquipmentIssuance(this: EquipmentIssuancesState, id: string, payload: UpdateEquipmentIssuancePayload) {
+      this.error = ''
+      try {
+        await updateEquipmentIssuanceEndpoint(id, payload)
+        const updatedResponse = await getEquipmentIssuanceByIdEndpoint(id)
+        this.items = this.items.map((item: EquipmentIssuanceListItem) => (item.id === id ? updatedResponse.item : item))
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to update equipment issuance.')
+        throw error
+      }
+    },
   },
 })
