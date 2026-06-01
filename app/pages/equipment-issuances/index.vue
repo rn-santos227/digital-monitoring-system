@@ -33,4 +33,11 @@ const {
   loadEquipmentIssuances,
   deleteEquipmentIssuance,
 } = useEquipmentIssuances()
+
+
+const { showDialog } = useDialog()
+const { handleFilterReset } = useEquipmentPageHandlers(filters)
+const { handleFilterApply } = useEquipmentSearchHandlers(filters)
+
+const totalEquipmentIssuancesKpi = computed(() => pagination.value.totalItems)
 </script>
