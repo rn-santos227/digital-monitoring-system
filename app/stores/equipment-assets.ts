@@ -164,5 +164,16 @@ export const useEquipmentAssetsStore = defineStore('equipment-assets', {
         throw error
       }
     },
+
+    async getEquipmentAssetById(this: EquipmentAssetsState, id: string) {
+      this.error = ''
+      try {
+        const response = await getEquipmentAssetByIdEndpoint(id)
+        return response.item
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to load equipment asset details.')
+        throw error
+      }
+    },
   },
 })
