@@ -604,6 +604,13 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
   },
 
   actions: {
+    async fetchEquipmentIssuances(
+      this: EquipmentIssuancesState,
+      page = 1,
+      filters: Partial<EquipmentIssuanceSearchQuery> = {},
+      pageSize?: number,
+    ) {
 
+    }
   },
 })
