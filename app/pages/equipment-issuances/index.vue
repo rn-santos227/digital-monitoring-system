@@ -40,4 +40,11 @@ const { handleFilterReset } = useEquipmentPageHandlers(filters)
 const { handleFilterApply } = useEquipmentSearchHandlers(filters)
 
 const totalEquipmentIssuancesKpi = computed(() => pagination.value.totalItems)
+
+const { onDeleteEquipmentIssuance } = useDeleteEquipmentIssuanceHandler({
+  deleteEquipmentIssuance,
+  showDialog,
+})
+
+
 </script>
