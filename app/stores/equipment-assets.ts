@@ -74,6 +74,14 @@ const applyEquipmentAssetStatusTransition = (
 }
 
 export const useEquipmentAssetsStore = defineStore('equipment-assets', {
+  state: (): EquipmentAssetsState => ({
+    items: [],
+    kpis: { ...DEFAULT_EQUIPMENT_ASSET_KPIS },
+    hasLoadedKpis: false,
+    pagination: { ...DEFAULT_EQUIPMENT_ASSETS_PAGINATION },
+    isLoading: false,
+    error: '',
+  }),
 
 
 })
