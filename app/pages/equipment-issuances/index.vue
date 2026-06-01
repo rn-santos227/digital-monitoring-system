@@ -6,7 +6,15 @@
         <p class="text-sm text-slate-600">{{ EQUIPMENT_ISSUANCES_PAGE_SUBTITLE }}</p>
       </header>
 
-
+      <div :class="EQUIPMENT_CATEGORIES_PAGE_KPI_GRID_CLASSES">
+        <KpiCard
+          title="Total Equipment Issuances"
+          subtitle="Tracked equipment issuance records."
+          icon-name="arrow-path"
+          tone="emerald"
+          :value="totalEquipmentIssuancesKpi"
+        />
+      </div>
    </section>
   </main>
 </template>
