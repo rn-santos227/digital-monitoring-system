@@ -68,4 +68,8 @@ const onReset = async () => {
 const onPageChange = async (page: number) => {
   await loadEquipmentIssuances(page, filters.value)
 }
+
+const onPageSizeChange = async (pageSize: number) => {
+  await loadEquipmentIssuances(1, filters.value, pageSize)
+}
 </script>
