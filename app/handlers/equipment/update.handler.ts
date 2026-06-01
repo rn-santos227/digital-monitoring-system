@@ -4,10 +4,12 @@ import type {
   EquipmentAssetFormValues,
   EquipmentAssetListItem,
   EquipmentCategoryDetailItem,
+  EquipmentIssuanceListItem,
   EquipmentItemListItem,
   UpdateEquipmentAssetPayload,
   UpdateEquipmentCategoryPayload,
   UpdateEquipmentItemPayload,
+  UpdateEquipmentIssuancePayload,
 } from '~/types/domain/equipment'
 
 interface UseUpdateEquipmentCategoryHandlerOptions {
@@ -29,6 +31,13 @@ interface UseUpdateEquipmentAssetHandlerOptions {
   selectedEquipmentAsset: Ref<EquipmentAssetListItem | null>
   getEquipmentAssetById: (id: string) => Promise<EquipmentAssetListItem>
   updateEquipmentAsset: (id: string, payload: UpdateEquipmentAssetPayload) => Promise<void>
+}
+
+interface UseUpdateEquipmentIssuanceHandlerOptions {
+  isUpdateEquipmentIssuanceModalOpen: Ref<boolean>
+  selectedEquipmentIssuance: Ref<EquipmentIssuanceListItem | null>
+  getEquipmentIssuanceById: (id: string) => Promise<EquipmentIssuanceListItem>
+  updateEquipmentIssuance: (id: string, payload: UpdateEquipmentIssuancePayload) => Promise<void>
 }
 
 export const useUpdateEquipmentCategoryHandler = ({
