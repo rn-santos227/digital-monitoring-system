@@ -662,5 +662,16 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
         throw error
       }
     },
+
+    async getEquipmentIssuanceById(this: EquipmentIssuancesState, id: string) {
+      this.error = ''
+      try {
+        const response = await getEquipmentIssuanceByIdEndpoint(id)
+        return response.item
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to load equipment issuance details.')
+        throw error
+      }
+    },
   },
 })
