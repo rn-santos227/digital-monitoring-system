@@ -22,4 +22,11 @@ import type { EquipmentIssuanceSearchQuery } from '~/types/domain/equipment'
 const props = withDefaults(defineProps<{ modelValue: Partial<EquipmentIssuanceSearchQuery> }>(), {
   modelValue: () => ({}),
 })
+
+const emit = defineEmits<{
+  (event: 'apply', value: Partial<EquipmentIssuanceSearchQuery>): void
+  (event: 'reset'): void
+}>()
+
+const localValue = reactive({ term: '' })
 </script>
