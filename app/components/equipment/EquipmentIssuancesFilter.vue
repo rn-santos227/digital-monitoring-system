@@ -18,4 +18,8 @@ import {
   UNITS_FILTER_FORM_CLASSES,
 } from '~/constants/shared.constants'
 import type { EquipmentIssuanceSearchQuery } from '~/types/domain/equipment'
+
+const props = withDefaults(defineProps<{ modelValue: Partial<EquipmentIssuanceSearchQuery> }>(), {
+  modelValue: () => ({}),
+})
 </script>
