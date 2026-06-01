@@ -175,4 +175,8 @@ export const useDeleteEquipmentIssuanceHandler = ({
       })
     }
   }
+
+  return {
+    onDeleteEquipmentIssuance,
+  }
 }
