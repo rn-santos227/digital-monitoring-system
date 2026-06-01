@@ -15,6 +15,10 @@
           :value="totalEquipmentIssuancesKpi"
         />
       </div>
+
+      <BaseAlert v-if="error" :message="error" tone="danger" />
+
+      <EquipmentIssuancesFilter :model-value="filters" @apply="onApply" @reset="onReset" />
    </section>
   </main>
 </template>
