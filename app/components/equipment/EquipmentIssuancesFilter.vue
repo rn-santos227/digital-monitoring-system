@@ -1,5 +1,9 @@
 <template>
-
+  <BaseAccordion :title="EQUIPMENT_ISSUANCES_FILTER_CARD_TITLE" :initially-open="true">
+    <form :class="UNITS_FILTER_FORM_CLASSES" @submit.prevent="emitApply">
+      
+    </form>
+  </BaseAccordion>
 </template>
 
 <script setup lang="ts">
