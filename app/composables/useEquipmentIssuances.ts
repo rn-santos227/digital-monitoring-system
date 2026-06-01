@@ -12,4 +12,13 @@ export const useEquipmentIssuances = () => {
   const hasActiveFilters = computed(() => hasEquipmentIssuanceSearchFilters(filters.value))
   const tableRows = computed<EquipmentIssuanceTableRow[]>(() => [...items.value])
 
+  const loadEquipmentIssuances = async (
+    page = pagination.value.page,
+    nextFilters: Partial<EquipmentIssuanceSearchQuery> = filters.value,
+    pageSize = pagination.value.pageSize,
+  ) => {
+    filters.value = { ...nextFilters }
+    await store.fetchEquipmentIssuances(page, filters.value, pageSize)
+  }
+
 }
