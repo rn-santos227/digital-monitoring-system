@@ -598,4 +598,12 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
     isLoading: false,
     error: '',
   }),
+
+  getters: {
+    hasEquipmentIssuances: (state) => state.items.length > 0,
+  },
+
+  actions: {
+
+  },
 })
