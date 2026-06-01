@@ -80,5 +80,20 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
         this.isLoading = false
       }
     },
+
+    async createEquipmentIssuance(this: EquipmentIssuancesState, payload: CreateEquipmentIssuancePayload) {
+      this.error = ''
+      try {
+        const response = await createEquipmentIssuanceEndpoint(payload)
+        this.items = [response.item, ...this.items]
+        const nextTotalItems = this.pagination.totalItems + 1
+        this.pagination.totalItems = nextTotalItems
+        this.pagination.totalPages = Math.max(1, Math.ceil(nextTotalItems / this.pagination.pageSize))
+        return response
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to create equipment issuance.')
+        throw error
+      }
+    },
   },
 })
