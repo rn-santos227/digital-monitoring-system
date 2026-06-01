@@ -188,5 +188,33 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
         throw error
       }
     },
+
+    async deleteEquipmentCategory(this: EquipmentCategoriesState, id: string) {
+      this.error = ''
+      try {
+        const deletedCategory = this.items.find((item) => item.id === id) ?? null
+        await deleteEquipmentCategoryEndpoint(id)
+        const previousLength = this.items.length
+        this.items = this.items.filter((item) => item.id !== id)
+        const deletedItemCount = previousLength - this.items.length
+        if (deletedItemCount <= 0) {
+          return
+        }
+        const nextTotalItems = Math.max(0, this.pagination.totalItems - deletedItemCount)
+        this.pagination.totalItems = nextTotalItems
+        this.pagination.totalPages = nextTotalItems === 0
+          ? 0
+          : Math.max(1, Math.ceil(nextTotalItems / this.pagination.pageSize))
+        if (this.hasLoadedKpis && deletedCategory) {
+          this.kpis = updateEquipmentCategoryKpis(this.kpis, {
+            totalCategories: this.kpis.totalCategories - 1,
+            unusedCategories: this.kpis.unusedCategories - 1,
+          })
+        }
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to delete equipment category.')
+        throw error
+      }
+    },
   },
 })
