@@ -111,6 +111,14 @@ export const hasEquipmentAssetSearchFilters = (
   return Boolean(normalizedQuery.term)
 }
 
+export const hasEquipmentIssuanceSearchFilters = (
+  query: Partial<EquipmentIssuanceSearchQuery>,
+): boolean => {
+  const normalizedQuery = normalizeEquipmentIssuanceQuery(query)
+
+  return Boolean(normalizedQuery.term || normalizedQuery.issuedToPersonnelId || normalizedQuery.statusId)
+}
+
 export const getEquipmentCategoriesEndpoint = async (
   query: EquipmentCategoryEndpointQuery,
 ): Promise<EquipmentCategoryListResponse> => {
