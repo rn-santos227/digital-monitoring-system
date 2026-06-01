@@ -48,4 +48,9 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
     isLoading: false,
     error: '',
   }),
+
+  getters: {
+    hasEquipmentCategories: (state) => state.items.length > 0,
+    equipmentCategoryKpis: (state) => state.kpis,
+  },
 })
