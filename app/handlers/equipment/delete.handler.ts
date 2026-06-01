@@ -149,6 +149,14 @@ export const useDeleteEquipmentIssuanceHandler = ({
   onDeleteSuccess,
   onDeleteCancelled,
 }: UseDeleteEquipmentIssuanceHandlerOptions) => {
+  const onDeleteEquipmentIssuance = async (equipmentIssuanceId: string) => {
+    const result = await showDialog({
+      type: 'warning',
+      title: 'Delete equipment issuance?',
+      message: 'This action cannot be undone. Do you want to continue?',
+      confirmLabel: 'Delete',
+      cancelLabel: 'Cancel',
+    })
 
-
+  }
 }
