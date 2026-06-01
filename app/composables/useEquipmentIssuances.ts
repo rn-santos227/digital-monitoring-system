@@ -21,4 +21,21 @@ export const useEquipmentIssuances = () => {
     await store.fetchEquipmentIssuances(page, filters.value, pageSize)
   }
 
+  onMounted(() => {
+    void loadEquipmentIssuances(1)
+  })
+
+  return {
+    filters,
+    hasActiveFilters,
+    tableRows,
+    pagination,
+    isLoading,
+    error,
+    loadEquipmentIssuances,
+    createEquipmentIssuance: store.createEquipmentIssuance,
+    getEquipmentIssuanceById: store.getEquipmentIssuanceById,
+    updateEquipmentIssuance: store.updateEquipmentIssuance,
+    deleteEquipmentIssuance: store.deleteEquipmentIssuance,
+  }
 }
