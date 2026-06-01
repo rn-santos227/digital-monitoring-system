@@ -1,6 +1,6 @@
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useEquipmentCategoriesStore } from '~/stores/equipment'
+import { useEquipmentCategoriesStore } from '~/stores/equipment-categories'
 import type { EquipmentCategorySearchQuery, EquipmentCategoryTableRow } from '~/types/domain/equipment'
 import { hasEquipmentCategorySearchFilters } from '~/utils/equipment-endpoints'
 
