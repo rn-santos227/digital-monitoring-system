@@ -144,5 +144,25 @@ export const useEquipmentAssetsStore = defineStore('equipment-assets', {
         this.isLoading = false
       }
     },
+
+    async createEquipmentAsset(this: EquipmentAssetsState, payload: CreateEquipmentAssetPayload) {
+      this.error = ''
+      try {
+        const response = await createEquipmentAssetEndpoint(payload)
+        this.items = [response.item, ...this.items]
+        const nextTotalItems = this.pagination.totalItems + 1
+        this.pagination.totalItems = nextTotalItems
+        this.pagination.totalPages = Math.max(1, Math.ceil(nextTotalItems / this.pagination.pageSize))
+
+        if (this.hasLoadedKpis) {
+          this.kpis = applyEquipmentAssetKpiDelta(this.kpis, response.item, 1)
+        }
+
+        return response
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to create equipment asset.')
+        throw error
+      }
+    },
   },
 })
