@@ -636,9 +636,15 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
           totalPages: response.totalPages,
         }
       } catch (error) {
-
+        this.items = []
+        this.pagination = {
+          ...DEFAULT_EQUIPMENT_ISSUANCES_PAGINATION,
+          pageSize: resolveDefaultFetchPageSize(),
+        }
+        this.error = extractApiErrorMessage(error, 'Unable to fetch equipment issuances.')
+        throw error
       } finally {
-
+        this.isLoading = false
       }
     }
   },
