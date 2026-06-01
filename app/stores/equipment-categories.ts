@@ -31,3 +31,10 @@ const DEFAULT_EQUIPMENT_CATEGORY_KPIS: EquipmentCategoryKpiCounts = {
   unusedCategories: 0,
 }
 
+const updateEquipmentCategoryKpis = (
+  kpis: EquipmentCategoryKpiCounts,
+  updates: Partial<EquipmentCategoryKpiCounts>,
+): EquipmentCategoryKpiCounts => ({
+  totalCategories: Math.max(0, updates.totalCategories ?? kpis.totalCategories),
+  unusedCategories: Math.max(0, updates.unusedCategories ?? kpis.unusedCategories),
+})
