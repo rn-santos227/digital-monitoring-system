@@ -23,4 +23,14 @@ import {
   useViewEquipmentIssuanceHandler,
 } from '~/handlers'
 import type { EquipmentIssuanceSearchQuery, EquipmentIssuanceTableRow } from '~/types/domain/equipment'
+
+const {
+  filters,
+  tableRows,
+  pagination,
+  isLoading,
+  error,
+  loadEquipmentIssuances,
+  deleteEquipmentIssuance,
+} = useEquipmentIssuances()
 </script>
