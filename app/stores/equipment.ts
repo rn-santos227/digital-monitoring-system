@@ -622,6 +622,24 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
         statusId: filters.statusId,
       }
 
+
+      try {
+        const response = hasEquipmentIssuanceSearchFilters(query)
+          ? await searchEquipmentIssuancesEndpoint(query)
+          : await getEquipmentIssuancesEndpoint(query)
+
+        this.items = response.items
+        this.pagination = {
+          page: response.page,
+          pageSize: response.pageSize,
+          totalItems: response.totalItems,
+          totalPages: response.totalPages,
+        }
+      } catch (error) {
+
+      } finally {
+
+      }
     }
   },
 })
