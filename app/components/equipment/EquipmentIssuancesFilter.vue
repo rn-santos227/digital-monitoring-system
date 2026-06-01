@@ -29,4 +29,10 @@ const emit = defineEmits<{
 }>()
 
 const localValue = reactive({ term: '' })
+
+watch(() => props.modelValue, (value) => {
+  localValue.term = value.term ?? ''
+}, { immediate: true, deep: true })
+
+const emitApply = () => emit('apply', { term: localValue.term })
 </script>
