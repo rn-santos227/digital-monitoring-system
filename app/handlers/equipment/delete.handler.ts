@@ -163,5 +163,16 @@ export const useDeleteEquipmentIssuanceHandler = ({
       return
     }
 
+    try {
+      await deleteEquipmentIssuance(equipmentIssuanceId)
+      onDeleteSuccess?.()
+    } catch (error) {
+      await showErrorDialog({
+        showDialog,
+        title: 'Equipment issuance deletion failed',
+        error,
+        fallbackMessage: 'Unable to delete equipment issuance right now.',
+      })
+    }
   }
 }
