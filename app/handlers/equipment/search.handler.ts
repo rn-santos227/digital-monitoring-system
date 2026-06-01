@@ -1,8 +1,9 @@
 import type { Ref } from 'vue'
-import type { 
+import type {
   EquipmentAssetSearchQuery,
   EquipmentCategorySearchQuery,
-  EquipmentItemSearchQuery
+  EquipmentIssuanceSearchQuery,
+  EquipmentItemSearchQuery,
 } from '~/types/domain/equipment'
 import { validateField, validateFields } from '~/utils/field-validation'
 import { REGEX_PATTERNS } from '~/utils/regex'
@@ -11,10 +12,13 @@ const EQUIPMENT_CATEGORY_SEARCHABLE_FIELDS = ['code', 'name'] as const
 const EQUIPMENT_ITEM_SEARCHABLE_FIELDS = ['equipmentCode', 'name', 'model', 'manufacturer'] as const
 const EQUIPMENT_ASSET_SEARCHABLE_FIELDS = ['assetTag', 'equipmentItemCode', 'equipmentItemName', 'serialNo'] as const
 
+type EquipmentSearchFilters = Partial<EquipmentItemSearchQuery> | Partial<EquipmentAssetSearchQuery> | Partial<EquipmentIssuanceSearchQuery>
+type EquipmentSearchFilterInput = EquipmentSearchFilters & { fields?: string }
+
 export const useEquipmentSearchHandlers = (
-  filters: Ref<Partial<EquipmentItemSearchQuery> | Partial<EquipmentAssetSearchQuery>>,
+  filters: Ref<EquipmentSearchFilters>,
 ) => {
-  const handleFilterApply = (value: Partial<EquipmentItemSearchQuery> | Partial<EquipmentAssetSearchQuery>) => {
+  const handleFilterApply = (value: EquipmentSearchFilterInput) => {
     const commonValidation = validateFields([
       {
         field: 'term',
@@ -42,7 +46,7 @@ export const useEquipmentSearchHandlers = (
       ...(!isFieldValid ? { fields: 'Selected equipment item field is invalid.' } : {}),
     }
 
-    const nextFilters: Partial<EquipmentItemSearchQuery> | Partial<EquipmentAssetSearchQuery> = {
+    const nextFilters: EquipmentSearchFilters = {
       term: commonValidation.values.term || undefined,
       fields: normalizedField || undefined,
     }
@@ -56,7 +60,7 @@ export const useEquipmentSearchHandlers = (
     }
   }
 
-  const handleFilterReset = (): Partial<EquipmentItemSearchQuery> | Partial<EquipmentAssetSearchQuery> => {
+  const handleFilterReset = (): EquipmentSearchFilters => {
     const resetFilters: Partial<EquipmentItemSearchQuery> = {}
     filters.value = resetFilters
     return resetFilters
@@ -135,3 +139,4 @@ export const useEquipmentCategorySearchHandlers = (
 }
 
 export const useEquipmentItemSearchHandlers = useEquipmentSearchHandlers
+export const useEquipmentIssuanceSearchHandlers = useEquipmentSearchHandlers
