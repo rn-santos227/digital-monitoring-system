@@ -30,3 +30,19 @@ const DEFAULT_EQUIPMENT_ITEMS_PAGINATION = {
 const DEFAULT_EQUIPMENT_ITEM_KPIS: EquipmentItemKpiCounts = {
   totalItems: 0,
 }
+
+export const useEquipmentItemsStore = defineStore('equipment-items', {
+  state: (): EquipmentItemsState => ({
+    items: [],
+    kpis: { ...DEFAULT_EQUIPMENT_ITEM_KPIS },
+    hasLoadedKpis: false,
+    pagination: { ...DEFAULT_EQUIPMENT_ITEMS_PAGINATION },
+    isLoading: false,
+    error: '',
+  }),
+
+  getters: {
+    hasEquipmentItems: (state) => state.items.length > 0,
+    equipmentItemKpis: (state) => state.kpis,
+  },
+})
