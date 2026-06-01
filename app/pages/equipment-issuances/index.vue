@@ -72,4 +72,15 @@ const onPageChange = async (page: number) => {
 const onPageSizeChange = async (pageSize: number) => {
   await loadEquipmentIssuances(1, filters.value, pageSize)
 }
+
+const onTableAction = async ({ actionKey, row }: { actionKey: string; row: EquipmentIssuanceTableRow }) => {
+  if (actionKey === 'view-equipment-issuance') {
+    await onViewEquipmentIssuance(row)
+    return
+  }
+
+  if (actionKey === 'delete-equipment-issuance') {
+    await onDeleteEquipmentIssuance(row.id)
+  }
+}
 </script>
