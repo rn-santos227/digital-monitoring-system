@@ -610,6 +610,17 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
       filters: Partial<EquipmentIssuanceSearchQuery> = {},
       pageSize?: number,
     ) {
+      this.isLoading = true
+      this.error = ''
+
+      const resolvedPageSize = pageSize ?? this.pagination.pageSize
+      const query = {
+        page,
+        pageSize: resolvedPageSize,
+        term: filters.term,
+        issuedToPersonnelId: filters.issuedToPersonnelId,
+        statusId: filters.statusId,
+      }
 
     }
   },
