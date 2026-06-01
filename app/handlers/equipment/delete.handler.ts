@@ -158,5 +158,10 @@ export const useDeleteEquipmentIssuanceHandler = ({
       cancelLabel: 'Cancel',
     })
 
+    if (!result.confirmed) {
+      onDeleteCancelled?.()
+      return
+    }
+
   }
 }
