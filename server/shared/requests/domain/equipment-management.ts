@@ -61,6 +61,7 @@ export interface UpdateEquipmentAssetRequest extends CreateEquipmentAssetRequest
 
 export interface CreateEquipmentIssuanceRequest {
   equipmentAssetId?: string
+  equipmentAssetStatusId?: string
   issuedToPersonnelId?: string
   issuedByPersonnelId?: string
   deploymentId?: string | null
