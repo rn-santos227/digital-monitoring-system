@@ -235,12 +235,14 @@ export const buildEquipmentAssetUpdates = (body: UpdateEquipmentAssetRequest): E
 
 export const parseCreateEquipmentIssuancePayload = (body: CreateEquipmentIssuanceRequest) => {
   const equipmentAssetId = normalizeOptionalText(body.equipmentAssetId)
+  const equipmentAssetStatusId = normalizeOptionalText(body.equipmentAssetStatusId)
   const issuedToPersonnelId = normalizeOptionalText(body.issuedToPersonnelId)
   const issuedByPersonnelId = normalizeOptionalText(body.issuedByPersonnelId)
   const issueDate = normalizeOptionalText(body.issueDate)
   const statusId = normalizeOptionalText(body.statusId)
 
   if (!equipmentAssetId) throw createError({ statusCode: 400, statusMessage: 'Equipment asset is required.' })
+  if (!equipmentAssetStatusId) throw createError({ statusCode: 400, statusMessage: 'Equipment status is required.' })
   if (!issuedToPersonnelId) throw createError({ statusCode: 400, statusMessage: 'Issued to personnel is required.' })
   if (!issuedByPersonnelId) throw createError({ statusCode: 400, statusMessage: 'Issued by personnel is required.' })
   if (!issueDate) throw createError({ statusCode: 400, statusMessage: 'Issue date is required.' })
@@ -252,18 +254,21 @@ export const parseCreateEquipmentIssuancePayload = (body: CreateEquipmentIssuanc
   }
 
   return {
-    equipment_asset_id: equipmentAssetId,
-    issued_to_personnel_id: issuedToPersonnelId,
-    issued_by_personnel_id: issuedByPersonnelId,
-    deployment_id: normalizeOptionalText(body.deploymentId ?? undefined) ?? null,
-    issue_date: issueDate,
-    expected_return_date: normalizeOptionalText(body.expectedReturnDate ?? undefined) ?? null,
-    actual_return_date: normalizeOptionalText(body.actualReturnDate ?? undefined) ?? null,
-    quantity_issued: quantityIssued,
-    status_id: statusId,
-    issued_location: normalizeOptionalText(body.issuedLocation ?? undefined) ?? null,
-    return_location: normalizeOptionalText(body.returnLocation ?? undefined) ?? null,
-    remarks: normalizeOptionalText(body.remarks ?? undefined) ?? null,
+    payload: {
+      equipment_asset_id: equipmentAssetId,
+      issued_to_personnel_id: issuedToPersonnelId,
+      issued_by_personnel_id: issuedByPersonnelId,
+      deployment_id: normalizeOptionalText(body.deploymentId ?? undefined) ?? null,
+      issue_date: issueDate,
+      expected_return_date: normalizeOptionalText(body.expectedReturnDate ?? undefined) ?? null,
+      actual_return_date: normalizeOptionalText(body.actualReturnDate ?? undefined) ?? null,
+      quantity_issued: quantityIssued,
+      status_id: statusId,
+      issued_location: normalizeOptionalText(body.issuedLocation ?? undefined) ?? null,
+      return_location: normalizeOptionalText(body.returnLocation ?? undefined) ?? null,
+      remarks: normalizeOptionalText(body.remarks ?? undefined) ?? null,
+    },
+    equipmentAssetStatusId,
   }
 }
 
