@@ -16,6 +16,10 @@
         />
       </div>
 
+      <div v-if="canCreateEquipmentIssuances" class="flex justify-end">
+        <BaseButton @click="onOpenCreateEquipmentIssuanceModal">Create Equipment Issuance</BaseButton>
+      </div>
+
       <BaseAlert v-if="error" :message="error" tone="danger" />
 
       <EquipmentIssuancesFilter :model-value="filters" @apply="onApply" @reset="onReset" />
@@ -31,30 +35,42 @@
         @update:current-page="onPageChange"
         @update:page-size="onPageSizeChange"
       />
+
+      <CreateEquipmentIssuanceModal
+        v-if="isCreateEquipmentIssuanceModalOpen"
+        :is-submitting="isCreating"
+        :error-message="createError"
+        @close="onCloseCreateEquipmentIssuanceModal"
+        @submit="onSubmitCreateEquipmentIssuance"
+      />
    </section>
   </main>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
+import CreateEquipmentIssuanceModal from '~/components/equipment/CreateEquipmentIssuanceModal.vue'
 import EquipmentIssuancesFilter from '~/components/equipment/EquipmentIssuancesFilter.vue'
 import EquipmentIssuancesTable from '~/components/equipment/EquipmentIssuancesTable.vue'
 import { useEquipmentIssuances } from '~/composables/useEquipmentIssuances'
 import { useDialog } from '~/composables/useDialog'
 import {
   EQUIPMENT_CATEGORIES_PAGE_KPI_GRID_CLASSES,
+  EQUIPMENT_ISSUANCES_PAGE_REQUIRED_PERMISSIONS,
   EQUIPMENT_ISSUANCES_PAGE_SECTION_CLASSES,
   EQUIPMENT_ISSUANCES_PAGE_SUBTITLE,
   EQUIPMENT_ISSUANCES_PAGE_TITLE,
 } from '~/constants/page.constants'
 import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
 import {
+  useCreateEquipmentIssuanceHandler,
   useDeleteEquipmentIssuanceHandler,
   useEquipmentPageHandlers,
   useEquipmentSearchHandlers,
   useViewEquipmentIssuanceHandler,
 } from '~/handlers'
+import { useAuthStore } from '~/stores/auth'
 import type { EquipmentIssuanceSearchQuery, EquipmentIssuanceTableRow } from '~/types/domain/equipment'
 
 const {
@@ -62,17 +78,33 @@ const {
   tableRows,
   pagination,
   isLoading,
+  isCreating,
   error,
+  createError,
   loadEquipmentIssuances,
+  createEquipmentIssuance,
   deleteEquipmentIssuance,
 } = useEquipmentIssuances()
 
+const authStore = useAuthStore()
+const canCreateEquipmentIssuances = computed(() => authStore.hasPermissionAccess(EQUIPMENT_ISSUANCES_PAGE_REQUIRED_PERMISSIONS.issue))
 
 const { showDialog } = useDialog()
 const { handleFilterReset } = useEquipmentPageHandlers(filters)
 const { handleFilterApply } = useEquipmentSearchHandlers(filters)
 
 const totalEquipmentIssuancesKpi = computed(() => pagination.value.totalItems)
+const isCreateEquipmentIssuanceModalOpen = ref(false)
+const {
+  onOpenCreateEquipmentIssuanceModal,
+  onCloseCreateEquipmentIssuanceModal,
+  onSubmitCreateEquipmentIssuance,
+} = useCreateEquipmentIssuanceHandler({
+  isCreateEquipmentIssuanceModalOpen,
+  createEquipmentIssuance,
+  showDialog,
+  errorMessage: createError,
+})
 
 const { onDeleteEquipmentIssuance } = useDeleteEquipmentIssuanceHandler({
   deleteEquipmentIssuance,
