@@ -1,6 +1,7 @@
 import type {
   CreateEquipmentAssetPayload,
   CreateEquipmentCategoryPayload,
+  CreateEquipmentIssuancePayload,
   UpdateEquipmentCategoryPayload,
   UpdateEquipmentAssetPayload,
 } from '~/types/domain/equipment'
@@ -157,4 +158,22 @@ export const validateUpdateEquipmentAssetForm = validateCreateEquipmentAssetForm
 }) => {
   errors: Record<string, string>
   payload: UpdateEquipmentAssetPayload | null
+}
+
+export const validateCreateEquipmentIssuanceForm = (form: {
+  equipmentAssetId: string
+  equipmentAssetStatusId: string
+  issuedToPersonnelId: string
+  issuedByPersonnelId: string
+  deploymentId: string
+  issueDate: string
+  expectedReturnDate: string
+  actualReturnDate: string
+  quantityIssued: number
+  statusId: string
+  issuedLocation: string
+  returnLocation: string
+  remarks: string
+}) => {
+
 }
