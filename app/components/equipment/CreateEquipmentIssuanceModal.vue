@@ -59,6 +59,23 @@
           required
         />
       </div>
+
+      <div class="grid gap-4 md:grid-cols-3">
+        <BaseDatePicker v-model="form.issueDate" label="Issue date" :error="errors.issueDate" required />
+        <BaseDatePicker
+          v-model="form.expectedReturnDate"
+          label="Expected return date"
+          :min="form.issueDate"
+          :error="errors.expectedReturnDate"
+        />
+        <BaseTextField
+          v-model="quantityIssuedInput"
+          type="number"
+          label="Quantity issued"
+          :error="errors.quantityIssued"
+          required
+        />
+      </div>
     </form>
   </BaseModal>
 </template>
