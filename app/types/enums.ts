@@ -87,7 +87,14 @@ export const ASSET_STATUS_VALUES = Object.freeze([
   'Condemned',
 ] as const)
 export type AssetStatusName = (typeof ASSET_STATUS_VALUES)[number]
-export type IssuanceStatusName = 'Issued' | 'Returned' | 'Overdue'
+
+export const ISSUANCE_STATUS_VALUES = Object.freeze([
+  'Issued',
+  'Returned',
+  'Overdue',
+] as const)
+export type IssuanceStatusName = (typeof ISSUANCE_STATUS_VALUES)[number]
+
 export type MaintenanceTypeName = 'Preventive' | 'Corrective' | 'Inspection' | 'Calibration'
 export type InvestigationStatusName = 'Reported' | 'Under Investigation' | 'Resolved' | 'Closed'
 
