@@ -187,4 +187,9 @@ export const validateCreateEquipmentIssuanceForm = (form: {
   const errors = { ...result.errors }
   const quantityIssued = Math.trunc(Number(form.quantityIssued))
 
+  if (!Number.isFinite(quantityIssued) || quantityIssued <= 0) {
+    errors.quantityIssued = 'Quantity issued must be a positive whole number.'
+  }
+
+
 }
