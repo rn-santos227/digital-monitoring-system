@@ -1,10 +1,12 @@
 import type { Ref } from 'vue'
+import type { DialogInput } from '~/composables/useDialog'
 import type {
   CreateEquipmentAssetPayload,
   CreateEquipmentCategoryPayload,
   CreateEquipmentItemPayload,
   CreateEquipmentIssuancePayload,
 } from '~/types/domain/equipment'
+import { showErrorDialog } from '~/utils/error-handling'
 
 interface UseCreateEquipmentCategoryHandlerOptions {
   isCreateEquipmentCategoryModalOpen: Ref<boolean>
@@ -24,6 +26,8 @@ interface UseCreateEquipmentAssetHandlerOptions {
 interface UseCreateEquipmentIssuanceHandlerOptions {
   isCreateEquipmentIssuanceModalOpen: Ref<boolean>
   createEquipmentIssuance: (payload: CreateEquipmentIssuancePayload) => Promise<{ id: string }>
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
+  errorMessage: Ref<string>
 }
 
 export const useCreateEquipmentCategoryHandler = ({
@@ -102,8 +106,11 @@ export const useCreateEquipmentAssetHandler = ({
 export const useCreateEquipmentIssuanceHandler = ({
   isCreateEquipmentIssuanceModalOpen,
   createEquipmentIssuance,
+  showDialog,
+  errorMessage,
 }: UseCreateEquipmentIssuanceHandlerOptions) => {
   const onOpenCreateEquipmentIssuanceModal = () => {
+    errorMessage.value = ''
     isCreateEquipmentIssuanceModalOpen.value = true
   }
 
@@ -111,14 +118,31 @@ export const useCreateEquipmentIssuanceHandler = ({
     isCreateEquipmentIssuanceModalOpen.value = false
   }
 
-  const onCreateEquipmentIssuance = async (payload: CreateEquipmentIssuancePayload) => {
-    await createEquipmentIssuance(payload)
-    onCloseCreateEquipmentIssuanceModal()
+  const onSubmitCreateEquipmentIssuance = async (payload: CreateEquipmentIssuancePayload) => {
+    errorMessage.value = ''
+
+    try {
+      await createEquipmentIssuance(payload)
+      onCloseCreateEquipmentIssuanceModal()
+      await showDialog({
+        type: 'success',
+        title: 'Equipment issuance created',
+        message: 'Equipment issuance has been created and the equipment status has been updated.',
+        confirmLabel: 'OK',
+      })
+    } catch (error) {
+      errorMessage.value = await showErrorDialog({
+        showDialog,
+        title: 'Equipment issuance creation failed',
+        error,
+        fallbackMessage: 'Unable to create equipment issuance right now.',
+      })
+    }
   }
 
   return {
     onOpenCreateEquipmentIssuanceModal,
     onCloseCreateEquipmentIssuanceModal,
-    onCreateEquipmentIssuance,
+    onSubmitCreateEquipmentIssuance,
   }
 }
