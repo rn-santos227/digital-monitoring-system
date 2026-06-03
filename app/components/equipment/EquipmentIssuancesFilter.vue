@@ -8,6 +8,12 @@
           :label="EQUIPMENT_ISSUANCES_FILTER_TERM_LABEL"
           :placeholder="EQUIPMENT_ISSUANCES_FILTER_TERM_PLACEHOLDER"
         />
+
+        <BaseSelect
+          v-model="localValue.statusName"
+          :label="EQUIPMENT_ISSUANCES_FILTER_STATUS_LABEL"
+          :options="statusOptions"
+        />
       </div>
 
       <footer :class="UNITS_FILTER_FOOTER_CLASSES">
@@ -28,6 +34,8 @@ import {
   EQUIPMENT_ISSUANCES_FILTER_APPLY_LABEL,
   EQUIPMENT_ISSUANCES_FILTER_CARD_TITLE,
   EQUIPMENT_ISSUANCES_FILTER_RESET_LABEL,
+  EQUIPMENT_ISSUANCES_FILTER_STATUS_LABEL,
+  EQUIPMENT_ISSUANCES_FILTER_STATUS_OPTIONS,
   EQUIPMENT_ISSUANCES_FILTER_TERM_LABEL,
   EQUIPMENT_ISSUANCES_FILTER_TERM_PLACEHOLDER,
 } from '~/constants/page.constants'
@@ -48,11 +56,17 @@ const emit = defineEmits<{
   (event: 'reset'): void
 }>()
 
-const localValue = reactive({ term: '' })
+const localValue = reactive({ term: '', statusName: '' })
 
 watch(() => props.modelValue, (value) => {
   localValue.term = value.term ?? ''
+  localValue.statusName = value.statusName ?? ''
 }, { immediate: true, deep: true })
 
-const emitApply = () => emit('apply', { term: localValue.term })
+const statusOptions = [...EQUIPMENT_ISSUANCES_FILTER_STATUS_OPTIONS]
+
+const emitApply = () => emit('apply', {
+  term: localValue.term,
+  statusName: localValue.statusName || undefined,
+})
 </script>
