@@ -3,6 +3,7 @@ import { EQUIPMENT_PRIVILEGES } from '~/constants/privileges.constants'
 import {
   ASSET_STATUS_VALUES,
   CONDITION_STATUS_VALUES,
+  ISSUANCE_STATUS_VALUES,
   SERVICEABILITY_STATUS_VALUES,
 } from '~/types/enums'
 
@@ -84,6 +85,11 @@ export const EQUIPMENT_ISSUANCES_PAGE_SECTION_CLASSES = 'space-y-6'
 export const EQUIPMENT_ISSUANCES_FILTER_CARD_TITLE = 'Filter Equipment Issuances'
 export const EQUIPMENT_ISSUANCES_FILTER_TERM_LABEL = 'Search Term'
 export const EQUIPMENT_ISSUANCES_FILTER_TERM_PLACEHOLDER = 'Search issue number, issued location, or remarks'
+export const EQUIPMENT_ISSUANCES_FILTER_STATUS_LABEL = 'Issuance Status'
+export const EQUIPMENT_ISSUANCES_FILTER_STATUS_OPTIONS = Object.freeze([
+  { value: '', label: 'All issuance statuses' },
+  ...ISSUANCE_STATUS_VALUES.map((value) => ({ label: value, value })),
+])
 export const EQUIPMENT_ISSUANCES_FILTER_APPLY_LABEL = 'Apply Filters'
 export const EQUIPMENT_ISSUANCES_FILTER_RESET_LABEL = 'Reset'
 export const EQUIPMENT_ISSUANCES_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGES
