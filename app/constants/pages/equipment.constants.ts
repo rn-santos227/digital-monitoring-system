@@ -86,9 +86,13 @@ export const EQUIPMENT_ISSUANCES_FILTER_CARD_TITLE = 'Filter Equipment Issuances
 export const EQUIPMENT_ISSUANCES_FILTER_TERM_LABEL = 'Search Term'
 export const EQUIPMENT_ISSUANCES_FILTER_TERM_PLACEHOLDER = 'Search issue number, issued location, or remarks'
 export const EQUIPMENT_ISSUANCES_FILTER_STATUS_LABEL = 'Issuance Status'
+export const EQUIPMENT_ISSUANCES_STATUS_OPTIONS = Object.freeze(
+  ISSUANCE_STATUS_VALUES.map((value) => ({ label: value, value })),
+)
+
 export const EQUIPMENT_ISSUANCES_FILTER_STATUS_OPTIONS = Object.freeze([
   { value: '', label: 'All issuance statuses' },
-  ...ISSUANCE_STATUS_VALUES.map((value) => ({ label: value, value })),
+  ...EQUIPMENT_ISSUANCES_STATUS_OPTIONS,
 ])
 export const EQUIPMENT_ISSUANCES_FILTER_APPLY_LABEL = 'Apply Filters'
 export const EQUIPMENT_ISSUANCES_FILTER_RESET_LABEL = 'Reset'
