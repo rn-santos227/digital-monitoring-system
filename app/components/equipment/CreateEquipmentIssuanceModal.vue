@@ -28,4 +28,11 @@ withDefaults(
     errorMessage: '',
   },
 )
+
+const emit = defineEmits<{
+  (event: 'close'): void
+  (event: 'submit', payload: CreateEquipmentIssuancePayload): void
+}>()
+
+const today = new Date().toISOString().slice(0, 10)
 </script>
