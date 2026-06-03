@@ -12,6 +12,7 @@ export default defineEventHandler(async (event): Promise<EquipmentIssuanceListAp
   const term = typeof query.term === 'string' ? query.term.trim() : ''
   const issuedToPersonnelId = typeof query.issuedToPersonnelId === 'string' && query.issuedToPersonnelId ? query.issuedToPersonnelId : null
   const statusId = typeof query.statusId === 'string' && query.statusId ? query.statusId : null
+  const statusName = typeof query.statusName === 'string' && query.statusName ? query.statusName.trim() : null
 
   if (!term && !issuedToPersonnelId && !statusId) {
     throw createError({ statusCode: 400, statusMessage: 'At least one search filter is required.' })
@@ -19,7 +20,14 @@ export default defineEventHandler(async (event): Promise<EquipmentIssuanceListAp
 
   const { page, pageSize, rangeFrom, rangeTo } = parseManagementPaginationQuery({ page: query.page, pageSize: query.pageSize })
   const supabase = getServiceSupabaseClient()
-  const { rows, totalItems } = await searchEquipmentIssuances(supabase, { term, issuedToPersonnelId, statusId, rangeFrom, rangeTo })
+  const { rows, totalItems } = await searchEquipmentIssuances(supabase, {
+    term,
+    issuedToPersonnelId,
+    statusId,
+    statusName,
+    rangeFrom,
+    rangeTo,
+  })
 
   return { items: rows.map(mapEquipmentIssuanceListItem), page, pageSize, totalItems, totalPages: totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize) }
 })
