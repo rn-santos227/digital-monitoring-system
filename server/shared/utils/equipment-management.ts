@@ -19,7 +19,7 @@ import { parseNumber } from './parsers'
 import { UUID_PATTERN } from './regex'
 
 interface EquipmentLookupSupabaseClient {
-  from: (table: 'asset_statuses' | 'condition_statuses' | 'serviceability_statuses') => {
+  from: (table: 'asset_statuses' | 'condition_statuses' | 'serviceability_statuses' | 'issuance_statuses') => {
     select: (columns: 'id') => {
       eq: (column: 'id' | 'name', value: string) => {
         maybeSingle: () => Promise<{ data: { id: string } | null; error: { message: string } | null }>
@@ -30,7 +30,7 @@ interface EquipmentLookupSupabaseClient {
 
 const resolveEquipmentLookupId = async (
   supabase: unknown,
-  table: 'asset_statuses' | 'condition_statuses' | 'serviceability_statuses',
+  table: 'asset_statuses' | 'condition_statuses' | 'serviceability_statuses' | 'issuance_statuses',
   value: string,
   invalidMessage: string,
 ): Promise<string> => {
@@ -167,6 +167,15 @@ export const resolveEquipmentServiceabilityStatusId = async (supabase: unknown, 
     'serviceability_statuses',
     value,
     'Invalid serviceability status value.',
+  )
+}
+
+export const resolveEquipmentIssuanceStatusId = async (supabase: unknown, value: string): Promise<string> => {
+  return await resolveEquipmentLookupId(
+    supabase,
+    'issuance_statuses',
+    value,
+    'Invalid issuance status value.',
   )
 }
 
