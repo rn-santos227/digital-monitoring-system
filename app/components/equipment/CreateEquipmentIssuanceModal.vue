@@ -51,4 +51,7 @@ const form = reactive({
   returnLocation: '',
   remarks: '',
 })
+
+const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 </script>
