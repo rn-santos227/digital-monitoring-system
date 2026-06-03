@@ -4,7 +4,14 @@ import { EQUIPMENT_ISSUANCE_SELECT_COLUMNS } from '../../shared/constants'
 
 export async function searchEquipmentIssuances(
   supabase: SupabaseClient,
-  params: { term: string; issuedToPersonnelId: string | null; statusId: string | null; rangeFrom: number; rangeTo: number },
+  params: {
+    term: string
+    issuedToPersonnelId: string | null
+    statusId: string | null
+    statusName: string | null
+    rangeFrom: number
+    rangeTo: number
+  },
 ) {
   const filters: string[] = []
 
@@ -12,6 +19,26 @@ export async function searchEquipmentIssuances(
     filters.push(`issue_no.ilike.%${params.term}%`)
     filters.push(`remarks.ilike.%${params.term}%`)
     filters.push(`issued_location.ilike.%${params.term}%`)
+  }
+
+  let resolvedStatusId = params.statusId
+
+  if (!resolvedStatusId && params.statusName) {
+    const { data: statusRow, error: statusError } = await supabase
+      .from('issuance_statuses')
+      .select('id')
+      .eq('name', params.statusName)
+      .maybeSingle()
+
+    if (statusError) {
+      throw createError({ statusCode: 500, statusMessage: `Failed to resolve issuance status: ${statusError.message}` })
+    }
+
+    if (!statusRow?.id) {
+      return { rows: [], totalItems: 0 }
+    }
+
+    resolvedStatusId = statusRow.id
   }
 
   let query = supabase.from('equipment_issuances').select(EQUIPMENT_ISSUANCE_SELECT_COLUMNS, { count: 'exact' })
@@ -24,8 +51,8 @@ export async function searchEquipmentIssuances(
     query = query.eq('issued_to_personnel_id', params.issuedToPersonnelId)
   }
 
-  if (params.statusId) {
-    query = query.eq('status_id', params.statusId)
+  if (resolvedStatusId) {
+    query = query.eq('status_id', resolvedStatusId)
   }
 
   const { data, count, error } = await query.order('issue_date', { ascending: false }).range(params.rangeFrom, params.rangeTo)
