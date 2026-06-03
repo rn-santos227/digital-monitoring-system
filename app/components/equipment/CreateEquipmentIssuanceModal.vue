@@ -1,5 +1,16 @@
 <template>
-
+  <BaseModal
+    title="Create Equipment Issuance"
+    description="Issue a registered equipment asset to AFP personnel and update the equipment status for accountability monitoring."
+    scroll-body
+    size="lg"
+    @close="onCloseRequest"
+  >
+    <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
+    </form>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
