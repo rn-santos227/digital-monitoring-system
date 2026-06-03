@@ -6,7 +6,7 @@ import { hasEquipmentIssuanceSearchFilters } from '~/utils/equipment-endpoints'
 
 export const useEquipmentIssuances = () => {
   const store = useEquipmentIssuancesStore()
-  const { items, pagination, isLoading, error } = storeToRefs(store)
+  const { items, pagination, isLoading, isCreating, error, createError } = storeToRefs(store)
   const filters = ref<Partial<EquipmentIssuanceSearchQuery>>({})
 
   const hasActiveFilters = computed(() => hasEquipmentIssuanceSearchFilters(filters.value))
@@ -26,12 +26,14 @@ export const useEquipmentIssuances = () => {
   })
 
   return {
-    filters,
+   filters,
     hasActiveFilters,
     tableRows,
     pagination,
     isLoading,
+    isCreating,
     error,
+    createError,
     loadEquipmentIssuances,
     createEquipmentIssuance: store.createEquipmentIssuance,
     getEquipmentIssuanceById: store.getEquipmentIssuanceById,
