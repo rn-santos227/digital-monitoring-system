@@ -476,5 +476,7 @@ export interface EquipmentIssuancesState {
     totalPages: number
   }
   isLoading: boolean
+  isCreating: boolean
   error: string
+  createError: string
 }
