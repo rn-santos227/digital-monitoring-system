@@ -195,4 +195,26 @@ export const validateCreateEquipmentIssuanceForm = (form: {
     errors.expectedReturnDate = 'Expected return date cannot be earlier than the issue date.'
   }
 
+  const payload: CreateEquipmentIssuancePayload | null = Object.keys(errors).length === 0
+    ? {
+      equipmentAssetId: result.values.equipmentAssetId ?? '',
+      equipmentAssetStatusId: result.values.equipmentAssetStatusId ?? '',
+      issuedToPersonnelId: result.values.issuedToPersonnelId ?? '',
+      issuedByPersonnelId: result.values.issuedByPersonnelId ?? '',
+      deploymentId: form.deploymentId || null,
+      issueDate: result.values.issueDate ?? '',
+      expectedReturnDate: form.expectedReturnDate || null,
+      actualReturnDate: form.actualReturnDate || null,
+      quantityIssued,
+      statusId: result.values.statusId ?? '',
+      issuedLocation: form.issuedLocation || null,
+      returnLocation: form.returnLocation || null,
+      remarks: form.remarks || null,
+    }
+    : null
+
+  return {
+    errors,
+    payload,
+  }
 }
