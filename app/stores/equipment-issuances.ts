@@ -53,6 +53,7 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
         term: filters.term,
         issuedToPersonnelId: filters.issuedToPersonnelId,
         statusId: filters.statusId,
+        statusName: filters.statusName,
       }
 
 
