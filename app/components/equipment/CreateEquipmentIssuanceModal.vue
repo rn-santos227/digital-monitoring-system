@@ -35,4 +35,20 @@ const emit = defineEmits<{
 }>()
 
 const today = new Date().toISOString().slice(0, 10)
+
+const form = reactive({
+  equipmentAssetId: '',
+  equipmentAssetStatusId: 'Issued',
+  issuedToPersonnelId: '',
+  issuedByPersonnelId: '',
+  deploymentId: '',
+  issueDate: today,
+  expectedReturnDate: '',
+  actualReturnDate: '',
+  quantityIssued: 1,
+  statusId: 'Issued',
+  issuedLocation: '',
+  returnLocation: '',
+  remarks: '',
+})
 </script>
