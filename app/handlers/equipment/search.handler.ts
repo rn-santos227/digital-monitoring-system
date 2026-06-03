@@ -1,4 +1,5 @@
 import type { Ref } from 'vue'
+import { ISSUANCE_STATUS_VALUES } from '~/types/enums'
 import type {
   EquipmentAssetSearchQuery,
   EquipmentCategorySearchQuery,
@@ -13,7 +14,7 @@ const EQUIPMENT_ITEM_SEARCHABLE_FIELDS = ['equipmentCode', 'name', 'model', 'man
 const EQUIPMENT_ASSET_SEARCHABLE_FIELDS = ['assetTag', 'equipmentItemCode', 'equipmentItemName', 'serialNo'] as const
 
 type EquipmentSearchFilters = Partial<EquipmentItemSearchQuery> | Partial<EquipmentAssetSearchQuery> | Partial<EquipmentIssuanceSearchQuery>
-type EquipmentSearchFilterInput = EquipmentSearchFilters & { fields?: string }
+type EquipmentSearchFilterInput = EquipmentSearchFilters & { fields?: string; statusName?: string }
 
 export const useEquipmentSearchHandlers = (
   filters: Ref<EquipmentSearchFilters>,
@@ -41,14 +42,20 @@ export const useEquipmentSearchHandlers = (
     const isAssetFieldValid = EQUIPMENT_ASSET_SEARCHABLE_FIELDS.includes(normalizedField as (typeof EQUIPMENT_ASSET_SEARCHABLE_FIELDS)[number])
     const isFieldValid = !normalizedField || isItemFieldValid || isAssetFieldValid
 
+    const normalizedStatusName = String(value.statusName ?? '').trim()
+    const isIssuanceStatusValid = !normalizedStatusName
+      || ISSUANCE_STATUS_VALUES.includes(normalizedStatusName as (typeof ISSUANCE_STATUS_VALUES)[number])
+
     const errors = {
       ...commonValidation.errors,
       ...(!isFieldValid ? { fields: 'Selected equipment item field is invalid.' } : {}),
+      ...(!isIssuanceStatusValid ? { statusName: 'Selected issuance status is invalid.' } : {}),
     }
 
     const nextFilters: EquipmentSearchFilters = {
       term: commonValidation.values.term || undefined,
       fields: normalizedField || undefined,
+      statusName: normalizedStatusName || undefined,
     }
 
     filters.value = nextFilters
