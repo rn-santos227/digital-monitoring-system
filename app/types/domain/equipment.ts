@@ -445,6 +445,7 @@ export interface EquipmentIssuanceListResponse {
 
 export interface CreateEquipmentIssuancePayload {
   equipmentAssetId: string
+  equipmentAssetStatusId: string
   issuedToPersonnelId: string
   issuedByPersonnelId: string
   deploymentId?: string | null
