@@ -84,6 +84,7 @@ const normalizeEquipmentIssuanceQuery = (
     term: query.term?.trim() || undefined,
     issuedToPersonnelId: query.issuedToPersonnelId?.trim() || undefined,
     statusId: query.statusId?.trim() || undefined,
+    statusName: query.statusName?.trim() || undefined,
   }
 }
 
@@ -116,7 +117,12 @@ export const hasEquipmentIssuanceSearchFilters = (
 ): boolean => {
   const normalizedQuery = normalizeEquipmentIssuanceQuery(query)
 
-  return Boolean(normalizedQuery.term || normalizedQuery.issuedToPersonnelId || normalizedQuery.statusId)
+  return Boolean(
+    normalizedQuery.term
+    || normalizedQuery.issuedToPersonnelId
+    || normalizedQuery.statusId
+    || normalizedQuery.statusName
+  )
 }
 
 export const getEquipmentCategoriesEndpoint = async (

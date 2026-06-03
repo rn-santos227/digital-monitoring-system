@@ -421,6 +421,7 @@ export interface EquipmentIssuanceSearchQuery extends EquipmentCategoryEndpointQ
   term?: string
   issuedToPersonnelId?: string
   statusId?: string
+  statusName?: string
 }
 
 export interface EquipmentIssuanceTableRow extends EquipmentIssuanceListItem {}
