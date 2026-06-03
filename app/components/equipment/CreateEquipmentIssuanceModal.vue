@@ -41,6 +41,24 @@
           :error="errors.issuedByPersonnelId"
         />
       </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <DeploymentSuggestionField
+          v-model="form.deploymentId"
+          label="Deployment record"
+          placeholder="Search deployment record"
+          helper-text="Optionally link this issuance to a deployment record."
+          :error="errors.deploymentId"
+        />
+        <BaseSelect
+          v-model="form.statusId"
+          label="Issuance status"
+          placeholder="Select issuance status"
+          :options="EQUIPMENT_ISSUANCES_STATUS_OPTIONS"
+          :error="errors.statusId"
+          required
+        />
+      </div>
     </form>
   </BaseModal>
 </template>
