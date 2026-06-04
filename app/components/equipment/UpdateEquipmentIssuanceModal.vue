@@ -46,4 +46,12 @@ const form = reactive<EquipmentIssuanceFormValues>({
   returnLocation: '',
   remarks: '',
 })
+
+watch(
+  () => props.initialValues,
+  (value) => {
+    Object.assign(form, value)
+  },
+  { immediate: true, deep: true },
+)
 </script>
