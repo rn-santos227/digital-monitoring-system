@@ -12,4 +12,18 @@ import { EQUIPMENT_ISSUANCES_STATUS_OPTIONS } from '~/constants/page.constants'
 import type { EquipmentIssuanceFormValues, UpdateEquipmentIssuancePayload } from '~/types/domain/equipment'
 import { validateUpdateEquipmentIssuanceForm } from '~/utils/equipment-validation'
 import { requestCloseForChangedValues } from '~/utils/form-close-guard'
+
+const props = withDefaults(
+  defineProps<{
+    initialValues: EquipmentIssuanceFormValues
+    isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 </script>
