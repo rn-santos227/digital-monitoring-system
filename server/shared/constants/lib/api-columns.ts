@@ -115,6 +115,9 @@ export const EQUIPMENT_ITEM_SELECT_COLUMNS =
 export const EQUIPMENT_ITEM_SUGGESTION_SELECT_COLUMNS =
   'id, equipment_code, name, is_active, category:equipment_categories(name)'
 
+export const EQUIPMENT_ITEM_PERSONNEL_USAGE_SELECT_COLUMNS =
+  'id, issue_no, issue_date, expected_return_date, actual_return_date, equipment_asset:equipment_assets!inner(equipment_item_id), issuance_status:issuance_statuses(name), issued_to_personnel:personnel!equipment_issuances_issued_to_personnel_id_fkey(id, personnel_code, service_number, first_name, middle_name, last_name, rank:ranks(name), company:companies(id, code, name, battalion:battalions(id, code, name)), battalion:battalions(id, code, name), service_status:service_statuses(name)'
+
 export const EQUIPMENT_ASSET_SELECT_COLUMNS =
   'id, asset_tag, equipment_item_id, serial_no, batch_no, procurement_date, acquisition_cost, fund_source, current_location, condition_status_id, serviceability_status_id, asset_status_id, remarks, created_at, updated_at, equipment_item:equipment_items(id, equipment_code, name), condition_status:condition_statuses(id, name), serviceability_status:serviceability_statuses(id, name), asset_status:asset_statuses(id, name)'
 
