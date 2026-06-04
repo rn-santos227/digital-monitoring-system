@@ -24,6 +24,23 @@
           required
         />
       </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <PersonnelSuggestionField
+          v-model="form.issuedToPersonnelId"
+          label="Issued to personnel"
+          placeholder="Search receiving personnel"
+          helper-text="Select the personnel receiving the equipment."
+          :error="errors.issuedToPersonnelId"
+        />
+        <PersonnelSuggestionField
+          v-model="form.issuedByPersonnelId"
+          label="Issued by personnel"
+          placeholder="Search issuing personnel"
+          helper-text="Select the personnel accountable for issuing the equipment."
+          :error="errors.issuedByPersonnelId"
+        />
+      </div>
     </form>
   </BaseModal>
 </template>
