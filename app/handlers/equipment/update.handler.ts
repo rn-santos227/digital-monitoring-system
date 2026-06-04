@@ -222,19 +222,19 @@ export const useUpdateEquipmentIssuanceHandler = ({
     closeUpdateEquipmentIssuanceModal()
   }
 
-  const selectedEquipmentIssuanceFormValues = computed(() => ({
+  const selectedEquipmentIssuanceFormValues: ComputedRef<EquipmentIssuanceFormValues> = computed(() => ({
     equipmentAssetId: selectedEquipmentIssuance.value?.equipmentAssetId ?? '',
     issuedToPersonnelId: selectedEquipmentIssuance.value?.issuedToPersonnelId ?? '',
     issuedByPersonnelId: selectedEquipmentIssuance.value?.issuedByPersonnelId ?? '',
-    deploymentId: selectedEquipmentIssuance.value?.deploymentId ?? null,
+    deploymentId: selectedEquipmentIssuance.value?.deploymentId ?? '',
     issueDate: selectedEquipmentIssuance.value?.issueDate ?? '',
-    expectedReturnDate: selectedEquipmentIssuance.value?.expectedReturnDate ?? null,
-    actualReturnDate: selectedEquipmentIssuance.value?.actualReturnDate ?? null,
+    expectedReturnDate: selectedEquipmentIssuance.value?.expectedReturnDate ?? '',
+    actualReturnDate: selectedEquipmentIssuance.value?.actualReturnDate ?? '',
     quantityIssued: selectedEquipmentIssuance.value?.quantityIssued ?? 1,
     statusId: selectedEquipmentIssuance.value?.statusId ?? '',
-    issuedLocation: selectedEquipmentIssuance.value?.issuedLocation ?? null,
-    returnLocation: selectedEquipmentIssuance.value?.returnLocation ?? null,
-    remarks: selectedEquipmentIssuance.value?.remarks ?? null,
+    issuedLocation: selectedEquipmentIssuance.value?.issuedLocation ?? '',
+    returnLocation: selectedEquipmentIssuance.value?.returnLocation ?? '',
+    remarks: selectedEquipmentIssuance.value?.remarks ?? '',
   }))
 
   return {
