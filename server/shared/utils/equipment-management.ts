@@ -146,6 +146,33 @@ const toEquipmentUsageFullName = (personnel: { first_name: string; middle_name: 
     .join(' ')
 }
 
+export const mapEquipmentItemPersonnelUsageListItem = (row: EquipmentItemPersonnelUsageRow): EquipmentItemPersonnelUsageListItem => {
+  const personnel = firstEquipmentUsageValue(row.issued_to_personnel)
+  const rank = firstEquipmentUsageValue(personnel?.rank ?? null)
+  const company = firstEquipmentUsageValue(personnel?.company ?? null)
+  const companyBattalion = firstEquipmentUsageValue(company?.battalion ?? null)
+  const battalion = firstEquipmentUsageValue(personnel?.battalion ?? null) ?? companyBattalion
+  const serviceStatus = firstEquipmentUsageValue(personnel?.service_status ?? null)
+  const issuanceStatus = firstEquipmentUsageValue(row.issuance_status)
+
+  return {
+    id: row.id,
+    issueNo: row.issue_no,
+    personnelId: personnel?.id ?? '',
+    personnelCode: personnel?.personnel_code ?? 'N/A',
+    serviceNumber: personnel?.service_number ?? 'N/A',
+    fullName: toEquipmentUsageFullName(personnel),
+    rankName: rank?.name ?? 'N/A',
+    companyName: company?.name ?? null,
+    battalionName: battalion?.name ?? null,
+    serviceStatus: serviceStatus?.name ?? 'N/A',
+    issueDate: row.issue_date,
+    expectedReturnDate: row.expected_return_date,
+    actualReturnDate: row.actual_return_date,
+    issuanceStatus: issuanceStatus?.name ?? 'N/A',
+  }
+}
+
 export const parseEquipmentItemSuggestionQuery = (query: {
   term?: unknown
   pageSize?: unknown
