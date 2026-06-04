@@ -77,4 +77,16 @@ const onSubmit = () => {
 
   emit('submit', result.payload)
 }
+
+const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForChangedValues({
+    formValues: form,
+    originalValues: props.initialValues,
+    showDialog,
+  })
+
+  if (shouldClose) {
+    emit('close')
+  }
+}
 </script>
