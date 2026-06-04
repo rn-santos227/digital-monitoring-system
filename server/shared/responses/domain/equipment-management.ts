@@ -10,7 +10,11 @@ import type {
   EquipmentItemKpiCounts,
   EquipmentItemListItem,
   EquipmentItemListResponse,
+  EquipmentItemPersonnelUsageListItem,
+  EquipmentItemCompanyUsageListItem,
+  EquipmentItemBattalionUsageListItem,
   EquipmentItemSuggestionResponse,
+  EquipmentItemUsageListResponse,
   EquipmentIssuanceListItem,
   EquipmentIssuanceListResponse,
 } from '../../models'
@@ -34,6 +38,9 @@ export interface CreateEquipmentItemApiResponse {
 export type EquipmentItemListApiResponse = EquipmentItemListResponse
 export type EquipmentItemKpiApiResponse = EquipmentItemKpiCounts
 export type EquipmentItemSuggestionApiResponse = EquipmentItemSuggestionResponse
+export type EquipmentItemPersonnelUsageListApiResponse = EquipmentItemUsageListResponse<EquipmentItemPersonnelUsageListItem>
+export type EquipmentItemCompanyUsageListApiResponse = EquipmentItemUsageListResponse<EquipmentItemCompanyUsageListItem>
+export type EquipmentItemBattalionUsageListApiResponse = EquipmentItemUsageListResponse<EquipmentItemBattalionUsageListItem>
 
 export interface CreateEquipmentAssetApiResponse {
   ok: true
