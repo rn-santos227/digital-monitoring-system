@@ -1,9 +1,8 @@
 import type { Ref } from 'vue'
-import type { DialogInput } from '~/composables/useDialog'
 import type {
   EquipmentAssetListItem,
   EquipmentCategoryDetailItem,
-  EquipmentIssuanceTableRow,
+  EquipmentIssuanceListItem,
   EquipmentItemListItem,
 } from '~/types/domain/equipment'
 
@@ -89,37 +88,28 @@ export const useViewEquipmentAssetHandler = ({
 }
 
 interface UseViewEquipmentIssuanceHandlerOptions {
-  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
-}
-
-const formatEquipmentIssuanceDetailMessage = (row: EquipmentIssuanceTableRow) => {
-  return [
-    `Issue No.: ${row.issueNo}`,
-    `Asset Tag: ${row.equipmentAssetTag}`,
-    `Equipment Item: ${row.equipmentItemName}`,
-    `Issued To: ${row.issuedToPersonnelName}`,
-    `Issued By: ${row.issuedByPersonnelName}`,
-    `Status: ${row.statusName}`,
-    `Deployment: ${row.deploymentLabel ?? 'Not assigned'}`,
-    `Issued Location: ${row.issuedLocation ?? 'Not specified'}`,
-    `Return Location: ${row.returnLocation ?? 'Not specified'}`,
-    `Remarks: ${row.remarks ?? 'None'}`,
-  ].join('\n')
+  isViewEquipmentIssuanceModalOpen: Ref<boolean>
+  selectedEquipmentIssuance: Ref<EquipmentIssuanceListItem | null>
+  getEquipmentIssuanceById: (id: string) => Promise<EquipmentIssuanceListItem>
 }
 
 export const useViewEquipmentIssuanceHandler = ({
-  showDialog,
+  isViewEquipmentIssuanceModalOpen,
+  selectedEquipmentIssuance,
+  getEquipmentIssuanceById,
 }: UseViewEquipmentIssuanceHandlerOptions) => {
-  const onViewEquipmentIssuance = async (row: EquipmentIssuanceTableRow) => {
-    await showDialog({
-      type: 'info',
-      title: 'Equipment issuance details',
-      message: formatEquipmentIssuanceDetailMessage(row),
-      confirmLabel: 'Close',
-    })
+  const closeViewEquipmentIssuanceModal = () => {
+    isViewEquipmentIssuanceModalOpen.value = false
+    selectedEquipmentIssuance.value = null
+  }
+
+  const onViewEquipmentIssuance = async (equipmentIssuanceId: string) => {
+    selectedEquipmentIssuance.value = await getEquipmentIssuanceById(equipmentIssuanceId)
+    isViewEquipmentIssuanceModalOpen.value = true
   }
 
   return {
+    closeViewEquipmentIssuanceModal,
     onViewEquipmentIssuance,
   }
 }
