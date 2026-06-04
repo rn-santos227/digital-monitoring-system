@@ -54,4 +54,7 @@ watch(
   },
   { immediate: true, deep: true },
 )
+
+const errors = reactive<Record<string, string>>({})
+const { showDialog } = useDialog()
 </script>
