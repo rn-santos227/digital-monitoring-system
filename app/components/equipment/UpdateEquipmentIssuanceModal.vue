@@ -64,4 +64,17 @@ const quantityIssuedInput = computed({
     form.quantityIssued = value === '' ? 0 : Number(value)
   },
 })
+
+const onSubmit = () => {
+  const result = validateUpdateEquipmentIssuanceForm(form)
+
+  Object.keys(errors).forEach((key) => delete errors[key])
+  Object.assign(errors, result.errors)
+
+  if (!result.payload) {
+    return
+  }
+
+  emit('submit', result.payload)
+}
 </script>
