@@ -252,4 +252,8 @@ export const validateUpdateEquipmentIssuanceForm = (form: {
   if (form.expectedReturnDate && form.issueDate && form.expectedReturnDate < form.issueDate) {
     errors.expectedReturnDate = 'Expected return date cannot be earlier than the issue date.'
   }
+
+  if (form.actualReturnDate && form.issueDate && form.actualReturnDate < form.issueDate) {
+    errors.actualReturnDate = 'Actual return date cannot be earlier than the issue date.'
+  }
 }
