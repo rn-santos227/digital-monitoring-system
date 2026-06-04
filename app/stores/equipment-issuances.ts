@@ -119,7 +119,10 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
     },
 
     async updateEquipmentIssuance(this: EquipmentIssuancesState, id: string, payload: UpdateEquipmentIssuancePayload) {
+      this.isUpdating = true
       this.error = ''
+      this.updateError = ''
+  
       try {
         await updateEquipmentIssuanceEndpoint(id, payload)
         const updatedResponse = await getEquipmentIssuanceByIdEndpoint(id)
