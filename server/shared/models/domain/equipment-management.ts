@@ -176,6 +176,87 @@ export interface EquipmentItemSuggestionResponse {
   items: EquipmentItemSuggestionItem[]
 }
 
+export interface EquipmentItemUsageLookupRow {
+  name: string
+}
+
+export interface EquipmentItemUsageUnitRow {
+  id: string
+  code: string
+  name: string
+}
+
+export interface EquipmentItemUsageCompanyRow extends EquipmentItemUsageUnitRow {
+  battalion: EquipmentItemUsageUnitRow | EquipmentItemUsageUnitRow[] | null
+}
+
+export interface EquipmentItemUsagePersonnelRow {
+  id: string
+  personnel_code: string
+  service_number: string
+  first_name: string
+  middle_name: string | null
+  last_name: string
+  rank: EquipmentItemUsageLookupRow | EquipmentItemUsageLookupRow[] | null
+  company: EquipmentItemUsageCompanyRow | EquipmentItemUsageCompanyRow[] | null
+  battalion: EquipmentItemUsageUnitRow | EquipmentItemUsageUnitRow[] | null
+  service_status: EquipmentItemUsageLookupRow | EquipmentItemUsageLookupRow[] | null
+}
+
+export interface EquipmentItemPersonnelUsageRow {
+  id: string
+  issue_no: string
+  issue_date: string
+  expected_return_date: string | null
+  actual_return_date: string | null
+  issuance_status: EquipmentItemUsageLookupRow | EquipmentItemUsageLookupRow[] | null
+  issued_to_personnel: EquipmentItemUsagePersonnelRow | EquipmentItemUsagePersonnelRow[] | null
+}
+
+export interface EquipmentItemPersonnelUsageListItem {
+  id: string
+  issueNo: string
+  personnelId: string
+  personnelCode: string
+  serviceNumber: string
+  fullName: string
+  rankName: string
+  companyName: string | null
+  battalionName: string | null
+  serviceStatus: string
+  issueDate: string
+  expectedReturnDate: string | null
+  actualReturnDate: string | null
+  issuanceStatus: string
+}
+
+export interface EquipmentItemCompanyUsageListItem {
+  id: string
+  code: string
+  name: string
+  battalionName: string | null
+  personnelCount: number
+  issuanceCount: number
+  latestIssueDate: string | null
+}
+
+export interface EquipmentItemBattalionUsageListItem {
+  id: string
+  code: string
+  name: string
+  personnelCount: number
+  issuanceCount: number
+  latestIssueDate: string | null
+}
+
+export interface EquipmentItemUsageListResponse<TItem> {
+  items: TItem[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
+
 export interface EquipmentAssetListItem {
   id: string
   assetTag: string
