@@ -428,6 +428,7 @@ export interface EquipmentIssuanceTableRow extends EquipmentIssuanceListItem {}
 
 export type EquipmentIssuanceTableActionKey =
   | 'view-equipment-issuance'
+  | 'edit-equipment-issuance'
   | 'delete-equipment-issuance'
 
 export interface EquipmentIssuanceTableActionPayload {
@@ -460,6 +461,21 @@ export interface CreateEquipmentIssuancePayload {
 }
 
 export interface UpdateEquipmentIssuancePayload extends Partial<CreateEquipmentIssuancePayload> {}
+
+export interface EquipmentIssuanceFormValues {
+  equipmentAssetId: string
+  issuedToPersonnelId: string
+  issuedByPersonnelId: string
+  deploymentId: string
+  issueDate: string
+  expectedReturnDate: string
+  actualReturnDate: string
+  quantityIssued: number
+  statusId: string
+  issuedLocation: string
+  returnLocation: string
+  remarks: string
+}
 
 export interface CreateEquipmentIssuanceResponse {
   ok: boolean
