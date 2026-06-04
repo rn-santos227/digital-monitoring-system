@@ -249,4 +249,7 @@ export const validateUpdateEquipmentIssuanceForm = (form: {
     errors.quantityIssued = 'Quantity issued must be a positive whole number.'
   }
 
+  if (form.expectedReturnDate && form.issueDate && form.expectedReturnDate < form.issueDate) {
+    errors.expectedReturnDate = 'Expected return date cannot be earlier than the issue date.'
+  }
 }
