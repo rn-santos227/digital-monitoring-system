@@ -9,7 +9,10 @@
     <div class="space-y-4">
       <BaseCard title="Issuance Information">
         <dl class="grid gap-4 text-sm md:grid-cols-2">
-          
+          <div>
+            <dt class="text-slate-500">Issue no.</dt>
+            <dd class="font-medium text-slate-900">{{ issuance.issueNo }}</dd>
+          </div>     
         </dl>
       </BaseCard>
     </div>
