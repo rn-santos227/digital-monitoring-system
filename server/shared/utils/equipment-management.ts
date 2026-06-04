@@ -11,6 +11,10 @@ import type {
   EquipmentCategorySuggestionItem,
   EquipmentCategorySuggestionRow,
   EquipmentItemListItem,
+  EquipmentItemBattalionUsageListItem,
+  EquipmentItemCompanyUsageListItem,
+  EquipmentItemPersonnelUsageListItem,
+  EquipmentItemPersonnelUsageRow,
   EquipmentItemRow,
   EquipmentItemSuggestionItem,
   EquipmentItemSuggestionRow,
@@ -123,6 +127,24 @@ export const mapEquipmentItemSuggestionItem = (row: EquipmentItemSuggestionRow):
     : (row.category?.name ?? ''),
   isActive: row.is_active,
 })
+
+const firstEquipmentUsageValue = <TValue>(value: TValue | TValue[] | null): TValue | null => {
+  if (Array.isArray(value)) {
+    return value[0] ?? null
+  }
+
+  return value
+}
+
+const toEquipmentUsageFullName = (personnel: { first_name: string; middle_name: string | null; last_name: string } | null): string => {
+  if (!personnel) {
+    return 'Unknown Personnel'
+  }
+
+  return [personnel.first_name, personnel.middle_name, personnel.last_name]
+    .filter(Boolean)
+    .join(' ')
+}
 
 export const parseEquipmentItemSuggestionQuery = (query: {
   term?: unknown
