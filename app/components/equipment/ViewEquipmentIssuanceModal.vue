@@ -1,5 +1,19 @@
 <template>
-
+  <BaseModal
+    title="View Equipment Issuance"
+    description="Review equipment issuance details, assignment, return timeline, and status information."
+    size="lg"
+    scroll-body
+    @close="emit('close')"
+  >
+    <div class="space-y-4">
+      <BaseCard title="Issuance Information">
+        <dl class="grid gap-4 text-sm md:grid-cols-2">
+          
+        </dl>
+      </BaseCard>
+    </div>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
