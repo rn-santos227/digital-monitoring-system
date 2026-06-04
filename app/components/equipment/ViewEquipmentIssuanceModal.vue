@@ -78,6 +78,12 @@
         <p class="text-sm leading-6 text-slate-700">{{ issuance.remarks }}</p>
       </BaseCard>
     </div>
+
+    <template #footer>
+      <div class="flex justify-end">
+        <BaseButton variant="ghost" @click="emit('close')">Close</BaseButton>
+      </div>
+    </template>
   </BaseModal>
 </template>
 
