@@ -60,6 +60,19 @@
           </div>
         </dl>
       </BaseCard>
+
+      <BaseCard title="Locations">
+        <dl class="grid gap-4 text-sm md:grid-cols-2">
+          <div>
+            <dt class="text-slate-500">Issued location</dt>
+            <dd class="font-medium text-slate-900">{{ issuance.issuedLocation || 'Not specified' }}</dd>
+          </div>
+          <div>
+            <dt class="text-slate-500">Return location</dt>
+            <dd class="font-medium text-slate-900">{{ issuance.returnLocation || 'Not specified' }}</dd>
+          </div>
+        </dl>
+      </BaseCard>
     </div>
   </BaseModal>
 </template>
