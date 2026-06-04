@@ -57,4 +57,11 @@ watch(
 
 const errors = reactive<Record<string, string>>({})
 const { showDialog } = useDialog()
+
+const quantityIssuedInput = computed({
+  get: () => String(form.quantityIssued),
+  set: (value: string) => {
+    form.quantityIssued = value === '' ? 0 : Number(value)
+  },
+})
 </script>
