@@ -9,6 +9,21 @@
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
       <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <EquipmentAssetsSuggestionField
+          v-model="form.equipmentAssetId"
+          :error="errors.equipmentAssetId"
+        />
+        <BaseSelect
+          v-model="form.statusId"
+          label="Issuance status"
+          placeholder="Select issuance status"
+          :options="EQUIPMENT_ISSUANCES_STATUS_OPTIONS"
+          :error="errors.statusId"
+          required
+        />
+      </div>
     </form>
   </BaseModal>
 </template>
