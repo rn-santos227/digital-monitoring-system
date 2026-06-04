@@ -273,4 +273,9 @@ export const validateUpdateEquipmentIssuanceForm = (form: {
       remarks: form.remarks || null,
     }
     : null
+
+  return {
+    errors,
+    payload,
+  }
 }
