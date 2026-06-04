@@ -61,6 +61,7 @@ import { computed, ref } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateEquipmentIssuanceModal from '~/components/equipment/CreateEquipmentIssuanceModal.vue'
 import UpdateEquipmentIssuanceModal from '~/components/equipment/UpdateEquipmentIssuanceModal.vue'
+import ViewEquipmentIssuanceModal from '~/components/equipment/ViewEquipmentIssuanceModal.vue'
 import EquipmentIssuancesFilter from '~/components/equipment/EquipmentIssuancesFilter.vue'
 import EquipmentIssuancesTable from '~/components/equipment/EquipmentIssuancesTable.vue'
 import { useEquipmentIssuances } from '~/composables/useEquipmentIssuances'
@@ -96,6 +97,7 @@ const {
   isLoading,
   isCreating,
   isUpdating,
+  isDeleting,
   error,
   createError,
   updateError,
@@ -115,7 +117,9 @@ const { handleFilterApply } = useEquipmentSearchHandlers(filters)
 
 const totalEquipmentIssuancesKpi = computed(() => pagination.value.totalItems)
 const isCreateEquipmentIssuanceModalOpen = ref(false)
+const isViewEquipmentIssuanceModalOpen = ref(false)
 const isUpdateEquipmentIssuanceModalOpen = ref(false)
+const selectedViewEquipmentIssuance = ref<EquipmentIssuanceListItem | null>(null)
 const selectedEquipmentIssuance = ref<EquipmentIssuanceListItem | null>(null)
 const {
   onOpenCreateEquipmentIssuanceModal,
@@ -153,8 +157,10 @@ const { onDeleteEquipmentIssuance } = useDeleteEquipmentIssuanceHandler({
   showDialog,
 })
 
-const { onViewEquipmentIssuance } = useViewEquipmentIssuanceHandler({
-  showDialog,
+const { closeViewEquipmentIssuanceModal, onViewEquipmentIssuance } = useViewEquipmentIssuanceHandler({
+  isViewEquipmentIssuanceModalOpen,
+  selectedEquipmentIssuance: selectedViewEquipmentIssuance,
+  getEquipmentIssuanceById,
 })
 
 const onApply = async (value: Partial<EquipmentIssuanceSearchQuery>) => {
@@ -182,7 +188,7 @@ const onPageSizeChange = async (pageSize: number) => {
 
 const onTableAction = async ({ actionKey, row }: { actionKey: string; row: EquipmentIssuanceTableRow }) => {
   if (actionKey === 'view-equipment-issuance') {
-    await onViewEquipmentIssuance(row)
+    await onViewEquipmentIssuance(row.id)
     return
   }
 
