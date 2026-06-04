@@ -256,4 +256,21 @@ export const validateUpdateEquipmentIssuanceForm = (form: {
   if (form.actualReturnDate && form.issueDate && form.actualReturnDate < form.issueDate) {
     errors.actualReturnDate = 'Actual return date cannot be earlier than the issue date.'
   }
+
+  const payload: UpdateEquipmentIssuancePayload | null = Object.keys(errors).length === 0
+    ? {
+      equipmentAssetId: result.values.equipmentAssetId ?? '',
+      issuedToPersonnelId: result.values.issuedToPersonnelId ?? '',
+      issuedByPersonnelId: result.values.issuedByPersonnelId ?? '',
+      deploymentId: form.deploymentId || null,
+      issueDate: result.values.issueDate ?? '',
+      expectedReturnDate: form.expectedReturnDate || null,
+      actualReturnDate: form.actualReturnDate || null,
+      quantityIssued,
+      statusId: result.values.statusId ?? '',
+      issuedLocation: form.issuedLocation || null,
+      returnLocation: form.returnLocation || null,
+      remarks: form.remarks || null,
+    }
+    : null
 }
