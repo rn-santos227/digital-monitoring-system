@@ -41,6 +41,14 @@
           :error="errors.issuedByPersonnelId"
         />
       </div>
+
+      <DeploymentSuggestionField
+        v-model="form.deploymentId"
+        label="Deployment record"
+        placeholder="Search deployment record"
+        helper-text="Optionally link this issuance to a deployment record."
+        :error="errors.deploymentId"
+      />
     </form>
   </BaseModal>
 </template>
