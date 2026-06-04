@@ -4,6 +4,7 @@ import type {
   EquipmentAssetFormValues,
   EquipmentAssetListItem,
   EquipmentCategoryDetailItem,
+  EquipmentIssuanceFormValues,
   EquipmentIssuanceListItem,
   EquipmentItemListItem,
   UpdateEquipmentAssetPayload,
@@ -38,6 +39,7 @@ interface UseUpdateEquipmentIssuanceHandlerOptions {
   selectedEquipmentIssuance: Ref<EquipmentIssuanceListItem | null>
   getEquipmentIssuanceById: (id: string) => Promise<EquipmentIssuanceListItem>
   updateEquipmentIssuance: (id: string, payload: UpdateEquipmentIssuancePayload) => Promise<void>
+  errorMessage?: Ref<string>
 }
 
 export const useUpdateEquipmentCategoryHandler = ({
@@ -188,6 +190,7 @@ export const useUpdateEquipmentIssuanceHandler = ({
   selectedEquipmentIssuance,
   getEquipmentIssuanceById,
   updateEquipmentIssuance,
+  errorMessage,
 }: UseUpdateEquipmentIssuanceHandlerOptions) => {
   const closeUpdateEquipmentIssuanceModal = () => {
     isUpdateEquipmentIssuanceModalOpen.value = false
