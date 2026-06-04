@@ -12,7 +12,11 @@
           <div>
             <dt class="text-slate-500">Issue no.</dt>
             <dd class="font-medium text-slate-900">{{ issuance.issueNo }}</dd>
-          </div>     
+          </div>
+          <div>
+            <dt class="text-slate-500">Issuance status</dt>
+            <dd class="font-medium text-slate-900">{{ issuance.statusName }}</dd>
+          </div>  
         </dl>
       </BaseCard>
     </div>
