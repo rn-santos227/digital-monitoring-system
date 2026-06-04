@@ -533,5 +533,6 @@ export const EQUIPMENT_ISSUANCES_TABLE_COLUMNS: readonly DataTableColumn[] = Obj
 ])
 export const EQUIPMENT_ISSUANCES_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
   { key: 'view-equipment-issuance', tooltip: 'View equipment issuance', iconName: 'eye', variant: 'info' },
+  { key: 'edit-equipment-issuance', tooltip: 'Edit equipment issuance', iconName: 'pencil-square', variant: 'warning' },
   { key: 'delete-equipment-issuance', tooltip: 'Delete equipment issuance', iconName: 'trash', variant: 'danger' },
 ])
