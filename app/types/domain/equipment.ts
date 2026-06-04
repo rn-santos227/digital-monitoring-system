@@ -493,6 +493,8 @@ export interface EquipmentIssuancesState {
   }
   isLoading: boolean
   isCreating: boolean
+  isUpdating: boolean
   error: string
   createError: string
+  updateError: string
 }
