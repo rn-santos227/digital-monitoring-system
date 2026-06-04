@@ -4,6 +4,7 @@ import type {
   CreateEquipmentIssuancePayload,
   UpdateEquipmentCategoryPayload,
   UpdateEquipmentAssetPayload,
+  UpdateEquipmentIssuancePayload,
 } from '~/types/domain/equipment'
 import { validateFields } from '~/utils/field-validation'
 import { REGEX_PATTERNS } from '~/utils/regex'
@@ -217,4 +218,21 @@ export const validateCreateEquipmentIssuanceForm = (form: {
     errors,
     payload,
   }
+}
+
+export const validateUpdateEquipmentIssuanceForm = (form: {
+  equipmentAssetId: string
+  issuedToPersonnelId: string
+  issuedByPersonnelId: string
+  deploymentId: string
+  issueDate: string
+  expectedReturnDate: string
+  actualReturnDate: string
+  quantityIssued: number
+  statusId: string
+  issuedLocation: string
+  returnLocation: string
+  remarks: string
+}) => {
+
 }
