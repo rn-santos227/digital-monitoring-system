@@ -242,5 +242,8 @@ export const validateUpdateEquipmentIssuanceForm = (form: {
     { field: 'statusId', label: 'Issuance status', value: form.statusId, required: true },
   ])
 
+  const errors = { ...result.errors }
+  const quantityIssued = Math.trunc(Number(form.quantityIssued))
+
 
 }
