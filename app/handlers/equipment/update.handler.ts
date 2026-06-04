@@ -199,11 +199,13 @@ export const useUpdateEquipmentIssuanceHandler = ({
   }
 
   const closeUpdateEquipmentIssuanceModal = () => {
+    clearUpdateEquipmentIssuanceError()
     isUpdateEquipmentIssuanceModalOpen.value = false
     selectedEquipmentIssuance.value = null
   }
 
   const onOpenUpdateEquipmentIssuanceModal = async (equipmentIssuanceId: string) => {
+    clearUpdateEquipmentIssuanceError()
     selectedEquipmentIssuance.value = await getEquipmentIssuanceById(equipmentIssuanceId)
     isUpdateEquipmentIssuanceModalOpen.value = true
   }
@@ -215,6 +217,7 @@ export const useUpdateEquipmentIssuanceHandler = ({
       return
     }
 
+    clearUpdateEquipmentIssuanceError()
     await updateEquipmentIssuance(equipmentIssuanceId, payload)
     closeUpdateEquipmentIssuanceModal()
   }
