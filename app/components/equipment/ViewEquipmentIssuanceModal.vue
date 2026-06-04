@@ -35,6 +35,31 @@
           </div>
         </dl>
       </BaseCard>
+
+      <BaseCard title="Equipment Assignment">
+        <dl class="grid gap-4 text-sm md:grid-cols-2">
+          <div>
+            <dt class="text-slate-500">Asset tag</dt>
+            <dd class="font-medium text-slate-900">{{ issuance.equipmentAssetTag }}</dd>
+          </div>
+          <div>
+            <dt class="text-slate-500">Equipment item</dt>
+            <dd class="font-medium text-slate-900">{{ issuance.equipmentItemName }}</dd>
+          </div>
+          <div>
+            <dt class="text-slate-500">Issued to</dt>
+            <dd class="font-medium text-slate-900">{{ issuance.issuedToPersonnelName }}</dd>
+          </div>
+          <div>
+            <dt class="text-slate-500">Issued by</dt>
+            <dd class="font-medium text-slate-900">{{ issuance.issuedByPersonnelName }}</dd>
+          </div>
+          <div>
+            <dt class="text-slate-500">Deployment record</dt>
+            <dd class="font-medium text-slate-900">{{ issuance.deploymentLabel || 'Not assigned' }}</dd>
+          </div>
+        </dl>
+      </BaseCard>
     </div>
   </BaseModal>
 </template>
