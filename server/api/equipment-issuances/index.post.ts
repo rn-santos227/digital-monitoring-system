@@ -5,7 +5,7 @@ import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_
 import { mapEquipmentIssuanceListItem, resolveEquipmentAssetStatusId, resolveEquipmentIssuanceStatusId } from '../../shared/utils'
 import { parseCreateEquipmentIssuancePayload } from '../../shared/validations'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
-import { requirePermission } from '../../utils/auth/requirePermission'
+import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../utils/db/executeWithRollback'
 import { getEquipmentAssetById } from '../../utils/equipment-assets/getEquipmentAssetById'
@@ -15,7 +15,7 @@ import { deleteEquipmentIssuanceById } from '../../utils/equipment-issuances/del
 import { getEquipmentIssuanceById } from '../../utils/equipment-issuances/getEquipmentIssuanceById'
 
 export default defineEventHandler(async (event): Promise<CreateEquipmentIssuanceApiResponse> => {
-  const actor = await requirePermission(event, PERMISSION_CODES.equipmentIssue)
+  const actor = await requireAnyPermission(event, [PERMISSION_CODES.equipmentIssue, PERMISSION_CODES.equipmentManage])
   const body = await readBody<CreateEquipmentIssuanceRequest>(event)
   const supabase = getServiceSupabaseClient()
   let createdId: string | null = null
