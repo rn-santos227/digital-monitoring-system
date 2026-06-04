@@ -62,6 +62,10 @@ const visibleActions = computed(() => {
       return authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.view)
     }
 
+    if (action.key === 'edit-equipment-issuance') {
+      return authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.mutateIssuance)
+    }
+
     return authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.manage)
   })
 })
