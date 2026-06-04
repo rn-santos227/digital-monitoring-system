@@ -215,6 +215,47 @@ export const mapEquipmentItemCompanyUsageListItems = (
     .sort((left, right) => left.name.localeCompare(right.name))
 }
 
+export const mapEquipmentItemBattalionUsageListItems = (
+  rows: EquipmentItemPersonnelUsageRow[],
+): EquipmentItemBattalionUsageListItem[] => {
+  const battalionMap = new Map<string, EquipmentItemBattalionUsageListItem & { personnelIds: Set<string> }>()
+
+  rows.forEach((row) => {
+    const personnel = firstEquipmentUsageValue(row.issued_to_personnel)
+    const company = firstEquipmentUsageValue(personnel?.company ?? null)
+    const battalion = firstEquipmentUsageValue(personnel?.battalion ?? null) ?? firstEquipmentUsageValue(company?.battalion ?? null)
+
+    if (!battalion) {
+      return
+    }
+
+    const existing = battalionMap.get(battalion.id) ?? {
+      id: battalion.id,
+      code: battalion.code,
+      name: battalion.name,
+      personnelCount: 0,
+      issuanceCount: 0,
+      latestIssueDate: null,
+      personnelIds: new Set<string>(),
+    }
+
+    if (personnel?.id) {
+      existing.personnelIds.add(personnel.id)
+    }
+
+    existing.issuanceCount += 1
+    existing.latestIssueDate = !existing.latestIssueDate || row.issue_date > existing.latestIssueDate
+      ? row.issue_date
+      : existing.latestIssueDate
+    existing.personnelCount = existing.personnelIds.size
+    battalionMap.set(battalion.id, existing)
+  })
+
+  return Array.from(battalionMap.values())
+    .map(({ personnelIds: _personnelIds, ...item }) => item)
+    .sort((left, right) => left.name.localeCompare(right.name))
+}
+
 export const parseEquipmentItemSuggestionQuery = (query: {
   term?: unknown
   pageSize?: unknown
