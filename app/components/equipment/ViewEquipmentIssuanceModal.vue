@@ -73,6 +73,10 @@
           </div>
         </dl>
       </BaseCard>
+
+      <BaseCard v-if="issuance.remarks" title="Remarks">
+        <p class="text-sm leading-6 text-slate-700">{{ issuance.remarks }}</p>
+      </BaseCard>
     </div>
   </BaseModal>
 </template>
