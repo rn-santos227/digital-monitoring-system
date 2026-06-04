@@ -51,6 +51,7 @@
 import { computed, ref } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateEquipmentIssuanceModal from '~/components/equipment/CreateEquipmentIssuanceModal.vue'
+import UpdateEquipmentIssuanceModal from '~/components/equipment/UpdateEquipmentIssuanceModal.vue'
 import EquipmentIssuancesFilter from '~/components/equipment/EquipmentIssuancesFilter.vue'
 import EquipmentIssuancesTable from '~/components/equipment/EquipmentIssuancesTable.vue'
 import { useEquipmentIssuances } from '~/composables/useEquipmentIssuances'
@@ -68,10 +69,16 @@ import {
   useDeleteEquipmentIssuanceHandler,
   useEquipmentPageHandlers,
   useEquipmentSearchHandlers,
+  useUpdateEquipmentIssuanceHandler,
   useViewEquipmentIssuanceHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
-import type { EquipmentIssuanceSearchQuery, EquipmentIssuanceTableRow } from '~/types/domain/equipment'
+import type {
+  EquipmentIssuanceListItem,
+  EquipmentIssuanceSearchQuery,
+  EquipmentIssuanceTableRow,
+} from '~/types/domain/equipment'
+import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 
 const {
   filters,
@@ -79,10 +86,14 @@ const {
   pagination,
   isLoading,
   isCreating,
+  isUpdating,
   error,
   createError,
+  updateError,
   loadEquipmentIssuances,
   createEquipmentIssuance,
+  getEquipmentIssuanceById,
+  updateEquipmentIssuance,
   deleteEquipmentIssuance,
 } = useEquipmentIssuances()
 
@@ -95,6 +106,8 @@ const { handleFilterApply } = useEquipmentSearchHandlers(filters)
 
 const totalEquipmentIssuancesKpi = computed(() => pagination.value.totalItems)
 const isCreateEquipmentIssuanceModalOpen = ref(false)
+const isUpdateEquipmentIssuanceModalOpen = ref(false)
+const selectedEquipmentIssuance = ref<EquipmentIssuanceListItem | null>(null)
 const {
   onOpenCreateEquipmentIssuanceModal,
   onCloseCreateEquipmentIssuanceModal,
@@ -104,6 +117,26 @@ const {
   createEquipmentIssuance,
   showDialog,
   errorMessage: createError,
+})
+
+const {
+  closeUpdateEquipmentIssuanceModal,
+  onOpenUpdateEquipmentIssuanceModal,
+  onUpdateEquipmentIssuance,
+  selectedEquipmentIssuanceFormValues,
+} = useUpdateEquipmentIssuanceHandler({
+  isUpdateEquipmentIssuanceModalOpen,
+  selectedEquipmentIssuance,
+  getEquipmentIssuanceById,
+  updateEquipmentIssuance,
+  errorMessage: updateError,
+})
+
+const onUpdateEquipmentIssuanceWithFeedback = createModalFeedbackHandler(onUpdateEquipmentIssuance, showDialog, {
+  successTitle: 'Equipment issuance updated',
+  successMessage: 'Equipment issuance has been updated successfully.',
+  errorTitle: 'Update failed',
+  errorMessage: 'Unable to update equipment issuance right now.',
 })
 
 const { onDeleteEquipmentIssuance } = useDeleteEquipmentIssuanceHandler({
@@ -141,6 +174,11 @@ const onPageSizeChange = async (pageSize: number) => {
 const onTableAction = async ({ actionKey, row }: { actionKey: string; row: EquipmentIssuanceTableRow }) => {
   if (actionKey === 'view-equipment-issuance') {
     await onViewEquipmentIssuance(row)
+    return
+  }
+
+  if (actionKey === 'edit-equipment-issuance') {
+    await onOpenUpdateEquipmentIssuanceModal(row.id)
     return
   }
 
