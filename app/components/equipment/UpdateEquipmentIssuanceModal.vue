@@ -72,6 +72,13 @@
           required
         />
       </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <BaseTextField v-model="form.issuedLocation" label="Issued location" :error="errors.issuedLocation" />
+        <BaseTextField v-model="form.returnLocation" label="Return location" :error="errors.returnLocation" />
+      </div>
+
+      <BaseTextArea v-model="form.remarks" label="Remarks" :error="errors.remarks" />
     </form>
   </BaseModal>
 </template>
