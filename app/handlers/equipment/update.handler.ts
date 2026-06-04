@@ -192,6 +192,12 @@ export const useUpdateEquipmentIssuanceHandler = ({
   updateEquipmentIssuance,
   errorMessage,
 }: UseUpdateEquipmentIssuanceHandlerOptions) => {
+  const clearUpdateEquipmentIssuanceError = () => {
+    if (errorMessage) {
+      errorMessage.value = ''
+    }
+  }
+
   const closeUpdateEquipmentIssuanceModal = () => {
     isUpdateEquipmentIssuanceModalOpen.value = false
     selectedEquipmentIssuance.value = null
