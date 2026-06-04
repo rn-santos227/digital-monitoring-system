@@ -31,4 +31,19 @@ const emit = defineEmits<{
   (event: 'close'): void
   (event: 'submit', payload: UpdateEquipmentIssuancePayload): void
 }>()
+
+const form = reactive<EquipmentIssuanceFormValues>({
+  equipmentAssetId: '',
+  issuedToPersonnelId: '',
+  issuedByPersonnelId: '',
+  deploymentId: '',
+  issueDate: '',
+  expectedReturnDate: '',
+  actualReturnDate: '',
+  quantityIssued: 1,
+  statusId: '',
+  issuedLocation: '',
+  returnLocation: '',
+  remarks: '',
+})
 </script>
