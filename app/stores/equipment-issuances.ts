@@ -30,8 +30,10 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
     pagination: { ...DEFAULT_EQUIPMENT_ISSUANCES_PAGINATION },
     isLoading: false,
     isCreating: false,
+    isUpdating: false,
     error: '',
     createError: '',
+    updateError: '',
   }),
 
   getters: {
@@ -57,7 +59,6 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
         statusId: filters.statusId,
         statusName: filters.statusName,
       }
-
 
       try {
         const response = hasEquipmentIssuanceSearchFilters(query)
