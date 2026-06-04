@@ -16,7 +16,23 @@
           <div>
             <dt class="text-slate-500">Issuance status</dt>
             <dd class="font-medium text-slate-900">{{ issuance.statusName }}</dd>
-          </div>  
+          </div>
+          <div>
+            <dt class="text-slate-500">Issue date</dt>
+            <dd class="font-medium text-slate-900">{{ formatDate(issuance.issueDate) }}</dd>
+          </div>
+          <div>
+            <dt class="text-slate-500">Expected return date</dt>
+            <dd class="font-medium text-slate-900">{{ formattedExpectedReturnDate }}</dd>
+          </div>
+          <div>
+            <dt class="text-slate-500">Actual return date</dt>
+            <dd class="font-medium text-slate-900">{{ formattedActualReturnDate }}</dd>
+          </div>
+          <div>
+            <dt class="text-slate-500">Quantity issued</dt>
+            <dd class="font-medium text-slate-900">{{ issuance.quantityIssued }}</dd>
+          </div>
         </dl>
       </BaseCard>
     </div>
