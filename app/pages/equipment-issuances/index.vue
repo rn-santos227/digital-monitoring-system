@@ -26,7 +26,7 @@
 
       <EquipmentIssuancesTable
         :rows="tableRows"
-        :is-loading="isLoading"
+        :is-loading="isLoading || isDeleting"
         :current-page="pagination.page"
         :total-pages="pagination.totalPages"
         :total-items="pagination.totalItems"
@@ -42,6 +42,12 @@
         :error-message="createError"
         @close="onCloseCreateEquipmentIssuanceModal"
         @submit="onSubmitCreateEquipmentIssuance"
+      />
+
+      <ViewEquipmentIssuanceModal
+        v-if="isViewEquipmentIssuanceModalOpen && selectedViewEquipmentIssuance"
+        :issuance="selectedViewEquipmentIssuance"
+        @close="closeViewEquipmentIssuanceModal"
       />
 
       <UpdateEquipmentIssuanceModal
