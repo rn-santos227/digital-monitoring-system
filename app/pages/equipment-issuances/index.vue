@@ -43,7 +43,16 @@
         @close="onCloseCreateEquipmentIssuanceModal"
         @submit="onSubmitCreateEquipmentIssuance"
       />
-   </section>
+
+      <UpdateEquipmentIssuanceModal
+        v-if="isUpdateEquipmentIssuanceModalOpen && selectedEquipmentIssuance"
+        :initial-values="selectedEquipmentIssuanceFormValues"
+        :is-submitting="isUpdating"
+        :error-message="updateError"
+        @close="closeUpdateEquipmentIssuanceModal"
+        @submit="onUpdateEquipmentIssuanceWithFeedback"
+      />
+    </section>
   </main>
 </template>
 
