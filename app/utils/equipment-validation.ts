@@ -234,5 +234,13 @@ export const validateUpdateEquipmentIssuanceForm = (form: {
   returnLocation: string
   remarks: string
 }) => {
+  const result = validateFields([
+    { field: 'equipmentAssetId', label: 'Equipment asset', value: form.equipmentAssetId, required: true },
+    { field: 'issuedToPersonnelId', label: 'Issued to personnel', value: form.issuedToPersonnelId, required: true },
+    { field: 'issuedByPersonnelId', label: 'Issued by personnel', value: form.issuedByPersonnelId, required: true },
+    { field: 'issueDate', label: 'Issue date', value: form.issueDate, required: true },
+    { field: 'statusId', label: 'Issuance status', value: form.statusId, required: true },
+  ])
+
 
 }
