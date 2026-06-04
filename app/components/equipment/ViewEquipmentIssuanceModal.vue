@@ -11,4 +11,7 @@ const props = defineProps<{ issuance: EquipmentIssuanceListItem }>()
 const emit = defineEmits<{ (event: 'close'): void }>()
 const { formatDate } = useDateDisplay()
 
+const formattedExpectedReturnDate = computed(() => {
+  return props.issuance.expectedReturnDate ? formatDate(props.issuance.expectedReturnDate) : 'N/A'
+})
 </script>
