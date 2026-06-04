@@ -31,6 +31,7 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
     isLoading: false,
     isCreating: false,
     isUpdating: false,
+    isDeleting: false,
     error: '',
     createError: '',
     updateError: '',
@@ -138,6 +139,7 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
     },
 
     async deleteEquipmentIssuance(this: EquipmentIssuancesState, id: string) {
+      this.isDeleting = true
       this.error = ''
       try {
         await deleteEquipmentIssuanceEndpoint(id)
@@ -155,6 +157,8 @@ export const useEquipmentIssuancesStore = defineStore('equipment-issuances', {
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to delete equipment issuance.')
         throw error
+      } finally {
+        this.isDeleting = false
       }
     },
   },
