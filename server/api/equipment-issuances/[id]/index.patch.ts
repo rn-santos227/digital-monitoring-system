@@ -4,14 +4,14 @@ import type { MutationSuccessResponse } from '../../../shared/responses'
 import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../../shared/constants'
 import { buildEquipmentIssuanceUpdates, requireRouteId } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
-import { requirePermission } from '../../../utils/auth/requirePermission'
+import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
 import { getEquipmentIssuanceById } from '../../../utils/equipment-issuances/getEquipmentIssuanceById'
 import { updateEquipmentIssuanceById } from '../../../utils/equipment-issuances/updateEquipmentIssuanceById'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
-  const actor = await requirePermission(event, PERMISSION_CODES.equipmentIssue)
+  const actor = await requireAnyPermission(event, [PERMISSION_CODES.equipmentIssue, PERMISSION_CODES.equipmentManage])
   const id = requireRouteId(getRouterParam(event, 'id'), 'Equipment issuance id is required.')
   const body = await readBody<UpdateEquipmentIssuanceRequest>(event)
   const updates = buildEquipmentIssuanceUpdates(body)
