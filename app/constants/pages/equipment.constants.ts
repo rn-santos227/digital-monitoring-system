@@ -1,4 +1,3 @@
-
 import { EQUIPMENT_PRIVILEGES } from '~/constants/privileges.constants'
 import {
   ASSET_STATUS_VALUES,
@@ -6,6 +5,8 @@ import {
   ISSUANCE_STATUS_VALUES,
   SERVICEABILITY_STATUS_VALUES,
 } from '~/types/enums'
+import type { BaseTabItem } from '~/constants/ui.constants'
+import type { EquipmentItemProfileTabId } from '~/types/domain/equipment'
 
 export const EQUIPMENT_CATEGORIES_PAGE_TITLE = 'Equipment Categories'
 export const EQUIPMENT_CATEGORIES_PAGE_SUBTITLE = 'Manage equipment category records for standardized equipment classification.'
@@ -51,6 +52,21 @@ export const EQUIPMENT_ITEMS_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: 'manufacturer', label: 'Manufacturer' },
 ])
 export const EQUIPMENT_ITEMS_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGES
+
+
+export const EQUIPMENT_ITEM_PROFILE_PAGE_TITLE = 'Equipment Item Profile'
+export const EQUIPMENT_ITEM_PROFILE_PAGE_SUBTITLE = 'Review item details and unit usage history for issued equipment.'
+export const EQUIPMENT_ITEM_PROFILE_TABS_ARIA_LABEL = 'Equipment item profile tabs'
+export const EQUIPMENT_ITEM_PROFILE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
+  { id: 'personnel', label: 'Personnel Usage' },
+  { id: 'companies', label: 'Companies' },
+  { id: 'battalions', label: 'Battalions' },
+])
+export const EQUIPMENT_ITEM_PROFILE_TAB_CARD_TITLES: Readonly<Record<EquipmentItemProfileTabId, string>> = Object.freeze({
+  personnel: 'Personnel Usage Records',
+  companies: 'Company Usage Summary',
+  battalions: 'Battalion Usage Summary',
+})
 
 export const EQUIPMENT_ASSETS_PAGE_TITLE = 'Equipment Assets'
 export const EQUIPMENT_ASSETS_PAGE_SUBTITLE = 'Monitor and track equipment asset records and operational statuses.'
