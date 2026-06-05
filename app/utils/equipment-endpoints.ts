@@ -388,6 +388,54 @@ export const getEquipmentItemByIdEndpoint = async (id: string): Promise<{ item: 
   }, API_LOADING_MESSAGES.fetchEquipmentItems)
 }
 
+export const getEquipmentItemPersonnelEndpoint = async (
+  id: string,
+  query: EquipmentCategoryEndpointQuery,
+): Promise<EquipmentItemUsageListResponse<EquipmentItemPersonnelUsageListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentItemUsageListResponse<EquipmentItemPersonnelUsageListItem>>(
+      EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentItemPersonnel(id),
+      {
+        method: 'GET',
+        headers: createSessionHeaders(),
+        query,
+      },
+    )
+  }, API_LOADING_MESSAGES.fetchEquipmentItems)
+}
+
+export const getEquipmentItemCompaniesEndpoint = async (
+  id: string,
+  query: EquipmentCategoryEndpointQuery,
+): Promise<EquipmentItemUsageListResponse<EquipmentItemCompanyUsageListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentItemUsageListResponse<EquipmentItemCompanyUsageListItem>>(
+      EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentItemCompanies(id),
+      {
+        method: 'GET',
+        headers: createSessionHeaders(),
+        query,
+      },
+    )
+  }, API_LOADING_MESSAGES.fetchEquipmentItems)
+}
+
+export const getEquipmentItemBattalionsEndpoint = async (
+  id: string,
+  query: EquipmentCategoryEndpointQuery,
+): Promise<EquipmentItemUsageListResponse<EquipmentItemBattalionUsageListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentItemUsageListResponse<EquipmentItemBattalionUsageListItem>>(
+      EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentItemBattalions(id),
+      {
+        method: 'GET',
+        headers: createSessionHeaders(),
+        query,
+      },
+    )
+  }, API_LOADING_MESSAGES.fetchEquipmentItems)
+}
+
 export const getEquipmentAssetByIdEndpoint = async (id: string): Promise<{ item: EquipmentAssetListItem }> => {
   return await withApiLoading(async () => {
     return await $fetch<{ item: EquipmentAssetListItem }>(EQUIPMENT_MANAGEMENT_API_ENDPOINTS.equipmentAssetById(id), {
