@@ -234,6 +234,52 @@ export interface EquipmentItemKpiCounts {
   totalItems: number
 }
 
+export type EquipmentItemProfileTabId = 'personnel' | 'companies' | 'battalions'
+
+export interface EquipmentItemPersonnelUsageListItem {
+  id: string
+  issueNo: string
+  personnelId: string
+  personnelCode: string
+  serviceNumber: string
+  fullName: string
+  rankName: string
+  companyName: string | null
+  battalionName: string | null
+  serviceStatus: string
+  issueDate: string
+  expectedReturnDate: string | null
+  actualReturnDate: string | null
+  issuanceStatus: string
+}
+
+export interface EquipmentItemCompanyUsageListItem {
+  id: string
+  code: string
+  name: string
+  battalionName: string | null
+  personnelCount: number
+  issuanceCount: number
+  latestIssueDate: string | null
+}
+
+export interface EquipmentItemBattalionUsageListItem {
+  id: string
+  code: string
+  name: string
+  personnelCount: number
+  issuanceCount: number
+  latestIssueDate: string | null
+}
+
+export interface EquipmentItemUsageListResponse<TItem> {
+  items: TItem[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
+
 export interface CreateEquipmentItemPayload {
   equipmentCode: string
   categoryId: string
