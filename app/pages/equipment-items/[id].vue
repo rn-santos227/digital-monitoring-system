@@ -74,4 +74,9 @@ const isLoadingBattalions = ref(false)
 const canViewEquipmentItems = computed(() => {
   return authStore.hasPermissionAccess(EQUIPMENT_ITEMS_PAGE_REQUIRED_PERMISSIONS.view)
 })
+
+const equipmentItemId = computed(() => {
+  const idValue = route.params.id
+  return Array.isArray(idValue) ? (idValue[0] ?? '') : (idValue ?? '')
+})
 </script>
