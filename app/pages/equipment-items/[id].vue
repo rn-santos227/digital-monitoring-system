@@ -81,6 +81,18 @@
             @update:current-page="onBattalionPageChange"
             @update:page-size="onBattalionPageSizeChange"
           />
+
+          <EquipmentItemPersonnelUsageTable
+            v-else
+            :rows="personnelRows"
+            :is-loading="isLoadingPersonnel"
+            :current-page="personnelPagination.page"
+            :total-pages="personnelPagination.totalPages"
+            :total-items="personnelPagination.totalItems"
+            :page-size="personnelPagination.pageSize"
+            @update:current-page="onPersonnelPageChange"
+            @update:page-size="onPersonnelPageSizeChange"
+          />
         </template>
       </template>
     </section>
