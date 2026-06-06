@@ -70,4 +70,8 @@ const battalionPagination = ref<UsagePaginationState>(createPaginationState())
 const isLoadingPersonnel = ref(false)
 const isLoadingCompanies = ref(false)
 const isLoadingBattalions = ref(false)
+
+const canViewEquipmentItems = computed(() => {
+  return authStore.hasPermissionAccess(EQUIPMENT_ITEMS_PAGE_REQUIRED_PERMISSIONS.view)
+})
 </script>
