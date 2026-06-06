@@ -34,4 +34,11 @@ import {
   getEquipmentItemCompaniesEndpoint,
   getEquipmentItemPersonnelEndpoint,
 } from '~/utils/equipment-endpoints'
+
+interface UsagePaginationState {
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
 </script>
