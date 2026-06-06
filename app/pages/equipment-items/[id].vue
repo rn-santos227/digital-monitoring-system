@@ -12,6 +12,29 @@
         tone="warning"
       />
 
+      <template v-else>
+        <BaseAlert v-if="pageError" :message="pageError" tone="danger" />
+
+        <template v-if="equipmentItem">
+          <div class="grid gap-6 xl:grid-cols-[340px_minmax(0,1fr)]">
+            <BaseCard>
+              <div class="flex flex-col items-center gap-4 text-center">
+                <BaseImage size="lg" :alt="equipmentItem.name" :fallback-text="equipmentItem.name" />
+                <div class="space-y-1">
+                  <h2 class="text-xl font-semibold text-slate-900">{{ equipmentItem.name }}</h2>
+                  <p class="text-sm text-slate-600">{{ equipmentItem.equipmentCode }} · {{ equipmentItem.categoryName }}</p>
+                </div>
+                <div class="w-full space-y-2 rounded-xl bg-slate-50 p-3 text-left text-sm">
+                  <p><span class="font-semibold">Category:</span> {{ equipmentItem.categoryCode }} — {{ equipmentItem.categoryName }}</p>
+                  <p><span class="font-semibold">Model:</span> {{ equipmentItem.model ?? 'Not set' }}</p>
+                  <p><span class="font-semibold">Manufacturer:</span> {{ equipmentItem.manufacturer ?? 'Not set' }}</p>
+                  <p><span class="font-semibold">Status:</span> {{ equipmentItem.isActive ? 'Active' : 'Inactive' }}</p>
+                </div>
+              </div>
+            </BaseCard>
+          </div>
+        </template>
+      </template>
     </section>
   </main>
 </template>
