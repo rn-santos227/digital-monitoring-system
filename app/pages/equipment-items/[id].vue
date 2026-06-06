@@ -142,4 +142,14 @@ const loadBattalionUsage = async (page = battalionPagination.value.page, pageSiz
     isLoadingBattalions.value = false
   }
 }
+
+const loadEquipmentItemProfile = async (id: string) => {
+  const response = await getEquipmentItemByIdEndpoint(id)
+  equipmentItem.value = response.item
+  await Promise.all([
+    loadPersonnelUsage(1, personnelPagination.value.pageSize),
+    loadCompanyUsage(1, companyPagination.value.pageSize),
+    loadBattalionUsage(1, battalionPagination.value.pageSize),
+  ])
+}
 </script>
