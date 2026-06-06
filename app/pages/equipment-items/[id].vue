@@ -57,6 +57,18 @@
             :aria-label="EQUIPMENT_ITEM_PROFILE_TABS_ARIA_LABEL"
             @update:model-value="onTabChange"
           />
+
+          <EquipmentItemCompaniesUsageTable
+            v-if="activeTab === 'companies'"
+            :rows="companyRows"
+            :is-loading="isLoadingCompanies"
+            :current-page="companyPagination.page"
+            :total-pages="companyPagination.totalPages"
+            :total-items="companyPagination.totalItems"
+            :page-size="companyPagination.pageSize"
+            @update:current-page="onCompanyPageChange"
+            @update:page-size="onCompanyPageSizeChange"
+          />
         </template>
       </template>
     </section>
