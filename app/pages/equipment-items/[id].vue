@@ -79,4 +79,13 @@ const equipmentItemId = computed(() => {
   const idValue = route.params.id
   return Array.isArray(idValue) ? (idValue[0] ?? '') : (idValue ?? '')
 })
+
+const applyPagination = (target: typeof personnelPagination, response: UsagePaginationState) => {
+  target.value = {
+    page: response.page,
+    pageSize: response.pageSize,
+    totalItems: response.totalItems,
+    totalPages: response.totalPages,
+  }
+}
 </script>
