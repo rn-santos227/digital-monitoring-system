@@ -513,6 +513,17 @@ export const EQUIPMENT_ITEM_PERSONNEL_USAGE_TABLE_COLUMNS: readonly DataTableCol
   { key: 'issuanceStatus', label: 'Status', sortable: true },
 ])
 
+export const EQUIPMENT_ITEM_COMPANIES_USAGE_TABLE_TITLE = 'Companies'
+export const EQUIPMENT_ITEM_COMPANIES_USAGE_TABLE_EMPTY_MESSAGE = 'No company usage records found for this equipment item.'
+export const EQUIPMENT_ITEM_COMPANIES_USAGE_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'code', label: 'Company Code', sortable: true },
+  { key: 'name', label: 'Company', sortable: true },
+  { key: 'battalionName', label: 'Battalion', sortable: true },
+  { key: 'personnelCount', label: 'Personnel', sortable: true },
+  { key: 'issuanceCount', label: 'Issuances', sortable: true },
+  { key: 'latestIssueDate', dataType: 'date', label: 'Latest Issue', sortable: true },
+])
+
 export const EQUIPMENT_ASSETS_TABLE_TITLE = 'Equipment Assets'
 export const EQUIPMENT_ASSETS_TABLE_EMPTY_MESSAGE = 'No equipment asset records found.'
 export const EQUIPMENT_ASSETS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
