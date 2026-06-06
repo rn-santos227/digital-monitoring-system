@@ -62,4 +62,8 @@ const pageError = ref('')
 const personnelRows = ref<EquipmentItemPersonnelUsageListItem[]>([])
 const companyRows = ref<EquipmentItemCompanyUsageListItem[]>([])
 const battalionRows = ref<EquipmentItemBattalionUsageListItem[]>([])
+
+const personnelPagination = ref<UsagePaginationState>(createPaginationState())
+const companyPagination = ref<UsagePaginationState>(createPaginationState())
+const battalionPagination = ref<UsagePaginationState>(createPaginationState())
 </script>
