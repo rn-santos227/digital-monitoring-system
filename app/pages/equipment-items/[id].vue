@@ -88,4 +88,23 @@ const applyPagination = (target: typeof personnelPagination, response: UsagePagi
     totalPages: response.totalPages,
   }
 }
+
+const loadPersonnelUsage = async (page = personnelPagination.value.page, pageSize = personnelPagination.value.pageSize) => {
+  const id = equipmentItemId.value
+
+  if (!id) {
+    return
+  }
+
+  isLoadingPersonnel.value = true
+
+  try {
+    const response = await getEquipmentItemPersonnelEndpoint(id, { page, pageSize })
+    personnelRows.value = response.items
+    applyPagination(personnelPagination, response)
+  } finally {
+    isLoadingPersonnel.value = false
+  }
+}
+
 </script>
