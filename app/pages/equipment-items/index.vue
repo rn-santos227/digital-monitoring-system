@@ -48,12 +48,6 @@
         @close="closeUpdateEquipmentItemModal"
         @submit="onUpdateEquipmentItem"
       />
-
-      <ViewEquipmentItemModal
-        v-if="isViewEquipmentItemModalOpen && selectedEquipmentItem"
-        :item="selectedEquipmentItem"
-        @close="closeViewEquipmentItemModal"
-      />
     </section>
   </main>
 </template>
@@ -62,10 +56,9 @@
 import { computed, ref } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateEquipmentItemModal from '~/components/equipment/CreateEquipmentItemModal.vue'
-import EquipmentItemFilter from '~/components/equipment/EquipmentItemsFilter.vue'
+import EquipmentItemsFilter from '~/components/equipment/EquipmentItemsFilter.vue'
 import EquipmentItemsTable from '~/components/equipment/EquipmentItemsTable.vue'
 import UpdateEquipmentItemModal from '~/components/equipment/UpdateEquipmentItemModal.vue'
-import ViewEquipmentItemModal from '~/components/equipment/ViewEquipmentItemModal.vue'
 import { useEquipmentItems } from '~/composables/useEquipmentItems'
 import { useDialog } from '~/composables/useDialog'
 import {
@@ -82,7 +75,6 @@ import {
   useEquipmentPageHandlers,
   useEquipmentSearchHandlers,
   useUpdateEquipmentItemHandler,
-  useViewEquipmentItemHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type {
@@ -107,6 +99,7 @@ const {
 } = useEquipmentItems()
 
 const authStore = useAuthStore()
+const router = useRouter()
 const canCreateEquipmentItems = computed(() => authStore.hasPermissionAccess(EQUIPMENT_ITEMS_PAGE_REQUIRED_PERMISSIONS.create))
 
 const { showDialog } = useDialog()
@@ -115,7 +108,6 @@ const { handleFilterApply } = useEquipmentSearchHandlers(filters)
 
 const isCreateEquipmentItemModalOpen = ref(false)
 const isUpdateEquipmentItemModalOpen = ref(false)
-const isViewEquipmentItemModalOpen = ref(false)
 const selectedEquipmentItem = ref<EquipmentItemListItem | null>(null)
 
 const {
@@ -144,15 +136,6 @@ const {
   selectedEquipmentItem,
   getEquipmentItemById,
   updateEquipmentItem,
-})
-
-const {
-  closeViewEquipmentItemModal,
-  onViewEquipmentItem,
-} = useViewEquipmentItemHandler({
-  isViewEquipmentItemModalOpen,
-  selectedEquipmentItem,
-  getEquipmentItemById,
 })
 
 const { onDeleteEquipmentItem } = useDeleteEquipmentItemHandler({
@@ -193,7 +176,7 @@ const onTableAction = async (payload: { actionKey: string; row: EquipmentItemTab
   }
 
   if (payload.actionKey === 'view-equipment-item') {
-    await onViewEquipmentItem(equipmentItemId)
+    await router.push(`/equipment-items/${equipmentItemId}`)
     return
   }
 
