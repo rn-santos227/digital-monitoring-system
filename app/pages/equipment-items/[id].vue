@@ -58,4 +58,8 @@ const authStore = useAuthStore()
 const activeTab = ref<EquipmentItemProfileTabId>('personnel')
 const equipmentItem = ref<EquipmentItemListItem | null>(null)
 const pageError = ref('')
+
+const personnelRows = ref<EquipmentItemPersonnelUsageListItem[]>([])
+const companyRows = ref<EquipmentItemCompanyUsageListItem[]>([])
+const battalionRows = ref<EquipmentItemBattalionUsageListItem[]>([])
 </script>
