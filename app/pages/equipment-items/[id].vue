@@ -1,5 +1,12 @@
 <template>
-
+  <main class="w-full px-4 py-6 sm:px-6 lg:px-8 xl:px-10">
+    <section :class="EQUIPMENT_ITEMS_PAGE_SECTION_CLASSES">
+      <header :class="PERSONNEL_PROFILE_PAGE_HEADER_CLASSES">
+        <h1 class="text-3xl font-semibold text-slate-900">{{ EQUIPMENT_ITEM_PROFILE_PAGE_TITLE }}</h1>
+        <p class="text-sm text-slate-600">{{ EQUIPMENT_ITEM_PROFILE_PAGE_SUBTITLE }}</p>
+      </header>
+    </section>
+  </main>
 </template>
 
 <script setup lang="ts">
