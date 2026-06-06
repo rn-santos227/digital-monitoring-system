@@ -166,4 +166,10 @@ watch([canViewEquipmentItems, equipmentItemId], async ([hasAccess, id]) => {
     pageError.value = 'Unable to load equipment item profile.'
   }
 }, { immediate: true })
+
+const onTabChange = (nextTab: string) => {
+  if (nextTab === 'personnel' || nextTab === 'companies' || nextTab === 'battalions') {
+    activeTab.value = nextTab
+  }
+}
 </script>
