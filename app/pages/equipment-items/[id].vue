@@ -107,4 +107,21 @@ const loadPersonnelUsage = async (page = personnelPagination.value.page, pageSiz
   }
 }
 
+const loadCompanyUsage = async (page = companyPagination.value.page, pageSize = companyPagination.value.pageSize) => {
+  const id = equipmentItemId.value
+
+  if (!id) {
+    return
+  }
+
+  isLoadingCompanies.value = true
+
+  try {
+    const response = await getEquipmentItemCompaniesEndpoint(id, { page, pageSize })
+    companyRows.value = response.items
+    applyPagination(companyPagination, response)
+  } finally {
+    isLoadingCompanies.value = false
+  }
+}
 </script>
