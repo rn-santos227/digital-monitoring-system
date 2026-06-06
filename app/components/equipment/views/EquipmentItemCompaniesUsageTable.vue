@@ -10,5 +10,20 @@ import {
 } from '~/constants/table.constants'
 import type { EquipmentItemCompanyUsageListItem } from '~/types/domain/equipment'
 
+withDefaults(defineProps<{
+  rows?: EquipmentItemCompanyUsageListItem[]
+  isLoading?: boolean
+  currentPage?: number
+  totalPages?: number
+  totalItems?: number
+  pageSize?: number
+}>(), {
+  rows: () => [],
+  isLoading: false,
+  currentPage: 1,
+  totalPages: 1,
+  totalItems: 0,
+  pageSize: 10,
+})
 
 </script>
