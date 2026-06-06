@@ -25,4 +25,9 @@ withDefaults(defineProps<{
   totalItems: 0,
   pageSize: 10,
 })
+
+const emit = defineEmits<{
+  (event: 'update:currentPage', value: number): void
+  (event: 'update:pageSize', value: number): void
+}>()
 </script>
