@@ -41,4 +41,11 @@ interface UsagePaginationState {
   totalItems: number
   totalPages: number
 }
+
+const DEFAULT_USAGE_PAGINATION: UsagePaginationState = {
+  page: 1,
+  pageSize: 10,
+  totalItems: 0,
+  totalPages: 0,
+}
 </script>
