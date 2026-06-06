@@ -53,7 +53,6 @@ export const EQUIPMENT_ITEMS_FILTER_FIELD_OPTIONS = Object.freeze([
 ])
 export const EQUIPMENT_ITEMS_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGES
 
-
 export const EQUIPMENT_ITEM_PROFILE_PAGE_TITLE = 'Equipment Item Profile'
 export const EQUIPMENT_ITEM_PROFILE_PAGE_SUBTITLE = 'Review item details and unit usage history for issued equipment.'
 export const EQUIPMENT_ITEM_PROFILE_TABS_ARIA_LABEL = 'Equipment item profile tabs'
