@@ -124,4 +124,22 @@ const loadCompanyUsage = async (page = companyPagination.value.page, pageSize = 
     isLoadingCompanies.value = false
   }
 }
+
+const loadBattalionUsage = async (page = battalionPagination.value.page, pageSize = battalionPagination.value.pageSize) => {
+  const id = equipmentItemId.value
+
+  if (!id) {
+    return
+  }
+
+  isLoadingBattalions.value = true
+
+  try {
+    const response = await getEquipmentItemBattalionsEndpoint(id, { page, pageSize })
+    battalionRows.value = response.items
+    applyPagination(battalionPagination, response)
+  } finally {
+    isLoadingBattalions.value = false
+  }
+}
 </script>
