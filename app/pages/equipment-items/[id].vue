@@ -66,4 +66,8 @@ const battalionRows = ref<EquipmentItemBattalionUsageListItem[]>([])
 const personnelPagination = ref<UsagePaginationState>(createPaginationState())
 const companyPagination = ref<UsagePaginationState>(createPaginationState())
 const battalionPagination = ref<UsagePaginationState>(createPaginationState())
+
+const isLoadingPersonnel = ref(false)
+const isLoadingCompanies = ref(false)
+const isLoadingBattalions = ref(false)
 </script>
