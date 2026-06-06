@@ -48,4 +48,10 @@ const DEFAULT_USAGE_PAGINATION: UsagePaginationState = {
   totalItems: 0,
   totalPages: 0,
 }
+
+const createPaginationState = (): UsagePaginationState => ({ ...DEFAULT_USAGE_PAGINATION })
+
+const { formatDate } = useDateDisplay()
+const route = useRoute()
+const authStore = useAuthStore()
 </script>
