@@ -54,4 +54,8 @@ const createPaginationState = (): UsagePaginationState => ({ ...DEFAULT_USAGE_PA
 const { formatDate } = useDateDisplay()
 const route = useRoute()
 const authStore = useAuthStore()
+
+const activeTab = ref<EquipmentItemProfileTabId>('personnel')
+const equipmentItem = ref<EquipmentItemListItem | null>(null)
+const pageError = ref('')
 </script>
