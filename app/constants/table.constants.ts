@@ -524,6 +524,16 @@ export const EQUIPMENT_ITEM_COMPANIES_USAGE_TABLE_COLUMNS: readonly DataTableCol
   { key: 'latestIssueDate', dataType: 'date', label: 'Latest Issue', sortable: true },
 ])
 
+export const EQUIPMENT_ITEM_BATTALIONS_USAGE_TABLE_TITLE = 'Battalions'
+export const EQUIPMENT_ITEM_BATTALIONS_USAGE_TABLE_EMPTY_MESSAGE = 'No battalion usage records found for this equipment item.'
+export const EQUIPMENT_ITEM_BATTALIONS_USAGE_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'code', label: 'Battalion Code', sortable: true },
+  { key: 'name', label: 'Battalion', sortable: true },
+  { key: 'personnelCount', label: 'Personnel', sortable: true },
+  { key: 'issuanceCount', label: 'Issuances', sortable: true },
+  { key: 'latestIssueDate', dataType: 'date', label: 'Latest Issue', sortable: true },
+])
+
 export const EQUIPMENT_ASSETS_TABLE_TITLE = 'Equipment Assets'
 export const EQUIPMENT_ASSETS_TABLE_EMPTY_MESSAGE = 'No equipment asset records found.'
 export const EQUIPMENT_ASSETS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
