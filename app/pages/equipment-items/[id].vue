@@ -32,6 +32,23 @@
                 </div>
               </div>
             </BaseCard>
+
+            <BaseCard title="Equipment Item Overview">
+              <div :class="PERSONNEL_PROFILE_GRID_CLASSES">
+                <p><span class="font-semibold">Equipment Code:</span> {{ equipmentItem.equipmentCode }}</p>
+                <p><span class="font-semibold">Item Name:</span> {{ equipmentItem.name }}</p>
+                <p><span class="font-semibold">Category:</span> {{ equipmentItem.categoryName }}</p>
+                <p><span class="font-semibold">Model:</span> {{ equipmentItem.model ?? 'Not set' }}</p>
+                <p><span class="font-semibold">Manufacturer:</span> {{ equipmentItem.manufacturer ?? 'Not set' }}</p>
+                <p><span class="font-semibold">Unit of Measure:</span> {{ equipmentItem.unitOfMeasure ?? 'Not set' }}</p>
+                <p><span class="font-semibold">Minimum Stock Level:</span> {{ equipmentItem.minimumStockLevel }}</p>
+                <p><span class="font-semibold">Serialized:</span> {{ equipmentItem.isSerialized ? 'Yes' : 'No' }}</p>
+                <p><span class="font-semibold">Status:</span> {{ equipmentItem.isActive ? 'Active' : 'Inactive' }}</p>
+                <p><span class="font-semibold">Created At:</span> {{ formatDate(equipmentItem.createdAt) }}</p>
+                <p><span class="font-semibold">Updated At:</span> {{ formatDate(equipmentItem.updatedAt) }}</p>
+                <p><span class="font-semibold">Description:</span> {{ equipmentItem.description ?? 'No description provided.' }}</p>
+              </div>
+            </BaseCard>
           </div>
         </template>
       </template>
