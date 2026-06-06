@@ -5,6 +5,13 @@
         <h1 class="text-3xl font-semibold text-slate-900">{{ EQUIPMENT_ITEM_PROFILE_PAGE_TITLE }}</h1>
         <p class="text-sm text-slate-600">{{ EQUIPMENT_ITEM_PROFILE_PAGE_SUBTITLE }}</p>
       </header>
+
+      <BaseAlert
+        v-if="!canViewEquipmentItems"
+        message="You do not have permission to view equipment item records."
+        tone="warning"
+      />
+
     </section>
   </main>
 </template>
