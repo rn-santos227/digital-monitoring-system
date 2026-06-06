@@ -172,4 +172,28 @@ const onTabChange = (nextTab: string) => {
     activeTab.value = nextTab
   }
 }
+
+const onPersonnelPageChange = async (page: number) => {
+  await loadPersonnelUsage(page)
+}
+
+const onPersonnelPageSizeChange = async (pageSize: number) => {
+  await loadPersonnelUsage(1, pageSize)
+}
+
+const onCompanyPageChange = async (page: number) => {
+  await loadCompanyUsage(page)
+}
+
+const onCompanyPageSizeChange = async (pageSize: number) => {
+  await loadCompanyUsage(1, pageSize)
+}
+
+const onBattalionPageChange = async (page: number) => {
+  await loadBattalionUsage(page)
+}
+
+const onBattalionPageSizeChange = async (pageSize: number) => {
+  await loadBattalionUsage(1, pageSize)
+}
 </script>
