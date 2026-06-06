@@ -500,6 +500,19 @@ export const EQUIPMENT_ITEMS_TABLE_ACTIONS: readonly DataTableAction[] = Object.
   { key: 'delete-equipment-item', tooltip: 'Delete equipment item', iconName: 'trash', variant: 'danger' },
 ])
 
+export const EQUIPMENT_ITEM_PERSONNEL_USAGE_TABLE_TITLE = 'Personnel Usage'
+export const EQUIPMENT_ITEM_PERSONNEL_USAGE_TABLE_EMPTY_MESSAGE = 'No personnel usage records found for this equipment item.'
+export const EQUIPMENT_ITEM_PERSONNEL_USAGE_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'issueNo', label: 'Issue No.', sortable: true },
+  { key: 'personnelCode', label: 'Personnel Code', sortable: true },
+  { key: 'fullName', label: 'Personnel', sortable: true },
+  { key: 'rankName', label: 'Rank', sortable: true },
+  { key: 'companyName', label: 'Company', sortable: true },
+  { key: 'battalionName', label: 'Battalion', sortable: true },
+  { key: 'issueDate', dataType: 'date', label: 'Issue Date', sortable: true },
+  { key: 'issuanceStatus', label: 'Status', sortable: true },
+])
+
 export const EQUIPMENT_ASSETS_TABLE_TITLE = 'Equipment Assets'
 export const EQUIPMENT_ASSETS_TABLE_EMPTY_MESSAGE = 'No equipment asset records found.'
 export const EQUIPMENT_ASSETS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
