@@ -152,4 +152,18 @@ const loadEquipmentItemProfile = async (id: string) => {
     loadBattalionUsage(1, battalionPagination.value.pageSize),
   ])
 }
+
+watch([canViewEquipmentItems, equipmentItemId], async ([hasAccess, id]) => {
+  if (!hasAccess || !id) {
+    return
+  }
+
+  pageError.value = ''
+
+  try {
+    await loadEquipmentItemProfile(id)
+  } catch {
+    pageError.value = 'Unable to load equipment item profile.'
+  }
+}, { immediate: true })
 </script>
