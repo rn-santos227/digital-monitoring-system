@@ -50,6 +50,13 @@
               </div>
             </BaseCard>
           </div>
+
+          <BaseTab
+            :model-value="activeTab"
+            :items="EQUIPMENT_ITEM_PROFILE_TAB_ITEMS"
+            :aria-label="EQUIPMENT_ITEM_PROFILE_TABS_ARIA_LABEL"
+            @update:model-value="onTabChange"
+          />
         </template>
       </template>
     </section>
