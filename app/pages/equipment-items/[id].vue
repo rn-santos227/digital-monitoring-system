@@ -69,6 +69,18 @@
             @update:current-page="onCompanyPageChange"
             @update:page-size="onCompanyPageSizeChange"
           />
+
+          <EquipmentItemBattalionsUsageTable
+            v-else-if="activeTab === 'battalions'"
+            :rows="battalionRows"
+            :is-loading="isLoadingBattalions"
+            :current-page="battalionPagination.page"
+            :total-pages="battalionPagination.totalPages"
+            :total-items="battalionPagination.totalItems"
+            :page-size="battalionPagination.pageSize"
+            @update:current-page="onBattalionPageChange"
+            @update:page-size="onBattalionPageSizeChange"
+          />
         </template>
       </template>
     </section>
