@@ -36,3 +36,16 @@ type AuthSessionRow = {
   revoked_at: string | null
   created_at: string
 }
+
+type AuthSessionInsert = {
+  id?: string
+  user_id: string
+  access_token: string
+  refresh_token?: string | null
+  provider: string
+  ip_address?: string | null
+  user_agent?: string | null
+  expires_at: string
+  revoked_at?: string | null
+  created_at?: string
+}
