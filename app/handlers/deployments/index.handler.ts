@@ -67,5 +67,33 @@ export const useDeploymentTableActionHandlers = ({
   onOpenUpdateDeploymentModal,
   onDeleteDeployment,
 }: UseDeploymentTableActionHandlersOptions) => {
+  const onDeploymentRecordsTableAction = async ({
+    actionKey,
+    row,
+  }: {
+    actionKey: string
+    row: Record<string, unknown>
+  }) => {
+    const id = String(row.id ?? '')
 
+    if (!id) {
+      return
+    }
+
+    if (actionKey === 'view-deployment-record') {
+      await onViewDeploymentRecordAction(row)
+      return
+    }
+
+    if (actionKey === 'edit-deployment-record') {
+      selectedDeploymentRecord.value = await getDeploymentRecordById(id)
+      isUpdateDeploymentRecordModalOpen.value = true
+      return
+    }
+
+    if (actionKey === 'edit-deployment-record-location') {
+      selectedDeploymentRecord.value = await getDeploymentRecordById(id)
+      isUpdateDeploymentRecordLocationModalOpen.value = true
+    }
+  }
 }
