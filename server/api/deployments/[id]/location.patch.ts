@@ -1,17 +1,17 @@
 import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
-import { 
+import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
-  DEPLOYMENT_PERMISSION_GROUPS
+  DEPLOYMENT_PERMISSION_GROUPS,
 } from '../../../shared/constants'
+import type { UpdateDeploymentLocationRequest } from '../../../shared/requests'
 import { requireRouteId } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { getDeploymentById } from '../../../utils/deployments/getDeploymentById'
 import { updateDeploymentById } from '../../../utils/deployments/updateDeploymentById'
-import { UpdateDeploymentLocationRequest } from '../../../shared/requests'
 
 export default defineEventHandler(async (event) => {
   const actor = await requireAnyPermission(event, DEPLOYMENT_PERMISSION_GROUPS.deploymentManagement)
@@ -32,8 +32,6 @@ export default defineEventHandler(async (event) => {
 
   const supabase = getServiceSupabaseClient()
   const existingRow = await getDeploymentById(supabase, id)
-  if (!existingRow) throw createError({ statusCode: 404, statusMessage: 'Deployment not found.' })
-
   if (!existingRow) throw createError({ statusCode: 404, statusMessage: 'Deployment not found.' })
 
   const updates = {
