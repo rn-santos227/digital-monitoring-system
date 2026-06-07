@@ -114,7 +114,13 @@ export interface AuthDatabase {
         Insert: Partial<UserAccountTypeRow> & Pick<UserAccountTypeRow, 'user_id' | 'account_type_id'>
         Update: Partial<UserAccountTypeRow>
         Relationships: [
-
+          {
+            foreignKeyName: 'user_account_types_account_type_id_fkey'
+            columns: ['account_type_id']
+            isOneToOne: false
+            referencedRelation: 'account_types'
+            referencedColumns: ['id']
+          },
         ]
       }
     }
