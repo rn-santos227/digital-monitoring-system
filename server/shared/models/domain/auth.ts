@@ -23,3 +23,16 @@ export interface RevokeSessionInput {
   sessionId?: string
   accessToken?: string
 }
+
+type AuthSessionRow = {
+  id: string
+  user_id: string
+  access_token: string
+  refresh_token: string | null
+  provider: string
+  ip_address: string | null
+  user_agent: string | null
+  expires_at: string
+  revoked_at: string | null
+  created_at: string
+}
