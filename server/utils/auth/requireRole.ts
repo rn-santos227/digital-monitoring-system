@@ -1,11 +1,12 @@
 import type { H3Event } from 'h3'
 import { createError } from 'h3'
 import { serverSupabaseClient } from '#supabase/server'
+import type { AuthDatabase } from '../../shared/models'
 import { requireAuth } from './requireAuth'
 
 export async function requireRole(event: H3Event, roleCode: string) {
   const user = await requireAuth(event)
-  const supabase = (await serverSupabaseClient(event)) as any
+  const supabase = await serverSupabaseClient<AuthDatabase>(event)
 
   const { data, error } = await supabase
     .from('user_account_types')
