@@ -1,33 +1,24 @@
 import type { Ref } from 'vue'
-import type { 
-  EquipmentAssetSearchQuery,
-  EquipmentCategorySearchQuery,
-  EquipmentIssuanceSearchQuery,
-  EquipmentItemSearchQuery
-} from '~/types/domain/equipment'
-type EquipmentFilters = Partial<EquipmentCategorySearchQuery> | Partial<EquipmentItemSearchQuery> | Partial<EquipmentAssetSearchQuery> | Partial<EquipmentIssuanceSearchQuery>
+import type { EquipmentCategorySearchQuery } from '~/types/domain/equipment'
 
-export const useEquipmentPageHandlers = (
-  filters: Ref<EquipmentFilters>,
+export const useEquipmentCategoryPageHandlers = (
+  filters: Ref<Partial<EquipmentCategorySearchQuery>>,
 ) => {
-  const handleFilterApply = (value: EquipmentFilters) => {
+  const handleFilterApply = (
+    value: Partial<EquipmentCategorySearchQuery>,
+  ): Partial<EquipmentCategorySearchQuery> => {
     filters.value = { ...value }
     return filters.value
   }
 
-  const handleFilterReset = () => {
-    filters.value = {}
-    return filters.value
+  const handleFilterReset = (): Partial<EquipmentCategorySearchQuery> => {
+    const resetFilters: Partial<EquipmentCategorySearchQuery> = {}
+    filters.value = resetFilters
+    return resetFilters
   }
 
   return {
     handleFilterApply,
     handleFilterReset,
   }
-}
-
-export const useEquipmentCategoryPageHandlers = (
-  filters: Ref<Partial<EquipmentCategorySearchQuery>>,
-) => {
-  return useEquipmentPageHandlers(filters as Ref<EquipmentFilters>)
 }
