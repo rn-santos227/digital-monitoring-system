@@ -5,6 +5,8 @@ import type {
   UUID,
 } from '../database.tables'
 
+export type EngagementRecordsTabId = 'records' | 'engagements'
+
 export type EngagementRecordCreateInput = EngagementRecordsInsert
 export type EngagementRecordUpdateInput = EngagementRecordsUpdate
 
