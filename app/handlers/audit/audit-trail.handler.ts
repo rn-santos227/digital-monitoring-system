@@ -75,3 +75,14 @@ interface UseAuditFilterListHandlersOptions {
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
 }
 
+export const useAuditFilterListHandlers = ({
+  currentPage,
+  filters,
+  validationErrors,
+  loadAuditLogs,
+  handleFilterApply,
+  handleFilterReset,
+  showDialog,
+}: UseAuditFilterListHandlersOptions) => {
+
+}
