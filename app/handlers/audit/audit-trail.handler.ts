@@ -84,5 +84,21 @@ export const useAuditFilterListHandlers = ({
   handleFilterReset,
   showDialog,
 }: UseAuditFilterListHandlersOptions) => {
+  const handleApplyFilters = async (value: Partial<AuditLogSearchQuery>) => {
+    const result = handleFilterApply(value)
+    validationErrors.value = result.errors
 
+    if (!result.isValid) {
+      await showDialog({
+        type: 'error',
+        title: 'Invalid filter input',
+        message: 'Please correct the highlighted fields before applying filters.',
+        confirmLabel: 'OK',
+      })
+      return
+    }
+
+    currentPage.value = 1
+    await loadAuditLogs(1, result.filters)
+  }
 }
