@@ -71,3 +71,33 @@ type AccountTypeRow = {
   created_at: string
   updated_at: string
 }
+
+type UserAccountTypeRow = {
+  id: string
+  user_id: string
+  account_type_id: string
+  assigned_at: string
+  assigned_by: string | null
+}
+
+export interface AuthDatabase {
+  public: {
+    Tables: {
+      auth_sessions: {
+        Row: AuthSessionRow
+        Insert: AuthSessionInsert
+        Update: Partial<AuthSessionInsert> & { revoked_at?: string | null }
+        Relationships: [
+          {
+            foreignKeyName: 'auth_sessions_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['id']
+          },
+        ]
+      }
+    }
+  }
+}
+
