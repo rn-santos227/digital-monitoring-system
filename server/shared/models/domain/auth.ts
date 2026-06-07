@@ -131,6 +131,17 @@ export interface AuthDatabase {
         ]
       }
     }
+    Views: {}
+    Functions: {
+      set_audit_user: {
+        Args: {
+          audit_user_id: string | null
+        }
+        Returns: undefined
+      }
+    }
+    Enums: {}
+    CompositeTypes: {}
   }
 }
 
