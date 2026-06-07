@@ -148,21 +148,30 @@ export const useUpdateDeploymentHandler = ({
 
 interface UseUpdateDeploymentRecordHandlerOptions {
   isUpdateDeploymentRecordModalOpen: Ref<boolean>
+  isUpdateDeploymentRecordLocationModalOpen: Ref<boolean>
   selectedDeploymentRecord: Ref<DeploymentManagementListItem | null>
   updateDeploymentRecord: (id: string, payload: UpdateDeploymentRecordPayload) => Promise<void>
+  updateDeploymentRecordLocation: (id: string, payload: UpdateDeploymentRecordPayload) => Promise<void>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
   errorMessage: Ref<string>
 }
 
 export const useUpdateDeploymentRecordHandler = ({
   isUpdateDeploymentRecordModalOpen,
+  isUpdateDeploymentRecordLocationModalOpen,
   selectedDeploymentRecord,
   updateDeploymentRecord,
+  updateDeploymentRecordLocation,
   showDialog,
   errorMessage,
 }: UseUpdateDeploymentRecordHandlerOptions) => {
   const onCloseUpdateDeploymentRecordModal = () => {
     isUpdateDeploymentRecordModalOpen.value = false
+    selectedDeploymentRecord.value = null
+  }
+
+  const onCloseUpdateDeploymentRecordLocationModal = () => {
+    isUpdateDeploymentRecordLocationModalOpen.value = false
     selectedDeploymentRecord.value = null
   }
 
@@ -199,9 +208,34 @@ export const useUpdateDeploymentRecordHandler = ({
     }
   }
 
+  const onSubmitUpdateDeploymentRecordLocation = async (
+    payload: UpdateDeploymentRecordPayload,
+  ) => {
+    errorMessage.value = ''
+    const id = selectedDeploymentRecord.value?.id
+
+    if (!id) {
+      return
+    }
+
+    try {
+      await updateDeploymentRecordLocation(String(id), payload)
+      onCloseUpdateDeploymentRecordLocationModal()
+    } catch (error) {
+      errorMessage.value = await showErrorDialog({
+        showDialog,
+        title: 'Deployment record location update failed',
+        error,
+        fallbackMessage: 'Unable to update deployment record location right now.',
+      })
+    }
+  }
+
   return {
     onCloseUpdateDeploymentRecordModal,
+    onCloseUpdateDeploymentRecordLocationModal,
     selectedDeploymentRecordFormValues,
     onSubmitUpdateDeploymentRecord,
+    onSubmitUpdateDeploymentRecordLocation,
   }
 }
