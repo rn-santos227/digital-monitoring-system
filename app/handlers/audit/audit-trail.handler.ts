@@ -1,7 +1,9 @@
 import type { Ref } from 'vue'
+import type { DialogInput } from '~/composables/useDialog'
 import type { DataTableAction } from '~/constants/ui.constants'
 import { useAuditSearchHandlers } from './search.handler'
-import type { AuditLogSortKey, AuditLogTableRow } from '~/types/domain/audit'
+import type { AuditLogSearchQuery, AuditLogSortKey, AuditLogTableRow } from '~/types/domain/audit'
+import type { FieldValidationMap } from '~/utils/field-validation'
 
 export type AuditSortDirection = 'asc' | 'desc'
 
