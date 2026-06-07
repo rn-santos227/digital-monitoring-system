@@ -1,9 +1,9 @@
 import type { H3Event } from 'h3'
 import { serverSupabaseClient } from '#supabase/server'
-import type { RevokeSessionInput } from '../../shared/models'
+import type { AuthDatabase, RevokeSessionInput } from '../../shared/models'
 
 export async function revokeSession(event: H3Event, input: RevokeSessionInput) {
-  const supabase = (await serverSupabaseClient(event)) as any
+  const supabase = await serverSupabaseClient<AuthDatabase>(event)
   const now = new Date().toISOString()
 
   let query = supabase.from('auth_sessions').update({ revoked_at: now }).is('revoked_at', null)
