@@ -97,6 +97,12 @@ export interface AuthDatabase {
           },
         ]
       }
+      user_profiles: {
+        Row: UserProfileRow
+        Insert: Partial<UserProfileRow> & Pick<UserProfileRow, 'id' | 'email' | 'full_name'>
+        Update: Partial<UserProfileRow>
+        Relationships: []
+      }
     }
   }
 }
