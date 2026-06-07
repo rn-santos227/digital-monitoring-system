@@ -1,14 +1,12 @@
 import type { H3Event } from 'h3'
 import { getHeader } from 'h3'
 import { serverSupabaseClient } from '#supabase/server'
-import type { StoreSessionInput } from '../../shared/models'
+import type { AuthDatabase, StoreSessionInput } from '../../shared/models'
 import { getRequestIpAddress } from '../../shared/utils'
 
 export async function storeSession(event: H3Event, input: StoreSessionInput) {
-  const supabase = (await serverSupabaseClient(event)) as any
+  const supabase = await serverSupabaseClient<AuthDatabase>(event)
 
-  // NOTE: Tokens are stored in plaintext for compatibility with direct revocation checks.
-  // Prefer encrypted/hardened token storage at rest where feasible.
   const payload = {
     user_id: input.userId,
     access_token: input.accessToken,
