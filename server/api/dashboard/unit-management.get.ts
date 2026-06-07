@@ -1,5 +1,5 @@
 import { defineEventHandler } from 'h3'
-import { DashboardUnitManagementKpiResponse } from '../../shared/responses'
+import type { DashboardUnitManagementKpiResponse } from '../../shared/responses'
 import { requireAuth } from '../../utils/auth/requireAuth'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchUnitManagementCounts } from '../../utils/dashboard/fetchUnitManagementCounts'
