@@ -34,3 +34,20 @@ export const useDeploymentManagementPageHandlers = (
   }
 }
 
+interface UseDeploymentTableActionHandlersOptions {
+  selectedDeployment: Ref<DeploymentManagementListItem | null>
+  selectedDeploymentRecord: Ref<DeploymentManagementListItem | null>
+  isUpdateDeploymentDetailModalOpen: Ref<boolean>
+  isUpdateDeploymentLocationModalOpen: Ref<boolean>
+  isViewDeploymentModalOpen: Ref<boolean>
+  isUpdateDeploymentRecordModalOpen: Ref<boolean>
+  isUpdateDeploymentRecordLocationModalOpen: Ref<boolean>
+  getDeploymentById: (id: string) => Promise<DeploymentManagementListItem>
+  getDeploymentRecordById: (id: string) => Promise<DeploymentManagementListItem>
+  onViewDeploymentAction: (row: Partial<DeploymentManagementListItem>) => Promise<unknown>
+  onViewDeploymentRecordAction: (row: Record<string, unknown>) => Promise<unknown>
+  onOpenUpdateDeploymentModal: (
+    row: Partial<DeploymentManagementListItem>,
+  ) => Promise<unknown>
+  onDeleteDeployment: (row: Record<string, unknown>) => Promise<unknown>
+}
