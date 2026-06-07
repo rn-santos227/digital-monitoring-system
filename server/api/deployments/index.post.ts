@@ -70,7 +70,7 @@ export default defineEventHandler(async (event): Promise<CreateDeploymentRecordR
         if (payload.supervisor_id) {
           const { createdRecordNo } = await ensureDeploymentPersonnelAssignment({
             supabase,
-            deployment: { ...insertPayload, id: createdId, deployment_status: { id: insertPayload.status_id } },
+            deployment: { ...insertPayload, id: createdId },
             personnelId: payload.supervisor_id,
           })
           createdSupervisorRecordNo = createdRecordNo
