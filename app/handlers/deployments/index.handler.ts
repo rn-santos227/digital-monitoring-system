@@ -136,4 +136,9 @@ export const useDeploymentTableActionHandlers = ({
       await onDeleteDeployment(row)
     }
   }
+
+  return {
+    onDeploymentRecordsTableAction,
+    onDeploymentsTableAction,
+  }
 }
