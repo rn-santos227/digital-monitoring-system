@@ -3,9 +3,25 @@ import type { DeploymentManagementListItem } from '~/types/domain/deployment'
 
 type DeploymentActionRow = DeploymentManagementListItem
 
-const resolveDeploymentActionRowId = (row: DeploymentActionRow): string => {
-  return row.id
-}
+const normalizeDeploymentActionRow = (
+  row: Partial<DeploymentActionRow>,
+): DeploymentActionRow => ({
+  id: String(row.id ?? ''),
+  operationName: String(row.operationName ?? ''),
+  deploymentArea: String(row.deploymentArea ?? ''),
+  deploymentAreaLatitude:
+    typeof row.deploymentAreaLatitude === 'number' ? row.deploymentAreaLatitude : null,
+  deploymentAreaLongitude:
+    typeof row.deploymentAreaLongitude === 'number' ? row.deploymentAreaLongitude : null,
+  assignmentRole: row.assignmentRole ?? null,
+  startDate: row.startDate ?? null,
+  endDate: row.endDate ?? null,
+  statusName: row.statusName ?? null,
+  statusId: row.statusId ?? null,
+  location: row.location ?? null,
+  supervisorId: row.supervisorId ?? null,
+  defaultRemarks: row.defaultRemarks ?? null,
+})
 
 interface UseViewDeploymentHandlerOptions {
   selectedDeployment: Ref<DeploymentActionRow | null>
@@ -29,15 +45,19 @@ export const useViewDeploymentHandler = ({
     selectedDeployment.value = null
   }
 
-  const onViewDeploymentAction = async (row: DeploymentActionRow): Promise<boolean> => {
-    const deploymentId = resolveDeploymentActionRowId(row)
+  const onViewDeploymentAction = async (
+    row: Partial<DeploymentActionRow>,
+  ): Promise<boolean> => {
+    const normalizedRow = normalizeDeploymentActionRow(row)
+    const deploymentId = normalizedRow.id
+
     if (!deploymentId) {
       return true
     }
 
     selectedDeployment.value = getDeploymentById
       ? await getDeploymentById(deploymentId)
-      : row
+      : normalizedRow
     isViewDeploymentModalOpen.value = true
     return true
   }
