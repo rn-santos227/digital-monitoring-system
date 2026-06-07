@@ -56,3 +56,22 @@ export const useAuditTrailPageHandlers = (
     handleModalClose,
   }
 }
+
+interface UseAuditFilterListHandlersOptions {
+  currentPage: Ref<number>
+  filters: Ref<Partial<AuditLogSearchQuery>>
+  validationErrors: Ref<FieldValidationMap>
+  loadAuditLogs: (
+    page?: number,
+    filters?: Partial<AuditLogSearchQuery>,
+    pageSize?: number,
+  ) => Promise<unknown>
+  handleFilterApply: (value: Partial<AuditLogSearchQuery>) => {
+    filters: Partial<AuditLogSearchQuery>
+    errors: FieldValidationMap
+    isValid: boolean
+  }
+  handleFilterReset: () => Partial<AuditLogSearchQuery>
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
+}
+
