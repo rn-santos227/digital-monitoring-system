@@ -96,4 +96,44 @@ export const useDeploymentTableActionHandlers = ({
       isUpdateDeploymentRecordLocationModalOpen.value = true
     }
   }
+
+  const onDeploymentsTableAction = async ({
+    actionKey,
+    row,
+  }: {
+    actionKey: string
+    row: Record<string, unknown>
+  }) => {
+    const id = String(row.id ?? '')
+
+    if (!id) {
+      return
+    }
+
+    if (actionKey === 'view-deployment') {
+      isUpdateDeploymentDetailModalOpen.value = false
+      isUpdateDeploymentLocationModalOpen.value = false
+      await onViewDeploymentAction(row)
+      return
+    }
+
+    if (actionKey === 'edit-deployment-details') {
+      isUpdateDeploymentLocationModalOpen.value = false
+      isViewDeploymentModalOpen.value = false
+      await onOpenUpdateDeploymentModal(row)
+      return
+    }
+
+    if (actionKey === 'edit-deployment-location') {
+      selectedDeployment.value = await getDeploymentById(id)
+      isUpdateDeploymentDetailModalOpen.value = false
+      isViewDeploymentModalOpen.value = false
+      isUpdateDeploymentLocationModalOpen.value = true
+      return
+    }
+
+    if (actionKey === 'delete-deployment') {
+      await onDeleteDeployment(row)
+    }
+  }
 }
