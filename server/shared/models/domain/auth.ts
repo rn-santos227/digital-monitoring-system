@@ -109,6 +109,14 @@ export interface AuthDatabase {
         Update: Partial<AccountTypeRow>
         Relationships: []
       }
+      user_account_types: {
+        Row: UserAccountTypeRow
+        Insert: Partial<UserAccountTypeRow> & Pick<UserAccountTypeRow, 'user_id' | 'account_type_id'>
+        Update: Partial<UserAccountTypeRow>
+        Relationships: [
+
+        ]
+      }
     }
   }
 }
