@@ -101,4 +101,11 @@ export const useAuditFilterListHandlers = ({
     currentPage.value = 1
     await loadAuditLogs(1, result.filters)
   }
+
+  const handleResetFilters = async () => {
+    const resetFilterValues = handleFilterReset()
+    validationErrors.value = {}
+    currentPage.value = 1
+    await loadAuditLogs(1, resetFilterValues)
+  }
 }
