@@ -121,6 +121,13 @@ export interface AuthDatabase {
             referencedRelation: 'account_types'
             referencedColumns: ['id']
           },
+          {
+            foreignKeyName: 'user_account_types_user_id_fkey'
+            columns: ['user_id']
+            isOneToOne: false
+            referencedRelation: 'user_profiles'
+            referencedColumns: ['id']
+          },
         ]
       }
     }
