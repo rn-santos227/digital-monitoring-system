@@ -51,3 +51,21 @@ interface UseDeploymentTableActionHandlersOptions {
   ) => Promise<unknown>
   onDeleteDeployment: (row: Record<string, unknown>) => Promise<unknown>
 }
+
+export const useDeploymentTableActionHandlers = ({
+  selectedDeployment,
+  selectedDeploymentRecord,
+  isUpdateDeploymentDetailModalOpen,
+  isUpdateDeploymentLocationModalOpen,
+  isViewDeploymentModalOpen,
+  isUpdateDeploymentRecordModalOpen,
+  isUpdateDeploymentRecordLocationModalOpen,
+  getDeploymentById,
+  getDeploymentRecordById,
+  onViewDeploymentAction,
+  onViewDeploymentRecordAction,
+  onOpenUpdateDeploymentModal,
+  onDeleteDeployment,
+}: UseDeploymentTableActionHandlersOptions) => {
+
+}
