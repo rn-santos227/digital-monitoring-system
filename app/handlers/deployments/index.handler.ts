@@ -11,6 +11,7 @@ const DEPLOYMENT_MANAGEMENT_TAB_IDS: readonly DeploymentManagementTabId[] = ['re
 export const useDeploymentManagementPageHandlers = (
   activeTab: Ref<DeploymentManagementTabId>,
   deploymentFilters: Ref<Partial<DeploymentManagementSearchQuery>>,
+  deploymentRecordFilters: Ref<Partial<DeploymentManagementSearchQuery>>,
 ) => {
   const handleTabChange = (nextTab: string) => {
     if (DEPLOYMENT_MANAGEMENT_TAB_IDS.includes(nextTab as DeploymentManagementTabId)) {
@@ -19,5 +20,17 @@ export const useDeploymentManagementPageHandlers = (
   }
 
   const { handleDeploymentFilterApply, handleDeploymentFilterReset } = useDeploymentSearchHandlers(deploymentFilters)
-  return { handleTabChange, handleDeploymentFilterApply, handleDeploymentFilterReset }
+  const {
+    handleDeploymentFilterApply: handleDeploymentRecordFilterApply,
+    handleDeploymentFilterReset: handleDeploymentRecordFilterReset,
+  } = useDeploymentSearchHandlers(deploymentRecordFilters)
+
+  return {
+    handleTabChange,
+    handleDeploymentFilterApply,
+    handleDeploymentFilterReset,
+    handleDeploymentRecordFilterApply,
+    handleDeploymentRecordFilterReset,
+  }
 }
+
