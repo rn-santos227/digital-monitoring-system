@@ -124,6 +124,10 @@ export interface DeploymentUpdateLocation {
   location: string | null
 }
 
+export interface DeploymentPersonnelAssignmentSource extends DeploymentCreate {
+  id: string
+}
+
 export interface DeploymentRecordCreate {
   personnel_id: string
   deployment_id: string | null
