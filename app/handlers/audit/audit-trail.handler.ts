@@ -108,4 +108,15 @@ export const useAuditFilterListHandlers = ({
     currentPage.value = 1
     await loadAuditLogs(1, resetFilterValues)
   }
+
+  const onPageSizeChange = (pageSize: number) => {
+    currentPage.value = 1
+    void loadAuditLogs(1, filters.value, pageSize)
+  }
+
+  return {
+    handleApplyFilters,
+    handleResetFilters,
+    onPageSizeChange,
+  }
 }
