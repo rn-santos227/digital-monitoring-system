@@ -45,4 +45,9 @@ export const useEquipmentListHandlers = <TFilters extends object>({
 
     await loadPage(1, nextFilters)
   }
+
+  const onReset = async () => {
+    const resetFilters = handleFilterReset()
+    await loadPage(1, resetFilters)
+  }
 }
