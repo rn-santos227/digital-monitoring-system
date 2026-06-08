@@ -14,5 +14,9 @@ export const useEquipmentItemDetailHandlers = ({
   loadCompanyUsage,
   loadBattalionUsage,
 }: UseEquipmentItemDetailHandlersOptions) => {
-
+  const onTabChange = (nextTab: string) => {
+    if (nextTab === 'personnel' || nextTab === 'companies' || nextTab === 'battalions') {
+      activeTab.value = nextTab
+    }
+  }
 }
