@@ -68,8 +68,6 @@ export const useIncidentsStore = defineStore('incidents', {
     async fetchEquipmentIncidentKpisOnce(this: EquipmentIncidentsState) {
       if (this.hasLoadedKpis) return
       this.error = ''
-      this.createError = ''
-      this.isCreating = true
       try {
         this.kpis = await getEquipmentIncidentKpisEndpoint()
         this.hasLoadedKpis = true
@@ -115,6 +113,8 @@ export const useIncidentsStore = defineStore('incidents', {
 
     async createEquipmentIncident(this: EquipmentIncidentsState, payload: CreateEquipmentIncidentPayload) {
       this.error = ''
+      this.createError = ''
+      this.isCreating = true
       try {
         const response = await createEquipmentIncidentEndpoint(payload)
         this.items = [response.item, ...this.items]
