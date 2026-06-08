@@ -54,4 +54,8 @@ export const useEquipmentListHandlers = <TFilters extends object>({
   const onPageChange = async (page: number) => {
     await loadPage(page)
   }
+
+  const onPageSizeChange = async (pageSize: number) => {
+    await loadPage(1, filters.value, pageSize)
+  }
 }
