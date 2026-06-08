@@ -23,4 +23,8 @@ export const useEquipmentItemDetailHandlers = ({
   const onPersonnelPageChange = async (page: number) => {
     await loadPersonnelUsage(page)
   }
+
+  const onPersonnelPageSizeChange = async (pageSize: number) => {
+    await loadPersonnelUsage(1, pageSize)
+  }
 }
