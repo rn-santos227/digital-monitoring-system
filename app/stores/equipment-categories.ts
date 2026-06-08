@@ -1,3 +1,4 @@
+import { updateEquipmentCategoryKpis } from '~/utils/equipment-category-state'
 import { defineStore } from 'pinia'
 import type {
   CreateEquipmentCategoryPayload,
@@ -30,14 +31,6 @@ const DEFAULT_EQUIPMENT_CATEGORY_KPIS: EquipmentCategoryKpiCounts = {
   totalCategories: 0,
   unusedCategories: 0,
 }
-
-const updateEquipmentCategoryKpis = (
-  kpis: EquipmentCategoryKpiCounts,
-  updates: Partial<EquipmentCategoryKpiCounts>,
-): EquipmentCategoryKpiCounts => ({
-  totalCategories: Math.max(0, updates.totalCategories ?? kpis.totalCategories),
-  unusedCategories: Math.max(0, updates.unusedCategories ?? kpis.unusedCategories),
-})
 
 export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
   state: (): EquipmentCategoriesState => ({
