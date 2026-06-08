@@ -43,5 +43,19 @@ export const usePersonnelBatchUploadHandler = ({
   uploadPersonnelBatch,
   showDialog,
 }: UsePersonnelBatchUploadHandlerOptions) => {
+  const handleBatchUploadPersonnel = async ({
+    file,
+    employmentStatusId,
+    serviceStatusId,
+  }: {
+    file: File
+    employmentStatusId: string
+    serviceStatusId: string
+  }) => {
 
+  }
+
+  return {
+    handleBatchUploadPersonnel,
+  }
 }
