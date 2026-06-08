@@ -34,3 +34,14 @@ interface UsePersonnelBatchUploadHandlerOptions {
   ) => Promise<PersonnelBatchUploadResult>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
 }
+
+export const usePersonnelBatchUploadHandler = ({
+  isSubmitting,
+  processedCount,
+  totalCount,
+  isModalOpen,
+  uploadPersonnelBatch,
+  showDialog,
+}: UsePersonnelBatchUploadHandlerOptions) => {
+
+}
