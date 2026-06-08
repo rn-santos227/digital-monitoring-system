@@ -1,0 +1,3 @@
+interface EquipmentActionRow {
+  id?: unknown
+}
