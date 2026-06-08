@@ -32,5 +32,7 @@ export const useEquipmentListHandlers = <TFilters extends object>({
   handleFilterApply,
   handleFilterReset,
 }: UseEquipmentListHandlersOptions<TFilters>) => {
+  const onApply = async (value: TFilters) => {
 
+  }
 }
