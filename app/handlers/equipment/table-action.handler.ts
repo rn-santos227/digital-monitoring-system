@@ -14,6 +14,7 @@ export const createEquipmentTableActionHandler = <TRow extends EquipmentActionRo
   actions: EquipmentTableActionMap,
 ) => {
   return async ({ actionKey, row }: EquipmentTableActionPayload<TRow>) => {
-
+    const equipmentRecordId = String(row.id ?? '')
+    const action = actions[actionKey]
   }
 }
