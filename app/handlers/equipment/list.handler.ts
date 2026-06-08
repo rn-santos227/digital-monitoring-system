@@ -5,3 +5,7 @@ interface ValidatedFilterResult<TFilters extends object> {
   isValid: boolean
 }
 
+type FilterApplyResult<TFilters extends object> =
+  | TFilters
+  | ValidatedFilterResult<TFilters>
+
