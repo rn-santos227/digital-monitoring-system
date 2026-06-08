@@ -7,3 +7,9 @@ interface UseEquipmentItemDetailHandlersOptions {
   loadCompanyUsage: (page?: number, pageSize?: number) => Promise<unknown>
   loadBattalionUsage: (page?: number, pageSize?: number) => Promise<unknown>
 }
+
+export const useEquipmentItemDetailHandlers = ({
+
+}: UseEquipmentItemDetailHandlersOptions) => {
+
+}
