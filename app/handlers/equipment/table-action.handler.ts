@@ -9,3 +9,9 @@ interface EquipmentTableActionPayload<TRow extends EquipmentActionRow> {
   actionKey: string
   row: TRow
 }
+
+export const createEquipmentTableActionHandler = <TRow extends EquipmentActionRow>(
+  actions: EquipmentTableActionMap,
+) => {
+
+}
