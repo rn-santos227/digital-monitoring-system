@@ -19,4 +19,8 @@ export const useEquipmentItemDetailHandlers = ({
       activeTab.value = nextTab
     }
   }
+
+  const onPersonnelPageChange = async (page: number) => {
+    await loadPersonnelUsage(page)
+  }
 }
