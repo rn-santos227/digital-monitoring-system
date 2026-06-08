@@ -50,4 +50,8 @@ export const useEquipmentListHandlers = <TFilters extends object>({
     const resetFilters = handleFilterReset()
     await loadPage(1, resetFilters)
   }
+
+  const onPageChange = async (page: number) => {
+    await loadPage(page)
+  }
 }
