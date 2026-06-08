@@ -19,3 +19,9 @@ interface UseEquipmentListHandlersOptions<TFilters extends object> {
   handleFilterApply: (value: TFilters) => FilterApplyResult<TFilters>
   handleFilterReset: () => TFilters
 }
+
+const isValidatedFilterResult = <TFilters extends object>(
+  result: FilterApplyResult<TFilters>,
+): result is ValidatedFilterResult<TFilters> => {
+  return 'filters' in result && 'isValid' in result
+}
