@@ -33,6 +33,11 @@ export const useEquipmentListHandlers = <TFilters extends object>({
   handleFilterReset,
 }: UseEquipmentListHandlersOptions<TFilters>) => {
   const onApply = async (value: TFilters) => {
+    const result = handleFilterApply(value)
+
+    if (isValidatedFilterResult(result) && !result.isValid) {
+      return
+    }
 
   }
 }
