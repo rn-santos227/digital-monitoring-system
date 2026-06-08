@@ -13,5 +13,7 @@ interface EquipmentTableActionPayload<TRow extends EquipmentActionRow> {
 export const createEquipmentTableActionHandler = <TRow extends EquipmentActionRow>(
   actions: EquipmentTableActionMap,
 ) => {
+  return async ({ actionKey, row }: EquipmentTableActionPayload<TRow>) => {
 
+  }
 }
