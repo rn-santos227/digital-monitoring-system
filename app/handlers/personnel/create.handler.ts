@@ -20,3 +20,17 @@ export const useCreatePersonnelModalHandler = (isOpen: Ref<boolean>) => {
     closeCreatePersonnelModal,
   }
 }
+
+interface UsePersonnelBatchUploadHandlerOptions {
+  isSubmitting: Ref<boolean>
+  processedCount: Ref<number>
+  totalCount: Ref<number>
+  isModalOpen: Ref<boolean>
+  uploadPersonnelBatch: (
+    file: File,
+    employmentStatusId: string,
+    serviceStatusId: string,
+    onProgress?: (processedCount: number, totalCount: number) => void,
+  ) => Promise<PersonnelBatchUploadResult>
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
+}
