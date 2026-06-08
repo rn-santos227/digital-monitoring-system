@@ -1,3 +1,4 @@
+import { defineStore } from 'pinia'
 import type {
   CreateEquipmentIssuancePayload,
   EquipmentIssuanceListItem,
