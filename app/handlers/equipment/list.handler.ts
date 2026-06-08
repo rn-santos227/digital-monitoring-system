@@ -27,7 +27,10 @@ const isValidatedFilterResult = <TFilters extends object>(
 }
 
 export const useEquipmentListHandlers = <TFilters extends object>({
-
+  filters,
+  loadPage,
+  handleFilterApply,
+  handleFilterReset,
 }: UseEquipmentListHandlersOptions<TFilters>) => {
 
 }
