@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import type { ApplicationSettingsItem } from '~/types/domain/application-settings'
+import type { GeoMapState } from '~/types/domain/geomap'
+import { resolveGeoMapSettings } from '~/utils/geomap-settings'
 import {
   DEFAULT_MAP_LATITUDE,
   DEFAULT_MAP_LONGITUDE,
@@ -8,14 +10,6 @@ import {
   DEFAULT_MAP_ZOOM,
 } from '~/constants/settings.constants'
 
-interface GeoMapState {
-  defaultLatitude: number
-  defaultLongitude: number
-  defaultZoom: number
-  minZoom: number
-  maxZoom: number
-}
-
 const INITIAL_GEOMAP_STATE: GeoMapState = {
   defaultLatitude: DEFAULT_MAP_LATITUDE,
   defaultLongitude: DEFAULT_MAP_LONGITUDE,
@@ -23,8 +17,6 @@ const INITIAL_GEOMAP_STATE: GeoMapState = {
   minZoom: DEFAULT_MAP_MIN_ZOOM,
   maxZoom: DEFAULT_MAP_MAX_ZOOM,
 }
-
-const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value))
 
 const geomapStoreOptions = {
   state: (): GeoMapState => ({ ...INITIAL_GEOMAP_STATE }),
@@ -42,17 +34,7 @@ const geomapStoreOptions = {
         return
       }
 
-      const latitude = Number(settings.mapDefaultLatitude)
-      const longitude = Number(settings.mapDefaultLongitude)
-      const minZoom = clamp(Number(settings.mapMinZoom), 1, 22)
-      const maxZoom = clamp(Number(settings.mapMaxZoom), minZoom, 22)
-      const defaultZoom = clamp(Number(settings.mapDefaultZoom), minZoom, maxZoom)
-
-      if (Number.isFinite(latitude)) this.defaultLatitude = latitude
-      if (Number.isFinite(longitude)) this.defaultLongitude = longitude
-      this.minZoom = minZoom
-      this.maxZoom = maxZoom
-      this.defaultZoom = defaultZoom
+      Object.assign(this, resolveGeoMapSettings(settings))
     },
   },
 }
