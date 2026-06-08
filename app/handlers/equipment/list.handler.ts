@@ -39,5 +39,10 @@ export const useEquipmentListHandlers = <TFilters extends object>({
       return
     }
 
+    const nextFilters = isValidatedFilterResult(result)
+      ? result.filters
+      : result
+
+    await loadPage(1, nextFilters)
   }
 }
