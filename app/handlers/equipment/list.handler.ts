@@ -25,3 +25,9 @@ const isValidatedFilterResult = <TFilters extends object>(
 ): result is ValidatedFilterResult<TFilters> => {
   return 'filters' in result && 'isValid' in result
 }
+
+export const useEquipmentListHandlers = <TFilters extends object>({
+
+}: UseEquipmentListHandlersOptions<TFilters>) => {
+
+}
