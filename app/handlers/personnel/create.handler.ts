@@ -52,7 +52,39 @@ export const usePersonnelBatchUploadHandler = ({
     employmentStatusId: string
     serviceStatusId: string
   }) => {
+    isSubmitting.value = true
+    processedCount.value = 0
+    totalCount.value = 0
 
+    try {
+      const response = await uploadPersonnelBatch(
+        file,
+        employmentStatusId,
+        serviceStatusId,
+        (nextProcessedCount, nextTotalCount) => {
+          processedCount.value = nextProcessedCount
+          totalCount.value = nextTotalCount
+        },
+      )
+
+      isModalOpen.value = false
+      await showDialog({
+        type: 'success',
+        title: 'Batch upload complete',
+        message: `${response.insertedCount} of ${response.totalCount} personnel records were inserted successfully.`,
+        confirmLabel: 'Close',
+        cancelLabel: 'Dismiss',
+      })
+    } catch {
+      await showDialog({
+        type: 'error',
+        title: 'Personnel batch upload failed',
+        message: 'Unable to upload personnel batch right now.',
+        confirmLabel: 'OK',
+      })
+    } finally {
+      isSubmitting.value = false
+    }
   }
 
   return {
