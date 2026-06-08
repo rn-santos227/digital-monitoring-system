@@ -9,3 +9,13 @@ type FilterApplyResult<TFilters extends object> =
   | TFilters
   | ValidatedFilterResult<TFilters>
 
+interface UseEquipmentListHandlersOptions<TFilters extends object> {
+  filters: Ref<TFilters>
+  loadPage: (
+    page?: number,
+    filters?: TFilters,
+    pageSize?: number,
+  ) => Promise<unknown>
+  handleFilterApply: (value: TFilters) => FilterApplyResult<TFilters>
+  handleFilterReset: () => TFilters
+}
