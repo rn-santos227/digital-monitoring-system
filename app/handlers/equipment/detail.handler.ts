@@ -9,7 +9,10 @@ interface UseEquipmentItemDetailHandlersOptions {
 }
 
 export const useEquipmentItemDetailHandlers = ({
-
+  activeTab,
+  loadPersonnelUsage,
+  loadCompanyUsage,
+  loadBattalionUsage,
 }: UseEquipmentItemDetailHandlersOptions) => {
 
 }
