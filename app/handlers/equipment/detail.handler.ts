@@ -35,4 +35,8 @@ export const useEquipmentItemDetailHandlers = ({
   const onCompanyPageSizeChange = async (pageSize: number) => {
     await loadCompanyUsage(1, pageSize)
   }
+
+  const onBattalionPageChange = async (page: number) => {
+    await loadBattalionUsage(page)
+  }
 }
