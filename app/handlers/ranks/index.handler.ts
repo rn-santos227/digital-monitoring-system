@@ -25,4 +25,7 @@ export const useRankTableActionHandler = (
     }
   }
 
+  return {
+    onRankTableAction,
+  }
 }
