@@ -9,3 +9,10 @@ export const useRanksPageHandlers = (activeTab: Ref<'personnel-records' | 'rank-
     handleRankTabChange,
   }
 }
+
+export const useRankTableActionHandler = (
+  onDeleteRank: (id: string) => Promise<unknown>,
+) => {
+
+
+}
