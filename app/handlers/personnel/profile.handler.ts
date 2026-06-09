@@ -28,7 +28,14 @@ interface UsePersonnelProfileHandlersOptions {
 }
 
 export const usePersonnelProfileHandlers = ({
-
+  personnelId,
+  activeTab,
+  activeAssignModal,
+  assignDeployment,
+  assignEngagement,
+  assignTraining,
+  reloadProfile,
+  showDialog,
 }: UsePersonnelProfileHandlersOptions) => {
 
 }
