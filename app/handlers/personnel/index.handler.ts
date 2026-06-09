@@ -17,7 +17,9 @@ interface UsePersonnelTableActionHandlerOptions {
 }
 
 export const usePersonnelTableActionHandler = ({
-
+  handleViewPersonnelProfile,
+  onEditPersonnelAction,
+  onDeletePersonnel,
 }: UsePersonnelTableActionHandlerOptions) => {
   
 }
