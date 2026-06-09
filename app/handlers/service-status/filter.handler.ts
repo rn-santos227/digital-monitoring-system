@@ -4,3 +4,9 @@ export interface ServiceStatusPersonnelFilter {
   term?: string
   fields?: string
 }
+
+export const useServiceStatusFilterHandlers = (
+  personnelFilter: Ref<ServiceStatusPersonnelFilter>,
+) => {
+
+}
