@@ -16,3 +16,8 @@ interface UsePersonnelTableActionHandlerOptions {
   onDeletePersonnel: (id: string) => Promise<unknown>
 }
 
+export const usePersonnelTableActionHandler = ({
+
+}: UsePersonnelTableActionHandlerOptions) => {
+  
+}
