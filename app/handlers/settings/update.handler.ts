@@ -7,11 +7,13 @@ import { validateApplicationSettingsUpdate } from '~/utils/application-settings-
 
 interface UseUpdateSettingsHandlerOptions {
   canUpdate: Ref<boolean>
+  toUpdatePayload: () => UpdateApplicationSettingsPayload
   updateApplicationSettings: (payload: UpdateApplicationSettingsPayload) => Promise<void>
 }
 
 export const useUpdateSettingsHandler = ({
   canUpdate,
+  toUpdatePayload,
   updateApplicationSettings,
 }: UseUpdateSettingsHandlerOptions) => {
   const { showDialog } = useDialog()
@@ -57,10 +59,15 @@ export const useUpdateSettingsHandler = ({
     }
   }
 
+  const onSubmit = async () => {
+    await onUpdateSettings(toUpdatePayload())
+  }
+
   return {
     dangerMessage,
     errorMessage,
     infoMessage,
+    onSubmit,
     onUpdateSettings,
     validationError,
   }
