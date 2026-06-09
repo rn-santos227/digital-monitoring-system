@@ -86,4 +86,10 @@ export const usePersonnelProfileHandlers = ({
       })
     }
   }
+
+  const onSubmitAssignTraining = async (
+    payload: Omit<CreateTrainingRecordPayload, 'personnelId'>,
+  ) => {
+
+  }
 }
