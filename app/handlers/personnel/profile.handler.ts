@@ -67,6 +67,10 @@ export const usePersonnelProfileHandlers = ({
   const onSubmitAssignEngagement = async (
     payload: Omit<CreateEngagementRecordPayload, 'personnel_id'>,
   ) => {
-    
+    const id = personnelId.value
+
+    if (!id) {
+      return
+    }
   }
 }
