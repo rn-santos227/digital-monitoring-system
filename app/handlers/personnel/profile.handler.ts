@@ -15,4 +15,8 @@ interface UsePersonnelProfileHandlersOptions {
     personnelId: string,
     payload: CreateDeploymentRecordPayload,
   ) => Promise<unknown>
+  assignEngagement: (
+    personnelId: string,
+    payload: CreateEngagementRecordPayload,
+  ) => Promise<unknown>
 }
