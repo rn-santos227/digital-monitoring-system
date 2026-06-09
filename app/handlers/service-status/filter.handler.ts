@@ -14,4 +14,13 @@ export const useServiceStatusFilterHandlers = (
       fields: value.fields ?? '',
     }
   }
+
+  const onResetPersonnelFilter = () => {
+    personnelFilter.value = {}
+  }
+
+  return {
+    onApplyPersonnelFilter,
+    onResetPersonnelFilter,
+  }
 }
