@@ -120,4 +120,12 @@ export const usePersonnelProfileHandlers = ({
       activeTab.value = nextTab
     }
   }
+
+  return {
+    onCloseAssignModal,
+    onSubmitAssignDeployment,
+    onSubmitAssignEngagement,
+    onSubmitAssignTraining,
+    onTabChange,
+  }
 }
