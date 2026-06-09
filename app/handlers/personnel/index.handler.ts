@@ -28,6 +28,10 @@ export const usePersonnelTableActionHandler = ({
     actionKey: string
     row: { id: string }
   }) => {
+    if (actionKey === 'view-personnel-profile') {
+      await handleViewPersonnelProfile(row.id)
+      return
+    }
 
   }
 
