@@ -21,5 +21,13 @@ export const usePersonnelTableActionHandler = ({
   onEditPersonnelAction,
   onDeletePersonnel,
 }: UsePersonnelTableActionHandlerOptions) => {
-  
+  const handleTableAction = async ({
+    actionKey,
+    row,
+  }: {
+    actionKey: string
+    row: { id: string }
+  }) => {
+
+  }
 }
