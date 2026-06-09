@@ -9,3 +9,10 @@ export const usePersonnelPageHandlers = (filters: Ref<Partial<PersonnelSearchQue
     handleFilterReset,
   }
 }
+
+interface UsePersonnelTableActionHandlerOptions {
+  handleViewPersonnelProfile: (id: string) => Promise<unknown>
+  onEditPersonnelAction: (id: string) => Promise<unknown>
+  onDeletePersonnel: (id: string) => Promise<unknown>
+}
+
