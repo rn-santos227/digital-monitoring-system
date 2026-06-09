@@ -90,6 +90,10 @@ export const usePersonnelProfileHandlers = ({
   const onSubmitAssignTraining = async (
     payload: Omit<CreateTrainingRecordPayload, 'personnelId'>,
   ) => {
+    const id = personnelId.value
 
+    if (!id) {
+      return
+    }
   }
 }
