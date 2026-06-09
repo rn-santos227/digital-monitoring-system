@@ -38,6 +38,9 @@ export const usePersonnelTableActionHandler = ({
       return
     }
 
+    if (actionKey === 'delete-personnel') {
+      await onDeletePersonnel(row.id)
+    }
   }
 
   return {
