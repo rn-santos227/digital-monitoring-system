@@ -40,4 +40,10 @@ export const usePersonnelProfileHandlers = ({
   const onCloseAssignModal = () => {
     activeAssignModal.value = null
   }
+
+  const onSubmitAssignDeployment = async (
+    payload: Omit<CreateDeploymentRecordPayload, 'personnel_id'>,
+  ) => {
+
+  }
 }
