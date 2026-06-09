@@ -19,4 +19,8 @@ interface UsePersonnelProfileHandlersOptions {
     personnelId: string,
     payload: CreateEngagementRecordPayload,
   ) => Promise<unknown>
+  assignTraining: (
+    personnelId: string,
+    payload: CreateTrainingRecordPayload,
+  ) => Promise<unknown>
 }
