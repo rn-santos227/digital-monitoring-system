@@ -55,7 +55,12 @@ export const usePersonnelProfileHandlers = ({
       onCloseAssignModal()
       await reloadProfile(id)
     } catch(error) {
-
+      await showErrorDialog({
+        showDialog,
+        title: 'Deployment assignment failed',
+        error,
+        fallbackMessage: 'Unable to assign deployment record right now.',
+      })
     }
   }
 }
