@@ -11,4 +11,8 @@ interface UsePersonnelProfileHandlersOptions {
   personnelId: Ref<string>
   activeTab: Ref<PersonnelProfileTabId>
   activeAssignModal: Ref<ActiveServiceStatusModal>
+  assignDeployment: (
+    personnelId: string,
+    payload: CreateDeploymentRecordPayload,
+  ) => Promise<unknown>
 }
