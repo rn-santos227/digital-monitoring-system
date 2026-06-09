@@ -8,5 +8,7 @@ import type { CreateTrainingRecordPayload } from '~/types/domain/training'
 import { showErrorDialog } from '~/utils/error-handling'
 
 interface UsePersonnelProfileHandlersOptions {
-
+  personnelId: Ref<string>
+  activeTab: Ref<PersonnelProfileTabId>
+  activeAssignModal: Ref<ActiveServiceStatusModal>
 }
