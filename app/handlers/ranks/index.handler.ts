@@ -13,6 +13,16 @@ export const useRanksPageHandlers = (activeTab: Ref<'personnel-records' | 'rank-
 export const useRankTableActionHandler = (
   onDeleteRank: (id: string) => Promise<unknown>,
 ) => {
-
+  const onRankTableAction = async ({
+    actionKey,
+    row,
+  }: {
+    actionKey: string
+    row: { id: string }
+  }) => {
+    if (actionKey === 'delete-rank') {
+      await onDeleteRank(row.id)
+    }
+  }
 
 }
