@@ -49,5 +49,13 @@ export const usePersonnelProfileHandlers = ({
     if (!id) {
       return
     }
+
+    try {
+      await assignDeployment(id, { ...payload, personnel_id: id })
+      onCloseAssignModal()
+      await reloadProfile(id)
+    } catch(error) {
+
+    }
   }
 }
