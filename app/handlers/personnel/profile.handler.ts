@@ -95,5 +95,18 @@ export const usePersonnelProfileHandlers = ({
     if (!id) {
       return
     }
+
+    try {
+      await assignTraining(id, { ...payload, personnelId: id })
+      onCloseAssignModal()
+      await reloadProfile(id)
+    } catch (error) {
+      await showErrorDialog({
+        showDialog,
+        title: 'Training assignment failed',
+        error,
+        fallbackMessage: 'Unable to assign training record right now.',
+      })
+    }
   }
 }
