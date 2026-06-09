@@ -44,6 +44,10 @@ export const usePersonnelProfileHandlers = ({
   const onSubmitAssignDeployment = async (
     payload: Omit<CreateDeploymentRecordPayload, 'personnel_id'>,
   ) => {
+    const id = personnelId.value
 
+    if (!id) {
+      return
+    }
   }
 }
