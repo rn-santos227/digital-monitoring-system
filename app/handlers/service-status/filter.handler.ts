@@ -8,5 +8,10 @@ export interface ServiceStatusPersonnelFilter {
 export const useServiceStatusFilterHandlers = (
   personnelFilter: Ref<ServiceStatusPersonnelFilter>,
 ) => {
-
+  const onApplyPersonnelFilter = (value: ServiceStatusPersonnelFilter) => {
+    personnelFilter.value = {
+      term: value.term ?? '',
+      fields: value.fields ?? '',
+    }
+  }
 }
