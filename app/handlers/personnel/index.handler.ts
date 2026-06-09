@@ -33,6 +33,11 @@ export const usePersonnelTableActionHandler = ({
       return
     }
 
+    if (actionKey === 'edit-personnel') {
+      await onEditPersonnelAction(row.id)
+      return
+    }
+
   }
 
   return {
