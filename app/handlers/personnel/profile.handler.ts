@@ -109,4 +109,15 @@ export const usePersonnelProfileHandlers = ({
       })
     }
   }
+
+  const onTabChange = (nextTab: string) => {
+    if (
+      nextTab === 'training'
+      || nextTab === 'deployment'
+      || nextTab === 'engagement'
+      || nextTab === 'equipment-assignment'
+    ) {
+      activeTab.value = nextTab
+    }
+  }
 }
