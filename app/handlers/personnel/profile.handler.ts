@@ -37,5 +37,7 @@ export const usePersonnelProfileHandlers = ({
   reloadProfile,
   showDialog,
 }: UsePersonnelProfileHandlersOptions) => {
-
+  const onCloseAssignModal = () => {
+    activeAssignModal.value = null
+  }
 }
