@@ -72,5 +72,18 @@ export const usePersonnelProfileHandlers = ({
     if (!id) {
       return
     }
+
+    try {
+      await assignEngagement(id, { ...payload, personnel_id: id })
+      onCloseAssignModal()
+      await reloadProfile(id)
+    } catch (error) {
+      await showErrorDialog({
+        showDialog,
+        title: 'Engagement assignment failed',
+        error,
+        fallbackMessage: 'Unable to assign engagement record right now.',
+      })
+    }
   }
 }
