@@ -26,3 +26,9 @@ interface UsePersonnelProfileHandlersOptions {
   reloadProfile: (personnelId: string) => Promise<unknown>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
 }
+
+export const usePersonnelProfileHandlers = ({
+
+}: UsePersonnelProfileHandlersOptions) => {
+
+}
