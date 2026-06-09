@@ -23,4 +23,6 @@ interface UsePersonnelProfileHandlersOptions {
     personnelId: string,
     payload: CreateTrainingRecordPayload,
   ) => Promise<unknown>
+  reloadProfile: (personnelId: string) => Promise<unknown>
+  showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
 }
