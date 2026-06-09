@@ -7,4 +7,6 @@ import type { ActiveServiceStatusModal } from '~/types/domain/service-status'
 import type { CreateTrainingRecordPayload } from '~/types/domain/training'
 import { showErrorDialog } from '~/utils/error-handling'
 
+interface UsePersonnelProfileHandlersOptions {
 
+}
