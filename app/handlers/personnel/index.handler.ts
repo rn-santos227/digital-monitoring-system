@@ -30,4 +30,8 @@ export const usePersonnelTableActionHandler = ({
   }) => {
 
   }
+
+  return {
+    handleTableAction,
+  }
 }
