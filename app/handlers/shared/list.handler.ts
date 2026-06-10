@@ -6,3 +6,8 @@ interface ValidatedFilters<TFilters extends object> {
   errors: FieldValidationMap
   isValid: boolean
 }
+
+interface UseValidatedListHandlersOptions<TFilters extends object> {
+  filters: Ref<TFilters>
+  validationErrors: Ref<FieldValidationMap>
+}
