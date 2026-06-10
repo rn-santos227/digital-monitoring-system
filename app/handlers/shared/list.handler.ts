@@ -20,3 +20,9 @@ interface UseValidatedListHandlersOptions<TFilters extends object> {
   getPageSize?: () => number
   onInvalid?: () => Promise<unknown> | unknown
 }
+
+export const useValidatedListHandlers = <TFilters extends object>({
+
+}: UseValidatedListHandlersOptions<TFilters>) => {
+
+}
