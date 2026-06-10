@@ -88,4 +88,10 @@ export const useSearchTermListHandlers = ({
   const handlePageSizeChange = async (pageSize: number) => {
     await loadPage(1, searchTerm.value, pageSize)
   }
+
+  return {
+    handleSearchTermChange,
+    handlePageChange,
+    handlePageSizeChange,
+  }
 }
