@@ -171,5 +171,10 @@ export const useTrainingPageActionHandlers = ({
     if (!rowId) {
       return
     }
+
+    if (actionKey === 'edit-training-category') {
+      await onOpenUpdateTrainingCategoryModal(rowId)
+      return
+    }
   }
 }
