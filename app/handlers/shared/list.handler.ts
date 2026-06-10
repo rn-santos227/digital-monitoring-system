@@ -21,6 +21,15 @@ interface UseValidatedListHandlersOptions<TFilters extends object> {
   onInvalid?: () => Promise<unknown> | unknown
 }
 
+interface UseSearchTermListHandlersOptions {
+  searchTerm: Ref<string>
+  loadPage: (
+    page?: number,
+    searchTerm?: string,
+    pageSize?: number,
+  ) => Promise<unknown>
+}
+
 export const useValidatedListHandlers = <TFilters extends object>({
   filters,
   validationErrors,
