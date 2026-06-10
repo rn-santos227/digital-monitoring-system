@@ -116,5 +116,14 @@ export const useTrainingPageActionHandlers = ({
       isViewTrainingRecordModalOpen.value = true
       return
     }
+
+    if (actionKey === 'edit-training-record') {
+      if (!selectedRecord) {
+        return
+      }
+
+      onOpenUpdateTrainingRecordModal(selectedRecord)
+      return
+    }
   }
 }
