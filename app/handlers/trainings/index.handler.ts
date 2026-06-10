@@ -176,5 +176,9 @@ export const useTrainingPageActionHandlers = ({
       await onOpenUpdateTrainingCategoryModal(rowId)
       return
     }
+
+    if (actionKey === 'delete-training-category') {
+      await onDeleteTrainingCategory(rowId)
+    }
   }
 }
