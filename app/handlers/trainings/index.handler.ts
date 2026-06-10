@@ -158,4 +158,18 @@ export const useTrainingPageActionHandlers = ({
       await onDeleteTraining(rowId)
     }
   }
+
+  const onCategoryTableAction = async ({
+    actionKey,
+    row,
+  }: {
+    actionKey: string
+    row: Record<string, unknown>
+  }) => {
+    const rowId = String(row.id ?? '')
+
+    if (!rowId) {
+      return
+    }
+  }
 }
