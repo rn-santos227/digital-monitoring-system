@@ -106,5 +106,15 @@ export const useTrainingPageActionHandlers = ({
     }
 
     const selectedRecord = records.value.find(item => item.id === rowId) ?? null
+
+    if (actionKey === 'view-training-record') {
+      if (!selectedRecord) {
+        return
+      }
+
+      selectedTrainingRecord.value = selectedRecord
+      isViewTrainingRecordModalOpen.value = true
+      return
+    }
   }
 }
