@@ -59,3 +59,10 @@ export const useTrainingManagementPageHandlers = (
     handleCategoryFilterReset,
   }
 }
+
+export const useTrainingPageActionHandlers = ({
+
+}: UseTrainingPageActionHandlersOptions) => {
+
+
+}
