@@ -17,4 +17,6 @@ interface UseValidatedListHandlersOptions<TFilters extends object> {
     filters?: TFilters,
     pageSize?: number,
   ) => Promise<unknown>
+  getPageSize?: () => number
+  onInvalid?: () => Promise<unknown> | unknown
 }
