@@ -16,6 +16,16 @@ interface UseTrainingPageActionHandlersOptions {
   records: Ref<TrainingRecordListItem[]>
   selectedTrainingRecord: Ref<TrainingRecordListItem | null>
   isViewTrainingRecordModalOpen: Ref<boolean>
+  onOpenCreateTrainingRecordModal: () => void
+  onOpenCreateTrainingCategoryModal: () => void
+  onOpenCreateTrainingModal: () => void
+  onOpenUpdateTrainingRecordModal: (record: TrainingRecordListItem) => void
+  onDeleteTrainingRecord: (id: string) => Promise<unknown>
+  onViewTraining: (id: string) => Promise<unknown>
+  onOpenUpdateTrainingModal: (id: string) => Promise<unknown>
+  onDeleteTraining: (id: string) => Promise<unknown>
+  onOpenUpdateTrainingCategoryModal: (id: string) => Promise<unknown>
+  onDeleteTrainingCategory: (id: string) => Promise<unknown>
 }
 
 export const useTrainingManagementPageHandlers = (
