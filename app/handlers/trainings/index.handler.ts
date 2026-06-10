@@ -125,5 +125,9 @@ export const useTrainingPageActionHandlers = ({
       onOpenUpdateTrainingRecordModal(selectedRecord)
       return
     }
+
+    if (actionKey === 'delete-training-record') {
+      await onDeleteTrainingRecord(rowId)
+    }
   }
 }
