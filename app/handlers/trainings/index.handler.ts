@@ -91,4 +91,19 @@ export const useTrainingPageActionHandlers = ({
       onOpenCreateTrainingModal()
     }
   }
+
+  const onTrainingRecordTableAction = async ({
+    actionKey,
+    row,
+  }: {
+    actionKey: string
+    row: Record<string, unknown>
+  }) => {
+    const rowId = String(row.id ?? '')
+
+    if (!rowId) {
+      return
+    }
+
+  }
 }
