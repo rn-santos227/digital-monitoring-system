@@ -72,3 +72,10 @@ export const useValidatedListHandlers = <TFilters extends object>({
     handlePageSizeChange,
   }
 }
+
+export const useSearchTermListHandlers = ({
+  searchTerm,
+  loadPage,
+}: UseSearchTermListHandlersOptions) => {
+
+}
