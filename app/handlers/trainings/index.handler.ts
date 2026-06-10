@@ -76,6 +76,10 @@ export const useTrainingPageActionHandlers = ({
   onOpenUpdateTrainingCategoryModal,
   onDeleteTrainingCategory,
 }: UseTrainingPageActionHandlersOptions) => {
-
-
+  const onCreateActionClick = () => {
+    if (activeTab.value === 'records') {
+      onOpenCreateTrainingRecordModal()
+      return
+    }
+  }
 }
