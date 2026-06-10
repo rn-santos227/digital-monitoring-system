@@ -186,4 +186,12 @@ export const useTrainingPageActionHandlers = ({
     isViewTrainingRecordModalOpen.value = false
     selectedTrainingRecord.value = null
   }
+
+  return {
+    onCreateActionClick,
+    onTrainingRecordTableAction,
+    onTrainingTableAction,
+    onCategoryTableAction,
+    closeViewTrainingRecordModal,
+  }
 }
