@@ -30,5 +30,8 @@ export const useValidatedListHandlers = <TFilters extends object>({
   getPageSize,
   onInvalid,
 }: UseValidatedListHandlersOptions<TFilters>) => {
-
+  const handleApplyFilters = async (value: TFilters) => {
+    const result = applyFilters(value)
+    validationErrors.value = result.errors
+  }
 }
