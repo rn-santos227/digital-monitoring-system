@@ -77,5 +77,7 @@ export const useSearchTermListHandlers = ({
   searchTerm,
   loadPage,
 }: UseSearchTermListHandlersOptions) => {
-
+  const handleSearchTermChange = async (value: string | number) => {
+    await loadPage(1, String(value ?? ''))
+  }
 }
