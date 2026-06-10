@@ -81,5 +81,10 @@ export const useTrainingPageActionHandlers = ({
       onOpenCreateTrainingRecordModal()
       return
     }
+
+    if (activeTab.value === 'categories') {
+      onOpenCreateTrainingCategoryModal()
+      return
+    }
   }
 }
