@@ -47,4 +47,8 @@ export const useValidatedListHandlers = <TFilters extends object>({
     const resetFilterValues = resetFilters()
     await loadPage(1, resetFilterValues)
   }
+
+  const handlePageChange = async (page: number) => {
+    await loadPage(page, filters.value, getPageSize?.())
+  }
 }
