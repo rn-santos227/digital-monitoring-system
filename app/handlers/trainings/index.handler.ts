@@ -11,6 +11,13 @@ import type {
 const TRAINING_MANAGEMENT_TAB_IDS: readonly TrainingManagementTabId[] = ['records', 'trainings', 'categories']
 const TRAINING_RECORD_SEARCHABLE_FIELDS = ['recordNo', 'trainingTitle', 'certificateNo', 'remarks'] as const
 
+interface UseTrainingPageActionHandlersOptions {
+  activeTab: Ref<TrainingManagementTabId>
+  records: Ref<TrainingRecordListItem[]>
+  selectedTrainingRecord: Ref<TrainingRecordListItem | null>
+  isViewTrainingRecordModalOpen: Ref<boolean>
+}
+
 export const useTrainingManagementPageHandlers = (
   activeTab: Ref<TrainingManagementTabId>,
   recordsFilters: Ref<Partial<TrainingRecordSearchQuery>>,
