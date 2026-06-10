@@ -61,7 +61,20 @@ export const useTrainingManagementPageHandlers = (
 }
 
 export const useTrainingPageActionHandlers = ({
-
+  activeTab,
+  records,
+  selectedTrainingRecord,
+  isViewTrainingRecordModalOpen,
+  onOpenCreateTrainingRecordModal,
+  onOpenCreateTrainingCategoryModal,
+  onOpenCreateTrainingModal,
+  onOpenUpdateTrainingRecordModal,
+  onDeleteTrainingRecord,
+  onViewTraining,
+  onOpenUpdateTrainingModal,
+  onDeleteTraining,
+  onOpenUpdateTrainingCategoryModal,
+  onDeleteTrainingCategory,
 }: UseTrainingPageActionHandlersOptions) => {
 
 
