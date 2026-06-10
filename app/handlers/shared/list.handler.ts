@@ -12,4 +12,9 @@ interface UseValidatedListHandlersOptions<TFilters extends object> {
   validationErrors: Ref<FieldValidationMap>
   applyFilters: (value: TFilters) => ValidatedFilters<TFilters>
   resetFilters: () => TFilters
+  loadPage: (
+    page?: number,
+    filters?: TFilters,
+    pageSize?: number,
+  ) => Promise<unknown>
 }
