@@ -181,4 +181,9 @@ export const useTrainingPageActionHandlers = ({
       await onDeleteTrainingCategory(rowId)
     }
   }
+
+  const closeViewTrainingRecordModal = () => {
+    isViewTrainingRecordModalOpen.value = false
+    selectedTrainingRecord.value = null
+  }
 }
