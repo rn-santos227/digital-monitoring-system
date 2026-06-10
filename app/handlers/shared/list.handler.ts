@@ -22,7 +22,13 @@ interface UseValidatedListHandlersOptions<TFilters extends object> {
 }
 
 export const useValidatedListHandlers = <TFilters extends object>({
-
+  filters,
+  validationErrors,
+  applyFilters,
+  resetFilters,
+  loadPage,
+  getPageSize,
+  onInvalid,
 }: UseValidatedListHandlersOptions<TFilters>) => {
 
 }
