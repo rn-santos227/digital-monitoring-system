@@ -10,4 +10,6 @@ interface ValidatedFilters<TFilters extends object> {
 interface UseValidatedListHandlersOptions<TFilters extends object> {
   filters: Ref<TFilters>
   validationErrors: Ref<FieldValidationMap>
+  applyFilters: (value: TFilters) => ValidatedFilters<TFilters>
+  resetFilters: () => TFilters
 }
