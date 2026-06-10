@@ -130,4 +130,32 @@ export const useTrainingPageActionHandlers = ({
       await onDeleteTrainingRecord(rowId)
     }
   }
+
+  const onTrainingTableAction = async ({
+    actionKey,
+    row,
+  }: {
+    actionKey: string
+    row: Record<string, unknown>
+  }) => {
+    const rowId = String(row.id ?? '')
+
+    if (!rowId) {
+      return
+    }
+
+    if (actionKey === 'view-training') {
+      await onViewTraining(rowId)
+      return
+    }
+
+    if (actionKey === 'edit-training') {
+      await onOpenUpdateTrainingModal(rowId)
+      return
+    }
+
+    if (actionKey === 'delete-training') {
+      await onDeleteTraining(rowId)
+    }
+  }
 }
