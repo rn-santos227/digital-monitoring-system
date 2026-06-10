@@ -41,4 +41,10 @@ export const useValidatedListHandlers = <TFilters extends object>({
 
     await loadPage(1, result.filters)
   }
+
+  const handleResetFilters = async () => {
+    validationErrors.value = {}
+    const resetFilterValues = resetFilters()
+    await loadPage(1, resetFilterValues)
+  }
 }
