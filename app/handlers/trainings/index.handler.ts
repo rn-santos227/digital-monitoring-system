@@ -105,5 +105,6 @@ export const useTrainingPageActionHandlers = ({
       return
     }
 
+    const selectedRecord = records.value.find(item => item.id === rowId) ?? null
   }
 }
