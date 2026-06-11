@@ -43,3 +43,17 @@ const formatPrintValue = (value: unknown, column?: Pick<DataTableColumn, 'dataTy
 
   return String(value)
 }
+
+const openPrintDocument = (html: string): void => {
+  const printWindow = window.open('', '_blank', PRINT_WINDOW_FEATURES)
+
+  if (!printWindow) {
+    throw new Error('Unable to open print preview window.')
+  }
+
+  printWindow.document.open()
+  printWindow.document.write(html)
+  printWindow.document.close()
+  printWindow.focus()
+  printWindow.print()
+}
