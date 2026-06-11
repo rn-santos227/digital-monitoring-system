@@ -80,7 +80,10 @@
 import { computed, onMounted, ref } from 'vue'
 import { useDialog } from '~/composables/useDialog'
 import { useAssignments } from '~/composables/useAssignments'
-import { useServiceStatusAssignmentHandler } from '~/handlers/service-status'
+import {
+  useServiceStatusAssignmentHandler,
+  useServiceStatusFilterHandlers,
+} from '~/handlers/service-status'
 import QuickAssignDeploymentModal from '~/components/service-status/QuickAssignDeploymentModal.vue'
 import QuickAssignEngagementModal from '~/components/service-status/QuickAssignEngagementModal.vue'
 import QuickAssignTrainingModal from '~/components/service-status/QuickAssignTrainingModal.vue'
@@ -126,6 +129,7 @@ const selectedPersonnelId = ref<string | null>(null)
 const activeModal = ref<ActiveServiceStatusModal>(null)
 const modalErrorMessage = ref('')
 const personnelFilter = ref<{ term?: string; fields?: string }>({})
+const { onApplyPersonnelFilter, onResetPersonnelFilter } = useServiceStatusFilterHandlers(personnelFilter)
 
 const filteredLocationItems = computed(() => {
   const query = (personnelFilter.value.term ?? '').trim().toLowerCase()
@@ -156,17 +160,6 @@ const filteredLocationItems = computed(() => {
     return haystack.toLowerCase().includes(query)
   })
 })
-
-const onApplyPersonnelFilter = (value: { term?: string; fields?: string }) => {
-  personnelFilter.value = {
-    term: value.term ?? '',
-    fields: value.fields ?? '',
-  }
-}
-
-const onResetPersonnelFilter = () => {
-  personnelFilter.value = {}
-}
 
 const loadLocations = async () => {
   isLoading.value = true
