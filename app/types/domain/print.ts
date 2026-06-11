@@ -17,4 +17,8 @@ export interface PrintDetailSection {
   fields: readonly PrintDetailField[]
 }
 
-
+export interface PrintDetailFormat {
+  documentTitle: string
+  filePrefix: string
+  sections: readonly PrintDetailSection[]
+}
