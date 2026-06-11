@@ -64,3 +64,9 @@ const createTableFormat = (
 ): PrintTableFormat => Object.freeze({ documentTitle, filePrefix, columns })
 
 
+export const TABLE_PRINT_FORMATS = Object.freeze({
+  auditLogs: createTableFormat('Audit Logs', 'audit-logs', AUDIT_TABLE_COLUMNS),
+  battalions: createTableFormat('Battalions', 'battalions', BATTALIONS_TABLE_COLUMNS),
+  companies: createTableFormat('Companies', 'companies', COMPANIES_TABLE_COLUMNS),
+  deploymentRecords: createTableFormat('Deployment Records', 'deployment-records', DEPLOYMENT_RECORDS_TABLE_COLUMNS),
+})
