@@ -95,9 +95,11 @@ import {
 } from '~/constants/page.constants'
 import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
 import {
+  createEquipmentTableActionHandler,
   useCreateEquipmentCategoryHandler,
   useDeleteEquipmentCategoryHandler,
   useEquipmentCategoryPageHandlers,
+  useEquipmentListHandlers,
   useUpdateEquipmentCategoryHandler,
   useViewEquipmentCategoryHandler,
 } from '~/handlers'
@@ -105,7 +107,6 @@ import { useAuthStore } from '~/stores/auth'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 import type {
   EquipmentCategoryDetailItem,
-  EquipmentCategorySearchQuery,
   EquipmentCategoryTableRow,
 } from '~/types/domain/equipment'
 
@@ -164,44 +165,21 @@ const { onDeleteEquipmentCategory } = useDeleteEquipmentCategoryHandler({ delete
 const totalEquipmentCategoriesKpi = computed(() => kpis.value.totalCategories)
 const unusedEquipmentCategoriesKpi = computed(() => kpis.value.unusedCategories)
 
-const onApply = async (value: Partial<EquipmentCategorySearchQuery>) => {
-  const next = handleFilterApply(value)
-  await loadEquipmentCategories(1, next)
-}
+const {
+  onApply,
+  onReset,
+  onPageChange,
+  onPageSizeChange,
+} = useEquipmentListHandlers({
+  filters,
+  loadPage: loadEquipmentCategories,
+  handleFilterApply,
+  handleFilterReset,
+})
 
-const onReset = async () => {
-  const next = handleFilterReset()
-  await loadEquipmentCategories(1, next)
-}
-
-const onPageChange = async (page: number) => {
-  await loadEquipmentCategories(page)
-}
-
-const onPageSizeChange = async (pageSize: number) => {
-  await loadEquipmentCategories(1, filters.value, pageSize)
-}
-
-const onTableAction = async (payload: { actionKey: string; row: EquipmentCategoryTableRow }) => {
-  const equipmentCategoryId = String(payload.row.id ?? '')
-
-
-  if (!equipmentCategoryId) {
-    return
-  }
-
-  if (payload.actionKey === 'view-equipment-category') {
-    await onViewEquipmentCategory(equipmentCategoryId)
-    return
-  }
-
-  if (payload.actionKey === 'edit-equipment-category') {
-    await onOpenUpdateEquipmentCategoryModal(equipmentCategoryId)
-    return
-  }
-
-  if (payload.actionKey === 'delete-equipment-category') {
-    await onDeleteEquipmentCategory(equipmentCategoryId)
-  }
-}
+const onTableAction = createEquipmentTableActionHandler<EquipmentCategoryTableRow>({
+  'view-equipment-category': onViewEquipmentCategory,
+  'edit-equipment-category': onOpenUpdateEquipmentCategoryModal,
+  'delete-equipment-category': onDeleteEquipmentCategory,
+})
 </script>
