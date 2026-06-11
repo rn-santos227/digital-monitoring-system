@@ -81,9 +81,10 @@ import {
 } from '~/constants/page.constants'
 import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
 import {
+  createEquipmentTableActionHandler,
   useCreateEquipmentIssuanceHandler,
   useDeleteEquipmentIssuanceHandler,
-  useEquipmentPageHandlers,
+  useEquipmentListHandlers,
   useEquipmentSearchHandlers,
   useUpdateEquipmentIssuanceHandler,
   useViewEquipmentIssuanceHandler,
@@ -91,7 +92,6 @@ import {
 import { useAuthStore } from '~/stores/auth'
 import type {
   EquipmentIssuanceListItem,
-  EquipmentIssuanceSearchQuery,
   EquipmentIssuanceTableRow,
 } from '~/types/domain/equipment'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
@@ -118,8 +118,7 @@ const authStore = useAuthStore()
 const canCreateEquipmentIssuances = computed(() => authStore.hasPermissionAccess(EQUIPMENT_ISSUANCES_PAGE_REQUIRED_PERMISSIONS.issue))
 
 const { showDialog } = useDialog()
-const { handleFilterReset } = useEquipmentPageHandlers(filters)
-const { handleFilterApply } = useEquipmentSearchHandlers(filters)
+const { handleFilterApply, handleFilterReset } = useEquipmentSearchHandlers(filters)
 
 const totalEquipmentIssuancesKpi = computed(() => pagination.value.totalItems)
 const isCreateEquipmentIssuanceModalOpen = ref(false)
@@ -169,42 +168,21 @@ const { closeViewEquipmentIssuanceModal, onViewEquipmentIssuance } = useViewEqui
   getEquipmentIssuanceById,
 })
 
-const onApply = async (value: Partial<EquipmentIssuanceSearchQuery>) => {
-  const result = handleFilterApply(value)
+const {
+  onApply,
+  onReset,
+  onPageChange,
+  onPageSizeChange,
+} = useEquipmentListHandlers({
+  filters,
+  loadPage: loadEquipmentIssuances,
+  handleFilterApply,
+  handleFilterReset,
+})
 
-  if (!result.isValid) {
-    return
-  }
-
-  await loadEquipmentIssuances(1, result.filters)
-}
-
-const onReset = async () => {
-  const resetFilters = handleFilterReset()
-  await loadEquipmentIssuances(1, resetFilters)
-}
-
-const onPageChange = async (page: number) => {
-  await loadEquipmentIssuances(page, filters.value)
-}
-
-const onPageSizeChange = async (pageSize: number) => {
-  await loadEquipmentIssuances(1, filters.value, pageSize)
-}
-
-const onTableAction = async ({ actionKey, row }: { actionKey: string; row: EquipmentIssuanceTableRow }) => {
-  if (actionKey === 'view-equipment-issuance') {
-    await onViewEquipmentIssuance(row.id)
-    return
-  }
-
-  if (actionKey === 'edit-equipment-issuance') {
-    await onOpenUpdateEquipmentIssuanceModal(row.id)
-    return
-  }
-
-  if (actionKey === 'delete-equipment-issuance') {
-    await onDeleteEquipmentIssuance(row.id)
-  }
-}
+const onTableAction = createEquipmentTableActionHandler<EquipmentIssuanceTableRow>({
+  'view-equipment-issuance': onViewEquipmentIssuance,
+  'edit-equipment-issuance': onOpenUpdateEquipmentIssuanceModal,
+  'delete-equipment-issuance': onDeleteEquipmentIssuance,
+})
 </script>
