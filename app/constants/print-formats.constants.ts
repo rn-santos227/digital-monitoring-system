@@ -84,3 +84,10 @@ export const TABLE_PRINT_FORMATS = Object.freeze({
   userAccountTypes: createTableFormat('Account Types', 'account-types', USERS_ACCOUNT_TABLE_COLUMNS),
   userProfiles: createTableFormat('User Profiles', 'user-profiles', USERS_PROFILE_TABLE_COLUMNS),
 })
+
+export const PERSONNEL_DETAIL_PRINT_FORMAT = Object.freeze({
+  documentTitle: 'Personnel Profile',
+  filePrefix: 'personnel-profile',
+
+
+}) satisfies PrintDetailFormat
