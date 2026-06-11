@@ -57,3 +57,10 @@ export const PERSONNEL_PRINT_DOCUMENT_STYLES = PRINT_DOCUMENT_STYLES
 export const PERSONNEL_PRINT_GENERATED_AT_LABEL = PRINT_GENERATED_AT_LABEL
 export const PERSONNEL_PRINT_TOTAL_RECORDS_LABEL = PRINT_TOTAL_RECORDS_LABEL
 
+const createTableFormat = (
+  documentTitle: string,
+  filePrefix: string,
+  columns: PrintTableFormat['columns'],
+): PrintTableFormat => Object.freeze({ documentTitle, filePrefix, columns })
+
+
