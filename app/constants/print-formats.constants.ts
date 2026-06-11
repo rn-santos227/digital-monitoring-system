@@ -80,5 +80,7 @@ export const TABLE_PRINT_FORMATS = Object.freeze({
   serviceStatusPersonnel: createTableFormat('Personnel Service Status', 'personnel-service-status', SERVICE_STATUS_PERSONNEL_TABLE_COLUMNS),
   trainingCategories: createTableFormat('Training Categories', 'training-categories', TRAINING_CATEGORIES_TABLE_COLUMNS),
   trainingRecords: createTableFormat('Training Records', 'training-records', TRAINING_RECORDS_TABLE_COLUMNS),
-
+  trainings: createTableFormat('Trainings', 'trainings', TRAININGS_TABLE_COLUMNS),
+  userAccountTypes: createTableFormat('Account Types', 'account-types', USERS_ACCOUNT_TABLE_COLUMNS),
+  userProfiles: createTableFormat('User Profiles', 'user-profiles', USERS_PROFILE_TABLE_COLUMNS),
 })
