@@ -93,8 +93,10 @@ import {
 } from '~/constants/page.constants'
 import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
 import {
+  createEquipmentTableActionHandler,
   useCreateEquipmentAssetHandler,
   useDeleteEquipmentAssetHandler,
+  useEquipmentListHandlers,
   useEquipmentSearchHandlers,
   useUpdateEquipmentAssetHandler,
   useViewEquipmentAssetHandler,
@@ -102,7 +104,6 @@ import {
 import { useAuthStore } from '~/stores/auth'
 import type {
   EquipmentAssetListItem,
-  EquipmentAssetSearchQuery,
   EquipmentAssetTableRow,
 } from '~/types/domain/equipment'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
@@ -178,46 +179,21 @@ const totalEquipmentAssetsKpi = computed(() => kpis.value.totalAssets)
 const issuedEquipmentAssetsKpi = computed(() => kpis.value.issuedAssets)
 const notIssuedEquipmentAssetsKpi = computed(() => kpis.value.notIssuedAssets)
 
-const onApply = async (value: Partial<EquipmentAssetSearchQuery>) => {
-  const result = handleFilterApply(value)
-  if (!result.isValid) {
-    return
-  }
-  await loadEquipmentAssets(1, result.filters)
-}
+const {
+  onApply,
+  onReset,
+  onPageChange,
+  onPageSizeChange,
+} = useEquipmentListHandlers({
+  filters,
+  loadPage: loadEquipmentAssets,
+  handleFilterApply,
+  handleFilterReset,
+})
 
-const onReset = async () => {
-  const next = handleFilterReset()
-  await loadEquipmentAssets(1, next)
-}
-
-const onPageChange = async (page: number) => {
-  await loadEquipmentAssets(page)
-}
-
-const onPageSizeChange = async (pageSize: number) => {
-  await loadEquipmentAssets(1, filters.value, pageSize)
-}
-
-const onTableAction = async (payload: { actionKey: string; row: EquipmentAssetTableRow }) => {
-  const equipmentAssetId = String(payload.row.id ?? '')
-
-  if (!equipmentAssetId) {
-    return
-  }
-
-  if (payload.actionKey === 'view-equipment-asset') {
-    await onViewEquipmentAsset(equipmentAssetId)
-    return
-  }
-
-  if (payload.actionKey === 'edit-equipment-asset') {
-    await onOpenUpdateEquipmentAssetModal(equipmentAssetId)
-    return
-  }
-
-  if (payload.actionKey === 'delete-equipment-asset') {
-    await onDeleteEquipmentAsset(equipmentAssetId)
-  }
-}
+const onTableAction = createEquipmentTableActionHandler<EquipmentAssetTableRow>({
+  'view-equipment-asset': onViewEquipmentAsset,
+  'edit-equipment-asset': onOpenUpdateEquipmentAssetModal,
+  'delete-equipment-asset': onDeleteEquipmentAsset,
+})
 </script>
