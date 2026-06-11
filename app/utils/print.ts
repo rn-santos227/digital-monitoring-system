@@ -9,3 +9,13 @@ import {
 } from '~/constants/print-formats.constants'
 import type { DataTableColumn } from '~/constants/ui.constants'
 import type { PrintDetailFormat, PrintTableFormat } from '~/types/domain/print'
+
+const escapeHtml = (value: string): string => {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
+}
+
