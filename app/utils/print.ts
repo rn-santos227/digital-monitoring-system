@@ -33,4 +33,7 @@ const formatPrintValue = (value: unknown, column?: Pick<DataTableColumn, 'dataTy
       : parsedDate.toLocaleDateString()
   }
 
+  if (typeof value === 'boolean') {
+    return value ? 'Yes' : 'No'
+  }
 }
