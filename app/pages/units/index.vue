@@ -200,6 +200,7 @@ import {
   useUpdateBattalionHandler,
   useUpdateCompanyHandler,
   useUpdateUnitHandler,
+  useValidatedListHandlers,
   useViewBattalionHandler,
   useViewCompanyHandler,
   useAssignBattalionHandler,
@@ -413,9 +414,7 @@ const visibleTabItems = computed(() => {
   })
 })
 
-const onTabChange = (nextTab: string) => {
-  handleTabChange(nextTab)
-}
+const onTabChange = handleTabChange
 
 const canCreateBattalion = computed(() => authStore.hasPermissionAccess(BATTALION_PRIVILEGES.create))
 const canCreateCompany = computed(() => authStore.hasPermissionAccess(COMPANY_PRIVILEGES.create))
@@ -433,55 +432,31 @@ const showCreateButton = computed(() => {
 const battalionFilterValidationErrors = ref<FieldValidationMap>({})
 const companyFilterValidationErrors = ref<FieldValidationMap>({})
 
-const handleApplyBattalionFilters = async (value: typeof battalionFilters.value) => {
-  const { filters, errors, isValid } = handleBattalionFilterApply(value)
-  battalionFilterValidationErrors.value = errors
+const {
+  handleApplyFilters: handleApplyBattalionFilters,
+  handleResetFilters: handleResetBattalionFilters,
+  handlePageChange: onBattalionPageChange,
+  handlePageSizeChange: onBattalionPageSizeChange,
+} = useValidatedListHandlers({
+  filters: battalionFilters,
+  validationErrors: battalionFilterValidationErrors,
+  applyFilters: handleBattalionFilterApply,
+  resetFilters: handleBattalionFilterReset,
+  loadPage: loadBattalions,
+})
 
-  if (!isValid) {
-    return
-  }
-
-  await loadBattalions(1, filters)
-}
-
-const handleResetBattalionFilters = async () => {
-  battalionFilterValidationErrors.value = {}
-  const filters = handleBattalionFilterReset()
-  await loadBattalions(1, filters)
-}
-
-const handleApplyCompanyFilters = async (value: typeof companyFilters.value) => {
-  const { filters, errors, isValid } = handleCompanyFilterApply(value)
-  companyFilterValidationErrors.value = errors
-
-  if (!isValid) {
-    return
-  }
-
-  await loadCompanies(1, filters)
-}
-
-const handleResetCompanyFilters = async () => {
-  companyFilterValidationErrors.value = {}
-  const filters = handleCompanyFilterReset()
-  await loadCompanies(1, filters)
-}
-
-const onBattalionPageChange = (nextPage: number) => {
-  void loadBattalions(nextPage, battalionFilters.value)
-}
-
-const onCompanyPageChange = (nextPage: number) => {
-  void loadCompanies(nextPage, companyFilters.value)
-}
-
-const onBattalionPageSizeChange = (nextPageSize: number) => {
-  void loadBattalions(1, battalionFilters.value, nextPageSize)
-}
-
-const onCompanyPageSizeChange = (nextPageSize: number) => {
-  void loadCompanies(1, companyFilters.value, nextPageSize)
-}
+const {
+  handleApplyFilters: handleApplyCompanyFilters,
+  handleResetFilters: handleResetCompanyFilters,
+  handlePageChange: onCompanyPageChange,
+  handlePageSizeChange: onCompanyPageSizeChange,
+} = useValidatedListHandlers({
+  filters: companyFilters,
+  validationErrors: companyFilterValidationErrors,
+  applyFilters: handleCompanyFilterApply,
+  resetFilters: handleCompanyFilterReset,
+  loadPage: loadCompanies,
+})
 
 const totalCompanies = computed(() => unitKpis.value.totalCompanies)
 const totalBattalions = computed(() => unitKpis.value.totalBattalions)
