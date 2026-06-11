@@ -19,3 +19,8 @@ const escapeHtml = (value: string): string => {
     .replaceAll("'", '&#39;')
 }
 
+const getRecordValue = (item: object, key: string): unknown => Reflect.get(item, key)
+
+const formatPrintValue = (value: unknown, column?: Pick<DataTableColumn, 'dataType'>): string => {
+
+}
