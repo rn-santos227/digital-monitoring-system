@@ -70,16 +70,16 @@ import {
 } from '~/constants/page.constants'
 import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
 import {
+  createEquipmentTableActionHandler,
   useCreateEquipmentItemHandler,
   useDeleteEquipmentItemHandler,
-  useEquipmentPageHandlers,
+  useEquipmentListHandlers,
   useEquipmentSearchHandlers,
   useUpdateEquipmentItemHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type {
   EquipmentItemListItem,
-  EquipmentItemSearchQuery,
   EquipmentItemTableRow,
 } from '~/types/domain/equipment'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
@@ -103,8 +103,7 @@ const router = useRouter()
 const canCreateEquipmentItems = computed(() => authStore.hasPermissionAccess(EQUIPMENT_ITEMS_PAGE_REQUIRED_PERMISSIONS.create))
 
 const { showDialog } = useDialog()
-const { handleFilterReset } = useEquipmentPageHandlers(filters)
-const { handleFilterApply } = useEquipmentSearchHandlers(filters)
+const { handleFilterApply, handleFilterReset } = useEquipmentSearchHandlers(filters)
 
 const isCreateEquipmentItemModalOpen = ref(false)
 const isUpdateEquipmentItemModalOpen = ref(false)
@@ -145,48 +144,21 @@ const { onDeleteEquipmentItem } = useDeleteEquipmentItemHandler({
 
 const totalEquipmentItemsKpi = computed(() => kpis.value.totalItems)
 
-const onApply = async (value: Partial<EquipmentItemSearchQuery>) => {
-  const result = handleFilterApply(value)
+const {
+  onApply,
+  onReset,
+  onPageChange,
+  onPageSizeChange,
+} = useEquipmentListHandlers({
+  filters,
+  loadPage: loadEquipmentItems,
+  handleFilterApply,
+  handleFilterReset,
+})
 
-  if (!result.isValid) {
-    return
-  }
-
-  await loadEquipmentItems(1, result.filters)
-}
-
-const onReset = async () => {
-  const next = handleFilterReset()
-  await loadEquipmentItems(1, next)
-}
-
-const onPageChange = async (page: number) => {
-  await loadEquipmentItems(page)
-}
-
-const onPageSizeChange = async (pageSize: number) => {
-  await loadEquipmentItems(1, filters.value, pageSize)
-}
-
-const onTableAction = async (payload: { actionKey: string; row: EquipmentItemTableRow }) => {
-  const equipmentItemId = String(payload.row.id ?? '')
-
-  if (!equipmentItemId) {
-    return
-  }
-
-  if (payload.actionKey === 'view-equipment-item') {
-    await router.push(`/equipment-items/${equipmentItemId}`)
-    return
-  }
-
-  if (payload.actionKey === 'edit-equipment-item') {
-    await onOpenUpdateEquipmentItemModal(equipmentItemId)
-    return
-  }
-
-  if (payload.actionKey === 'delete-equipment-item') {
-    await onDeleteEquipmentItem(equipmentItemId)
-  }
-}
+const onTableAction = createEquipmentTableActionHandler<EquipmentItemTableRow>({
+  'view-equipment-item': equipmentItemId => router.push(`/equipment-items/${equipmentItemId}`),
+  'edit-equipment-item': onOpenUpdateEquipmentItemModal,
+  'delete-equipment-item': onDeleteEquipmentItem,
+})
 </script>
