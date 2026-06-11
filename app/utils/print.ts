@@ -26,5 +26,11 @@ const formatPrintValue = (value: unknown, column?: Pick<DataTableColumn, 'dataTy
     return PRINT_NOT_AVAILABLE_LABEL
   }
 
+  if (column?.dataType === 'date') {
+    const parsedDate = new Date(String(value))
+    return Number.isNaN(parsedDate.getTime())
+      ? String(value)
+      : parsedDate.toLocaleDateString()
+  }
 
 }
