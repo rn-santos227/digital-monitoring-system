@@ -12,3 +12,9 @@ export interface PrintDetailField {
   dataType?: 'text' | 'date'
 }
 
+export interface PrintDetailSection {
+  title: string
+  fields: readonly PrintDetailField[]
+}
+
+
