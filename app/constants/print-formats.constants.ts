@@ -72,4 +72,8 @@ export const TABLE_PRINT_FORMATS = Object.freeze({
   deployments: createTableFormat('Deployments', 'deployments', DEPLOYMENTS_TABLE_COLUMNS),
   engagementRecords: createTableFormat('Engagement Records', 'engagement-records', ENGAGEMENT_RECORDS_TABLE_COLUMNS),
   engagements: createTableFormat('Engagements', 'engagements', ENGAGEMENTS_TABLE_COLUMNS),
+  equipmentAssets: createTableFormat('Equipment Assets', 'equipment-assets', EQUIPMENT_ASSETS_TABLE_COLUMNS),
+  equipmentCategories: createTableFormat('Equipment Categories', 'equipment-categories', EQUIPMENT_CATEGORIES_TABLE_COLUMNS),
+  equipmentIssuances: createTableFormat('Equipment Issuances', 'equipment-issuances', EQUIPMENT_ISSUANCES_TABLE_COLUMNS),
+  equipmentItems: createTableFormat('Equipment Items', 'equipment-items', EQUIPMENT_ITEMS_TABLE_COLUMNS),
 })
