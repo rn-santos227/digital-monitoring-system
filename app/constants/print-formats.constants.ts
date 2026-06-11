@@ -69,4 +69,7 @@ export const TABLE_PRINT_FORMATS = Object.freeze({
   battalions: createTableFormat('Battalions', 'battalions', BATTALIONS_TABLE_COLUMNS),
   companies: createTableFormat('Companies', 'companies', COMPANIES_TABLE_COLUMNS),
   deploymentRecords: createTableFormat('Deployment Records', 'deployment-records', DEPLOYMENT_RECORDS_TABLE_COLUMNS),
+  deployments: createTableFormat('Deployments', 'deployments', DEPLOYMENTS_TABLE_COLUMNS),
+  engagementRecords: createTableFormat('Engagement Records', 'engagement-records', ENGAGEMENT_RECORDS_TABLE_COLUMNS),
+  engagements: createTableFormat('Engagements', 'engagements', ENGAGEMENTS_TABLE_COLUMNS),
 })
