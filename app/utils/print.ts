@@ -57,3 +57,19 @@ const openPrintDocument = (html: string): void => {
   printWindow.focus()
   printWindow.print()
 }
+
+const downloadCsvFile = (rows: readonly string[][], filePrefix: string): void => {
+  const csvContent = rows
+    .map((row) => row.map((value) => `"${value.replaceAll('"', '""')}"`).join(','))
+    .join('\n')
+  const blob = new Blob([csvContent], { type: PRINT_CSV_MIME_TYPE })
+  const fileUrl = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+
+  link.href = fileUrl
+  link.download = `${filePrefix}-${new Date().toISOString().slice(0, 10)}.csv`
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(fileUrl)
+}
