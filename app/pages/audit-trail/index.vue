@@ -46,7 +46,6 @@
 import { ref, watch } from 'vue'
 import AuditFilter from '~/components/audit/AuditFilter.vue'
 import AuditTable from '~/components/audit/AuditTable.vue'
-import type { AuditLogSearchQuery } from '~/types/domain/audit'
 import type { FieldValidationMap } from '~/utils/field-validation'
 import {
   AUDIT_PAGE_SECTION_CLASSES,
@@ -57,7 +56,10 @@ import {
   AUDIT_TABLE_EMPTY_MESSAGE,
 } from '~/constants/table.constants'
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
-import { useAuditTrailPageHandlers } from '~/handlers'
+import {
+  useAuditFilterListHandlers,
+  useAuditTrailPageHandlers,
+} from '~/handlers'
 import { useAuditTrail } from '~/composables/useAuditTrail'
 import { useDialog } from '~/composables/useDialog'
 
@@ -94,35 +96,19 @@ const { handleSearch, handleSort, handleAction, handleFilterApply, handleFilterR
   isAuditModalOpen
 )
 
-const handleApplyFilters = async (value: Partial<AuditLogSearchQuery>) => {
-  const { filters: queryFilters, errors, isValid } = handleFilterApply(value)
-  filterValidationErrors.value = errors
-
-  if (!isValid) {
-    await showDialog({
-      type: 'error',
-      title: 'Invalid filter input',
-      message: 'Please correct the highlighted fields before applying filters.',
-      confirmLabel: 'OK',
-    })
-    return
-  }
-
-  currentPage.value = 1
-  await loadAuditLogs(1, queryFilters)
-}
-
-const handleResetFilters = async () => {
-  const queryFilters = handleFilterReset()
-  filterValidationErrors.value = {}
-  currentPage.value = 1
-  await loadAuditLogs(1, queryFilters)
-}
-
-const onPageSizeChange = (nextPageSize: number) => {
-  currentPage.value = 1
-  void loadAuditLogs(1, filters.value, nextPageSize)
-}
+const {
+  handleApplyFilters,
+  handleResetFilters,
+  onPageSizeChange,
+} = useAuditFilterListHandlers({
+  currentPage,
+  filters,
+  validationErrors: filterValidationErrors,
+  loadAuditLogs,
+  handleFilterApply,
+  handleFilterReset,
+  showDialog,
+})
 
 watch(activeAuditLogId, async (nextAuditLogId) => {
   if (!nextAuditLogId) {
