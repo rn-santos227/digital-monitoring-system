@@ -196,7 +196,9 @@ import {
   useDeleteAccountTypeHandler,
   useUserActivationHandler,
   useUserPasswordHandler,
+  useUserProfileActionHandler,
   useUsersPageHandlers,
+  useValidatedListHandlers,
   useViewUserProfileHandler,
   useUpdateAccountTypeHandler,
   useUpdateUserProfileHandler,
@@ -254,9 +256,7 @@ const {
   accountFilters
 )
 
-const onTabChange = (nextTab: string) => {
-  handleTabChange(nextTab)
-}
+const onTabChange = handleTabChange
 
 const activeUsersKpi = computed(() => kpis.value.activeUsers)
 const inactiveUsersKpi = computed(() => kpis.value.inactiveUsers)
@@ -265,55 +265,31 @@ const unusedAccountTypesKpi = computed(() => kpis.value.unusedAccountTypes)
 const profileFilterValidationErrors = ref<FieldValidationMap>({})
 const accountFilterValidationErrors = ref<FieldValidationMap>({})
 
-const handleApplyProfileFilters = async (value: typeof profileFilters.value) => {
-  const { filters, errors, isValid } = handleProfileFilterApply(value)
-  profileFilterValidationErrors.value = errors
+const {
+  handleApplyFilters: handleApplyProfileFilters,
+  handleResetFilters: handleResetProfileFilters,
+  handlePageChange: onProfilePageChange,
+  handlePageSizeChange: onProfilePageSizeChange,
+} = useValidatedListHandlers({
+  filters: profileFilters,
+  validationErrors: profileFilterValidationErrors,
+  applyFilters: handleProfileFilterApply,
+  resetFilters: handleProfileFilterReset,
+  loadPage: loadUserProfiles,
+})
 
-  if (!isValid) {
-    return
-  }
-
-  await loadUserProfiles(1, filters)
-}
-
-const handleResetProfileFilters = async () => {
-  profileFilterValidationErrors.value = {}
-  const filters = handleProfileFilterReset()
-  await loadUserProfiles(1, filters)
-}
-
-const handleApplyAccountFilters = async (value: typeof accountFilters.value) => {
-  const { filters, errors, isValid } = handleAccountFilterApply(value)
-  accountFilterValidationErrors.value = errors
-
-  if (!isValid) {
-    return
-  }
-
-  await loadUserAccounts(1, filters)
-}
-
-const handleResetAccountFilters = async () => {
-  accountFilterValidationErrors.value = {}
-  const filters = handleAccountFilterReset()
-  await loadUserAccounts(1, filters)
-}
-
-const onProfilePageChange = (nextPage: number) => {
-  void loadUserProfiles(nextPage, profileFilters.value)
-}
-
-const onAccountPageChange = (nextPage: number) => {
-  void loadUserAccounts(nextPage, accountFilters.value)
-}
-
-const onProfilePageSizeChange = (nextPageSize: number) => {
-  void loadUserProfiles(1, profileFilters.value, nextPageSize)
-}
-
-const onAccountPageSizeChange = (nextPageSize: number) => {
-  void loadUserAccounts(1, accountFilters.value, nextPageSize)
-}
+const {
+  handleApplyFilters: handleApplyAccountFilters,
+  handleResetFilters: handleResetAccountFilters,
+  handlePageChange: onAccountPageChange,
+  handlePageSizeChange: onAccountPageSizeChange,
+} = useValidatedListHandlers({
+  filters: accountFilters,
+  validationErrors: accountFilterValidationErrors,
+  applyFilters: handleAccountFilterApply,
+  resetFilters: handleAccountFilterReset,
+  loadPage: loadUserAccounts,
+})
 
 const isCreateUserProfileModalOpen = ref(false)
 const isUpdateUserProfileModalOpen = ref(false)
@@ -473,37 +449,20 @@ const { onAccountTypeAction } = useAccountTypeActionHandler({
   onDeleteAccountTypeAction,
 })
 
-const onAccountAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
-  await onAccountTypeAction(payload)
-}
-
-const onProfileAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
-  profileWarning.value = ''
-
-  if (canHandleViewAction(payload.actionKey)) {
-    await onViewProfileAction(payload.row)
-    return
-  }
-
-  if (canHandleUpdateProfileAction(payload.actionKey)) {
-    await onEditProfileAction(payload.row)
-    return
-  }
-
-  if (canHandlePasswordAction(payload.actionKey)) {
-    onPasswordAction(payload.row)
-    return
-  }
-
-  if (canHandleActivationAction(payload.actionKey)) {
-    await onActivationAction(payload.row)
-    return
-  }
-
-  if (canHandleDeleteAction(payload.actionKey)) {
-    await onDeleteAction(payload.row)
-  }
-}
+const onAccountAction = onAccountTypeAction
+const { onProfileAction } = useUserProfileActionHandler({
+  profileWarning,
+  canHandleViewAction,
+  onViewProfileAction,
+  canHandleUpdateProfileAction,
+  onEditProfileAction,
+  canHandlePasswordAction,
+  onPasswordAction,
+  canHandleActivationAction,
+  onActivationAction,
+  canHandleDeleteAction,
+  onDeleteAction,
+})
 
 watch([isAccountTypeModalOpen, isUpdateAccountTypeModalOpen], ([isCreateOpen, isUpdateOpen]) => {
   if (isCreateOpen || isUpdateOpen) {
