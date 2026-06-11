@@ -102,6 +102,18 @@ export const PERSONNEL_DETAIL_PRINT_FORMAT = Object.freeze({
         { key: 'employmentStatus', label: 'Employment Status' },
       ]),
     },
-
+    {
+      title: 'Personal Information',
+      fields: Object.freeze([
+        { key: 'fullName', label: 'Full Name' },
+        { key: 'sex', label: 'Sex' },
+        { key: 'birthdate', label: 'Birthdate', dataType: 'date' as const },
+        { key: 'age', label: 'Age' },
+        { key: 'contactNumber', label: 'Contact Number' },
+        { key: 'dateEnlisted', label: 'Date Enlisted', dataType: 'date' as const },
+        { key: 'createdAt', label: 'Created At', dataType: 'date' as const },
+        { key: 'updatedAt', label: 'Updated At', dataType: 'date' as const },
+      ]),
+    },
   ])
 }) satisfies PrintDetailFormat
