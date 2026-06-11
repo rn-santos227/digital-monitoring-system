@@ -6,3 +6,9 @@ export interface PrintTableFormat {
   columns: readonly DataTableColumn[]
 }
 
+export interface PrintDetailField {
+  key: string
+  label: string
+  dataType?: 'text' | 'date'
+}
+
