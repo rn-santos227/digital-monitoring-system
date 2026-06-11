@@ -122,6 +122,20 @@ export const EQUIPMENT_ITEM_DETAIL_PRINT_FORMAT = Object.freeze({
   documentTitle: 'Equipment Item Profile',
   filePrefix: 'equipment-item-profile',
   sections: Object.freeze([
-
+    {
+      title: 'Item Information',
+      fields: Object.freeze([
+        { key: 'equipmentCode', label: 'Equipment Code' },
+        { key: 'name', label: 'Item Name' },
+        { key: 'categoryName', label: 'Category' },
+        { key: 'description', label: 'Description' },
+        { key: 'unitOfMeasure', label: 'Unit of Measure' },
+        { key: 'minimumStockLevel', label: 'Minimum Stock Level' },
+        { key: 'isSerialized', label: 'Serialized' },
+        { key: 'isActive', label: 'Active' },
+        { key: 'createdAt', label: 'Created At', dataType: 'date' as const },
+        { key: 'updatedAt', label: 'Updated At', dataType: 'date' as const },
+      ]),
+    },
   ]),
 }) satisfies PrintDetailFormat
