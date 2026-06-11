@@ -33,6 +33,10 @@ export const PRINT_DATE_TIME_OPTIONS: Intl.DateTimeFormatOptions = Object.freeze
 
 export const PRINT_WINDOW_FEATURES = 'noopener,noreferrer'
 export const PRINT_CSV_MIME_TYPE = 'text/csv;charset=utf-8;'
+export const PRINT_GENERATED_AT_LABEL = 'Generated at:'
+export const PRINT_TOTAL_RECORDS_LABEL = 'Total records:'
+export const PRINT_NOT_AVAILABLE_LABEL = 'Not available'
+export const PRINT_FETCH_PAGE_SIZE = 100
 
 export const PERSONNEL_PRINT_DOCUMENT_STYLES = [
   'body { font-family: Arial, sans-serif; padding: 20px; color: #0f172a; }',
