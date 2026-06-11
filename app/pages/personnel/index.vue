@@ -62,7 +62,7 @@
             tone="danger"
           />
 
-          <div v-if="canCreatePersonnel" :class="PERSONNEL_TABLE_ACTIONS_ROW_CLASSES">
+          <div :class="PERSONNEL_TABLE_ACTIONS_ROW_CLASSES">
             <PrintDataListButton
               table-name="personnel"
               :table-label="PERSONNEL_PRINT_BUTTON_TABLE_LABEL"
@@ -70,12 +70,14 @@
               :get-print-data="handlePrintPersonnel"
               :disabled="isLoading"
             />
-            <BaseButton class="mx-2" variant="secondary" @click="isBatchUploadPersonnelModalOpen = true">
-              {{ PERSONNEL_BATCH_UPLOAD_BUTTON_LABEL }}
-            </BaseButton>
-            <BaseButton @click="openCreatePersonnelModal">
-              {{ PERSONNEL_CREATE_BUTTON_LABEL }}
-            </BaseButton>
+            <template v-if="canCreatePersonnel">
+              <BaseButton class="mx-2" variant="secondary" @click="isBatchUploadPersonnelModalOpen = true">
+                {{ PERSONNEL_BATCH_UPLOAD_BUTTON_LABEL }}
+              </BaseButton>
+              <BaseButton @click="openCreatePersonnelModal">
+                {{ PERSONNEL_CREATE_BUTTON_LABEL }}
+              </BaseButton>
+            </template>
           </div>
 
           <PersonnelFilter
@@ -201,16 +203,21 @@ import {
   useCreatePersonnelModalHandler,
   useDeletePersonnelHandler,
   useDeleteRankHandler,
+  usePersonnelBatchUploadHandler,
   usePersonnelPageHandlers,
+  usePersonnelTableActionHandler,
   usePrintPersonnelHandler,
+  useRankTableActionHandler,
   useRanksPageHandlers,
+  useSearchTermListHandlers,
   useUpdatePersonnelHandler,
+  useValidatedListHandlers,
   useViewPersonnelProfileHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 import type { CreateRankPayload } from '~/types/domain/rank'
-import type { PersonnelDetail, PersonnelSearchQuery, UpdatePersonnelPayload } from '~/types/domain/personnel'
+import type { PersonnelDetail } from '~/types/domain/personnel'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
 const { filters, tableRows, kpis, pagination, isLoading, error, loadPersonnel, createPersonnel, updatePersonnel, deletePersonnel, getPersonnelById, uploadPersonnelBatch } = usePersonnel()
@@ -274,6 +281,14 @@ const { onDeleteRank } = useDeleteRankHandler({
   showDialog,
   deleteRank,
 })
+const { handleBatchUploadPersonnel } = usePersonnelBatchUploadHandler({
+  isSubmitting: isBatchUploadSubmitting,
+  processedCount: batchProcessedCount,
+  totalCount: batchTotalCount,
+  isModalOpen: isBatchUploadPersonnelModalOpen,
+  uploadPersonnelBatch,
+  showDialog,
+})
 const visibleTabItems = computed(() => {
   return PERSONNEL_PAGE_TAB_ITEMS.filter((tabItem) => {
     const requiredPermissions = PERSONNEL_PAGE_TAB_REQUIRED_PERMISSIONS[tabItem.id as keyof typeof PERSONNEL_PAGE_TAB_REQUIRED_PERMISSIONS]
@@ -332,42 +347,28 @@ watch(canViewRanks, (hasAccess) => {
 
 const { handleRankTabChange } = useRanksPageHandlers(activeTab)
 
-const onTabChange = (nextTab: string) => {
-  handleRankTabChange(nextTab)
-}
+const onTabChange = handleRankTabChange
 
+const {
+  handleApplyFilters,
+  handleResetFilters,
+  handlePageChange,
+  handlePageSizeChange,
+} = useValidatedListHandlers({
+  filters,
+  validationErrors: filterValidationErrors,
+  applyFilters: handleFilterApply,
+  resetFilters: handleFilterReset,
+  loadPage: loadPersonnel,
+  onInvalid: () => showDialog({
+    type: 'error',
+    title: 'Invalid filter input',
+    message: 'Please correct the highlighted fields before applying filters.',
+    confirmLabel: 'OK',
+  }),
+})
 
-const handleApplyFilters = async (value: Partial<PersonnelSearchQuery>) => {
-  const { filters: queryFilters, errors, isValid } = handleFilterApply(value)
-  filterValidationErrors.value = errors
-
-  if (!isValid) {
-    await showDialog({
-      type: 'error',
-      title: 'Invalid filter input',
-      message: 'Please correct the highlighted fields before applying filters.',
-      confirmLabel: 'OK',
-    })
-
-    return
-  }
-
-  await loadPersonnel(1, queryFilters)
-}
-
-const handleResetFilters = async () => {
-  const queryFilters = handleFilterReset()
-  filterValidationErrors.value = {}
-  await loadPersonnel(1, queryFilters)
-}
-
-const handlePageChange = async (page: number) => {
-  await loadPersonnel(page)
-}
-
-const handlePrintPersonnel = async () => {
-  return await handleDownloadAndPrintPersonnel(filters.value)
-}
+const handlePrintPersonnel = () => handleDownloadAndPrintPersonnel(filters.value)
 
 const handleCreatePersonnel = createModalFeedbackHandler(createPersonnel, showDialog, {
   successTitle: 'Personnel created',
@@ -375,42 +376,6 @@ const handleCreatePersonnel = createModalFeedbackHandler(createPersonnel, showDi
   errorTitle: 'Personnel creation failed',
   errorMessage: 'Unable to create personnel record right now.',
 }, closeCreatePersonnelModal)
-
-const handleBatchUploadPersonnel = async (payload: { file: File, employmentStatusId: string, serviceStatusId: string }) => {
-  isBatchUploadSubmitting.value = true
-  batchProcessedCount.value = 0
-  batchTotalCount.value = 0
-
-  try {
-    const response = await uploadPersonnelBatch(
-      payload.file,
-      payload.employmentStatusId,
-      payload.serviceStatusId,
-      (processedCount, totalCount) => {
-        batchProcessedCount.value = processedCount
-        batchTotalCount.value = totalCount
-      },
-    )
-
-    isBatchUploadPersonnelModalOpen.value = false
-    await showDialog({
-      type: 'success',
-      title: 'Batch upload complete',
-      message: `${response.insertedCount} of ${response.totalCount} personnel records were inserted successfully.`,
-      confirmLabel: 'Close',
-      cancelLabel: 'Dismiss',
-    })
-  } catch {
-    await showDialog({
-      type: 'error',
-      title: 'Personnel batch upload failed',
-      message: 'Unable to upload personnel batch right now.',
-      confirmLabel: 'OK',
-    })
-  } finally {
-    isBatchUploadSubmitting.value = false
-  }
-}
 
 const { closeUpdatePersonnelModal, onEditPersonnelAction, onUpdatePersonnel } = useUpdatePersonnelHandler({
   selectedPersonnel,
@@ -421,42 +386,21 @@ const { closeUpdatePersonnelModal, onEditPersonnelAction, onUpdatePersonnel } = 
   addToast,
 })
 
-const handleUpdatePersonnel = async (payload: UpdatePersonnelPayload) => {
-  await onUpdatePersonnel(payload)
-}
+const handleUpdatePersonnel = onUpdatePersonnel
+const { handleTableAction } = usePersonnelTableActionHandler({
+  handleViewPersonnelProfile,
+  onEditPersonnelAction,
+  onDeletePersonnel,
+})
 
-const handleTableAction = async (payload: { actionKey: string; row: { id: string } }) => {
-  if (payload.actionKey === 'view-personnel-profile') {
-    await handleViewPersonnelProfile(payload.row.id)
-    return
-  }
-
-  if (payload.actionKey === 'edit-personnel') {
-    await onEditPersonnelAction(payload.row.id)
-    return
-  }
-
-  if (payload.actionKey === 'delete-personnel') {
-    await onDeletePersonnel(payload.row.id)
-  }
-}
-
-const onRankSearchTermChange = async (value: string | number) => {
-  const searchTerm = String(value ?? '')
-  await loadRanks(1, searchTerm)
-}
-
-const onRankPageChange = async (page: number) => {
-  await loadRanks(page, rankSearchTerm.value)
-}
-
-const handlePageSizeChange = async (nextPageSize: number) => {
-  await loadPersonnel(1, filters.value, nextPageSize)
-}
-
-const onRankPageSizeChange = async (nextPageSize: number) => {
-  await loadRanks(1, rankSearchTerm.value, nextPageSize)
-}
+const {
+  handleSearchTermChange: onRankSearchTermChange,
+  handlePageChange: onRankPageChange,
+  handlePageSizeChange: onRankPageSizeChange,
+} = useSearchTermListHandlers({
+  searchTerm: rankSearchTerm,
+  loadPage: loadRanks,
+})
 
 const handleCreateRank = createModalFeedbackHandler(async (payload: CreateRankPayload) => {
   await createRank(payload)
@@ -469,10 +413,5 @@ const handleCreateRank = createModalFeedbackHandler(async (payload: CreateRankPa
   isCreateRankModalOpen.value = false
 })
 
-const onRankTableAction = async (payload: { actionKey: string; row: { id: string } }) => {
-  if (payload.actionKey !== 'delete-rank') {
-    return
-  }
-  await onDeleteRank(payload.row.id)
-}
+const { onRankTableAction } = useRankTableActionHandler(onDeleteRank)
 </script>
