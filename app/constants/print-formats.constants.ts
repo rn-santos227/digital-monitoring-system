@@ -88,6 +88,20 @@ export const TABLE_PRINT_FORMATS = Object.freeze({
 export const PERSONNEL_DETAIL_PRINT_FORMAT = Object.freeze({
   documentTitle: 'Personnel Profile',
   filePrefix: 'personnel-profile',
+  sections: Object.freeze([
+    {
+      title: 'Service Information',
+      fields: Object.freeze([
+        { key: 'personnelCode', label: 'Personnel Code' },
+        { key: 'serviceNumber', label: 'Serial Number' },
+        { key: 'rankName', label: 'Rank' },
+        { key: 'position', label: 'Position' },
+        { key: 'companyName', label: 'Company' },
+        { key: 'battalionName', label: 'Battalion' },
+        { key: 'serviceStatus', label: 'Service Status' },
+        { key: 'employmentStatus', label: 'Employment Status' },
+      ]),
+    },
 
-
+  ])
 }) satisfies PrintDetailFormat
