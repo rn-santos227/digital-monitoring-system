@@ -223,7 +223,9 @@ import {
   useDeleteTrainingCategoryHandler,
   useDeleteTrainingHandler,
   useDeleteTrainingRecordHandler,
+  useValidatedListHandlers,
   useTrainingManagementPageHandlers,
+  useTrainingPageActionHandlers,
   useUpdateTrainingCategoryHandler,
   useUpdateTrainingHandler,
   useUpdateTrainingRecordHandler,
@@ -345,6 +347,46 @@ const trainingRecordFilterValidationErrors = ref<FieldValidationMap>({})
 const trainingFilterValidationErrors = ref<FieldValidationMap>({})
 const categoryFilterValidationErrors = ref<FieldValidationMap>({})
 
+const {
+  handleApplyFilters: handleApplyTrainingRecordFilters,
+  handleResetFilters: handleResetTrainingRecordFilters,
+  handlePageChange: onTrainingRecordsPageChange,
+  handlePageSizeChange: onTrainingRecordsPageSizeChange,
+} = useValidatedListHandlers({
+  filters: trainingRecordsFilters,
+  validationErrors: trainingRecordFilterValidationErrors,
+  applyFilters: handleRecordsFilterApply,
+  resetFilters: handleRecordsFilterReset,
+  loadPage: loadTrainingRecords,
+  getPageSize: () => trainingRecordsPagination.value.pageSize,
+})
+
+const {
+  handleApplyFilters: handleApplyTrainingFilters,
+  handleResetFilters: handleResetTrainingFilters,
+  handlePageChange: onTrainingPageChange,
+  handlePageSizeChange: onTrainingPageSizeChange,
+} = useValidatedListHandlers({
+  filters: trainingFilters,
+  validationErrors: trainingFilterValidationErrors,
+  applyFilters: handleTrainingFilterApply,
+  resetFilters: handleTrainingFilterReset,
+  loadPage: loadTrainings,
+})
+
+const {
+  handleApplyFilters: handleApplyCategoryFilters,
+  handleResetFilters: handleResetCategoryFilters,
+  handlePageChange: onCategoryPageChange,
+  handlePageSizeChange: onCategoryPageSizeChange,
+} = useValidatedListHandlers({
+  filters: categoryFilters,
+  validationErrors: categoryFilterValidationErrors,
+  applyFilters: handleCategoryFilterApply,
+  resetFilters: handleCategoryFilterReset,
+  loadPage: loadTrainingCategories,
+})
+
 const visibleTabItems = computed(() => {
   return TRAINING_PAGE_TAB_ITEMS.filter((tabItem) => {
     const requiredPermissions = TRAINING_PAGE_TAB_REQUIRED_PERMISSIONS[tabItem.id as keyof typeof TRAINING_PAGE_TAB_REQUIRED_PERMISSIONS]
@@ -385,100 +427,7 @@ const createButtonLabel = computed(() => {
   return TRAININGS_CREATE_BUTTON_LABEL
 })
 
-const onCreateActionClick = () => {
-  if (activeTab.value === 'records') {
-    onOpenCreateTrainingRecordModal()
-    return
-  }
-
-  if (activeTab.value === 'categories') {
-    onOpenCreateTrainingCategoryModal()
-    return
-  }
-
-  if (activeTab.value === 'trainings') {
-    onOpenCreateTrainingModal()
-  }
-}
-
-const onTabChange = (nextTab: string) => {
-  handleTabChange(nextTab)
-}
-
-const handleApplyTrainingRecordFilters = async (value: typeof trainingRecordsFilters.value) => {
-  const { filters, errors, isValid } = handleRecordsFilterApply(value)
-  trainingRecordFilterValidationErrors.value = errors
-
-  if (!isValid) {
-    return
-  }
-
-  await loadTrainingRecords(1, filters)
-}
-
-const handleResetTrainingRecordFilters = async () => {
-  trainingRecordFilterValidationErrors.value = {}
-  const filters = handleRecordsFilterReset()
-  await loadTrainingRecords(1, filters)
-}
-
-const handleApplyTrainingFilters = async (value: typeof trainingFilters.value) => {
-  const { filters, errors, isValid } = handleTrainingFilterApply(value)
-  trainingFilterValidationErrors.value = errors
-
-  if (!isValid) {
-    return
-  }
-
-  await loadTrainings(1, filters)
-}
-
-const handleResetTrainingFilters = async () => {
-  trainingFilterValidationErrors.value = {}
-  const filters = handleTrainingFilterReset()
-  await loadTrainings(1, filters)
-}
-
-const handleApplyCategoryFilters = async (value: typeof categoryFilters.value) => {
-  const { filters, errors, isValid } = handleCategoryFilterApply(value)
-  categoryFilterValidationErrors.value = errors
-
-  if (!isValid) {
-    return
-  }
-
-  await loadTrainingCategories(1, filters)
-}
-
-const handleResetCategoryFilters = async () => {
-  categoryFilterValidationErrors.value = {}
-  const filters = handleCategoryFilterReset()
-  await loadTrainingCategories(1, filters)
-}
-
-const onTrainingRecordsPageChange = (nextPage: number) => {
-  void loadTrainingRecords(nextPage, trainingRecordsFilters.value, trainingRecordsPagination.value.pageSize)
-}
-
-const onTrainingRecordsPageSizeChange = (nextPageSize: number) => {
-  void loadTrainingRecords(1, trainingRecordsFilters.value, nextPageSize)
-}
-
-const onTrainingPageChange = (nextPage: number) => {
-  void loadTrainings(nextPage, trainingFilters.value)
-}
-
-const onTrainingPageSizeChange = (nextPageSize: number) => {
-  void loadTrainings(1, trainingFilters.value, nextPageSize)
-}
-
-const onCategoryPageChange = (nextPage: number) => {
-  void loadTrainingCategories(nextPage, categoryFilters.value)
-}
-
-const onCategoryPageSizeChange = (nextPageSize: number) => {
-  void loadTrainingCategories(1, categoryFilters.value, nextPageSize)
-}
+const onTabChange = handleTabChange
 
 const {
   closeUpdateTrainingRecordModal,
@@ -566,65 +515,28 @@ const { onDeleteTrainingCategory } = useDeleteTrainingCategoryHandler({
   }),
 })
 
-const onTrainingRecordTableAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
-  const rowId = String(payload.row.id ?? '')
-  if (!rowId) return
-  const selectedRecord = records.value.find((item) => item.id === rowId) ?? null
-  if (payload.actionKey === 'view-training-record') {
-    if (!selectedRecord) return
-    selectedTrainingRecord.value = selectedRecord
-    isViewTrainingRecordModalOpen.value = true
-    return
-  }
-  if (payload.actionKey === 'edit-training-record') { if (!selectedRecord) return; onOpenUpdateTrainingRecordModal(selectedRecord); return }
-  if (payload.actionKey === 'delete-training-record') { await onDeleteTrainingRecord(rowId) }
-}
-
-const onTrainingTableAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
-  const rowId = String(payload.row.id ?? '')
-  if (!rowId) {
-    return
-  }
-
-  if (payload.actionKey === 'view-training') {
-    await onViewTraining(rowId)
-    return
-  }
-
-  if (payload.actionKey === 'edit-training') {
-    await onOpenUpdateTrainingModal(rowId)
-    return
-  }
-
-  if (payload.actionKey !== 'delete-training') {
-    return
-  }
-
-  await onDeleteTraining(rowId)
-}
-
-const onCategoryTableAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
-  const rowId = String(payload.row.id ?? '')
-  if (!rowId) {
-    return
-  }
-
-  if (payload.actionKey === 'edit-training-category') {
-    await onOpenUpdateTrainingCategoryModal(rowId)
-    return
-  }
-
-  if (payload.actionKey !== 'delete-training-category') {
-    return
-  }
-
-  await onDeleteTrainingCategory(rowId)
-}
-
-const closeViewTrainingRecordModal = () => {
-  isViewTrainingRecordModalOpen.value = false
-  selectedTrainingRecord.value = null
-}
+const {
+  onCreateActionClick,
+  onTrainingRecordTableAction,
+  onTrainingTableAction,
+  onCategoryTableAction,
+  closeViewTrainingRecordModal,
+} = useTrainingPageActionHandlers({
+  activeTab,
+  records,
+  selectedTrainingRecord,
+  isViewTrainingRecordModalOpen,
+  onOpenCreateTrainingRecordModal,
+  onOpenCreateTrainingCategoryModal,
+  onOpenCreateTrainingModal,
+  onOpenUpdateTrainingRecordModal,
+  onDeleteTrainingRecord,
+  onViewTraining,
+  onOpenUpdateTrainingModal,
+  onDeleteTraining,
+  onOpenUpdateTrainingCategoryModal,
+  onDeleteTrainingCategory,
+})
 
 const onCreateTrainingWithFeedback = createModalFeedbackHandler(onCreateTraining, showDialog, {
   successTitle: 'Training created',
