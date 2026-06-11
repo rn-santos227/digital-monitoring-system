@@ -38,13 +38,19 @@ export const PRINT_TOTAL_RECORDS_LABEL = 'Total records:'
 export const PRINT_NOT_AVAILABLE_LABEL = 'Not available'
 export const PRINT_FETCH_PAGE_SIZE = 100
 
-export const PERSONNEL_PRINT_DOCUMENT_STYLES = [
+export const PRINT_DOCUMENT_STYLES = [
+  '@page { size: landscape; margin: 12mm; }',
   'body { font-family: Arial, sans-serif; padding: 20px; color: #0f172a; }',
   'h1 { margin: 0 0 8px; font-size: 20px; }',
+  'h2 { margin: 22px 0 8px; font-size: 15px; }',
   'p { margin: 0 0 16px; font-size: 12px; color: #475569; }',
-  'table { width: 100%; border-collapse: collapse; font-size: 12px; }',
-  'th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; vertical-align: top; }',
+  'table { width: 100%; border-collapse: collapse; font-size: 10px; }',
+  'th, td { border: 1px solid #cbd5e1; padding: 6px; text-align: left; vertical-align: top; }',
   'th { background: #f1f5f9; }',
+  'dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border: 1px solid #cbd5e1; }',
+  'dl div { padding: 8px; border-bottom: 1px solid #cbd5e1; }',
+  'dt { color: #475569; font-size: 10px; font-weight: 700; text-transform: uppercase; }',
+  'dd { margin: 4px 0 0; font-size: 12px; }',
 ].join(' ')
 
 export const PERSONNEL_PRINT_GENERATED_AT_LABEL = 'Generated at:'
