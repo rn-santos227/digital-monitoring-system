@@ -195,13 +195,15 @@ import {
   useCreateDeploymentRecordHandler,
   useDeleteDeploymentRecordHandler,
   useDeploymentManagementPageHandlers,
+  useDeploymentTableActionHandlers,
   useUpdateDeploymentHandler,
   useUpdateDeploymentRecordHandler,
+  useValidatedListHandlers,
   useViewDeploymentHandler,
   useViewDeploymentRecordHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
-import type { DeploymentManagementListItem, DeploymentManagementTabId, UpdateDeploymentRecordPayload } from '~/types/domain/deployment'
+import type { DeploymentManagementListItem, DeploymentManagementTabId } from '~/types/domain/deployment'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
 const activeTab = ref<DeploymentManagementTabId>('deployments')
@@ -261,7 +263,13 @@ const {
   handleTabChange,
   handleDeploymentFilterApply,
   handleDeploymentFilterReset,
-} = useDeploymentManagementPageHandlers(activeTab, deploymentsFilters)
+  handleDeploymentRecordFilterApply,
+  handleDeploymentRecordFilterReset,
+} = useDeploymentManagementPageHandlers(
+  activeTab,
+  deploymentsFilters,
+  deploymentRecordsFilters,
+)
 const isCreateDeploymentModalOpen = ref(false)
 const {
   onOpenCreateDeploymentModal,
@@ -322,12 +330,16 @@ const {
 
 const {
   onCloseUpdateDeploymentRecordModal,
+  onCloseUpdateDeploymentRecordLocationModal,
   selectedDeploymentRecordFormValues,
   onSubmitUpdateDeploymentRecord,
+  onSubmitUpdateDeploymentRecordLocation,
 } = useUpdateDeploymentRecordHandler({
   isUpdateDeploymentRecordModalOpen,
+  isUpdateDeploymentRecordLocationModalOpen,
   selectedDeploymentRecord,
   updateDeploymentRecord,
+  updateDeploymentRecordLocation,
   showDialog,
   errorMessage: deploymentRecordErrorMessage,
 })
@@ -336,31 +348,6 @@ const { onDeleteDeploymentRecord } = useDeleteDeploymentRecordHandler({
   showDialog,
   deleteDeploymentRecord,
 })
-
-const onCloseUpdateDeploymentRecordLocationModal = () => {
-  isUpdateDeploymentRecordLocationModalOpen.value = false
-  selectedDeploymentRecord.value = null
-}
-
-const onSubmitUpdateDeploymentRecordLocation = async (payload: UpdateDeploymentRecordPayload) => {
-  deploymentRecordErrorMessage.value = ''
-  const id = selectedDeploymentRecord.value?.id
-  if (!id) {
-    return
-  }
-
-  try {
-    await updateDeploymentRecordLocation(String(id), payload)
-    onCloseUpdateDeploymentRecordLocationModal()
-  } catch (error) {
-    deploymentRecordErrorMessage.value = await showErrorDialog({
-      showDialog,
-      title: 'Deployment record location update failed',
-      error,
-      fallbackMessage: 'Unable to update deployment record location right now.',
-    })
-  }
-}
 
 const visibleTabItems = computed(() => {
   return DEPLOYMENTS_PAGE_TAB_ITEMS.filter((tabItem) => {
@@ -377,118 +364,52 @@ const showCreateButton = computed(() => {
   return authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.create)
 })
 
+const {
+  handleApplyFilters: onApplyDeploymentsFilter,
+  handleResetFilters: onResetDeploymentsFilter,
+  handlePageChange: onDeploymentsPageChange,
+  handlePageSizeChange: onDeploymentsPageSizeChange,
+} = useValidatedListHandlers({
+  filters: deploymentsFilters,
+  validationErrors: deploymentFilterValidationErrors,
+  applyFilters: handleDeploymentFilterApply,
+  resetFilters: handleDeploymentFilterReset,
+  loadPage: loadDeployments,
+  getPageSize: () => deploymentsPagination.value.pageSize,
+})
 
-const onApplyDeploymentRecordsFilter = async (value: Partial<{ term?: string; fields?: string }>) => {
-  const result = handleDeploymentFilterApply(value)
-  deploymentRecordsFilterValidationErrors.value = result.errors
-  if (!result.isValid) {
-    return
-  }
+const {
+  handleApplyFilters: onApplyDeploymentRecordsFilter,
+  handleResetFilters: onResetDeploymentRecordsFilter,
+  handlePageChange: onDeploymentRecordsPageChange,
+  handlePageSizeChange: onDeploymentRecordsPageSizeChange,
+} = useValidatedListHandlers({
+  filters: deploymentRecordsFilters,
+  validationErrors: deploymentRecordsFilterValidationErrors,
+  applyFilters: handleDeploymentRecordFilterApply,
+  resetFilters: handleDeploymentRecordFilterReset,
+  loadPage: loadDeploymentRecords,
+  getPageSize: () => deploymentRecordsPagination.value.pageSize,
+})
 
-  await loadDeploymentRecords(1, result.filters)
-}
-
-const onResetDeploymentRecordsFilter = async () => {
-  deploymentRecordsFilterValidationErrors.value = {}
-  await loadDeploymentRecords(1, {})
-}
-
-const onApplyDeploymentsFilter = async (value: Partial<{ term?: string; fields?: string }>) => {
-  const result = handleDeploymentFilterApply(value)
-  deploymentFilterValidationErrors.value = result.errors
-  if (!result.isValid) {
-    return
-  }
-
-  await loadDeployments(1, result.filters)
-}
-
-const onResetDeploymentsFilter = async () => {
-  deploymentFilterValidationErrors.value = {}
-  const resetFilters = handleDeploymentFilterReset()
-  await loadDeployments(1, resetFilters)
-}
-
-const onDeploymentsPageChange = async (page: number) => {
-  await loadDeployments(page, deploymentsFilters.value, deploymentsPagination.value.pageSize)
-}
-
-const onDeploymentsPageSizeChange = async (pageSize: number) => {
-  await loadDeployments(1, deploymentsFilters.value, pageSize)
-}
-
-const onDeploymentRecordsPageChange = async (page: number) => {
-  await loadDeploymentRecords(page)
-}
-
-const onDeploymentRecordsPageSizeChange = async (pageSize: number) => {
-  await loadDeploymentRecords(1, {}, pageSize)
-}
-
-const onDeploymentRecordsTableAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
-  if (payload.actionKey === 'view-deployment-record') {
-    const id = String(payload.row.id ?? '')
-    if (!id) {
-      return
-    }
-
-    await onViewDeploymentRecordAction(payload.row)
-    return
-  }
-
-  if (payload.actionKey === 'edit-deployment-record') {
-    const id = String(payload.row.id ?? '')
-    if (!id) {
-      return
-    }
-
-    selectedDeploymentRecord.value = await getDeploymentRecordById(id)
-    isUpdateDeploymentRecordModalOpen.value = true
-    return
-  }
-
-  if (payload.actionKey === 'delete-deployment-record') {
-    return
-  }
-
-  if (payload.actionKey === 'edit-deployment-record-location') {
-    const id = String(payload.row.id ?? '')
-    if (!id) {
-      return
-    }
-
-    selectedDeploymentRecord.value = await getDeploymentRecordById(id)
-    isUpdateDeploymentRecordLocationModalOpen.value = true
-  }
-}
-
-const onDeploymentsTableAction = async (payload: { actionKey: string; row: Record<string, unknown> }) => {
-  if (payload.actionKey === 'view-deployment') {
-    isUpdateDeploymentDetailModalOpen.value = false
-    isUpdateDeploymentLocationModalOpen.value = false
-    await onViewDeploymentAction(payload.row as unknown as DeploymentManagementListItem)
-    return
-  }
-
-  if (payload.actionKey === 'edit-deployment-details') {
-    isUpdateDeploymentLocationModalOpen.value = false
-    isViewDeploymentModalOpen.value = false
-    await onOpenUpdateDeploymentModal(payload.row)
-    return
-  }
-
-  if (payload.actionKey === 'edit-deployment-location') {
-    selectedDeployment.value = await getDeploymentById(String(payload.row.id ?? ''))
-    isUpdateDeploymentDetailModalOpen.value = false
-    isViewDeploymentModalOpen.value = false
-    isUpdateDeploymentLocationModalOpen.value = true
-    return
-  }
-
-  if (payload.actionKey === 'delete-deployment') {
-    await onDeleteDeployment(payload.row)
-  }
-}
+const {
+  onDeploymentRecordsTableAction,
+  onDeploymentsTableAction,
+} = useDeploymentTableActionHandlers({
+  selectedDeployment,
+  selectedDeploymentRecord,
+  isUpdateDeploymentDetailModalOpen,
+  isUpdateDeploymentLocationModalOpen,
+  isViewDeploymentModalOpen,
+  isUpdateDeploymentRecordModalOpen,
+  isUpdateDeploymentRecordLocationModalOpen,
+  getDeploymentById,
+  getDeploymentRecordById,
+  onViewDeploymentAction,
+  onViewDeploymentRecordAction,
+  onOpenUpdateDeploymentModal,
+  onDeleteDeployment,
+})
 
 watch(activeTab, async (tab) => {
   if (!authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.manage)) {
