@@ -155,11 +155,14 @@ import {
   useDeleteEngagementHandler,
   useDeleteEngagementRecordHandler,
   useEngagementManagementPageHandlers,
+  useEngagementTableActionHandlers,
+  useEngagementTabHandler,
   useUpdateEngagementHandler,
   useUpdateEngagementRecordHandler,
   useViewEngagementHandler,
   useViewEngagementRecordHandler,
 } from '~/handlers/engagements'
+import { useValidatedListHandlers } from '~/handlers/shared'
 import { useAuthStore } from '~/stores/auth'
 import { useEngagementsStore } from '~/stores/engagements'
 import {
@@ -172,15 +175,17 @@ import {
 } from '~/constants/page.constants'
 import { ENGAGEMENT_PRIVILEGES } from '~/constants/privileges.constants'
 import { APP_MAIN_CONTENT_CLASSES, DEPLOYMENTS_PAGE_HEADER_CLASSES, TRAINING_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
-import type { EngagementManagementListItem } from '~/types/domain/engagement'
+import type {
+  EngagementManagementListItem,
+  EngagementManagementSearchQuery,
+  EngagementRecordsTabId,
+} from '~/types/domain/engagement'
 import type { FieldValidationMap } from '~/utils/field-validation'
-
-type EngagementRecordsTabId = 'records' | 'engagements'
 
 const activeTab = ref<EngagementRecordsTabId>('engagements')
 const hasLoadedPageData = ref(false)
-const engagementsFilters = ref({})
-const engagementRecordsFilters = ref({})
+const engagementsFilters = ref<Partial<EngagementManagementSearchQuery>>({})
+const engagementRecordsFilters = ref<Partial<EngagementManagementSearchQuery>>({})
 const engagementsFilterValidationErrors = ref<FieldValidationMap>({})
 const engagementRecordsFilterValidationErrors = ref<FieldValidationMap>({})
 const isCreateEngagementModalOpen = ref(false)
@@ -271,6 +276,32 @@ const loadEngagementRecords = async (page = 1, pageSize?: number) => {
 }
 
 const {
+  handleApplyFilters: onApplyEngagementsFilter,
+  handleResetFilters: onResetEngagementsFilter,
+  handlePageChange: onEngagementsPageChange,
+  handlePageSizeChange: onEngagementsPageSizeChange,
+} = useValidatedListHandlers({
+  filters: engagementsFilters,
+  validationErrors: engagementsFilterValidationErrors,
+  applyFilters: handleEngagementsFilterApply,
+  resetFilters: handleEngagementsFilterReset,
+  loadPage: (page = 1, _filters, pageSize) => loadEngagements(page, pageSize),
+})
+
+const {
+  handleApplyFilters: onApplyEngagementRecordsFilter,
+  handleResetFilters: onResetEngagementRecordsFilter,
+  handlePageChange: onEngagementRecordsPageChange,
+  handlePageSizeChange: onEngagementRecordsPageSizeChange,
+} = useValidatedListHandlers({
+  filters: engagementRecordsFilters,
+  validationErrors: engagementRecordsFilterValidationErrors,
+  applyFilters: handleEngagementRecordsFilterApply,
+  resetFilters: handleEngagementRecordsFilterReset,
+  loadPage: (page = 1, _filters, pageSize) => loadEngagementRecords(page, pageSize),
+})
+
+const {
   onOpenCreateEngagementModal,
   onCloseCreateEngagementModal,
   onSubmitCreateEngagement,
@@ -346,49 +377,19 @@ const {
   showDialog,
 })
 
-const onEngagementAction = async ({ actionKey, row }: { actionKey: string; row: Record<string, unknown> }) => {
-  const id = String(row.id ?? '')
+const {
+  onEngagementAction,
+  onEngagementRecordAction,
+} = useEngagementTableActionHandlers({
+  onOpenViewEngagementModal,
+  onOpenUpdateEngagementModal,
+  onDeleteEngagement,
+  onOpenViewEngagementRecordModal,
+  onOpenUpdateEngagementRecordModal,
+  onDeleteEngagementRecord,
+})
 
-  if (!id) {
-    return
-  }
-
-  if (actionKey === 'view-engagement') {
-    await onOpenViewEngagementModal(id)
-    return
-  }
-
-  if (actionKey === 'edit-engagement') {
-    await onOpenUpdateEngagementModal(id)
-    return
-  }
-
-  if (actionKey === 'delete-engagement') {
-    await onDeleteEngagement(id)
-  }
-}
-
-const onEngagementRecordAction = async ({ actionKey, row }: { actionKey: string; row: Record<string, unknown> }) => {
-  const id = String(row.id ?? '')
-
-  if (!id) {
-    return
-  }
-
-  if (actionKey === 'view-engagement-record') {
-    await onOpenViewEngagementRecordModal(id)
-    return
-  }
-
-  if (actionKey === 'edit-engagement-record') {
-    await onOpenUpdateEngagementRecordModal(id)
-    return
-  }
-
-  if (actionKey === 'delete-engagement-record') {
-    await onDeleteEngagementRecord(id)
-  }
-}
+const { handleTabChange } = useEngagementTabHandler(activeTab)
 
 watch(visibleTabItems, (tabs) => {
   const firstTabId = tabs[0]?.id
@@ -423,56 +424,4 @@ watch(visibleTabItems, async (tabs) => {
   hasLoadedPageData.value = true
 }, { immediate: true })
 
-const handleTabChange = (tabId: string) => {
-  activeTab.value = tabId as EngagementRecordsTabId
-}
-
-const onApplyEngagementsFilter = async () => {
-  const result = handleEngagementsFilterApply(engagementsFilters.value)
-  engagementsFilterValidationErrors.value = result.errors
-  if (!result.isValid) {
-    return
-  }
-
-  await loadEngagements(1)
-}
-
-const onResetEngagementsFilter = async () => {
-  handleEngagementsFilterReset()
-  engagementsFilterValidationErrors.value = {}
-  await loadEngagements(1)
-}
-
-const onApplyEngagementRecordsFilter = async () => {
-  const result = handleEngagementRecordsFilterApply(engagementRecordsFilters.value)
-  engagementRecordsFilterValidationErrors.value = result.errors
-
-  if (!result.isValid) {
-    return
-  }
-
-  await loadEngagementRecords(1)
-}
-
-const onResetEngagementRecordsFilter = async () => {
-  handleEngagementRecordsFilterReset()
-  engagementRecordsFilterValidationErrors.value = {}
-  await loadEngagementRecords(1)
-}
-
-const onEngagementsPageChange = async (page: number) => {
-  await loadEngagements(page)
-}
-
-const onEngagementsPageSizeChange = async (pageSize: number) => {
-  await loadEngagements(1, pageSize)
-}
-
-const onEngagementRecordsPageChange = async (page: number) => {
-  await loadEngagementRecords(page)
-}
-
-const onEngagementRecordsPageSizeChange = async (pageSize: number) => {
-  await loadEngagementRecords(1, pageSize)
-}
 </script>
