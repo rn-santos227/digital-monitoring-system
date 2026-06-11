@@ -22,5 +22,9 @@ const escapeHtml = (value: string): string => {
 const getRecordValue = (item: object, key: string): unknown => Reflect.get(item, key)
 
 const formatPrintValue = (value: unknown, column?: Pick<DataTableColumn, 'dataType'>): string => {
+  if (value === null || value === undefined || value === '') {
+    return PRINT_NOT_AVAILABLE_LABEL
+  }
+
 
 }
