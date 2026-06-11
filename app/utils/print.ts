@@ -36,4 +36,10 @@ const formatPrintValue = (value: unknown, column?: Pick<DataTableColumn, 'dataTy
   if (typeof value === 'boolean') {
     return value ? 'Yes' : 'No'
   }
+
+  if (Array.isArray(value)) {
+    return value.map((entry) => formatPrintValue(entry)).join(', ')
+  }
+
+  return String(value)
 }
