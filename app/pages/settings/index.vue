@@ -91,12 +91,9 @@ const {
   toUpdatePayload,
   updateApplicationSettings,
 } = useApplicationSettings()
-const { dangerMessage, errorMessage, infoMessage, onUpdateSettings, validationError } = useUpdateSettingsHandler({
+const { dangerMessage, errorMessage, infoMessage, onSubmit, validationError } = useUpdateSettingsHandler({
   canUpdate,
+  toUpdatePayload,
   updateApplicationSettings,
 })
-
-const onSubmit = async () => {
-  await onUpdateSettings(toUpdatePayload())
-}
 </script>
