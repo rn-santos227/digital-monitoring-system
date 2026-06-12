@@ -8,6 +8,9 @@ import { createDetailPrintHandler } from '~/handlers/shared/print.handler'
 
 export const usePrintPersonnelHandler = () => {
   const fetchAllPersonnelForPrint = async (filters: Partial<PersonnelSearchQuery>): Promise<PersonnelListCompactItem[]> => {
+    const fetchedItems: PersonnelListCompactItem[] = []
+    let currentPage = 1
+    let totalPages = 1
 
 
   }
