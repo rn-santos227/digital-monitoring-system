@@ -136,6 +136,15 @@ export const printDetailRecord = <TItem extends object>(
       </dl>
     </section>
   `).join('')
+
+  const csvRows = format.sections.flatMap((section) => [
+    [section.title, ''],
+    ...section.fields.map((field) => [
+      field.label,
+      formatPrintValue(getRecordValue(item, field.key), field),
+    ]),
+  ])
+
   downloadCsvFile([['Field', 'Value'], ...csvRows], format.filePrefix)
   openPrintDocument(html)
   return item
