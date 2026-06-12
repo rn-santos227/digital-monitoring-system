@@ -33,6 +33,14 @@
       />
 
       <template v-if="activeTab === 'records'">
+        <div class="flex justify-end">
+          <PrintDataListButton
+            table-name="engagement_records"
+            table-label="Engagement Records"
+            :get-print-data="() => printEngagementRecords(engagementRecordRows)"
+          />
+        </div>
+
         <div v-if="authStore.hasPermissionAccess(ENGAGEMENT_PRIVILEGES.create)" :class="TRAINING_TABLE_ACTIONS_ROW_CLASSES">
           <BaseButton @click="isCreateEngagementRecordModalOpen = true">Create Engagement Record</BaseButton>
         </div>
@@ -59,6 +67,14 @@
       </template>
 
       <template v-else>
+        <div class="flex justify-end">
+          <PrintDataListButton
+            table-name="engagements"
+            table-label="Engagements"
+            :get-print-data="() => printEngagements(engagementRows)"
+          />
+        </div>
+
         <div v-if="authStore.hasPermissionAccess(ENGAGEMENT_PRIVILEGES.create)" :class="TRAINING_TABLE_ACTIONS_ROW_CLASSES">
           <BaseButton @click="onOpenCreateEngagementModal">Create Engagement</BaseButton>
         </div>
@@ -147,6 +163,7 @@ import UpdateEngagementModal from '~/components/engagements/UpdateEngagementModa
 import UpdateEngagementRecordModal from '~/components/engagements/UpdateEngagementRecordModal.vue'
 import ViewEngagementModal from '~/components/engagements/ViewEngagementModal.vue'
 import ViewEngagementRecordModal from '~/components/engagements/ViewEngagementRecordModal.vue'
+import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import { useDialog } from '~/composables/useDialog'
 import { useEngagements } from '~/composables/useEngagements'
 import {
@@ -161,6 +178,7 @@ import {
   useUpdateEngagementRecordHandler,
   useViewEngagementHandler,
   useViewEngagementRecordHandler,
+  usePrintEngagementsHandler,
 } from '~/handlers/engagements'
 import { useValidatedListHandlers } from '~/handlers/shared'
 import { useAuthStore } from '~/stores/auth'
@@ -200,6 +218,7 @@ const updateEngagementRecordErrorMessage = ref('')
 const selectedEngagement = ref<EngagementManagementListItem | null>(null)
 const selectedEngagementRecord = ref<EngagementManagementListItem | null>(null)
 const engagementPersonnelRows = ref<Record<string, unknown>[]>([])
+const { printEngagementRecords, printEngagements } = usePrintEngagementsHandler()
 
 const authStore = useAuthStore()
 const engagementsStore = useEngagementsStore()
