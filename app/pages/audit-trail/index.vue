@@ -13,6 +13,14 @@
         @reset="handleResetFilters"
       />
 
+      <div class="flex justify-end">
+        <PrintDataListButton
+          table-name="audit_logs"
+          table-label="Audit Logs"
+          :get-print-data="() => printAuditLogs(tableRows)"
+        />
+      </div>
+
       <AuditTable
         :rows="tableRows"
         row-key="id"
@@ -44,6 +52,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import AuditFilter from '~/components/audit/AuditFilter.vue'
 import AuditTable from '~/components/audit/AuditTable.vue'
 import type { FieldValidationMap } from '~/utils/field-validation'
@@ -56,12 +65,15 @@ import {
   AUDIT_TABLE_EMPTY_MESSAGE,
 } from '~/constants/table.constants'
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
+import { usePrintAuditHandler } from '~/handlers/audit'
 import {
   useAuditFilterListHandlers,
   useAuditTrailPageHandlers,
 } from '~/handlers'
 import { useAuditTrail } from '~/composables/useAuditTrail'
 import { useDialog } from '~/composables/useDialog'
+
+const { printAuditLogs } = usePrintAuditHandler()
 
 const {
   searchQuery,
