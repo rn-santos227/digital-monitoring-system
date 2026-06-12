@@ -23,6 +23,10 @@ export const usePrintPersonnelHandler = () => {
       const response = requestQuery.term
         ? await searchPersonnelEndpoint(requestQuery)
         : await getPersonnelEndpoint(requestQuery)
+
+      fetchedItems.push(...response.items)
+      totalPages = response.totalPages
+      currentPage += 1
     }
   }
 }
