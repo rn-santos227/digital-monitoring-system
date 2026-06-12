@@ -12,6 +12,11 @@ export const usePrintPersonnelHandler = () => {
     let currentPage = 1
     let totalPages = 1
 
+    while (currentPage <= totalPages) {
+      const requestQuery: PersonnelSearchQuery = {
 
+
+      }
+    }
   }
 }
