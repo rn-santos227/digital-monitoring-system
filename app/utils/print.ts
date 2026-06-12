@@ -117,3 +117,9 @@ export const printTableRecords = <TItem extends object>(
   openPrintDocument(html)
   return items
 }
+
+export const printDetailRecord = <TItem extends object>(
+
+): TItem => {
+
+}
