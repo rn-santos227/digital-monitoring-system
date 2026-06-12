@@ -1,5 +1,5 @@
 export * from './account-types'
-export * from './audit/audit-trail.handler'
+export * from './audit'
 export * from './auth/login.handler'
 export * from './auth/logout.handler'
 export * from './personnel'
