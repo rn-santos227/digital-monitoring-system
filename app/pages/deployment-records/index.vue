@@ -42,6 +42,14 @@
 
         <BaseAlert v-if="deploymentRecordsError" :message="deploymentRecordsError" tone="danger" />
 
+        <div class="flex justify-end">
+          <PrintDataListButton
+            table-name="deployment_records"
+            table-label="Deployment Records"
+            :get-print-data="() => printDeploymentRecords(deploymentRecordRows)"
+          />
+        </div>
+
         <div
           v-if="authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.create)"
           :class="TRAINING_TABLE_ACTIONS_ROW_CLASSES"
@@ -63,15 +71,24 @@
       </template>
 
       <template v-else>
-        <div v-if="showCreateButton" :class="TRAINING_TABLE_ACTIONS_ROW_CLASSES">
-          <BaseButton @click="onOpenCreateDeploymentModal">Create Deployment</BaseButton>
-        </div>
         <DeploymentsFilter
           :model-value="deploymentsFilters"
           :validation-errors="deploymentFilterValidationErrors"
           @apply="onApplyDeploymentsFilter"
           @reset="onResetDeploymentsFilter"
         />
+
+        <div class="flex justify-end">
+          <PrintDataListButton
+            table-name="deployments"
+            table-label="Deployments"
+            :get-print-data="() => printDeployments(deploymentRows)"
+          />
+        </div>
+
+        <div v-if="showCreateButton" :class="TRAINING_TABLE_ACTIONS_ROW_CLASSES">
+          <BaseButton @click="onOpenCreateDeploymentModal">Create Deployment</BaseButton>
+        </div>
 
         <BaseAlert v-if="deploymentsError" :message="deploymentsError" tone="danger" />
 
@@ -170,6 +187,7 @@ import CreateDeploymentModal from '~/components/deployments/CreateDeploymentModa
 import UpdateDeploymentDetailModal from '~/components/deployments/UpdateDeploymentDetailModal.vue'
 import UpdateDeploymentLocationModal from '~/components/deployments/UpdateDeploymentLocationModal.vue'
 import ViewDeploymentModal from '~/components/deployments/ViewDeploymentModal.vue'
+import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import { useDeploymentRecords } from '~/composables/useDeploymentRecords'
 import { useDeployments } from '~/composables/useDeployments'
 import {
@@ -201,6 +219,7 @@ import {
   useValidatedListHandlers,
   useViewDeploymentHandler,
   useViewDeploymentRecordHandler,
+  usePrintDeploymentsHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type { DeploymentManagementListItem, DeploymentManagementTabId } from '~/types/domain/deployment'
@@ -224,8 +243,10 @@ const isUpdateDeploymentRecordLocationModalOpen = ref(false)
 const isViewDeploymentRecordModalOpen = ref(false)
 const selectedDeploymentRecord = ref<DeploymentManagementListItem | null>(null)
 const authStore = useAuthStore()
+
 const { showDialog } = useDialog()
 const { addToast } = useToast()
+const { printDeploymentRecords, printDeployments } = usePrintDeploymentsHandler()
 
 const {
   filters: deploymentsFilters,
