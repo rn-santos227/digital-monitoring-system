@@ -17,4 +17,5 @@ import {
 export const usePrintEquipmentHandler = () => ({
   printEquipmentAssets: createTablePrintHandler<EquipmentAssetTableRow>(TABLE_PRINT_FORMATS.equipmentAssets),
   printEquipmentCategories: createTablePrintHandler<EquipmentCategoryTableRow>(TABLE_PRINT_FORMATS.equipmentCategories),
+  printEquipmentIssuances: createTablePrintHandler<EquipmentIssuanceTableRow>(TABLE_PRINT_FORMATS.equipmentIssuances),
 })
