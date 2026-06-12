@@ -46,4 +46,6 @@ export const usePrintPersonnelHandler = () => {
     })
     return allItems
   }
+
+  const printPersonnelProfile = createDetailPrintHandler<PersonnelDetail & { fullName: string }>(PERSONNEL_DETAIL_PRINT_FORMAT)
 }
