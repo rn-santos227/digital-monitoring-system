@@ -39,5 +39,11 @@ export const usePrintPersonnelHandler = () => {
       assignment: [item.companyName, item.battalionName].filter(Boolean).join(' / ') || 'Unassigned',
     }))
 
+    printTableRecords(printableItems, {
+      documentTitle: PERSONNEL_PRINT_DOCUMENT_TITLE,
+      filePrefix: PERSONNEL_PRINT_FILE_PREFIX,
+      columns: PERSONNEL_TABLE_COLUMNS,
+    })
+    return allItems
   }
 }
