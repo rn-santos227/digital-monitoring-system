@@ -1,4 +1,5 @@
 export * from './create.handler'
 export * from './delete.handler'
 export * from './index.handler'
+export * from './print.handler'
 export * from './update.handler'
