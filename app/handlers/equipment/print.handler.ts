@@ -19,4 +19,5 @@ export const usePrintEquipmentHandler = () => ({
   printEquipmentCategories: createTablePrintHandler<EquipmentCategoryTableRow>(TABLE_PRINT_FORMATS.equipmentCategories),
   printEquipmentIssuances: createTablePrintHandler<EquipmentIssuanceTableRow>(TABLE_PRINT_FORMATS.equipmentIssuances),
   printEquipmentItems: createTablePrintHandler<EquipmentItemTableRow>(TABLE_PRINT_FORMATS.equipmentItems),
+  printEquipmentItemProfile: createDetailPrintHandler<EquipmentItemListItem>(EQUIPMENT_ITEM_DETAIL_PRINT_FORMAT),
 })
