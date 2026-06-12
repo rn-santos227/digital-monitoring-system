@@ -32,6 +32,14 @@
         />
       </div>
 
+      <div class="flex justify-end">
+        <PrintDataListButton
+          table-name="equipment_assets"
+          table-label="Equipment Assets"
+          :get-print-data="() => printEquipmentAssets(tableRows)"
+        />
+      </div>
+
       <div v-if="canCreateEquipmentAssets" class="flex justify-end">
         <BaseButton @click="onOpenCreateEquipmentAssetModal">Create Equipment Asset</BaseButton>
       </div>
@@ -82,6 +90,7 @@ import EquipmentAssetsFilter from '~/components/equipment/EquipmentAssetsFilter.
 import EquipmentAssetsTable from '~/components/equipment/EquipmentAssetsTable.vue'
 import UpdateEquipmentAssetModal from '~/components/equipment/UpdateEquipmentAssetModal.vue'
 import ViewEquipmentAssetModal from '~/components/equipment/ViewEquipmentAssetModal.vue'
+import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import { useEquipmentAssets } from '~/composables/useEquipmentAssets'
 import { useDialog } from '~/composables/useDialog'
 import {
@@ -100,6 +109,7 @@ import {
   useEquipmentSearchHandlers,
   useUpdateEquipmentAssetHandler,
   useViewEquipmentAssetHandler,
+  usePrintEquipmentHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type {
@@ -107,6 +117,8 @@ import type {
   EquipmentAssetTableRow,
 } from '~/types/domain/equipment'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
+
+const { printEquipmentAssets } = usePrintEquipmentHandler()
 
 const {
   filters,
