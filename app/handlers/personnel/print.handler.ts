@@ -34,5 +34,10 @@ export const usePrintPersonnelHandler = () => {
 
   const handleDownloadAndPrintPersonnel = async (filters: Partial<PersonnelSearchQuery>): Promise<readonly PersonnelListCompactItem[]> => {
     const allItems = await fetchAllPersonnelForPrint(filters)
+    const printableItems = allItems.map((item) => ({
+      ...item,
+      assignment: [item.companyName, item.battalionName].filter(Boolean).join(' / ') || 'Unassigned',
+    }))
+
   }
 }
