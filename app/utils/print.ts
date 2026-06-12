@@ -145,6 +145,22 @@ export const printDetailRecord = <TItem extends object>(
     ]),
   ])
 
+  const html = `
+    <!doctype html>
+    <html>
+      <head>
+        <meta charset="utf-8" />
+        <title>${escapeHtml(format.documentTitle)}</title>
+        <style>${PRINT_DOCUMENT_STYLES}</style>
+      </head>
+      <body>
+        <h1>${escapeHtml(format.documentTitle)}</h1>
+        <p>${escapeHtml(PRINT_GENERATED_AT_LABEL)} ${escapeHtml(generatedAt)}</p>
+        ${sections}
+      </body>
+    </html>
+  `
+
   downloadCsvFile([['Field', 'Value'], ...csvRows], format.filePrefix)
   openPrintDocument(html)
   return item
