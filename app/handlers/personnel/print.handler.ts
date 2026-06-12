@@ -28,5 +28,11 @@ export const usePrintPersonnelHandler = () => {
       totalPages = response.totalPages
       currentPage += 1
     }
+
+    return fetchedItems
+  }
+
+  const handleDownloadAndPrintPersonnel = async (filters: Partial<PersonnelSearchQuery>): Promise<readonly PersonnelListCompactItem[]> => {
+    const allItems = await fetchAllPersonnelForPrint(filters)
   }
 }
