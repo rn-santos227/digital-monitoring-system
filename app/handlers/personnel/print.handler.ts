@@ -6,4 +6,9 @@ import { getPersonnelEndpoint, searchPersonnelEndpoint } from '~/utils/personnel
 import { printTableRecords } from '~/utils/print'
 import { createDetailPrintHandler } from '~/handlers/shared/print.handler'
 
+export const usePrintPersonnelHandler = () => {
+  const fetchAllPersonnelForPrint = async (filters: Partial<PersonnelSearchQuery>): Promise<PersonnelListCompactItem[]> => {
 
+
+  }
+}
