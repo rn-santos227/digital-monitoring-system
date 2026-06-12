@@ -7,3 +7,12 @@ export const createTablePrintHandler = <TItem extends object>(format: PrintTable
   }
 }
 
+export const createDetailPrintHandler = <TItem extends object>(format: PrintDetailFormat) => {
+  return async (item: TItem | null): Promise<TItem> => {
+    if (!item) {
+      throw new Error(`${format.documentTitle} is not available for printing.`)
+    }
+
+    return printDetailRecord(item, format)
+  }
+}
