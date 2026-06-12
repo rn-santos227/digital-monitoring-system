@@ -122,5 +122,22 @@ export const printDetailRecord = <TItem extends object>(
   item: TItem,
   format: PrintDetailFormat,
 ): TItem => {
+  const generatedAt = new Date().toLocaleString(undefined, PRINT_DATE_TIME_OPTIONS)
+  const sections = format.sections.map((section) => `
+    <section>
+      <h2>${escapeHtml(section.title)}</h2>
+      <dl>
+        ${section.fields.map((field) => `
+          <div>
+            <dt>${escapeHtml(field.label)}</dt>
+            <dd>${escapeHtml(formatPrintValue(getRecordValue(item, field.key), field))}</dd>
+          </div>
+        `).join('')}
+      </dl>
+    </section>
+  `).join('')
+  downloadCsvFile([['Field', 'Value'], ...csvRows], format.filePrefix)
+  openPrintDocument(html)
+  return item
 
 }
