@@ -119,7 +119,8 @@ export const printTableRecords = <TItem extends object>(
 }
 
 export const printDetailRecord = <TItem extends object>(
-
+  item: TItem,
+  format: PrintDetailFormat,
 ): TItem => {
 
 }
