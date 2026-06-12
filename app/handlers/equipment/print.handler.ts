@@ -13,3 +13,7 @@ import {
   createDetailPrintHandler,
   createTablePrintHandler,
 } from '~/handlers/shared/print.handler'
+
+export const usePrintEquipmentHandler = () => ({
+  printEquipmentAssets: createTablePrintHandler<EquipmentAssetTableRow>(TABLE_PRINT_FORMATS.equipmentAssets),
+})
