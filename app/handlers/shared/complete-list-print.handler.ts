@@ -13,3 +13,9 @@ interface CompleteListPrintOptions<TItem> {
   printItems: (items: readonly TItem[]) => unknown
 }
 
+export const createCompleteListPrintHandler = <TItem>(
+  options: CompleteListPrintOptions<TItem>,
+) => {
+
+
+}
