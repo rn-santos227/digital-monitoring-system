@@ -203,7 +203,6 @@ import { DEPLOYMENT_PRIVILEGES } from '~/constants/privileges.constants'
 import {
   APP_MAIN_CONTENT_CLASSES,
   DEPLOYMENTS_PAGE_HEADER_CLASSES,
-  TRAINING_TABLE_ACTIONS_ROW_CLASSES
 } from '~/constants/shared.constants'
 import { useDialog } from '~/composables/useDialog'
 import { useToast } from '~/composables/useToast'
@@ -220,6 +219,7 @@ import {
   useViewDeploymentHandler,
   useViewDeploymentRecordHandler,
   usePrintDeploymentsHandler,
+  createCompleteListPrintHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type { DeploymentManagementListItem, DeploymentManagementTabId } from '~/types/domain/deployment'
@@ -276,6 +276,13 @@ const {
   deleteDeploymentRecord,
   getDeploymentRecordById,
 } = useDeploymentRecords()
+
+const handlePrintDeployments = createCompleteListPrintHandler({
+  rows: deploymentRows,
+  pagination: deploymentsPagination,
+  loadPage: (page, pageSize) => loadDeployments(page, deploymentsFilters.value, pageSize),
+  printItems: printDeployments,
+})
 
 const totalDeployments = computed(() => kpis.value.totalDeployments)
 const totalDeploymentRecords = computed(() => kpis.value.totalDeploymentRecords)
