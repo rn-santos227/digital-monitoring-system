@@ -17,7 +17,9 @@
         <PrintDataListButton
           table-name="audit_logs"
           table-label="Audit Logs"
-          :get-print-data="() => printAuditLogs(tableRows)"
+          :filters="filters"
+          :disabled="isLoading"
+          :get-print-data="handlePrintAuditLogs"
         />
       </div>
 
