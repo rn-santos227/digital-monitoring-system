@@ -318,3 +318,5 @@ export const SUGGESTION_FIELD_EMPTY_CLASSES = 'px-3 py-2 text-sm text-slate-500'
 
 export const PRINT_DATA_LIST_BUTTON_TOOLTIP = 'Print data'
 export const PRINT_DATA_LIST_BUTTON_ARIA_LABEL = 'Print data list'
+export const PRINT_DATA_LIST_LOADING_TOOLTIP = 'Loading complete list for printing'
+export const PRINT_DATA_LIST_LOADING_ARIA_LABEL = 'Loading complete data list for printing'
