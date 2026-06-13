@@ -200,6 +200,7 @@ import { useDialog } from '~/composables/useDialog'
 import { useToast } from '~/composables/useToast'
 import { usePersonnel } from '~/composables/usePersonnel'
 import {
+  createCompleteListPrintHandler,
   useCreatePersonnelModalHandler,
   useDeletePersonnelHandler,
   useDeleteRankHandler,
@@ -207,6 +208,7 @@ import {
   usePersonnelPageHandlers,
   usePersonnelTableActionHandler,
   usePrintPersonnelHandler,
+  usePrintRanksHandler,
   useRankTableActionHandler,
   useRanksPageHandlers,
   useSearchTermListHandlers,
@@ -224,6 +226,7 @@ const { filters, tableRows, kpis, pagination, isLoading, error, loadPersonnel, c
 const { tableRows: rankRows, pagination: rankPagination, isLoading: isRanksLoading, error: rankError, search: rankSearchTerm, loadRanks, createRank, deleteRank } = useRanks()
 const { handleFilterApply, handleFilterReset } = usePersonnelPageHandlers(filters)
 const { handleDownloadAndPrintPersonnel } = usePrintPersonnelHandler()
+const { printRanks } = usePrintRanksHandler()
 const { handleViewPersonnelProfile } = useViewPersonnelProfileHandler()
 const authStore = useAuthStore()
 const { showDialog } = useDialog()
@@ -369,6 +372,12 @@ const {
 })
 
 const handlePrintPersonnel = () => handleDownloadAndPrintPersonnel(filters.value)
+const handlePrintRanks = createCompleteListPrintHandler({
+  rows: rankRows,
+  pagination: rankPagination,
+  loadPage: (page, pageSize) => loadRanks(page, rankSearchTerm.value, pageSize),
+  printItems: printRanks,
+})
 
 const handleCreatePersonnel = createModalFeedbackHandler(createPersonnel, showDialog, {
   successTitle: 'Personnel created',
