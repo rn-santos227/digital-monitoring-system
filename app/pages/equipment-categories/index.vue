@@ -32,8 +32,20 @@
         tone="danger"
       />
 
-      <div v-if="canManageEquipmentCategories" class="flex justify-end">
-        <BaseButton @click="onOpenCreateEquipmentCategoryModal">Create Equipment Category</BaseButton>
+      <div class="flex justify-end gap-2">
+        <PrintDataListButton
+          table-name="equipment_categories"
+          table-label="Equipment Categories"
+          :filters="filters"
+          :disabled="isLoading"
+          :get-print-data="handlePrintEquipmentCategories"
+        />
+        <BaseButton
+          v-if="canManageEquipmentCategories"
+          @click="onOpenCreateEquipmentCategoryModal"
+        >
+          Create Equipment Category
+        </BaseButton>
       </div>
 
       <EquipmentCategoriesFilter
