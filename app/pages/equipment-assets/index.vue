@@ -103,6 +103,7 @@ import {
 import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
 import {
   createEquipmentTableActionHandler,
+  createCompleteListPrintHandler,
   useCreateEquipmentAssetHandler,
   useDeleteEquipmentAssetHandler,
   useEquipmentListHandlers,
@@ -136,6 +137,12 @@ const {
 
 const authStore = useAuthStore()
 const canCreateEquipmentAssets = computed(() => authStore.hasPermissionAccess(EQUIPMENT_ASSETS_PAGE_REQUIRED_PERMISSIONS.create))
+const handlePrintEquipmentAssets = createCompleteListPrintHandler({
+  rows: tableRows,
+  pagination,
+  loadPage: (page, pageSize) => loadEquipmentAssets(page, filters.value, pageSize),
+  printItems: printEquipmentAssets,
+})
 
 const { showDialog } = useDialog()
 const { handleFilterApply, handleFilterReset } = useEquipmentSearchHandlers(filters)
