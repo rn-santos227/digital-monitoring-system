@@ -59,6 +59,7 @@ import CreateEquipmentItemModal from '~/components/equipment/CreateEquipmentItem
 import EquipmentItemsFilter from '~/components/equipment/EquipmentItemsFilter.vue'
 import EquipmentItemsTable from '~/components/equipment/EquipmentItemsTable.vue'
 import UpdateEquipmentItemModal from '~/components/equipment/UpdateEquipmentItemModal.vue'
+import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import { useEquipmentItems } from '~/composables/useEquipmentItems'
 import { useDialog } from '~/composables/useDialog'
 import {
@@ -76,6 +77,8 @@ import {
   useEquipmentListHandlers,
   useEquipmentSearchHandlers,
   useUpdateEquipmentItemHandler,
+  usePrintEquipmentHandler,
+  createCompleteListPrintHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type {
@@ -97,6 +100,14 @@ const {
   updateEquipmentItem,
   deleteEquipmentItem,
 } = useEquipmentItems()
+
+const { printEquipmentItems } = usePrintEquipmentHandler()
+const handlePrintEquipmentItems = createCompleteListPrintHandler({
+  rows: tableRows,
+  pagination,
+  loadPage: (page, pageSize) => loadEquipmentItems(page, filters.value, pageSize),
+  printItems: printEquipmentItems,
+})
 
 const authStore = useAuthStore()
 const router = useRouter()
