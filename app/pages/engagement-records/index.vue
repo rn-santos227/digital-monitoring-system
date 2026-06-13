@@ -67,16 +67,20 @@
       </template>
 
       <template v-else>
-        <div class="flex justify-end">
+        <div class="flex justify-end gap-2">
           <PrintDataListButton
             table-name="engagements"
             table-label="Engagements"
-            :get-print-data="() => printEngagements(engagementRows)"
+            :filters="engagementsFilters"
+            :disabled="isEngagementsLoading"
+            :get-print-data="handlePrintEngagements"
           />
-        </div>
-
-        <div v-if="authStore.hasPermissionAccess(ENGAGEMENT_PRIVILEGES.create)" :class="TRAINING_TABLE_ACTIONS_ROW_CLASSES">
-          <BaseButton @click="onOpenCreateEngagementModal">Create Engagement</BaseButton>
+          <BaseButton
+            v-if="authStore.hasPermissionAccess(ENGAGEMENT_PRIVILEGES.create)"
+            @click="onOpenCreateEngagementModal"
+          >
+            Create Engagement
+          </BaseButton>
         </div>
 
         <EngagementsFilter
