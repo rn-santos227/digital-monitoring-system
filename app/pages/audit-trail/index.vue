@@ -102,7 +102,7 @@ const filterValidationErrors = ref<FieldValidationMap>({})
 const { showDialog } = useDialog()
 
 const handlePrintAuditLogs = createCompleteListPrintHandler({
-
+  rows: tableRows,
 })
 
 const { handleSearch, handleSort, handleAction, handleFilterApply, handleFilterReset, handleModalClose } = useAuditTrailPageHandlers(
