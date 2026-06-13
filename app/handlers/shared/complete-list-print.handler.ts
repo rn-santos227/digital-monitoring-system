@@ -22,7 +22,10 @@ export const createCompleteListPrintHandler = <TItem>(
     const completeListPageSize = Math.max(options.pagination.value.totalItems, originalPageSize)
 
     try {
-
+      await options.loadPage(1, completeListPageSize)
+      const completeItems = [...options.rows.value]
+      options.printItems(completeItems)
+      return completeItems
     } finally {
       if (originalPage !== 1 || originalPageSize !== completeListPageSize) {
         await options.loadPage(originalPage, originalPageSize)
