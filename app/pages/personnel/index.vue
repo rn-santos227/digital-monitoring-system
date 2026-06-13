@@ -113,8 +113,17 @@
               placeholder="Search rank code or name"
               @update:model-value="onRankSearchTermChange"
             />
-            <div v-if="canCreateRanks" class="flex items-end">
-              <BaseButton @click="isCreateRankModalOpen = true">{{ RANK_CREATE_BUTTON_LABEL }}</BaseButton>
+            <div class="flex items-end gap-2">
+              <PrintDataListButton
+                table-name="ranks"
+                table-label="Ranks"
+                :filters="{ search: rankSearchTerm }"
+                :disabled="isRanksLoading"
+                :get-print-data="handlePrintRanks"
+              />
+              <BaseButton v-if="canCreateRanks" @click="isCreateRankModalOpen = true">
+                {{ RANK_CREATE_BUTTON_LABEL }}
+              </BaseButton>
             </div>
           </div>
           <BaseAlert v-if="rankError" :message="rankError" tone="danger" />
