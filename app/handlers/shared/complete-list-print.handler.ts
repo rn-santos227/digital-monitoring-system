@@ -16,6 +16,10 @@ interface CompleteListPrintOptions<TItem> {
 export const createCompleteListPrintHandler = <TItem>(
   options: CompleteListPrintOptions<TItem>,
 ) => {
+  return async (): Promise<readonly TItem[]> => {
+    const originalPage = options.pagination.value.page
+    const originalPageSize = options.pagination.value.pageSize
+    const completeListPageSize = Math.max(options.pagination.value.totalItems, originalPageSize)
 
-
+  }
 }
