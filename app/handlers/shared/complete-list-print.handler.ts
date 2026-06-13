@@ -24,7 +24,9 @@ export const createCompleteListPrintHandler = <TItem>(
     try {
 
     } finally {
-      
+      if (originalPage !== 1 || originalPageSize !== completeListPageSize) {
+        await options.loadPage(originalPage, originalPageSize)
+      }
     }
   }
 }
