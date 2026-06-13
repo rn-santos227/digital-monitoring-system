@@ -301,6 +301,13 @@ const handlePrintEngagements = createCompleteListPrintHandler({
   printItems: printEngagements,
 })
 
+const handlePrintEngagementRecords = createCompleteListPrintHandler({
+  rows: engagementRecordRows,
+  pagination: engagementRecordsPagination,
+  loadPage: (page, pageSize) => loadEngagementRecords(page, pageSize),
+  printItems: printEngagementRecords,
+})
+
 const {
   handleApplyFilters: onApplyEngagementsFilter,
   handleResetFilters: onResetEngagementsFilter,
