@@ -70,6 +70,7 @@ import UpdateEquipmentIssuanceModal from '~/components/equipment/UpdateEquipment
 import ViewEquipmentIssuanceModal from '~/components/equipment/ViewEquipmentIssuanceModal.vue'
 import EquipmentIssuancesFilter from '~/components/equipment/EquipmentIssuancesFilter.vue'
 import EquipmentIssuancesTable from '~/components/equipment/EquipmentIssuancesTable.vue'
+import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import { useEquipmentIssuances } from '~/composables/useEquipmentIssuances'
 import { useDialog } from '~/composables/useDialog'
 import {
@@ -88,6 +89,8 @@ import {
   useEquipmentSearchHandlers,
   useUpdateEquipmentIssuanceHandler,
   useViewEquipmentIssuanceHandler,
+  usePrintEquipmentHandler,
+  createCompleteListPrintHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type {
@@ -113,6 +116,14 @@ const {
   updateEquipmentIssuance,
   deleteEquipmentIssuance,
 } = useEquipmentIssuances()
+
+const { printEquipmentIssuances } = usePrintEquipmentHandler()
+const handlePrintEquipmentIssuances = createCompleteListPrintHandler({
+  rows: tableRows,
+  pagination,
+  loadPage: (page, pageSize) => loadEquipmentIssuances(page, filters.value, pageSize),
+  printItems: printEquipmentIssuances,
+})
 
 const authStore = useAuthStore()
 const canCreateEquipmentIssuances = computed(() => authStore.hasPermissionAccess(EQUIPMENT_ISSUANCES_PAGE_REQUIRED_PERMISSIONS.issue))
