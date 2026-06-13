@@ -84,6 +84,7 @@ import EquipmentCategoriesFilter from '~/components/equipment/EquipmentCategorie
 import EquipmentCategoriesTable from '~/components/equipment/EquipmentCategoriesTable.vue'
 import UpdateEquipmentCategoryModal from '~/components/equipment/UpdateEquipmentCategoryModal.vue'
 import ViewEquipmentCategoryModal from '~/components/equipment/ViewEquipmentCategoryModal.vue'
+import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import { useEquipmentCategories } from '~/composables/useEquipmentCategories'
 import { useDialog } from '~/composables/useDialog'
 import {
@@ -102,6 +103,8 @@ import {
   useEquipmentListHandlers,
   useUpdateEquipmentCategoryHandler,
   useViewEquipmentCategoryHandler,
+  usePrintEquipmentHandler,
+  createCompleteListPrintHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
