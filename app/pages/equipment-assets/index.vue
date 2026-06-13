@@ -32,16 +32,20 @@
         />
       </div>
 
-      <div class="flex justify-end">
+      <div class="flex justify-end gap-2">
         <PrintDataListButton
           table-name="equipment_assets"
           table-label="Equipment Assets"
-          :get-print-data="() => printEquipmentAssets(tableRows)"
+          :filters="filters"
+          :disabled="isLoading"
+          :get-print-data="handlePrintEquipmentAssets"
         />
-      </div>
-
-      <div v-if="canCreateEquipmentAssets" class="flex justify-end">
-        <BaseButton @click="onOpenCreateEquipmentAssetModal">Create Equipment Asset</BaseButton>
+        <BaseButton
+          v-if="canCreateEquipmentAssets"
+          @click="onOpenCreateEquipmentAssetModal"
+        >
+          Create Equipment Asset
+        </BaseButton>
       </div>
 
       <BaseAlert v-if="error" :message="error" tone="danger" />
