@@ -16,8 +16,17 @@
         />
       </div>
 
-      <div v-if="canCreateEquipmentItems" class="flex justify-end">
-        <BaseButton @click="onOpenCreateEquipmentItemModal">Create Equipment Item</BaseButton>
+      <div class="flex justify-end gap-2">
+        <PrintDataListButton
+          table-name="equipment_items"
+          table-label="Equipment Items"
+          :filters="filters"
+          :disabled="isLoading"
+          :get-print-data="handlePrintEquipmentItems"
+        />
+        <BaseButton v-if="canCreateEquipmentItems" @click="onOpenCreateEquipmentItemModal">
+          Create Equipment Item
+        </BaseButton>
       </div>
 
       <BaseAlert v-if="error" :message="error" tone="danger" />
