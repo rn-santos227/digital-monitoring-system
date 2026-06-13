@@ -108,7 +108,8 @@ const handlePrintAuditLogs = createCompleteListPrintHandler({
     pageSize: pageSize.value,
     totalItems: totalItems.value,
   })),
-
+  loadPage: (page, nextPageSize) => loadAuditLogs(page, filters.value, nextPageSize),
+  printItems: printAuditLogs,
 })
 
 const { handleSearch, handleSort, handleAction, handleFilterApply, handleFilterReset, handleModalClose } = useAuditTrailPageHandlers(
