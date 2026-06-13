@@ -17,6 +17,16 @@
     <BaseInlineLoader v-if="isLoading" message="Loading personnel locations..." />
     <template v-else-if="activeTab === 'service-map'">
       <section class="mt-4">
+        <div class="mb-4 flex justify-end">
+          <PrintDataListButton
+            table-name="personnel_service_status"
+            table-label="Personnel Service Status"
+            :filters="personnelFilter"
+            :disabled="isLoading"
+            :get-print-data="handlePrintServiceStatusPersonnel"
+          />
+        </div>
+
         <PersonnelFilter
           :model-value="personnelFilter"
           @apply="onApplyPersonnelFilter"
