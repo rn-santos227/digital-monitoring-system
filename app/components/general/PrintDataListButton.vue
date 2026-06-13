@@ -14,9 +14,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { PrinterIcon } from '@heroicons/vue/24/outline'
+import { ArrowPathIcon, PrinterIcon } from '@heroicons/vue/24/outline'
 import BaseButton from '~/components/ui/BaseButton.vue'
-import { PRINT_DATA_LIST_BUTTON_ARIA_LABEL, PRINT_DATA_LIST_BUTTON_TOOLTIP } from '~/constants/ui.constants'
+import {
+  PRINT_DATA_LIST_BUTTON_ARIA_LABEL,
+  PRINT_DATA_LIST_BUTTON_TOOLTIP,
+  PRINT_DATA_LIST_LOADING_ARIA_LABEL,
+  PRINT_DATA_LIST_LOADING_TOOLTIP,
+} from '~/constants/ui.constants'
 import { recordPrintedTableAuditEndpoint } from '~/utils/audit-endpoints'
 
 interface PrintDataListButtonProps {
