@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import AuditFilter from '~/components/audit/AuditFilter.vue'
 import AuditTable from '~/components/audit/AuditTable.vue'
@@ -67,6 +67,7 @@ import {
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 import { usePrintAuditHandler } from '~/handlers/audit'
 import {
+  createCompleteListPrintHandler,
   useAuditFilterListHandlers,
   useAuditTrailPageHandlers,
 } from '~/handlers'
@@ -99,6 +100,10 @@ const activeAuditLogId = ref('')
 const isAuditModalOpen = ref(false)
 const filterValidationErrors = ref<FieldValidationMap>({})
 const { showDialog } = useDialog()
+
+const handlePrintAuditLogs = createCompleteListPrintHandler({
+
+})
 
 const { handleSearch, handleSort, handleAction, handleFilterApply, handleFilterReset, handleModalClose } = useAuditTrailPageHandlers(
   sortKey,
