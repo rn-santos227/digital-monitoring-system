@@ -284,6 +284,13 @@ const handlePrintDeployments = createCompleteListPrintHandler({
   printItems: printDeployments,
 })
 
+const handlePrintDeploymentRecords = createCompleteListPrintHandler({
+  rows: deploymentRecordRows,
+  pagination: deploymentRecordsPagination,
+  loadPage: (page, pageSize) => loadDeploymentRecords(page, deploymentRecordsFilters.value, pageSize),
+  printItems: printDeploymentRecords,
+})
+
 const totalDeployments = computed(() => kpis.value.totalDeployments)
 const totalDeploymentRecords = computed(() => kpis.value.totalDeploymentRecords)
 
