@@ -85,6 +85,7 @@ import {
   useServiceStatusFilterHandlers,
 } from '~/handlers/service-status'
 import QuickAssignDeploymentModal from '~/components/service-status/QuickAssignDeploymentModal.vue'
+import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import QuickAssignEngagementModal from '~/components/service-status/QuickAssignEngagementModal.vue'
 import QuickAssignTrainingModal from '~/components/service-status/QuickAssignTrainingModal.vue'
 import ServiceStatusPersonnelTable from '~/components/service-status/ServiceStatusPersonnelTable.vue'
@@ -111,6 +112,7 @@ import type { PersonnelLocationItem } from '~/types/domain/personnel'
 import type { CreateTrainingRecordPayload } from '~/types/domain/training'
 import { fetchPersonnelLocationsEndpoint } from '~/utils/service-status-endpoints'
 import type { ActiveServiceStatusModal } from '~/types/domain/service-status'
+import { usePrintServiceStatusHandler } from '~/handlers/service-status'
 
 const { showDialog } = useDialog()
 const {
@@ -129,6 +131,7 @@ const selectedPersonnelId = ref<string | null>(null)
 const activeModal = ref<ActiveServiceStatusModal>(null)
 const modalErrorMessage = ref('')
 const personnelFilter = ref<{ term?: string; fields?: string }>({})
+const { printServiceStatusPersonnel } = usePrintServiceStatusHandler()
 const { onApplyPersonnelFilter, onResetPersonnelFilter } = useServiceStatusFilterHandlers(personnelFilter)
 
 const filteredLocationItems = computed(() => {
@@ -174,6 +177,13 @@ const loadLocations = async () => {
   } finally {
     isLoading.value = false
   }
+}
+
+const handlePrintServiceStatusPersonnel = async (): Promise<readonly PersonnelLocationItem[]> => {
+  await loadLocations()
+  const completeItems = [...filteredLocationItems.value]
+  printServiceStatusPersonnel(completeItems)
+  return completeItems
 }
 
 const {
