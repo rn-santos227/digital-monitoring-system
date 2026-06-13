@@ -199,6 +199,7 @@ import TrainingRecordsFilter from '~/components/trainings/TrainingRecordsFilter.
 import TrainingsTable from '~/components/trainings/TrainingsTable.vue'
 import TrainingRecordsTable from '~/components/trainings/TrainingRecordsTable.vue'
 import TrainingCategoriesTable from '~/components/trainings/TrainingCategoriesTable.vue'
+import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import { useTrainings } from '~/composables/useTrainings'
 import { useTrainingRecords } from '~/composables/useTrainingRecords'
 import { useTrainingCategories } from '~/composables/useTrainingCategories'
@@ -230,6 +231,8 @@ import {
   useUpdateTrainingHandler,
   useUpdateTrainingRecordHandler,
   useViewTrainingHandler,
+  usePrintTrainingsHandler,
+  createCompleteListPrintHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type { TrainingCategoryListItem, TrainingListItem, TrainingManagementTabId, TrainingRecordListItem } from '~/types/domain/training'
@@ -300,6 +303,54 @@ const {
   getTrainingCategoryById,
 } = useTrainingCategories()
 
+const { printTrainingCategories, printTrainingRecords, printTrainings } = usePrintTrainingsHandler()
+const handlePrintTrainingRecords = createCompleteListPrintHandler({
+  rows: trainingRecordsTableRows,
+  pagination: trainingRecordsPagination,
+  loadPage: (page, pageSize) => loadTrainingRecords(page, trainingRecordsFilters.value, pageSize),
+  printItems: printTrainingRecords,
+})
+const handlePrintTrainings = createCompleteListPrintHandler({
+  rows: trainingTableRows,
+  pagination: trainingPagination,
+  loadPage: (page, pageSize) => loadTrainings(page, trainingFilters.value, pageSize),
+  printItems: printTrainings,
+})
+const handlePrintTrainingCategories = createCompleteListPrintHandler({
+  rows: categoryTableRows,
+  pagination: categoryPagination,
+  loadPage: (page, pageSize) => loadTrainingCategories(page, categoryFilters.value, pageSize),
+  printItems: printTrainingCategories,
+})
+const activeTrainingPrintConfig = computed(() => {
+  if (activeTab.value === 'records') {
+    return {
+      tableName: 'training_records',
+      tableLabel: 'Training Records',
+      filters: trainingRecordsFilters.value,
+      isLoading: isTrainingRecordsLoading.value,
+      print: handlePrintTrainingRecords,
+    }
+  }
+
+  if (activeTab.value === 'categories') {
+    return {
+      tableName: 'training_categories',
+      tableLabel: 'Training Categories',
+      filters: categoryFilters.value,
+      isLoading: isCategoryLoading.value,
+      print: handlePrintTrainingCategories,
+    }
+  }
+
+  return {
+    tableName: 'trainings',
+    tableLabel: 'Trainings',
+    filters: trainingFilters.value,
+    isLoading: isTrainingLoading.value,
+    print: handlePrintTrainings,
+  }
+})
 
 const {
   handleTabChange,
