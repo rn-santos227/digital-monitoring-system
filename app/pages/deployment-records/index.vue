@@ -42,19 +42,20 @@
 
         <BaseAlert v-if="deploymentRecordsError" :message="deploymentRecordsError" tone="danger" />
 
-        <div class="flex justify-end">
+        <div class="flex justify-end gap-2">
           <PrintDataListButton
             table-name="deployment_records"
             table-label="Deployment Records"
-            :get-print-data="() => printDeploymentRecords(deploymentRecordRows)"
+            :filters="deploymentRecordsFilters"
+            :disabled="isDeploymentRecordsLoading"
+            :get-print-data="handlePrintDeploymentRecords"
           />
-        </div>
-
-        <div
-          v-if="authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.create)"
-          :class="TRAINING_TABLE_ACTIONS_ROW_CLASSES"
-        >
-          <BaseButton @click="isCreateDeploymentRecordModalOpen = true">Create Deployment Record</BaseButton>
+          <BaseButton
+            v-if="authStore.hasPermissionAccess(DEPLOYMENT_PRIVILEGES.create)"
+            @click="isCreateDeploymentRecordModalOpen = true"
+          >
+            Create Deployment Record
+          </BaseButton>
         </div>
 
         <DeploymentRecordsTable
