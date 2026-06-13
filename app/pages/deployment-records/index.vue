@@ -78,16 +78,17 @@
           @reset="onResetDeploymentsFilter"
         />
 
-        <div class="flex justify-end">
+        <div class="flex justify-end gap-2">
           <PrintDataListButton
             table-name="deployments"
             table-label="Deployments"
-            :get-print-data="() => printDeployments(deploymentRows)"
+            :filters="deploymentsFilters"
+            :disabled="isDeploymentsLoading"
+            :get-print-data="handlePrintDeployments"
           />
-        </div>
-
-        <div v-if="showCreateButton" :class="TRAINING_TABLE_ACTIONS_ROW_CLASSES">
-          <BaseButton @click="onOpenCreateDeploymentModal">Create Deployment</BaseButton>
+          <BaseButton v-if="showCreateButton" @click="onOpenCreateDeploymentModal">
+            Create Deployment
+          </BaseButton>
         </div>
 
         <BaseAlert v-if="deploymentsError" :message="deploymentsError" tone="danger" />
