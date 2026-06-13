@@ -3,11 +3,13 @@
     :disabled="disabled || isProcessing"
     variant="secondary"
     size="md"
-    :icon="PrinterIcon"
+    :icon="isProcessing ? ArrowPathIcon : PrinterIcon"
     icon-only
-    :aria-label="PRINT_DATA_LIST_BUTTON_ARIA_LABEL"
-    :title="PRINT_DATA_LIST_BUTTON_TOOLTIP"
+    :aria-label="isProcessing ? PRINT_DATA_LIST_LOADING_ARIA_LABEL : PRINT_DATA_LIST_BUTTON_ARIA_LABEL"
+    :aria-busy="isProcessing"
+    :title="isProcessing ? PRINT_DATA_LIST_LOADING_TOOLTIP : PRINT_DATA_LIST_BUTTON_TOOLTIP"
     class="border-slate-300 bg-white text-slate-700"
+    :class="{ '[&>svg]:animate-spin': isProcessing }"
     @click="handlePrint"
   />
 </template>
