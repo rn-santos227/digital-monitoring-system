@@ -48,8 +48,15 @@
         @update:model-value="onTabChange"
       />
 
-      <div v-if="showCreateButton" :class="TRAINING_TABLE_ACTIONS_ROW_CLASSES">
-        <BaseButton @click="onCreateActionClick">
+      <div :class="TRAINING_TABLE_ACTIONS_ROW_CLASSES">
+        <PrintDataListButton
+          :table-name="activeTrainingPrintConfig.tableName"
+          :table-label="activeTrainingPrintConfig.tableLabel"
+          :filters="activeTrainingPrintConfig.filters"
+          :disabled="activeTrainingPrintConfig.isLoading"
+          :get-print-data="activeTrainingPrintConfig.print"
+        />
+        <BaseButton v-if="showCreateButton" @click="onCreateActionClick">
           {{ createButtonLabel }}
         </BaseButton>
       </div>
