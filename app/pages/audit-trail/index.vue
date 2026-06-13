@@ -103,6 +103,12 @@ const { showDialog } = useDialog()
 
 const handlePrintAuditLogs = createCompleteListPrintHandler({
   rows: tableRows,
+  pagination: computed(() => ({
+    page: currentPage.value,
+    pageSize: pageSize.value,
+    totalItems: totalItems.value,
+  })),
+
 })
 
 const { handleSearch, handleSort, handleAction, handleFilterApply, handleFilterReset, handleModalClose } = useAuditTrailPageHandlers(
