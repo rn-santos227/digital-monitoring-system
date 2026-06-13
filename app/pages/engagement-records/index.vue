@@ -180,7 +180,7 @@ import {
   useViewEngagementRecordHandler,
   usePrintEngagementsHandler,
 } from '~/handlers/engagements'
-import { useValidatedListHandlers } from '~/handlers/shared'
+import { useValidatedListHandlers, createCompleteListPrintHandler } from '~/handlers/shared'
 import { useAuthStore } from '~/stores/auth'
 import { useEngagementsStore } from '~/stores/engagements'
 import {
@@ -192,7 +192,7 @@ import {
   ENGAGEMENT_RECORDS_PAGE_TITLE,
 } from '~/constants/page.constants'
 import { ENGAGEMENT_PRIVILEGES } from '~/constants/privileges.constants'
-import { APP_MAIN_CONTENT_CLASSES, DEPLOYMENTS_PAGE_HEADER_CLASSES, TRAINING_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
+import { APP_MAIN_CONTENT_CLASSES, DEPLOYMENTS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
 import type {
   EngagementManagementListItem,
   EngagementManagementSearchQuery,
@@ -293,6 +293,13 @@ const loadEngagements = async (page = 1, pageSize?: number) => {
 const loadEngagementRecords = async (page = 1, pageSize?: number) => {
   await engagementsStore.fetchEngagementRecords(page, engagementRecordsFilters.value, pageSize)
 }
+
+const handlePrintEngagements = createCompleteListPrintHandler({
+  rows: engagementRows,
+  pagination: engagementsPagination,
+  loadPage: (page, pageSize) => loadEngagements(page, pageSize),
+  printItems: printEngagements,
+})
 
 const {
   handleApplyFilters: onApplyEngagementsFilter,
