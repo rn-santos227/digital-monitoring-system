@@ -127,6 +127,14 @@ const {
   updateEquipmentCategory,
 } = useEquipmentCategories()
 
+const { printEquipmentCategories } = usePrintEquipmentHandler()
+const handlePrintEquipmentCategories = createCompleteListPrintHandler({
+  rows: tableRows,
+  pagination,
+  loadPage: (page, pageSize) => loadEquipmentCategories(page, filters.value, pageSize),
+  printItems: printEquipmentCategories,
+})
+
 const authStore = useAuthStore()
 const canManageEquipmentCategories = computed(() => authStore.hasPermissionAccess(EQUIPMENT_CATEGORIES_PAGE_REQUIRED_PERMISSIONS.create))
 const { showDialog } = useDialog()
