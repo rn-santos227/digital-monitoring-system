@@ -33,16 +33,20 @@
       />
 
       <template v-if="activeTab === 'records'">
-        <div class="flex justify-end">
+        <div class="flex justify-end gap-2">
           <PrintDataListButton
             table-name="engagement_records"
             table-label="Engagement Records"
-            :get-print-data="() => printEngagementRecords(engagementRecordRows)"
+            :filters="engagementRecordsFilters"
+            :disabled="isEngagementRecordsLoading"
+            :get-print-data="handlePrintEngagementRecords"
           />
-        </div>
-
-        <div v-if="authStore.hasPermissionAccess(ENGAGEMENT_PRIVILEGES.create)" :class="TRAINING_TABLE_ACTIONS_ROW_CLASSES">
-          <BaseButton @click="isCreateEngagementRecordModalOpen = true">Create Engagement Record</BaseButton>
+          <BaseButton
+            v-if="authStore.hasPermissionAccess(ENGAGEMENT_PRIVILEGES.create)"
+            @click="isCreateEngagementRecordModalOpen = true"
+          >
+            Create Engagement Record
+          </BaseButton>
         </div>
 
         <EngagementRecordsFilter
