@@ -17,9 +17,12 @@ const formatPersonnelName = (personnel: IncidentPersonnelReference | null): stri
     return null
   }
 
- const givenNames = [personnel.first_name, personnel.middle_name]
+  const givenNames = [personnel.first_name, personnel.middle_name]
     .filter((part): part is string => Boolean(part?.trim()))
     .join(' ')
 
+  return [personnel.last_name, givenNames]
+    .filter(part => part.trim().length > 0)
+    .join(', ')
 }
 
