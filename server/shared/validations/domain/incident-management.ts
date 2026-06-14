@@ -43,6 +43,10 @@ const parseCoordinate = (
   maximum: number,
   label: string,
 ): number | null => {
+  if (value === null || value === undefined || value === '') {
+    return null
+  }
 
+  const coordinate = Number(value)
 
 }
