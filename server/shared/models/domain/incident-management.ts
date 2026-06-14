@@ -13,3 +13,8 @@ export interface IncidentEquipmentItemReference {
   name: string
 }
 
+export interface IncidentEquipmentAssetReference {
+  id: string
+  asset_tag: string
+  equipment_item: IncidentEquipmentItemReference | IncidentEquipmentItemReference[] | null
+}
