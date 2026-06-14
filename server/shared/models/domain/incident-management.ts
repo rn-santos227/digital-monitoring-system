@@ -3,3 +3,6 @@ export interface IncidentReference {
   name: string
 }
 
+export interface IncidentCodeReference extends IncidentReference {
+  code: string
+}
