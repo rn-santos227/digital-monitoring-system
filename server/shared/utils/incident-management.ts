@@ -40,6 +40,9 @@ export const mapEquipmentIncidentListItem = (
     id: row.id,
     incidentNo: row.incident_no,
     equipmentAssetId: row.equipment_asset_id,
+    assetTag: equipmentAsset?.asset_tag ?? '',
+    equipmentCode: equipmentItem?.equipment_code ?? null,
+    equipmentName: equipmentItem?.name ?? null,
 
   }
 }
