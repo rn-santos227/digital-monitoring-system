@@ -26,4 +26,14 @@ const parseRequiredText = (value: unknown, message: string): string => {
   return normalized
 }
 
+const parseDate = (value: unknown): string => {
+  const date = parseRequiredText(value, 'Incident date is required.')
+
+  if (!ISO_DATE_PATTERN.test(date) || Number.isNaN(Date.parse(`${date}T00:00:00Z`))) {
+    throw createError({ statusCode: 400, statusMessage: 'Incident date must use YYYY-MM-DD format.' })
+  }
+
+  return date
+}
+
 
