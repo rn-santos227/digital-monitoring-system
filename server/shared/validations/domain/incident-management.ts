@@ -91,5 +91,9 @@ export const buildEquipmentIncidentUpdates = (
     updates.equipment_asset_id = parseRequiredText(body.equipmentAssetId, 'Equipment asset cannot be empty.')
   }
 
+  if ('personnelId' in body) {
+    updates.personnel_id = normalizeOptionalText(body.personnelId ?? undefined) ?? null
+  }
+
 }
 
