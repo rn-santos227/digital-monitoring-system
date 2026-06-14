@@ -16,6 +16,16 @@
         <BaseAlert v-if="pageError" :message="pageError" tone="danger" />
 
         <template v-if="equipmentItem">
+          <div class="flex justify-end">
+            <PrintDataListButton
+              table-name="equipment_items"
+              table-label="Equipment Item Profile"
+              :filters="{ id: equipmentItem.id }"
+              :get-print-data="handlePrintEquipmentItemProfile"
+              show-label
+            />
+          </div>
+
           <div class="grid gap-6 xl:grid-cols-[340px_minmax(0,1fr)]">
             <BaseCard>
               <div class="flex flex-col items-center gap-4 text-center">
