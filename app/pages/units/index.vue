@@ -278,6 +278,12 @@ const handlePrintBattalions = createCompleteListPrintHandler({
   printItems: printBattalions,
 })
 
+const handlePrintCompanies = createCompleteListPrintHandler({
+  rows: companyTableRows,
+  pagination: companyPagination,
+  loadPage: (page, pageSize) => loadCompanies(page, companyFilters.value, pageSize),
+  printItems: printCompanies,
+})
 
 const { handleTabChange } = useUnitsPageHandlers(activeTab)
 const { onOpenCreateBattalionModal, onCloseCreateBattalionModal, onCreateBattalion } = useCreateBattalionHandler({
