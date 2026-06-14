@@ -99,5 +99,9 @@ export const buildEquipmentIncidentUpdates = (
     updates.deployment_id = normalizeOptionalText(body.deploymentId ?? undefined) ?? null
   }
 
+  if ('incidentTypeId' in body) {
+    updates.incident_type_id = parseRequiredText(body.incidentTypeId, 'Incident type cannot be empty.')
+  }
+
 }
 
