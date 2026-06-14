@@ -138,3 +138,16 @@ export const buildEquipmentIncidentUpdates = (
   return updates
 }
 
+export const parseEquipmentIncidentListQuery = (query: Record<string, unknown>) => {
+  const rawPage = Math.trunc(Number(query.page ?? 1))
+  const rawPageSize = Math.trunc(Number(query.pageSize ?? INCIDENT_DEFAULT_PAGE_SIZE))
+  const page = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1
+  const pageSize = Number.isFinite(rawPageSize)
+    ? Math.min(Math.max(rawPageSize, 1), INCIDENT_MAX_PAGE_SIZE)
+    : INCIDENT_DEFAULT_PAGE_SIZE
+  const optionalQueryText = (key: string): string | null => {
+    const value = query[key]
+    return normalizeOptionalText(typeof value === 'string' ? value : undefined) ?? null
+  }
+
+}
