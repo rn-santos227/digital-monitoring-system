@@ -103,5 +103,9 @@ export const buildEquipmentIncidentUpdates = (
     updates.incident_type_id = parseRequiredText(body.incidentTypeId, 'Incident type cannot be empty.')
   }
 
+  if ('incidentDate' in body) {
+    updates.incident_date = parseDate(body.incidentDate)
+  }
+
 }
 
