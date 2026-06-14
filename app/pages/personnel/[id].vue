@@ -109,6 +109,7 @@ import { computed, ref, watch } from 'vue'
 import { useDateDisplay } from '~/composables/useDateDisplay'
 import { useDialog } from '~/composables/useDialog'
 import { useAssignments } from '~/composables/useAssignments'
+import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import BaseButton from '~/components/ui/BaseButton.vue'
 import DeploymentTable from '~/components/personnel/PersonnelDeploymentsTable.vue'
 import EngagementTable from '~/components/personnel/PersonnelEngagementsTable.vue'
@@ -149,6 +150,7 @@ import type { CreateEngagementRecordPayload } from '~/types/domain/engagement'
 import type { CreateTrainingRecordPayload } from '~/types/domain/training'
 import type { ActiveServiceStatusModal } from '~/types/domain/service-status'
 import { showErrorDialog } from '~/utils/error-handling'
+import { usePrintPersonnelHandler } from '~/handlers'
 
 const { formatDate } = useDateDisplay()
 const { showDialog } = useDialog()
@@ -157,6 +159,7 @@ const { isSubmitting, error: assignError, assignDeployment, assignEngagement, as
 const route = useRoute()
 const authStore = useAuthStore()
 const personnelStore = usePersonnelStore()
+const { printPersonnelProfile } = usePrintPersonnelHandler()
 
 const activeTab = ref<PersonnelProfileTabId>('training')
 const personnel = ref<(PersonnelDetail & { fullName: string }) | null>(null)
@@ -175,6 +178,9 @@ const personnelId = computed(() => {
   return Array.isArray(idValue) ? (idValue[0] ?? '') : (idValue ?? '')
 })
 
+const handlePrintPersonnelProfile = () => {
+  return printPersonnelProfile(personnel.value)
+}
 
 const loadPersonnelProfile = async (id: string) => {
   const response = await personnelStore.fetchPersonnelById(id)
