@@ -11,3 +11,9 @@ export interface EquipmentIncidentListResponse {
   totalItems: number
   totalPages: number
 }
+
+export interface CreateEquipmentIncidentResponse {
+  ok: true
+  id: string
+  item: EquipmentIncidentListItem
+}
