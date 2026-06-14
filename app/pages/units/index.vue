@@ -168,6 +168,7 @@ import BattalionsFilter from '~/components/units/BattalionsFilter.vue'
 import BattalionsTable from '~/components/units/BattalionsTable.vue'
 import CompaniesFilter from '~/components/units/CompaniesFilter.vue'
 import CompaniesTable from '~/components/units/CompaniesTable.vue'
+import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 import { useBattalions } from '~/composables/useBattalions'
 import { useCompanies } from '~/composables/useCompanies'
@@ -205,6 +206,9 @@ import {
   useViewCompanyHandler,
   useAssignBattalionHandler,
   useAssignCompanyHandler,
+  usePrintBattalionsHandler,
+  usePrintCompaniesHandler,
+  createCompleteListPrintHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import { useUnitManagementKpisStore } from '~/stores/units'
