@@ -49,4 +49,12 @@ const parseCoordinate = (
 
   const coordinate = Number(value)
 
+  if (!Number.isFinite(coordinate) || coordinate < minimum || coordinate > maximum) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: `${label} must be between ${minimum} and ${maximum}.`,
+    })
+  }
+
+  return coordinate
 }
