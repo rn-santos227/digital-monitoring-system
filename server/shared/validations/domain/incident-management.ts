@@ -150,4 +150,18 @@ export const parseEquipmentIncidentListQuery = (query: Record<string, unknown>) 
     return normalizeOptionalText(typeof value === 'string' ? value : undefined) ?? null
   }
 
+  return {
+    page,
+    pageSize,
+    rangeFrom: (page - 1) * pageSize,
+    rangeTo: page * pageSize - 1,
+    search: optionalQueryText('search') ?? optionalQueryText('term') ?? '',
+    incidentTypeId: optionalQueryText('incidentTypeId'),
+    investigationStatusId: optionalQueryText('investigationStatusId'),
+    equipmentAssetId: optionalQueryText('equipmentAssetId'),
+    personnelId: optionalQueryText('personnelId'),
+    deploymentId: optionalQueryText('deploymentId'),
+    dateFrom: optionalQueryText('dateFrom'),
+    dateTo: optionalQueryText('dateTo'),
+  }
 }
