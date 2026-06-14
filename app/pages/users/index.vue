@@ -209,6 +209,9 @@ import {
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 
+const { printUserProfiles } = usePrintUsersHandler()
+const { printAccountTypes } = usePrintAccountTypesHandler()
+
 const {
   activeTab,
   profileFilters,
