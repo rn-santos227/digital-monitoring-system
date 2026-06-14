@@ -87,5 +87,9 @@ export const buildEquipmentIncidentUpdates = (
     updates.incident_no = parseRequiredText(body.incidentNo, 'Incident number cannot be empty.').toUpperCase()
   }
 
+  if ('equipmentAssetId' in body) {
+    updates.equipment_asset_id = parseRequiredText(body.equipmentAssetId, 'Equipment asset cannot be empty.')
+  }
+
 }
 
