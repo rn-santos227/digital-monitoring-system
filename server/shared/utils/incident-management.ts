@@ -12,3 +12,11 @@ const toSingleReference = <T>(value: T | T[] | null): T | null => {
   return value
 }
 
+const formatPersonnelName = (personnel: IncidentPersonnelReference | null): string | null => {
+  if (!personnel) {
+    return null
+  }
+
+
+}
+
