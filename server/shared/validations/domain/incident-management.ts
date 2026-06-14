@@ -111,5 +111,9 @@ export const buildEquipmentIncidentUpdates = (
     updates.location = normalizeOptionalText(body.location ?? undefined) ?? null
   }
 
+  if ('locationLatitude' in body) {
+    updates.location_latitude = parseCoordinate(body.locationLatitude, -90, 90, 'Location latitude')
+  }
+
 }
 
