@@ -268,6 +268,10 @@ const {
   assignPersonnel: assignPersonnelToCompany,
 } = useCompanies()
 
+const { printBattalions } = usePrintBattalionsHandler()
+const { printCompanies } = usePrintCompaniesHandler()
+
+
 const { handleTabChange } = useUnitsPageHandlers(activeTab)
 const { onOpenCreateBattalionModal, onCloseCreateBattalionModal, onCreateBattalion } = useCreateBattalionHandler({
   isCreateBattalionModalOpen,
