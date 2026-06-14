@@ -57,3 +57,19 @@ export interface EquipmentIncidentRow {
   incident_type: IncidentCodeReference | IncidentCodeReference[] | null
   investigation_status: IncidentReference | IncidentReference[] | null
 }
+
+export interface EquipmentIncidentCreate {
+  incident_no: string
+  equipment_asset_id: string
+  personnel_id: string | null
+  deployment_id: string | null
+  incident_type_id: string
+  incident_date: string
+  location: string | null
+  location_latitude: number | null
+  location_longitude: number | null
+  description: string
+  investigation_status_id: string | null
+  resolution: string | null
+  remarks: string | null
+}
