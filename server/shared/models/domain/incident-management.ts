@@ -105,3 +105,9 @@ export interface EquipmentIncidentListItem {
   createdAt: string
   updatedAt: string
 }
+
+export interface IncidentTypeSuggestionItem {
+  id: string
+  code: string
+  name: string
+}
