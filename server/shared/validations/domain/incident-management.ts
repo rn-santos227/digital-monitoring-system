@@ -7,7 +7,10 @@ import type {
   EquipmentIncidentCreate,
   EquipmentIncidentUpdate,
 } from '../../models'
-import { normalizeOptionalText } from '../../utils'
+import {
+  ISO_DATE_PATTERN,
+  normalizeOptionalText,
+} from '../../utils'
 import {
   INCIDENT_DEFAULT_PAGE_SIZE,
   INCIDENT_MAX_PAGE_SIZE,
