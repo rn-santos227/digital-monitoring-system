@@ -209,23 +209,6 @@ import {
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 
-const { printUserProfiles } = usePrintUsersHandler()
-const { printAccountTypes } = usePrintAccountTypesHandler()
-
-const handlePrintUserProfiles = createCompleteListPrintHandler({
-  rows: profileTableRows,
-  pagination: profilePagination,
-  loadPage: (page, pageSize) => loadUserProfiles(page, profileFilters.value, pageSize),
-  printItems: printUserProfiles,
-})
-
-const handlePrintAccountTypes = createCompleteListPrintHandler({
-  rows: accountTableRows,
-  pagination: accountPagination,
-  loadPage: (page, pageSize) => loadUserAccounts(page, accountFilters.value, pageSize),
-  printItems: printAccountTypes,
-})
-
 const {
   activeTab,
   profileFilters,
@@ -254,6 +237,24 @@ const {
   updateUserActivation,
   deleteUserProfile,
 } = useUsers()
+
+const { printUserProfiles } = usePrintUsersHandler()
+const { printAccountTypes } = usePrintAccountTypesHandler()
+
+const handlePrintUserProfiles = createCompleteListPrintHandler({
+  rows: profileTableRows,
+  pagination: profilePagination,
+  loadPage: (page, pageSize) => loadUserProfiles(page, profileFilters.value, pageSize),
+  printItems: printUserProfiles,
+})
+
+const handlePrintAccountTypes = createCompleteListPrintHandler({
+  rows: accountTableRows,
+  pagination: accountPagination,
+  loadPage: (page, pageSize) => loadUserAccounts(page, accountFilters.value, pageSize),
+  printItems: printAccountTypes,
+})
+
 const authStore = useAuthStore()
 const { showDialog } = useDialog()
 const { addToast } = useToast()
