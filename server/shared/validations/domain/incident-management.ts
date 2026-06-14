@@ -58,3 +58,24 @@ const parseCoordinate = (
 
   return coordinate
 }
+
+export const parseCreateEquipmentIncidentPayload = (
+  body: CreateEquipmentIncidentRequest,
+): EquipmentIncidentCreate => ({
+  incident_no: parseRequiredText(body.incidentNo, 'Incident number is required.').toUpperCase(),
+  equipment_asset_id: parseRequiredText(body.equipmentAssetId, 'Equipment asset is required.'),
+  personnel_id: normalizeOptionalText(body.personnelId ?? undefined) ?? null,
+  deployment_id: normalizeOptionalText(body.deploymentId ?? undefined) ?? null,
+  incident_type_id: parseRequiredText(body.incidentTypeId, 'Incident type is required.'),
+  incident_date: parseDate(body.incidentDate),
+  location: normalizeOptionalText(body.location ?? undefined) ?? null,
+  location_latitude: parseCoordinate(body.locationLatitude, -90, 90, 'Location latitude'),
+  location_longitude: parseCoordinate(body.locationLongitude, -180, 180, 'Location longitude'),
+  description: parseRequiredText(body.description, 'Incident description is required.'),
+  investigation_status_id: normalizeOptionalText(body.investigationStatusId ?? undefined) ?? null,
+  resolution: normalizeOptionalText(body.resolution ?? undefined) ?? null,
+  remarks: normalizeOptionalText(body.remarks ?? undefined) ?? null,
+})
+
+
+
