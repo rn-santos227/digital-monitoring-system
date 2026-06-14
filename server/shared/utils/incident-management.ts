@@ -52,6 +52,9 @@ export const mapEquipmentIncidentListItem = (
     deploymentArea: deployment?.deployment_area ?? null,
     incidentTypeId: row.incident_type_id,
     incidentTypeCode: incidentType?.code ?? null,
+    incidentTypeName: incidentType?.name ?? null,
+    incidentDate: row.incident_date,
+    location: row.location,
 
   }
 }
