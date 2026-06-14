@@ -51,8 +51,15 @@
           tone="danger"
         />
 
-        <div v-if="canCreateUserProfile" :class="USERS_TABLE_ACTIONS_ROW_CLASSES">
-         <BaseButton @click="onOpenCreateUserProfileModal">
+        <div :class="USERS_TABLE_ACTIONS_ROW_CLASSES">
+          <PrintDataListButton
+            table-name="user_profiles"
+            table-label="User Profiles"
+            :filters="profileFilters"
+            :disabled="isLoading"
+            :get-print-data="handlePrintUserProfiles"
+          />
+          <BaseButton v-if="canCreateUserProfile" @click="onOpenCreateUserProfileModal">
             {{ USERS_PROFILE_CREATE_BUTTON_LABEL }}
           </BaseButton>
         </div>
