@@ -26,3 +26,10 @@ const formatPersonnelName = (personnel: IncidentPersonnelReference | null): stri
     .join(', ')
 }
 
+export const mapEquipmentIncidentListItem = (
+  row: EquipmentIncidentRow,
+): EquipmentIncidentListItem => {
+
+
+}
+
