@@ -107,5 +107,9 @@ export const buildEquipmentIncidentUpdates = (
     updates.incident_date = parseDate(body.incidentDate)
   }
 
+  if ('location' in body) {
+    updates.location = normalizeOptionalText(body.location ?? undefined) ?? null
+  }
+
 }
 
