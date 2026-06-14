@@ -17,3 +17,9 @@ export interface CreateEquipmentIncidentResponse {
   id: string
   item: EquipmentIncidentListItem
 }
+
+export interface IncidentKpiResponse {
+  totalIncidents: number
+  unresolvedIncidents: number
+  incidentsThisMonth: number
+}
