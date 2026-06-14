@@ -95,5 +95,9 @@ export const buildEquipmentIncidentUpdates = (
     updates.personnel_id = normalizeOptionalText(body.personnelId ?? undefined) ?? null
   }
 
+  if ('deploymentId' in body) {
+    updates.deployment_id = normalizeOptionalText(body.deploymentId ?? undefined) ?? null
+  }
+
 }
 
