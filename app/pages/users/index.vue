@@ -161,6 +161,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
+import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import UsersFilter from '~/components/users/UsersFilter.vue'
 import AccountTypesFilter from '~/components/users/AccountTypesFilter.vue'
 import UsersTable from '~/components/users/UsersTable.vue'
@@ -202,6 +203,9 @@ import {
   useViewUserProfileHandler,
   useUpdateAccountTypeHandler,
   useUpdateUserProfileHandler,
+  usePrintUsersHandler,
+  usePrintAccountTypesHandler,
+  createCompleteListPrintHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 
