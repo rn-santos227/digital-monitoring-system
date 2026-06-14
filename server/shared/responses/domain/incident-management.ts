@@ -23,3 +23,8 @@ export interface IncidentKpiResponse {
   unresolvedIncidents: number
   incidentsThisMonth: number
 }
+
+export interface IncidentTypeSuggestionResponse {
+  items: IncidentTypeSuggestionItem[]
+}
+
