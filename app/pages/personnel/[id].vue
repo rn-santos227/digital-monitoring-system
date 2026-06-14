@@ -16,6 +16,16 @@
         <BaseAlert v-if="personnelError" :message="personnelError" tone="danger" />
 
         <template v-if="personnel">
+          <div class="flex justify-end">
+            <PrintDataListButton
+              table-name="personnel"
+              table-label="Personnel Profile"
+              :filters="{ id: personnel.id }"
+              :get-print-data="handlePrintPersonnelProfile"
+              show-label
+            />
+          </div>
+
           <div class="grid gap-6 xl:grid-cols-[340px_minmax(0,1fr)]">
             <BaseCard>
               <div class="flex flex-col items-center gap-4 text-center">
