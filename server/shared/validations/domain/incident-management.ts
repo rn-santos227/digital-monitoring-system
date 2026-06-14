@@ -118,5 +118,10 @@ export const buildEquipmentIncidentUpdates = (
   if ('locationLongitude' in body) {
     updates.location_longitude = parseCoordinate(body.locationLongitude, -180, 180, 'Location longitude')
   }
+
+  if ('description' in body) {
+    updates.description = parseRequiredText(body.description, 'Incident description cannot be empty.')
+  }
+
 }
 
