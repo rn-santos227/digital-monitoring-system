@@ -4,14 +4,18 @@
     variant="secondary"
     size="md"
     :icon="isProcessing ? ArrowPathIcon : PrinterIcon"
-    icon-only
+    :icon-only="!showLabel"
     :aria-label="isProcessing ? PRINT_DATA_LIST_LOADING_ARIA_LABEL : PRINT_DATA_LIST_BUTTON_ARIA_LABEL"
     :aria-busy="isProcessing"
     :title="isProcessing ? PRINT_DATA_LIST_LOADING_TOOLTIP : PRINT_DATA_LIST_BUTTON_TOOLTIP"
     class="border-slate-300 bg-white text-slate-700"
     :class="{ '[&>svg]:animate-spin': isProcessing }"
     @click="handlePrint"
-  />
+  >
+    <template v-if="showLabel">
+      {{ isProcessing ? PRINT_DATA_LIST_LOADING_LABEL : PRINT_DATA_LIST_BUTTON_LABEL }}
+    </template>
+  </BaseButton>
 </template>
 
 <script setup lang="ts">
@@ -20,8 +24,10 @@ import { ArrowPathIcon, PrinterIcon } from '@heroicons/vue/24/outline'
 import BaseButton from '~/components/ui/BaseButton.vue'
 import {
   PRINT_DATA_LIST_BUTTON_ARIA_LABEL,
+  PRINT_DATA_LIST_BUTTON_LABEL,
   PRINT_DATA_LIST_BUTTON_TOOLTIP,
   PRINT_DATA_LIST_LOADING_ARIA_LABEL,
+  PRINT_DATA_LIST_LOADING_LABEL,
   PRINT_DATA_LIST_LOADING_TOOLTIP,
 } from '~/constants/ui.constants'
 import { recordPrintedTableAuditEndpoint } from '~/utils/audit-endpoints'
@@ -31,6 +37,7 @@ interface PrintDataListButtonProps {
   tableLabel?: string
   filters?: Record<string, unknown> | null
   disabled?: boolean
+  showLabel?: boolean
   getPrintData: () => Promise<unknown>
 }
 
@@ -38,6 +45,7 @@ const props = withDefaults(defineProps<PrintDataListButtonProps>(), {
   tableLabel: '',
   filters: null,
   disabled: false,
+  showLabel: false,
 })
 
 const emit = defineEmits<{
