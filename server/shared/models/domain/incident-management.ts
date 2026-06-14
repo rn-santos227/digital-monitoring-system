@@ -18,3 +18,11 @@ export interface IncidentEquipmentAssetReference {
   asset_tag: string
   equipment_item: IncidentEquipmentItemReference | IncidentEquipmentItemReference[] | null
 }
+
+export interface IncidentPersonnelReference {
+  id: string
+  personnel_code: string
+  first_name: string
+  middle_name: string | null
+  last_name: string
+}
