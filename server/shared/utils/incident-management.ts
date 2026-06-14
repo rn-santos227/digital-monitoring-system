@@ -61,7 +61,9 @@ export const mapEquipmentIncidentListItem = (
     investigationStatusId: row.investigation_status_id,
     investigationStatusName: investigationStatus?.name ?? null,
     resolution: row.resolution,
-
+    remarks: row.remarks,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
   }
 }
 
