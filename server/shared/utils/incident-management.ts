@@ -58,6 +58,9 @@ export const mapEquipmentIncidentListItem = (
     locationLatitude: row.location_latitude,
     locationLongitude: row.location_longitude,
     description: row.description,
+    investigationStatusId: row.investigation_status_id,
+    investigationStatusName: investigationStatus?.name ?? null,
+    resolution: row.resolution,
 
   }
 }
