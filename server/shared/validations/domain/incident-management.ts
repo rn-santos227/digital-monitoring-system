@@ -123,5 +123,9 @@ export const buildEquipmentIncidentUpdates = (
     updates.description = parseRequiredText(body.description, 'Incident description cannot be empty.')
   }
 
+  if ('investigationStatusId' in body) {
+    updates.investigation_status_id = normalizeOptionalText(body.investigationStatusId ?? undefined) ?? null
+  }
+
 }
 
