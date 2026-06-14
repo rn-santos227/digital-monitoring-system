@@ -32,7 +32,9 @@ export const mapEquipmentIncidentListItem = (
   const equipmentAsset = toSingleReference(row.equipment_asset)
   const equipmentItem = toSingleReference(equipmentAsset?.equipment_item ?? null)
   const personnel = toSingleReference(row.personnel)
-
+  const deployment = toSingleReference(row.deployment)
+  const incidentType = toSingleReference(row.incident_type)
+  const investigationStatus = toSingleReference(row.investigation_status)
 
 }
 
