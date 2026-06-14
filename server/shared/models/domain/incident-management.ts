@@ -26,3 +26,11 @@ export interface IncidentPersonnelReference {
   middle_name: string | null
   last_name: string
 }
+
+export interface IncidentDeploymentReference {
+  id: string
+  record_no: string
+  operation_name: string
+  deployment_area: string | null
+}
+
