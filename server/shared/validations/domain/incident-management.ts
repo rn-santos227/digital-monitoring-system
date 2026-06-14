@@ -127,5 +127,9 @@ export const buildEquipmentIncidentUpdates = (
     updates.investigation_status_id = normalizeOptionalText(body.investigationStatusId ?? undefined) ?? null
   }
 
+  if ('resolution' in body) {
+    updates.resolution = normalizeOptionalText(body.resolution ?? undefined) ?? null
+  }
+
 }
 
