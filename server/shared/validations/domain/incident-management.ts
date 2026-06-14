@@ -15,3 +15,15 @@ import {
   INCIDENT_DEFAULT_PAGE_SIZE,
   INCIDENT_MAX_PAGE_SIZE,
 } from '../../constants'
+
+const parseRequiredText = (value: unknown, message: string): string => {
+  const normalized = normalizeOptionalText(typeof value === 'string' ? value : undefined)
+
+  if (!normalized) {
+    throw createError({ statusCode: 400, statusMessage: message })
+  }
+
+  return normalized
+}
+
+
