@@ -28,3 +28,6 @@ export interface IncidentTypeSuggestionResponse {
   items: IncidentTypeSuggestionItem[]
 }
 
+export interface InvestigationStatusSuggestionResponse {
+  items: InvestigationStatusSuggestionItem[]
+}
