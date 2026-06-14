@@ -92,8 +92,15 @@
           tone="danger"
         />
 
-        <div v-if="canCreateAccountType" :class="USERS_TABLE_ACTIONS_ROW_CLASSES">
-          <BaseButton @click="onOpenCreateAccountTypeModal">
+        <div :class="USERS_TABLE_ACTIONS_ROW_CLASSES">
+          <PrintDataListButton
+            table-name="account_types"
+            table-label="Account Types"
+            :filters="accountFilters"
+            :disabled="isLoading"
+            :get-print-data="handlePrintAccountTypes"
+          />
+          <BaseButton v-if="canCreateAccountType" @click="onOpenCreateAccountTypeModal">
             {{ USERS_ACCOUNT_CREATE_BUTTON_LABEL }}
           </BaseButton>
         </div>
