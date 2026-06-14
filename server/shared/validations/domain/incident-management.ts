@@ -37,3 +37,12 @@ const parseDate = (value: unknown): string => {
 }
 
 
+const parseCoordinate = (
+  value: number | string | null | undefined,
+  minimum: number,
+  maximum: number,
+  label: string,
+): number | null => {
+
+
+}
