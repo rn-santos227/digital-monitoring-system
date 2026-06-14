@@ -29,6 +29,9 @@ const formatPersonnelName = (personnel: IncidentPersonnelReference | null): stri
 export const mapEquipmentIncidentListItem = (
   row: EquipmentIncidentRow,
 ): EquipmentIncidentListItem => {
+  const equipmentAsset = toSingleReference(row.equipment_asset)
+  const equipmentItem = toSingleReference(equipmentAsset?.equipment_item ?? null)
+  const personnel = toSingleReference(row.personnel)
 
 
 }
