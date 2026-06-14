@@ -111,3 +111,8 @@ export interface IncidentTypeSuggestionItem {
   code: string
   name: string
 }
+
+export interface InvestigationStatusSuggestionItem {
+  id: string
+  name: string
+}
