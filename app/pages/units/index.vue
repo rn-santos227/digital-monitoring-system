@@ -38,8 +38,15 @@
         @update:model-value="onTabChange"
       />
 
-      <div v-if="showCreateButton" :class="UNITS_TABLE_ACTIONS_ROW_CLASSES">
-        <BaseButton @click="onCreateActionClick">
+      <div :class="UNITS_TABLE_ACTIONS_ROW_CLASSES">
+        <PrintDataListButton
+          :table-name="activeTab === 'battalion' ? 'battalions' : 'companies'"
+          :table-label="activeTab === 'battalion' ? 'Battalions' : 'Companies'"
+          :filters="activeTab === 'battalion' ? battalionFilters : companyFilters"
+          :disabled="activeTab === 'battalion' ? isBattalionsLoading : isCompaniesLoading"
+          :get-print-data="activeTab === 'battalion' ? handlePrintBattalions : handlePrintCompanies"
+        />
+        <BaseButton v-if="showCreateButton" @click="onCreateActionClick">
           {{ createButtonLabel }}
         </BaseButton>
       </div>
