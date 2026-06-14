@@ -36,5 +36,11 @@ export const mapEquipmentIncidentListItem = (
   const incidentType = toSingleReference(row.incident_type)
   const investigationStatus = toSingleReference(row.investigation_status)
 
+  return {
+    id: row.id,
+    incidentNo: row.incident_no,
+    equipmentAssetId: row.equipment_asset_id,
+
+  }
 }
 
