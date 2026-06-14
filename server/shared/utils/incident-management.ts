@@ -46,6 +46,9 @@ export const mapEquipmentIncidentListItem = (
     personnelId: row.personnel_id,
     personnelCode: personnel?.personnel_code ?? null,
     personnelName: formatPersonnelName(personnel),
+    deploymentId: row.deployment_id,
+    deploymentRecordNo: deployment?.record_no ?? null,
+    deploymentName: deployment?.operation_name ?? null,
 
   }
 }
