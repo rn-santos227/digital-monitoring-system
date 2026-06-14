@@ -131,5 +131,10 @@ export const buildEquipmentIncidentUpdates = (
     updates.resolution = normalizeOptionalText(body.resolution ?? undefined) ?? null
   }
 
+  if ('remarks' in body) {
+    updates.remarks = normalizeOptionalText(body.remarks ?? undefined) ?? null
+  }
+
+  return updates
 }
 
