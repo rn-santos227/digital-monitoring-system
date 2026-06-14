@@ -78,4 +78,10 @@ export const parseCreateEquipmentIncidentPayload = (
 })
 
 
+export const buildEquipmentIncidentUpdates = (
+  body: UpdateEquipmentIncidentRequest,
+): EquipmentIncidentUpdate => {
+  const updates: EquipmentIncidentUpdate = {}
+
+}
 
