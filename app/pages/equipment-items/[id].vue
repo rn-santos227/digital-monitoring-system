@@ -104,6 +104,7 @@ import { computed, ref, watch } from 'vue'
 import EquipmentItemBattalionsUsageTable from '~/components/equipment/views/EquipmentItemBattalionsUsageTable.vue'
 import EquipmentItemCompaniesUsageTable from '~/components/equipment/views/EquipmentItemCompaniesUsageTable.vue'
 import EquipmentItemPersonnelUsageTable from '~/components/equipment/views/EquipmentItemPersonnelUsageTable.vue'
+import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import {
   EQUIPMENT_ITEM_PROFILE_PAGE_SUBTITLE,
   EQUIPMENT_ITEM_PROFILE_PAGE_TITLE,
@@ -131,6 +132,7 @@ import {
   getEquipmentItemCompaniesEndpoint,
   getEquipmentItemPersonnelEndpoint,
 } from '~/utils/equipment-endpoints'
+import { usePrintEquipmentHandler } from '~/handlers'
 
 interface UsagePaginationState {
   page: number
@@ -151,6 +153,7 @@ const createPaginationState = (): UsagePaginationState => ({ ...DEFAULT_USAGE_PA
 const { formatDate } = useDateDisplay()
 const route = useRoute()
 const authStore = useAuthStore()
+const { printEquipmentItemProfile } = usePrintEquipmentHandler()
 
 const activeTab = ref<EquipmentItemProfileTabId>('personnel')
 const equipmentItem = ref<EquipmentItemListItem | null>(null)
