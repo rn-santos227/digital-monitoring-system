@@ -180,6 +180,10 @@ const equipmentItemId = computed(() => {
   return Array.isArray(idValue) ? (idValue[0] ?? '') : (idValue ?? '')
 })
 
+const handlePrintEquipmentItemProfile = () => {
+  return printEquipmentItemProfile(equipmentItem.value)
+}
+
 const applyPagination = (target: typeof personnelPagination, response: UsagePaginationState) => {
   target.value = {
     page: response.page,
