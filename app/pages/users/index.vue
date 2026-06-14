@@ -219,6 +219,12 @@ const handlePrintUserProfiles = createCompleteListPrintHandler({
   printItems: printUserProfiles,
 })
 
+const handlePrintAccountTypes = createCompleteListPrintHandler({
+  rows: accountTableRows,
+  pagination: accountPagination,
+  loadPage: (page, pageSize) => loadUserAccounts(page, accountFilters.value, pageSize),
+  printItems: printAccountTypes,
+})
 
 const {
   activeTab,
