@@ -212,6 +212,14 @@ import { useAuthStore } from '~/stores/auth'
 const { printUserProfiles } = usePrintUsersHandler()
 const { printAccountTypes } = usePrintAccountTypesHandler()
 
+const handlePrintUserProfiles = createCompleteListPrintHandler({
+  rows: profileTableRows,
+  pagination: profilePagination,
+  loadPage: (page, pageSize) => loadUserProfiles(page, profileFilters.value, pageSize),
+  printItems: printUserProfiles,
+})
+
+
 const {
   activeTab,
   profileFilters,
