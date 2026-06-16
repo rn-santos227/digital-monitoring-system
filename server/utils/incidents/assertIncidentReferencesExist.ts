@@ -18,4 +18,7 @@ const assertReferenceExists = async (
     throw createError({ statusCode: 500, statusMessage: error.message })
   }
 
+  if (!data?.id) {
+    throw createError({ statusCode: 400, statusMessage: `Invalid ${label}.` })
+  }
 }
