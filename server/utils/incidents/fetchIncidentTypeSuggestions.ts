@@ -10,5 +10,12 @@ export const fetchIncidentTypeSuggestions = async (
   supabase: SupabaseClient,
   term: string,
 ): Promise<IncidentTypeSuggestionItem[]> => {
+  let query = supabase
+    .from('incident_types')
+    .select(INCIDENT_TYPE_SUGGESTION_SELECT_COLUMNS)
+
+  if (term) {
+    query = query.or(`code.ilike.%${term}%,name.ilike.%${term}%`)
+  }
 
 }
