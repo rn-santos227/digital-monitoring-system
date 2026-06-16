@@ -8,5 +8,10 @@ const assertReferenceExists = async (
   id: string,
   label: string,
 ): Promise<void> => {
+  const { data, error } = await supabase
+    .from(table)
+    .select('id')
+    .eq('id', id)
+    .maybeSingle()
 
 }
