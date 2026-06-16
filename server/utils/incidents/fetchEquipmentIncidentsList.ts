@@ -15,3 +15,10 @@ export interface EquipmentIncidentListFilters {
   rangeFrom: number
   rangeTo: number
 }
+
+export const fetchEquipmentIncidentsList = async (
+  supabase: SupabaseClient,
+  filters: EquipmentIncidentListFilters,
+) => {
+
+}
