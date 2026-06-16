@@ -12,4 +12,12 @@ export const createEquipmentIncident = async (
     .select('id')
     .single()
 
+  if (error || !data?.id) {
+    throw createError({
+      statusCode: error?.code === '23505' ? 409 : 500,
+      statusMessage: error?.message ?? 'Failed to create equipment incident.',
+    })
+  }
+
+  return data.id
 }
