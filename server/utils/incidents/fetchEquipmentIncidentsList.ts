@@ -29,4 +29,14 @@ export const fetchEquipmentIncidentsList = async (
       `incident_no.ilike.%${filters.search}%,location.ilike.%${filters.search}%,description.ilike.%${filters.search}%,resolution.ilike.%${filters.search}%,remarks.ilike.%${filters.search}%`,
     )
   }
+
+  if (filters.incidentTypeId) query = query.eq('incident_type_id', filters.incidentTypeId)
+  if (filters.investigationStatusId) {
+    query = query.eq('investigation_status_id', filters.investigationStatusId)
+  }
+  if (filters.equipmentAssetId) query = query.eq('equipment_asset_id', filters.equipmentAssetId)
+  if (filters.personnelId) query = query.eq('personnel_id', filters.personnelId)
+  if (filters.deploymentId) query = query.eq('deployment_id', filters.deploymentId)
+  if (filters.dateFrom) query = query.gte('incident_date', filters.dateFrom)
+  if (filters.dateTo) query = query.lte('incident_date', filters.dateTo)
 }
