@@ -18,4 +18,11 @@ export const fetchIncidentKpiCounts = async (
       .select('id', { count: 'exact', head: true })
       .gte('incident_date', monthStartDate),
   ])
+
+  const error = totalResult.error ?? unresolvedResult.error ?? monthResult.error
+
+  if (error) {
+    throw createError({ statusCode: 500, statusMessage: error.message })
+  }
+
 }
