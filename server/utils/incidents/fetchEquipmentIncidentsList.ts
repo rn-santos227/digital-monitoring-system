@@ -39,4 +39,9 @@ export const fetchEquipmentIncidentsList = async (
   if (filters.deploymentId) query = query.eq('deployment_id', filters.deploymentId)
   if (filters.dateFrom) query = query.gte('incident_date', filters.dateFrom)
   if (filters.dateTo) query = query.lte('incident_date', filters.dateTo)
+
+  const { data, count, error } = await query
+    .order('incident_date', { ascending: false })
+    .order('created_at', { ascending: false })
+    .range(filters.rangeFrom, filters.rangeTo)
 }
