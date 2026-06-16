@@ -129,8 +129,13 @@ export const EQUIPMENT_ASSET_SUGGESTION_SELECT_COLUMNS =
 
 export const EQUIPMENT_ISSUANCE_SELECT_COLUMNS =
   'id, issue_no, equipment_asset_id, issued_to_personnel_id, issued_by_personnel_id, deployment_id, status_id, created_at, equipment_asset:equipment_assets(id, asset_tag, equipment_item:equipment_items(id, name)), issued_to_personnel:personnel!equipment_issuances_issued_to_personnel_id_fkey(id, personnel_code, first_name, middle_name, last_name), issued_by_personnel:personnel!equipment_issuances_issued_by_personnel_id_fkey(id, personnel_code, first_name, middle_name, last_name), deployment:deployment_records!equipment_issuances_deployment_id_fkey(id, operation_name, deployment_area), issuance_status:issuance_statuses(id, name)'
+
 export const EQUIPMENT_ISSUANCE_DETAILS_COLUMNS =
   'id, issue_no, equipment_asset_id, issued_to_personnel_id, issued_by_personnel_id, deployment_id, issue_date, expected_return_date, actual_return_date, quantity_issued, status_id, issued_location, return_location, remarks, created_at, updated_at, equipment_asset:equipment_assets(id, asset_tag, equipment_item:equipment_items(id, name)), issued_to_personnel:personnel!equipment_issuances_issued_to_personnel_id_fkey(id, personnel_code, first_name, middle_name, last_name), issued_by_personnel:personnel!equipment_issuances_issued_by_personnel_id_fkey(id, personnel_code, first_name, middle_name, last_name), deployment:deployment_records!equipment_issuances_deployment_id_fkey(id, operation_name, deployment_area), issuance_status:issuance_statuses(id, name)'
+
+export const EQUIPMENT_INCIDENT_LIST_SELECT_COLUMNS =
+  'id, incident_no, equipment_asset_id, personnel_id, deployment_id, incident_type_id, incident_date, location, location_latitude, location_longitude, description, investigation_status_id, resolution, remarks, created_at, updated_at, equipment_asset:equipment_assets(id, asset_tag, equipment_item:equipment_items(id, equipment_code, name)), personnel:personnel(id, personnel_code, first_name, middle_name, last_name), deployment:deployment_records(id, record_no, operation_name, deployment_area), incident_type:incident_types(id, code, name), investigation_status:investigation_statuses(id, name)'
+
 export const TRAINING_CATEGORY_SELECT_COLUMNS = 'id, code, name, created_at, updated_at'
 
 export const TRAINING_SELECT_COLUMNS =

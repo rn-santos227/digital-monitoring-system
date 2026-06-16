@@ -24,4 +24,9 @@ export const fetchEquipmentIncidentsList = async (
     .from('equipment_incidents')
     .select(EQUIPMENT_INCIDENT_LIST_SELECT_COLUMNS, { count: 'exact' })
 
+  if (filters.search) {
+    query = query.or(
+      `incident_no.ilike.%${filters.search}%,location.ilike.%${filters.search}%,description.ilike.%${filters.search}%,resolution.ilike.%${filters.search}%,remarks.ilike.%${filters.search}%`,
+    )
+  }
 }
