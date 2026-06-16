@@ -6,5 +6,10 @@ export const createEquipmentIncident = async (
   supabase: SupabaseClient,
   payload: EquipmentIncidentCreate,
 ): Promise<string> => {
+  const { data, error } = await supabase
+    .from('equipment_incidents')
+    .insert(payload)
+    .select('id')
+    .single()
 
 }
