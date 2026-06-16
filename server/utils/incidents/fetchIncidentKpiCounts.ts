@@ -25,4 +25,9 @@ export const fetchIncidentKpiCounts = async (
     throw createError({ statusCode: 500, statusMessage: error.message })
   }
 
+  return {
+    totalIncidents: totalResult.count ?? 0,
+    unresolvedIncidents: unresolvedResult.count ?? 0,
+    incidentsThisMonth: monthResult.count ?? 0,
+  }
 }
