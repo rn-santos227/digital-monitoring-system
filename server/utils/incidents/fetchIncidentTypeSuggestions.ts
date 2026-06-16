@@ -18,4 +18,13 @@ export const fetchIncidentTypeSuggestions = async (
     query = query.or(`code.ilike.%${term}%,name.ilike.%${term}%`)
   }
 
+  const { data, error } = await query
+    .order('name')
+    .limit(INCIDENT_SUGGESTION_PAGE_SIZE)
+
+  if (error) {
+    throw createError({ statusCode: 500, statusMessage: error.message })
+  }
+
+  return (data ?? []) as IncidentTypeSuggestionItem[]
 }
