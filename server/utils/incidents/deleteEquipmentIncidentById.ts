@@ -9,7 +9,8 @@ export const deleteEquipmentIncidentById = async (
     .from('equipment_incidents')
     .delete()
     .eq('id', id)
-
-
-
+  
+  if (error) {
+    throw createError({ statusCode: 500, statusMessage: error.message })
+  }
 }
