@@ -36,4 +36,8 @@ export const assertIncidentReferencesExist = async (
   if (payload.personnel_id) {
     checks.push(assertReferenceExists(supabase, 'personnel', payload.personnel_id, 'personnel'))
   }
+
+  if (payload.deployment_id) {
+    checks.push(assertReferenceExists(supabase, 'deployment_records', payload.deployment_id, 'deployment record'))
+  }
 }
