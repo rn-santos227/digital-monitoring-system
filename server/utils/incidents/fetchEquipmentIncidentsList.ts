@@ -48,4 +48,9 @@ export const fetchEquipmentIncidentsList = async (
   if (error) {
     throw createError({ statusCode: 500, statusMessage: error.message })
   }
+
+  return {
+    rows: (data ?? []) as EquipmentIncidentRow[],
+    totalItems: count ?? 0,
+  }
 }
