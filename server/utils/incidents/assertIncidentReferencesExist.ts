@@ -24,7 +24,8 @@ const assertReferenceExists = async (
 }
 
 export const assertIncidentReferencesExist = async (
-
+  supabase: SupabaseClient,
+  payload: EquipmentIncidentCreate | EquipmentIncidentUpdate,
 ): Promise<void> => {
-
+  const checks: Promise<void>[] = []
 }
