@@ -10,4 +10,12 @@ export const fetchIncidentKpiCounts = async (
   monthStart.setUTCHours(0, 0, 0, 0)
   const monthStartDate = monthStart.toISOString().slice(0, 10)
 
+  const [totalResult, unresolvedResult, monthResult] = await Promise.all([
+    supabase.from('equipment_incidents').select('id', { count: 'exact', head: true }),
+    supabase.from('equipment_incidents').select('id', { count: 'exact', head: true }).is('resolution', null),
+    supabase
+      .from('equipment_incidents')
+      .select('id', { count: 'exact', head: true })
+      .gte('incident_date', monthStartDate),
+  ])
 }
