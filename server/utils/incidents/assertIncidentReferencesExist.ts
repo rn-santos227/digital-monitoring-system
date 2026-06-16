@@ -22,3 +22,9 @@ const assertReferenceExists = async (
     throw createError({ statusCode: 400, statusMessage: `Invalid ${label}.` })
   }
 }
+
+export const assertIncidentReferencesExist = async (
+
+): Promise<void> => {
+
+}
