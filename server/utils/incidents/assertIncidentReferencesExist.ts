@@ -44,4 +44,17 @@ export const assertIncidentReferencesExist = async (
   if (payload.incident_type_id) {
     checks.push(assertReferenceExists(supabase, 'incident_types', payload.incident_type_id, 'incident type'))
   }
+
+  if (payload.investigation_status_id) {
+    checks.push(
+      assertReferenceExists(
+        supabase,
+        'investigation_statuses',
+        payload.investigation_status_id,
+        'investigation status',
+      ),
+    )
+  }
+
+  await Promise.all(checks)
 }
