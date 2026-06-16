@@ -28,4 +28,8 @@ export const assertIncidentReferencesExist = async (
   payload: EquipmentIncidentCreate | EquipmentIncidentUpdate,
 ): Promise<void> => {
   const checks: Promise<void>[] = []
+
+  if (payload.equipment_asset_id) {
+    checks.push(assertReferenceExists(supabase, 'equipment_assets', payload.equipment_asset_id, 'equipment asset'))
+  }
 }
