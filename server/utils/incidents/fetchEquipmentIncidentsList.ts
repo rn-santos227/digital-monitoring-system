@@ -44,4 +44,8 @@ export const fetchEquipmentIncidentsList = async (
     .order('incident_date', { ascending: false })
     .order('created_at', { ascending: false })
     .range(filters.rangeFrom, filters.rangeTo)
+
+  if (error) {
+    throw createError({ statusCode: 500, statusMessage: error.message })
+  }
 }
