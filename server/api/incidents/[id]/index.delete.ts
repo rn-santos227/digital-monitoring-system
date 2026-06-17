@@ -27,6 +27,9 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       throw createError({ statusCode: 404, statusMessage: 'Equipment incident not found.' })
     }
 
+    oldData = { ...mapEquipmentIncidentListItem(existingRow) }
+    await deleteEquipmentIncidentById(supabase, id)
+
   } catch (error: unknown) {
 
   }
