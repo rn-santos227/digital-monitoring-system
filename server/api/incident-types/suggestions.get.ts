@@ -6,3 +6,6 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchIncidentTypeSuggestions } from '../../utils/incidents/fetchIncidentTypeSuggestions'
 
 
+export default defineEventHandler(async (event): Promise<IncidentTypeSuggestionResponse> => {
+
+})
