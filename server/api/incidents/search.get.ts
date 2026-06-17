@@ -15,4 +15,11 @@ export default defineEventHandler(async (event): Promise<EquipmentIncidentListRe
     filters,
   )
 
+  return {
+    items: rows.map(mapEquipmentIncidentListItem),
+    page: filters.page,
+    pageSize: filters.pageSize,
+    totalItems,
+    totalPages: totalItems === 0 ? 0 : Math.ceil(totalItems / filters.pageSize),
+  }
 })
