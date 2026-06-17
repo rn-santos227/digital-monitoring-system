@@ -7,4 +7,6 @@ import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchEquipmentIncidentsList } from '../../utils/incidents/fetchEquipmentIncidentsList'
 
+export default defineEventHandler(async (event): Promise<EquipmentIncidentListResponse> => {
 
+})
