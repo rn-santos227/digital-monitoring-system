@@ -14,5 +14,8 @@ export const fetchInvestigationStatusSuggestions = async (
     .from('investigation_statuses')
     .select(INVESTIGATION_STATUS_SUGGESTION_SELECT_COLUMNS)
 
+  if (term) {
+    query = query.ilike('name', `%${term}%`)
+  }
 
 }
