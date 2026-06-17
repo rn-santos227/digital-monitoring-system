@@ -44,6 +44,22 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
     oldData = { ...mapEquipmentIncidentListItem(existingRow) }
     await assertIncidentReferencesExist(supabase, updates)
 
+    const rollbackPayload: EquipmentIncidentCreate = {
+      incident_no: existingRow.incident_no,
+      equipment_asset_id: existingRow.equipment_asset_id,
+      personnel_id: existingRow.personnel_id,
+      deployment_id: existingRow.deployment_id,
+      incident_type_id: existingRow.incident_type_id,
+      incident_date: existingRow.incident_date,
+      location: existingRow.location,
+      location_latitude: existingRow.location_latitude,
+      location_longitude: existingRow.location_longitude,
+      description: existingRow.description,
+      investigation_status_id: existingRow.investigation_status_id,
+      resolution: existingRow.resolution,
+      remarks: existingRow.remarks,
+    }
+
   } catch (error: unknown) {
     await recordManagementAuditLog(event, {
       userId: actor.id,
