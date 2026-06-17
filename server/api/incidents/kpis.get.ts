@@ -6,5 +6,7 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchIncidentKpiCounts } from '../../utils/incidents/fetchIncidentKpiCounts'
 
 export default defineEventHandler(async (event): Promise<IncidentKpiResponse> => {
+  await requirePermission(event, PERMISSION_CODES.equipmentView)
 
+  return fetchIncidentKpiCounts(getServiceSupabaseClient())
 })
