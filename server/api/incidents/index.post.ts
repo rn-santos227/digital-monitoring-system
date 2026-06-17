@@ -67,7 +67,21 @@ export default defineEventHandler(async (event): Promise<CreateEquipmentIncident
       outcome: AUDIT_LOG_OUTCOMES.success,
       message: 'Equipment incident created successfully.',
     })
-  } catch (error: unknown) {
 
+    return { ok: true, id: createdId, item }
+  } catch (error: unknown) {
+    await recordManagementAuditLog(event, {
+      userId: actor.id,
+      action: AUDIT_LOG_ACTIONS.equipmentIncidentCreate,
+      tableName: 'equipment_incidents',
+      endpoint: AUDIT_LOG_ENDPOINTS.equipmentIncidentsCreate,
+      recordId: createdId ?? undefined,
+      requestData: body as Record<string, unknown>,
+      statusCode: (error as { statusCode?: number }).statusCode ?? 500,
+      outcome: AUDIT_LOG_OUTCOMES.failed,
+      message: error instanceof Error ? error.message : 'Unknown error',
+    })
+
+    throw error
   }
 })
