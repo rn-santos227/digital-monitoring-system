@@ -28,6 +28,14 @@ export default defineEventHandler(async (event): Promise<CreateEquipmentIncident
     const payload = parseCreateEquipmentIncidentPayload(body)
     await assertIncidentReferencesExist(supabase, payload)
 
+    createdId = await executeWithRollback({
+      operation: async () => {
+        const id = await createEquipmentIncident(supabase, payload)
+        createdId = id
+        return id
+      },
+
+    })
   } catch (error: unknown) {
 
   }
