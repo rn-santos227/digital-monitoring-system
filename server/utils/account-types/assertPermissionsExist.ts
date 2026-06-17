@@ -7,5 +7,14 @@ export async function assertPermissionsExist(
   supabase: SupabaseClient,
   permissionIds: string[],
 ): Promise<AccountTypePermissionSummaryRow[]> {
+  if (permissionIds.length === 0) {
+    return []
+  }
+
+  const uniquePermissionIds = [...new Set(permissionIds)]
+  const { data: permissionMatches, error: permissionLookupError } = await supabase
+    .from('permissions')
+    .select(PRIVILEGE_BASE_SELECT_COLUMNS)
+    .in('id', uniquePermissionIds)
 
 }
