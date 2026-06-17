@@ -20,4 +20,9 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   const supabase = getServiceSupabaseClient()
   let oldData: Record<string, unknown> | undefined
 
+  try {
+    const existingRow = await getEquipmentIncidentById(supabase, id)
+  } catch (error: unknown) {
+
+  }
 })
