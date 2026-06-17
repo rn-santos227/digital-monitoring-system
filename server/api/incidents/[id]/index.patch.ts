@@ -27,4 +27,10 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   const body = await readBody<UpdateEquipmentIncidentRequest>(event)
   const supabase = getServiceSupabaseClient()
   let oldData: Record<string, unknown> | undefined
+
+  try {
+
+  } catch (error: unknown) {
+
+  }
 })
