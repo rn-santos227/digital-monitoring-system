@@ -1,6 +1,6 @@
 # Supabase Schema Guide
 
-Generated from all SQL files in `supabase/migrations` (through `20260426144014_add-shared-training-deployment-engagement-tables.sql`).
+Generated from all SQL files in `supabase/migrations` (through `20260512132929_rename-engagement-date-columns.sql`).
 
 - **Required** = `Yes` means column is non-nullable (`NOT NULL` or implied by `PRIMARY KEY`).
 - **Type** reflects the declared PostgreSQL type.
@@ -29,6 +29,43 @@ Table constraints
 | `is_system` | Yes | `boolean` | default `false` |
 | `created_at` | Yes | `timestamptz` | default `now()` |
 | `updated_at` | Yes | `timestamptz` | default `now()` |
+
+
+## `application_settings`
+
+| Field | Required | Type | Notes |
+| --- | --- | --- | --- |
+| `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
+| `singleton_key` | Yes | `text` | UNIQUE; default `'default'` |
+| `app_name` | Yes | `text` | — |
+| `app_short_code` | Yes | `text` | — |
+| `app_description` | No | `text` | — |
+| `default_timezone` | Yes | `text` | default `'Asia/Manila'` |
+| `default_locale` | Yes | `text` | default `'en-PH'` |
+| `default_date_format` | Yes | `text` | default `'YYYY-MM-DD'` |
+| `default_time_format` | Yes | `text` | default `'24h'`; check `12h` or `24h` |
+| `app_theme` | Yes | `text` | default `'emerald'` |
+| `density_mode` | Yes | `text` | default `'comfortable'`; check `compact`, `comfortable`, or `spacious` |
+| `page_size` | Yes | `integer` | default `20`; must be greater than 0 |
+| `map_default_latitude` | Yes | `numeric(9,6)` | default `12.879721`; range check between -90 and 90 |
+| `map_default_longitude` | Yes | `numeric(9,6)` | default `121.774017`; range check between -180 and 180 |
+| `map_default_zoom` | Yes | `integer` | default `6`; check between 1 and 22 |
+| `map_min_zoom` | Yes | `integer` | default `4`; check between 1 and 22 |
+| `map_max_zoom` | Yes | `integer` | default `18`; check between 1 and 22 |
+| `personnel_code_prefix` | Yes | `text` | default `'AFP-P'` |
+| `equipment_asset_code_prefix` | Yes | `text` | default `'AFP-E'` |
+| `enable_audit_log_retention` | Yes | `boolean` | default `true` |
+| `audit_log_retention_days` | Yes | `integer` | default `365`; must be greater than 0 |
+| `enable_incident_notifications` | Yes | `boolean` | default `true` |
+| `enable_equipment_maintenance_reminders` | Yes | `boolean` | default `true` |
+| `created_at` | Yes | `timestamptz` | default `now()` |
+| `updated_at` | Yes | `timestamptz` | default `now()` |
+
+Table constraints
+
+- `constraint application_settings_latitude_check check (map_default_latitude >= -90 and map_default_latitude <= 90)`
+- `constraint application_settings_longitude_check check (map_default_longitude >= -180 and map_default_longitude <= 180)`
+- `constraint application_settings_zoom_range_check check (map_min_zoom <= map_default_zoom and map_default_zoom <= map_max_zoom)`
 
 ## `asset_statuses`
 
@@ -196,7 +233,7 @@ Table constraints
 
 ### Table constraints
 
-- `constraint engagement_records_date_check check (end_date is null or start_date is null or end_date >= start_date)`
+- `constraint engagement_records_start_end_date_check check (end_date is null or start_date is null or end_date >= start_date)`
 
 ## `engagements`
 
@@ -216,7 +253,7 @@ Table constraints
 
 Table constraints
 
-- `constraint engagements_date_check check (end_date is null or start_date is null or end_date >= start_date)`
+- `constraint engagements_start_end_date_check check (end_date is null or start_date is null or end_date >= start_date)`
 
 ## `engagement_statuses`
 
