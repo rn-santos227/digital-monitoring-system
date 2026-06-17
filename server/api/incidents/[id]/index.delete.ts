@@ -15,6 +15,9 @@ import { deleteEquipmentIncidentById } from '../../../utils/incidents/deleteEqui
 import { getEquipmentIncidentById } from '../../../utils/incidents/getEquipmentIncidentById'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
-
+  const actor = await requireAnyPermission(event, INCIDENT_MUTATION_PERMISSION_CODES)
+  const id = requireRouteId(getRouterParam(event, 'id'), 'Incident id is required.')
+  const supabase = getServiceSupabaseClient()
+  let oldData: Record<string, unknown> | undefined
 
 })
