@@ -4,3 +4,7 @@ import { PERMISSION_CODES } from '../../shared/constants'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchInvestigationStatusSuggestions } from '../../utils/incidents/fetchInvestigationStatusSuggestions'
+
+export default defineEventHandler(async (event): Promise<InvestigationStatusSuggestionResponse> => {
+
+})
