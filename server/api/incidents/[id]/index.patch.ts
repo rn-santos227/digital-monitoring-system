@@ -73,6 +73,21 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       ? { ...mapEquipmentIncidentListItem(updatedRow) }
       : { ...oldData }
 
+    await recordManagementAuditLog(event, {
+      userId: actor.id,
+      action: AUDIT_LOG_ACTIONS.equipmentIncidentUpdate,
+      tableName: 'equipment_incidents',
+      endpoint: AUDIT_LOG_ENDPOINTS.equipmentIncidentsUpdate,
+      recordId: id,
+      requestData: body as Record<string, unknown>,
+      oldData,
+      newData,
+      statusCode: 200,
+      outcome: AUDIT_LOG_OUTCOMES.success,
+      message: 'Equipment incident updated successfully.',
+    })
+
+    return { ok: true }
   } catch (error: unknown) {
     await recordManagementAuditLog(event, {
       userId: actor.id,
