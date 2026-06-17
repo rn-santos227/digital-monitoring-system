@@ -60,6 +60,14 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       remarks: existingRow.remarks,
     }
 
+    await executeWithRollback({
+      operation: async () => updateEquipmentIncidentById(supabase, id, updates),
+      rollback: async () => updateEquipmentIncidentById(supabase, id, rollbackPayload),
+      onRollbackError: (rollbackError) => {
+        console.error('Equipment incident update rollback error:', rollbackError)
+      },
+    })
+
   } catch (error: unknown) {
     await recordManagementAuditLog(event, {
       userId: actor.id,
