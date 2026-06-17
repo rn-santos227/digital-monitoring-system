@@ -11,4 +11,11 @@ export const updateEquipmentIncidentById = async (
     .from('equipment_incidents')
     .update(updates)
     .eq('id', id)
+
+  if (error) {
+    throw createError({
+      statusCode: error.code === '23505' ? 409 : 500,
+      statusMessage: error.message,
+    })
+  }
 }
