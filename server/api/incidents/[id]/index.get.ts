@@ -12,4 +12,9 @@ export default defineEventHandler(async (event): Promise<EquipmentIncidentListIt
   const id = requireRouteId(getRouterParam(event, 'id'), 'Incident id is required.')
   const row = await getEquipmentIncidentById(getServiceSupabaseClient(), id)
 
+  if (!row) {
+    throw createError({ statusCode: 404, statusMessage: 'Equipment incident not found.' })
+  }
+
+  return mapEquipmentIncidentListItem(row)
 })
