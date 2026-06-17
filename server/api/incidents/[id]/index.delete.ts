@@ -30,6 +30,19 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
     oldData = { ...mapEquipmentIncidentListItem(existingRow) }
     await deleteEquipmentIncidentById(supabase, id)
 
+    await recordManagementAuditLog(event, {
+      userId: actor.id,
+      action: AUDIT_LOG_ACTIONS.equipmentIncidentDelete,
+      tableName: 'equipment_incidents',
+      endpoint: AUDIT_LOG_ENDPOINTS.equipmentIncidentsDelete,
+      recordId: id,
+      oldData,
+      statusCode: 200,
+      outcome: AUDIT_LOG_OUTCOMES.success,
+      message: 'Equipment incident deleted successfully.',
+    })
+
+    return { ok: true }
   } catch (error: unknown) {
 
   }
