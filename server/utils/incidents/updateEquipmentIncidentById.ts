@@ -7,6 +7,8 @@ export const updateEquipmentIncidentById = async (
   id: string,
   updates: EquipmentIncidentUpdate,
 ): Promise<void> => {
-
-
+  const { error } = await supabase
+    .from('equipment_incidents')
+    .update(updates)
+    .eq('id', id)
 }
