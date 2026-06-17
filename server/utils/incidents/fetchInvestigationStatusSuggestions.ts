@@ -10,6 +10,9 @@ export const fetchInvestigationStatusSuggestions = async (
   supabase: SupabaseClient,
   term: string,
 ): Promise<InvestigationStatusSuggestionItem[]> => {
+  let query = supabase
+    .from('investigation_statuses')
+    .select(INVESTIGATION_STATUS_SUGGESTION_SELECT_COLUMNS)
 
 
 }
