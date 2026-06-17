@@ -7,4 +7,13 @@ import {
   AUDIT_LOG_OUTCOMES,
   INCIDENT_MUTATION_PERMISSION_CODES,
 } from '../../shared/constants'
-
+import { mapEquipmentIncidentListItem } from '../../shared/utils'
+import { parseCreateEquipmentIncidentPayload } from '../../shared/validations'
+import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
+import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
+import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { executeWithRollback } from '../../utils/db/executeWithRollback'
+import { assertIncidentReferencesExist } from '../../utils/incidents/assertIncidentReferencesExist'
+import { createEquipmentIncident } from '../../utils/incidents/createEquipmentIncident'
+import { deleteEquipmentIncidentById } from '../../utils/incidents/deleteEquipmentIncidentById'
+import { getEquipmentIncidentById } from '../../utils/incidents/getEquipmentIncidentById'
