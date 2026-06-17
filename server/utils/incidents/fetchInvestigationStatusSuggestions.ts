@@ -18,4 +18,7 @@ export const fetchInvestigationStatusSuggestions = async (
     query = query.ilike('name', `%${term}%`)
   }
 
+  const { data, error } = await query
+    .order('name')
+    .limit(INCIDENT_SUGGESTION_PAGE_SIZE)
 }
