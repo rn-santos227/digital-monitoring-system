@@ -6,5 +6,7 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchInvestigationStatusSuggestions } from '../../utils/incidents/fetchInvestigationStatusSuggestions'
 
 export default defineEventHandler(async (event): Promise<InvestigationStatusSuggestionResponse> => {
-
+  await requirePermission(event, PERMISSION_CODES.equipmentView)
+  const query = getQuery(event)
+  const term = typeof query.term === 'string' ? query.term.trim() : ''
 })
