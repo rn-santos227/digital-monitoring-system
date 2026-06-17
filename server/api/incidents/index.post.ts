@@ -34,7 +34,11 @@ export default defineEventHandler(async (event): Promise<CreateEquipmentIncident
         createdId = id
         return id
       },
-
+      rollback: async () => {
+        if (createdId) {
+          await deleteEquipmentIncidentById(supabase, createdId)
+        }
+      },
     })
   } catch (error: unknown) {
 
