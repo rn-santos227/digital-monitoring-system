@@ -2,6 +2,7 @@ import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { ACCOUNT_TYPE_BASE_SELECT_COLUMNS } from '../../shared/constants'
 import type { AccountTypeCreateResultRow, AccountTypePermissionSummaryRow } from '../../shared/models'
+import { assertPermissionsExist } from './assertPermissionsExist'
 import type { CreateAccountTypeRequest } from '../../shared/requests'
 
 interface CreateAccountTypeWithPermissionsResult {
@@ -32,18 +33,7 @@ export async function createAccountTypeWithPermissions(
 
   let permissions: AccountTypePermissionSummaryRow[] = []
   if (payload.permissionIds && payload.permissionIds.length > 0) {
-    const { data: permissionMatches, error: permissionLookupError } = await supabase
-      .from('permissions')
-      .select('id, code, name, module')
-      .in('id', payload.permissionIds)
-
-    if (permissionLookupError) {
-      throw createError({ statusCode: 500, statusMessage: `Failed to validate permissions: ${permissionLookupError.message}` })
-    }
-
-    if ((permissionMatches ?? []).length !== payload.permissionIds.length) {
-      throw createError({ statusCode: 400, statusMessage: 'One or more permission ids are invalid.' })
-    }
+    const permissionMatches = await assertPermissionsExist(supabase, payload.permissionIds)
 
     const { error: permissionInsertError } = await supabase
       .from('account_type_permissions')
@@ -59,7 +49,7 @@ export async function createAccountTypeWithPermissions(
       })
     }
 
-    permissions = permissionMatches ?? []
+    permissions = permissionMatches
   }
 
   return {
