@@ -13,3 +13,12 @@ import {
   buildEquipmentIncidentUpdates,
   requireRouteId,
 } from '../../../shared/validations'
+import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
+import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
+import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
+import { executeWithRollback } from '../../../utils/db/executeWithRollback'
+import { assertIncidentReferencesExist } from '../../../utils/incidents/assertIncidentReferencesExist'
+import { getEquipmentIncidentById } from '../../../utils/incidents/getEquipmentIncidentById'
+import { updateEquipmentIncidentById } from '../../../utils/incidents/updateEquipmentIncidentById'
+
+
