@@ -43,6 +43,15 @@ export default defineEventHandler(async (event): Promise<CreateEquipmentIncident
         console.error('Equipment incident create rollback error:', rollbackError)
       },
     })
+
+    const createdRow = await getEquipmentIncidentById(supabase, createdId)
+
+    if (!createdRow) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: 'Failed to load created equipment incident.',
+      })
+    }
   } catch (error: unknown) {
 
   }
