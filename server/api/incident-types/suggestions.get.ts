@@ -10,4 +10,8 @@ export default defineEventHandler(async (event): Promise<IncidentTypeSuggestionR
   await requirePermission(event, PERMISSION_CODES.equipmentView)
   const query = getQuery(event)
   const term = typeof query.term === 'string' ? query.term.trim() : ''
+
+  return {
+    items: await fetchIncidentTypeSuggestions(getServiceSupabaseClient(), term),
+  }
 })
