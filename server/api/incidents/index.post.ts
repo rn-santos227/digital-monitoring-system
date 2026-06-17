@@ -23,4 +23,12 @@ export default defineEventHandler(async (event): Promise<CreateEquipmentIncident
   const body = await readBody<CreateEquipmentIncidentRequest>(event)
   const supabase = getServiceSupabaseClient()
   let createdId: string | null = null
+
+  try {
+    const payload = parseCreateEquipmentIncidentPayload(body)
+    await assertIncidentReferencesExist(supabase, payload)
+
+  } catch (error: unknown) {
+
+  }
 })
