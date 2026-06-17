@@ -6,4 +6,10 @@ import {
 } from '../../shared/constants'
 import type { InvestigationStatusSuggestionItem } from '../../shared/models'
 
+export const fetchInvestigationStatusSuggestions = async (
+  supabase: SupabaseClient,
+  term: string,
+): Promise<InvestigationStatusSuggestionItem[]> => {
 
+
+}
