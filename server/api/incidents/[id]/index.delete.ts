@@ -44,6 +44,18 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
 
     return { ok: true }
   } catch (error: unknown) {
+    await recordManagementAuditLog(event, {
+      userId: actor.id,
+      action: AUDIT_LOG_ACTIONS.equipmentIncidentDelete,
+      tableName: 'equipment_incidents',
+      endpoint: AUDIT_LOG_ENDPOINTS.equipmentIncidentsDelete,
+      recordId: id,
+      oldData,
+      statusCode: (error as { statusCode?: number }).statusCode ?? 500,
+      outcome: AUDIT_LOG_OUTCOMES.failed,
+      message: error instanceof Error ? error.message : 'Unknown error',
+    })
 
+    throw error
   }
 })
