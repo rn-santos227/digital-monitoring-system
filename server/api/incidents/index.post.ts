@@ -19,5 +19,8 @@ import { deleteEquipmentIncidentById } from '../../utils/incidents/deleteEquipme
 import { getEquipmentIncidentById } from '../../utils/incidents/getEquipmentIncidentById'
 
 export default defineEventHandler(async (event): Promise<CreateEquipmentIncidentResponse> => {
-
+  const actor = await requireAnyPermission(event, INCIDENT_MUTATION_PERMISSION_CODES)
+  const body = await readBody<CreateEquipmentIncidentRequest>(event)
+  const supabase = getServiceSupabaseClient()
+  let createdId: string | null = null
 })
