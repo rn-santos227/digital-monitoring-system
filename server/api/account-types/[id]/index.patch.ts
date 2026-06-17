@@ -13,6 +13,7 @@ import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { getAccountTypeById } from '../../../utils/account-types/getAccountTypeById'
 import { getAccountTypePermissionIds } from '../../../utils/account-types/getAccountTypePermissionIds'
 import { replaceAccountTypePermissions } from '../../../utils/account-types/replaceAccountTypePermissions'
+import { assertPermissionsExist } from '../../../utils/account-types/assertPermissionsExist'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
 
 export default defineEventHandler(async (event) => {
@@ -87,19 +88,7 @@ export default defineEventHandler(async (event) => {
         }
 
         if (permissionIds !== null) {
-          const { data: permissionMatches, error: permissionLookupError } = await supabase
-            .from('permissions')
-            .select('id')
-            .in('id', permissionIds)
-
-          if (permissionLookupError) {
-            throw createError({ statusCode: 500, statusMessage: `Failed to validate permissions: ${permissionLookupError.message}` })
-          }
-
-          if ((permissionMatches ?? []).length !== permissionIds.length) {
-            throw createError({ statusCode: 400, statusMessage: 'One or more permission ids are invalid.' })
-          }
-
+          await assertPermissionsExist(supabase, permissionIds)
           await replaceAccountTypePermissions(supabase, id, permissionIds)
         }
       },
