@@ -8,5 +8,8 @@ import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { getEquipmentIncidentById } from '../../../utils/incidents/getEquipmentIncidentById'
 
 export default defineEventHandler(async (event): Promise<EquipmentIncidentListItem> => {
+  await requirePermission(event, PERMISSION_CODES.equipmentView)
+  const id = requireRouteId(getRouterParam(event, 'id'), 'Incident id is required.')
+  const row = await getEquipmentIncidentById(getServiceSupabaseClient(), id)
 
 })
