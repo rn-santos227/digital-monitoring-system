@@ -22,5 +22,9 @@ import { getEquipmentIncidentById } from '../../../utils/incidents/getEquipmentI
 import { updateEquipmentIncidentById } from '../../../utils/incidents/updateEquipmentIncidentById'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
-
+  const actor = await requireAnyPermission(event, INCIDENT_MUTATION_PERMISSION_CODES)
+  const id = requireRouteId(getRouterParam(event, 'id'), 'Incident id is required.')
+  const body = await readBody<UpdateEquipmentIncidentRequest>(event)
+  const supabase = getServiceSupabaseClient()
+  let oldData: Record<string, unknown> | undefined
 })
