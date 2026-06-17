@@ -29,7 +29,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   let oldData: Record<string, unknown> | undefined
 
   try {
-
+    const updates = buildEquipmentIncidentUpdates(body)
   } catch (error: unknown) {
     await recordManagementAuditLog(event, {
       userId: actor.id,
@@ -44,5 +44,6 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       message: error instanceof Error ? error.message : 'Unknown error',
     })
 
+    throw error
   }
 })
