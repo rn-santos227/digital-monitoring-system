@@ -22,6 +22,11 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
 
   try {
     const existingRow = await getEquipmentIncidentById(supabase, id)
+
+    if (!existingRow) {
+      throw createError({ statusCode: 404, statusMessage: 'Equipment incident not found.' })
+    }
+
   } catch (error: unknown) {
 
   }
