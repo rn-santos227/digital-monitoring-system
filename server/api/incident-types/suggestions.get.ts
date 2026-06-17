@@ -7,5 +7,7 @@ import { fetchIncidentTypeSuggestions } from '../../utils/incidents/fetchInciden
 
 
 export default defineEventHandler(async (event): Promise<IncidentTypeSuggestionResponse> => {
-
+  await requirePermission(event, PERMISSION_CODES.equipmentView)
+  const query = getQuery(event)
+  const term = typeof query.term === 'string' ? query.term.trim() : ''
 })
