@@ -8,4 +8,8 @@ import {
   AUDIT_LOG_OUTCOMES,
   INCIDENT_MUTATION_PERMISSION_CODES,
 } from '../../../shared/constants'
-
+import { mapEquipmentIncidentListItem } from '../../../shared/utils'
+import {
+  buildEquipmentIncidentUpdates,
+  requireRouteId,
+} from '../../../shared/validations'
