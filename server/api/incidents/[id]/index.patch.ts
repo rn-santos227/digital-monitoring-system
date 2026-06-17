@@ -21,4 +21,6 @@ import { assertIncidentReferencesExist } from '../../../utils/incidents/assertIn
 import { getEquipmentIncidentById } from '../../../utils/incidents/getEquipmentIncidentById'
 import { updateEquipmentIncidentById } from '../../../utils/incidents/updateEquipmentIncidentById'
 
+export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
 
+})
