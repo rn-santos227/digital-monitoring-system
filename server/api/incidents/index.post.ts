@@ -39,6 +39,9 @@ export default defineEventHandler(async (event): Promise<CreateEquipmentIncident
           await deleteEquipmentIncidentById(supabase, createdId)
         }
       },
+      onRollbackError: (rollbackError) => {
+        console.error('Equipment incident create rollback error:', rollbackError)
+      },
     })
   } catch (error: unknown) {
 
