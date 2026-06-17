@@ -41,6 +41,9 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       throw createError({ statusCode: 404, statusMessage: 'Equipment incident not found.' })
     }
 
+    oldData = { ...mapEquipmentIncidentListItem(existingRow) }
+    await assertIncidentReferencesExist(supabase, updates)
+
   } catch (error: unknown) {
     await recordManagementAuditLog(event, {
       userId: actor.id,
