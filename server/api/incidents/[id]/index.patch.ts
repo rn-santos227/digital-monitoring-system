@@ -30,6 +30,11 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
 
   try {
     const updates = buildEquipmentIncidentUpdates(body)
+
+    if (Object.keys(updates).length === 0) {
+      throw createError({ statusCode: 400, statusMessage: 'No updates were provided.' })
+    }
+
   } catch (error: unknown) {
     await recordManagementAuditLog(event, {
       userId: actor.id,
