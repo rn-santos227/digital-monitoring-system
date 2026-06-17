@@ -21,4 +21,10 @@ export const fetchInvestigationStatusSuggestions = async (
   const { data, error } = await query
     .order('name')
     .limit(INCIDENT_SUGGESTION_PAGE_SIZE)
+
+  if (error) {
+    throw createError({ statusCode: 500, statusMessage: error.message })
+  }
+
+  return (data ?? []) as InvestigationStatusSuggestionItem[]
 }
