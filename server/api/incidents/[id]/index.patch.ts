@@ -68,6 +68,11 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       },
     })
 
+    const updatedRow = await getEquipmentIncidentById(supabase, id)
+    const newData = updatedRow
+      ? { ...mapEquipmentIncidentListItem(updatedRow) }
+      : { ...oldData }
+
   } catch (error: unknown) {
     await recordManagementAuditLog(event, {
       userId: actor.id,
