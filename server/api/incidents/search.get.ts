@@ -8,5 +8,7 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchEquipmentIncidentsList } from '../../utils/incidents/fetchEquipmentIncidentsList'
 
 export default defineEventHandler(async (event): Promise<EquipmentIncidentListResponse> => {
+  await requirePermission(event, PERMISSION_CODES.equipmentView)
+  const filters = parseEquipmentIncidentListQuery(getQuery(event))
 
 })
