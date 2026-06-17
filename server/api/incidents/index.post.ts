@@ -52,6 +52,21 @@ export default defineEventHandler(async (event): Promise<CreateEquipmentIncident
         statusMessage: 'Failed to load created equipment incident.',
       })
     }
+
+    const item = mapEquipmentIncidentListItem(createdRow)
+
+    await recordManagementAuditLog(event, {
+      userId: actor.id,
+      action: AUDIT_LOG_ACTIONS.equipmentIncidentCreate,
+      tableName: 'equipment_incidents',
+      endpoint: AUDIT_LOG_ENDPOINTS.equipmentIncidentsCreate,
+      recordId: createdId,
+      requestData: body as Record<string, unknown>,
+      newData: { ...item },
+      statusCode: 201,
+      outcome: AUDIT_LOG_OUTCOMES.success,
+      message: 'Equipment incident created successfully.',
+    })
   } catch (error: unknown) {
 
   }
