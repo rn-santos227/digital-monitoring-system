@@ -17,3 +17,7 @@ import { assertIncidentReferencesExist } from '../../utils/incidents/assertIncid
 import { createEquipmentIncident } from '../../utils/incidents/createEquipmentIncident'
 import { deleteEquipmentIncidentById } from '../../utils/incidents/deleteEquipmentIncidentById'
 import { getEquipmentIncidentById } from '../../utils/incidents/getEquipmentIncidentById'
+
+export default defineEventHandler(async (event): Promise<CreateEquipmentIncidentResponse> => {
+
+})
