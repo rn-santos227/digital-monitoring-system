@@ -36,4 +36,7 @@ export interface EquipmentIncidentListItem {
   investigationStatusId: string | null
   investigationStatusName: string | null
   resolution: string | null
+  remarks: string | null
+  createdAt: string
+  updatedAt: string
 }
