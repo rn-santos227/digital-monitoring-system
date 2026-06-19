@@ -33,4 +33,7 @@ export interface EquipmentIncidentListItem {
   locationLatitude: number | null
   locationLongitude: number | null
   description: string
+  investigationStatusId: string | null
+  investigationStatusName: string | null
+  resolution: string | null
 }
