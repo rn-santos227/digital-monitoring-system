@@ -1,5 +1,6 @@
 import { createError } from 'h3'
 import { parseNumber } from './parsers'
+import { toCompactTimestamp } from './regex'
 import type {
   TrainingCategoryListItem,
   TrainingCategoryRow,
@@ -190,7 +191,7 @@ export const mapTrainingRecordListItem = (row: TrainingRecordRow): TrainingRecor
 }
 
 export const buildTrainingRecordNo = (): string => {
-  const timestamp = new Date().toISOString().replaceAll(/[^0-9]/g, '').slice(0, 14)
+  const timestamp = toCompactTimestamp(new Date())
   const suffix = crypto.randomUUID().replaceAll('-', '').slice(0, 8).toUpperCase()
 
   return `TR-${timestamp}-${suffix}`
