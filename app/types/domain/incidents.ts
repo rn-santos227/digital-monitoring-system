@@ -30,4 +30,7 @@ export interface EquipmentIncidentListItem {
   incidentTypeName: string | null
   incidentDate: string
   location: string | null
+  locationLatitude: number | null
+  locationLongitude: number | null
+  description: string
 }
