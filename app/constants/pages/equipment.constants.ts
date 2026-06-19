@@ -115,3 +115,7 @@ export const EQUIPMENT_ISSUANCES_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGE
 
 export const EQUIPMENT_INCIDENTS_PAGE_TITLE = 'Equipment Incidents'
 export const EQUIPMENT_INCIDENTS_PAGE_SUBTITLE = 'Monitor reported equipment incidents, investigations, and resolution status.'
+export const EQUIPMENT_INCIDENTS_PAGE_SECTION_CLASSES = 'space-y-6'
+export const EQUIPMENT_INCIDENTS_FILTER_CARD_TITLE = 'Filter Equipment Incidents'
+export const EQUIPMENT_INCIDENTS_FILTER_TERM_LABEL = 'Search Term'
+export const EQUIPMENT_INCIDENTS_FILTER_TERM_PLACEHOLDER = 'Search incident number, location, description, resolution, or remarks'
