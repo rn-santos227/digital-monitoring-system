@@ -19,3 +19,7 @@ export const normalizeWhitespaceToken = (value: unknown, separator: string): str
   return String(value ?? '').trim().replace(REGEX_PATTERNS.whitespace, separator)
 }
 
+export const stripUnsafeFileNameCharacters = (value: string): string => {
+  return value.replace(REGEX_PATTERNS.unsafeFileNameCharacters, '')
+}
+
