@@ -40,3 +40,13 @@ export interface EquipmentIncidentListItem {
   createdAt: string
   updatedAt: string
 }
+
+export type EquipmentIncidentTableRow = EquipmentIncidentListItem
+
+export interface EquipmentIncidentListResponse {
+  items: EquipmentIncidentListItem[]
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
