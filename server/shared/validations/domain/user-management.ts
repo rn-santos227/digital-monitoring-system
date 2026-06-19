@@ -7,8 +7,7 @@ import type {
   UpdateUserPasswordRequest,
   UpdateUserProfileRequest,
 } from '../../requests/domain/user-management'
-import { MANAGEMENT_REGEX_PATTERNS } from '../../constants'
-import { normalizeOptionalText } from '../../utils'
+import { isValidEmail, normalizeOptionalText } from '../../utils'
 
 const PASSWORD_MIN_LENGTH = 8
 
@@ -118,7 +117,7 @@ export const parseCreateUserProfilePayload = (body: CreateUserProfileRequest): C
   const password = typeof body.password === 'string' ? body.password.trim() : ''
   const accountTypeIds = normalizeAccountTypeIds(body.accountTypeIds) ?? []
 
-  if (!email || !MANAGEMENT_REGEX_PATTERNS.email.test(email)) {
+  if (!email || !isValidEmail(email)) {
     throw createError({ statusCode: 400, statusMessage: 'A valid email is required.' })
   }
 
