@@ -7,8 +7,9 @@ export const REGEX_PATTERNS = Object.freeze({
   nonDigit: /[^0-9]/g,
 })
 
-export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-export const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
+export const UUID_PATTERN = REGEX_PATTERNS.uuid
+export const EMAIL_PATTERN = REGEX_PATTERNS.email
+export const ISO_DATE_PATTERN = REGEX_PATTERNS.isoDate
 
 export const isValidEmail = (value: string): boolean => {
   return EMAIL_PATTERN.test(value.trim().toLowerCase())
