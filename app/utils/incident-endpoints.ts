@@ -10,3 +10,17 @@ import type {
 } from '~/types/domain/incident'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
+
+const normalizeEquipmentIncidentQuery = (
+  query: Partial<EquipmentIncidentSearchQuery>,
+): EquipmentIncidentSearchQuery => {
+  return {
+    page: query.page,
+    pageSize: query.pageSize,
+    term: query.term?.trim() || undefined,
+    incidentTypeId: query.incidentTypeId?.trim() || undefined,
+    investigationStatusId: query.investigationStatusId?.trim() || undefined,
+    dateFrom: query.dateFrom?.trim() || undefined,
+    dateTo: query.dateTo?.trim() || undefined,
+  }
+}
