@@ -72,3 +72,12 @@ export interface CreateEquipmentIncidentPayload {
   resolution?: string | null
   remarks?: string | null
 }
+
+export type UpdateEquipmentIncidentPayload = Partial<CreateEquipmentIncidentPayload>
+
+export interface CreateEquipmentIncidentResponse {
+  ok: boolean
+  id: string
+  item: EquipmentIncidentListItem
+}
+
