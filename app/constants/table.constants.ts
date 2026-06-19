@@ -570,3 +570,7 @@ export const EQUIPMENT_ISSUANCES_TABLE_ACTIONS: readonly DataTableAction[] = Obj
   { key: 'edit-equipment-issuance', tooltip: 'Edit equipment issuance', iconName: 'pencil-square', variant: 'warning' },
   { key: 'delete-equipment-issuance', tooltip: 'Delete equipment issuance', iconName: 'trash', variant: 'danger' },
 ])
+
+export const EQUIPMENT_INCIDENTS_TABLE_TITLE = 'Equipment Incidents'
+export const EQUIPMENT_INCIDENTS_TABLE_EMPTY_MESSAGE = 'No equipment incident records found.'
+export const EQUIPMENT_INCIDENTS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
