@@ -17,7 +17,3 @@ export const MANAGEMENT_PERMISSION_GROUPS = {
     'account_type.delete',
   ],
 } as const
-
-export const MANAGEMENT_REGEX_PATTERNS = {
-  email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-} as const
