@@ -1,10 +1,11 @@
 import ExcelJS from 'exceljs'
 import type { PersonnelBatchUploadRowRequest } from '../requests'
+import { normalizeWhitespaceToken } from './regex'
 
 type WorkbookLoadInput = Parameters<ExcelJS.Workbook['xlsx']['load']>[0]
 
 const toUpperHeader = (value: unknown): string => {
-  return String(value ?? '').trim().replace(/\s+/g, '_').toUpperCase()
+  return normalizeWhitespaceToken(value, '_').toUpperCase()
 }
 
 const normalizeText = (value: unknown): string | undefined => {
