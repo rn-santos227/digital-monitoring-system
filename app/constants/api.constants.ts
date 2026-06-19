@@ -105,6 +105,15 @@ export const EQUIPMENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   equipmentIssuanceById: (id: string) => `/api/equipment-issuances/${id}`,
 })
 
+export const INCIDENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
+  incidents: '/api/incidents',
+  incidentsSearch: '/api/incidents/search',
+  incidentsKpis: '/api/incidents/kpis',
+  incidentById: (id: string) => `/api/incidents/${id}`,
+  incidentTypeSuggestions: '/api/incident-types/suggestions',
+  investigationStatusSuggestions: '/api/incidents/suggestions',
+})
+
 export const DASHBOARD_API_ENDPOINTS = Object.freeze({
   unitManagementKpis: '/api/dashboard/unit-management',
   topKpis: '/api/dashboard/top-kpis',
