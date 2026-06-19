@@ -1,5 +1,6 @@
 import { createError } from 'h3'
 import { EXTERNAL_FILE_ALLOWED_PROTOCOLS } from '../../constants'
+import { normalizeWhitespaceToken, stripUnsafeFileNameCharacters } from '../../utils'
 
 interface MultipartPart {
   name?: string
@@ -14,11 +15,7 @@ interface UploadFileValidationOptions {
 }
 
 export const normalizeFileName = (name: string): string => {
-  const normalized = name
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9._-]/g, '')
+  const normalized = stripUnsafeFileNameCharacters(normalizeWhitespaceToken(name, '-').toLowerCase())
 
   if (!normalized) {
     return 'attachment'
