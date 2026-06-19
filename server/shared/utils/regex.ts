@@ -14,3 +14,8 @@ export const ISO_DATE_PATTERN = REGEX_PATTERNS.isoDate
 export const isValidEmail = (value: string): boolean => {
   return EMAIL_PATTERN.test(value.trim().toLowerCase())
 }
+
+export const normalizeWhitespaceToken = (value: unknown, separator: string): string => {
+  return String(value ?? '').trim().replace(REGEX_PATTERNS.whitespace, separator)
+}
+
