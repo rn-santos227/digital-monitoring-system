@@ -24,4 +24,7 @@ export interface EquipmentIncidentListItem {
   deploymentId: string | null
   deploymentRecordNo: string | null
   deploymentName: string | null
+  deploymentArea: string | null
+  incidentTypeId: string
+  incidentTypeCode: string | null
 }
