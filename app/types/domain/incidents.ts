@@ -18,4 +18,7 @@ export interface EquipmentIncidentListItem {
   assetTag: string
   equipmentCode: string | null
   equipmentName: string | null
+  personnelId: string | null
+  personnelCode: string | null
+  personnelName: string | null
 }
