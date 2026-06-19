@@ -38,3 +38,15 @@ export const hasEquipmentIncidentSearchFilters = (
     || normalizedQuery.dateTo,
   )
 }
+
+export const getEquipmentIncidentsEndpoint = async (
+  query: Partial<EquipmentIncidentSearchQuery>,
+): Promise<EquipmentIncidentListResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentIncidentListResponse>(INCIDENT_MANAGEMENT_API_ENDPOINTS.incidents, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentIncidents)
+}
