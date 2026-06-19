@@ -24,3 +24,10 @@ const normalizeEquipmentIncidentQuery = (
     dateTo: query.dateTo?.trim() || undefined,
   }
 }
+
+export const hasEquipmentIncidentSearchFilters = (
+  query: Partial<EquipmentIncidentSearchQuery>,
+): boolean => {
+
+
+}
