@@ -50,3 +50,10 @@ export interface EquipmentIncidentListResponse {
   totalItems: number
   totalPages: number
 }
+
+export interface EquipmentIncidentKpiCounts {
+  totalIncidents: number
+  unresolvedIncidents: number
+  incidentsThisMonth: number
+}
+
