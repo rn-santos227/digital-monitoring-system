@@ -28,6 +28,13 @@ const normalizeEquipmentIncidentQuery = (
 export const hasEquipmentIncidentSearchFilters = (
   query: Partial<EquipmentIncidentSearchQuery>,
 ): boolean => {
+  const normalizedQuery = normalizeEquipmentIncidentQuery(query)
 
-
+  return Boolean(
+    normalizedQuery.term
+    || normalizedQuery.incidentTypeId
+    || normalizedQuery.investigationStatusId
+    || normalizedQuery.dateFrom
+    || normalizedQuery.dateTo,
+  )
 }
