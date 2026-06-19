@@ -11,3 +11,8 @@ export interface EquipmentIncidentSearchQuery extends EquipmentIncidentEndpointQ
   dateTo?: string
 }
 
+export interface EquipmentIncidentListItem {
+  id: string
+  incidentNo: string
+  equipmentAssetId: string
+}
