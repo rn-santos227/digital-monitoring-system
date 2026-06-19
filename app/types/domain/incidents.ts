@@ -21,4 +21,7 @@ export interface EquipmentIncidentListItem {
   personnelId: string | null
   personnelCode: string | null
   personnelName: string | null
+  deploymentId: string | null
+  deploymentRecordNo: string | null
+  deploymentName: string | null
 }
