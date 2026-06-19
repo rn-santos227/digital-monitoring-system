@@ -81,3 +81,17 @@ export interface CreateEquipmentIncidentResponse {
   item: EquipmentIncidentListItem
 }
 
+
+export interface EquipmentIncidentsState {
+  items: EquipmentIncidentListItem[]
+  kpis: EquipmentIncidentKpiCounts
+  hasLoadedKpis: boolean
+  pagination: {
+    page: number
+    pageSize: number
+    totalItems: number
+    totalPages: number
+  }
+  isLoading: boolean
+  error: string
+}
