@@ -270,6 +270,12 @@ export const API_LOADING_MESSAGES = Object.freeze({
   createEquipmentIssuance: 'Creating equipment issuance...',
   updateEquipmentIssuance: 'Updating equipment issuance...',
   deleteEquipmentIssuance: 'Deleting equipment issuance...',
+  fetchEquipmentIncidents: 'Loading equipment incidents...',
+  fetchEquipmentIncidentKpis: 'Loading equipment incident KPIs...',
+  fetchEquipmentIncidentDetails: 'Loading equipment incident details...',
+  createEquipmentIncident: 'Creating equipment incident...',
+  updateEquipmentIncident: 'Updating equipment incident...',
+  deleteEquipmentIncident: 'Deleting equipment incident...',
   fetchApplicationSettings: 'Loading application settings...',
   updateApplicationSettings: 'Updating application settings...',
 })
