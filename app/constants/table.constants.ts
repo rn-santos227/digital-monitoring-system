@@ -574,3 +574,12 @@ export const EQUIPMENT_ISSUANCES_TABLE_ACTIONS: readonly DataTableAction[] = Obj
 export const EQUIPMENT_INCIDENTS_TABLE_TITLE = 'Equipment Incidents'
 export const EQUIPMENT_INCIDENTS_TABLE_EMPTY_MESSAGE = 'No equipment incident records found.'
 export const EQUIPMENT_INCIDENTS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
+export const EQUIPMENT_INCIDENTS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'incidentNo', label: 'Incident No.', sortable: true },
+  { key: 'assetTag', label: 'Asset Tag', sortable: true },
+  { key: 'equipmentName', label: 'Equipment Item', sortable: true },
+  { key: 'incidentTypeName', label: 'Incident Type', sortable: true },
+  { key: 'incidentDate', dataType: 'date', label: 'Incident Date', sortable: true },
+  { key: 'location', label: 'Location', sortable: true },
+  { key: 'investigationStatusName', label: 'Investigation Status', sortable: true },
+])
