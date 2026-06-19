@@ -112,3 +112,6 @@ export const EQUIPMENT_ISSUANCES_FILTER_STATUS_OPTIONS = Object.freeze([
 export const EQUIPMENT_ISSUANCES_FILTER_APPLY_LABEL = 'Apply Filters'
 export const EQUIPMENT_ISSUANCES_FILTER_RESET_LABEL = 'Reset'
 export const EQUIPMENT_ISSUANCES_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGES
+
+export const EQUIPMENT_INCIDENTS_PAGE_TITLE = 'Equipment Incidents'
+export const EQUIPMENT_INCIDENTS_PAGE_SUBTITLE = 'Monitor reported equipment incidents, investigations, and resolution status.'
