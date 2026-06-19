@@ -57,3 +57,18 @@ export interface EquipmentIncidentKpiCounts {
   incidentsThisMonth: number
 }
 
+export interface CreateEquipmentIncidentPayload {
+  incidentNo: string
+  equipmentAssetId: string
+  personnelId?: string | null
+  deploymentId?: string | null
+  incidentTypeId: string
+  incidentDate: string
+  location?: string | null
+  locationLatitude?: number | null
+  locationLongitude?: number | null
+  description: string
+  investigationStatusId?: string | null
+  resolution?: string | null
+  remarks?: string | null
+}
