@@ -583,3 +583,8 @@ export const EQUIPMENT_INCIDENTS_TABLE_COLUMNS: readonly DataTableColumn[] = Obj
   { key: 'location', label: 'Location', sortable: true },
   { key: 'investigationStatusName', label: 'Investigation Status', sortable: true },
 ])
+export const EQUIPMENT_INCIDENTS_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  { key: 'view-equipment-incident', tooltip: 'View equipment incident', iconName: 'eye', variant: 'info' },
+  { key: 'edit-equipment-incident', tooltip: 'Edit equipment incident', iconName: 'pencil-square', variant: 'warning' },
+  { key: 'delete-equipment-incident', tooltip: 'Delete equipment incident', iconName: 'trash', variant: 'danger' },
+])
