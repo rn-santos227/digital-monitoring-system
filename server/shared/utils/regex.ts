@@ -23,3 +23,6 @@ export const stripUnsafeFileNameCharacters = (value: string): string => {
   return value.replace(REGEX_PATTERNS.unsafeFileNameCharacters, '')
 }
 
+export const toCompactTimestamp = (date: Date): string => {
+  return date.toISOString().replaceAll(REGEX_PATTERNS.nonDigit, '').slice(0, 14)
+}
