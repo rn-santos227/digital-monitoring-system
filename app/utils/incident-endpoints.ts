@@ -81,3 +81,9 @@ export const getEquipmentIncidentByIdEndpoint = async (id: string): Promise<Equi
     })
   }, API_LOADING_MESSAGES.fetchEquipmentIncidentDetails)
 }
+
+export const createEquipmentIncidentEndpoint = async (
+  payload: CreateEquipmentIncidentPayload,
+): Promise<CreateEquipmentIncidentResponse> => {
+
+}
