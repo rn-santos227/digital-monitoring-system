@@ -20,5 +20,8 @@ export const useIncidentListHandlers = ({
     await loadPage(1, result.filters)
   }
 
+  const onReset = async () => {
+    await loadPage(1, handleFilterReset())
+  }
 
 }
