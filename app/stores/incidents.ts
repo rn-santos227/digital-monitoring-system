@@ -32,3 +32,7 @@ const DEFAULT_EQUIPMENT_INCIDENT_KPIS: EquipmentIncidentKpiCounts = {
   unresolvedIncidents: 0,
   incidentsThisMonth: 0,
 }
+
+export const useIncidentsStore = defineStore('incidents', {
+
+})
