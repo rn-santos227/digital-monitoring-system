@@ -27,3 +27,8 @@ const DEFAULT_EQUIPMENT_INCIDENTS_PAGINATION = {
   totalPages: 0,
 }
 
+const DEFAULT_EQUIPMENT_INCIDENT_KPIS: EquipmentIncidentKpiCounts = {
+  totalIncidents: 0,
+  unresolvedIncidents: 0,
+  incidentsThisMonth: 0,
+}
