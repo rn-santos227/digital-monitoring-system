@@ -6,5 +6,15 @@ import { REGEX_PATTERNS } from '~/utils/regex'
 export const useIncidentSearchHandlers = (
   filters: Ref<Partial<EquipmentIncidentSearchQuery>>,
 ) => {
+  const handleFilterApply = (value: Partial<EquipmentIncidentSearchQuery>) => {
 
+  }
+
+  const handleFilterReset = (): Partial<EquipmentIncidentSearchQuery> => {
+    const resetFilters: Partial<EquipmentIncidentSearchQuery> = {}
+    filters.value = resetFilters
+    return resetFilters
+  }
+
+  return { handleFilterApply, handleFilterReset }
 }
