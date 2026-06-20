@@ -87,6 +87,8 @@ export const useIncidentsStore = defineStore('incidents', {
           totalPages: response.totalPages,
         }
       } catch (error) {
+        this.items = []
+        this.pagination = { ...DEFAULT_EQUIPMENT_INCIDENTS_PAGINATION, pageSize: resolveDefaultFetchPageSize() }
 
       }
     },
