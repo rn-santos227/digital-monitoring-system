@@ -22,9 +22,14 @@ export const useDeleteEquipmentIncidentHandler = ({
     if (!result.confirmed) return
 
     try {
-
+      await deleteEquipmentIncident(equipmentIncidentId)
     } catch (error) {
-
+      await showErrorDialog({
+        showDialog,
+        title: 'Equipment incident deletion failed',
+        error,
+        fallbackMessage: 'Unable to delete equipment incident right now.',
+      })
     }
   }
 
