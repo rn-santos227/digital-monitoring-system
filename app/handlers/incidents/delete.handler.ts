@@ -11,6 +11,13 @@ export const useDeleteEquipmentIncidentHandler = ({
   showDialog,
 }: UseDeleteEquipmentIncidentHandlerOptions) => {
   const onDeleteEquipmentIncident = async (equipmentIncidentId: string) => {
+    const result = await showDialog({
+      type: 'warning',
+      title: 'Delete equipment incident?',
+      message: 'This action cannot be undone. Do you want to continue?',
+      confirmLabel: 'Delete',
+      cancelLabel: 'Cancel',
+    })
 
   }
 
