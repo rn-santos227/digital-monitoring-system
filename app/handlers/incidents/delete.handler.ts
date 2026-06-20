@@ -6,3 +6,10 @@ interface UseDeleteEquipmentIncidentHandlerOptions {
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
 }
 
+export const useDeleteEquipmentIncidentHandler = ({
+  deleteEquipmentIncident,
+  showDialog,
+}: UseDeleteEquipmentIncidentHandlerOptions) => {
+
+
+}
