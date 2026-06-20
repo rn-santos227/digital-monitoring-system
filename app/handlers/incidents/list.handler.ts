@@ -8,3 +8,12 @@ interface UseIncidentListHandlersOptions {
   handleFilterReset: () => Partial<EquipmentIncidentSearchQuery>
 }
 
+export const useIncidentListHandlers = ({
+  filters,
+  loadPage,
+  handleFilterApply,
+  handleFilterReset,
+}: UseIncidentListHandlersOptions) => {
+
+
+}
