@@ -65,5 +65,7 @@ export const searchEquipmentIncidentsEndpoint = async (
 }
 
 export const getEquipmentIncidentKpisEndpoint = async (): Promise<EquipmentIncidentKpiCounts> => {
+  return await withApiLoading(async () => {
 
+  }, API_LOADING_MESSAGES.fetchEquipmentIncidentKpis)
 }
