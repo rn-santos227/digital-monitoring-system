@@ -54,6 +54,6 @@ export const getEquipmentIncidentsEndpoint = async (
 export const searchEquipmentIncidentsEndpoint = async (
   query: Partial<EquipmentIncidentSearchQuery>,
 ): Promise<EquipmentIncidentListResponse> => {
-
+  const normalizedQuery = normalizeEquipmentIncidentQuery(query)
 
 }
