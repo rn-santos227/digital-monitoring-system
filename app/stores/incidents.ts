@@ -146,7 +146,7 @@ export const useIncidentsStore = defineStore('incidents', {
         this.pagination.totalPages = this.pagination.totalItems === 0
           ? 0
           : Math.max(1, Math.ceil(this.pagination.totalItems / this.pagination.pageSize))
-
+        if (this.hasLoadedKpis) this.kpis.totalIncidents = Math.max(0, this.kpis.totalIncidents - deletedCount)
       } catch (error) {
 
       }
