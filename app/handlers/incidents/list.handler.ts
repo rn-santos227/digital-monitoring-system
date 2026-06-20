@@ -24,4 +24,9 @@ export const useIncidentListHandlers = ({
     await loadPage(1, handleFilterReset())
   }
 
+
+  const onPageChange = async (page: number) => {
+    await loadPage(page)
+  }
+
 }
