@@ -76,6 +76,9 @@ export const useIncidentsStore = defineStore('incidents', {
       const query = { ...filters, page, pageSize: resolvedPageSize }
 
       try {
+        const response = hasEquipmentIncidentSearchFilters(query)
+          ? await searchEquipmentIncidentsEndpoint(query)
+          : await getEquipmentIncidentsEndpoint(query)
 
       } catch (error) {
 
