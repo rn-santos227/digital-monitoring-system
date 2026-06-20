@@ -79,7 +79,13 @@ export const useIncidentsStore = defineStore('incidents', {
         const response = hasEquipmentIncidentSearchFilters(query)
           ? await searchEquipmentIncidentsEndpoint(query)
           : await getEquipmentIncidentsEndpoint(query)
-
+        this.items = response.items
+        this.pagination = {
+          page: response.page,
+          pageSize: response.pageSize,
+          totalItems: response.totalItems,
+          totalPages: response.totalPages,
+        }
       } catch (error) {
 
       }
