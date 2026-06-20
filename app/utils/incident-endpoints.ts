@@ -55,5 +55,11 @@ export const searchEquipmentIncidentsEndpoint = async (
   query: Partial<EquipmentIncidentSearchQuery>,
 ): Promise<EquipmentIncidentListResponse> => {
   const normalizedQuery = normalizeEquipmentIncidentQuery(query)
-
+  return await withApiLoading(async () => {
+    return await $fetch<EquipmentIncidentListResponse>(INCIDENT_MANAGEMENT_API_ENDPOINTS.incidentsSearch, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query: normalizedQuery,
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentIncidents)
 }
