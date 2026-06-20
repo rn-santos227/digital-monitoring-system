@@ -63,5 +63,14 @@ export const useIncidentsStore = defineStore('incidents', {
         throw error
       }
     },
+
+    async fetchEquipmentIncidents(
+      this: EquipmentIncidentsState,
+      page = 1,
+      filters: Partial<EquipmentIncidentSearchQuery> = {},
+      pageSize?: number,
+    ) {
+
+    },
   },
 })
