@@ -54,7 +54,8 @@ export const useIncidentsStore = defineStore('incidents', {
       this.error = ''
 
       try {
-
+        this.kpis = await getEquipmentIncidentKpisEndpoint()
+        this.hasLoadedKpis = true
       } catch (error) {
 
       }
