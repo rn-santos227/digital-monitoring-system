@@ -99,19 +99,6 @@ export const updateEquipmentIncidentEndpoint = async (
   payload: UpdateEquipmentIncidentPayload,
 ): Promise<void> => {
   await withApiLoading(async () => {
-    return await $fetch<CreateEquipmentIncidentResponse>(INCIDENT_MANAGEMENT_API_ENDPOINTS.incidents, {
-      method: 'POST',
-      headers: createSessionHeaders(),
-      body: payload,
-    })
-  }, API_LOADING_MESSAGES.updateEquipmentIncident)
-}
-
-export const updateEquipmentIncidentEndpoint = async (
-  id: string,
-  payload: UpdateEquipmentIncidentPayload,
-): Promise<void> => {
-  await withApiLoading(async () => {
     await $fetch(INCIDENT_MANAGEMENT_API_ENDPOINTS.incidentById(id), {
       method: 'PATCH',
       headers: createSessionHeaders(),
@@ -121,5 +108,7 @@ export const updateEquipmentIncidentEndpoint = async (
 }
 
 export const deleteEquipmentIncidentEndpoint = async (id: string): Promise<void> => {
+  await withApiLoading(async () => {
 
+  }, API_LOADING_MESSAGES.deleteEquipmentIncident)
 }
