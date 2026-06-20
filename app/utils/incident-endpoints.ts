@@ -93,3 +93,10 @@ export const createEquipmentIncidentEndpoint = async (
     })
   }, API_LOADING_MESSAGES.createEquipmentIncident)
 }
+
+export const updateEquipmentIncidentEndpoint = async (
+  id: string,
+  payload: UpdateEquipmentIncidentPayload,
+): Promise<void> => {
+
+}
