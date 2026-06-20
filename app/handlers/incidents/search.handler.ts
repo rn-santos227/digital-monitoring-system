@@ -20,7 +20,19 @@ export const useIncidentSearchHandlers = (
       { field: 'dateTo', label: 'Incident date to', value: value.dateTo ?? '', maxLength: 10 },
     ])
 
+    const nextFilters: Partial<EquipmentIncidentSearchQuery> = {
+      term: validation.values.term || undefined,
+      dateFrom: validation.values.dateFrom || undefined,
+      dateTo: validation.values.dateTo || undefined,
+    }
 
+    filters.value = nextFilters
+
+    return {
+      filters: nextFilters,
+      errors: validation.errors,
+      isValid: Object.keys(validation.errors).length === 0,
+    }
   }
 
   const handleFilterReset = (): Partial<EquipmentIncidentSearchQuery> => {
