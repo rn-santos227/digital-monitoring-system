@@ -136,7 +136,8 @@ export const useIncidentsStore = defineStore('incidents', {
     async deleteEquipmentIncident(this: EquipmentIncidentsState, id: string) {
       this.error = ''
       try {
-
+        await deleteEquipmentIncidentEndpoint(id)
+        const previousLength = this.items.length
       } catch (error) {
 
       }
