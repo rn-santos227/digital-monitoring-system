@@ -66,6 +66,9 @@ export const searchEquipmentIncidentsEndpoint = async (
 
 export const getEquipmentIncidentKpisEndpoint = async (): Promise<EquipmentIncidentKpiCounts> => {
   return await withApiLoading(async () => {
-
+    return await $fetch<EquipmentIncidentKpiCounts>(INCIDENT_MANAGEMENT_API_ENDPOINTS.incidentsKpis, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
   }, API_LOADING_MESSAGES.fetchEquipmentIncidentKpis)
 }
