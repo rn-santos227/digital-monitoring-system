@@ -95,5 +95,14 @@ export const useIncidentsStore = defineStore('incidents', {
         this.isLoading = false
       }
     },
+
+    async createEquipmentIncident(this: EquipmentIncidentsState, payload: CreateEquipmentIncidentPayload) {
+      this.error = ''
+      try {
+
+      } catch (error) {
+
+      }
+    },
   },
 })
