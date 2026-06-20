@@ -138,6 +138,9 @@ export const useIncidentsStore = defineStore('incidents', {
       try {
         await deleteEquipmentIncidentEndpoint(id)
         const previousLength = this.items.length
+        this.items = this.items.filter((item) => item.id !== id)
+        const deletedCount = previousLength - this.items.length
+        if (deletedCount <= 0) return
       } catch (error) {
 
       }
