@@ -14,6 +14,11 @@ export const useIncidentListHandlers = ({
   handleFilterApply,
   handleFilterReset,
 }: UseIncidentListHandlersOptions) => {
+  const onApply = async (value: Partial<EquipmentIncidentSearchQuery>) => {
+    const result = handleFilterApply(value)
+    if (!result.isValid) return
+    await loadPage(1, result.filters)
+  }
 
 
 }
