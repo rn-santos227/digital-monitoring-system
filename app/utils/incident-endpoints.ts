@@ -75,6 +75,9 @@ export const getEquipmentIncidentKpisEndpoint = async (): Promise<EquipmentIncid
 
 export const getEquipmentIncidentByIdEndpoint = async (id: string): Promise<EquipmentIncidentListItem> => {
   return await withApiLoading(async () => {
-
+    return await $fetch<EquipmentIncidentListItem>(INCIDENT_MANAGEMENT_API_ENDPOINTS.incidentById(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
   }, API_LOADING_MESSAGES.fetchEquipmentIncidentDetails)
 }
