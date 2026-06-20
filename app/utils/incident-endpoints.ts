@@ -86,6 +86,10 @@ export const createEquipmentIncidentEndpoint = async (
   payload: CreateEquipmentIncidentPayload,
 ): Promise<CreateEquipmentIncidentResponse> => {
   return await withApiLoading(async () => {
-
+    return await $fetch<CreateEquipmentIncidentResponse>(INCIDENT_MANAGEMENT_API_ENDPOINTS.incidents, {
+      method: 'POST',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
   }, API_LOADING_MESSAGES.createEquipmentIncident)
 }
