@@ -20,3 +20,10 @@ import {
 } from '~/utils/incident-endpoints'
 
 
+const DEFAULT_EQUIPMENT_INCIDENTS_PAGINATION = {
+  page: 1,
+  pageSize: resolveDefaultFetchPageSize(),
+  totalItems: 0,
+  totalPages: 0,
+}
+
