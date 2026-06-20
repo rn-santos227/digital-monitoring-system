@@ -19,6 +19,13 @@ export const useDeleteEquipmentIncidentHandler = ({
       cancelLabel: 'Cancel',
     })
 
+    if (!result.confirmed) return
+
+    try {
+
+    } catch (error) {
+
+    }
   }
 
   return { onDeleteEquipmentIncident }
