@@ -112,7 +112,13 @@ export const useIncidentsStore = defineStore('incidents', {
     },
 
     async getEquipmentIncidentById(this: EquipmentIncidentsState, id: string) {
-
+      this.error = ''
+      try {
+        return await getEquipmentIncidentByIdEndpoint(id)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to load equipment incident details.')
+        throw error
+      }
     },
   },
 })
