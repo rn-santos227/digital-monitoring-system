@@ -148,7 +148,8 @@ export const useIncidentsStore = defineStore('incidents', {
           : Math.max(1, Math.ceil(this.pagination.totalItems / this.pagination.pageSize))
         if (this.hasLoadedKpis) this.kpis.totalIncidents = Math.max(0, this.kpis.totalIncidents - deletedCount)
       } catch (error) {
-
+        this.error = extractApiErrorMessage(error, 'Unable to delete equipment incident.')
+        throw error
       }
     },
   },
