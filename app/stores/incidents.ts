@@ -99,7 +99,12 @@ export const useIncidentsStore = defineStore('incidents', {
     async createEquipmentIncident(this: EquipmentIncidentsState, payload: CreateEquipmentIncidentPayload) {
       this.error = ''
       try {
-
+        const response = await createEquipmentIncidentEndpoint(payload)
+        this.items = [response.item, ...this.items]
+        this.pagination.totalItems += 1
+        this.pagination.totalPages = Math.max(1, Math.ceil(this.pagination.totalItems / this.pagination.pageSize))
+        if (this.hasLoadedKpis) this.kpis.totalIncidents += 1
+        return response
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to create equipment incident.')
         throw error
