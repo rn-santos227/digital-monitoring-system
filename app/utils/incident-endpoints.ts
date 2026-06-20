@@ -98,5 +98,7 @@ export const updateEquipmentIncidentEndpoint = async (
   id: string,
   payload: UpdateEquipmentIncidentPayload,
 ): Promise<void> => {
+  await withApiLoading(async () => {
 
+  }, API_LOADING_MESSAGES.updateEquipmentIncident)
 }
