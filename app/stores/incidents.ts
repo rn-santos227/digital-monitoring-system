@@ -124,7 +124,9 @@ export const useIncidentsStore = defineStore('incidents', {
     async updateEquipmentIncident(this: EquipmentIncidentsState, id: string, payload: UpdateEquipmentIncidentPayload) {
       this.error = ''
       try {
-
+        await updateEquipmentIncidentEndpoint(id, payload)
+        const item = await getEquipmentIncidentByIdEndpoint(id)
+        this.items = this.items.map((currentItem) => (currentItem.id === id ? item : currentItem))
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to update equipment incident.')
         throw error
