@@ -57,7 +57,10 @@ export const useIncidentsStore = defineStore('incidents', {
         this.kpis = await getEquipmentIncidentKpisEndpoint()
         this.hasLoadedKpis = true
       } catch (error) {
-
+        this.kpis = { ...DEFAULT_EQUIPMENT_INCIDENT_KPIS }
+        this.hasLoadedKpis = false
+        this.error = extractApiErrorMessage(error, 'Unable to fetch equipment incident KPI counts.')
+        throw error
       }
     },
   },
