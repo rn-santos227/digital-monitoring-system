@@ -119,3 +119,7 @@ export const updateEquipmentIncidentEndpoint = async (
     })
   }, API_LOADING_MESSAGES.updateEquipmentIncident)
 }
+
+export const deleteEquipmentIncidentEndpoint = async (id: string): Promise<void> => {
+
+}
