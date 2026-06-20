@@ -101,7 +101,8 @@ export const useIncidentsStore = defineStore('incidents', {
       try {
 
       } catch (error) {
-
+        this.error = extractApiErrorMessage(error, 'Unable to create equipment incident.')
+        throw error
       }
     },
   },
