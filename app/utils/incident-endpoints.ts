@@ -85,5 +85,7 @@ export const getEquipmentIncidentByIdEndpoint = async (id: string): Promise<Equi
 export const createEquipmentIncidentEndpoint = async (
   payload: CreateEquipmentIncidentPayload,
 ): Promise<CreateEquipmentIncidentResponse> => {
+  return await withApiLoading(async () => {
 
+  }, API_LOADING_MESSAGES.createEquipmentIncident)
 }
