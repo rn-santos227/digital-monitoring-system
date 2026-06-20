@@ -10,6 +10,9 @@ export const useDeleteEquipmentIncidentHandler = ({
   deleteEquipmentIncident,
   showDialog,
 }: UseDeleteEquipmentIncidentHandlerOptions) => {
+  const onDeleteEquipmentIncident = async (equipmentIncidentId: string) => {
 
+  }
 
+  return { onDeleteEquipmentIncident }
 }
