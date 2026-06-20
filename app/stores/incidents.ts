@@ -89,7 +89,10 @@ export const useIncidentsStore = defineStore('incidents', {
       } catch (error) {
         this.items = []
         this.pagination = { ...DEFAULT_EQUIPMENT_INCIDENTS_PAGINATION, pageSize: resolveDefaultFetchPageSize() }
-
+        this.error = extractApiErrorMessage(error, 'Unable to fetch equipment incidents.')
+        throw error
+      } finally {
+        this.isLoading = false
       }
     },
   },
