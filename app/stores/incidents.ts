@@ -120,5 +120,9 @@ export const useIncidentsStore = defineStore('incidents', {
         throw error
       }
     },
+
+    async updateEquipmentIncident(this: EquipmentIncidentsState, id: string, payload: UpdateEquipmentIncidentPayload) {
+      this.error = ''
+    },
   },
 })
