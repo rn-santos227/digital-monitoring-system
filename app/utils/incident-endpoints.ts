@@ -112,6 +112,10 @@ export const updateEquipmentIncidentEndpoint = async (
   payload: UpdateEquipmentIncidentPayload,
 ): Promise<void> => {
   await withApiLoading(async () => {
-
+    await $fetch(INCIDENT_MANAGEMENT_API_ENDPOINTS.incidentById(id), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
   }, API_LOADING_MESSAGES.updateEquipmentIncident)
 }
