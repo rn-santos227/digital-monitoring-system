@@ -47,4 +47,8 @@ export const useIncidentsStore = defineStore('incidents', {
     hasEquipmentIncidents: (state) => state.items.length > 0,
     equipmentIncidentKpis: (state) => state.kpis,
   },
+
+  actions: {
+
+  }.
 })
