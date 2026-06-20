@@ -50,3 +50,10 @@ export const getEquipmentIncidentsEndpoint = async (
     })
   }, API_LOADING_MESSAGES.fetchEquipmentIncidents)
 }
+
+export const searchEquipmentIncidentsEndpoint = async (
+  query: Partial<EquipmentIncidentSearchQuery>,
+): Promise<EquipmentIncidentListResponse> => {
+
+
+}
