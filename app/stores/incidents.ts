@@ -70,7 +70,16 @@ export const useIncidentsStore = defineStore('incidents', {
       filters: Partial<EquipmentIncidentSearchQuery> = {},
       pageSize?: number,
     ) {
+      this.isLoading = true
+      this.error = ''
+      const resolvedPageSize = pageSize ?? this.pagination.pageSize
+      const query = { ...filters, page, pageSize: resolvedPageSize }
 
+      try {
+
+      } catch (error) {
+
+      }
     },
   },
 })
