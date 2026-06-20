@@ -7,6 +7,19 @@ export const useIncidentSearchHandlers = (
   filters: Ref<Partial<EquipmentIncidentSearchQuery>>,
 ) => {
   const handleFilterApply = (value: Partial<EquipmentIncidentSearchQuery>) => {
+    const validation = validateFields([
+      {
+        field: 'term',
+        label: 'Search term',
+        value: value.term ?? '',
+        maxLength: 120,
+        pattern: REGEX_PATTERNS.alphaNumericSpace,
+        patternMessage: 'Search term allows letters, numbers, spaces, periods, underscores, and hyphens only.',
+      },
+      { field: 'dateFrom', label: 'Incident date from', value: value.dateFrom ?? '', maxLength: 10 },
+      { field: 'dateTo', label: 'Incident date to', value: value.dateTo ?? '', maxLength: 10 },
+    ])
+
 
   }
 
