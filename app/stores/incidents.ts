@@ -34,5 +34,13 @@ const DEFAULT_EQUIPMENT_INCIDENT_KPIS: EquipmentIncidentKpiCounts = {
 }
 
 export const useIncidentsStore = defineStore('incidents', {
+  state: (): EquipmentIncidentsState => ({
+    items: [],
+    kpis: { ...DEFAULT_EQUIPMENT_INCIDENT_KPIS },
+    hasLoadedKpis: false,
+    pagination: { ...DEFAULT_EQUIPMENT_INCIDENTS_PAGINATION },
+    isLoading: false,
+    error: '',
+  }),
 
 })
