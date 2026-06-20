@@ -109,6 +109,9 @@ export const updateEquipmentIncidentEndpoint = async (
 
 export const deleteEquipmentIncidentEndpoint = async (id: string): Promise<void> => {
   await withApiLoading(async () => {
-
+    await $fetch(INCIDENT_MANAGEMENT_API_ENDPOINTS.incidentById(id), {
+      method: 'DELETE',
+      headers: createSessionHeaders(),
+    })
   }, API_LOADING_MESSAGES.deleteEquipmentIncident)
 }
