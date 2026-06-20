@@ -49,6 +49,15 @@ export const useIncidentsStore = defineStore('incidents', {
   },
 
   actions: {
+    async fetchEquipmentIncidentKpisOnce(this: EquipmentIncidentsState) {
+      if (this.hasLoadedKpis) return
+      this.error = ''
 
-  }.
+      try {
+
+      } catch (error) {
+
+      }
+    },
+  },
 })
