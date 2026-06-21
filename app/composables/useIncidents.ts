@@ -21,4 +21,23 @@ export const useIncidents = () => {
     await store.fetchEquipmentIncidents(page, filters.value, pageSize)
   }
 
+  onMounted(() => {
+    void store.fetchEquipmentIncidentKpisOnce().catch(() => {})
+    void loadEquipmentIncidents(1)
+  })
+
+  return {
+    filters,
+    hasActiveFilters,
+    tableRows,
+    kpis,
+    pagination,
+    isLoading,
+    error,
+    loadEquipmentIncidents,
+    createEquipmentIncident: store.createEquipmentIncident,
+    getEquipmentIncidentById: store.getEquipmentIncidentById,
+    updateEquipmentIncident: store.updateEquipmentIncident,
+    deleteEquipmentIncident: store.deleteEquipmentIncident,
+  }
 }
