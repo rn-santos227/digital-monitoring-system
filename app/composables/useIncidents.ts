@@ -12,5 +12,13 @@ export const useIncidents = () => {
   const hasActiveFilters = computed(() => hasEquipmentIncidentSearchFilters(filters.value))
   const tableRows = computed<EquipmentIncidentTableRow[]>(() => [...items.value])
 
+  const loadEquipmentIncidents = async (
+    page = pagination.value.page,
+    nextFilters: Partial<EquipmentIncidentSearchQuery> = filters.value,
+    pageSize = pagination.value.pageSize,
+  ) => {
+    filters.value = { ...nextFilters }
+    await store.fetchEquipmentIncidents(page, filters.value, pageSize)
+  }
 
 }
