@@ -5,5 +5,8 @@ import type { EquipmentIncidentSearchQuery, EquipmentIncidentTableRow } from '~/
 import { hasEquipmentIncidentSearchFilters } from '~/utils/incident-endpoints'
 
 export const useIncidents = () => {
+  const store = useIncidentsStore()
+  const { items, kpis, pagination, isLoading, error } = storeToRefs(store)
+  const filters = ref<Partial<EquipmentIncidentSearchQuery>>({})
 
 }
