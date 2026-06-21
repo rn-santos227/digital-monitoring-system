@@ -9,4 +9,8 @@ export const useIncidents = () => {
   const { items, kpis, pagination, isLoading, error } = storeToRefs(store)
   const filters = ref<Partial<EquipmentIncidentSearchQuery>>({})
 
+  const hasActiveFilters = computed(() => hasEquipmentIncidentSearchFilters(filters.value))
+  const tableRows = computed<EquipmentIncidentTableRow[]>(() => [...items.value])
+
+
 }
