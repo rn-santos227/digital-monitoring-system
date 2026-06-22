@@ -1,5 +1,23 @@
 <template>
-
+  <DataTable
+    :title="EQUIPMENT_INCIDENTS_TABLE_TITLE"
+    :columns="EQUIPMENT_INCIDENTS_TABLE_COLUMNS"
+    :rows="props.rows"
+    row-key="id"
+    :actions="visibleActions"
+    :action-button-count="visibleActions.length"
+    :actions-column-label="EQUIPMENT_INCIDENTS_TABLE_ACTIONS_COLUMN_LABEL"
+    :is-loading="props.isLoading"
+    :show-search="false"
+    :empty-message="EQUIPMENT_INCIDENTS_TABLE_EMPTY_MESSAGE"
+    :current-page="props.currentPage"
+    :total-pages="props.totalPages"
+    :total-items="props.totalItems"
+    :page-size="props.pageSize"
+    @action="emit('action', $event)"
+    @update:current-page="emit('update:currentPage', $event)"
+    @update:page-size="emit('update:pageSize', $event)"
+  />
 </template>
 
 <script setup lang="ts">
