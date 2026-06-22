@@ -109,8 +109,11 @@ export const useIncidentsStore = defineStore('incidents', {
         if (this.hasLoadedKpis) this.kpis.totalIncidents += 1
         return response
       } catch (error) {
-        this.error = extractApiErrorMessage(error, 'Unable to create equipment incident.')
+        this.createError = extractApiErrorMessage(error, 'Unable to create equipment incident.')
+        this.error = this.createError
         throw error
+      } finally {
+        this.isCreating = false
       }
     },
 
