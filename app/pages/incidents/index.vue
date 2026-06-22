@@ -7,7 +7,7 @@
       </header>
 
       <div :class="EQUIPMENT_CATEGORIES_PAGE_KPI_GRID_CLASSES">
-
+        <KpiCard title="Total Incidents" subtitle="All reported equipment incident records." icon-name="shield-exclamation" tone="emerald" :value="totalIncidentsKpi" />
       </div>
     </section>
   </main>
