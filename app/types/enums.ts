@@ -95,7 +95,14 @@ export const ISSUANCE_STATUS_VALUES = Object.freeze([
 ] as const)
 export type IssuanceStatusName = (typeof ISSUANCE_STATUS_VALUES)[number]
 
-export type MaintenanceTypeName = 'Preventive' | 'Corrective' | 'Inspection' | 'Calibration'
+export const MAINTENANCE_TYPE_VALUES = Object.freeze([
+  'Preventive',
+  'Corrective',
+  'Inspection',
+  'Calibration',
+] as const)
+export type MaintenanceTypeName = (typeof MAINTENANCE_TYPE_VALUES)[number]
+
 export type InvestigationStatusName = 'Reported' | 'Under Investigation' | 'Resolved' | 'Closed'
 
 export const APP_THEME_VALUES = Object.freeze([
