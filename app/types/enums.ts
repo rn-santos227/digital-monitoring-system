@@ -103,6 +103,15 @@ export const MAINTENANCE_TYPE_VALUES = Object.freeze([
 ] as const)
 export type MaintenanceTypeName = (typeof MAINTENANCE_TYPE_VALUES)[number]
 
+export const INCIDENT_TYPE_VALUES = Object.freeze([
+  'Lost',
+  'Damaged',
+  'Misuse',
+  'Theft',
+  'Operational Failure',
+] as const)
+export type IncidentTypeName = (typeof INCIDENT_TYPE_VALUES)[number]
+
 export type InvestigationStatusName = 'Reported' | 'Under Investigation' | 'Resolved' | 'Closed'
 
 export const APP_THEME_VALUES = Object.freeze([
