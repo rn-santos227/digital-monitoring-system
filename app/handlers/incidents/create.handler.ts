@@ -25,4 +25,13 @@ export const useCreateEquipmentIncidentHandler = ({
     isCreateEquipmentIncidentModalOpen.value = false
   }
 
+  const onSubmitCreateEquipmentIncident = async (payload: CreateEquipmentIncidentPayload) => {
+    errorMessage.value = ''
+
+    try {
+
+    } catch (error) {
+
+    }
+  }
 }
