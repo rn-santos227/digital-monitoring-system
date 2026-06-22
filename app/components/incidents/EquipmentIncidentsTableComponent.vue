@@ -35,4 +35,7 @@ const emit = defineEmits<{
   (event: 'update:currentPage', value: number): void
   (event: 'update:pageSize', value: number): void
 }>()
+
+const authStore = useAuthStore()
+
 </script>
