@@ -13,6 +13,10 @@ export interface IncidentTypeSuggestionResponse {
   items: IncidentTypeSuggestionItem[]
 }
 
+export interface InvestigationStatusSuggestionResponse {
+  items: InvestigationStatusSuggestionItem[]
+}
+
 export interface EquipmentIncidentEndpointQuery {
   page?: number
   pageSize?: number
