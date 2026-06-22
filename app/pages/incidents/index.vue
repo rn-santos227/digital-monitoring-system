@@ -7,4 +7,6 @@ import { computed } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import EquipmentIncidentsFilterComponent from '~/components/incidents/EquipmentIncidentsFilterComponent.vue'
 import EquipmentIncidentsTableComponent from '~/components/incidents/EquipmentIncidentsTableComponent.vue'
+import { useDialog } from '~/composables/useDialog'
+import { useIncidents } from '~/composables/useIncidents'
 </script>
