@@ -29,7 +29,12 @@ export const useCreateEquipmentIncidentHandler = ({
     errorMessage.value = ''
       await createEquipmentIncident(payload)
       onCloseCreateEquipmentIncidentModal()
-
+      await showDialog({
+        type: 'success',
+        title: 'Equipment incident created',
+        message: 'Equipment incident has been created and added to incident tracking.',
+        confirmLabel: 'OK',
+      })
     try {
 
     } catch (error) {
