@@ -42,4 +42,8 @@ const { onDeleteEquipmentIncident } = useDeleteEquipmentIncidentHandler({ delete
 const totalIncidentsKpi = computed(() => kpis.value.totalIncidents)
 const unresolvedIncidentsKpi = computed(() => kpis.value.unresolvedIncidents)
 const incidentsThisMonthKpi = computed(() => kpis.value.incidentsThisMonth)
+
+const { onApply, onReset, onPageChange, onPageSizeChange } = useIncidentListHandlers({
+
+})
 </script>
