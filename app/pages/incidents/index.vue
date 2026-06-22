@@ -34,4 +34,8 @@ const {
   loadEquipmentIncidents,
   deleteEquipmentIncident,
 } = useIncidents()
+
+const { showDialog } = useDialog()
+const { handleFilterApply, handleFilterReset } = useIncidentSearchHandlers(filters)
+const { onDeleteEquipmentIncident } = useDeleteEquipmentIncidentHandler({ deleteEquipmentIncident, showDialog })
 </script>
