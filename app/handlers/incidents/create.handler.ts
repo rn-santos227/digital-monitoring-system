@@ -27,6 +27,8 @@ export const useCreateEquipmentIncidentHandler = ({
 
   const onSubmitCreateEquipmentIncident = async (payload: CreateEquipmentIncidentPayload) => {
     errorMessage.value = ''
+      await createEquipmentIncident(payload)
+      onCloseCreateEquipmentIncidentModal()
 
     try {
 
