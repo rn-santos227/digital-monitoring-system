@@ -27,6 +27,8 @@ export const useCreateEquipmentIncidentHandler = ({
 
   const onSubmitCreateEquipmentIncident = async (payload: CreateEquipmentIncidentPayload) => {
     errorMessage.value = ''
+
+    try {
       await createEquipmentIncident(payload)
       onCloseCreateEquipmentIncidentModal()
       await showDialog({
@@ -35,10 +37,13 @@ export const useCreateEquipmentIncidentHandler = ({
         message: 'Equipment incident has been created and added to incident tracking.',
         confirmLabel: 'OK',
       })
-    try {
-
     } catch (error) {
-
+      errorMessage.value = await showErrorDialog({
+        showDialog,
+        title: 'Equipment incident creation failed',
+        error,
+        fallbackMessage: 'Unable to create equipment incident right now.',
+      })
     }
   }
 }
