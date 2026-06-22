@@ -15,4 +15,12 @@ import {
   EQUIPMENT_INCIDENTS_PAGE_SUBTITLE,
   EQUIPMENT_INCIDENTS_PAGE_TITLE,
 } from '~/constants/page.constants'
+import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
+import {
+  createIncidentTableActionHandler,
+  useDeleteEquipmentIncidentHandler,
+  useIncidentListHandlers,
+  useIncidentSearchHandlers,
+} from '~/handlers'
+import type { EquipmentIncidentTableRow } from '~/types/domain/incident'
 </script>
