@@ -8,6 +8,9 @@ export const validateCreateEquipmentIncidentForm = (form: {
   deploymentId: string
   incidentTypeId: string
   incidentDate: string
+  location: string
+  locationLatitude: number | null
+  locationLongitude: number | null
 }) => {
 
 }
