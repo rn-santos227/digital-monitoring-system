@@ -1,3 +1,4 @@
+export * from './create.handler'
 export * from './delete.handler'
 export * from './list.handler'
 export * from './search.handler'
