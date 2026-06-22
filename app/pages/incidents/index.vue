@@ -1,12 +1,10 @@
 <template>
-  <TemporaryRoutePage
-    :title="TEMPORARY_ROUTE_PAGE_CONTENT.incidents.title"
-    :subtitle="TEMPORARY_ROUTE_PAGE_CONTENT.incidents.subtitle"
-    :feature-label="TEMPORARY_ROUTE_PAGE_CONTENT.incidents.featureLabel"
-  />
+
 </template>
 
 <script setup lang="ts">
-import TemporaryRoutePage from '~/components/general/TemporaryRoutePage.vue'
-import { TEMPORARY_ROUTE_PAGE_CONTENT } from '~/constants/page.constants'
+import { computed } from 'vue'
+import KpiCard from '~/components/general/KpiCard.vue'
+import EquipmentIncidentsFilterComponent from '~/components/incidents/EquipmentIncidentsFilterComponent.vue'
+import EquipmentIncidentsTableComponent from '~/components/incidents/EquipmentIncidentsTableComponent.vue'
 </script>
