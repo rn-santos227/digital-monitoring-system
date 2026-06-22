@@ -1,7 +1,10 @@
 <template>
   <main :class="APP_MAIN_CONTENT_CLASSES">
     <section :class="EQUIPMENT_INCIDENTS_PAGE_SECTION_CLASSES">
-      
+      <header :class="UNITS_PAGE_HEADER_CLASSES">
+        <h1 class="text-3xl font-semibold text-slate-900">{{ EQUIPMENT_INCIDENTS_PAGE_TITLE }}</h1>
+        <p class="text-sm text-slate-600">{{ EQUIPMENT_INCIDENTS_PAGE_SUBTITLE }}</p>
+      </header>
     </section>
   </main>
 </template>
