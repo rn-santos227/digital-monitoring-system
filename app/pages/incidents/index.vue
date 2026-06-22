@@ -22,6 +22,9 @@
         :total-pages="pagination.totalPages"
         :total-items="pagination.totalItems"
         :page-size="pagination.pageSize"
+        @action="onTableAction"
+        @update:current-page="onPageChange"
+        @update:page-size="onPageSizeChange"
       />
     </section>
   </main>
