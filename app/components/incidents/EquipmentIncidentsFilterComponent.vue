@@ -30,7 +30,11 @@ const emit = defineEmits<{
   (event: 'reset'): void
 }>()
 
-
 const localValue = reactive({ term: '', dateFrom: '', dateTo: '' })
+watch(() => props.modelValue, (value) => {
+  localValue.term = value.term ?? ''
+  localValue.dateFrom = value.dateFrom ?? ''
+  localValue.dateTo = value.dateTo ?? ''
+}, { immediate: true, deep: true })
 
 </script>
