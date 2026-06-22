@@ -49,4 +49,8 @@ const { onApply, onReset, onPageChange, onPageSizeChange } = useIncidentListHand
   handleFilterApply,
   handleFilterReset,
 })
+
+const onTableAction = createIncidentTableActionHandler<EquipmentIncidentTableRow>({
+  'delete-equipment-incident': onDeleteEquipmentIncident,
+})
 </script>
