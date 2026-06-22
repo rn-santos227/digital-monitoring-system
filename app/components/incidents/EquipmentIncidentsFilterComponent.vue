@@ -6,6 +6,11 @@
         <BaseDatePicker v-model="localValue.dateFrom" :label="EQUIPMENT_INCIDENTS_FILTER_DATE_FROM_LABEL" />
         <BaseDatePicker v-model="localValue.dateTo" :label="EQUIPMENT_INCIDENTS_FILTER_DATE_TO_LABEL" />
       </div>
+      <footer :class="UNITS_FILTER_FOOTER_CLASSES">
+        <div :class="UNITS_FILTER_ACTIONS_CLASSES">
+        
+        </div>
+      </footer>
     </form>
   </BaseAccordion>
 </template>
