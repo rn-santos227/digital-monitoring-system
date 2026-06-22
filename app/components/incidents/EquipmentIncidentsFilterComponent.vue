@@ -29,4 +29,8 @@ const emit = defineEmits<{
   (event: 'apply', value: Partial<EquipmentIncidentSearchQuery>): void
   (event: 'reset'): void
 }>()
+
+
+const localValue = reactive({ term: '', dateFrom: '', dateTo: '' })
+
 </script>
