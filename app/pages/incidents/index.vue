@@ -9,4 +9,10 @@ import EquipmentIncidentsFilterComponent from '~/components/incidents/EquipmentI
 import EquipmentIncidentsTableComponent from '~/components/incidents/EquipmentIncidentsTableComponent.vue'
 import { useDialog } from '~/composables/useDialog'
 import { useIncidents } from '~/composables/useIncidents'
+import {
+  EQUIPMENT_CATEGORIES_PAGE_KPI_GRID_CLASSES,
+  EQUIPMENT_INCIDENTS_PAGE_SECTION_CLASSES,
+  EQUIPMENT_INCIDENTS_PAGE_SUBTITLE,
+  EQUIPMENT_INCIDENTS_PAGE_TITLE,
+} from '~/constants/page.constants'
 </script>
