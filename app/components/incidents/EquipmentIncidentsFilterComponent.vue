@@ -1,8 +1,11 @@
 <template>
   <BaseAccordion :title="EQUIPMENT_INCIDENTS_FILTER_CARD_TITLE" :initially-open="true">
     <form :class="UNITS_FILTER_FORM_CLASSES" @submit.prevent="emitApply">
-      <BaseTextField v-model="localValue.term" type="search" :label="EQUIPMENT_INCIDENTS_FILTER_TERM_LABEL" :placeholder="EQUIPMENT_INCIDENTS_FILTER_TERM_PLACEHOLDER" />
-      <BaseDatePicker v-model="localValue.dateFrom" :label="EQUIPMENT_INCIDENTS_FILTER_DATE_FROM_LABEL" />
+      <div :class="UNITS_FILTER_FIELDS_GRID_CLASSES">
+        <BaseTextField v-model="localValue.term" type="search" :label="EQUIPMENT_INCIDENTS_FILTER_TERM_LABEL" :placeholder="EQUIPMENT_INCIDENTS_FILTER_TERM_PLACEHOLDER" />
+        <BaseDatePicker v-model="localValue.dateFrom" :label="EQUIPMENT_INCIDENTS_FILTER_DATE_FROM_LABEL" />
+        <BaseDatePicker v-model="localValue.dateTo" :label="EQUIPMENT_INCIDENTS_FILTER_DATE_TO_LABEL" />
+      </div>
     </form>
   </BaseAccordion>
 </template>
