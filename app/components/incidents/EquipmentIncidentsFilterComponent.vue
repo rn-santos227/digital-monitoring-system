@@ -37,4 +37,9 @@ watch(() => props.modelValue, (value) => {
   localValue.dateTo = value.dateTo ?? ''
 }, { immediate: true, deep: true })
 
+const emitApply = () => emit('apply', {
+  term: localValue.term,
+  dateFrom: localValue.dateFrom,
+  dateTo: localValue.dateTo,
+})
 </script>
