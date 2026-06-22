@@ -19,6 +19,9 @@
         :rows="tableRows"
         :is-loading="isLoading"
         :current-page="pagination.page"
+        :total-pages="pagination.totalPages"
+        :total-items="pagination.totalItems"
+        :page-size="pagination.pageSize"
       />
     </section>
   </main>
