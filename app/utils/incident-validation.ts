@@ -29,4 +29,8 @@ export const validateCreateEquipmentIncidentForm = (form: {
   if (form.locationLatitude !== null && (!Number.isFinite(form.locationLatitude) || form.locationLatitude < -90 || form.locationLatitude > 90)) {
     errors.locationLatitude = 'Location latitude must be between -90 and 90.'
   }
+
+  if (form.locationLongitude !== null && (!Number.isFinite(form.locationLongitude) || form.locationLongitude < -180 || form.locationLongitude > 180)) {
+    errors.locationLongitude = 'Location longitude must be between -180 and 180.'
+  }
 }
