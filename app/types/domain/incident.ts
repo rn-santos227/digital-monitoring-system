@@ -4,6 +4,11 @@ export interface IncidentTypeSuggestionItem {
   name: string
 }
 
+export interface InvestigationStatusSuggestionItem {
+  id: string
+  name: string
+}
+
 export interface EquipmentIncidentEndpointQuery {
   page?: number
   pageSize?: number
