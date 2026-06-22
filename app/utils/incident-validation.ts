@@ -33,4 +33,27 @@ export const validateCreateEquipmentIncidentForm = (form: {
   if (form.locationLongitude !== null && (!Number.isFinite(form.locationLongitude) || form.locationLongitude < -180 || form.locationLongitude > 180)) {
     errors.locationLongitude = 'Location longitude must be between -180 and 180.'
   }
+
+  const payload: CreateEquipmentIncidentPayload | null = Object.keys(errors).length === 0
+    ? {
+      incidentNo: result.values.incidentNo ?? '',
+      equipmentAssetId: result.values.equipmentAssetId ?? '',
+      personnelId: form.personnelId || null,
+      deploymentId: form.deploymentId || null,
+      incidentTypeId: result.values.incidentTypeId ?? '',
+      incidentDate: result.values.incidentDate ?? '',
+      location: form.location || null,
+      locationLatitude: form.locationLatitude,
+      locationLongitude: form.locationLongitude,
+      description: result.values.description ?? '',
+      investigationStatusId: form.investigationStatusId || null,
+      resolution: form.resolution || null,
+      remarks: form.remarks || null,
+    }
+    : null
+
+  return {
+    errors,
+    payload,
+  }
 }
