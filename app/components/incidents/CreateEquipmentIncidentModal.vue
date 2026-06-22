@@ -30,4 +30,9 @@ withDefaults(
     errorMessage: '',
   },
 )
+
+const emit = defineEmits<{
+  (event: 'close'): void
+  (event: 'submit', payload: CreateEquipmentIncidentPayload): void
+}>()
 </script>
