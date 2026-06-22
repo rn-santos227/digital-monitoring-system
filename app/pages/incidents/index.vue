@@ -38,4 +38,8 @@ const {
 const { showDialog } = useDialog()
 const { handleFilterApply, handleFilterReset } = useIncidentSearchHandlers(filters)
 const { onDeleteEquipmentIncident } = useDeleteEquipmentIncidentHandler({ deleteEquipmentIncident, showDialog })
+
+const totalIncidentsKpi = computed(() => kpis.value.totalIncidents)
+const unresolvedIncidentsKpi = computed(() => kpis.value.unresolvedIncidents)
+const incidentsThisMonthKpi = computed(() => kpis.value.incidentsThisMonth)
 </script>
