@@ -10,3 +10,12 @@ interface UseCreateEquipmentIncidentHandlerOptions {
   errorMessage: Ref<string>
 }
 
+export const useCreateEquipmentIncidentHandler = ({
+  isCreateEquipmentIncidentModalOpen,
+  createEquipmentIncident,
+  showDialog,
+  errorMessage,
+}: UseCreateEquipmentIncidentHandlerOptions) => {
+
+
+}
