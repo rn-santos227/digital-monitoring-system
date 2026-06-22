@@ -51,6 +51,16 @@ export const getIncidentTypeSuggestionsEndpoint = async (term = ''): Promise<Inc
   }, API_LOADING_MESSAGES.fetchEquipmentIncidentDetails)
 }
 
+export const getInvestigationStatusSuggestionsEndpoint = async (term = ''): Promise<InvestigationStatusSuggestionResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<InvestigationStatusSuggestionResponse>(INCIDENT_MANAGEMENT_API_ENDPOINTS.investigationStatusSuggestions, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query: { term },
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentIncidentDetails)
+}
+
 export const getEquipmentIncidentsEndpoint = async (
   query: Partial<EquipmentIncidentSearchQuery>,
 ): Promise<EquipmentIncidentListResponse> => {
