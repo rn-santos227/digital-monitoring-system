@@ -17,4 +17,17 @@ import type { CreateEquipmentIncidentPayload } from '~/types/domain/incident'
 import { getIncidentTypeSuggestionsEndpoint, getInvestigationStatusSuggestionsEndpoint } from '~/utils/incident-endpoints'
 import { validateCreateEquipmentIncidentForm } from '~/utils/incident-validation'
 import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
+
+withDefaults(
+  defineProps<{
+    isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 </script>
