@@ -6,7 +6,7 @@ import { hasEquipmentIncidentSearchFilters } from '~/utils/incident-endpoints'
 
 export const useIncidents = () => {
   const store = useIncidentsStore()
-  const { items, kpis, pagination, isLoading, error } = storeToRefs(store)
+  const { items, kpis, pagination, isLoading, isCreating, error, createError } = storeToRefs(store)
   const filters = ref<Partial<EquipmentIncidentSearchQuery>>({})
 
   const hasActiveFilters = computed(() => hasEquipmentIncidentSearchFilters(filters.value))
@@ -33,7 +33,9 @@ export const useIncidents = () => {
     kpis,
     pagination,
     isLoading,
+    isCreating,
     error,
+    createError,
     loadEquipmentIncidents,
     createEquipmentIncident: store.createEquipmentIncident,
     getEquipmentIncidentById: store.getEquipmentIncidentById,
