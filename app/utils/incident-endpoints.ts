@@ -6,6 +6,8 @@ import type {
   EquipmentIncidentListItem,
   EquipmentIncidentListResponse,
   EquipmentIncidentSearchQuery,
+  IncidentTypeSuggestionResponse,
+  InvestigationStatusSuggestionResponse,
   UpdateEquipmentIncidentPayload,
 } from '~/types/domain/incident'
 import { withApiLoading } from '~/utils/api-request'
@@ -37,6 +39,16 @@ export const hasEquipmentIncidentSearchFilters = (
     || normalizedQuery.dateFrom
     || normalizedQuery.dateTo,
   )
+}
+
+export const getIncidentTypeSuggestionsEndpoint = async (term = ''): Promise<IncidentTypeSuggestionResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<IncidentTypeSuggestionResponse>(INCIDENT_MANAGEMENT_API_ENDPOINTS.incidentTypeSuggestions, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query: { term },
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentIncidentDetails)
 }
 
 export const getEquipmentIncidentsEndpoint = async (
