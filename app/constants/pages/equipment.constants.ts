@@ -128,5 +128,7 @@ export const EQUIPMENT_INCIDENTS_FILTER_RESET_LABEL = 'Reset'
 export const EQUIPMENT_INCIDENTS_INCIDENT_TYPE_OPTIONS = Object.freeze(
   INCIDENT_TYPE_VALUES.map((value) => ({ label: value, value })),
 )
-
+export const EQUIPMENT_INCIDENTS_INVESTIGATION_STATUS_OPTIONS = Object.freeze(
+  INVESTIGATION_STATUS_VALUES.map((value) => ({ label: value, value })),
+)
 export const EQUIPMENT_INCIDENTS_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGES
