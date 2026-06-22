@@ -112,5 +112,7 @@ export interface EquipmentIncidentsState {
     totalPages: number
   }
   isLoading: boolean
+  isCreating: boolean
   error: string
+  createError: string
 }

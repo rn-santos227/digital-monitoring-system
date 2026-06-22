@@ -40,7 +40,9 @@ export const useIncidentsStore = defineStore('incidents', {
     hasLoadedKpis: false,
     pagination: { ...DEFAULT_EQUIPMENT_INCIDENTS_PAGINATION },
     isLoading: false,
+    isCreating: false,
     error: '',
+    createError: '',
   }),
 
   getters: {
