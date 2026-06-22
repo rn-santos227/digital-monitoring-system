@@ -37,5 +37,10 @@ const emit = defineEmits<{
 }>()
 
 const authStore = useAuthStore()
-
+const visibleActions = computed(() => {
+  return EQUIPMENT_INCIDENTS_TABLE_ACTIONS.filter((action) => {
+    return action.key === 'delete-equipment-incident'
+      && authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.delete)
+  })
+})
 </script>
