@@ -11,6 +11,10 @@ export const validateCreateEquipmentIncidentForm = (form: {
   location: string
   locationLatitude: number | null
   locationLongitude: number | null
+  description: string
+  investigationStatusId: string
+  resolution: string
+  remarks: string
 }) => {
 
 }
