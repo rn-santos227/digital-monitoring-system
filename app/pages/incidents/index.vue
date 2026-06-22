@@ -44,6 +44,9 @@ const unresolvedIncidentsKpi = computed(() => kpis.value.unresolvedIncidents)
 const incidentsThisMonthKpi = computed(() => kpis.value.incidentsThisMonth)
 
 const { onApply, onReset, onPageChange, onPageSizeChange } = useIncidentListHandlers({
-
+  filters,
+  loadPage: loadEquipmentIncidents,
+  handleFilterApply,
+  handleFilterReset,
 })
 </script>
