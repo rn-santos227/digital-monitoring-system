@@ -16,5 +16,8 @@ export const validateCreateEquipmentIncidentForm = (form: {
   resolution: string
   remarks: string
 }) => {
-
+  const result = validateFields([
+    { field: 'incidentNo', label: 'Incident number', value: form.incidentNo, required: true, maxLength: 80 },
+    { field: 'equipmentAssetId', label: 'Equipment asset', value: form.equipmentAssetId, required: true },
+  ])
 }
