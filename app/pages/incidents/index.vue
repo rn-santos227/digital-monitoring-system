@@ -9,6 +9,7 @@
       <div :class="EQUIPMENT_CATEGORIES_PAGE_KPI_GRID_CLASSES">
         <KpiCard title="Total Incidents" subtitle="All reported equipment incident records." icon-name="shield-exclamation" tone="emerald" :value="totalIncidentsKpi" />
         <KpiCard title="Unresolved Incidents" subtitle="Incidents still missing a final resolution." icon-name="clock" tone="amber" :value="unresolvedIncidentsKpi" />
+        <KpiCard title="Incidents This Month" subtitle="Incidents recorded during the current month." icon-name="clipboard-document-list" tone="sky" :value="incidentsThisMonthKpi" />
       </div>
     </section>
   </main>
