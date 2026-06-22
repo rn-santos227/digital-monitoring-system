@@ -46,4 +46,10 @@ export const useCreateEquipmentIncidentHandler = ({
       })
     }
   }
+
+  return {
+    onOpenCreateEquipmentIncidentModal,
+    onCloseCreateEquipmentIncidentModal,
+    onSubmitCreateEquipmentIncident,
+  }
 }
