@@ -11,6 +11,10 @@
         <KpiCard title="Unresolved Incidents" subtitle="Incidents still missing a final resolution." icon-name="clock" tone="amber" :value="unresolvedIncidentsKpi" />
         <KpiCard title="Incidents This Month" subtitle="Incidents recorded during the current month." icon-name="clipboard-document-list" tone="sky" :value="incidentsThisMonthKpi" />
       </div>
+
+      <BaseAlert v-if="error" :message="error" tone="danger" />
+
+      <EquipmentIncidentsFilterComponent :model-value="filters" @apply="onApply" @reset="onReset" />
     </section>
   </main>
 </template>
