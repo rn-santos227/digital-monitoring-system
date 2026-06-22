@@ -24,4 +24,9 @@ import type { EquipmentIncidentSearchQuery } from '~/types/domain/incident'
 const props = withDefaults(defineProps<{ modelValue: Partial<EquipmentIncidentSearchQuery> }>(), {
   modelValue: () => ({}),
 })
+
+const emit = defineEmits<{
+  (event: 'apply', value: Partial<EquipmentIncidentSearchQuery>): void
+  (event: 'reset'): void
+}>()
 </script>
