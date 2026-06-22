@@ -1,5 +1,9 @@
 <template>
-
+  <main :class="APP_MAIN_CONTENT_CLASSES">
+    <section :class="EQUIPMENT_INCIDENTS_PAGE_SECTION_CLASSES">
+      
+    </section>
+  </main>
 </template>
 
 <script setup lang="ts">
