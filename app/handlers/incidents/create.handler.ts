@@ -16,6 +16,10 @@ export const useCreateEquipmentIncidentHandler = ({
   showDialog,
   errorMessage,
 }: UseCreateEquipmentIncidentHandlerOptions) => {
+  const onOpenCreateEquipmentIncidentModal = () => {
+    errorMessage.value = ''
+    isCreateEquipmentIncidentModalOpen.value = true
+  }
 
 
 }
