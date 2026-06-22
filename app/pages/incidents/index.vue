@@ -5,6 +5,10 @@
         <h1 class="text-3xl font-semibold text-slate-900">{{ EQUIPMENT_INCIDENTS_PAGE_TITLE }}</h1>
         <p class="text-sm text-slate-600">{{ EQUIPMENT_INCIDENTS_PAGE_SUBTITLE }}</p>
       </header>
+
+      <div :class="EQUIPMENT_CATEGORIES_PAGE_KPI_GRID_CLASSES">
+
+      </div>
     </section>
   </main>
 </template>
