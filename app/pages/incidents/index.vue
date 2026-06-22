@@ -15,6 +15,11 @@
       <BaseAlert v-if="error" :message="error" tone="danger" />
 
       <EquipmentIncidentsFilterComponent :model-value="filters" @apply="onApply" @reset="onReset" />
+      <EquipmentIncidentsTableComponent
+        :rows="tableRows"
+        :is-loading="isLoading"
+        :current-page="pagination.page"
+      />
     </section>
   </main>
 </template>
