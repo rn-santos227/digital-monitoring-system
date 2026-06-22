@@ -16,8 +16,13 @@ import { useAuthStore } from '~/stores/auth'
 import type { EquipmentIncidentTableRow } from '~/types/domain/incident'
 
 const props = withDefaults(defineProps<{
-
+  rows: readonly EquipmentIncidentTableRow[]
+  isLoading?: boolean
+  currentPage?: number
+  totalPages?: number
+  totalItems?: number
+  pageSize?: number
 }>(), {
-  
+
 )
 </script>
