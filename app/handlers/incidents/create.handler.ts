@@ -21,5 +21,8 @@ export const useCreateEquipmentIncidentHandler = ({
     isCreateEquipmentIncidentModalOpen.value = true
   }
 
+  const onCloseCreateEquipmentIncidentModal = () => {
+    isCreateEquipmentIncidentModalOpen.value = false
+  }
 
 }
