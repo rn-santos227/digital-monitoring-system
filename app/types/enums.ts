@@ -112,7 +112,13 @@ export const INCIDENT_TYPE_VALUES = Object.freeze([
 ] as const)
 export type IncidentTypeName = (typeof INCIDENT_TYPE_VALUES)[number]
 
-export type InvestigationStatusName = 'Reported' | 'Under Investigation' | 'Resolved' | 'Closed'
+export const INVESTIGATION_STATUS_VALUES = Object.freeze([
+  'Reported',
+  'Under Investigation',
+  'Resolved',
+  'Closed',
+] as const)
+export type InvestigationStatusName = (typeof INVESTIGATION_STATUS_VALUES)[number]
 
 export const APP_THEME_VALUES = Object.freeze([
   'light',
