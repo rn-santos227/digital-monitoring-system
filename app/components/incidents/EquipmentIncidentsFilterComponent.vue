@@ -1,5 +1,7 @@
 <template>
-
+  <BaseAccordion :title="EQUIPMENT_INCIDENTS_FILTER_CARD_TITLE" :initially-open="true">
+    
+  </BaseAccordion>
 </template>
 
 <script setup lang="ts">
