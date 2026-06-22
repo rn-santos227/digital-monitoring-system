@@ -14,4 +14,10 @@ import {
 } from '~/constants/table.constants'
 import { useAuthStore } from '~/stores/auth'
 import type { EquipmentIncidentTableRow } from '~/types/domain/incident'
+
+const props = withDefaults(defineProps<{
+
+}>(), {
+  
+)
 </script>
