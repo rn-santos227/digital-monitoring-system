@@ -23,4 +23,15 @@ import {
   useIncidentSearchHandlers,
 } from '~/handlers'
 import type { EquipmentIncidentTableRow } from '~/types/domain/incident'
+
+const {
+  filters,
+  tableRows,
+  kpis,
+  pagination,
+  isLoading,
+  error,
+  loadEquipmentIncidents,
+  deleteEquipmentIncident,
+} = useIncidents()
 </script>
