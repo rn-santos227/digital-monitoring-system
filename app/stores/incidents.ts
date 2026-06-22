@@ -54,7 +54,8 @@ export const useIncidentsStore = defineStore('incidents', {
     async fetchEquipmentIncidentKpisOnce(this: EquipmentIncidentsState) {
       if (this.hasLoadedKpis) return
       this.error = ''
-
+      this.createError = ''
+      this.isCreating = true
       try {
         this.kpis = await getEquipmentIncidentKpisEndpoint()
         this.hasLoadedKpis = true
