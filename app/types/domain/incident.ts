@@ -1,3 +1,9 @@
+export interface IncidentTypeSuggestionItem {
+  id: string
+  code: string
+  name: string
+}
+
 export interface EquipmentIncidentEndpointQuery {
   page?: number
   pageSize?: number
