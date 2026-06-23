@@ -56,7 +56,7 @@
 
     <template #footer>
       <div class="flex justify-end gap-2">
-        
+        <BaseButton variant="ghost" @click="onCloseRequest">Cancel</BaseButton>
       </div>
     </template>
   </BaseModal>
