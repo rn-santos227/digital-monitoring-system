@@ -94,5 +94,10 @@ const onSubmit = () => {
   Object.keys(errors).forEach((key) => delete errors[key])
   Object.assign(errors, result.errors)
 
+  if (!result.payload) {
+    return
+  }
+
+  emit('submit', result.payload)
 }
 </script>
