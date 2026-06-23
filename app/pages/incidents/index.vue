@@ -12,6 +12,12 @@
         <KpiCard title="Incidents This Month" subtitle="Incidents recorded during the current month." icon-name="clipboard-document-list" tone="sky" :value="incidentsThisMonthKpi" />
       </div>
 
+      <div class="flex justify-end gap-2">
+        <BaseButton v-if="canCreateEquipmentIncidents" @click="onOpenCreateEquipmentIncidentModal">
+          Create Equipment Incident
+        </BaseButton>
+      </div>
+
       <BaseAlert v-if="error" :message="error" tone="danger" />
 
       <EquipmentIncidentsFilterComponent :model-value="filters" @apply="onApply" @reset="onReset" />
@@ -26,12 +32,19 @@
         @update:current-page="onPageChange"
         @update:page-size="onPageSizeChange"
       />
+
+      <CreateEquipmentIncidentModal
+        v-if="isCreateEquipmentIncidentModalOpen"
+        :is-submitting="isCreating"
+        :error-message="createError"
+        @close="onCloseCreateEquipmentIncidentModal"
+        @submit="onSubmitCreateEquipmentIncident"
+      />
     </section>
   </main>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
 import { computed, ref } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import EquipmentIncidentsFilterComponent from '~/components/incidents/EquipmentIncidentsFilterComponent.vue'
