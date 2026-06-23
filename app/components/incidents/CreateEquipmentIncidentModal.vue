@@ -9,6 +9,11 @@
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
       <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <BaseTextField v-model="form.incidentNo" label="Incident number" :error="errors.incidentNo" required />
+        <EquipmentAssetsSuggestionField v-model="form.equipmentAssetId" :error="errors.equipmentAssetId" />
+      </div>
     </form>
   </BaseModal>
 </template>
