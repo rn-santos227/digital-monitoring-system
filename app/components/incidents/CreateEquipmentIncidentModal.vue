@@ -87,4 +87,8 @@ onMounted(async () => {
     value: item.id,
   }))
 })
+
+const onSubmit = () => {
+  const result = validateCreateEquipmentIncidentForm(form)
+}
 </script>
