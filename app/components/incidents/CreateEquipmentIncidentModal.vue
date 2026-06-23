@@ -40,6 +40,8 @@ const form = reactive({
   incidentNo: '',
   equipmentAssetId: '',
   personnelId: '',
-
+  deploymentId: '',
+  incidentTypeId: '',
+  incidentDate: '',
 })
 </script>
