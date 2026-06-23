@@ -81,5 +81,10 @@ onMounted(async () => {
     label: item.name,
     value: item.id,
   }))
+
+  investigationStatusOptions.value = investigationStatuses.items.map((item) => ({
+    label: item.name,
+    value: item.id,
+  }))
 })
 </script>
