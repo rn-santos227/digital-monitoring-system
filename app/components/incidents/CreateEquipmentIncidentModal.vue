@@ -43,5 +43,8 @@ const form = reactive({
   deploymentId: '',
   incidentTypeId: '',
   incidentDate: '',
+  location: '',
+  locationLatitude: null as number | null,
+  locationLongitude: null as number | null,
 })
 </script>
