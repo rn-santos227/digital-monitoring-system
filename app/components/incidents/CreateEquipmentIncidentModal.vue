@@ -14,6 +14,18 @@
         <BaseTextField v-model="form.incidentNo" label="Incident number" :error="errors.incidentNo" required />
         <EquipmentAssetsSuggestionField v-model="form.equipmentAssetId" :error="errors.equipmentAssetId" />
       </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <BaseSelect
+          v-model="form.incidentTypeId"
+          label="Incident type"
+          placeholder="Select incident type"
+          :options="incidentTypeOptions"
+          :error="errors.incidentTypeId"
+          required
+        />
+        <BaseDatePicker v-model="form.incidentDate" label="Incident date" :error="errors.incidentDate" required />
+      </div>
     </form>
   </BaseModal>
 </template>
