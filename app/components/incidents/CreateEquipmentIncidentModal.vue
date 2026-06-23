@@ -65,6 +65,6 @@ const latitudeInput = computed({
 })
 
 const longitudeInput = computed({
-
+  get: () => form.locationLongitude === null ? '' : String(form.locationLongitude),
 })
 </script>
