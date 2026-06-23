@@ -56,4 +56,8 @@ const errors = reactive<Record<string, string>>({})
 const incidentTypeOptions = ref<SelectOption[]>([...EQUIPMENT_INCIDENTS_INCIDENT_TYPE_OPTIONS])
 const investigationStatusOptions = ref<SelectOption[]>([...EQUIPMENT_INCIDENTS_INVESTIGATION_STATUS_OPTIONS])
 const { showDialog } = useDialog()
+
+const latitudeInput = computed({
+  
+})
 </script>
