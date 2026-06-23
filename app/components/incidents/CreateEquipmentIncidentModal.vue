@@ -57,6 +57,7 @@
     <template #footer>
       <div class="flex justify-end gap-2">
         <BaseButton variant="ghost" @click="onCloseRequest">Cancel</BaseButton>
+        <BaseButton :disabled="isSubmitting" @click="onSubmit">Create</BaseButton>
       </div>
     </template>
   </BaseModal>
