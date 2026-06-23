@@ -31,6 +31,11 @@
         <PersonnelSuggestionField v-model="form.personnelId" label="Related personnel" helper-text="Optional personnel involved in the incident." />
         <DeploymentSuggestionField v-model="form.deploymentId" label="Related deployment" helper-text="Optional deployment record connected to the incident." />
       </div>
+
+      <div class="grid gap-4 md:grid-cols-3">
+        <BaseTextField v-model="form.location" label="Location" :error="errors.location" />
+        <BaseTextField v-model="latitudeInput" type="number" label="Latitude" :error="errors.locationLatitude" />
+      </div>
     </form>
   </BaseModal>
 </template>
