@@ -70,4 +70,8 @@ const longitudeInput = computed({
     form.locationLongitude = value === '' ? null : Number(value)
   },
 })
+
+onMounted(async () => {
+
+})
 </script>
