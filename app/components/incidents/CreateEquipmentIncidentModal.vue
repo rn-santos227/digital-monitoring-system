@@ -35,4 +35,8 @@ const emit = defineEmits<{
   (event: 'close'): void
   (event: 'submit', payload: CreateEquipmentIncidentPayload): void
 }>()
+
+const form = reactive({
+
+})
 </script>
