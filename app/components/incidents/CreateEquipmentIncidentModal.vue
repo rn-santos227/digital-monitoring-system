@@ -53,6 +53,12 @@
 
       <BaseTextArea v-model="form.remarks" label="Remarks" :error="errors.remarks" />
     </form>
+
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        
+      </div>
+    </template>
   </BaseModal>
 </template>
 
