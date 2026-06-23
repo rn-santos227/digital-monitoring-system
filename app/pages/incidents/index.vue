@@ -31,14 +31,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import { computed, ref } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import EquipmentIncidentsFilterComponent from '~/components/incidents/EquipmentIncidentsFilterComponent.vue'
+import CreateEquipmentIncidentModal from '~/components/incidents/CreateEquipmentIncidentModal.vue'
 import EquipmentIncidentsTableComponent from '~/components/incidents/EquipmentIncidentsTableComponent.vue'
 import { useDialog } from '~/composables/useDialog'
 import { useIncidents } from '~/composables/useIncidents'
 import {
   EQUIPMENT_CATEGORIES_PAGE_KPI_GRID_CLASSES,
+  EQUIPMENT_INCIDENTS_PAGE_REQUIRED_PERMISSIONS,
   EQUIPMENT_INCIDENTS_PAGE_SECTION_CLASSES,
   EQUIPMENT_INCIDENTS_PAGE_SUBTITLE,
   EQUIPMENT_INCIDENTS_PAGE_TITLE,
@@ -46,10 +49,12 @@ import {
 import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
 import {
   createIncidentTableActionHandler,
+  useCreateEquipmentIncidentHandler,
   useDeleteEquipmentIncidentHandler,
   useIncidentListHandlers,
   useIncidentSearchHandlers,
 } from '~/handlers'
+import { useAuthStore } from '~/stores/auth'
 import type { EquipmentIncidentTableRow } from '~/types/domain/incident'
 
 const {
