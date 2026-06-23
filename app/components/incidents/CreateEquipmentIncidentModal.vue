@@ -48,6 +48,7 @@
           :options="investigationStatusOptions"
           :error="errors.investigationStatusId"
         />
+        <BaseTextArea v-model="form.resolution" label="Resolution" :error="errors.resolution" />
       </div>
     </form>
   </BaseModal>
