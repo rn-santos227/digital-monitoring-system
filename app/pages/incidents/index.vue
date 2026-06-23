@@ -57,19 +57,37 @@ import {
 import { useAuthStore } from '~/stores/auth'
 import type { EquipmentIncidentTableRow } from '~/types/domain/incident'
 
+
 const {
   filters,
   tableRows,
   kpis,
   pagination,
   isLoading,
+  isCreating,
   error,
+  createError,
   loadEquipmentIncidents,
+  createEquipmentIncident,
   deleteEquipmentIncident,
 } = useIncidents()
 
+const authStore = useAuthStore()
+const canCreateEquipmentIncidents = computed(() => authStore.hasPermissionAccess(EQUIPMENT_INCIDENTS_PAGE_REQUIRED_PERMISSIONS.create))
+const isCreateEquipmentIncidentModalOpen = ref(false)
+
 const { showDialog } = useDialog()
 const { handleFilterApply, handleFilterReset } = useIncidentSearchHandlers(filters)
+const {
+  onOpenCreateEquipmentIncidentModal,
+  onCloseCreateEquipmentIncidentModal,
+  onSubmitCreateEquipmentIncident,
+} = useCreateEquipmentIncidentHandler({
+  isCreateEquipmentIncidentModalOpen,
+  createEquipmentIncident,
+  showDialog,
+  errorMessage: createError,
+})
 const { onDeleteEquipmentIncident } = useDeleteEquipmentIncidentHandler({ deleteEquipmentIncident, showDialog })
 
 const totalIncidentsKpi = computed(() => kpis.value.totalIncidents)
