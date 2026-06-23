@@ -107,6 +107,8 @@ const onCloseRequest = async () => {
     showDialog,
   })
 
-
+  if (shouldClose) {
+    emit('close')
+  }
 }
 </script>
