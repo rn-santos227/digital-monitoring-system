@@ -37,6 +37,8 @@
         <BaseTextField v-model="latitudeInput" type="number" label="Latitude" :error="errors.locationLatitude" />
         <BaseTextField v-model="longitudeInput" type="number" label="Longitude" :error="errors.locationLongitude" />
       </div>
+
+      <BaseTextArea v-model="form.description" label="Description" :error="errors.description" required />
     </form>
   </BaseModal>
 </template>
