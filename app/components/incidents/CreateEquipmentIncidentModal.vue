@@ -1,5 +1,13 @@
 <template>
+  <BaseModal
+    title="Create Equipment Incident"
+    description="Report an equipment incident for investigation and resolution tracking."
+    scroll-body
+    size="lg"
+    @close="onCloseRequest"
+  >
 
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
