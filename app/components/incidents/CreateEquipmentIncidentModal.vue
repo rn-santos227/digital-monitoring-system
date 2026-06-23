@@ -90,5 +90,9 @@ onMounted(async () => {
 
 const onSubmit = () => {
   const result = validateCreateEquipmentIncidentForm(form)
+
+  Object.keys(errors).forEach((key) => delete errors[key])
+  Object.assign(errors, result.errors)
+
 }
 </script>
