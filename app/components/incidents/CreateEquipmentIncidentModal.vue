@@ -102,6 +102,11 @@ const onSubmit = () => {
 }
 
 const onCloseRequest = async () => {
+  const shouldClose = await requestCloseForRequiredFields({
+    formValues: form,
+    showDialog,
+  })
+
 
 }
 </script>
