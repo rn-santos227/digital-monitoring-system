@@ -72,6 +72,10 @@ const longitudeInput = computed({
 })
 
 onMounted(async () => {
+  const [incidentTypes, investigationStatuses] = await Promise.all([
+    getIncidentTypeSuggestionsEndpoint(),
+    getInvestigationStatusSuggestionsEndpoint(),
+  ])
 
 })
 </script>
