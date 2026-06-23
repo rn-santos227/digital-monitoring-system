@@ -6,7 +6,10 @@
     size="lg"
     @close="onCloseRequest"
   >
-
+    <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
+    </form>
   </BaseModal>
 </template>
 
