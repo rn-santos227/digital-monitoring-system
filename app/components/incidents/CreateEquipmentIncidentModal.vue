@@ -59,5 +59,8 @@ const { showDialog } = useDialog()
 
 const latitudeInput = computed({
   get: () => form.locationLatitude === null ? '' : String(form.locationLatitude),
+  set: (value: string) => {
+    form.locationLatitude = value === '' ? null : Number(value)
+  },
 })
 </script>
