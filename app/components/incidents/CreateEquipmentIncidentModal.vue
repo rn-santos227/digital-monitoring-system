@@ -58,6 +58,6 @@ const investigationStatusOptions = ref<SelectOption[]>([...EQUIPMENT_INCIDENTS_I
 const { showDialog } = useDialog()
 
 const latitudeInput = computed({
-  
+  get: () => form.locationLatitude === null ? '' : String(form.locationLatitude),
 })
 </script>
