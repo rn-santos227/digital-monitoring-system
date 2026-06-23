@@ -37,6 +37,9 @@ const emit = defineEmits<{
 }>()
 
 const form = reactive({
+  incidentNo: '',
+  equipmentAssetId: '',
+  personnelId: '',
 
 })
 </script>
