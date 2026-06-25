@@ -147,6 +147,10 @@ const onMapLongitudeUpdate = (value: number) => {
   form.locationLongitude = Number(value.toFixed(6))
 }
 
+const onDeploymentSelect = (deployment: DeploymentManagementListItem | null) => {
+
+}
+
 onMounted(async () => {
   const [incidentTypes, investigationStatuses] = await Promise.all([
     getIncidentTypeSuggestionsEndpoint(),
