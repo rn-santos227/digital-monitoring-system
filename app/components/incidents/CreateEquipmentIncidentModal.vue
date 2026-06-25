@@ -60,6 +60,17 @@
 
           <BaseTextArea v-model="form.remarks" label="Remarks" :error="errors.remarks" />
         </div>
+
+        <BaseGeoMap
+          title="Incident Location Map"
+          subtitle="Click the map or drag the pin to set the reported incident coordinates."
+          :latitude="form.locationLatitude"
+          :longitude="form.locationLongitude"
+          mode="input"
+          class="min-h-[420px]"
+          @update:latitude="onMapLatitudeUpdate"
+          @update:longitude="onMapLongitudeUpdate"
+        />
       </div>
     </form> 
   </BaseModal>
