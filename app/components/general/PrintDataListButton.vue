@@ -58,6 +58,8 @@ const emit = defineEmits<{
   printed: [payload: unknown]
 }>()
 
+const { addToast } = useToast()
+
 const isProcessing = ref(false)
 
 const handlePrint = async (): Promise<void> => {
@@ -77,6 +79,8 @@ const handlePrint = async (): Promise<void> => {
     })
 
     emit('printed', printData)
+  } catch (error) {
+
   } finally {
     isProcessing.value = false
   }
