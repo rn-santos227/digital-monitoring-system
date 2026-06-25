@@ -151,6 +151,10 @@ const onDeploymentSelect = (deployment: DeploymentManagementListItem | null) => 
   if (!deployment) {
     return
   }
+
+  if (!form.location && deployment.deploymentArea) {
+    form.location = deployment.deploymentArea
+  }
 }
 
 onMounted(async () => {
