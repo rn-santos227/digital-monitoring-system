@@ -46,3 +46,17 @@ const buildEquipmentIncidentRollbackPayload = (
   remarks: row.remarks,
 })
 
+export const updateEquipmentIncidentSection = async ({
+  event,
+  supabase,
+  actorId,
+  id,
+  body,
+  updates,
+  endpoint,
+  successMessage,
+  rollbackErrorMessage,
+}: UpdateEquipmentIncidentSectionOptions): Promise<void> => {
+
+
+}
