@@ -20,5 +20,15 @@ export const updateEquipmentIncidentStatus = async ({
   id,
   body,
 }: UpdateEquipmentIncidentStatusOptions): Promise<void> => {
-
+  await updateEquipmentIncidentSection({
+    event,
+    supabase,
+    actorId,
+    id,
+    body: body as Record<string, unknown>,
+    updates: buildEquipmentIncidentStatusUpdates(body),
+    endpoint: AUDIT_LOG_ENDPOINTS.equipmentIncidentsStatusUpdate,
+    successMessage: 'Equipment incident status updated successfully.',
+    rollbackErrorMessage: 'Equipment incident status update rollback error:',
+  })
 }
