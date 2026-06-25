@@ -57,6 +57,8 @@
             />
             <BaseTextArea v-model="form.resolution" label="Resolution" :error="errors.resolution" />
           </div>
+
+          <BaseTextArea v-model="form.remarks" label="Remarks" :error="errors.remarks" />
         </div>
       </div>
     </form> 
