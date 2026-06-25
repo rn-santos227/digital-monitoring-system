@@ -14,4 +14,12 @@ export interface CreateEquipmentIncidentRequest {
   remarks?: string | null
 }
 
-export interface UpdateEquipmentIncidentRequest extends Partial<CreateEquipmentIncidentRequest> {}
+export interface UpdateEquipmentIncidentDetailsRequest {
+  incidentNo?: string
+  incidentTypeId?: string
+  incidentDate?: string
+  description?: string
+  resolution?: string | null
+  remarks?: string | null
+}
+
