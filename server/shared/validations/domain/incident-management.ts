@@ -150,6 +150,13 @@ const assertHasUpdates = (updates: EquipmentIncidentUpdate): EquipmentIncidentUp
   return updates
 }
 
+export const buildEquipmentIncidentDetailsUpdates = (
+  body: UpdateEquipmentIncidentDetailsRequest,
+): EquipmentIncidentUpdate => assertHasUpdates(
+
+
+)
+
 export const parseEquipmentIncidentListQuery = (query: Record<string, unknown>) => {
   const rawPage = Math.trunc(Number(query.page ?? 1))
   const rawPageSize = Math.trunc(Number(query.pageSize ?? INCIDENT_DEFAULT_PAGE_SIZE))
