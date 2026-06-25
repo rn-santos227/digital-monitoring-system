@@ -159,6 +159,8 @@ export const buildEquipmentIncidentDetailsUpdates = (
     ...(Object.prototype.hasOwnProperty.call(body, 'incidentDate') ? { incidentDate: body.incidentDate } : {}),
     ...(Object.prototype.hasOwnProperty.call(body, 'description') ? { description: body.description } : {}),
     ...(Object.prototype.hasOwnProperty.call(body, 'resolution') ? { resolution: body.resolution } : {}),
+    ...(Object.prototype.hasOwnProperty.call(body, 'remarks') ? { remarks: body.remarks } : {}),
+  }),
 )
 
 export const parseEquipmentIncidentListQuery = (query: Record<string, unknown>) => {
