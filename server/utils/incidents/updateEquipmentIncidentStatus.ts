@@ -5,4 +5,11 @@ import type { UpdateEquipmentIncidentStatusRequest } from '../../shared/requests
 import { buildEquipmentIncidentStatusUpdates } from '../../shared/validations'
 import { updateEquipmentIncidentSection } from './updateEquipmentIncidentSection'
 
+interface UpdateEquipmentIncidentStatusOptions {
+  event: H3Event
+  supabase: SupabaseClient
+  actorId: string
+  id: string
+  body: UpdateEquipmentIncidentStatusRequest
+}
 
