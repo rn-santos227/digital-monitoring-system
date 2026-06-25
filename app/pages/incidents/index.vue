@@ -13,6 +13,14 @@
       </div>
 
       <div class="flex justify-end gap-2">
+        <PrintDataListButton
+          table-name="equipment_incidents"
+          table-label="Equipment Incidents"
+          :filters="filters"
+          :disabled="isLoading"
+          :get-print-data="handlePrintEquipmentIncidents"
+        />
+
         <BaseButton v-if="canCreateEquipmentIncidents" @click="onOpenCreateEquipmentIncidentModal">
           Create Equipment Incident
         </BaseButton>
