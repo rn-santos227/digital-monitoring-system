@@ -40,3 +40,7 @@ export interface UpdateEquipmentIncidentLocationRequest {
   locationLatitude?: number | string | null
   locationLongitude?: number | string | null
 }
+
+export interface UpdateEquipmentIncidentStatusRequest {
+  investigationStatusId?: string | null
+}
