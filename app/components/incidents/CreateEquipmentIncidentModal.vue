@@ -28,6 +28,16 @@
             />
             <BaseDatePicker v-model="form.incidentDate" label="Incident date" :error="errors.incidentDate" required />
           </div>
+
+          <div class="grid gap-4 md:grid-cols-2">
+            <PersonnelSuggestionField v-model="form.personnelId" label="Related personnel" helper-text="Optional personnel involved in the incident." />
+            <DeploymentSuggestionField
+              v-model="form.deploymentId"
+              label="Related deployment"
+              helper-text="Optional deployment record connected to the incident. Coordinates are copied from the selected deployment when available."
+              @select="onDeploymentSelect"
+            />
+          </div>
         </div>
       </div>
     </form> 
