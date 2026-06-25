@@ -73,6 +73,16 @@ export const updateEquipmentIncidentSection = async ({
     oldData = { ...mapEquipmentIncidentListItem(existingRow) }
     await assertIncidentReferencesExist(supabase, updates)
 
+    const rollbackPayload = buildEquipmentIncidentRollbackPayload(existingRow)
+
+    await executeWithRollback({
+      operation: async () => updateEquipmentIncidentById(supabase, id, updates),
+      rollback: async () => updateEquipmentIncidentById(supabase, id, rollbackPayload),
+      onRollbackError: (rollbackError) => {
+        console.error(rollbackErrorMessage, rollbackError)
+      },
+    })
+
   } catch (error: unknown) {
     await recordManagementAuditLog(event, {
       userId: actorId,
