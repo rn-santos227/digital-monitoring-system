@@ -41,7 +41,6 @@ const parseDate = (value: unknown): string => {
   return date
 }
 
-
 const parseCoordinate = (
   value: number | string | null | undefined,
   minimum: number,
@@ -83,8 +82,8 @@ export const parseCreateEquipmentIncidentPayload = (
 })
 
 
-export const buildEquipmentIncidentUpdates = (
-  body: UpdateEquipmentIncidentRequest,
+const buildEquipmentIncidentUpdates = (
+  body: Partial<CreateEquipmentIncidentRequest>,
 ): EquipmentIncidentUpdate => {
   const updates: EquipmentIncidentUpdate = {}
 
