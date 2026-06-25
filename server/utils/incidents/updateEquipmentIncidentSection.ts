@@ -60,6 +60,9 @@ export const updateEquipmentIncidentSection = async ({
   let oldData: Record<string, unknown> | undefined
 
   try {
+    if (Object.keys(updates).length === 0) {
+      throw createError({ statusCode: 400, statusMessage: 'No updates were provided.' })
+    }
 
   } catch (error: unknown) {
     await recordManagementAuditLog(event, {
