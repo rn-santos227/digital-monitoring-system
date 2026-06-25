@@ -194,6 +194,10 @@ export const buildEquipmentIncidentLocationUpdates = (
 ): EquipmentIncidentUpdate => assertHasUpdates(
   buildEquipmentIncidentUpdates({
     ...(Object.prototype.hasOwnProperty.call(body, 'location') ? { location: body.location } : {}),
+    ...(Object.prototype.hasOwnProperty.call(body, 'locationLatitude')
+      ? { locationLatitude: body.locationLatitude }
+      : {}),
+
   }),
 )
 
