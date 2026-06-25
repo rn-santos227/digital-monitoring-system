@@ -38,6 +38,12 @@
               @select="onDeploymentSelect"
             />
           </div>
+
+          <div class="grid gap-4 md:grid-cols-3">
+            <BaseTextField v-model="form.location" label="Location" :error="errors.location" />
+            <BaseTextField v-model="latitudeInput" type="number" label="Latitude" :error="errors.locationLatitude" />
+            <BaseTextField v-model="longitudeInput" type="number" label="Longitude" :error="errors.locationLongitude" />
+          </div>
         </div>
       </div>
     </form> 
