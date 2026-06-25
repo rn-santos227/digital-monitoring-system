@@ -1,7 +1,12 @@
 import { createError } from 'h3'
 import type {
   CreateEquipmentIncidentRequest,
-  UpdateEquipmentIncidentRequest,
+  UpdateEquipmentIncidentDeploymentRequest,
+  UpdateEquipmentIncidentDetailsRequest,
+  UpdateEquipmentIncidentEquipmentRequest,
+  UpdateEquipmentIncidentLocationRequest,
+  UpdateEquipmentIncidentPersonnelRequest,
+  UpdateEquipmentIncidentStatusRequest,
 } from '../../requests'
 import type {
   EquipmentIncidentCreate,
