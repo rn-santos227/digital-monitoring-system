@@ -16,4 +16,15 @@ import { assertIncidentReferencesExist } from './assertIncidentReferencesExist'
 import { getEquipmentIncidentById } from './getEquipmentIncidentById'
 import { updateEquipmentIncidentById } from './updateEquipmentIncidentById'
 
+interface UpdateEquipmentIncidentSectionOptions {
+  event: H3Event
+  supabase: SupabaseClient
+  actorId: string
+  id: string
+  body: Record<string, unknown>
+  updates: EquipmentIncidentUpdate
+  endpoint: string
+  successMessage: string
+  rollbackErrorMessage: string
+}
 
