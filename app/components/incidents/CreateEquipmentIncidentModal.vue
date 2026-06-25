@@ -148,7 +148,9 @@ const onMapLongitudeUpdate = (value: number) => {
 }
 
 const onDeploymentSelect = (deployment: DeploymentManagementListItem | null) => {
-
+  if (!deployment) {
+    return
+  }
 }
 
 onMounted(async () => {
