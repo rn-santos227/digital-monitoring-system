@@ -1,4 +1,5 @@
 import type { Ref } from 'vue'
+import { PRINT_DATA_LIST_EMPTY_MESSAGE } from '~/constants/ui.constants'
 
 interface CompleteListPagination {
   page: number
@@ -19,7 +20,13 @@ export const createCompleteListPrintHandler = <TItem>(
   return async (): Promise<readonly TItem[]> => {
     const originalPage = options.pagination.value.page
     const originalPageSize = options.pagination.value.pageSize
-    const completeListPageSize = Math.max(options.pagination.value.totalItems, originalPageSize)
+    const totalItems = options.pagination.value.totalItems
+
+    if (totalItems === 0) {
+      throw new Error(PRINT_DATA_LIST_EMPTY_MESSAGE)
+    }
+
+    const completeListPageSize = Math.max(totalItems, originalPageSize)
 
     try {
       await options.loadPage(1, completeListPageSize)
