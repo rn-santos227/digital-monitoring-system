@@ -30,3 +30,7 @@ export interface UpdateEquipmentIncidentEquipmentRequest {
 export interface UpdateEquipmentIncidentPersonnelRequest {
   personnelId?: string | null
 }
+
+export interface UpdateEquipmentIncidentDeploymentRequest {
+  deploymentId?: string | null
+}
