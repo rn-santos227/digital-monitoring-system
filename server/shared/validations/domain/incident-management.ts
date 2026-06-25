@@ -142,6 +142,14 @@ const buildEquipmentIncidentUpdates = (
   return updates
 }
 
+const assertHasUpdates = (updates: EquipmentIncidentUpdate): EquipmentIncidentUpdate => {
+  if (Object.keys(updates).length === 0) {
+    throw createError({ statusCode: 400, statusMessage: 'No updates were provided.' })
+  }
+
+  return updates
+}
+
 export const parseEquipmentIncidentListQuery = (query: Record<string, unknown>) => {
   const rawPage = Math.trunc(Number(query.page ?? 1))
   const rawPageSize = Math.trunc(Number(query.pageSize ?? INCIDENT_DEFAULT_PAGE_SIZE))
