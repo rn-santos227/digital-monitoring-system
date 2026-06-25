@@ -62,6 +62,19 @@ export const updateEquipmentIncidentSection = async ({
   try {
 
   } catch (error: unknown) {
+    await recordManagementAuditLog(event, {
+      userId: actorId,
+      action: AUDIT_LOG_ACTIONS.equipmentIncidentUpdate,
+      tableName: 'equipment_incidents',
+      endpoint,
+      recordId: id,
+      requestData: body,
+      oldData,
+      statusCode: (error as { statusCode?: number }).statusCode ?? 500,
+      outcome: AUDIT_LOG_OUTCOMES.failed,
+      message: error instanceof Error ? error.message : 'Unknown error',
+    })
 
+    throw error
   }
 }
