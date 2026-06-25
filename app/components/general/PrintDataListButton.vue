@@ -80,6 +80,14 @@ const handlePrint = async (): Promise<void> => {
 
     emit('printed', printData)
   } catch (error) {
+    if (isPrintDataListEmptyError(error)) {
+      addToast({
+        title: PRINT_DATA_LIST_EMPTY_TITLE,
+        message: PRINT_DATA_LIST_EMPTY_MESSAGE,
+        variant: 'warning',
+      })
+      return
+    }
 
   } finally {
     isProcessing.value = false
