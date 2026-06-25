@@ -153,6 +153,8 @@ const assertHasUpdates = (updates: EquipmentIncidentUpdate): EquipmentIncidentUp
 export const buildEquipmentIncidentDetailsUpdates = (
   body: UpdateEquipmentIncidentDetailsRequest,
 ): EquipmentIncidentUpdate => assertHasUpdates(
+  buildEquipmentIncidentUpdates({
+    ...(Object.prototype.hasOwnProperty.call(body, 'incidentNo') ? { incidentNo: body.incidentNo } : {}),
 
 
 )
