@@ -34,3 +34,9 @@ export interface UpdateEquipmentIncidentPersonnelRequest {
 export interface UpdateEquipmentIncidentDeploymentRequest {
   deploymentId?: string | null
 }
+
+export interface UpdateEquipmentIncidentLocationRequest {
+  location?: string | null
+  locationLatitude?: number | string | null
+  locationLongitude?: number | string | null
+}
