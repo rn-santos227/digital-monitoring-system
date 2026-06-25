@@ -6,7 +6,18 @@
     size="xl"
     @close="onCloseRequest"
   >
-    
+    <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
+
+      <div class="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(360px,0.85fr)]">
+        <div class="space-y-4">
+          <div class="grid gap-4 md:grid-cols-2">
+            
+          </div>
+        </div>
+      </div>
+    </form> 
   </BaseModal>
 </template>
 
