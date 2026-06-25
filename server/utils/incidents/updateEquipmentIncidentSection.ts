@@ -57,6 +57,11 @@ export const updateEquipmentIncidentSection = async ({
   successMessage,
   rollbackErrorMessage,
 }: UpdateEquipmentIncidentSectionOptions): Promise<void> => {
+  let oldData: Record<string, unknown> | undefined
 
+  try {
 
+  } catch (error: unknown) {
+
+  }
 }
