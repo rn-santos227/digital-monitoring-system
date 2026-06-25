@@ -14,7 +14,11 @@ interface UpdateEquipmentIncidentStatusOptions {
 }
 
 export const updateEquipmentIncidentStatus = async ({
-
+  event,
+  supabase,
+  actorId,
+  id,
+  body,
 }: UpdateEquipmentIncidentStatusOptions): Promise<void> => {
 
 }
