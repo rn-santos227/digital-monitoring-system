@@ -89,6 +89,9 @@ const handlePrint = async (): Promise<void> => {
       return
     }
 
+    const message = error instanceof Error && error.message.trim()
+      ? error.message
+      : PRINT_DATA_LIST_ERROR_MESSAGE
   } finally {
     isProcessing.value = false
   }
