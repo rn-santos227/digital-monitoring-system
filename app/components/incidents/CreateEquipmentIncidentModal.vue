@@ -46,6 +46,17 @@
           </div>
 
           <BaseTextArea v-model="form.description" label="Description" :error="errors.description" required />
+
+          <div class="grid gap-4 md:grid-cols-2">
+            <BaseSelect
+              v-model="form.investigationStatusId"
+              label="Investigation status"
+              placeholder="Select investigation status"
+              :options="investigationStatusOptions"
+              :error="errors.investigationStatusId"
+            />
+            <BaseTextArea v-model="form.resolution" label="Resolution" :error="errors.resolution" />
+          </div>
         </div>
       </div>
     </form> 
