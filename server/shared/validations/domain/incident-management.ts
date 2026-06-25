@@ -189,6 +189,12 @@ export const buildEquipmentIncidentDeploymentUpdates = (
   }),
 )
 
+export const buildEquipmentIncidentLocationUpdates = (
+  body: UpdateEquipmentIncidentLocationRequest,
+): EquipmentIncidentUpdate => assertHasUpdates(
+
+)
+
 export const parseEquipmentIncidentListQuery = (query: Record<string, unknown>) => {
   const rawPage = Math.trunc(Number(query.page ?? 1))
   const rawPageSize = Math.trunc(Number(query.pageSize ?? INCIDENT_DEFAULT_PAGE_SIZE))
