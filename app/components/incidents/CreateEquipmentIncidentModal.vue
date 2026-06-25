@@ -3,7 +3,7 @@
     title="Create Equipment Incident"
     description="Report an equipment incident for investigation and resolution tracking."
     scroll-body
-    size="lg"
+    size="xl"
     @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
@@ -66,6 +66,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
 import DeploymentSuggestionField from '~/components/general/DeploymentSuggestionField.vue'
+import BaseGeoMap from '~/components/ui/BaseGeoMap.vue'
 import EquipmentAssetsSuggestionField from '~/components/general/EquipmentAssetsSuggestionField.vue'
 import PersonnelSuggestionField from '~/components/general/PersonnelSuggestionField.vue'
 import { useDialog } from '~/composables/useDialog'
@@ -74,6 +75,7 @@ import {
   EQUIPMENT_INCIDENTS_INVESTIGATION_STATUS_OPTIONS,
 } from '~/constants/page.constants'
 import type { SelectOption } from '~/types/domain/misc'
+import type { DeploymentManagementListItem } from '~/types/domain/deployment'
 import type { CreateEquipmentIncidentPayload } from '~/types/domain/incident'
 import { getIncidentTypeSuggestionsEndpoint, getInvestigationStatusSuggestionsEndpoint } from '~/utils/incident-endpoints'
 import { validateCreateEquipmentIncidentForm } from '~/utils/incident-validation'
