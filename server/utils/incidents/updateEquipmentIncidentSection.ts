@@ -88,6 +88,19 @@ export const updateEquipmentIncidentSection = async ({
       ? { ...mapEquipmentIncidentListItem(updatedRow) }
       : { ...oldData }
 
+    await recordManagementAuditLog(event, {
+      userId: actorId,
+      action: AUDIT_LOG_ACTIONS.equipmentIncidentUpdate,
+      tableName: 'equipment_incidents',
+      endpoint,
+      recordId: id,
+      requestData: body,
+      oldData,
+      newData,
+      statusCode: 200,
+      outcome: AUDIT_LOG_OUTCOMES.success,
+      message: successMessage,
+    })
   } catch (error: unknown) {
     await recordManagementAuditLog(event, {
       userId: actorId,
