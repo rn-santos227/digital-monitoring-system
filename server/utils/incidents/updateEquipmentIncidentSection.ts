@@ -83,6 +83,11 @@ export const updateEquipmentIncidentSection = async ({
       },
     })
 
+    const updatedRow = await getEquipmentIncidentById(supabase, id)
+    const newData = updatedRow
+      ? { ...mapEquipmentIncidentListItem(updatedRow) }
+      : { ...oldData }
+
   } catch (error: unknown) {
     await recordManagementAuditLog(event, {
       userId: actorId,
