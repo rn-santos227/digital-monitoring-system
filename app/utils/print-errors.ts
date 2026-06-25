@@ -6,3 +6,7 @@ export class PrintDataListEmptyError extends Error {
     this.name = 'PrintDataListEmptyError'
   }
 }
+
+export const createPrintDataListEmptyError = (): PrintDataListEmptyError => {
+  return new PrintDataListEmptyError()
+}
