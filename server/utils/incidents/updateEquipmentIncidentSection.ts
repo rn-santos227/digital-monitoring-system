@@ -64,6 +64,12 @@ export const updateEquipmentIncidentSection = async ({
       throw createError({ statusCode: 400, statusMessage: 'No updates were provided.' })
     }
 
+    const existingRow = await getEquipmentIncidentById(supabase, id)
+
+    if (!existingRow) {
+      throw createError({ statusCode: 404, statusMessage: 'Equipment incident not found.' })
+    }
+
   } catch (error: unknown) {
     await recordManagementAuditLog(event, {
       userId: actorId,
