@@ -139,6 +139,10 @@ const updateIncidentCoordinates = (latitude: number | null, longitude: number | 
   form.locationLongitude = typeof longitude === 'number' && Number.isFinite(longitude) ? longitude : null
 }
 
+const onMapLatitudeUpdate = (value: number) => {
+  form.locationLatitude = Number(value.toFixed(6))
+}
+
 onMounted(async () => {
   const [incidentTypes, investigationStatuses] = await Promise.all([
     getIncidentTypeSuggestionsEndpoint(),
