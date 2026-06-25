@@ -7,6 +7,7 @@ import {
   PRINT_TOTAL_RECORDS_LABEL,
   PRINT_WINDOW_FEATURES,
 } from '~/constants/print-formats.constants'
+import { createPrintDataListEmptyError } from '~/utils/print-errors'
 import type { DataTableColumn } from '~/constants/ui.constants'
 import type { PrintDetailFormat, PrintTableFormat } from '~/types/domain/print'
 
@@ -78,6 +79,10 @@ export const printTableRecords = <TItem extends object>(
   items: readonly TItem[],
   format: PrintTableFormat,
 ): readonly TItem[] => {
+  if (items.length === 0) {
+    throw createPrintDataListEmptyError()
+  }
+
   const generatedAt = new Date().toLocaleString(undefined, PRINT_DATE_TIME_OPTIONS)
   const headerCells = ['#', ...format.columns.map((column) => column.label)]
   const formattedRows = items.map((item, index) => [
