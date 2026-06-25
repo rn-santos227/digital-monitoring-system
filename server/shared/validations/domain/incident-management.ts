@@ -155,8 +155,8 @@ export const buildEquipmentIncidentDetailsUpdates = (
 ): EquipmentIncidentUpdate => assertHasUpdates(
   buildEquipmentIncidentUpdates({
     ...(Object.prototype.hasOwnProperty.call(body, 'incidentNo') ? { incidentNo: body.incidentNo } : {}),
-
-
+    ...(Object.prototype.hasOwnProperty.call(body, 'incidentTypeId') ? { incidentTypeId: body.incidentTypeId } : {}),
+    ...(Object.prototype.hasOwnProperty.call(body, 'incidentDate') ? { incidentDate: body.incidentDate } : {}),
 )
 
 export const parseEquipmentIncidentListQuery = (query: Record<string, unknown>) => {
