@@ -92,6 +92,12 @@ const handlePrint = async (): Promise<void> => {
     const message = error instanceof Error && error.message.trim()
       ? error.message
       : PRINT_DATA_LIST_ERROR_MESSAGE
+
+    addToast({
+      title: PRINT_DATA_LIST_ERROR_TITLE,
+      message,
+      variant: 'error',
+    })
   } finally {
     isProcessing.value = false
   }
