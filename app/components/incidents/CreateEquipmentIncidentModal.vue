@@ -155,6 +155,10 @@ const onDeploymentSelect = (deployment: DeploymentManagementListItem | null) => 
   if (!form.location && deployment.deploymentArea) {
     form.location = deployment.deploymentArea
   }
+
+  if (deployment.deploymentAreaLatitude !== null || deployment.deploymentAreaLongitude !== null) {
+    updateIncidentCoordinates(deployment.deploymentAreaLatitude, deployment.deploymentAreaLongitude)
+  }
 }
 
 onMounted(async () => {
