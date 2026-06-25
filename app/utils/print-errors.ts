@@ -10,3 +10,9 @@ export class PrintDataListEmptyError extends Error {
 export const createPrintDataListEmptyError = (): PrintDataListEmptyError => {
   return new PrintDataListEmptyError()
 }
+
+export const isPrintDataListEmptyError = (error: unknown): error is PrintDataListEmptyError => {
+  return error instanceof PrintDataListEmptyError || (
+    error instanceof Error && error.name === 'PrintDataListEmptyError'
+  )
+}
