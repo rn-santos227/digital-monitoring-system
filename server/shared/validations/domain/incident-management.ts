@@ -181,6 +181,14 @@ export const buildEquipmentIncidentPersonnelUpdates = (
   }),
 )
 
+export const buildEquipmentIncidentDeploymentUpdates = (
+  body: UpdateEquipmentIncidentDeploymentRequest,
+): EquipmentIncidentUpdate => assertHasUpdates(
+  buildEquipmentIncidentUpdates({
+    ...(Object.prototype.hasOwnProperty.call(body, 'deploymentId') ? { deploymentId: body.deploymentId } : {}),
+  }),
+)
+
 export const parseEquipmentIncidentListQuery = (query: Record<string, unknown>) => {
   const rawPage = Math.trunc(Number(query.page ?? 1))
   const rawPageSize = Math.trunc(Number(query.pageSize ?? INCIDENT_DEFAULT_PAGE_SIZE))
