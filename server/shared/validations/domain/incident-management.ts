@@ -197,7 +197,9 @@ export const buildEquipmentIncidentLocationUpdates = (
     ...(Object.prototype.hasOwnProperty.call(body, 'locationLatitude')
       ? { locationLatitude: body.locationLatitude }
       : {}),
-
+    ...(Object.prototype.hasOwnProperty.call(body, 'locationLongitude')
+      ? { locationLongitude: body.locationLongitude }
+      : {}),
   }),
 )
 
