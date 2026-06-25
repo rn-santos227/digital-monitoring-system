@@ -1,0 +1,1 @@
+import { PRINT_DATA_LIST_EMPTY_MESSAGE } from '~/constants/ui.constants'
