@@ -192,7 +192,9 @@ export const buildEquipmentIncidentDeploymentUpdates = (
 export const buildEquipmentIncidentLocationUpdates = (
   body: UpdateEquipmentIncidentLocationRequest,
 ): EquipmentIncidentUpdate => assertHasUpdates(
-
+  buildEquipmentIncidentUpdates({
+    ...(Object.prototype.hasOwnProperty.call(body, 'location') ? { location: body.location } : {}),
+  }),
 )
 
 export const parseEquipmentIncidentListQuery = (query: Record<string, unknown>) => {
