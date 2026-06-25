@@ -47,6 +47,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
+import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import EquipmentIncidentsFilterComponent from '~/components/incidents/EquipmentIncidentsFilterComponent.vue'
 import CreateEquipmentIncidentModal from '~/components/incidents/CreateEquipmentIncidentModal.vue'
 import EquipmentIncidentsTableComponent from '~/components/incidents/EquipmentIncidentsTableComponent.vue'
@@ -61,11 +62,13 @@ import {
 } from '~/constants/page.constants'
 import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES } from '~/constants/shared.constants'
 import {
+  createCompleteListPrintHandler,
   createIncidentTableActionHandler,
   useCreateEquipmentIncidentHandler,
   useDeleteEquipmentIncidentHandler,
   useIncidentListHandlers,
   useIncidentSearchHandlers,
+  usePrintIncidentsHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type { EquipmentIncidentTableRow } from '~/types/domain/incident'
@@ -102,6 +105,7 @@ const {
   errorMessage: createError,
 })
 const { onDeleteEquipmentIncident } = useDeleteEquipmentIncidentHandler({ deleteEquipmentIncident, showDialog })
+const { printEquipmentIncidents } = usePrintIncidentsHandler()
 
 const totalIncidentsKpi = computed(() => kpis.value.totalIncidents)
 const unresolvedIncidentsKpi = computed(() => kpis.value.unresolvedIncidents)
