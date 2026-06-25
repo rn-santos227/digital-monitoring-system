@@ -13,3 +13,8 @@ interface UpdateEquipmentIncidentStatusOptions {
   body: UpdateEquipmentIncidentStatusRequest
 }
 
+export const updateEquipmentIncidentStatus = async ({
+
+}: UpdateEquipmentIncidentStatusOptions): Promise<void> => {
+
+}
