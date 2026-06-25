@@ -6,60 +6,7 @@
     size="xl"
     @close="onCloseRequest"
   >
-    <form class="space-y-4" @submit.prevent="onSubmit">
-      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
-      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
-
-      <div class="grid gap-4 md:grid-cols-2">
-        <BaseTextField v-model="form.incidentNo" label="Incident number" :error="errors.incidentNo" required />
-        <EquipmentAssetsSuggestionField v-model="form.equipmentAssetId" :error="errors.equipmentAssetId" />
-      </div>
-
-      <div class="grid gap-4 md:grid-cols-2">
-        <BaseSelect
-          v-model="form.incidentTypeId"
-          label="Incident type"
-          placeholder="Select incident type"
-          :options="incidentTypeOptions"
-          :error="errors.incidentTypeId"
-          required
-        />
-        <BaseDatePicker v-model="form.incidentDate" label="Incident date" :error="errors.incidentDate" required />
-      </div>
-
-      <div class="grid gap-4 md:grid-cols-2">
-        <PersonnelSuggestionField v-model="form.personnelId" label="Related personnel" helper-text="Optional personnel involved in the incident." />
-        <DeploymentSuggestionField v-model="form.deploymentId" label="Related deployment" helper-text="Optional deployment record connected to the incident." />
-      </div>
-
-      <div class="grid gap-4 md:grid-cols-3">
-        <BaseTextField v-model="form.location" label="Location" :error="errors.location" />
-        <BaseTextField v-model="latitudeInput" type="number" label="Latitude" :error="errors.locationLatitude" />
-        <BaseTextField v-model="longitudeInput" type="number" label="Longitude" :error="errors.locationLongitude" />
-      </div>
-
-      <BaseTextArea v-model="form.description" label="Description" :error="errors.description" required />
-
-      <div class="grid gap-4 md:grid-cols-2">
-        <BaseSelect
-          v-model="form.investigationStatusId"
-          label="Investigation status"
-          placeholder="Select investigation status"
-          :options="investigationStatusOptions"
-          :error="errors.investigationStatusId"
-        />
-        <BaseTextArea v-model="form.resolution" label="Resolution" :error="errors.resolution" />
-      </div>
-
-      <BaseTextArea v-model="form.remarks" label="Remarks" :error="errors.remarks" />
-    </form>
-
-    <template #footer>
-      <div class="flex justify-end gap-2">
-        <BaseButton variant="ghost" @click="onCloseRequest">Cancel</BaseButton>
-        <BaseButton :disabled="isSubmitting" @click="onSubmit">Create</BaseButton>
-      </div>
-    </template>
+    
   </BaseModal>
 </template>
 
