@@ -134,6 +134,11 @@ const longitudeInput = computed({
   },
 })
 
+const updateIncidentCoordinates = (latitude: number | null, longitude: number | null) => {
+  form.locationLatitude = typeof latitude === 'number' && Number.isFinite(latitude) ? latitude : null
+  form.locationLongitude = typeof longitude === 'number' && Number.isFinite(longitude) ? longitude : null
+}
+
 onMounted(async () => {
   const [incidentTypes, investigationStatuses] = await Promise.all([
     getIncidentTypeSuggestionsEndpoint(),
