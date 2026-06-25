@@ -1,5 +1,5 @@
 import type { Ref } from 'vue'
-import { PRINT_DATA_LIST_EMPTY_MESSAGE } from '~/constants/ui.constants'
+import { createPrintDataListEmptyError } from '~/utils/print-errors'
 
 interface CompleteListPagination {
   page: number
@@ -23,7 +23,7 @@ export const createCompleteListPrintHandler = <TItem>(
     const totalItems = options.pagination.value.totalItems
 
     if (totalItems === 0) {
-      throw new Error(PRINT_DATA_LIST_EMPTY_MESSAGE)
+      throw createPrintDataListEmptyError()
     }
 
     const completeListPageSize = Math.max(totalItems, originalPageSize)
