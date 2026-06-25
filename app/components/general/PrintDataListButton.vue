@@ -26,11 +26,17 @@ import {
   PRINT_DATA_LIST_BUTTON_ARIA_LABEL,
   PRINT_DATA_LIST_BUTTON_LABEL,
   PRINT_DATA_LIST_BUTTON_TOOLTIP,
+  PRINT_DATA_LIST_EMPTY_MESSAGE,
+  PRINT_DATA_LIST_EMPTY_TITLE,
+  PRINT_DATA_LIST_ERROR_MESSAGE,
+  PRINT_DATA_LIST_ERROR_TITLE,
   PRINT_DATA_LIST_LOADING_ARIA_LABEL,
   PRINT_DATA_LIST_LOADING_LABEL,
   PRINT_DATA_LIST_LOADING_TOOLTIP,
 } from '~/constants/ui.constants'
+import { useToast } from '~/composables/useToast'
 import { recordPrintedTableAuditEndpoint } from '~/utils/audit-endpoints'
+import { isPrintDataListEmptyError } from '~/utils/print-errors'
 
 interface PrintDataListButtonProps {
   tableName: string
