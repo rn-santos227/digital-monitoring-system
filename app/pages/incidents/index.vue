@@ -111,6 +111,13 @@ const totalIncidentsKpi = computed(() => kpis.value.totalIncidents)
 const unresolvedIncidentsKpi = computed(() => kpis.value.unresolvedIncidents)
 const incidentsThisMonthKpi = computed(() => kpis.value.incidentsThisMonth)
 
+const handlePrintEquipmentIncidents = createCompleteListPrintHandler<EquipmentIncidentTableRow>({
+  rows: tableRows,
+  pagination,
+  loadPage: async (page, pageSize) => loadEquipmentIncidents(page, filters.value, pageSize),
+  printItems: printEquipmentIncidents,
+})
+
 const { onApply, onReset, onPageChange, onPageSizeChange } = useIncidentListHandlers({
   filters,
   loadPage: loadEquipmentIncidents,
