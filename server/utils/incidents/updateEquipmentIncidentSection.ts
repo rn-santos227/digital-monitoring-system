@@ -28,3 +28,21 @@ interface UpdateEquipmentIncidentSectionOptions {
   rollbackErrorMessage: string
 }
 
+const buildEquipmentIncidentRollbackPayload = (
+  row: EquipmentIncidentCreate,
+): EquipmentIncidentCreate => ({
+  incident_no: row.incident_no,
+  equipment_asset_id: row.equipment_asset_id,
+  personnel_id: row.personnel_id,
+  deployment_id: row.deployment_id,
+  incident_type_id: row.incident_type_id,
+  incident_date: row.incident_date,
+  location: row.location,
+  location_latitude: row.location_latitude,
+  location_longitude: row.location_longitude,
+  description: row.description,
+  investigation_status_id: row.investigation_status_id,
+  resolution: row.resolution,
+  remarks: row.remarks,
+})
+
