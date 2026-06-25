@@ -23,3 +23,6 @@ export interface UpdateEquipmentIncidentDetailsRequest {
   remarks?: string | null
 }
 
+export interface UpdateEquipmentIncidentEquipmentRequest {
+  equipmentAssetId?: string
+}
