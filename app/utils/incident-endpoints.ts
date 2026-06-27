@@ -9,6 +9,12 @@ import type {
   IncidentTypeSuggestionResponse,
   InvestigationStatusSuggestionResponse,
   UpdateEquipmentIncidentPayload,
+  UpdateEquipmentIncidentDeploymentPayload,
+  UpdateEquipmentIncidentDetailsPayload,
+  UpdateEquipmentIncidentEquipmentPayload,
+  UpdateEquipmentIncidentPersonnelPayload,
+  UpdateEquipmentIncidentLocationPayload,
+  UpdateEquipmentIncidentStatusPayload,
 } from '~/types/domain/incident'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
@@ -127,6 +133,61 @@ export const updateEquipmentIncidentEndpoint = async (
       body: payload,
     })
   }, API_LOADING_MESSAGES.updateEquipmentIncident)
+}
+
+const updateEquipmentIncidentSectionEndpoint = async <TPayload extends object>(
+  endpoint: string,
+  payload: TPayload,
+): Promise<void> => {
+  await withApiLoading(async () => {
+    await $fetch(endpoint, {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updateEquipmentIncident)
+}
+
+export const updateEquipmentIncidentDeploymentEndpoint = async (
+  id: string,
+  payload: UpdateEquipmentIncidentDeploymentPayload,
+): Promise<void> => {
+  await updateEquipmentIncidentSectionEndpoint(INCIDENT_MANAGEMENT_API_ENDPOINTS.incidentDeploymentById(id), payload)
+}
+
+export const updateEquipmentIncidentDetailsEndpoint = async (
+  id: string,
+  payload: UpdateEquipmentIncidentDetailsPayload,
+): Promise<void> => {
+  await updateEquipmentIncidentSectionEndpoint(INCIDENT_MANAGEMENT_API_ENDPOINTS.incidentDetailsById(id), payload)
+}
+
+export const updateEquipmentIncidentEquipmentEndpoint = async (
+  id: string,
+  payload: UpdateEquipmentIncidentEquipmentPayload,
+): Promise<void> => {
+  await updateEquipmentIncidentSectionEndpoint(INCIDENT_MANAGEMENT_API_ENDPOINTS.incidentEquipmentById(id), payload)
+}
+
+export const updateEquipmentIncidentPersonnelEndpoint = async (
+  id: string,
+  payload: UpdateEquipmentIncidentPersonnelPayload,
+): Promise<void> => {
+  await updateEquipmentIncidentSectionEndpoint(INCIDENT_MANAGEMENT_API_ENDPOINTS.incidentPersonnelById(id), payload)
+}
+
+export const updateEquipmentIncidentLocationEndpoint = async (
+  id: string,
+  payload: UpdateEquipmentIncidentLocationPayload,
+): Promise<void> => {
+  await updateEquipmentIncidentSectionEndpoint(INCIDENT_MANAGEMENT_API_ENDPOINTS.incidentLocationById(id), payload)
+}
+
+export const updateEquipmentIncidentStatusEndpoint = async (
+  id: string,
+  payload: UpdateEquipmentIncidentStatusPayload,
+): Promise<void> => {
+  await updateEquipmentIncidentSectionEndpoint(INCIDENT_MANAGEMENT_API_ENDPOINTS.incidentStatusById(id), payload)
 }
 
 export const deleteEquipmentIncidentEndpoint = async (id: string): Promise<void> => {
