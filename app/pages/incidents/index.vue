@@ -75,6 +75,15 @@
         @close="closeUpdateModal"
         @submit="submitEquipmentUpdate"
       />
+
+      <UpdateEquipmentIncidentPersonnelModal
+        v-if="selectedIncident && activeUpdateSection === 'personnel'"
+        :incident="selectedIncident"
+        :is-submitting="isUpdating"
+        :error-message="updateError"
+        @close="closeUpdateModal"
+        @submit="submitPersonnelUpdate"
+      />
     </section>
   </main>
 </template>
