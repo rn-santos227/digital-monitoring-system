@@ -93,4 +93,9 @@ const loadIncidentAuditLogs = async (id: string) => {
     isLoadingAuditLogs.value = false
   }
 }
+
+const loadIncidentProfile = async (id: string) => {
+  incident.value = await getEquipmentIncidentByIdEndpoint(id)
+  await loadIncidentAuditLogs(id)
+}
 </script>
