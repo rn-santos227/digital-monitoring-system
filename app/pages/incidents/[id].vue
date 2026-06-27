@@ -42,4 +42,14 @@ const incidentId = computed(() => {
   const idValue = route.params.id
   return Array.isArray(idValue) ? (idValue[0] ?? '') : (idValue ?? '')
 })
+
+const statusLabel = computed(() => incident.value?.investigationStatusName ?? 'Not set')
+const equipmentItemLabel = computed(() => {
+  const currentIncident = incident.value
+  if (!currentIncident) {
+    return 'Not Set'
+  }
+
+  return [currentIncident.equipmentCode, currentIncident.equipmentName].filter(Boolean).join(' — ') || 'Not set'
+})
 </script>
