@@ -165,6 +165,7 @@ const {
   deleteEquipmentIncident,
 } = useIncidents()
 
+const router = useRouter()
 const authStore = useAuthStore()
 const canCreateEquipmentIncidents = computed(() => authStore.hasPermissionAccess(EQUIPMENT_INCIDENTS_PAGE_REQUIRED_PERMISSIONS.create))
 const isCreateEquipmentIncidentModalOpen = ref(false)
@@ -226,6 +227,7 @@ const { onApply, onReset, onPageChange, onPageSizeChange } = useIncidentListHand
 })
 
 const onTableAction = createIncidentTableActionHandler<EquipmentIncidentTableRow>({
+  'view-equipment-incident': async (id) => { await router.push(`/incidents/${id}`) },
   'update-equipment-incident-deployment': (_id, row) => openUpdateModal('deployment', row),
   'update-equipment-incident-details': (_id, row) => openUpdateModal('details', row),
   'update-equipment-incident-equipment': (_id, row) => openUpdateModal('equipment', row),
