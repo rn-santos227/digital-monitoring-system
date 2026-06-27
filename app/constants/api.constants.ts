@@ -110,6 +110,12 @@ export const INCIDENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   incidentsSearch: '/api/incidents/search',
   incidentsKpis: '/api/incidents/kpis',
   incidentById: (id: string) => `/api/incidents/${id}`,
+  incidentDeploymentById: (id: string) => `/api/incidents/${id}/deployment`,
+  incidentDetailsById: (id: string) => `/api/incidents/${id}/details`,
+  incidentEquipmentById: (id: string) => `/api/incidents/${id}/equipment`,
+  incidentPersonnelById: (id: string) => `/api/incidents/${id}/personnel`,
+  incidentLocationById: (id: string) => `/api/incidents/${id}/location`,
+  incidentStatusById: (id: string) => `/api/incidents/${id}/status`,
   incidentTypeSuggestions: '/api/incident-types/suggestions',
   investigationStatusSuggestions: '/api/incidents/suggestions',
 })
