@@ -93,6 +93,15 @@
         @close="closeUpdateModal"
         @submit="submitLocationUpdate"
       />
+
+      <UpdateEquipmentIncidentStatusModal
+        v-if="selectedIncident && activeUpdateSection === 'status'"
+        :incident="selectedIncident"
+        :is-submitting="isUpdating"
+        :error-message="updateError"
+        @close="closeUpdateModal"
+        @submit="submitStatusUpdate"
+      />
     </section>
   </main>
 </template>
