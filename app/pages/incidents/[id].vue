@@ -52,4 +52,13 @@ const equipmentItemLabel = computed(() => {
 
   return [currentIncident.equipmentCode, currentIncident.equipmentName].filter(Boolean).join(' — ') || 'Not set'
 })
+
+const personnelLabel = computed(() => {
+  const currentIncident = incident.value
+  if (!currentIncident?.personnelId) {
+    return 'Not Assigned'
+  }
+
+  return [currentIncident.personnelCode, currentIncident.personnelName].filter(Boolean).join(' — ') || currentIncident.personnelId
+})
 </script>
