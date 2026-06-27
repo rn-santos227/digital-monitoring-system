@@ -13,3 +13,22 @@ interface UpdateEquipmentIncidentLocationOptions {
   body: UpdateEquipmentIncidentLocationRequest
 }
 
+export const updateEquipmentIncidentLocation = async ({
+  event,
+  supabase,
+  actorId,
+  id,
+  body,
+}: UpdateEquipmentIncidentLocationOptions): Promise<void> => {
+  await updateEquipmentIncidentSection({
+    event,
+    supabase,
+    actorId,
+    id,
+    body: body as Record<string, unknown>,
+    updates: buildEquipmentIncidentLocationUpdates(body),
+    endpoint: AUDIT_LOG_ENDPOINTS.equipmentIncidentsLocationUpdate,
+    successMessage: 'Equipment incident location updated successfully.',
+    rollbackErrorMessage: 'Equipment incident location update rollback error:',
+  })
+}
