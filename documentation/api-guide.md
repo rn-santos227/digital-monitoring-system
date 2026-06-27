@@ -128,7 +128,12 @@ This document reflects the currently implemented backend API routes under `serve
 | GET | `/api/incident-types/suggestions` |
 | DELETE | `/api/incidents/:id` |
 | GET | `/api/incidents/:id` |
-| PATCH | `/api/incidents/:id` |
+| PATCH | `/api/incidents/:id/deployment` |
+| PATCH | `/api/incidents/:id/details` |
+| PATCH | `/api/incidents/:id/equipment` |
+| PATCH | `/api/incidents/:id/location` |
+| PATCH | `/api/incidents/:id/personnel` |
+| PATCH | `/api/incidents/:id/status` |
 | GET | `/api/incidents` |
 | POST | `/api/incidents` |
 | GET | `/api/incidents/kpis` |
@@ -196,7 +201,7 @@ This document reflects the currently implemented backend API routes under `serve
 - **Personnel:** `/api/personnel` supports personnel CRUD, search, suggestions, KPI/location summaries, batch upload, and related training/deployment/engagement/equipment records.
 - **Training, deployment, and engagement records:** `/api/trainings`, `/api/training-categories`, `/api/training-records`, `/api/deployments`, `/api/deployment-records`, `/api/engagements`, and `/api/engagement-records` provide record management plus domain KPI and personnel relationship endpoints.
 - **Equipment:** `/api/equipment-categories`, `/api/equipment-items`, `/api/equipment-assets`, and `/api/equipment-issuances` cover equipment taxonomy, inventory assets, issuances, suggestions, search, KPI summaries, and relationships to battalions, companies, and personnel.
-- **Incidents:** `/api/incidents` and `/api/incident-types/suggestions` cover incident CRUD, search, suggestions, and KPI summaries.
+- **Incidents:** `/api/incidents` and `/api/incident-types/suggestions` cover incident create/read/delete flows, section-specific updates, search, suggestions, and KPI summaries.
 - **Dashboard and analytics:** `/api/dashboard/*` provides aggregate operational widgets for personnel, equipment, deployment, location load, rotation, and unit management views.
 - **Application settings:** `/api/application-settings` reads and updates singleton runtime configuration such as app identity, localization, theme, map defaults, code prefixes, and reminder/retention toggles.
 - **Audit and file utilities:** `/api/audit/*` exposes audit log listing/search/detail/print routes, and `/api/files/upload` handles uploads.
@@ -206,3 +211,25 @@ This document reflects the currently implemented backend API routes under `serve
 - This guide is a route inventory of the current backend implementation.
 - If route files are added, renamed, or removed under `server/api`, update this document in the same change set.
 - Mutation routes should keep RBAC checks and audit logging aligned with the repository backend rules.
+
+
+## Incident Update Endpoints
+
+Equipment incident updates are split by section. The general `PATCH /api/incidents/:id` route is not available; clients should call the focused endpoint that matches the fields being changed.
+
+All incident update endpoints:
+
+- Require an authenticated user with one of the incident mutation permissions (`equipment.maintain` or `equipment.manage`).
+- Return `{ "ok": true }` on success.
+- Reject empty payloads with a `400` response.
+- Validate referenced records before applying relationship changes.
+- Record management audit logs for successful and failed mutation attempts.
+
+| Method | Endpoint | Body fields | Notes |
+| --- | --- | --- | --- |
+| PATCH | `/api/incidents/:id/details` | `incidentNo`, `incidentTypeId`, `incidentDate`, `description`, `resolution`, `remarks` | Updates descriptive incident details. `incidentNo`, `incidentTypeId`, `incidentDate`, and `description` cannot be empty when provided. `incidentDate` must use `YYYY-MM-DD`. |
+| PATCH | `/api/incidents/:id/equipment` | `equipmentAssetId` | Updates the related equipment asset. `equipmentAssetId` is required when provided and must reference an existing equipment asset. |
+| PATCH | `/api/incidents/:id/personnel` | `personnelId` | Updates or clears the related personnel. Non-empty values must reference an existing personnel record; `null` clears the relationship. |
+| PATCH | `/api/incidents/:id/deployment` | `deploymentId` | Updates or clears the related deployment record. Non-empty values must reference an existing deployment record; `null` clears the relationship. |
+| PATCH | `/api/incidents/:id/location` | `location`, `locationLatitude`, `locationLongitude` | Updates incident location text and coordinates. Latitude must be between `-90` and `90`; longitude must be between `-180` and `180`; `null` clears optional values. |
+| PATCH | `/api/incidents/:id/status` | `investigationStatusId` | Updates or clears the investigation status. Non-empty values must reference an existing investigation status; `null` clears the status. |
