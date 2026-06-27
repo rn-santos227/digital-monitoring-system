@@ -33,4 +33,13 @@ const incidentAuditLogs = ref<AuditLogListItem[]>([])
 const pageError = ref('')
 const auditError = ref('')
 const isLoadingAuditLogs = ref(false)
+
+const canViewEquipmentIncidents = computed(() => {
+  return authStore.hasPermissionAccess(EQUIPMENT_INCIDENTS_PAGE_REQUIRED_PERMISSIONS.view)
+})
+
+const incidentId = computed(() => {
+  const idValue = route.params.id
+  return Array.isArray(idValue) ? (idValue[0] ?? '') : (idValue ?? '')
+})
 </script>
