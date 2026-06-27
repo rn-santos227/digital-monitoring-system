@@ -94,12 +94,42 @@ export interface CreateEquipmentIncidentPayload {
 
 export type UpdateEquipmentIncidentPayload = Partial<CreateEquipmentIncidentPayload>
 
+export interface UpdateEquipmentIncidentDetailsPayload {
+  incidentNo: string
+  incidentTypeId: string
+  incidentDate: string
+  description: string
+  resolution?: string | null
+  remarks?: string | null
+}
+
+export interface UpdateEquipmentIncidentEquipmentPayload {
+  equipmentAssetId: string
+}
+
+export interface UpdateEquipmentIncidentPersonnelPayload {
+  personnelId?: string | null
+}
+
+export interface UpdateEquipmentIncidentDeploymentPayload {
+  deploymentId?: string | null
+}
+
+export interface UpdateEquipmentIncidentLocationPayload {
+  location?: string | null
+  locationLatitude?: number | null
+  locationLongitude?: number | null
+}
+
+export interface UpdateEquipmentIncidentStatusPayload {
+  investigationStatusId?: string | null
+}
+
 export interface CreateEquipmentIncidentResponse {
   ok: boolean
   id: string
   item: EquipmentIncidentListItem
 }
-
 
 export interface EquipmentIncidentsState {
   items: EquipmentIncidentListItem[]
@@ -113,6 +143,8 @@ export interface EquipmentIncidentsState {
   }
   isLoading: boolean
   isCreating: boolean
+  isUpdating: boolean
   error: string
   createError: string
+  updateError: string
 }
