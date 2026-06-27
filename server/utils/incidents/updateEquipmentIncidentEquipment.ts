@@ -1,0 +1,6 @@
+import type { SupabaseClient } from '@supabase/supabase-js'
+import type { H3Event } from 'h3'
+import { AUDIT_LOG_ENDPOINTS } from '../../shared/constants'
+import type { UpdateEquipmentIncidentEquipmentRequest } from '../../shared/requests'
+import { buildEquipmentIncidentEquipmentUpdates } from '../../shared/validations'
+import { updateEquipmentIncidentSection } from './updateEquipmentIncidentSection'
