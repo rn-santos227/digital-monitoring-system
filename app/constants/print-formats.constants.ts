@@ -123,7 +123,22 @@ export const PERSONNEL_DETAIL_PRINT_FORMAT = Object.freeze({
 export const EQUIPMENT_INCIDENT_DETAIL_PRINT_FORMAT = Object.freeze({
   documentTitle: 'Equipment Incident Profile',
   filePrefix: 'equipment-incident-profile',
+  sections: Object.freeze([
+    {
+      title: 'Incident Information',
+      fields: Object.freeze([
+        { key: 'incidentNo', label: 'Incident Number' },
+        { key: 'incidentTypeName', label: 'Incident Type' },
+        { key: 'incidentTypeCode', label: 'Incident Type Code' },
+        { key: 'incidentDate', label: 'Incident Date', dataType: 'date' as const },
+        { key: 'investigationStatusName', label: 'Investigation Status' },
+        { key: 'description', label: 'Description' },
+        { key: 'resolution', label: 'Resolution' },
+        { key: 'remarks', label: 'Remarks' },
+      ]),
+    },
 
+  ]),  
 }) satisfies PrintDetailFormat
 
 export const EQUIPMENT_ITEM_DETAIL_PRINT_FORMAT = Object.freeze({
