@@ -585,6 +585,11 @@ export const EQUIPMENT_INCIDENTS_TABLE_COLUMNS: readonly DataTableColumn[] = Obj
 ])
 export const EQUIPMENT_INCIDENTS_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
   { key: 'view-equipment-incident', tooltip: 'View equipment incident', iconName: 'eye', variant: 'info' },
-  { key: 'edit-equipment-incident', tooltip: 'Edit equipment incident', iconName: 'pencil-square', variant: 'warning' },
+  { key: 'update-equipment-incident-details', tooltip: 'Update incident details', iconName: 'pencil-square', variant: 'warning' },
+  { key: 'update-equipment-incident-deployment', tooltip: 'Update incident deployment', iconName: 'map', variant: 'warning' },
+  { key: 'update-equipment-incident-equipment', tooltip: 'Update incident equipment', iconName: 'cube', variant: 'warning' },
+  { key: 'update-equipment-incident-personnel', tooltip: 'Update incident personnel', iconName: 'users', variant: 'warning' },
+  { key: 'update-equipment-incident-location', tooltip: 'Update incident location', iconName: 'map-pin', variant: 'warning' },
+  { key: 'update-equipment-incident-status', tooltip: 'Update investigation status', iconName: 'check-circle', variant: 'warning' },
   { key: 'delete-equipment-incident', tooltip: 'Delete equipment incident', iconName: 'trash', variant: 'danger' },
 ])
