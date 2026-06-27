@@ -4,6 +4,7 @@ import {
   AUDIT_PRIVILEGES,
   BATTALION_PRIVILEGES,
   COMPANY_PRIVILEGES,
+  EQUIPMENT_PRIVILEGES,
   PERSONNEL_PRIVILEGES,
   SETTINGS_PRIVILEGES,
   USER_PROFILE_PRIVILEGES,
@@ -26,6 +27,7 @@ export const ROUTE_PERMISSION_ANY_MATRIX: Readonly<Record<string, true>> = Objec
 
 export const ROUTE_PERMISSION_PREFIX_MATRIX: Readonly<Record<string, readonly string[]>> = Object.freeze({
   [`${ROUTE_PATHS.personnel}/`]: PERSONNEL_PRIVILEGES.view,
+  [`${ROUTE_PATHS.incidents}/`]: EQUIPMENT_PRIVILEGES.view,
 })
 
 export const DEFAULT_AUTHENTICATED_REDIRECT_PATH = ROUTE_PATHS.home
