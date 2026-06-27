@@ -5,4 +5,11 @@ import type { UpdateEquipmentIncidentLocationRequest } from '../../shared/reques
 import { buildEquipmentIncidentLocationUpdates } from '../../shared/validations'
 import { updateEquipmentIncidentSection } from './updateEquipmentIncidentSection'
 
+interface UpdateEquipmentIncidentLocationOptions {
+  event: H3Event
+  supabase: SupabaseClient
+  actorId: string
+  id: string
+  body: UpdateEquipmentIncidentLocationRequest
+}
 
