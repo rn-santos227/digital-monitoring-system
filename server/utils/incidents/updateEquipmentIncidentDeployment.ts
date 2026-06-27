@@ -5,4 +5,12 @@ import type { UpdateEquipmentIncidentDeploymentRequest } from '../../shared/requ
 import { buildEquipmentIncidentDeploymentUpdates } from '../../shared/validations'
 import { updateEquipmentIncidentSection } from './updateEquipmentIncidentSection'
 
+interface UpdateEquipmentIncidentDeploymentOptions {
+  event: H3Event
+  supabase: SupabaseClient
+  actorId: string
+  id: string
+  body: UpdateEquipmentIncidentDeploymentRequest
+}
+
 
