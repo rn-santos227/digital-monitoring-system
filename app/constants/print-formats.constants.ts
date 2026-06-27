@@ -137,7 +137,24 @@ export const EQUIPMENT_INCIDENT_DETAIL_PRINT_FORMAT = Object.freeze({
         { key: 'remarks', label: 'Remarks' },
       ]),
     },
-
+    {
+      title: 'Related Equipment, Personnel, and Location',
+      fields: Object.freeze([
+        { key: 'assetTag', label: 'Equipment Asset' },
+        { key: 'equipmentCode', label: 'Equipment Code' },
+        { key: 'equipmentName', label: 'Equipment Name' },
+        { key: 'personnelCode', label: 'Personnel Code' },
+        { key: 'personnelName', label: 'Personnel Name' },
+        { key: 'deploymentRecordNo', label: 'Deployment Record' },
+        { key: 'deploymentName', label: 'Deployment Name' },
+        { key: 'deploymentArea', label: 'Deployment Area' },
+        { key: 'location', label: 'Location' },
+        { key: 'locationLatitude', label: 'Latitude' },
+        { key: 'locationLongitude', label: 'Longitude' },
+        { key: 'createdAt', label: 'Created At', dataType: 'date' as const },
+        { key: 'updatedAt', label: 'Updated At', dataType: 'date' as const },
+      ]),
+    },
   ]),  
 }) satisfies PrintDetailFormat
 
