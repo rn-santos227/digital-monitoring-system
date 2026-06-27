@@ -4,3 +4,11 @@ import { AUDIT_LOG_ENDPOINTS } from '../../shared/constants'
 import type { UpdateEquipmentIncidentEquipmentRequest } from '../../shared/requests'
 import { buildEquipmentIncidentEquipmentUpdates } from '../../shared/validations'
 import { updateEquipmentIncidentSection } from './updateEquipmentIncidentSection'
+
+interface UpdateEquipmentIncidentEquipmentOptions {
+  event: H3Event
+  supabase: SupabaseClient
+  actorId: string
+  id: string
+  body: UpdateEquipmentIncidentEquipmentRequest
+}
