@@ -57,6 +57,21 @@ export const saveSessionToken = (token?: string, expiresAt?: string): void => {
   }
 }
 
+export const getServerSessionHeaders = (): Record<string, string> => {
+  if (!import.meta.server) {
+    return {}
+  }
+
+  const requestHeaders = useRequestHeaders(['cookie'])
+  const cookie = requestHeaders.cookie?.trim() ?? ''
+
+  if (!cookie) {
+    return {}
+  }
+
+  return { cookie }
+}
+
 export const createSessionHeaders = (): Record<string, string> => {
   const sessionToken = getStoredSessionToken()
   if (!sessionToken) return {}

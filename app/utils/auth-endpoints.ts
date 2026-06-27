@@ -1,22 +1,7 @@
 import { AUTH_API_ENDPOINTS, API_LOADING_MESSAGES } from '~/constants/api.constants'
 import type { LoginPayload, SessionResponse } from '~/types/domain/auth-store'
 import { withApiLoading } from '~/utils/api-request'
-import { createSessionHeaders, saveSessionToken } from '~/utils/auth-session'
-
-const getServerSessionHeaders = (): Record<string, string> => {
-  if (!import.meta.server) {
-    return {}
-  }
-
-  const requestHeaders = useRequestHeaders(['cookie'])
-  const cookie = requestHeaders.cookie?.trim() ?? ''
-
-  if (!cookie) {
-    return {}
-  }
-
-  return { cookie }
-}
+import { createSessionHeaders, getServerSessionHeaders, saveSessionToken } from '~/utils/auth-session'
 
 type SessionUserPayload = {
   id: string
