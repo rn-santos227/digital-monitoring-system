@@ -48,6 +48,15 @@
         @close="onCloseCreateEquipmentIncidentModal"
         @submit="onSubmitCreateEquipmentIncident"
       />
+
+      <UpdateEquipmentIncidentDeploymentModal
+        v-if="selectedIncident && activeUpdateSection === 'deployment'"
+        :incident="selectedIncident"
+        :is-submitting="isUpdating"
+        :error-message="updateError"
+        @close="closeUpdateModal"
+        @submit="submitDeploymentUpdate"
+      />
     </section>
   </main>
 </template>
