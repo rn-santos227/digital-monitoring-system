@@ -26,6 +26,7 @@ export const useIncidents = () => {
     void loadEquipmentIncidents(1)
   })
 
+
   return {
     filters,
     hasActiveFilters,
@@ -34,12 +35,20 @@ export const useIncidents = () => {
     pagination,
     isLoading,
     isCreating,
+    isUpdating,
     error,
     createError,
+    updateError,
     loadEquipmentIncidents,
     createEquipmentIncident: store.createEquipmentIncident,
     getEquipmentIncidentById: store.getEquipmentIncidentById,
     updateEquipmentIncident: store.updateEquipmentIncident,
+    updateEquipmentIncidentDeployment: store.updateEquipmentIncidentDeployment,
+    updateEquipmentIncidentDetails: store.updateEquipmentIncidentDetails,
+    updateEquipmentIncidentEquipment: store.updateEquipmentIncidentEquipment,
+    updateEquipmentIncidentPersonnel: store.updateEquipmentIncidentPersonnel,
+    updateEquipmentIncidentLocation: store.updateEquipmentIncidentLocation,
+    updateEquipmentIncidentStatus: store.updateEquipmentIncidentStatus,
     deleteEquipmentIncident: store.deleteEquipmentIncident,
   }
 }
