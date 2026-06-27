@@ -114,6 +114,8 @@ const {
 const authStore = useAuthStore()
 const canCreateEquipmentIncidents = computed(() => authStore.hasPermissionAccess(EQUIPMENT_INCIDENTS_PAGE_REQUIRED_PERMISSIONS.create))
 const isCreateEquipmentIncidentModalOpen = ref(false)
+const selectedIncident = ref<EquipmentIncidentTableRow | null>(null)
+const activeUpdateSection = ref<IncidentUpdateSection | null>(null)
 
 const { showDialog } = useDialog()
 const { handleFilterApply, handleFilterReset } = useIncidentSearchHandlers(filters)
