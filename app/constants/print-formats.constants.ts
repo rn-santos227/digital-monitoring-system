@@ -120,6 +120,12 @@ export const PERSONNEL_DETAIL_PRINT_FORMAT = Object.freeze({
   ])
 }) satisfies PrintDetailFormat
 
+export const EQUIPMENT_INCIDENT_DETAIL_PRINT_FORMAT = Object.freeze({
+  documentTitle: 'Equipment Incident Profile',
+  filePrefix: 'equipment-incident-profile',
+
+}) satisfies PrintDetailFormat
+
 export const EQUIPMENT_ITEM_DETAIL_PRINT_FORMAT = Object.freeze({
   documentTitle: 'Equipment Item Profile',
   filePrefix: 'equipment-item-profile',
