@@ -129,6 +129,27 @@ const {
   showDialog,
   errorMessage: createError,
 })
+const {
+  openUpdateModal,
+  closeUpdateModal,
+  submitDeploymentUpdate,
+  submitDetailsUpdate,
+  submitEquipmentUpdate,
+  submitPersonnelUpdate,
+  submitLocationUpdate,
+  submitStatusUpdate,
+} = useUpdateEquipmentIncidentHandler({
+  selectedIncident,
+  activeUpdateSection,
+  updateError,
+  showDialog,
+  updateDeployment: updateEquipmentIncidentDeployment,
+  updateDetails: updateEquipmentIncidentDetails,
+  updateEquipment: updateEquipmentIncidentEquipment,
+  updatePersonnel: updateEquipmentIncidentPersonnel,
+  updateLocation: updateEquipmentIncidentLocation,
+  updateStatus: updateEquipmentIncidentStatus,
+})
 const { onDeleteEquipmentIncident } = useDeleteEquipmentIncidentHandler({ deleteEquipmentIncident, showDialog })
 const { printEquipmentIncidents } = usePrintIncidentsHandler()
 
