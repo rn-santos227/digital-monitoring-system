@@ -61,4 +61,13 @@ const personnelLabel = computed(() => {
 
   return [currentIncident.personnelCode, currentIncident.personnelName].filter(Boolean).join(' — ') || currentIncident.personnelId
 })
+
+const deploymentLabel = computed(() => {
+  const currentIncident = incident.value
+  if (!currentIncident?.deploymentId) {
+    return 'Not Assigned'
+  }
+
+  return [currentIncident.deploymentRecordNo, currentIncident.deploymentName].filter(Boolean).join(' — ') || currentIncident.deploymentId
+})
 </script>
