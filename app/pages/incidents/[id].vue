@@ -98,4 +98,18 @@ const loadIncidentProfile = async (id: string) => {
   incident.value = await getEquipmentIncidentByIdEndpoint(id)
   await loadIncidentAuditLogs(id)
 }
+
+watch([canViewEquipmentIncidents, incidentId], async ([hasAccess, id]) => {
+  if (!hasAccess || !id) {
+    return
+  }
+
+  pageError.value = ''
+
+  try {
+    await loadIncidentProfile(id)
+  } catch {
+    pageError.value = 'Unable to load equipment incident profile.'
+  }
+}, { immediate: true })
 </script>
