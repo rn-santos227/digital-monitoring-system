@@ -7,3 +7,19 @@ import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { updateEquipmentIncidentDetails } from '../../../utils/incidents/updateEquipmentIncidentDetails'
 
+export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
+  const actor = await requireAnyPermission(event, INCIDENT_MUTATION_PERMISSION_CODES)
+  const id = requireRouteId(getRouterParam(event, 'id'), 'Incident id is required.')
+  const body = await readBody<UpdateEquipmentIncidentDetailsRequest>(event)
+  const supabase = getServiceSupabaseClient()
+
+  await updateEquipmentIncidentDetails({
+    event,
+    supabase,
+    actorId: actor.id,
+    id,
+    body,
+  })
+
+  return { ok: true }
+})
