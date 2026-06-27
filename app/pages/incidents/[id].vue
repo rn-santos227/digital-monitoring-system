@@ -70,4 +70,9 @@ const deploymentLabel = computed(() => {
 
   return [currentIncident.deploymentRecordNo, currentIncident.deploymentName].filter(Boolean).join(' — ') || currentIncident.deploymentId
 })
+
+const handlePrintEquipmentIncidentProfile = () => {
+  return printEquipmentIncidentProfile(incident.value)
+}
+
 </script>
