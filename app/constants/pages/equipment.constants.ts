@@ -132,3 +132,5 @@ export const EQUIPMENT_INCIDENTS_INVESTIGATION_STATUS_OPTIONS = Object.freeze(
   INVESTIGATION_STATUS_VALUES.map((value) => ({ label: value, value })),
 )
 export const EQUIPMENT_INCIDENTS_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGES
+export const EQUIPMENT_INCIDENT_PROFILE_PAGE_TITLE = 'Equipment Incident Profile'
+export const EQUIPMENT_INCIDENT_PROFILE_PAGE_SUBTITLE = 'Review incident details, linked records, updates, and investigation status changes.'
