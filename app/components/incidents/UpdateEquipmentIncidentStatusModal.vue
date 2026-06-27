@@ -1,5 +1,27 @@
 <template>
+  <BaseModal
+    title="Update Investigation Status"
+    description="Update the investigation status for this incident."
+    @close="emit('close')"
+  >
+    <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
+      <BaseSelect
+        v-model="form.investigationStatusId"
+        label="Investigation status"
+        placeholder="Select investigation status"
+        :options="investigationStatusOptions"
+      />
+    </form>
 
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton :disabled="isSubmitting" @click="onSubmit">Update Status</BaseButton>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
