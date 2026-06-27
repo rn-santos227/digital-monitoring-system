@@ -172,6 +172,12 @@ const { onApply, onReset, onPageChange, onPageSizeChange } = useIncidentListHand
 })
 
 const onTableAction = createIncidentTableActionHandler<EquipmentIncidentTableRow>({
+  'update-equipment-incident-deployment': (_id, row) => openUpdateModal('deployment', row),
+  'update-equipment-incident-details': (_id, row) => openUpdateModal('details', row),
+  'update-equipment-incident-equipment': (_id, row) => openUpdateModal('equipment', row),
+  'update-equipment-incident-personnel': (_id, row) => openUpdateModal('personnel', row),
+  'update-equipment-incident-location': (_id, row) => openUpdateModal('location', row),
+  'update-equipment-incident-status': (_id, row) => openUpdateModal('status', row),
   'delete-equipment-incident': onDeleteEquipmentIncident,
 })
 </script>
