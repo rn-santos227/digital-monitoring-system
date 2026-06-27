@@ -59,6 +59,12 @@ import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import EquipmentIncidentsFilterComponent from '~/components/incidents/EquipmentIncidentsFilterComponent.vue'
 import CreateEquipmentIncidentModal from '~/components/incidents/CreateEquipmentIncidentModal.vue'
 import EquipmentIncidentsTableComponent from '~/components/incidents/EquipmentIncidentsTableComponent.vue'
+import UpdateEquipmentIncidentDeploymentModal from '~/components/incidents/UpdateEquipmentIncidentDeploymentModal.vue'
+import UpdateEquipmentIncidentDetailsModal from '~/components/incidents/UpdateEquipmentIncidentDetailsModal.vue'
+import UpdateEquipmentIncidentEquipmentModal from '~/components/incidents/UpdateEquipmentIncidentEquipmentModal.vue'
+import UpdateEquipmentIncidentPersonnelModal from '~/components/incidents/UpdateEquipmentIncidentPersonnelModal.vue'
+import UpdateEquipmentIncidentLocationModal from '~/components/incidents/UpdateEquipmentIncidentLocationModal.vue'
+import UpdateEquipmentIncidentStatusModal from '~/components/incidents/UpdateEquipmentIncidentStatusModal.vue'
 import { useDialog } from '~/composables/useDialog'
 import { useIncidents } from '~/composables/useIncidents'
 import {
@@ -77,10 +83,11 @@ import {
   useIncidentListHandlers,
   useIncidentSearchHandlers,
   usePrintIncidentsHandler,
+  useUpdateEquipmentIncidentHandler,
+  type IncidentUpdateSection,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type { EquipmentIncidentTableRow } from '~/types/domain/incident'
-
 
 const {
   filters,
