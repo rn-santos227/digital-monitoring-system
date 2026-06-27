@@ -75,4 +75,22 @@ const handlePrintEquipmentIncidentProfile = () => {
   return printEquipmentIncidentProfile(incident.value)
 }
 
+const loadIncidentAuditLogs = async (id: string) => {
+  isLoadingAuditLogs.value = true
+  auditError.value = ''
+
+  try {
+    const response = await searchAuditLogsEndpoint({
+      page: 1,
+      pageSize: 25,
+      term: id,
+      fields: 'recordId',
+    })
+    incidentAuditLogs.value = response.items.filter((item) => item.tableName === 'equipment_incidents')
+  } catch {
+    auditError.value = 'Unable to load incident update and status-change audit logs.'
+  } finally {
+    isLoadingAuditLogs.value = false
+  }
+}
 </script>
