@@ -96,10 +96,18 @@ const {
   pagination,
   isLoading,
   isCreating,
+  isUpdating,
   error,
   createError,
+  updateError,
   loadEquipmentIncidents,
   createEquipmentIncident,
+  updateEquipmentIncidentDeployment,
+  updateEquipmentIncidentDetails,
+  updateEquipmentIncidentEquipment,
+  updateEquipmentIncidentPersonnel,
+  updateEquipmentIncidentLocation,
+  updateEquipmentIncidentStatus,
   deleteEquipmentIncident,
 } = useIncidents()
 
