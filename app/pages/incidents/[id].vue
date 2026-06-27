@@ -22,4 +22,15 @@ import type { AuditLogListItem } from '~/types/domain/audit'
 import type { EquipmentIncidentListItem } from '~/types/domain/incident'
 import { getEquipmentIncidentByIdEndpoint } from '~/utils/incident-endpoints'
 import { searchAuditLogsEndpoint } from '~/utils/audit-endpoints'
+
+const { formatDate } = useDateDisplay()
+const route = useRoute()
+const authStore = useAuthStore()
+const { printEquipmentIncidentProfile } = usePrintIncidentsHandler()
+
+const incident = ref<EquipmentIncidentListItem | null>(null)
+const incidentAuditLogs = ref<AuditLogListItem[]>([])
+const pageError = ref('')
+const auditError = ref('')
+const isLoadingAuditLogs = ref(false)
 </script>
