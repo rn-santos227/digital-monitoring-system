@@ -5,6 +5,12 @@ import type {
   EquipmentIncidentSearchQuery,
   EquipmentIncidentsState,
   UpdateEquipmentIncidentPayload,
+  UpdateEquipmentIncidentDeploymentPayload,
+  UpdateEquipmentIncidentDetailsPayload,
+  UpdateEquipmentIncidentEquipmentPayload,
+  UpdateEquipmentIncidentPersonnelPayload,
+  UpdateEquipmentIncidentLocationPayload,
+  UpdateEquipmentIncidentStatusPayload,
 } from '~/types/domain/incident'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-size'
@@ -17,6 +23,12 @@ import {
   hasEquipmentIncidentSearchFilters,
   searchEquipmentIncidentsEndpoint,
   updateEquipmentIncidentEndpoint,
+  updateEquipmentIncidentDeploymentEndpoint,
+  updateEquipmentIncidentDetailsEndpoint,
+  updateEquipmentIncidentEquipmentEndpoint,
+  updateEquipmentIncidentPersonnelEndpoint,
+  updateEquipmentIncidentLocationEndpoint,
+  updateEquipmentIncidentStatusEndpoint,
 } from '~/utils/incident-endpoints'
 
 
@@ -41,8 +53,10 @@ export const useIncidentsStore = defineStore('incidents', {
     pagination: { ...DEFAULT_EQUIPMENT_INCIDENTS_PAGINATION },
     isLoading: false,
     isCreating: false,
+    isUpdating: false,
     error: '',
     createError: '',
+    updateError: '',
   }),
 
   getters: {
@@ -127,15 +141,48 @@ export const useIncidentsStore = defineStore('incidents', {
       }
     },
 
-    async updateEquipmentIncident(this: EquipmentIncidentsState, id: string, payload: UpdateEquipmentIncidentPayload) {
+    async updateEquipmentIncident(id: string, payload: UpdateEquipmentIncidentPayload) {
+      await this.updateEquipmentIncidentWithEndpoint(id, () => updateEquipmentIncidentEndpoint(id, payload))
+    },
+
+    async updateEquipmentIncidentDeployment(id: string, payload: UpdateEquipmentIncidentDeploymentPayload) {
+      await this.updateEquipmentIncidentWithEndpoint(id, () => updateEquipmentIncidentDeploymentEndpoint(id, payload))
+    },
+
+    async updateEquipmentIncidentDetails(id: string, payload: UpdateEquipmentIncidentDetailsPayload) {
+      await this.updateEquipmentIncidentWithEndpoint(id, () => updateEquipmentIncidentDetailsEndpoint(id, payload))
+    },
+
+    async updateEquipmentIncidentEquipment(id: string, payload: UpdateEquipmentIncidentEquipmentPayload) {
+      await this.updateEquipmentIncidentWithEndpoint(id, () => updateEquipmentIncidentEquipmentEndpoint(id, payload))
+    },
+
+    async updateEquipmentIncidentPersonnel(id: string, payload: UpdateEquipmentIncidentPersonnelPayload) {
+      await this.updateEquipmentIncidentWithEndpoint(id, () => updateEquipmentIncidentPersonnelEndpoint(id, payload))
+    },
+
+    async updateEquipmentIncidentLocation(id: string, payload: UpdateEquipmentIncidentLocationPayload) {
+      await this.updateEquipmentIncidentWithEndpoint(id, () => updateEquipmentIncidentLocationEndpoint(id, payload))
+    },
+
+    async updateEquipmentIncidentStatus(id: string, payload: UpdateEquipmentIncidentStatusPayload) {
+      await this.updateEquipmentIncidentWithEndpoint(id, () => updateEquipmentIncidentStatusEndpoint(id, payload))
+    },
+
+    async updateEquipmentIncidentWithEndpoint(id: string, updateRequest: () => Promise<void>) {
       this.error = ''
+      this.updateError = ''
+      this.isUpdating = true
       try {
-        await updateEquipmentIncidentEndpoint(id, payload)
+        await updateRequest()
         const item = await getEquipmentIncidentByIdEndpoint(id)
         this.items = this.items.map((currentItem) => (currentItem.id === id ? item : currentItem))
       } catch (error) {
-        this.error = extractApiErrorMessage(error, 'Unable to update equipment incident.')
+        this.updateError = extractApiErrorMessage(error, 'Unable to update equipment incident.')
+        this.error = this.updateError
         throw error
+      } finally {
+        this.isUpdating = false
       }
     },
 
