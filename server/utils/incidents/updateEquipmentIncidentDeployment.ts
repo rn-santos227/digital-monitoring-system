@@ -13,4 +13,22 @@ interface UpdateEquipmentIncidentDeploymentOptions {
   body: UpdateEquipmentIncidentDeploymentRequest
 }
 
-
+export const updateEquipmentIncidentDeployment = async ({
+  event,
+  supabase,
+  actorId,
+  id,
+  body,
+}: UpdateEquipmentIncidentDeploymentOptions): Promise<void> => {
+  await updateEquipmentIncidentSection({
+    event,
+    supabase,
+    actorId,
+    id,
+    body: body as Record<string, unknown>,
+    updates: buildEquipmentIncidentDeploymentUpdates(body),
+    endpoint: AUDIT_LOG_ENDPOINTS.equipmentIncidentsDeploymentUpdate,
+    successMessage: 'Equipment incident deployment updated successfully.',
+    rollbackErrorMessage: 'Equipment incident deployment update rollback error:',
+  })
+}
