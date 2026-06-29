@@ -10,3 +10,7 @@ export interface GlobalSearchSuggestionItem {
   score: number
 }
 
+export interface GlobalSearchAuthorizedUserPermissions {
+  permission_codes: string[]
+}
+
