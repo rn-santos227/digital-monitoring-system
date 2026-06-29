@@ -41,4 +41,6 @@ export const calculateGlobalSearchSuggestionScore = (
   if (prefixIndex >= 0) {
     return 800 - prefixIndex
   }
+
+  const containsIndex = normalizedParts.findIndex(part => part.includes(normalizedTerm))
 }
