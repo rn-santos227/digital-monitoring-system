@@ -69,3 +69,12 @@ export const userHasGlobalSearchPermission = (
   user: GlobalSearchAuthorizedUserPermissions,
   permissionCode: string,
 ) => user.permission_codes.includes(permissionCode)
+
+
+export const mapGlobalSearchPersonnelSuggestion = (
+  term: string,
+  row: GlobalSearchPersonnelRow,
+): GlobalSearchSuggestionItem => {
+
+
+}
