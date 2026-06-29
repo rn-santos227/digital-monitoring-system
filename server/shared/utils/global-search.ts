@@ -22,3 +22,10 @@ export const joinGlobalSearchParts = (parts: Array<string | null | undefined>) =
   .filter(part => part.length > 0)
   .join(' • ')
 
+export const calculateGlobalSearchSuggestionScore = (
+  term: string,
+  parts: Array<string | null | undefined>,
+) => {
+
+
+}
