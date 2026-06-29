@@ -26,6 +26,9 @@ export const calculateGlobalSearchSuggestionScore = (
   term: string,
   parts: Array<string | null | undefined>,
 ) => {
-
-
+  const normalizedTerm = normalizeGlobalSearchText(term)
+  const normalizedParts = parts
+    .map(part => normalizeGlobalSearchText(part ?? ''))
+    .filter(part => part.length > 0)
+  const exactIndex = normalizedParts.findIndex(part => part === normalizedTerm)
 }
