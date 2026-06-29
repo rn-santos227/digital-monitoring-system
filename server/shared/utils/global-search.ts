@@ -17,3 +17,8 @@ export const toSingleGlobalSearchReference = <T>(value: T | T[] | null): T | nul
   return value
 }
 
+export const joinGlobalSearchParts = (parts: Array<string | null | undefined>) => parts
+  .map(part => part?.trim() ?? '')
+  .filter(part => part.length > 0)
+  .join(' • ')
+
