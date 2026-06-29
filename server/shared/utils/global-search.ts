@@ -112,5 +112,13 @@ export const mapGlobalSearchEquipmentAssetSuggestion = (
     row.remarks,
   ]
 
-
+  return {
+    id: row.id,
+    domain: 'equipment',
+    title: row.asset_tag,
+    subtitle: joinGlobalSearchParts([equipmentItem?.name, equipmentItem?.equipment_code, row.current_location]),
+    matchedText: joinGlobalSearchParts(parts),
+    redirectTo: `/equipment-assets/${row.id}`,
+    score: calculateGlobalSearchSuggestionScore(term, parts),
+  }
 }
