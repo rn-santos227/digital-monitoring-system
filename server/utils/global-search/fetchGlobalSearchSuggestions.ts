@@ -40,3 +40,12 @@ const GLOBAL_SEARCH_INCIDENT_COLUMNS = [
   'resolution',
   'remarks',
 ] as const
+
+export const fetchGlobalSearchSuggestions = async (
+  supabase: SupabaseClient,
+  user: GlobalSearchAuthorizedUserPermissions,
+  term: string,
+): Promise<GlobalSearchSuggestionItem[]> => {
+
+
+}
