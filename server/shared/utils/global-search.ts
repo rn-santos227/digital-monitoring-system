@@ -85,4 +85,14 @@ export const mapGlobalSearchPersonnelSuggestion = (
     row.battalion_name,
     row.service_status,
   ]
+
+  return {
+    id: row.id,
+    domain: 'personnel',
+    title: row.full_name,
+    subtitle: joinGlobalSearchParts([row.personnel_code, row.rank_name, row.company_name, row.service_status]),
+    matchedText: joinGlobalSearchParts(parts),
+    redirectTo: `/personnel/${row.id}`,
+    score: calculateGlobalSearchSuggestionScore(term, parts),
+  }
 }
