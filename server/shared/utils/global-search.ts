@@ -153,3 +153,9 @@ export const mapGlobalSearchIncidentSuggestion = (
     score: calculateGlobalSearchSuggestionScore(term, parts),
   }
 }
+
+export const rankGlobalSearchSuggestions = (suggestionGroups: GlobalSearchSuggestionItem[][]) => suggestionGroups
+  .flat()
+  .filter(item => item.score > 0)
+  .sort((first, second) => second.score - first.score || first.title.localeCompare(second.title))
+  .slice(0, GLOBAL_SEARCH_SUGGESTION_LIMIT)
