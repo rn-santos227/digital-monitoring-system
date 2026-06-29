@@ -40,3 +40,7 @@ export interface GlobalSearchEquipmentAssetRow {
   remarks: string | null
   equipment_item: GlobalSearchEquipmentItemRow | GlobalSearchEquipmentItemRow[] | null
 }
+
+export interface GlobalSearchIncidentTypeRow {
+  name: string
+}
