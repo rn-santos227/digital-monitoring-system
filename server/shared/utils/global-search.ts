@@ -58,3 +58,9 @@ export const escapeGlobalSearchTerm = (term: string) => term
   .replaceAll('%', '\\%')
   .replaceAll('_', '\\_')
   .replaceAll(',', '\\,')
+
+export const buildGlobalSearchOrFilter = (term: string, columns: readonly string[]) => {
+  const escapedTerm = escapeGlobalSearchTerm(term)
+
+  return columns.map(column => `${column}.ilike.%${escapedTerm}%`).join(',')
+}
