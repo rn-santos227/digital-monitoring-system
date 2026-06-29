@@ -30,3 +30,13 @@ export interface GlobalSearchEquipmentItemRow {
   equipment_code: string
   name: string
 }
+
+export interface GlobalSearchEquipmentAssetRow {
+  id: string
+  asset_tag: string
+  serial_no: string | null
+  batch_no: string | null
+  current_location: string | null
+  remarks: string | null
+  equipment_item: GlobalSearchEquipmentItemRow | GlobalSearchEquipmentItemRow[] | null
+}
