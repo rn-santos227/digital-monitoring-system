@@ -32,3 +32,11 @@ const GLOBAL_SEARCH_EQUIPMENT_ASSET_COLUMNS = [
   'current_location',
   'remarks',
 ] as const
+
+const GLOBAL_SEARCH_INCIDENT_COLUMNS = [
+  'incident_no',
+  'location',
+  'description',
+  'resolution',
+  'remarks',
+] as const
