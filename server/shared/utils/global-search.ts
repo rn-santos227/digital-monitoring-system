@@ -101,6 +101,16 @@ export const mapGlobalSearchEquipmentAssetSuggestion = (
   term: string,
   row: GlobalSearchEquipmentAssetRow,
 ): GlobalSearchSuggestionItem => {
+  const equipmentItem = toSingleGlobalSearchReference(row.equipment_item)
+  const parts = [
+    row.asset_tag,
+    row.serial_no,
+    row.batch_no,
+    equipmentItem?.equipment_code,
+    equipmentItem?.name,
+    row.current_location,
+    row.remarks,
+  ]
 
 
 }
