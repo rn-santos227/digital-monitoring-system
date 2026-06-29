@@ -66,5 +66,22 @@ export const fetchGlobalSearchSuggestions = async (
     )
   }
 
+  if (userHasGlobalSearchPermission(user, PERMISSION_CODES.equipmentView)) {
+    const { data: equipmentRows, error: equipmentError } = await supabase
+      .from('equipment_assets')
+      .select(GLOBAL_SEARCH_EQUIPMENT_ASSET_SELECT_COLUMNS)
+      .or(buildGlobalSearchOrFilter(term, GLOBAL_SEARCH_EQUIPMENT_ASSET_COLUMNS))
+      .order('updated_at', { ascending: false })
+      .limit(GLOBAL_SEARCH_SUGGESTION_LIMIT)
 
+    if (equipmentError) {
+      throw equipmentError
+    }
+
+    suggestionGroups.push(
+      ((equipmentRows ?? []) as GlobalSearchEquipmentAssetRow[])
+        .map(row => mapGlobalSearchEquipmentAssetSuggestion(term, row)),
+    )
+
+  }
 }
