@@ -25,3 +25,8 @@ export interface GlobalSearchPersonnelRow {
   battalion_name: string | null
   service_status: string
 }
+
+export interface GlobalSearchEquipmentItemRow {
+  equipment_code: string
+  name: string
+}
