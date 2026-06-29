@@ -35,4 +35,10 @@ export const calculateGlobalSearchSuggestionScore = (
   if (exactIndex >= 0) {
     return 1000 - exactIndex
   }
+
+  const prefixIndex = normalizedParts.findIndex(part => part.startsWith(normalizedTerm))
+
+  if (prefixIndex >= 0) {
+    return 800 - prefixIndex
+  }
 }
