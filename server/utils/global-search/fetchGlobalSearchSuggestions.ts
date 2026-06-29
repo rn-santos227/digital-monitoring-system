@@ -25,3 +25,10 @@ const GLOBAL_SEARCH_PERSONNEL_COLUMNS = [
   'service_status',
 ] as const
 
+const GLOBAL_SEARCH_EQUIPMENT_ASSET_COLUMNS = [
+  'asset_tag',
+  'serial_no',
+  'batch_no',
+  'current_location',
+  'remarks',
+] as const
