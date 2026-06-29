@@ -52,3 +52,9 @@ export const calculateGlobalSearchSuggestionScore = (
 
   return 0
 }
+
+export const escapeGlobalSearchTerm = (term: string) => term
+  .replaceAll('\\', '\\\\')
+  .replaceAll('%', '\\%')
+  .replaceAll('_', '\\_')
+  .replaceAll(',', '\\,')
