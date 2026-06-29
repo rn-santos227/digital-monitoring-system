@@ -64,3 +64,8 @@ export const buildGlobalSearchOrFilter = (term: string, columns: readonly string
 
   return columns.map(column => `${column}.ilike.%${escapedTerm}%`).join(',')
 }
+
+export const userHasGlobalSearchPermission = (
+  user: GlobalSearchAuthorizedUserPermissions,
+  permissionCode: string,
+) => user.permission_codes.includes(permissionCode)
