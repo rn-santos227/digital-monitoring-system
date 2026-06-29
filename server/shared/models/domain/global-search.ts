@@ -49,3 +49,15 @@ export interface GlobalSearchIncidentAssetRow {
   asset_tag: string
   equipment_item: GlobalSearchEquipmentItemRow | GlobalSearchEquipmentItemRow[] | null
 }
+
+export interface GlobalSearchIncidentRow {
+  id: string
+  incident_no: string
+  incident_date: string
+  location: string | null
+  description: string
+  resolution: string | null
+  remarks: string | null
+  equipment_asset: GlobalSearchIncidentAssetRow | GlobalSearchIncidentAssetRow[] | null
+  incident_type: GlobalSearchIncidentTypeRow | GlobalSearchIncidentTypeRow[] | null
+}
