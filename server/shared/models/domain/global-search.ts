@@ -14,3 +14,14 @@ export interface GlobalSearchAuthorizedUserPermissions {
   permission_codes: string[]
 }
 
+export interface GlobalSearchPersonnelRow {
+  id: string
+  personnel_code: string
+  service_number: string
+  email: string | null
+  full_name: string
+  rank_name: string
+  company_name: string | null
+  battalion_name: string | null
+  service_status: string
+}
