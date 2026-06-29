@@ -13,3 +13,15 @@ import type {
   GlobalSearchPersonnelRow,
   GlobalSearchSuggestionItem,
 } from '../../shared/models'
+
+const GLOBAL_SEARCH_PERSONNEL_COLUMNS = [
+  'personnel_code',
+  'service_number',
+  'email',
+  'full_name',
+  'rank_name',
+  'company_name',
+  'battalion_name',
+  'service_status',
+] as const
+
