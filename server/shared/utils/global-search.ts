@@ -7,4 +7,6 @@ import type {
   GlobalSearchSuggestionItem,
 } from '../models'
 
+export const normalizeGlobalSearchText = (value: string) => value.trim().toLocaleLowerCase()
+
 
