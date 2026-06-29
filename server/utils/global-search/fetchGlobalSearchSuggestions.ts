@@ -13,6 +13,14 @@ import type {
   GlobalSearchPersonnelRow,
   GlobalSearchSuggestionItem,
 } from '../../shared/models'
+import {
+  buildGlobalSearchOrFilter,
+  mapGlobalSearchEquipmentAssetSuggestion,
+  mapGlobalSearchIncidentSuggestion,
+  mapGlobalSearchPersonnelSuggestion,
+  rankGlobalSearchSuggestions,
+  userHasGlobalSearchPermission,
+} from '../../shared/utils'
 
 const GLOBAL_SEARCH_PERSONNEL_COLUMNS = [
   'personnel_code',
@@ -83,5 +91,23 @@ export const fetchGlobalSearchSuggestions = async (
         .map(row => mapGlobalSearchEquipmentAssetSuggestion(term, row)),
     )
 
+    const { data: incidentRows, error: incidentError } = await supabase
+      .from('equipment_incidents')
+      .select(GLOBAL_SEARCH_INCIDENT_SELECT_COLUMNS)
+      .or(buildGlobalSearchOrFilter(term, GLOBAL_SEARCH_INCIDENT_COLUMNS))
+      .order('incident_date', { ascending: false })
+      .order('created_at', { ascending: false })
+      .limit(GLOBAL_SEARCH_SUGGESTION_LIMIT)
+
+    if (incidentError) {
+      throw incidentError
+    }
+
+    suggestionGroups.push(
+      ((incidentRows ?? []) as GlobalSearchIncidentRow[])
+        .map(row => mapGlobalSearchIncidentSuggestion(term, row)),
+    )
   }
+
+  return rankGlobalSearchSuggestions(suggestionGroups)
 }
