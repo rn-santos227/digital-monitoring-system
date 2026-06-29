@@ -31,4 +31,8 @@ export const calculateGlobalSearchSuggestionScore = (
     .map(part => normalizeGlobalSearchText(part ?? ''))
     .filter(part => part.length > 0)
   const exactIndex = normalizedParts.findIndex(part => part === normalizedTerm)
+
+  if (exactIndex >= 0) {
+    return 1000 - exactIndex
+  }
 }
