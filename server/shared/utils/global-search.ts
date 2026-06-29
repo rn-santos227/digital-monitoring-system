@@ -127,6 +127,29 @@ export const mapGlobalSearchIncidentSuggestion = (
   term: string,
   row: GlobalSearchIncidentRow,
 ): GlobalSearchSuggestionItem => {
+  const equipmentAsset = toSingleGlobalSearchReference(row.equipment_asset)
+  const equipmentItem = toSingleGlobalSearchReference(equipmentAsset?.equipment_item ?? null)
+  const incidentType = toSingleGlobalSearchReference(row.incident_type)
+  const parts = [
+    row.incident_no,
+    incidentType?.name,
+    row.incident_date,
+    row.location,
+    row.description,
+    row.resolution,
+    row.remarks,
+    equipmentAsset?.asset_tag,
+    equipmentItem?.equipment_code,
+    equipmentItem?.name,
+  ]
 
-
+  return {
+    id: row.id,
+    domain: 'incident',
+    title: row.incident_no,
+    subtitle: joinGlobalSearchParts([incidentType?.name, row.incident_date, row.location, equipmentAsset?.asset_tag]),
+    matchedText: joinGlobalSearchParts(parts),
+    redirectTo: `/incidents/${row.id}`,
+    score: calculateGlobalSearchSuggestionScore(term, parts),
+  }
 }
