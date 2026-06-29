@@ -43,4 +43,12 @@ export const calculateGlobalSearchSuggestionScore = (
   }
 
   const containsIndex = normalizedParts.findIndex(part => part.includes(normalizedTerm))
+
+  if (containsIndex >= 0) {
+    const matchedPart = normalizedParts[containsIndex] ?? ''
+
+    return 600 - containsIndex - Math.min(matchedPart.length, 200) / 1000
+  }
+
+  return 0
 }
