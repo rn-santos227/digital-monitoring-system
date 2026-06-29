@@ -46,6 +46,25 @@ export const fetchGlobalSearchSuggestions = async (
   user: GlobalSearchAuthorizedUserPermissions,
   term: string,
 ): Promise<GlobalSearchSuggestionItem[]> => {
+  const suggestionGroups: GlobalSearchSuggestionItem[][] = []
+
+  if (userHasGlobalSearchPermission(user, PERMISSION_CODES.personnelView)) {
+    const { data, error } = await supabase
+      .from('personnel_profiles')
+      .select(GLOBAL_SEARCH_PERSONNEL_SELECT_COLUMNS)
+      .or(buildGlobalSearchOrFilter(term, GLOBAL_SEARCH_PERSONNEL_COLUMNS))
+      .order('updated_at', { ascending: false })
+      .limit(GLOBAL_SEARCH_SUGGESTION_LIMIT)
+
+    if (error) {
+      throw error
+    }
+
+    suggestionGroups.push(
+      ((data ?? []) as GlobalSearchPersonnelRow[])
+        .map(row => mapGlobalSearchPersonnelSuggestion(term, row)),
+    )
+  }
 
 
 }
