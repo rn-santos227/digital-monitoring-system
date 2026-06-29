@@ -122,3 +122,11 @@ export const mapGlobalSearchEquipmentAssetSuggestion = (
     score: calculateGlobalSearchSuggestionScore(term, parts),
   }
 }
+
+export const mapGlobalSearchIncidentSuggestion = (
+  term: string,
+  row: GlobalSearchIncidentRow,
+): GlobalSearchSuggestionItem => {
+
+
+}
