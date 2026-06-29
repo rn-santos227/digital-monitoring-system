@@ -75,6 +75,14 @@ export const mapGlobalSearchPersonnelSuggestion = (
   term: string,
   row: GlobalSearchPersonnelRow,
 ): GlobalSearchSuggestionItem => {
-
-
+  const parts = [
+    row.personnel_code,
+    row.service_number,
+    row.full_name,
+    row.email,
+    row.rank_name,
+    row.company_name,
+    row.battalion_name,
+    row.service_status,
+  ]
 }
