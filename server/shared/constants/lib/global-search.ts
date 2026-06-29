@@ -1,0 +1,3 @@
+export const GLOBAL_SEARCH_SUGGESTION_LIMIT = 10
+
+
