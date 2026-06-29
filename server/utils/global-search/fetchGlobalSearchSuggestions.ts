@@ -6,4 +6,10 @@ import {
   GLOBAL_SEARCH_SUGGESTION_LIMIT,
   PERMISSION_CODES,
 } from '../../shared/constants'
-
+import type {
+  GlobalSearchAuthorizedUserPermissions,
+  GlobalSearchEquipmentAssetRow,
+  GlobalSearchIncidentRow,
+  GlobalSearchPersonnelRow,
+  GlobalSearchSuggestionItem,
+} from '../../shared/models'
