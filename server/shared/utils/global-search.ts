@@ -9,4 +9,11 @@ import type {
 
 export const normalizeGlobalSearchText = (value: string) => value.trim().toLocaleLowerCase()
 
+export const toSingleGlobalSearchReference = <T>(value: T | T[] | null): T | null => {
+  if (Array.isArray(value)) {
+    return value[0] ?? null
+  }
+
+  return value
+}
 
