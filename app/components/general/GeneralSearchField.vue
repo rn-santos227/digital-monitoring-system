@@ -51,7 +51,11 @@ let activeRequestId = 0
 const isDropdownVisible = computed(() => isDropdownOpen.value && !props.disabled && (isLoading.value || hasSearched.value || suggestionItems.value.length > 0))
 
 const getDomainLabel = (domain: GlobalSearchSuggestionDomain) => {
+  const labels: Record<GlobalSearchSuggestionDomain, string> = {
 
+  }
+
+  return labels[domain] ?? 'Record'
 }
 </script>
 
