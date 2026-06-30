@@ -118,10 +118,19 @@ const fetchSuggestions = async (term: string) => {
     }
   }
 }
-</script>
 
-<style scoped>
-:deep(.general-search-field input) {
-  padding-left: 2.5rem;
+const queueSuggestionsFetch = (value: string) => {
+  clearPendingSearch()
+  const term = value.trim()
+
+  if (term.length < MINIMUM_SEARCH_LENGTH) {
+    activeRequestId += 1
+    suggestionItems.value = []
+    hasSearched.value = false
+    isLoading.value = false
+    return
+  }
+
+  debounceTimer = setTimeout(() => fetchSuggestions(term), SEARCH_DEBOUNCE_MS)
 }
-</style>
+</script>
