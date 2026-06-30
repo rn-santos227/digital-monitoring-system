@@ -58,7 +58,7 @@ export const fetchGlobalSearchSuggestions = async (
 
   if (userHasGlobalSearchPermission(user, PERMISSION_CODES.personnelView)) {
     const { data, error } = await supabase
-      .from('personnel_profiles')
+      .from('vw_personnel_profile')
       .select(GLOBAL_SEARCH_PERSONNEL_SELECT_COLUMNS)
       .or(buildGlobalSearchOrFilter(term, GLOBAL_SEARCH_PERSONNEL_COLUMNS))
       .order('updated_at', { ascending: false })
