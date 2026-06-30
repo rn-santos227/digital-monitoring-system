@@ -65,6 +65,13 @@
         No matching records found.
       </p>
     </div>
+
+    <p v-if="error" class="mt-1 text-xs text-red-600">
+      {{ error }}
+    </p>
+    <p v-else-if="helperText" class="mt-1 text-xs text-slate-500">
+      {{ helperText }}
+    </p>
   </div>
 </template>
 
