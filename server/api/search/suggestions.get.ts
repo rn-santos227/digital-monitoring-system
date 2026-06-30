@@ -16,6 +16,7 @@ export default defineEventHandler(async (event): Promise<GlobalSearchSuggestionR
   try {
 
   } catch (error) {
-
+    const message = error instanceof Error ? error.message : 'Unable to fetch search suggestions.'
+    throw createError({ statusCode: 500, statusMessage: message })
   }
 })
