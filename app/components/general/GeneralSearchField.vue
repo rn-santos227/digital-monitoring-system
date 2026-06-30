@@ -102,6 +102,11 @@ const fetchSuggestions = async (term: string) => {
       query: { term },
     })
 
+    if (requestId !== activeRequestId) {
+      return
+    }
+
+
   } catch {
     if (requestId === activeRequestId) {
       suggestionItems.value = []
