@@ -70,6 +70,8 @@ const escapeHtml = (value: string) => value
 const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 const highlightMatch = (value: string) => {
+  const safeValue = escapeHtml(value)
+  const trimmedQuery = query.value.trim()
 
 }
 </script>
