@@ -43,6 +43,8 @@ const query = ref(props.modelValue)
 const suggestionItems = ref<GlobalSearchSuggestionItem[]>([])
 const isLoading = ref(false)
 const isDropdownOpen = ref(false)
+const hasSearched = ref(false)
+const highlightedIndex = ref(0)
 
 </script>
 
