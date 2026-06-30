@@ -147,5 +147,7 @@ const moveHighlightedSuggestion = (step: number) => {
     return
   }
 
+  const nextIndex = highlightedIndex.value + step
+  highlightedIndex.value = (nextIndex + suggestionItems.value.length) % suggestionItems.value.length
 }
 </script>
