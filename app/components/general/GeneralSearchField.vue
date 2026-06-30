@@ -182,4 +182,9 @@ watch(
   }
 )
 
+onMounted(() => document.addEventListener('pointerdown', onDocumentPointerDown))
+onBeforeUnmount(() => {
+  clearPendingSearch()
+  document.removeEventListener('pointerdown', onDocumentPointerDown)
+})
 </script>
