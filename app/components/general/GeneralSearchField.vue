@@ -84,4 +84,11 @@ const highlightMatch = (value: string) => {
     '<mark class="rounded bg-amber-100 px-0.5 text-amber-900">$1</mark>',
   )
 }
+
+const clearPendingSearch = () => {
+  if (debounceTimer) {
+    clearTimeout(debounceTimer)
+    debounceTimer = null
+  }
+}
 </script>
