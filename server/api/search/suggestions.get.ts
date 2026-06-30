@@ -7,5 +7,9 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchGlobalSearchSuggestions } from '../../utils/global-search/fetchGlobalSearchSuggestions'
 
 export default defineEventHandler(async (event): Promise<GlobalSearchSuggestionResponse> => {
+  const user = await requireAnyPermission(event, [
+    PERMISSION_CODES.personnelView,
+    PERMISSION_CODES.equipmentView,
+  ])
 
 }
