@@ -47,6 +47,8 @@ const hasSearched = ref(false)
 const highlightedIndex = ref(0)
 let debounceTimer: ReturnType<typeof setTimeout> | null = null
 let activeRequestId = 0
+
+const isDropdownVisible = computed(() => isDropdownOpen.value && !props.disabled && (isLoading.value || hasSearched.value || suggestionItems.value.length > 0))
 </script>
 
 <style scoped>
