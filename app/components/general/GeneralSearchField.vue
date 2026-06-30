@@ -29,6 +29,25 @@
           <span>Loading search suggestions...</span>
         </span>
       </p>
+
+      <template v-else-if="suggestionItems.length > 0">
+        <button
+          v-for="(suggestion, index) in suggestionItems"
+          :key="`${suggestion.domain}-${suggestion.id}`"
+          type="button"
+          role="option"
+          :aria-selected="highlightedIndex === index"
+          :class="[
+            'flex w-full gap-3 rounded-xl px-3 py-3 text-left transition',
+            highlightedIndex === index ? 'bg-emerald-50 text-emerald-900' : 'text-slate-700 hover:bg-slate-50',
+          ]"
+          @mouseenter="highlightedIndex = index"
+          @mousedown.prevent
+          @click="selectSuggestion(suggestion)"
+        >
+
+        </button>
+      </template>
     </div>
   </div>
 </template>
