@@ -9,3 +9,7 @@ export interface GlobalSearchSuggestionItem {
   redirectTo: string
   score: number
 }
+
+export interface GlobalSearchSuggestionResponse {
+  items: GlobalSearchSuggestionItem[]
+}
