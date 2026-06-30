@@ -52,7 +52,9 @@ const isDropdownVisible = computed(() => isDropdownOpen.value && !props.disabled
 
 const getDomainLabel = (domain: GlobalSearchSuggestionDomain) => {
   const labels: Record<GlobalSearchSuggestionDomain, string> = {
-
+    personnel: 'Personnel',
+    equipment: 'Equipment',
+    incident: 'Incident',
   }
 
   return labels[domain] ?? 'Record'
