@@ -89,6 +89,10 @@ const clearPendingSearch = () => {
     debounceTimer = null
   }
 }
+
+const fetchSuggestions = async (term: string) => {
+
+}
 </script>
 
 <style scoped>
