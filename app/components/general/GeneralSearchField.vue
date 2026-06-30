@@ -133,4 +133,11 @@ const queueSuggestionsFetch = (value: string) => {
 
   debounceTimer = setTimeout(() => fetchSuggestions(term), SEARCH_DEBOUNCE_MS)
 }
+
+const onQueryInput = () => {
+  isDropdownOpen.value = true
+  emit('update:modelValue', query.value)
+  emit('search', query.value.trim())
+  queueSuggestionsFetch(query.value)
+}
 </script>
