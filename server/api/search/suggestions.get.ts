@@ -6,4 +6,6 @@ import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchGlobalSearchSuggestions } from '../../utils/global-search/fetchGlobalSearchSuggestions'
 
+export default defineEventHandler(async (event): Promise<GlobalSearchSuggestionResponse> => {
 
+}
