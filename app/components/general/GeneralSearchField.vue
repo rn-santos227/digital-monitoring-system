@@ -173,4 +173,13 @@ const onDocumentPointerDown = (event: PointerEvent) => {
     isDropdownOpen.value = false
   }
 }
+
+watch(
+  () => props.modelValue,
+  (value) => {
+    if (value !== query.value) {
+      query.value = value
+    }
+  }
+)
 </script>
