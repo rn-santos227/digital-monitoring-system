@@ -99,7 +99,9 @@ const fetchSuggestions = async (term: string) => {
   try {
 
   } catch {
-
+    if (requestId === activeRequestId) {
+      suggestionItems.value = []
+    }
   } finally {
     if (requestId === activeRequestId) {
       isLoading.value = false
