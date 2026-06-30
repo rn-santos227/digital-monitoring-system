@@ -123,6 +123,7 @@ const fetchSuggestions = async (term: string) => {
 const queueSuggestionsFetch = (value: string) => {
   clearPendingSearch()
   const term = value.trim()
+
   if (term.length < MINIMUM_SEARCH_LENGTH) {
     activeRequestId += 1
     suggestionItems.value = []
@@ -131,5 +132,6 @@ const queueSuggestionsFetch = (value: string) => {
     return
   }
 
+  debounceTimer = setTimeout(() => fetchSuggestions(term), SEARCH_DEBOUNCE_MS)
 }
 </script>
