@@ -1,6 +1,22 @@
 <template>
   <div ref="fieldElement" class="relative w-full max-w-2xl">
     <MagnifyingGlassIcon class="pointer-events-none absolute left-3 top-1/2 z-10 h-5 w-5 -translate-y-1/2 text-slate-400" aria-hidden="true" />
+    <input
+      :id="id"
+      v-model="query"
+      type="search"
+      :placeholder="placeholder"
+      :disabled="disabled"
+      :aria-expanded="isDropdownVisible"
+      aria-autocomplete="list"
+      class="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 pl-10 text-sm text-slate-700 shadow-sm transition placeholder:text-slate-400 focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-200 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500"
+      @focus="isDropdownOpen = true"
+      @input="onQueryInput"
+      @keydown.down.prevent="moveHighlightedSuggestion(1)"
+      @keydown.up.prevent="moveHighlightedSuggestion(-1)"
+      @keydown.enter.prevent="selectHighlightedSuggestion"
+      @keydown.esc="isDropdownOpen = false"
+    />
   </div>
 </template>
 
