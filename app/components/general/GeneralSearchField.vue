@@ -17,6 +17,19 @@
       @keydown.enter.prevent="selectHighlightedSuggestion"
       @keydown.esc="isDropdownOpen = false"
     />
+
+    <div
+      v-if="isDropdownVisible"
+      class="absolute left-0 right-0 top-full z-40 mt-2 max-h-96 overflow-auto rounded-2xl border border-slate-200 bg-white p-2 shadow-xl"
+      role="listbox"
+    >
+      <p v-if="isLoading" class="px-3 py-3 text-sm text-slate-500">
+        <span class="inline-flex items-center gap-2">
+          <span class="h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-emerald-600" />
+          <span>Loading search suggestions...</span>
+        </span>
+      </p>
+    </div>
   </div>
 </template>
 
