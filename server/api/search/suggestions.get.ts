@@ -11,5 +11,7 @@ export default defineEventHandler(async (event): Promise<GlobalSearchSuggestionR
     PERMISSION_CODES.personnelView,
     PERMISSION_CODES.equipmentView,
   ])
+  const { term } = parseGlobalSearchSuggestionQuery(getQuery(event))
+
 
 }
