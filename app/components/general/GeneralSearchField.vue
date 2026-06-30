@@ -106,7 +106,8 @@ const fetchSuggestions = async (term: string) => {
       return
     }
 
-
+    suggestionItems.value = response.items
+    highlightedIndex.value = 0
   } catch {
     if (requestId === activeRequestId) {
       suggestionItems.value = []
