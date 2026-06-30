@@ -68,6 +68,10 @@ const escapeHtml = (value: string) => value
   .replaceAll("'", '&#039;')
 
 const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+const highlightMatch = (value: string) => {
+
+}
 </script>
 
 <style scoped>
