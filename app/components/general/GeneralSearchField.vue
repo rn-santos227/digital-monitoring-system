@@ -142,4 +142,13 @@ const onQueryInput = () => {
   emit('search', query.value.trim())
   queueSuggestionsFetch(query.value)
 }
+
+const moveHighlightedSuggestion = (step: number) => {
+  if (suggestionItems.value.length === 0) {
+    return
+  }
+
+  const nextIndex = highlightedIndex.value + step
+  highlightedIndex.value = (nextIndex + suggestionItems.value.length) % suggestionItems.value.length
+}
 </script>
