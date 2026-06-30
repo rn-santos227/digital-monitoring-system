@@ -31,6 +31,11 @@ const props = withDefaults(
     disabled: false,
   }
 )
+
+const emit = defineEmits<{
+  (event: 'update:modelValue', value: string): void
+  (event: 'search', value: string): void
+}>()
 </script>
 
 <style scoped>
