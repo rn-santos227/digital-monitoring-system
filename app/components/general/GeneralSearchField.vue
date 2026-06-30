@@ -167,4 +167,10 @@ const selectHighlightedSuggestion = async () => {
     await selectSuggestion(suggestion)
   }
 }
+
+const onDocumentPointerDown = (event: PointerEvent) => {
+  if (!fieldElement.value?.contains(event.target as Node)) {
+    isDropdownOpen.value = false
+  }
+}
 </script>
