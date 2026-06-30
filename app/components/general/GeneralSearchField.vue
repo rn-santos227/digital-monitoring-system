@@ -45,7 +45,8 @@ const isLoading = ref(false)
 const isDropdownOpen = ref(false)
 const hasSearched = ref(false)
 const highlightedIndex = ref(0)
-
+let debounceTimer: ReturnType<typeof setTimeout> | null = null
+let activeRequestId = 0
 </script>
 
 <style scoped>
