@@ -41,6 +41,8 @@ const router = useRouter()
 const fieldElement = ref<HTMLElement | null>(null)
 const query = ref(props.modelValue)
 const suggestionItems = ref<GlobalSearchSuggestionItem[]>([])
+const isLoading = ref(false)
+const isDropdownOpen = ref(false)
 
 </script>
 
