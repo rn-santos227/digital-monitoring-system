@@ -38,4 +38,27 @@ const emit = defineEmits<{
   (event: 'update:modelValue', value: string): void
   (event: 'search', value: string): void
 }>()
+
+const router = useRouter()
+const fieldElement = ref<HTMLElement | null>(null)
+const query = ref(props.modelValue)
+const suggestionItems = ref<GlobalSearchSuggestionItem[]>([])
+const isLoading = ref(false)
+const isDropdownOpen = ref(false)
+const hasSearched = ref(false)
+const highlightedIndex = ref(0)
+let debounceTimer: ReturnType<typeof setTimeout> | null = null
+let activeRequestId = 0
+
+const isDropdownVisible = computed(() => isDropdownOpen.value && !props.disabled && (isLoading.value || hasSearched.value || suggestionItems.value.length > 0))
+
+const getDomainLabel = (domain: GlobalSearchSuggestionDomain) => {
+  const labels: Record<GlobalSearchSuggestionDomain, string> = {
+    personnel: 'Personnel',
+    equipment: 'Equipment',
+    incident: 'Incident',
+  }
+
+  return labels[domain] ?? 'Record'
+}
 </script>
