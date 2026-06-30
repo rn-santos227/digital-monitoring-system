@@ -119,4 +119,10 @@ const fetchSuggestions = async (term: string) => {
     } 
   }
 }
+
+const queueSuggestionsFetch = (value: string) => {
+  clearPendingSearch()
+  const term = value.trim()
+
+}
 </script>
