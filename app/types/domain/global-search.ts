@@ -5,4 +5,7 @@ export interface GlobalSearchSuggestionItem {
   domain: GlobalSearchSuggestionDomain
   title: string
   subtitle: string
+  matchedText: string
+  redirectTo: string
+  score: number
 }
