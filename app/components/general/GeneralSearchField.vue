@@ -91,7 +91,10 @@ const clearPendingSearch = () => {
 }
 
 const fetchSuggestions = async (term: string) => {
-
+  const requestId = activeRequestId + 1
+  activeRequestId = requestId
+  isLoading.value = true
+  hasSearched.value = false
 }
 </script>
 
