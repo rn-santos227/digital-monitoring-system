@@ -36,6 +36,9 @@ const emit = defineEmits<{
   (event: 'update:modelValue', value: string): void
   (event: 'search', value: string): void
 }>()
+
+const router = useRouter()
+const fieldElement = ref<HTMLElement | null>(null)
 </script>
 
 <style scoped>
