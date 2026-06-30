@@ -14,4 +14,23 @@ import type { GlobalSearchSuggestionItem, GlobalSearchSuggestionResponse, Global
 
 const MINIMUM_SEARCH_LENGTH = 2
 const SEARCH_DEBOUNCE_MS = 250
+
+const props = withDefaults(
+  defineProps<{
+    modelValue?: string
+    placeholder?: string
+    id?: string
+    helperText?: string
+    error?: string
+    disabled?: boolean
+  }>(),
+  {
+    modelValue: '',
+    placeholder: DASHBOARD_SEARCH_PLACEHOLDER,
+    id: undefined,
+    helperText: '',
+    error: '',
+    disabled: false,
+  }
+)
 </script>
