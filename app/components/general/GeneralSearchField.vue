@@ -45,9 +45,25 @@
           @mousedown.prevent
           @click="selectSuggestion(suggestion)"
         >
-
+          <span class="mt-0.5 inline-flex h-9 min-w-9 items-center justify-center rounded-full bg-emerald-100 text-xs font-semibold uppercase text-emerald-700">
+            {{ getDomainLabel(suggestion.domain).slice(0, 2) }}
+          </span>
+          <span class="min-w-0 flex-1">
+            <span class="flex items-center gap-2">
+              <span class="truncate font-semibold text-slate-900" v-html="highlightMatch(suggestion.title)" />
+              <span class="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium uppercase tracking-wide text-slate-500">
+                {{ getDomainLabel(suggestion.domain) }}
+              </span>
+            </span>
+            <span v-if="suggestion.subtitle" class="mt-1 block text-xs text-slate-500" v-html="highlightMatch(suggestion.subtitle)" />
+            <span class="mt-1 block truncate text-xs text-slate-400" v-html="highlightMatch(suggestion.matchedText)" />
+          </span>
         </button>
       </template>
+
+      <p v-else-if="hasSearched" class="px-3 py-3 text-sm text-slate-500">
+        No matching records found.
+      </p>
     </div>
   </div>
 </template>
