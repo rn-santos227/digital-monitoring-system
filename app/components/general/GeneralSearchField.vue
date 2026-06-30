@@ -73,6 +73,9 @@ const highlightMatch = (value: string) => {
   const safeValue = escapeHtml(value)
   const trimmedQuery = query.value.trim()
 
+  if (!trimmedQuery) {
+    return safeValue
+  }
 }
 </script>
 
