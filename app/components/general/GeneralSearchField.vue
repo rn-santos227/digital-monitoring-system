@@ -150,4 +150,12 @@ const moveHighlightedSuggestion = (step: number) => {
   const nextIndex = highlightedIndex.value + step
   highlightedIndex.value = (nextIndex + suggestionItems.value.length) % suggestionItems.value.length
 }
+
+const selectSuggestion = async (suggestion: GlobalSearchSuggestionItem) => {
+  query.value = suggestion.title
+  emit('update:modelValue', suggestion.title)
+  emit('search', suggestion.title)
+  isDropdownOpen.value = false
+  await router.push(suggestion.redirectTo)
+}
 </script>
