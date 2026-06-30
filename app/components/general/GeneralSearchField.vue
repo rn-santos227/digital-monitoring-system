@@ -76,6 +76,11 @@ const highlightMatch = (value: string) => {
   if (!trimmedQuery) {
     return safeValue
   }
+
+  return safeValue.replace(
+    new RegExp(`(${escapeRegExp(escapeHtml(trimmedQuery))})`, 'ig'),
+    '<mark class="rounded bg-amber-100 px-0.5 text-amber-900">$1</mark>',
+  )
 }
 </script>
 
