@@ -68,4 +68,20 @@ const escapeHtml = (value: string) => value
   .replaceAll('>', '&gt;')
   .replaceAll('"', '&quot;')
   .replaceAll("'", '&#039;')
+
+const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+const highlightMatch = (value: string) => {
+  const safeValue = escapeHtml(value)
+  const trimmedQuery = query.value.trim()
+
+  if (!trimmedQuery) {
+    return safeValue
+  }
+
+  return safeValue.replace(
+    new RegExp(`(${escapeRegExp(escapeHtml(trimmedQuery))})`, 'ig'),
+    '<mark class="rounded bg-amber-100 px-0.5 text-amber-900">$1</mark>',
+  )
+}
 </script>
