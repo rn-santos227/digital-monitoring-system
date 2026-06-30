@@ -13,5 +13,9 @@ export default defineEventHandler(async (event): Promise<GlobalSearchSuggestionR
   ])
   const { term } = parseGlobalSearchSuggestionQuery(getQuery(event))
 
+  try {
 
-}
+  } catch (error) {
+
+  }
+})
