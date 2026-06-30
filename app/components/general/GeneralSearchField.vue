@@ -97,7 +97,16 @@ const fetchSuggestions = async (term: string) => {
   hasSearched.value = false
 
   try {
+    const response = await $fetch<GlobalSearchSuggestionResponse>(SEARCH_API_ENDPOINTS.suggestions, {
+      query: { term },
+    })
 
+    if (requestId !== activeRequestId) {
+      return
+    }
+
+    suggestionItems.value = response.items
+    highlightedIndex.value = 0
   } catch {
     if (requestId === activeRequestId) {
       suggestionItems.value = []
