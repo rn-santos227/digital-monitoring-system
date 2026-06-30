@@ -158,4 +158,12 @@ const selectSuggestion = async (suggestion: GlobalSearchSuggestionItem) => {
   isDropdownOpen.value = false
   await router.push(suggestion.redirectTo)
 }
+
+const selectHighlightedSuggestion = async () => {
+  const suggestion = suggestionItems.value[highlightedIndex.value]
+
+  if (suggestion) {
+    await selectSuggestion(suggestion)
+  }
+}
 </script>
