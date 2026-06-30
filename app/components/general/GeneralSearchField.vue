@@ -95,6 +95,14 @@ const fetchSuggestions = async (term: string) => {
   activeRequestId = requestId
   isLoading.value = true
   hasSearched.value = false
+
+  try {
+
+  } catch {
+
+  } finally {
+
+  }
 }
 </script>
 
