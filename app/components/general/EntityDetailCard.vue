@@ -1,4 +1,9 @@
 <template>
+  <BaseCard padding="md" class="flex h-full min-h-80 flex-col">
+    <div class="flex flex-1 flex-col gap-4">
+      
+    </div>
+  </BaseCard>
 </template>
 
 <script setup lang="ts">
