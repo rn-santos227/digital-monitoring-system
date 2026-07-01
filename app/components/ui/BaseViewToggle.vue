@@ -1,5 +1,11 @@
 <template>
-
+  <BaseTab
+    :model-value="modelValue"
+    :items="LIST_VIEW_MODE_ITEMS"
+    :aria-label="ariaLabel"
+    :show-labels="false"
+    @update:model-value="emit('update:modelValue', $event as ListViewMode)"
+  />
 </template>
 
 <script setup lang="ts">
