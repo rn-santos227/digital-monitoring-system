@@ -24,4 +24,9 @@ const props = withDefaults(defineProps<{
   canEditPersonnel: false,
   canDeletePersonnel: false,
 })
+
+const emit = defineEmits<{
+  (event: 'action', payload: { actionKey: DataTableAction['key']; row: PersonnelTableRow }): void
+  (event: 'loadMore'): void
+}>()
 </script>
