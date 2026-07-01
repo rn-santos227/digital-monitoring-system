@@ -18,6 +18,20 @@
         </div>
       </dl>
     </div>
+
+    <template #actions>
+      <BaseButton
+        v-for="action in actions"
+        :key="action.key"
+        :variant="action.variant"
+        size="sm"
+        :icon-name="action.iconName"
+        icon-only
+        :aria-label="action.tooltip"
+        :title="action.tooltip"
+        @click="emit('action', action.key)"
+      />
+    </template>
   </BaseCard>
 </template>
 
