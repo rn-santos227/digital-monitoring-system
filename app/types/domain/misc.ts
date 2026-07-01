@@ -27,6 +27,7 @@ export type IconName =
   | 'shield'
   | 'shield-exclamation'
   | 'squares'
+  | 'table-cells'
   | 'cube'
   | 'archive'
   | 'arrow-path'
