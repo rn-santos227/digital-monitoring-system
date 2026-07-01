@@ -1,7 +1,13 @@
 <template>
   <BaseCard padding="md" class="flex h-full min-h-80 flex-col">
     <div class="flex flex-1 flex-col gap-4">
-      
+      <div class="flex items-start justify-between gap-3">
+        <div class="min-w-0 space-y-2">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">{{ eyebrow }}</p>
+          <h2 class="line-clamp-2 text-xl font-semibold text-slate-900">{{ title }}</h2>
+        </div>
+        <BaseChip :tone="statusTone">{{ status }}</BaseChip>
+      </div>
     </div>
   </BaseCard>
 </template>
@@ -10,7 +16,7 @@
 import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseCard from '~/components/ui/BaseCard.vue'
 import BaseChip from '~/components/ui/BaseChip.vue'
-import type { DataTableAction, UiVariant } from '~/constants/ui.constants'
+import type { DataTableAction, UiTone } from '~/constants/ui.constants'
 
 export interface EntityCardDetail {
   label: string
@@ -21,7 +27,7 @@ withDefaults(defineProps<{
   eyebrow: string
   title: string
   status: string
-  statusTone?: UiVariant
+  statusTone?: UiTone
   description?: string
   details: readonly EntityCardDetail[]
   actions: readonly DataTableAction[]
