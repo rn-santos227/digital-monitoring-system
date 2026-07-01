@@ -3,6 +3,10 @@
     <div class="grid grid-cols-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
       <slot />
     </div>
+
+    <div v-if="isLoading" class="flex justify-center py-4">
+      <BaseInlineLoader label="Loading records..." />
+    </div>
   </section>
 </template>
 
