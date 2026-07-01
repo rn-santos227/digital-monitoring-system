@@ -6,14 +6,22 @@
       type="button"
       role="tab"
       :disabled="item.disabled"
+      :aria-label="showLabels ? undefined : item.label"
       :aria-selected="item.id === modelValue"
+      :title="showLabels ? undefined : item.label"
       :class="[
         BASE_TAB_ITEM_CLASSES,
+        showLabels ? '' : BASE_TAB_ICON_ONLY_CLASSES,
         item.id === modelValue ? BASE_TAB_ACTIVE_CLASSES : BASE_TAB_INACTIVE_CLASSES
       ]"
       @click="emit('update:modelValue', item.id)"
     >
-      {{ item.label }}
+      <BaseIcon
+        v-if="item.iconName"
+        :name="item.iconName"
+        size="sm"
+      />
+      <span v-if="showLabels">{{ item.label }}</span>
     </button>
   </div>
 </template>
