@@ -108,7 +108,8 @@ export const BASE_CHIP_TONE_CLASSES: Record<UiTone, string> = {
 
 export const BASE_TAB_LIST_CLASSES = 'inline-flex items-center gap-1 rounded-2xl bg-slate-100 p-1'
 export const BASE_TAB_ITEM_CLASSES =
-  'rounded-xl px-4 py-1.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:cursor-not-allowed disabled:opacity-60'
+  'inline-flex items-center justify-center gap-2 rounded-xl px-4 py-1.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:cursor-not-allowed disabled:opacity-60'
+export const BASE_TAB_ICON_ONLY_CLASSES = 'h-9 w-9 px-0 py-0'
 export const BASE_TAB_ACTIVE_CLASSES = 'bg-white text-slate-900 shadow-sm'
 export const BASE_TAB_INACTIVE_CLASSES = 'text-slate-600 hover:text-slate-900'
 

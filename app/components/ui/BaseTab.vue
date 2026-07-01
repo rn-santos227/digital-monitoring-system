@@ -21,20 +21,24 @@
 <script setup lang="ts">
 import {
   BASE_TAB_ACTIVE_CLASSES,
+  BASE_TAB_ICON_ONLY_CLASSES,
   BASE_TAB_INACTIVE_CLASSES,
   BASE_TAB_ITEM_CLASSES,
   BASE_TAB_LIST_CLASSES,
   type BaseTabItem
 } from '~/constants/ui.constants'
+import BaseIcon from './BaseIcon.vue'
 
 withDefaults(
   defineProps<{
     modelValue: string
     items: readonly BaseTabItem[]
     ariaLabel?: string
+    showLabels?: boolean
   }>(),
   {
-    ariaLabel: 'Content tabs'
+    ariaLabel: 'Content tabs',
+    showLabels: true,
   }
 )
 
