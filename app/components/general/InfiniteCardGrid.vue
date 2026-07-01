@@ -1,5 +1,9 @@
 <template>
-
+  <section class="space-y-4">
+    <div class="grid grid-cols-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
+      <slot />
+    </div>
+  </section>
 </template>
 
 <script setup lang="ts">
