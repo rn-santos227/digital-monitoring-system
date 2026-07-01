@@ -39,4 +39,13 @@ const createObserver = () => {
 
   observer.observe(sentinel.value)
 }
+
+onMounted(createObserver)
+
+watch(() => sentinel.value, () => {
+  observer?.disconnect()
+  createObserver()
+})
+
+onBeforeUnmount(() => observer?.disconnect())
 </script>
