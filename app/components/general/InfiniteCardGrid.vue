@@ -24,4 +24,12 @@ const emit = defineEmits<{
 
 const sentinel = ref<HTMLElement | null>(null)
 let observer: IntersectionObserver | null = null
+
+const createObserver = () => {
+  if (!sentinel.value || typeof IntersectionObserver === 'undefined') {
+    return
+  }
+
+
+}
 </script>
