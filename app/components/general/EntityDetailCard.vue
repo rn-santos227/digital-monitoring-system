@@ -24,4 +24,8 @@ withDefaults(defineProps<{
   statusTone: 'info',
   description: '',
 })
+
+const emit = defineEmits<{
+  (event: 'action', actionKey: string): void
+}>()
 </script>
