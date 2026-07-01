@@ -13,5 +13,7 @@ withDefaults(defineProps<{
   ariaLabel: 'List view mode',
 })
 
-
+const emit = defineEmits<{
+  (event: 'update:modelValue', value: ListViewMode): void
+}>()
 </script>
