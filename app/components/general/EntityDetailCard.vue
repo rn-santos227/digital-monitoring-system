@@ -8,6 +8,15 @@
         </div>
         <BaseChip :tone="statusTone">{{ status }}</BaseChip>
       </div>
+
+      <p v-if="description" class="line-clamp-3 text-sm leading-6 text-slate-600">{{ description }}</p>
+
+      <dl class="grid grid-cols-2 gap-3 text-sm">
+        <div v-for="detail in details" :key="detail.label" class="rounded-xl bg-slate-50 p-3">
+          <dt class="text-xs font-medium uppercase tracking-wide text-slate-500">{{ detail.label }}</dt>
+          <dd class="mt-1 line-clamp-2 font-semibold text-slate-900">{{ detail.value ?? '—' }}</dd>
+        </div>
+      </dl>
     </div>
   </BaseCard>
 </template>
