@@ -18,5 +18,10 @@ const props = withDefaults(defineProps<{
   emptyMessage: 'No records found.',
 })
 
+const emit = defineEmits<{
+  (event: 'loadMore'): void
+}>()
 
+const sentinel = ref<HTMLElement | null>(null)
+let observer: IntersectionObserver | null = null
 </script>
