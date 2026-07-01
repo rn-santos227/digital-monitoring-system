@@ -35,6 +35,13 @@ export interface BaseTabItem {
   iconName?: IconName
 }
 
+export type ListViewMode = 'table' | 'card'
+
+export const LIST_VIEW_MODE_ITEMS: readonly BaseTabItem[] = Object.freeze([
+  { id: 'table', label: 'Table View', iconName: 'table-cells' },
+  { id: 'card', label: 'Card View', iconName: 'squares' },
+])
+
 export interface DataTableColumn {
   key: string
   label: string
