@@ -11,4 +11,17 @@ export interface EntityCardDetail {
   label: string
   value: string | number | null | undefined
 }
+
+withDefaults(defineProps<{
+  eyebrow: string
+  title: string
+  status: string
+  statusTone?: UiVariant
+  description?: string
+  details: readonly EntityCardDetail[]
+  actions: readonly DataTableAction[]
+}>(), {
+  statusTone: 'info',
+  description: '',
+})
 </script>
