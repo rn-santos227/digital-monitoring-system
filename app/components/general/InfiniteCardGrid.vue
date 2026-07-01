@@ -30,6 +30,13 @@ const createObserver = () => {
     return
   }
 
+  observer = new IntersectionObserver((entries) => {
+    const entry = entries[0]
+    if (entry?.isIntersecting && props.canLoadMore && !props.isLoading) {
+      emit('loadMore')
+    }
+  }, { rootMargin: '320px 0px' })
 
+  observer.observe(sentinel.value)
 }
 </script>
