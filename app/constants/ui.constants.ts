@@ -1,4 +1,4 @@
-import type { LoginPageThemeStyle, KpiToneStyle } from '~/types/domain/misc'
+import type { LoginPageThemeStyle, KpiToneStyle, IconName } from '~/types/domain/misc'
 
 export type UiSize = 'sm' | 'md' | 'lg'
 export type UiTone = 'neutral' | 'success' | 'warning' | 'danger' | 'info'
@@ -32,6 +32,7 @@ export interface BaseTabItem {
   id: string
   label: string
   disabled?: boolean
+  iconName?: IconName
 }
 
 export interface DataTableColumn {
