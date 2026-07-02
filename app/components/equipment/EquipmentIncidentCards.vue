@@ -13,6 +13,15 @@
       :title="row.equipmentName || row.assetTag"
       :status="row.investigationStatusName || 'Pending Review'"
       status-tone="warning"
+      :description="row.description"
+      :details="[
+        { label: 'Asset Tag', value: row.assetTag },
+        { label: 'Incident Type', value: row.incidentTypeName },
+        { label: 'Date', value: row.incidentDate },
+        { label: 'Location', value: row.location },
+        { label: 'Personnel', value: row.personnelName },
+        { label: 'Deployment', value: row.deploymentName },
+      ]"
     />
   </InfiniteCardGrid>
 </template>
