@@ -13,6 +13,13 @@
       :title="row.fullName"
       :status="row.serviceStatus"
       :status-tone="row.serviceStatus === 'Active' ? 'success' : 'warning'"
+      :description="row.email"
+      :details="[
+        { label: 'Rank', value: row.rankName },
+        { label: 'Serial No.', value: row.serviceNumber },
+        { label: 'Assignment', value: row.assignment },
+        { label: 'Record ID', value: row.id },
+      ]"
     />
   </InfiniteCardGrid>
 </template>
