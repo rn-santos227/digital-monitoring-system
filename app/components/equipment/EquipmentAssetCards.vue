@@ -20,4 +20,8 @@ withDefaults(defineProps<{
   canLoadMore: false,
 })
 
+const emit = defineEmits<{
+  (event: 'action', payload: { actionKey: string; row: EquipmentAssetTableRow }): void
+  (event: 'loadMore'): void
+}>()
 </script>
