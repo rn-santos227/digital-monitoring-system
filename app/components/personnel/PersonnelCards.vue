@@ -10,6 +10,9 @@
       v-for="row in rows"
       :key="row.id"
       :eyebrow="row.personnelCode"
+      :title="row.fullName"
+      :status="row.serviceStatus"
+      :status-tone="row.serviceStatus === 'Active' ? 'success' : 'warning'"
     />
   </InfiniteCardGrid>
 </template>
