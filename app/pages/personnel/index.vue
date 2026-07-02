@@ -80,14 +80,19 @@
             </template>
           </div>
 
-          <PersonnelFilter
-            :model-value="filters"
-            :validation-errors="filterValidationErrors"
-            @apply="handleApplyFilters"
-            @reset="handleResetFilters"
-          />
+          <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <PersonnelFilter
+              class="flex-1"
+              :model-value="filters"
+              :validation-errors="filterValidationErrors"
+              @apply="handleApplyFilters"
+              @reset="handleResetFilters"
+            />
+            <BaseViewToggle v-model="personnelViewMode" />
+          </div>
 
           <PersonnelTable
+            v-if="personnelViewMode === 'table'"
             :rows="tableRows"
             row-key="id"
             :is-loading="isLoading"
@@ -181,7 +186,9 @@ import BatchUploadPersonnelModal from '~/components/personnel/BatchUploadPersonn
 import CreateRankModal from '~/components/personnel/CreateRankModal.vue'
 import CreatePersonnelModal from '~/components/personnel/CreatePersonnelModal.vue'
 import PersonnelFilter from '~/components/personnel/PersonnelFilter.vue'
+import PersonnelCards from '~/components/personnel/PersonnelCards.vue'
 import PersonnelTable from '~/components/personnel/PersonnelTable.vue'
+import BaseViewToggle from '~/components/ui/BaseViewToggle.vue'
 import RanksTable from '~/components/personnel/RanksTable.vue'
 import UpdatePersonnelModal from '~/components/personnel/UpdatePersonnelModal.vue'
 import { useRanks } from '~/composables/useRanks'
@@ -229,6 +236,7 @@ import { useAuthStore } from '~/stores/auth'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 import type { CreateRankPayload } from '~/types/domain/rank'
 import type { PersonnelDetail } from '~/types/domain/personnel'
+import type { ListViewMode } from '~/constants/ui.constants'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
 const { filters, tableRows, kpis, pagination, isLoading, error, loadPersonnel, createPersonnel, updatePersonnel, deletePersonnel, getPersonnelById, uploadPersonnelBatch } = usePersonnel()
@@ -250,7 +258,9 @@ const batchTotalCount = ref(0)
 const isUpdatePersonnelModalOpen = ref(false)
 const isCreateRankModalOpen = ref(false)
 const selectedPersonnel = ref<PersonnelDetail | null>(null)
+const personnelCardRows = ref<typeof tableRows.value>([])
 const activeTab = ref<'personnel-records' | 'rank-management'>('personnel-records')
+const personnelViewMode = ref<ListViewMode>('table')
 const { openCreatePersonnelModal, closeCreatePersonnelModal } = useCreatePersonnelModalHandler(isCreatePersonnelModalOpen)
 const createDeleteDialogCallbacks = (
   onRefresh: () => Promise<void>,
@@ -346,8 +356,27 @@ watch(canViewPersonnel, (hasAccess) => {
     return
   }
 
-  void loadPersonnel(1)
+  void loadPersonnel(1).then(() => {
+    personnelCardRows.value = [...tableRows.value]
+  })
 }, { immediate: true })
+
+watch(tableRows, (rows) => {
+  if (pagination.value.page === 1) {
+    personnelCardRows.value = [...rows]
+  }
+})
+
+const canLoadMorePersonnel = computed(() => pagination.value.page < pagination.value.totalPages)
+
+const handleLoadMorePersonnel = async () => {
+  if (isLoading.value || !canLoadMorePersonnel.value) {
+    return
+  }
+
+  await loadPersonnel(pagination.value.page + 1, filters.value, pagination.value.pageSize)
+  personnelCardRows.value = [...personnelCardRows.value, ...tableRows.value]
+}
 
 watch(canViewRanks, (hasAccess) => {
   if (!hasAccess) {
