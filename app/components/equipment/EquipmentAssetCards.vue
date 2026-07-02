@@ -32,5 +32,10 @@ const visibleActions = computed(() => EQUIPMENT_ASSETS_TABLE_ACTIONS.filter((act
     return authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.view)
   }
 
+  if (action.key === 'edit-equipment-asset') {
+    return authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.edit)
+  }
+
+  return authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.delete)
 }))
 </script>
