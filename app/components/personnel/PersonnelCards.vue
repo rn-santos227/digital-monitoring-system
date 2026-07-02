@@ -55,6 +55,9 @@ const emit = defineEmits<{
 }>()
 
 const visibleActions = computed(() => {
+  if (!props.canViewPersonnel) {
+    return []
+  }
 
 })
 </script>
