@@ -28,6 +28,9 @@ const emit = defineEmits<{
 const authStore = useAuthStore()
 
 const visibleActions = computed(() => EQUIPMENT_ASSETS_TABLE_ACTIONS.filter((action) => {
+  if (action.key === 'view-equipment-asset') {
+    return authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.view)
+  }
 
 }))
 </script>
