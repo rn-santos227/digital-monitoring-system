@@ -1,5 +1,13 @@
 <template>
+  <InfiniteCardGrid
+    :can-load-more="canLoadMore"
+    :is-loading="isLoading"
+    :is-empty="rows.length === 0 && !isLoading"
+    empty-message="No personnel records found."
+    @load-more="emit('loadMore')"
+  >
 
+  </InfiniteCardGrid>
 </template>
 
 <script setup lang="ts">
