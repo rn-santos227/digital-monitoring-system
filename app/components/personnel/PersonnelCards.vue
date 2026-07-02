@@ -64,6 +64,11 @@ const visibleActions = computed(() => {
       return props.canEditPersonnel
     }
 
+    if (action.key === 'delete-personnel') {
+      return props.canDeletePersonnel
+    }
+
+    return true
   })
 })
 </script>
