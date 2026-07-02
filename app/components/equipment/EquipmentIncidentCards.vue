@@ -22,6 +22,8 @@
         { label: 'Personnel', value: row.personnelName },
         { label: 'Deployment', value: row.deploymentName },
       ]"
+      :actions="visibleActions"
+      @action="emit('action', { actionKey: $event, row })"
     />
   </InfiniteCardGrid>
 </template>
