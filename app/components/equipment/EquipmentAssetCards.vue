@@ -10,6 +10,10 @@
       v-for="row in rows"
       :key="row.id"
       :eyebrow="row.assetTag"
+      :title="row.equipmentItemName"
+      :status="row.assetStatusName"
+      :status-tone="row.assetStatusName === 'Available' ? 'success' : 'info'"
+      :description="row.remarks || row.currentLocation || 'Tracked equipment asset.'"
     />
   </InfiniteCardGrid>
 </template>
