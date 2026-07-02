@@ -60,6 +60,9 @@ const visibleActions = computed(() => {
   }
 
   return PERSONNEL_TABLE_ACTIONS.filter((action) => {
+    if (action.key === 'edit-personnel') {
+      return props.canEditPersonnel
+    }
 
   })
 })
