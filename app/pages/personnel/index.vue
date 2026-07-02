@@ -107,6 +107,18 @@
             @update:page-size="handlePageSizeChange"
             @action="handleTableAction"
           />
+
+          <PersonnelCards
+            v-else
+            :rows="personnelCardRows"
+            :is-loading="isLoading"
+            :can-load-more="canLoadMorePersonnel"
+            :can-view-personnel="canViewPersonnel"
+            :can-edit-personnel="canEditPersonnel"
+            :can-delete-personnel="canDeletePersonnel"
+            @load-more="handleLoadMorePersonnel"
+            @action="handleTableAction"
+          />
         </template>
 
         <template v-else>
