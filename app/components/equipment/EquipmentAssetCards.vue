@@ -6,7 +6,11 @@
     empty-message="No equipment asset records found."
     @load-more="emit('loadMore')"
   >
-
+    <EntityDetailCard
+      v-for="row in rows"
+      :key="row.id"
+      :eyebrow="row.assetTag"
+    />
   </InfiniteCardGrid>
 </template>
 
