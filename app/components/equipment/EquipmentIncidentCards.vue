@@ -31,5 +31,10 @@ const visibleActions = computed(() => EQUIPMENT_INCIDENTS_TABLE_ACTIONS.filter((
     return authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.delete)
   }
 
+  if (action.key.startsWith('update-equipment-incident-')) {
+    return authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.edit)
+  }
+
+  return authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.view)
 }))
 </script>
