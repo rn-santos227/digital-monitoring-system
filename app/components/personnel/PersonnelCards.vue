@@ -20,6 +20,8 @@
         { label: 'Assignment', value: row.assignment },
         { label: 'Record ID', value: row.id },
       ]"
+      :actions="visibleActions"
+      @action="emit('action', { actionKey: $event, row })"
     />
   </InfiniteCardGrid>
 </template>
@@ -51,4 +53,8 @@ const emit = defineEmits<{
   (event: 'action', payload: { actionKey: DataTableAction['key']; row: PersonnelTableRow }): void
   (event: 'loadMore'): void
 }>()
+
+const visibleActions = computed(() => {
+
+})
 </script>
