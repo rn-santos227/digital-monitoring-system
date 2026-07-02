@@ -113,6 +113,13 @@ export const BASE_TAB_ICON_ONLY_CLASSES = 'h-9 w-9 px-0 py-0'
 export const BASE_TAB_ACTIVE_CLASSES = 'bg-white text-slate-900 shadow-sm'
 export const BASE_TAB_INACTIVE_CLASSES = 'text-slate-600 hover:text-slate-900'
 
+export const BASE_VIEW_TOGGLE_LIST_CLASSES = 'inline-flex items-center gap-1 rounded-2xl bg-slate-100 p-1'
+export const BASE_VIEW_TOGGLE_BUTTON_CLASSES =
+  'inline-flex h-10 w-10 items-center justify-center rounded-xl text-slate-600 transition hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:cursor-not-allowed disabled:opacity-60'
+export const BASE_VIEW_TOGGLE_ACTIVE_CLASSES = 'bg-white text-emerald-700 shadow-sm'
+export const BASE_VIEW_TOGGLE_INACTIVE_CLASSES = 'text-slate-500 hover:bg-white/70'
+export const BASE_VIEW_TOGGLE_ICON_CLASSES = 'h-5 w-5 stroke-2'
+
 export const BASE_TABLE_WINDOW_WRAPPER_CLASSES = 'w-full rounded-xl border border-slate-200 bg-slate-50 p-4'
 export const BASE_TABLE_HEADING_CLASSES = 'text-lg font-semibold text-slate-900'
 export const BASE_TABLE_SEARCH_WRAPPER_CLASSES = 'max-w-sm'
