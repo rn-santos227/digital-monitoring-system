@@ -10,6 +10,9 @@
       v-for="row in rows"
       :key="row.id"
       :eyebrow="row.incidentNo"
+      :title="row.equipmentName || row.assetTag"
+      :status="row.investigationStatusName || 'Pending Review'"
+      status-tone="warning"
     />
   </InfiniteCardGrid>
 </template>
