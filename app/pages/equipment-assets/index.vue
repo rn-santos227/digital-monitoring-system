@@ -51,8 +51,10 @@
       <BaseAlert v-if="error" :message="error" tone="danger" />
 
       <EquipmentAssetsFilter :model-value="filters" @apply="onApply" @reset="onReset" />
+      <BaseViewToggle v-model="equipmentAssetViewMode" />
 
       <EquipmentAssetsTable
+        v-if="equipmentAssetViewMode === 'table'"
         :rows="tableRows"
         :is-loading="isLoading"
         :current-page="pagination.page"
@@ -62,6 +64,15 @@
         @action="onTableAction"
         @update:current-page="onPageChange"
         @update:page-size="onPageSizeChange"
+      />
+
+      <EquipmentAssetCards
+        v-else
+        :rows="equipmentAssetCardRows"
+        :is-loading="isLoading"
+        :can-load-more="canLoadMoreCards"
+        @load-more="onLoadMoreCards"
+        @action="onTableAction"
       />
 
       <CreateEquipmentAssetModal
@@ -87,11 +98,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateEquipmentAssetModal from '~/components/equipment/CreateEquipmentAssetModal.vue'
 import EquipmentAssetsFilter from '~/components/equipment/EquipmentAssetsFilter.vue'
+import EquipmentAssetCards from '~/components/equipment/EquipmentAssetCards.vue'
 import EquipmentAssetsTable from '~/components/equipment/EquipmentAssetsTable.vue'
+import BaseViewToggle from '~/components/ui/BaseViewToggle.vue'
 import UpdateEquipmentAssetModal from '~/components/equipment/UpdateEquipmentAssetModal.vue'
 import ViewEquipmentAssetModal from '~/components/equipment/ViewEquipmentAssetModal.vue'
 import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
@@ -121,6 +134,7 @@ import type {
   EquipmentAssetListItem,
   EquipmentAssetTableRow,
 } from '~/types/domain/equipment'
+import type { ListViewMode } from '~/constants/ui.constants'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 
 const { printEquipmentAssets } = usePrintEquipmentHandler()
@@ -138,6 +152,26 @@ const {
   updateEquipmentAsset,
   deleteEquipmentAsset,
 } = useEquipmentAssets()
+
+const equipmentAssetCardRows = ref<typeof tableRows.value>([])
+const equipmentAssetViewMode = ref<ListViewMode>('table')
+
+watch(tableRows, (rows) => {
+  if (pagination.value.page === 1) {
+    equipmentAssetCardRows.value = [...rows]
+  }
+}, { immediate: true })
+
+const canLoadMoreCards = computed(() => pagination.value.page < pagination.value.totalPages)
+
+const onLoadMoreCards = async () => {
+  if (isLoading.value || !canLoadMoreCards.value) {
+    return
+  }
+
+  await loadEquipmentAssets(pagination.value.page + 1, filters.value, pagination.value.pageSize)
+  equipmentAssetCardRows.value = [...equipmentAssetCardRows.value, ...tableRows.value]
+}
 
 const authStore = useAuthStore()
 const canCreateEquipmentAssets = computed(() => authStore.hasPermissionAccess(EQUIPMENT_ASSETS_PAGE_REQUIRED_PERMISSIONS.create))

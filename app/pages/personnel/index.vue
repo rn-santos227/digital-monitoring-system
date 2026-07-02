@@ -80,16 +80,14 @@
             </template>
           </div>
 
-          <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <PersonnelFilter
-              class="flex-1"
-              :model-value="filters"
-              :validation-errors="filterValidationErrors"
-              @apply="handleApplyFilters"
-              @reset="handleResetFilters"
-            />
-            <BaseViewToggle v-model="personnelViewMode" />
-          </div>
+          <PersonnelFilter
+            class="flex-1"
+            :model-value="filters"
+            :validation-errors="filterValidationErrors"
+            @apply="handleApplyFilters"
+            @reset="handleResetFilters"
+          />
+          <BaseViewToggle v-model="personnelViewMode" />
 
           <PersonnelTable
             v-if="personnelViewMode === 'table'"
