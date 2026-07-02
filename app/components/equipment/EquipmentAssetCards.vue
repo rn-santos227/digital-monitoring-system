@@ -20,6 +20,8 @@
         { label: 'Serviceability', value: row.serviceabilityStatusName },
         { label: 'Location', value: row.currentLocation },
       ]"
+      :actions="visibleActions"
+      @action="emit('action', { actionKey: $event, row })"
     />
   </InfiniteCardGrid>
 </template>
