@@ -29,7 +29,10 @@
       <BaseAlert v-if="error" :message="error" tone="danger" />
 
       <EquipmentIncidentsFilterComponent :model-value="filters" @apply="onApply" @reset="onReset" />
+      <BaseViewToggle v-model="incidentViewMode" />
+
       <EquipmentIncidentsTableComponent
+        v-if="incidentViewMode === 'table'"
         :rows="tableRows"
         :is-loading="isLoading"
         :current-page="pagination.page"
@@ -39,6 +42,15 @@
         @action="onTableAction"
         @update:current-page="onPageChange"
         @update:page-size="onPageSizeChange"
+      />
+
+      <EquipmentIncidentCards
+        v-else
+        :rows="incidentCardRows"
+        :is-loading="isLoading"
+        :can-load-more="canLoadMoreCards"
+        @load-more="onLoadMoreCards"
+        @action="onTableAction"
       />
 
       <CreateEquipmentIncidentModal
@@ -107,12 +119,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import EquipmentIncidentsFilterComponent from '~/components/incidents/EquipmentIncidentsFilterComponent.vue'
 import CreateEquipmentIncidentModal from '~/components/incidents/CreateEquipmentIncidentModal.vue'
+import EquipmentIncidentCards from '~/components/incidents/EquipmentIncidentCards.vue'
 import EquipmentIncidentsTableComponent from '~/components/incidents/EquipmentIncidentsTableComponent.vue'
+import BaseViewToggle from '~/components/ui/BaseViewToggle.vue'
 import UpdateEquipmentIncidentDeploymentModal from '~/components/incidents/UpdateEquipmentIncidentDeploymentModal.vue'
 import UpdateEquipmentIncidentDetailsModal from '~/components/incidents/UpdateEquipmentIncidentDetailsModal.vue'
 import UpdateEquipmentIncidentEquipmentModal from '~/components/incidents/UpdateEquipmentIncidentEquipmentModal.vue'
@@ -141,6 +155,7 @@ import {
   type IncidentUpdateSection,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
+import type { ListViewMode } from '~/constants/ui.constants'
 import type { EquipmentIncidentTableRow } from '~/types/domain/incident'
 
 const {
@@ -166,6 +181,26 @@ const {
 } = useIncidents()
 
 const router = useRouter()
+const incidentCardRows = ref<typeof tableRows.value>([])
+const incidentViewMode = ref<ListViewMode>('table')
+
+watch(tableRows, (rows) => {
+  if (pagination.value.page === 1) {
+    incidentCardRows.value = [...rows]
+  }
+}, { immediate: true })
+
+const canLoadMoreCards = computed(() => pagination.value.page < pagination.value.totalPages)
+
+const onLoadMoreCards = async () => {
+  if (isLoading.value || !canLoadMoreCards.value) {
+    return
+  }
+
+  await loadEquipmentIncidents(pagination.value.page + 1, filters.value, pagination.value.pageSize)
+  incidentCardRows.value = [...incidentCardRows.value, ...tableRows.value]
+}
+
 const authStore = useAuthStore()
 const canCreateEquipmentIncidents = computed(() => authStore.hasPermissionAccess(EQUIPMENT_INCIDENTS_PAGE_REQUIRED_PERMISSIONS.create))
 const isCreateEquipmentIncidentModalOpen = ref(false)
