@@ -6,7 +6,11 @@
     empty-message="No personnel records found."
     @load-more="emit('loadMore')"
   >
-
+    <EntityDetailCard
+      v-for="row in rows"
+      :key="row.id"
+      :eyebrow="row.personnelCode"
+    />
   </InfiniteCardGrid>
 </template>
 
