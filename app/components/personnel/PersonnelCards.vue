@@ -59,5 +59,8 @@ const visibleActions = computed(() => {
     return []
   }
 
+  return PERSONNEL_TABLE_ACTIONS.filter((action) => {
+
+  })
 })
 </script>
