@@ -4,4 +4,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import EntityDetailCard from '~/components/general/EntityDetailCard.vue'
+import InfiniteCardGrid from '~/components/general/InfiniteCardGrid.vue'
 </script>
