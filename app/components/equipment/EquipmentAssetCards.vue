@@ -14,6 +14,12 @@
       :status="row.assetStatusName"
       :status-tone="row.assetStatusName === 'Available' ? 'success' : 'info'"
       :description="row.remarks || row.currentLocation || 'Tracked equipment asset.'"
+      :details="[
+        { label: 'Equipment Code', value: row.equipmentItemCode },
+        { label: 'Serial No.', value: row.serialNo },
+        { label: 'Serviceability', value: row.serviceabilityStatusName },
+        { label: 'Location', value: row.currentLocation },
+      ]"
     />
   </InfiniteCardGrid>
 </template>
