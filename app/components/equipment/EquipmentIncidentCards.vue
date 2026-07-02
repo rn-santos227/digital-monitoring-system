@@ -24,4 +24,9 @@ const emit = defineEmits<{
   (event: 'action', payload: { actionKey: string; row: EquipmentIncidentTableRow }): void
   (event: 'loadMore'): void
 }>()
+
+const authStore = useAuthStore()
+const visibleActions = computed(() => EQUIPMENT_INCIDENTS_TABLE_ACTIONS.filter((action) => {
+
+}))
 </script>
