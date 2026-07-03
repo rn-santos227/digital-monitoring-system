@@ -23,3 +23,7 @@ const getCalendarEventHour = (startDate: string): number | null => {
   const parsedDate = new Date(startDate)
   return Number.isNaN(parsedDate.getTime()) ? null : parsedDate.getHours()
 }
+
+const isCalendarEventAllDay = (startDate: string, endDate: string | null): boolean =>
+  !startDate.includes('T') && (!endDate || !endDate.includes('T'))
+
