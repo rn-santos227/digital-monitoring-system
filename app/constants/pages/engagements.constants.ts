@@ -1,23 +1,6 @@
 import type { BaseTabItem } from '~/constants/ui.constants'
 import {
-  ACCOUNT_TYPE_PRIVILEGES,
-  BATTALION_PRIVILEGES,
-  COMPANY_PRIVILEGES,
-  PERSONNEL_PRIVILEGES,
-  RANK_PRIVILEGES,
-  USER_PROFILE_PRIVILEGES,
-  TRAINING_PRIVILEGES,
-} from '~/constants/privileges.constants'
-import type { PersonnelManagementTabId, PersonnelProfileTabId } from '~/types/domain/personnel'
-import type { UserManagementTabId } from '~/types/domain/users'
-import type { TrainingManagementTabId } from '~/types/domain/training'
-import type { UnitManagementTabId } from '~/types/domain/units'
-import {
-  DEPLOYMENT_STATUS_VALUES,
-  EMPLOYMENT_STATUS_VALUES,
-  SERVICE_STATUS_VALUES,
   LEVEL_VALUES,
-  TRAINING_STATUS_VALUES,
   ENGAGEMENT_TYPE_VALUES,
   ENGAGEMENT_STATUS_VALUES,
 } from '~/types/enums'
@@ -76,3 +59,4 @@ export const ENGAGEMENT_RECORDS_START_DATE_LABEL = 'Start Date'
 export const ENGAGEMENT_RECORDS_END_DATE_LABEL = 'End Date'
 export const ENGAGEMENT_RECORDS_REMARKS_LABEL = 'Remarks'
 export const ENGAGEMENT_RECORDS_REMARKS_PLACEHOLDER = 'Optional engagement remarks'
+export const ENGAGEMENT_CALENDAR_ERROR_MESSAGE = 'Unable to fetch engagement calendar events.'
