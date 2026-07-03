@@ -2,10 +2,11 @@ import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useTrainingsStore } from '~/stores/trainings'
 import type { TrainingSearchQuery } from '~/types/domain/training'
+import type { CalendarEventsQuery } from '~/types/domain/calendar'
 
 export const useTrainings = () => {
   const trainingsStore = useTrainingsStore()
-  const { trainings, kpis } = storeToRefs(trainingsStore)
+  const { trainings, kpis, calendar } = storeToRefs(trainingsStore)
   const filters = ref<Partial<TrainingSearchQuery>>({})
 
   const tableRows = computed(() => {
@@ -46,6 +47,10 @@ export const useTrainings = () => {
 
   const deleteTraining = async (id: string) => {
     await trainingsStore.deleteTraining(id)
+  }
+  
+  const loadTrainingCalendarEvents = async (query: CalendarEventsQuery) => {
+    return await trainingsStore.fetchTrainingCalendarEvents(query)
   }
 
   return {
