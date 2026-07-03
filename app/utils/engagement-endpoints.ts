@@ -2,6 +2,7 @@ import {
   API_LOADING_MESSAGES,
   ENGAGEMENT_MANAGEMENT_API_ENDPOINTS,
 } from '~/constants/api.constants'
+import type { CalendarEventsQuery, CalendarEventsResponse } from '~/types/domain/calendar'
 import type {
   CreateEngagementPayload,
   CreateEngagementApiResponse,
@@ -166,4 +167,14 @@ export const getEngagementRecordByIdEndpoint = async (id: string): Promise<Engag
       headers: createSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchEngagementRecords)
+}
+
+export const getEngagementCalendarEndpoint = async (query: CalendarEventsQuery): Promise<CalendarEventsResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<CalendarEventsResponse>(ENGAGEMENT_MANAGEMENT_API_ENDPOINTS.engagementsCalendar, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchEngagementCalendar)
 }
