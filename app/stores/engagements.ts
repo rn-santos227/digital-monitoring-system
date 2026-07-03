@@ -56,6 +56,7 @@ interface EngagementsStoreState {
   hasLoadedKpis: boolean
   selectedEngagement: EngagementManagementListItem | null
   engagementPersonnel: EngagementPersonnelListItem[]
+  calendar: DomainCalendarState
 }
 
 export const useEngagementsStore = defineStore('engagements', {
@@ -76,12 +77,19 @@ export const useEngagementsStore = defineStore('engagements', {
     hasLoadedKpis: false,
     selectedEngagement: null,
     engagementPersonnel: [],
+    calendar: {
+      items: [],
+      isLoading: false,
+      error: '',
+      lastQuery: null,
+    },
   }),
 
   getters: {
     hasEngagements: state => state.engagements.items.length > 0,
     hasRecords: state => state.records.items.length > 0,
     engagementManagementKpis: state => state.kpis,
+    engagementCalendarEvents: state => state.calendar.items,
   },
 
   actions: {
