@@ -49,3 +49,8 @@ export const eventOccursOnDate = (event: CalendarEventItem, date: Date): boolean
   return currentKey >= startKey && currentKey <= endKey
 }
 
+export const getEventHour = (event: CalendarEventItem): number => {
+  const parsed = new Date(event.startDate)
+  return Number.isNaN(parsed.getTime()) ? 0 : parsed.getHours()
+}
+
