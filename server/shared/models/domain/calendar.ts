@@ -7,3 +7,10 @@ export interface CalendarEventsQuery {
   rangeEnd: string
   hour: number | null
 }
+
+export interface CalendarSourceReferenceRow {
+  id: string
+  name: string
+  code?: string
+}
+
