@@ -54,3 +54,27 @@ const parseHour = (value: unknown, viewMode: CalendarViewMode): number | null =>
   return parsed
 }
 
+const resolveRangeStart = (date: Date, viewMode: CalendarViewMode): Date => {
+  if (viewMode === 'week') {
+    return startOfWeek(date)
+  }
+
+  if (viewMode === 'month') {
+    return startOfMonth(date)
+  }
+
+  return date
+}
+
+const resolveRangeEnd = (date: Date, viewMode: CalendarViewMode): Date => {
+  if (viewMode === 'week') {
+    return addDays(startOfWeek(date), 6)
+  }
+
+  if (viewMode === 'month') {
+    return endOfMonth(date)
+  }
+
+  return date
+}
+
