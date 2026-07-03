@@ -24,3 +24,14 @@ export interface CalendarTrainingRow {
   level: CalendarSourceReferenceRow | CalendarSourceReferenceRow[] | null
   training_status: CalendarSourceReferenceRow | CalendarSourceReferenceRow[] | null
 }
+
+export interface CalendarEngagementRow {
+  id: string
+  engagement_title: string
+  start_date: string | null
+  end_date: string | null
+  default_remarks: string | null
+  engagement_type: CalendarSourceReferenceRow | CalendarSourceReferenceRow[] | null
+  level: CalendarSourceReferenceRow | CalendarSourceReferenceRow[] | null
+  engagement_status: CalendarSourceReferenceRow | CalendarSourceReferenceRow[] | null
+}
