@@ -124,6 +124,24 @@ const trainingsStoreOptions = {
   },
 
   actions: {
+    async fetchTrainingCalendarEvents(this: TrainingsStoreState, query: CalendarEventsQuery) {
+      this.calendar.isLoading = true
+      this.calendar.error = ''
+      this.calendar.lastQuery = { ...query }
+
+      try {
+        const response = await getTrainingCalendarEndpoint(query)
+        this.calendar.items = response.items
+        return response
+      } catch (error) {
+        this.calendar.items = []
+        this.calendar.error = extractApiErrorMessage(error, TRAINING_CALENDAR_ERROR_MESSAGE)
+        throw error
+      } finally {
+        this.calendar.isLoading = false
+      }
+    },
+
     async fetchTrainingManagementKpisOnce(this: TrainingsStoreState) {
       if (this.hasLoadedKpis) {
         return
