@@ -10,4 +10,18 @@ const isDateOnly = (value: string): boolean => ISO_DATE_PATTERN.test(value)
 
 const toDateOnly = (date: Date): string => date.toISOString().slice(0, 10)
 
+const parseDateInput = (value: unknown, fallback: Date): Date => {
+  if (typeof value !== 'string' || !value.trim()) {
+    return fallback
+  }
+
+  const normalizedValue = value.trim()
+  const parsed = new Date(isDateOnly(normalizedValue) ? `${normalizedValue}T00:00:00Z` : normalizedValue)
+
+  if (Number.isNaN(parsed.getTime())) {
+    throw createError({ statusCode: 400, statusMessage: 'Invalid calendar date value.' })
+  }
+
+  return parsed
+}
 
