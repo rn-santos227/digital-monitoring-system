@@ -52,3 +52,11 @@ export interface CalendarEventItem {
   levelLabel: string | null
   description: string | null
 }
+
+export interface CalendarEventsResponse {
+  viewMode: CalendarViewMode
+  rangeStart: string
+  rangeEnd: string
+  hour: number | null
+  items: CalendarEventItem[]
+}
