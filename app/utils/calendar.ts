@@ -6,3 +6,6 @@ const DATE_KEY_FORMATTER = new Intl.DateTimeFormat('en-CA', {
   day: '2-digit',
 })
 
+export const toDateKey = (date: Date): string => DATE_KEY_FORMATTER.format(date)
+
+export const startOfDay = (date: Date): Date => new Date(date.getFullYear(), date.getMonth(), date.getDate())
