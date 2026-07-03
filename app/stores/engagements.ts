@@ -93,6 +93,25 @@ export const useEngagementsStore = defineStore('engagements', {
   },
 
   actions: {
+
+    async fetchEngagementCalendarEvents(this: EngagementsStoreState, query: CalendarEventsQuery) {
+      this.calendar.isLoading = true
+      this.calendar.error = ''
+      this.calendar.lastQuery = { ...query }
+
+      try {
+        const response = await getEngagementCalendarEndpoint(query)
+        this.calendar.items = response.items
+        return response
+      } catch (error) {
+        this.calendar.items = []
+        this.calendar.error = extractApiErrorMessage(error, ENGAGEMENT_CALENDAR_ERROR_MESSAGE)
+        throw error
+      } finally {
+        this.calendar.isLoading = false
+      }
+    },
+
     async fetchEngagementManagementKpisOnce(this: EngagementsStoreState) {
       if (this.hasLoadedKpis) {
         return
