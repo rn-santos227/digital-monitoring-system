@@ -20,3 +20,8 @@ export const startOfWeek = (date: Date): Date => addDays(date, -date.getDay())
 
 export const startOfMonthGrid = (date: Date): Date => startOfWeek(new Date(date.getFullYear(), date.getMonth(), 1))
 
+export const isSameDay = (left: Date, right: Date): boolean => toDateKey(left) === toDateKey(right)
+
+export const formatCalendarTitle = (date: Date, viewMode: CalendarViewMode): string => {
+
+}
