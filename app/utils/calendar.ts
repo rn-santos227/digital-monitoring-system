@@ -41,3 +41,11 @@ export const formatCalendarTitle = (date: Date, viewMode: CalendarViewMode): str
 
   return new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(date)
 }
+
+export const eventOccursOnDate = (event: CalendarEventItem, date: Date): boolean => {
+  const currentKey = toDateKey(date)
+  const startKey = event.startDate.slice(0, 10)
+  const endKey = (event.endDate ?? event.startDate).slice(0, 10)
+  return currentKey >= startKey && currentKey <= endKey
+}
+
