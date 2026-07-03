@@ -58,5 +58,9 @@ export const buildMonthCells = (activeDate: Date, events: CalendarEventItem[]): 
   const gridStart = startOfMonthGrid(activeDate)
   const today = new Date()
 
+  return Array.from({ length: 42 }, (_, index) => {
+    const date = addDays(gridStart, index)
+    const dateKey = toDateKey(date)
 
+  })
 }
