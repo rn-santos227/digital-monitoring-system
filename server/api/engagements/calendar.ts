@@ -7,4 +7,7 @@ import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchCalendarEngagements } from '../../utils/engagements/fetchCalendarEngagements'
 
+export default defineEventHandler(async (event): Promise<CalendarEventsResponse> => {
 
+
+})
