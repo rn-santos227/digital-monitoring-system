@@ -12,3 +12,18 @@ export interface CalendarEventsQuery {
   hour?: number | null
 }
 
+export interface DomainCalendarEventItem {
+  id: string
+  source: CalendarEventSource
+  sourceId: string
+  title: string
+  startDate: string
+  endDate: string | null
+  hour: number | null
+  allDay: boolean
+  tone: CalendarEventSource
+  categoryLabel: string | null
+  statusLabel: string | null
+  levelLabel: string | null
+  description: string | null
+}
