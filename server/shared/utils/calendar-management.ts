@@ -15,3 +15,11 @@ const toSingleReference = (
   return value
 }
 
+const getCalendarEventHour = (startDate: string): number | null => {
+  if (!startDate.includes('T')) {
+    return null
+  }
+
+  const parsedDate = new Date(startDate)
+  return Number.isNaN(parsedDate.getTime()) ? null : parsedDate.getHours()
+}
