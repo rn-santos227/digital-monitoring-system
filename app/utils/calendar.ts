@@ -62,5 +62,14 @@ export const buildMonthCells = (activeDate: Date, events: CalendarEventItem[]): 
     const date = addDays(gridStart, index)
     const dateKey = toDateKey(date)
 
+    return {
+      key: dateKey,
+      date,
+      dateKey,
+      dayNumber: date.getDate(),
+      isToday: isSameDay(date, today),
+      isCurrentMonth: date.getMonth() === activeDate.getMonth(),
+      events: events.filter((event) => eventOccursOnDate(event, date)),
+    }
   })
 }
