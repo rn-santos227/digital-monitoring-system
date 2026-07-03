@@ -12,6 +12,7 @@ import {
   getTrainingCategoryByIdEndpoint,
   getTrainingManagementKpisEndpoint,
   getTrainingRecordByIdEndpoint,
+  getTrainingCalendarEndpoint,
   getTrainingCategoriesEndpoint,
   getTrainingRecordsEndpoint,
   getTrainingsEndpoint,
@@ -39,6 +40,8 @@ import type {
   UpdateTrainingRecordPayload,
   UpdateTrainingPayload,
 } from '~/types/domain/training'
+import type { CalendarEventsQuery, DomainCalendarState } from '~/types/domain/calendar'
+import { TRAINING_CALENDAR_ERROR_MESSAGE } from '~/constants/page.constants'
 
 const DEFAULT_PAGINATION: TrainingTablePagination = {
   page: 1,
