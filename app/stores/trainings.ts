@@ -112,6 +112,7 @@ const trainingsStoreOptions = {
     categories: { ...INITIAL_TRAININGS_STORE_STATE.categories, pagination: { ...DEFAULT_PAGINATION } },
     records: { ...INITIAL_TRAININGS_STORE_STATE.records, pagination: { ...DEFAULT_PAGINATION } },
     kpis: { ...DEFAULT_TRAINING_MANAGEMENT_KPIS },
+    calendar: { ...INITIAL_TRAININGS_STORE_STATE.calendar, items: [], lastQuery: null },
   }),
 
   getters: {
@@ -119,6 +120,7 @@ const trainingsStoreOptions = {
     hasTrainingCategories: (state: TrainingsStoreState) => state.categories.items.length > 0,
     hasTrainingRecords: (state: TrainingsStoreState) => state.records.items.length > 0,
     trainingManagementKpis: (state: TrainingsStoreState) => state.kpis,
+    trainingCalendarEvents: (state: TrainingsStoreState) => state.calendar.items,
   },
 
   actions: {
