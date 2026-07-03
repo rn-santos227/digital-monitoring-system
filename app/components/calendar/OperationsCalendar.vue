@@ -1,94 +1,213 @@
 <template>
-  <BaseModal
-    :title="title"
-    :description="description"
-    size="lg"
-    scroll-body
-    @close="emit('close')"
-  >
-    <div v-if="events.length" class="space-y-3">
-      <article
-        v-for="event in events"
-        :key="event.id"
-        class="rounded-xl border p-4"
-        :class="CALENDAR_EVENT_TONE_CLASSES[event.tone ?? 'neutral']"
-      >
-        <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-          <div class="space-y-1">
-            <p class="text-sm font-semibold uppercase tracking-wide">
-              {{ event.categoryLabel || event.tone || 'Calendar event' }}
-            </p>
-            <h3 class="text-base font-semibold text-slate-950">
-              {{ event.title }}
-            </h3>
-          </div>
-          <p class="text-sm font-medium text-slate-700">
-            {{ formatEventRange(event) }}
-          </p>
-        </div>
-        <dl class="mt-3 grid gap-2 text-sm text-slate-700 sm:grid-cols-2">
-          <div v-if="event.location">
-            <dt class="font-semibold text-slate-900">Location</dt>
-            <dd>{{ event.location }}</dd>
-          </div>
-          <div v-if="event.description">
-            <dt class="font-semibold text-slate-900">Details</dt>
-            <dd>{{ event.description }}</dd>
-          </div>
-        </dl>
-      </article>
-    </div>
-    <p v-else class="rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500">
-      No calendar events are scheduled on this date.
-    </p>
-    <template #footer>
-      <div class="flex justify-end">
-        <BaseButton variant="secondary" @click="emit('close')">
-          Close
-        </BaseButton>
+  <section class="rounded-2xl border border-slate-200 bg-white shadow-sm">
+    <header class="flex flex-col gap-4 border-b border-slate-200 p-4 lg:flex-row lg:items-center lg:justify-between">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-wide text-emerald-700">Operations calendar</p>
+        <h2 class="text-2xl font-semibold text-slate-950">{{ calendarTitle }}</h2>
+        <p class="mt-1 text-sm text-slate-600">View training records and engagement records by day, week, or month.</p>
       </div>
-    </template>
-  </BaseModal>
+      <div class="flex flex-wrap items-center gap-2">
+        <BaseButton variant="secondary" size="sm" @click="movePrevious">Previous</BaseButton>
+        <BaseButton variant="ghost" size="sm" @click="setToday">Today</BaseButton>
+        <BaseButton variant="secondary" size="sm" @click="moveNext">Next</BaseButton>
+        <BaseTab v-model="selectedViewMode" :items="CALENDAR_VIEW_MODE_ITEMS" aria-label="Calendar view mode" />
+      </div>
+    </header>
+
+    <div class="p-4">
+      <div v-if="selectedViewMode === 'month'" class="overflow-hidden rounded-xl border border-slate-200">
+        <div class="grid grid-cols-7 bg-slate-50 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <div v-for="dayLabel in CALENDAR_WEEKDAY_LABELS" :key="dayLabel" class="border-r border-slate-200 px-2 py-3 last:border-r-0">
+            {{ dayLabel }}
+          </div>
+        </div>
+        <div class="grid grid-cols-7">
+          <button
+            v-for="cell in monthCells"
+            :key="cell.key"
+            type="button"
+            class="min-h-32 border-r border-t border-slate-200 p-2 text-left transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 last:border-r-0"
+            :class="cell.isCurrentMonth ? 'bg-white' : 'bg-slate-50/70 text-slate-400'"
+            @click="openDateEvents(cell.date)"
+          >
+            <span class="inline-flex h-7 w-7 items-center justify-center rounded-full text-sm font-semibold" :class="cell.isToday ? 'bg-emerald-700 text-white' : ''">
+              {{ cell.dayNumber }}
+            </span>
+            <div class="mt-2 space-y-1">
+              <p
+                v-for="event in cell.events.slice(0, 3)"
+                :key="event.id"
+                class="truncate rounded-lg border px-2 py-1 text-xs font-medium"
+                :class="CALENDAR_EVENT_TONE_CLASSES[event.tone ?? 'neutral']"
+              >
+                {{ event.title }}
+              </p>
+              <p v-if="cell.events.length > 3" class="text-xs font-medium text-slate-500">
+                +{{ cell.events.length - 3 }} more
+              </p>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <div v-else class="overflow-hidden rounded-xl border border-slate-200">
+        <div class="grid" :class="selectedViewMode === 'week' ? 'grid-cols-[5rem_repeat(7,minmax(8rem,1fr))]' : 'grid-cols-[5rem_minmax(12rem,1fr)]'">
+          <div class="border-b border-r border-slate-200 bg-slate-50 p-3 text-xs font-semibold uppercase text-slate-500">Time</div>
+          <button
+            v-for="day in visibleDays"
+            :key="day.dateKey"
+            type="button"
+            class="border-b border-r border-slate-200 bg-slate-50 p-3 text-left last:border-r-0 hover:bg-slate-100"
+            @click="openDateEvents(day.date)"
+          >
+            <p class="text-xs font-semibold uppercase tracking-wide text-slate-500">{{ day.weekday }}</p>
+            <p class="text-sm font-semibold text-slate-900">{{ day.label }}</p>
+          </button>
+
+          <template v-for="hour in hourRows" :key="hour.label">
+            <div class="border-r border-t border-slate-200 bg-slate-50 px-3 py-4 text-xs font-medium text-slate-500">
+              {{ hour.label }}
+            </div>
+            <div
+              v-for="day in visibleDays"
+              :key="`${day.dateKey}-${hour.value}`"
+              class="min-h-20 border-r border-t border-slate-200 p-2 last:border-r-0"
+            >
+              <button
+                v-for="event in getEventsForDayAndHour(day.date, hour.value)"
+                :key="event.id"
+                type="button"
+                class="mb-1 w-full rounded-lg border px-2 py-1 text-left text-xs font-medium"
+                :class="CALENDAR_EVENT_TONE_CLASSES[event.tone ?? 'neutral']"
+                @click="openDateEvents(day.date)"
+              >
+                <span class="block truncate">{{ event.title }}</span>
+                <span v-if="event.location" class="block truncate font-normal opacity-80">{{ event.location }}</span>
+              </button>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <CalendarEventsModal
+      v-if="selectedDate"
+      :title="selectedDateModalTitle"
+      :description="`${selectedDateEvents.length} event${selectedDateEvents.length === 1 ? '' : 's'} scheduled`"
+      :events="selectedDateEvents"
+      @close="selectedDate = null"
+    />
+  </section>
 </template>
 
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import BaseButton from '~/components/ui/BaseButton.vue'
-import BaseModal from '~/components/ui/BaseModal.vue'
-import { CALENDAR_EVENT_TONE_CLASSES } from '~/constants/calendar.constants'
-import type { CalendarEventItem } from '~/types/domain/calendar'
+import BaseTab from '~/components/ui/BaseTab.vue'
+import CalendarEventsModal from './CalendarEventsModal.vue'
+import {
+  CALENDAR_EVENT_TONE_CLASSES,
+  CALENDAR_HOUR_LABELS,
+  CALENDAR_VIEW_MODE_ITEMS,
+  CALENDAR_WEEKDAY_LABELS,
+} from '~/constants/calendar.constants'
+import type { CalendarEventItem, CalendarViewMode } from '~/types/domain/calendar'
+import {
+  addDays,
+  buildMonthCells,
+  eventOccursOnDate,
+  formatCalendarTitle,
+  getEventHour,
+  startOfDay,
+  startOfWeek,
+} from '~/utils/calendar'
 
-const props = defineProps<{
-  title: string
-  description?: string
-  events: CalendarEventItem[]
-}>()
+const props = withDefaults(
+  defineProps<{
+    events?: CalendarEventItem[]
+    initialDate?: string
+    initialViewMode?: CalendarViewMode
+  }>(),
+  {
+    events: () => [],
+    initialDate: undefined,
+    initialViewMode: 'month',
+  }
+)
 
-const emit = defineEmits<{
-  (event: 'close'): void
-}>()
+const selectedViewMode = ref<CalendarViewMode>(props.initialViewMode)
+const activeDate = ref(props.initialDate ? startOfDay(new Date(props.initialDate)) : startOfDay(new Date()))
+const selectedDate = ref<Date | null>(null)
 
-const eventDateFormatter = new Intl.DateTimeFormat('en-US', {
-  month: 'short',
-  day: 'numeric',
-  year: 'numeric',
-  hour: 'numeric',
-  minute: '2-digit',
+const calendarTitle = computed(() => formatCalendarTitle(activeDate.value, selectedViewMode.value))
+const monthCells = computed(() => buildMonthCells(activeDate.value, props.events))
+
+const visibleDays = computed(() => {
+  const firstDay = selectedViewMode.value === 'week' ? startOfWeek(activeDate.value) : activeDate.value
+  const dayCount = selectedViewMode.value === 'week' ? 7 : 1
+  const weekdayFormatter = new Intl.DateTimeFormat('en-US', { weekday: 'short' })
+  const dayFormatter = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' })
+
+  return Array.from({ length: dayCount }, (_, index) => {
+    const date = addDays(firstDay, index)
+    return {
+      date,
+      dateKey: date.toISOString(),
+      weekday: weekdayFormatter.format(date),
+      label: dayFormatter.format(date),
+    }
+  })
 })
 
-const formatEventRange = (event: CalendarEventItem): string => {
-  const start = new Date(event.startDate)
-  const end = event.endDate ? new Date(event.endDate) : null
+const hourRows = computed(() => CALENDAR_HOUR_LABELS.map((label, value) => ({ label, value })))
 
-  if (Number.isNaN(start.getTime())) {
-    return event.startDate
+const selectedDateEvents = computed(() => {
+  if (!selectedDate.value) {
+    return []
   }
 
-  if (!end || Number.isNaN(end.getTime())) {
-    return eventDateFormatter.format(start)
+  return props.events.filter((event) => eventOccursOnDate(event, selectedDate.value ?? activeDate.value))
+})
+
+const selectedDateModalTitle = computed(() => {
+  if (!selectedDate.value) {
+    return 'Calendar events'
   }
 
-  return `${eventDateFormatter.format(start)} – ${eventDateFormatter.format(end)}`
+  return new Intl.DateTimeFormat('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  }).format(selectedDate.value)
+})
+
+const movePrevious = () => {
+  if (selectedViewMode.value === 'month') {
+    activeDate.value = new Date(activeDate.value.getFullYear(), activeDate.value.getMonth() - 1, 1)
+    return
+  }
+
+  activeDate.value = addDays(activeDate.value, selectedViewMode.value === 'week' ? -7 : -1)
 }
 
-void props
+const moveNext = () => {
+  if (selectedViewMode.value === 'month') {
+    activeDate.value = new Date(activeDate.value.getFullYear(), activeDate.value.getMonth() + 1, 1)
+    return
+  }
+
+  activeDate.value = addDays(activeDate.value, selectedViewMode.value === 'week' ? 7 : 1)
+}
+
+const setToday = () => {
+  activeDate.value = startOfDay(new Date())
+}
+
+const openDateEvents = (date: Date) => {
+  selectedDate.value = startOfDay(date)
+}
+
+const getEventsForDayAndHour = (date: Date, hour: number): CalendarEventItem[] =>
+  props.events.filter((event) => eventOccursOnDate(event, date) && (event.allDay || getEventHour(event) === hour))
 </script>
