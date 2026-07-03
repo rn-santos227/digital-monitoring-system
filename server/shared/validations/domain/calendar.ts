@@ -37,3 +37,20 @@ const startOfMonth = (date: Date): Date => new Date(Date.UTC(date.getUTCFullYear
 
 const endOfMonth = (date: Date): Date => new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 0))
 
+const parseHour = (value: unknown, viewMode: CalendarViewMode): number | null => {
+  if (value === undefined || value === null || value === '') {
+    return null
+  }
+
+  if (viewMode !== 'day') {
+    throw createError({ statusCode: 400, statusMessage: 'Hour filtering is only available in day calendar mode.' })
+  }
+
+  const parsed = Number(value)
+  if (!Number.isInteger(parsed) || parsed < 0 || parsed > 23) {
+    throw createError({ statusCode: 400, statusMessage: 'Calendar hour must be an integer from 0 to 23.' })
+  }
+
+  return parsed
+}
+
