@@ -1,3 +1,4 @@
+import * as ExcelJS from 'exceljs'
 import type { CreatePersonnelPayload } from '~/types/domain/personnel'
 
 interface ParsedPersonnelBatchRow {
@@ -71,7 +72,6 @@ const parseDateValue = (value: unknown): string | null => {
 }
 
 export const parsePersonnelBatchExcelFile = async (file: File): Promise<ParsedPersonnelBatchRow[]> => {
-  const ExcelJS = await import('exceljs')
   const workbook = new ExcelJS.Workbook()
   const data = await file.arrayBuffer()
   await workbook.xlsx.load(data)
