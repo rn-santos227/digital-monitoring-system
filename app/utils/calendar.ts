@@ -54,3 +54,7 @@ export const getEventHour = (event: CalendarEventItem): number => {
   return Number.isNaN(parsed.getTime()) ? 0 : parsed.getHours()
 }
 
+export const buildMonthCells = (activeDate: Date, events: CalendarEventItem[]): CalendarDayCell[] => {
+
+
+}
