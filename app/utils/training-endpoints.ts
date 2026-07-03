@@ -1,4 +1,5 @@
 import { API_LOADING_MESSAGES, TRAINING_MANAGEMENT_API_ENDPOINTS } from '~/constants/api.constants'
+import type { CalendarEventsQuery, CalendarEventsResponse } from '~/types/domain/calendar'
 import type {
   CreateTrainingCategoryPayload,
   CreateTrainingPayload,
@@ -239,4 +240,14 @@ export const getTrainingSuggestionsEndpoint = async (
       query,
     })
   }, API_LOADING_MESSAGES.fetchTrainingSuggestions, { useGlobalLoading: false })
+}
+
+export const getTrainingCalendarEndpoint = async (query: CalendarEventsQuery): Promise<CalendarEventsResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<CalendarEventsResponse>(TRAINING_MANAGEMENT_API_ENDPOINTS.trainingsCalendar, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchTrainingCalendar)
 }
