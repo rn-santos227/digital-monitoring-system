@@ -3,24 +3,10 @@ import {
   ACCOUNT_TYPE_PRIVILEGES,
   BATTALION_PRIVILEGES,
   COMPANY_PRIVILEGES,
-  PERSONNEL_PRIVILEGES,
-  RANK_PRIVILEGES,
   USER_PROFILE_PRIVILEGES,
-  TRAINING_PRIVILEGES,
 } from '~/constants/privileges.constants'
-import type { PersonnelManagementTabId, PersonnelProfileTabId } from '~/types/domain/personnel'
 import type { UserManagementTabId } from '~/types/domain/users'
-import type { TrainingManagementTabId } from '~/types/domain/training'
 import type { UnitManagementTabId } from '~/types/domain/units'
-import {
-  DEPLOYMENT_STATUS_VALUES,
-  EMPLOYMENT_STATUS_VALUES,
-  SERVICE_STATUS_VALUES,
-  LEVEL_VALUES,
-  TRAINING_STATUS_VALUES,
-  ENGAGEMENT_TYPE_VALUES,
-  ENGAGEMENT_STATUS_VALUES,
-} from '~/types/enums'
 export const UNITS_PAGE_TITLE = 'Battalions and Companies'
 export const UNITS_PAGE_SUBTITLE =
   'Monitor battalion and company unit records with searchable operational tables.'
