@@ -25,3 +25,9 @@ const parseDateInput = (value: unknown, fallback: Date): Date => {
   return parsed
 }
 
+const addDays = (date: Date, days: number): Date => {
+  const nextDate = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()))
+  nextDate.setUTCDate(nextDate.getUTCDate() + days)
+  return nextDate
+}
+
