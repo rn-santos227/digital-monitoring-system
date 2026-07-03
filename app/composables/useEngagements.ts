@@ -1,5 +1,6 @@
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
+import type { CalendarEventsQuery } from '~/types/domain/calendar'
 import type {
   CreateEngagementPayload,
   CreateEngagementRecordPayload,
@@ -10,7 +11,7 @@ import { useEngagementsStore } from '~/stores/engagements'
 
 export const useEngagements = () => {
   const engagementsStore = useEngagementsStore()
-  const { engagements, kpis } = storeToRefs(engagementsStore)
+  const { engagements, kpis, calendar } = storeToRefs(engagementsStore)
   const filters = ref<Partial<EngagementManagementSearchQuery>>({})
 
   const tableRows = computed(() => engagements.value.items.map((item) => ({
@@ -35,6 +36,10 @@ export const useEngagements = () => {
   onMounted(() => {
     void engagementsStore.fetchEngagementManagementKpisOnce().catch(() => {})
   })
+
+  const loadEngagementCalendarEvents = async (query: CalendarEventsQuery) => {
+    return await engagementsStore.fetchEngagementCalendarEvents(query)
+  }
 
   return {
     filters,
