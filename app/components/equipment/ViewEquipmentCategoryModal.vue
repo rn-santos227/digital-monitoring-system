@@ -43,12 +43,12 @@
 import { onMounted, ref } from 'vue'
 import EquipmentCategoryItemsTable from '~/components/equipment/views/EquipmentCategoryItemsTable.vue'
 import { getEquipmentItemsByCategoryEndpoint } from '~/utils/equipment-endpoints'
-import type { EquipmentCategoryDetailItem } from '~/types/domain/equipment'
+import type { EquipmentCategoryDetailItem, EquipmentItemListItem } from '~/types/domain/equipment'
 
 const props = defineProps<{ category: EquipmentCategoryDetailItem }>()
 const emit = defineEmits<{ (event: 'close'): void }>()
 
-const categoryItems = ref<import('~/types/domain/equipment').EquipmentItemListItem[]>([])
+const categoryItems = ref<EquipmentItemListItem[]>([])
 const isItemsLoading = ref(false)
 
 const loadCategoryItems = async () => {
