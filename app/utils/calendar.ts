@@ -23,5 +23,13 @@ export const startOfMonthGrid = (date: Date): Date => startOfWeek(new Date(date.
 export const isSameDay = (left: Date, right: Date): boolean => toDateKey(left) === toDateKey(right)
 
 export const formatCalendarTitle = (date: Date, viewMode: CalendarViewMode): string => {
+  if (viewMode === 'day') {
+    return new Intl.DateTimeFormat('en-US', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    }).format(date)
+  }
 
 }
