@@ -52,3 +52,29 @@ export const mapTrainingCalendarEventItem = (row: CalendarTrainingRow): Calendar
     description: row.default_remarks,
   }
 }
+
+export const mapEngagementCalendarEventItem = (row: CalendarEngagementRow): CalendarEventItem | null => {
+  if (!row.start_date) {
+    return null
+  }
+
+  const category = toSingleReference(row.engagement_type)
+  const level = toSingleReference(row.level)
+  const status = toSingleReference(row.engagement_status)
+
+  return {
+    id: `engagement-${row.id}`,
+    source: 'engagement',
+    sourceId: row.id,
+    title: row.engagement_title,
+    startDate: row.start_date,
+    endDate: row.end_date,
+    hour: getCalendarEventHour(row.start_date),
+    allDay: isCalendarEventAllDay(row.start_date, row.end_date),
+    tone: 'engagement',
+    categoryLabel: category?.name ?? null,
+    statusLabel: status?.name ?? null,
+    levelLabel: level?.name ?? null,
+    description: row.default_remarks,
+  }
+}
