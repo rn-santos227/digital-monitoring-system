@@ -53,7 +53,7 @@ export interface DataTableColumn {
 export interface DataTableAction {
   key: string
   tooltip: string
-  iconName?: import('~/types/domain/misc').IconName
+  iconName?: IconName
   variant?: UiVariant
 }
 
