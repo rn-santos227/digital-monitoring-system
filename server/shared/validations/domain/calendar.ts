@@ -31,3 +31,9 @@ const addDays = (date: Date, days: number): Date => {
   return nextDate
 }
 
+const startOfWeek = (date: Date): Date => addDays(date, -date.getUTCDay())
+
+const startOfMonth = (date: Date): Date => new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1))
+
+const endOfMonth = (date: Date): Date => new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + 1, 0))
+
