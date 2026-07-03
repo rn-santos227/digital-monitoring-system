@@ -61,10 +61,14 @@ export const useTrainings = () => {
     isLoading: computed(() => trainings.value.isLoading),
     error: computed(() => trainings.value.error),
     totalItems: computed(() => trainings.value.pagination.totalItems),
+    calendarEvents: computed(() => calendar.value.items),
+    calendarIsLoading: computed(() => calendar.value.isLoading),
+    calendarError: computed(() => calendar.value.error),
     loadTrainings,
     createTraining,
     updateTraining,
     deleteTraining,
+    loadTrainingCalendarEvents,
     getTrainingById: trainingsStore.getTrainingById,
   }
 }
