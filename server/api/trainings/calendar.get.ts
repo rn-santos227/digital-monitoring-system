@@ -18,4 +18,11 @@ export default defineEventHandler(async (event): Promise<CalendarEventsResponse>
     return dateComparison === 0 ? left.title.localeCompare(right.title) : dateComparison
   })
 
-}
+  return {
+    viewMode: calendarQuery.viewMode,
+    rangeStart: calendarQuery.rangeStart,
+    rangeEnd: calendarQuery.rangeEnd,
+    hour: calendarQuery.hour,
+    items,
+  }
+})
