@@ -133,6 +133,12 @@ export const EQUIPMENT_ISSUANCE_SELECT_COLUMNS =
 export const EQUIPMENT_ISSUANCE_DETAILS_COLUMNS =
   'id, issue_no, equipment_asset_id, issued_to_personnel_id, issued_by_personnel_id, deployment_id, issue_date, expected_return_date, actual_return_date, quantity_issued, status_id, issued_location, return_location, remarks, created_at, updated_at, equipment_asset:equipment_assets(id, asset_tag, equipment_item:equipment_items(id, name)), issued_to_personnel:personnel!equipment_issuances_issued_to_personnel_id_fkey(id, personnel_code, first_name, middle_name, last_name), issued_by_personnel:personnel!equipment_issuances_issued_by_personnel_id_fkey(id, personnel_code, first_name, middle_name, last_name), deployment:deployment_records!equipment_issuances_deployment_id_fkey(id, operation_name, deployment_area), issuance_status:issuance_statuses(id, name)'
 
+export const CALENDAR_TRAINING_SELECT_COLUMNS =
+  'id, training_title, start_date, end_date, default_remarks, training_category:training_categories(id, name), level:levels(id, name), training_status:training_statuses(id, name)'
+
+export const CALENDAR_ENGAGEMENT_SELECT_COLUMNS =
+  'id, engagement_title, start_date, end_date, default_remarks, engagement_type:engagement_types(id, name), level:levels(id, name), engagement_status:engagement_statuses(id, name)'
+
 export const TRAINING_CATEGORY_SELECT_COLUMNS = 'id, code, name, created_at, updated_at'
 
 export const TRAINING_SELECT_COLUMNS =
