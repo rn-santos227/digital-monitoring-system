@@ -1,5 +1,54 @@
 <template>
-
+  <BaseModal
+    :title="title"
+    :description="description"
+    size="lg"
+    scroll-body
+    @close="emit('close')"
+  >
+    <div v-if="events.length" class="space-y-3">
+      <article
+        v-for="event in events"
+        :key="event.id"
+        class="rounded-xl border p-4"
+        :class="CALENDAR_EVENT_TONE_CLASSES[event.tone ?? 'neutral']"
+      >
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+          <div class="space-y-1">
+            <p class="text-sm font-semibold uppercase tracking-wide">
+              {{ event.categoryLabel || event.tone || 'Calendar event' }}
+            </p>
+            <h3 class="text-base font-semibold text-slate-950">
+              {{ event.title }}
+            </h3>
+          </div>
+          <p class="text-sm font-medium text-slate-700">
+            {{ formatEventRange(event) }}
+          </p>
+        </div>
+        <dl class="mt-3 grid gap-2 text-sm text-slate-700 sm:grid-cols-2">
+          <div v-if="event.location">
+            <dt class="font-semibold text-slate-900">Location</dt>
+            <dd>{{ event.location }}</dd>
+          </div>
+          <div v-if="event.description">
+            <dt class="font-semibold text-slate-900">Details</dt>
+            <dd>{{ event.description }}</dd>
+          </div>
+        </dl>
+      </article>
+    </div>
+    <p v-else class="rounded-xl border border-dashed border-slate-300 p-6 text-center text-sm text-slate-500">
+      No calendar events are scheduled on this date.
+    </p>
+    <template #footer>
+      <div class="flex justify-end">
+        <BaseButton variant="secondary" @click="emit('close')">
+          Close
+        </BaseButton>
+      </div>
+    </template>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
