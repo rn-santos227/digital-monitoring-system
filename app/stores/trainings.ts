@@ -63,6 +63,7 @@ interface TrainingsStoreState {
   records: TrainingRecordsState
   kpis: TrainingManagementKpiCounts
   hasLoadedKpis: boolean
+  calendar: DomainCalendarState
 }
 
 const INITIAL_TRAININGS_STORE_STATE: TrainingsStoreState = {
@@ -86,6 +87,12 @@ const INITIAL_TRAININGS_STORE_STATE: TrainingsStoreState = {
   },
   kpis: { ...DEFAULT_TRAINING_MANAGEMENT_KPIS },
   hasLoadedKpis: false,
+  calendar: {
+    items: [],
+    isLoading: false,
+    error: '',
+    lastQuery: null,
+  },
 }
 
 const updateTrainingKpis = (
