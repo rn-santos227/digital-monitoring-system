@@ -14,3 +14,13 @@ export interface CalendarSourceReferenceRow {
   code?: string
 }
 
+export interface CalendarTrainingRow {
+  id: string
+  training_title: string
+  start_date: string | null
+  end_date: string | null
+  default_remarks: string | null
+  training_category: CalendarSourceReferenceRow | CalendarSourceReferenceRow[] | null
+  level: CalendarSourceReferenceRow | CalendarSourceReferenceRow[] | null
+  training_status: CalendarSourceReferenceRow | CalendarSourceReferenceRow[] | null
+}
