@@ -78,3 +78,14 @@ export const mapEngagementCalendarEventItem = (row: CalendarEngagementRow): Cale
     description: row.default_remarks,
   }
 }
+
+export const filterCalendarEventsByHour = (
+  items: CalendarEventItem[],
+  hour: number | null,
+): CalendarEventItem[] => {
+  if (hour === null) {
+    return items
+  }
+
+  return items.filter((item) => item.hour === hour || item.allDay)
+}
