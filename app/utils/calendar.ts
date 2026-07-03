@@ -9,3 +9,10 @@ const DATE_KEY_FORMATTER = new Intl.DateTimeFormat('en-CA', {
 export const toDateKey = (date: Date): string => DATE_KEY_FORMATTER.format(date)
 
 export const startOfDay = (date: Date): Date => new Date(date.getFullYear(), date.getMonth(), date.getDate())
+
+export const addDays = (date: Date, days: number): Date => {
+  const nextDate = startOfDay(date)
+  nextDate.setDate(nextDate.getDate() + days)
+  return nextDate
+}
+
