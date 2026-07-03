@@ -1,5 +1,6 @@
 export type CalendarViewMode = 'day' | 'week' | 'month'
 export type CalendarEventSource = 'training' | 'engagement'
+export type CalendarEventTone = CalendarEventSource | 'deployment' | 'incident' | 'neutral'
 
 export interface CalendarEventsQuery {
   mode?: CalendarViewMode
@@ -41,4 +42,26 @@ export interface DomainCalendarState {
   isLoading: boolean
   error: string
   lastQuery: CalendarEventsQuery | null
+}
+
+export interface CalendarEventItem {
+  id: string
+  title: string
+  startDate: string
+  endDate?: string | null
+  allDay?: boolean
+  tone?: CalendarEventTone
+  categoryLabel?: string | null
+  description?: string | null
+  location?: string | null
+}
+
+export interface CalendarDayCell {
+  key: string
+  date: Date
+  dateKey: string
+  dayNumber: number
+  isToday: boolean
+  isCurrentMonth: boolean
+  events: CalendarEventItem[]
 }
