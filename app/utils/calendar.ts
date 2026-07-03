@@ -55,6 +55,8 @@ export const getEventHour = (event: CalendarEventItem): number => {
 }
 
 export const buildMonthCells = (activeDate: Date, events: CalendarEventItem[]): CalendarDayCell[] => {
+  const gridStart = startOfMonthGrid(activeDate)
+  const today = new Date()
 
 
 }
