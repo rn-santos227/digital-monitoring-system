@@ -78,3 +78,25 @@ const resolveRangeEnd = (date: Date, viewMode: CalendarViewMode): Date => {
   return date
 }
 
+export const parseCalendarEventsQuery = (query: Record<string, unknown>): CalendarEventsQuery => {
+  const rawViewMode = typeof query.mode === 'string' ? query.mode : query.viewMode
+  const viewMode = typeof rawViewMode === 'string' && isCalendarViewMode(rawViewMode) ? rawViewMode : 'month'
+  const anchorDate = parseDateInput(query.date, new Date())
+  const explicitRangeStart = query.startDate ?? query.rangeStart
+  const explicitRangeEnd = query.endDate ?? query.rangeEnd
+  const rangeStartDate = explicitRangeStart ? parseDateInput(explicitRangeStart, anchorDate) : resolveRangeStart(anchorDate, viewMode)
+  const rangeEndDate = explicitRangeEnd ? parseDateInput(explicitRangeEnd, anchorDate) : resolveRangeEnd(anchorDate, viewMode)
+  const rangeStart = toDateOnly(rangeStartDate)
+  const rangeEnd = toDateOnly(rangeEndDate)
+
+  if (rangeEnd < rangeStart) {
+    throw createError({ statusCode: 400, statusMessage: 'Calendar range end must be on or after range start.' })
+  }
+
+  return {
+    viewMode,
+    rangeStart,
+    rangeEnd,
+    hour: parseHour(query.hour, viewMode),
+  }
+}
