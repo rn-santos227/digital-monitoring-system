@@ -35,3 +35,20 @@ export interface CalendarEngagementRow {
   level: CalendarSourceReferenceRow | CalendarSourceReferenceRow[] | null
   engagement_status: CalendarSourceReferenceRow | CalendarSourceReferenceRow[] | null
 }
+
+
+export interface CalendarEventItem {
+  id: string
+  source: CalendarEventSource
+  sourceId: string
+  title: string
+  startDate: string
+  endDate: string | null
+  hour: number | null
+  allDay: boolean
+  tone: CalendarEventSource
+  categoryLabel: string | null
+  statusLabel: string | null
+  levelLabel: string | null
+  description: string | null
+}
