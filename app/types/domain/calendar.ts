@@ -27,3 +27,18 @@ export interface DomainCalendarEventItem {
   levelLabel: string | null
   description: string | null
 }
+
+export interface CalendarEventsResponse {
+  viewMode: CalendarViewMode
+  rangeStart: string
+  rangeEnd: string
+  hour: number | null
+  items: DomainCalendarEventItem[]
+}
+
+export interface DomainCalendarState {
+  items: DomainCalendarEventItem[]
+  isLoading: boolean
+  error: string
+  lastQuery: CalendarEventsQuery | null
+}
