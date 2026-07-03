@@ -27,3 +27,28 @@ const getCalendarEventHour = (startDate: string): number | null => {
 const isCalendarEventAllDay = (startDate: string, endDate: string | null): boolean =>
   !startDate.includes('T') && (!endDate || !endDate.includes('T'))
 
+export const mapTrainingCalendarEventItem = (row: CalendarTrainingRow): CalendarEventItem | null => {
+  if (!row.start_date) {
+    return null
+  }
+
+  const category = toSingleReference(row.training_category)
+  const level = toSingleReference(row.level)
+  const status = toSingleReference(row.training_status)
+
+  return {
+    id: `training-${row.id}`,
+    source: 'training',
+    sourceId: row.id,
+    title: row.training_title,
+    startDate: row.start_date,
+    endDate: row.end_date,
+    hour: getCalendarEventHour(row.start_date),
+    allDay: isCalendarEventAllDay(row.start_date, row.end_date),
+    tone: 'training',
+    categoryLabel: category?.name ?? null,
+    statusLabel: status?.name ?? null,
+    levelLabel: level?.name ?? null,
+    description: row.default_remarks,
+  }
+}
