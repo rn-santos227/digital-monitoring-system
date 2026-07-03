@@ -16,3 +16,7 @@ export const addDays = (date: Date, days: number): Date => {
   return nextDate
 }
 
+export const startOfWeek = (date: Date): Date => addDays(date, -date.getDay())
+
+export const startOfMonthGrid = (date: Date): Date => startOfWeek(new Date(date.getFullYear(), date.getMonth(), 1))
+
