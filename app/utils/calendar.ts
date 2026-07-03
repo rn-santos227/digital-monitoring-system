@@ -32,4 +32,12 @@ export const formatCalendarTitle = (date: Date, viewMode: CalendarViewMode): str
     }).format(date)
   }
 
+  if (viewMode === 'week') {
+    const firstDay = startOfWeek(date)
+    const lastDay = addDays(firstDay, 6)
+    const monthFormatter = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' })
+    return `${monthFormatter.format(firstDay)} – ${monthFormatter.format(lastDay)}, ${lastDay.getFullYear()}`
+  }
+
+  return new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(date)
 }
