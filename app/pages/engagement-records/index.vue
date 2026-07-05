@@ -119,6 +119,7 @@
           @visible-range-change="onEngagementCalendarRangeChange"
         />
       </template>
+    </section>
 
       <CreateEngagementModal
         v-if="isCreateEngagementModalOpen"
@@ -165,7 +166,6 @@
         :record="selectedEngagementRecord"
         @close="onCloseViewEngagementRecordModal"
       />
-    </section>
   </main>
 </template>
 
