@@ -2,9 +2,8 @@
   <section class="rounded-2xl border border-slate-200 bg-white shadow-sm">
     <header class="flex flex-col gap-4 border-b border-slate-200 p-4 lg:flex-row lg:items-center lg:justify-between">
       <div>
-        <p class="text-sm font-semibold uppercase tracking-wide text-emerald-700">Operations calendar</p>
+        <p class="text-sm font-semibold uppercase tracking-wide text-emerald-700">{{ eyebrow }}</p>
         <h2 class="text-2xl font-semibold text-slate-950">{{ calendarTitle }}</h2>
-        <p class="mt-1 text-sm text-slate-600">View training records and engagement records by day, week, or month.</p>
       </div>
       <div class="flex flex-wrap items-center gap-2">
         <BaseButton variant="secondary" size="sm" @click="movePrevious">Previous</BaseButton>
@@ -15,6 +14,9 @@
     </header>
 
     <div class="p-4">
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" class="mb-4" />
+      <BaseInlineLoader v-if="isLoading" label="Loading calendar events..." class="mb-4" />
+
       <div v-if="selectedViewMode === 'month'" class="overflow-hidden rounded-xl border border-slate-200">
         <div class="grid grid-cols-7 bg-slate-50 text-center text-xs font-semibold uppercase tracking-wide text-slate-500">
           <div v-for="dayLabel in CALENDAR_WEEKDAY_LABELS" :key="dayLabel" class="border-r border-slate-200 px-2 py-3 last:border-r-0">
@@ -202,7 +204,7 @@ const moveNext = () => {
 
 const setToday = () => {
   activeDate.value = startOfDay(new Date())
-}
+} <p class="text-sm font-semibold uppercase tracking-wide text-emerald-700">Operations 
 
 const openDateEvents = (date: Date) => {
   selectedDate.value = startOfDay(date)
