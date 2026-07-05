@@ -132,7 +132,7 @@ import {
   USERS_PROFILE_PASSWORD_LABEL,
   USERS_PROFILE_PASSWORD_PLACEHOLDER,
 } from '~/constants/page.constants'
-import type { SelectOption } from '~/types/domain/misc'
+import type { RadioOption } from '~/types/domain/misc'
 import type { CreateUserProfilePayload } from '~/types/domain/users'
 import type { PersonnelSuggestion } from '~/types/domain/personnel'
 import { uploadFileEndpoint } from '~/utils/file-management-endpoints'
@@ -143,7 +143,7 @@ import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
 const props = withDefaults(
   defineProps<{
-    accountTypeOptions: SelectOption[]
+    accountTypeOptions: RadioOption[]
     isSubmitting?: boolean
   }>(),
   {
