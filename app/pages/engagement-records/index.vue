@@ -70,7 +70,7 @@
         />
       </template>
 
-      <template v-else>
+      <template v-else-if="activeTab === 'engagements'">
         <div class="flex justify-end gap-2">
           <PrintDataListButton
             table-name="engagements"
@@ -106,6 +106,17 @@
           @update:current-page="onEngagementsPageChange"
           @update:page-size="onEngagementsPageSizeChange"
           @action="onEngagementAction"
+        />
+      </template>
+
+      <template v-else>
+        <OperationsCalendar
+          eyebrow="Engagement calendar"
+          description="Review scheduled engagement operations by day, week, or month."
+          :events="engagementCalendarEvents"
+          :is-loading="isEngagementCalendarLoading"
+          :error-message="engagementCalendarError"
+          @visible-range-change="onEngagementCalendarRangeChange"
         />
       </template>
 
