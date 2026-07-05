@@ -38,6 +38,10 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
     throw createError({ statusCode: 400, statusMessage: 'No updates were provided.' })
   }
 
+  if (accountTypeIds !== null && accountTypeIds.length !== 1) {
+    throw createError({ statusCode: 400, statusMessage: 'Select exactly one account type.' })
+  }
+
   const supabase = getServiceSupabaseClient()
   const existingProfile = await getUserProfileById<{
     personnel_id: string | null
