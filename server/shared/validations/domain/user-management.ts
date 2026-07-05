@@ -48,6 +48,8 @@ export const normalizeAccountTypeIds = (accountTypeIds: unknown): string[] | nul
   if (normalizedAccountTypeIds && normalizedAccountTypeIds.length > 1) {
     throw createError({ statusCode: 400, statusMessage: 'Only one account type can be assigned to a user.' })
   }
+
+  return normalizedAccountTypeIds
 }
 
 const normalizeUniqueStringArray = (value: unknown): string[] | null => {
