@@ -44,6 +44,10 @@ export const buildUserProfileUpdates = (body: UpdateUserProfileRequest): UserPro
 
 export const normalizeAccountTypeIds = (accountTypeIds: unknown): string[] | null => {
   const normalizedAccountTypeIds = normalizeUniqueStringArray(accountTypeIds)
+
+  if (normalizedAccountTypeIds && normalizedAccountTypeIds.length > 1) {
+    throw createError({ statusCode: 400, statusMessage: 'Only one account type can be assigned to a user.' })
+  }
 }
 
 const normalizeUniqueStringArray = (value: unknown): string[] | null => {
