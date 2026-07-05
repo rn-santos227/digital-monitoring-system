@@ -115,7 +115,7 @@
         />
       </template>
 
-      <template v-else>
+      <template v-else-if="activeTab === 'categories'">
         <TrainingCategoriesFilter
           :model-value="categoryFilters"
           :validation-errors="categoryFilterValidationErrors"
@@ -139,6 +139,17 @@
           @action="onCategoryTableAction"
           @update:current-page="onCategoryPageChange"
           @update:page-size="onCategoryPageSizeChange"
+        />
+      </template>
+
+      <template v-else>
+        <OperationsCalendar
+          eyebrow="Training calendar"
+          description="Review scheduled training activities by day, week, or month."
+          :events="trainingCalendarEvents"
+          :is-loading="isTrainingCalendarLoading"
+          :error-message="trainingCalendarError"
+          @visible-range-change="onTrainingCalendarRangeChange"
         />
       </template>
     </section>
