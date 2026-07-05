@@ -7,3 +7,7 @@ with ranked_user_account_types as (
     ) as assignment_rank
   from public.user_account_types
 )
+delete from public.user_account_types uat
+using ranked_user_account_types ranked
+where uat.id = ranked.id
+  and ranked.assignment_rank > 1;
