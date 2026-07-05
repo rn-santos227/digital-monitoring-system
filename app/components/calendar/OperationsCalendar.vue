@@ -170,7 +170,7 @@ const visibleRangeQuery = computed(() => {
   }
 
   if (selectedViewMode.value === 'week') {
-
+    const rangeStart = startOfWeek(activeDate.value)
   }
 })
 
