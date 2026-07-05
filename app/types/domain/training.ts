@@ -27,7 +27,7 @@ export interface TrainingFilters {
   start_date_to?: string
 }
 
-export type TrainingManagementTabId = 'records' | 'trainings' | 'categories'
+export type TrainingManagementTabId = 'records' | 'trainings' | 'categories' | 'calendar'
 
 export interface TrainingListItem {
   id: string
