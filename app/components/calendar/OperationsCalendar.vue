@@ -171,6 +171,13 @@ const visibleRangeQuery = computed(() => {
 
   if (selectedViewMode.value === 'week') {
     const rangeStart = startOfWeek(activeDate.value)
+
+    return {
+      viewMode: selectedViewMode.value,
+      date: toDateKey(activeDate.value),
+      rangeStart: toDateKey(rangeStart),
+      rangeEnd: toDateKey(addDays(rangeStart, 6)),
+    }
   }
 })
 
