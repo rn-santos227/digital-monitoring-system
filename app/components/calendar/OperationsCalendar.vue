@@ -179,6 +179,13 @@ const visibleRangeQuery = computed(() => {
       rangeEnd: toDateKey(addDays(rangeStart, 6)),
     }
   }
+
+  return {
+    viewMode: selectedViewMode.value,
+    date: toDateKey(activeDate.value),
+    rangeStart: toDateKey(activeDate.value),
+    rangeEnd: toDateKey(activeDate.value),
+  }
 })
 
 const visibleDays = computed(() => {
