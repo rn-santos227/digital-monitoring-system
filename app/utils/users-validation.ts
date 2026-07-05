@@ -76,7 +76,9 @@ export const validateUserProfileForm = (form: UserProfileFormState): FormValidat
   }
 
   if (form.accountTypeIds.length === 0) {
-    errors.accountTypeIds = 'Select at least one account type.'
+    errors.accountTypeIds = 'Select one account type.'
+  } else if (form.accountTypeIds.length > 1) {
+    errors.accountTypeIds = 'Select only one account type.'
   }
 
   if (Object.keys(errors).length > 0) {
