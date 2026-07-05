@@ -260,4 +260,8 @@ const openDateEvents = (date: Date) => {
 
 const getEventsForDayAndHour = (date: Date, hour: number): CalendarEventItem[] =>
   props.events.filter((event) => eventOccursOnDate(event, date) && (event.allDay || getEventHour(event) === hour))
+
+watch(visibleRangeQuery, (query) => {
+  emit('visibleRangeChange', query)
+}, { immediate: true })
 </script>
