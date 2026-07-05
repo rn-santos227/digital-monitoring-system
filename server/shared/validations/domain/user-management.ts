@@ -135,6 +135,10 @@ export const parseCreateUserProfilePayload = (body: CreateUserProfileRequest): C
     throw createError({ statusCode: 400, statusMessage: `Password must be at least ${PASSWORD_MIN_LENGTH} characters.` })
   }
 
+  if (accountTypeIds.length !== 1) {
+    throw createError({ statusCode: 400, statusMessage: 'Select exactly one account type.' })
+  }
+
   return {
     personnelId,
     email,
