@@ -22,6 +22,7 @@ export const USER_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   userProfileById: (id: string) => `/api/users/${id}`,
   userProfilePassword: (id: string) => `/api/users/${id}/password`,
   userProfileActivation: (id: string) => `/api/users/${id}/activation`,
+  userProfileAuditLogs: (id: string) => `/api/users/${id}/audit-logs`,
   accountTypes: '/api/account-types',
   accountTypesSearch: '/api/account-types/search',
   accountTypeById: (id: string) => `/api/account-types/${id}`,

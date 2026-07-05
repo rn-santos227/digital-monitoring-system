@@ -18,6 +18,7 @@ import type {
   UpdateAccountTypePayload,
   UserAccountDetailEndpointResponse,
 } from '~/types/domain/users'
+import type { AuditLogListQuery, AuditLogListResponse } from '~/types/domain/audit'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
 
@@ -96,6 +97,19 @@ export const getUserProfileViewByIdEndpoint = async (id: string): Promise<UserPr
       headers: createSessionHeaders(),
     })
   }, API_LOADING_MESSAGES.fetchUserProfiles)
+}
+
+export const getUserProfileAuditLogsEndpoint = async (
+  id: string,
+  query: AuditLogListQuery,
+): Promise<AuditLogListResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<AuditLogListResponse>(USER_MANAGEMENT_API_ENDPOINTS.userProfileAuditLogs(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchAuditLogs)
 }
 
 export const updateUserProfileEndpoint = async (
