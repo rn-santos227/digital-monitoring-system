@@ -161,8 +161,14 @@ const visibleRangeQuery = computed(() => {
     const rangeStart = startOfMonthGrid(activeDate.value)
     const rangeEnd = addDays(rangeStart, 41)
 
+    return {
+      viewMode: selectedViewMode.value,
+      date: toDateKey(activeDate.value),
+      rangeStart: toDateKey(rangeStart),
+      rangeEnd: toDateKey(rangeEnd),
+    }
   }
-}
+})
 
 const visibleDays = computed(() => {
   const firstDay = selectedViewMode.value === 'week' ? startOfWeek(activeDate.value) : activeDate.value
