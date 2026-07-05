@@ -11,10 +11,12 @@ export const ENGAGEMENT_RECORDS_PAGE_TABS_ARIA_LABEL = 'Engagement records manag
 export const ENGAGEMENT_RECORDS_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
   { id: 'records', label: 'Records' },
   { id: 'engagements', label: 'Engagements' },
+  { id: 'calendar', label: 'Calendar' },
 ])
 export const ENGAGEMENT_RECORDS_PAGE_TAB_REQUIRED_PERMISSIONS = Object.freeze({
   engagements: Object.freeze(['engagement.manage']),
   records: Object.freeze(['engagement.manage']),
+  calendar: Object.freeze(['engagement.manage']),
 })
 
 export const ENGAGEMENT_CREATE_TYPE_OPTIONS = Object.freeze([
