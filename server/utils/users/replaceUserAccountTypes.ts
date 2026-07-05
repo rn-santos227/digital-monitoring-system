@@ -13,6 +13,10 @@ interface ReplaceUserAccountTypesParams {
 export async function replaceUserAccountTypes(params: ReplaceUserAccountTypesParams): Promise<UserAccountTypeSummaryRow[]> {
   const { supabase, userId, accountTypeIds, assignedBy } = params
 
+  if (accountTypeIds.length > 1) {
+    throw createError({ statusCode: 400, statusMessage: 'Only one account type can be assigned to a user.' })
+  }
+
   const { data: accountTypeMatches, error: accountTypeLookupError } = await supabase
     .from('account_types')
     .select(ACCOUNT_TYPE_SUMMARY_SELECT_COLUMNS)
