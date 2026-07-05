@@ -193,6 +193,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
+import OperationsCalendar from '~/components/calendar/OperationsCalendar.vue'
 import CreateTrainingModal from '~/components/trainings/CreateTrainingModal.vue'
 import CreateTrainingRecordModal from '~/components/trainings/CreateTrainingRecordModal.vue'
 import CreateTrainingCategoryModal from '~/components/trainings/CreateTrainingCategoryModal.vue'
@@ -243,6 +244,7 @@ import {
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import type { TrainingCategoryListItem, TrainingListItem, TrainingManagementTabId, TrainingRecordListItem } from '~/types/domain/training'
+import type { CalendarEventsQuery } from '~/types/domain/calendar'
 import type { FieldValidationMap } from '~/utils/field-validation'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 import { getTrainingPersonnelEndpoint } from '~/utils/training-endpoints'
