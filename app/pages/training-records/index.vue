@@ -493,6 +493,10 @@ const createButtonLabel = computed(() => {
 
 const onTabChange = handleTabChange
 
+const onTrainingCalendarRangeChange = async (query: CalendarEventsQuery) => {
+  await loadTrainingCalendarEvents(query).catch(() => {})
+}
+
 const {
   closeUpdateTrainingRecordModal,
   onOpenUpdateTrainingRecordModal,
