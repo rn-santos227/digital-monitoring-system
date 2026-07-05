@@ -161,6 +161,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
+import OperationsCalendar from '~/components/calendar/OperationsCalendar.vue'
 import CreateEngagementModal from '~/components/engagements/CreateEngagementModal.vue'
 import CreateEngagementRecordModal from '~/components/engagements/CreateEngagementRecordModal.vue'
 import EngagementRecordsFilter from '~/components/engagements/EngagementRecordsFilter.vue'
@@ -206,6 +207,7 @@ import type {
   EngagementManagementSearchQuery,
   EngagementRecordsTabId,
 } from '~/types/domain/engagement'
+import type { CalendarEventsQuery } from '~/types/domain/calendar'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
 const activeTab = ref<EngagementRecordsTabId>('engagements')
