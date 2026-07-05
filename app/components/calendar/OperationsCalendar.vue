@@ -149,6 +149,10 @@ const props = withDefaults(
   }
 )
 
+const emit = defineEmits<{
+  visibleRangeChange: [query: { viewMode: CalendarViewMode, date: string, rangeStart: string, rangeEnd: string }]
+}>()
+
 const selectedViewMode = ref<CalendarViewMode>(props.initialViewMode)
 const activeDate = ref(props.initialDate ? startOfDay(new Date(props.initialDate)) : startOfDay(new Date()))
 const selectedDate = ref<Date | null>(null)
@@ -256,8 +260,4 @@ const openDateEvents = (date: Date) => {
 
 const getEventsForDayAndHour = (date: Date, hour: number): CalendarEventItem[] =>
   props.events.filter((event) => eventOccursOnDate(event, date) && (event.allDay || getEventHour(event) === hour))
-
-watch(visibleRangeQuery, (query) => {
-  emit('visibleRangeChange', query)
-}, { immediate: true })
 </script>
