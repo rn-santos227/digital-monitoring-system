@@ -16,12 +16,14 @@ export const TRAINING_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
   { id: 'records', label: 'Records' },
   { id: 'trainings', label: 'Trainings' },
   { id: 'categories', label: 'Categories' },
+  { id: 'calendar', label: 'Calendar' },
 ])
 
 export const TRAINING_PAGE_TAB_REQUIRED_PERMISSIONS: Readonly<Record<TrainingManagementTabId, readonly string[]>> = Object.freeze({
   records: TRAINING_PRIVILEGES.manage,
   trainings: TRAINING_PRIVILEGES.view,
   categories: TRAINING_PRIVILEGES.view,
+  calendar: TRAINING_PRIVILEGES.manage,
 })
 export const TRAINING_PAGE_REQUIRED_PERMISSIONS = TRAINING_PRIVILEGES
 
