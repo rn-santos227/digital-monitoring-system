@@ -156,6 +156,12 @@ const selectedDate = ref<Date | null>(null)
 const calendarTitle = computed(() => formatCalendarTitle(activeDate.value, selectedViewMode.value))
 const monthCells = computed(() => buildMonthCells(activeDate.value, props.events))
 
+const visibleRangeQuery = computed(() => {
+  if (selectedViewMode.value === 'month') {
+
+  }
+}
+
 const visibleDays = computed(() => {
   const firstDay = selectedViewMode.value === 'week' ? startOfWeek(activeDate.value) : activeDate.value
   const dayCount = selectedViewMode.value === 'week' ? 7 : 1
@@ -216,7 +222,7 @@ const moveNext = () => {
 
 const setToday = () => {
   activeDate.value = startOfDay(new Date())
-} <p class="text-sm font-semibold uppercase tracking-wide text-emerald-700">Operations 
+}
 
 const openDateEvents = (date: Date) => {
   selectedDate.value = startOfDay(date)
