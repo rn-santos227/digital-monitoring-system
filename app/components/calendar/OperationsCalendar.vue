@@ -158,6 +158,8 @@ const monthCells = computed(() => buildMonthCells(activeDate.value, props.events
 
 const visibleRangeQuery = computed(() => {
   if (selectedViewMode.value === 'month') {
+    const rangeStart = startOfMonthGrid(activeDate.value)
+    const rangeEnd = addDays(rangeStart, 41)
 
   }
 }
