@@ -1,4 +1,5 @@
 export type UserManagementTabId = 'user-profile' | 'user-account'
+export type UserProfileViewTabId = 'details' | 'activities'
 
 export interface UserProfileRecord {
   id: string
