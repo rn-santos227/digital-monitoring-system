@@ -278,6 +278,10 @@ const engagementCalendarEvents = computed(() => engagementsStore.calendar.items)
 const isEngagementCalendarLoading = computed(() => engagementsStore.calendar.isLoading)
 const engagementCalendarError = computed(() => engagementsStore.calendar.error)
 
+const onEngagementCalendarRangeChange = async (query: CalendarEventsQuery) => {
+  await loadEngagementCalendarEvents(query).catch(() => {})
+}
+
 const updateFormValues = computed(() => ({
   engagementTitle: selectedEngagement.value?.engagementTitle ?? '',
   engagementTypeId: selectedEngagement.value?.engagementTypeId ?? '',
