@@ -81,7 +81,6 @@ import {
   USERS_PROFILE_ACCOUNT_TYPES_EMPTY_MESSAGE,
   USERS_PROFILE_ACCOUNT_TYPES_LABEL,
   USERS_PROFILE_AVATAR_HELPER,
-  USERS_PROFILE_AVATAR_LABEL,
   USERS_PROFILE_AVATAR_URL_LABEL,
   USERS_PROFILE_AVATAR_URL_PLACEHOLDER,
   USERS_PROFILE_EMAIL_LABEL,
@@ -91,7 +90,7 @@ import {
   USERS_PROFILE_UPDATE_MODAL_DESCRIPTION,
   USERS_PROFILE_UPDATE_MODAL_TITLE,
 } from '~/constants/page.constants'
-import type { SelectOption } from '~/types/domain/misc'
+import type { RadioOption } from '~/types/domain/misc'
 import type { UpdateUserProfilePayload } from '~/types/domain/users'
 import type { PersonnelSuggestion } from '~/types/domain/personnel'
 import { uploadFileEndpoint } from '~/utils/file-management-endpoints'
@@ -101,7 +100,7 @@ import { validateUpdateUserProfileForm } from '~/utils/users-validation'
 
 const props = withDefaults(
   defineProps<{
-    accountTypeOptions: SelectOption[]
+    accountTypeOptions: RadioOption[]
     initialValues: {
       personnelId: string | null
       email: string
@@ -138,16 +137,12 @@ const avatarUploadHelperText = computed(() => {
   return `${USERS_PROFILE_AVATAR_HELPER} Max size: ${maxSizeLabel}.`
 })
 
-const isSelected = (accountTypeId: string) => form.accountTypeIds.includes(accountTypeId)
-
-const onAccountTypeToggle = (accountTypeId: string, checked: boolean) => {
-  if (checked) {
-    form.accountTypeIds = [...form.accountTypeIds, accountTypeId]
-    return
-  }
-
-  form.accountTypeIds = form.accountTypeIds.filter((existingId) => existingId !== accountTypeId)
-}
+const selectedAccountTypeId = computed({
+  get: () => form.accountTypeIds[0] ?? '',
+  set: (accountTypeId: string) => {
+    form.accountTypeIds = accountTypeId ? [accountTypeId] : []
+  },
+})
 
 const onAvatarFileSelected = (file: File | null) => {
   delete errors.avatarFile
