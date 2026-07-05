@@ -131,13 +131,21 @@ import {
 const props = withDefaults(
   defineProps<{
     events?: CalendarEventItem[]
+    eyebrow?: string
+    description?: string
     initialDate?: string
     initialViewMode?: CalendarViewMode
+    isLoading?: boolean
+    errorMessage?: string
   }>(),
   {
     events: () => [],
+    eyebrow: 'Operations calendar',
+    description: 'View scheduled records by day, week, or month.',
     initialDate: undefined,
     initialViewMode: 'month',
+    isLoading: false,
+    errorMessage: '',
   }
 )
 
