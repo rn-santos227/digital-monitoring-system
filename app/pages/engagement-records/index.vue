@@ -243,6 +243,7 @@ const {
   getEngagementRecordById,
   updateEngagementRecord,
   deleteEngagementRecord,
+  loadEngagementCalendarEvents,
 } = useEngagements()
 
 const visibleTabItems = computed(() => {
@@ -273,6 +274,9 @@ const engagementsPagination = computed(() => engagementsStore.engagements.pagina
 const engagementRecordsPagination = computed(() => engagementsStore.records.pagination)
 const totalEngagements = computed(() => engagementsStore.kpis.totalEngagements)
 const totalEngagementRecords = computed(() => engagementsStore.kpis.totalEngagementRecords)
+const engagementCalendarEvents = computed(() => engagementsStore.calendar.items)
+const isEngagementCalendarLoading = computed(() => engagementsStore.calendar.isLoading)
+const engagementCalendarError = computed(() => engagementsStore.calendar.error)
 
 const updateFormValues = computed(() => ({
   engagementTitle: selectedEngagement.value?.engagementTitle ?? '',
