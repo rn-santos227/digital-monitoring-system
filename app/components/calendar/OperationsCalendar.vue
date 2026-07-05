@@ -103,8 +103,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
+import BaseAlert from '~/components/ui/BaseAlert.vue'
 import BaseButton from '~/components/ui/BaseButton.vue'
+import BaseInlineLoader from '~/components/ui/BaseInlineLoader.vue'
 import BaseTab from '~/components/ui/BaseTab.vue'
 import CalendarEventsModal from './CalendarEventsModal.vue'
 import {
@@ -120,8 +122,10 @@ import {
   eventOccursOnDate,
   formatCalendarTitle,
   getEventHour,
+  startOfMonthGrid,
   startOfDay,
   startOfWeek,
+  toDateKey,
 } from '~/utils/calendar'
 
 const props = withDefaults(
