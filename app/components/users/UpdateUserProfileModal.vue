@@ -49,17 +49,13 @@
           {{ USERS_PROFILE_ACCOUNT_TYPES_EMPTY_MESSAGE }}
         </p>
 
-        <div v-else class="grid gap-3 md:grid-cols-2">
-          <BaseCheckbox
-            v-for="accountType in accountTypeOptions"
-            :key="accountType.value"
-            :model-value="isSelected(accountType.value)"
-            :label="accountType.label"
-            @update:model-value="onAccountTypeToggle(accountType.value, $event)"
-          />
-        </div>
-
-        <p v-if="errors.accountTypeIds" class="text-sm text-rose-600">{{ errors.accountTypeIds }}</p>
+        <BaseRadioGroup
+          v-else
+          v-model="selectedAccountTypeId"
+          :options="accountTypeOptions"
+          name="user-account-type"
+          :error="errors.accountTypeIds"
+        />
       </fieldset>
     </form>
 
