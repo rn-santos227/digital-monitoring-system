@@ -43,7 +43,7 @@ export const buildUserProfileUpdates = (body: UpdateUserProfileRequest): UserPro
 }
 
 export const normalizeAccountTypeIds = (accountTypeIds: unknown): string[] | null => {
-  return normalizeUniqueStringArray(accountTypeIds)
+  const normalizedAccountTypeIds = normalizeUniqueStringArray(accountTypeIds)
 }
 
 const normalizeUniqueStringArray = (value: unknown): string[] | null => {
