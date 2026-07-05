@@ -176,16 +176,12 @@ const avatarUploadHelperText = computed(() => {
   return `${USERS_PROFILE_AVATAR_HELPER} Max size: ${maxSizeLabel}.`
 })
 
-const isSelected = (accountTypeId: string) => form.accountTypeIds.includes(accountTypeId)
-
-const onAccountTypeToggle = (accountTypeId: string, checked: boolean) => {
-  if (checked) {
-    form.accountTypeIds = [...form.accountTypeIds, accountTypeId]
-    return
-  }
-
-  form.accountTypeIds = form.accountTypeIds.filter((existingId) => existingId !== accountTypeId)
-}
+const selectedAccountTypeId = computed({
+  get: () => form.accountTypeIds[0] ?? '',
+  set: (accountTypeId: string) => {
+    form.accountTypeIds = accountTypeId ? [accountTypeId] : []
+  },
+})
 
 const onAvatarFileSelected = (file: File | null) => {
   delete errors.avatarFile
