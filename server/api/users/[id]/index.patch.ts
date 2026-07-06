@@ -60,6 +60,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   const supabase = getServiceSupabaseClient()
   const existingProfile = await getUserProfileById<{
     personnel_id: string | null
+    email: string
     full_name: string
     avatar_url: string | null
   }>(supabase, id, USER_PROFILE_SUMMARY_SELECT_COLUMNS, 'Failed to read existing user profile')
@@ -95,6 +96,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
           .from('user_profiles')
           .update({
             personnel_id: existingProfile.personnel_id,
+            email: existingProfile.email,
             full_name: existingProfile.full_name,
             avatar_url: existingProfile.avatar_url,
           })
