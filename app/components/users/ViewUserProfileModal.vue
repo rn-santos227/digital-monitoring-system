@@ -147,4 +147,10 @@ const onActivityPageSizeChange = async (pageSize: number) => {
   activityPage.value = 1
   await fetchActivities()
 }
+
+watch(activeTab, async (tab) => {
+  if (tab === 'activities' && activityItems.value.length === 0 && !activityError.value) {
+    await fetchActivities()
+  }
+})
 </script>
