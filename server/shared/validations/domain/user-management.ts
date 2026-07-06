@@ -25,6 +25,16 @@ export const buildUserProfileUpdates = (body: UpdateUserProfileRequest): UserPro
     updates.personnel_id = body.personnelId
   }
 
+  if (body.email !== undefined) {
+    const email = normalizeOptionalText(body.email)?.toLowerCase()
+
+    if (!email || !isValidEmail(email)) {
+      throw createError({ statusCode: 400, statusMessage: 'A valid email is required.' })
+    }
+
+    updates.email = email
+  }
+
   if (body.fullName !== undefined) {
     const fullName = normalizeOptionalText(body.fullName)
 
