@@ -22,9 +22,11 @@ import { updateUserEmailById } from '../../../utils/users/updateUserEmailById'
 import { validateUserPersonnelAssignment } from '../../../utils/users/validateUserPersonnelAssignment'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
-  const actor = await requirePermission(event, PERMISSION_CODES.userUpdate)
+  const actor = await requireAuth(event)
   const id = requireRouteId(getRouterParam(event, 'id'), 'User profile id is required.')
   const body = await readBody<UpdateUserProfileRequest>(event)
+  const isSelfUpdate = actor.id === id
+  const canUpdateUsers = actor.permission_codes.includes(PERMISSION_CODES.userUpdate)
 
   if (typeof body.isActive !== 'undefined') {
     throw createError({
