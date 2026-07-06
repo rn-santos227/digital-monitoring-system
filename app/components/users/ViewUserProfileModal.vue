@@ -15,7 +15,22 @@
 
       <template v-if="activeTab === 'details'">
         <dl class="grid grid-cols-1 gap-3 md:grid-cols-2">
-          
+          <div>
+            <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500">{{ USERS_PROFILE_FULL_NAME_LABEL }}</dt>
+            <dd class="text-sm text-slate-900">{{ profile.fullName }}</dd>
+          </div>
+          <div>
+            <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500">{{ USERS_PROFILE_EMAIL_LABEL }}</dt>
+            <dd class="text-sm text-slate-900">{{ profile.email }}</dd>
+          </div>
+          <div>
+            <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500">Status</dt>
+            <dd class="text-sm text-slate-900">{{ profile.isActive ? 'Active' : 'Inactive' }}</dd>
+          </div>
+          <div>
+            <dt class="text-xs font-semibold uppercase tracking-wide text-slate-500">Personnel ID</dt>
+            <dd class="text-sm text-slate-900">{{ profile.personnelId || '—' }}</dd>
+          </div>
         </dl>
       </template>
     </div>
