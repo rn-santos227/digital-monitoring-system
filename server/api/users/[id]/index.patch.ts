@@ -28,6 +28,10 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   const isSelfUpdate = actor.id === id
   const canUpdateUsers = actor.permission_codes.includes(PERMISSION_CODES.userUpdate)
 
+  if (!isSelfUpdate && !canUpdateUsers) {
+    throw createError({ statusCode: 403, statusMessage: `Missing required permission: ${PERMISSION_CODES.userUpdate}` })
+  
+
   if (typeof body.isActive !== 'undefined') {
     throw createError({
       statusCode: 400,
