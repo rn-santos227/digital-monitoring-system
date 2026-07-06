@@ -67,6 +67,13 @@ import {
   USERS_PROFILE_VIEW_TAB_ITEMS,
   USERS_PROFILE_VIEW_TAB_REQUIRED_PERMISSIONS,
 } from '~/constants/page.constants'
+import { AUDIT_TABLE_COLUMNS } from '~/constants/table.constants'
+import { useAuthStore } from '~/stores/auth'
+import type { AuditLogListItem, AuditLogTableRow } from '~/types/domain/audit'
+import type { UserProfileViewRecord, UserProfileViewTabId } from '~/types/domain/users'
+import { mapAuditLogItemToTableRow } from '~/utils/audit'
+import { extractApiErrorMessage } from '~/utils/api-request'
+import { getUserProfileAuditLogsEndpoint } from '~/utils/users-endpoints'
 
 defineProps<{
   profile: UserProfileViewRecord
