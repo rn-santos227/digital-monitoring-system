@@ -106,5 +106,8 @@ const activityRows = computed<AuditLogTableRow[]>(() => {
   return activityItems.value.map(mapAuditLogItemToTableRow)
 })
 
+const activityEmptyMessage = computed(() => {
+  return activityError.value || USERS_PROFILE_ACTIVITIES_EMPTY_MESSAGE
+})
 
 </script>
