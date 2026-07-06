@@ -92,4 +92,12 @@ const activityTotalItems = ref(0)
 const activityTotalPages = ref(0)
 const isLoadingActivities = ref(false)
 const activityError = ref('')
+
+const visibleTabItems = computed(() => {
+  return USERS_PROFILE_VIEW_TAB_ITEMS.filter((item) => {
+    const tabId = item.id as UserProfileViewTabId
+    return authStore.hasPermissionAccess(USERS_PROFILE_VIEW_TAB_REQUIRED_PERMISSIONS[tabId])
+  })
+})
+
 </script>
