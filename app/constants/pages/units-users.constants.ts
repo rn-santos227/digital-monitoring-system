@@ -1,11 +1,12 @@
 import type { BaseTabItem } from '~/constants/ui.constants'
 import {
   ACCOUNT_TYPE_PRIVILEGES,
+  AUDIT_PRIVILEGES,
   BATTALION_PRIVILEGES,
   COMPANY_PRIVILEGES,
   USER_PROFILE_PRIVILEGES,
 } from '~/constants/privileges.constants'
-import type { UserManagementTabId } from '~/types/domain/users'
+import type { UserManagementTabId, UserProfileViewTabId } from '~/types/domain/users'
 import type { UnitManagementTabId } from '~/types/domain/units'
 export const UNITS_PAGE_TITLE = 'Battalions and Companies'
 export const UNITS_PAGE_SUBTITLE =
@@ -262,6 +263,21 @@ export const USERS_PROFILE_VIEW_MODAL_TITLE = 'User Profile Details'
 export const USERS_PROFILE_VIEW_MODAL_DESCRIPTION = 'Review account details and access assignments.'
 export const USERS_PROFILE_GENERATE_PASSWORD_LABEL = 'Generate Password'
 export const USERS_PROFILE_VIEW_EMPTY_ACCOUNT_TYPES = 'No account type assigned.'
+export const USERS_PROFILE_VIEW_TAB_ARIA_LABEL = 'User profile details tabs'
+export const USERS_PROFILE_VIEW_DETAILS_TAB_LABEL = 'Details'
+export const USERS_PROFILE_VIEW_ACTIVITIES_TAB_LABEL = 'Activities'
+export const USERS_PROFILE_VIEW_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
+  { id: 'details', label: USERS_PROFILE_VIEW_DETAILS_TAB_LABEL },
+  { id: 'activities', label: USERS_PROFILE_VIEW_ACTIVITIES_TAB_LABEL },
+])
+export const USERS_PROFILE_VIEW_TAB_REQUIRED_PERMISSIONS: Readonly<Record<UserProfileViewTabId, readonly string[]>> = Object.freeze({
+  details: USER_PROFILE_PRIVILEGES.view,
+  activities: AUDIT_PRIVILEGES.view,
+})
+export const USERS_PROFILE_ACTIVITIES_TITLE = 'User Activities'
+export const USERS_PROFILE_ACTIVITIES_EMPTY_MESSAGE = 'No activities recorded for this user.'
+export const USERS_PROFILE_ACTIVITIES_LOADING_LABEL = 'Loading user activities...'
+export const USERS_PROFILE_ACTIVITIES_ERROR_MESSAGE = 'Unable to load user activities.'
 export const USERS_MODAL_CLOSE_LABEL = 'Close'
 
 export const USERS_ACCOUNT_CREATE_MODAL_TITLE = 'Create Account Type'
