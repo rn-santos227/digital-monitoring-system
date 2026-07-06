@@ -117,5 +117,13 @@ const fetchActivities = async () => {
 
   isLoadingActivities.value = true
   activityError.value = ''
+
+  try {
+
+  } catch (error) {
+
+  } finally {
+    isLoadingActivities.value = false
+  }
 }
 </script>
