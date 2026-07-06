@@ -78,6 +78,10 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
           })
         }
 
+        if (updates.email && updates.email !== existingProfile.email) {
+          await updateUserEmailById(supabase, id, updates.email)
+        }
+
         if (Object.keys(updates).length > 0) {
           await updateUserProfileFieldsById(supabase, id, updates)
         }
