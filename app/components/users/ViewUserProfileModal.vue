@@ -101,4 +101,10 @@ const visibleTabItems = computed(() => {
 })
 
 const canViewActivities = computed(() => authStore.hasPermissionAccess(AUDIT_PRIVILEGES.view))
+
+const activityRows = computed<AuditLogTableRow[]>(() => {
+  return activityItems.value.map(mapAuditLogItemToTableRow)
+})
+
+
 </script>
