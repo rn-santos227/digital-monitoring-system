@@ -45,6 +45,24 @@
           <p v-else class="mt-2 text-sm text-slate-500">{{ USERS_PROFILE_VIEW_EMPTY_ACCOUNT_TYPES }}</p>
         </div>
       </template>
+
+      <DataTable
+        v-else
+        :title="USERS_PROFILE_ACTIVITIES_TITLE"
+        :columns="AUDIT_TABLE_COLUMNS"
+        :rows="activityRows"
+        row-key="id"
+        :show-search="false"
+        :empty-message="activityEmptyMessage"
+        :is-loading="isLoadingActivities"
+        :loading-label="USERS_PROFILE_ACTIVITIES_LOADING_LABEL"
+        :current-page="activityPage"
+        :total-pages="activityTotalPages"
+        :total-items="activityTotalItems"
+        :page-size="activityPageSize"
+        @update:current-page="onActivityPageChange"
+        @update:page-size="onActivityPageSizeChange"
+      />
     </div>
   </BaseModal>
 </template>
