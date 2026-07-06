@@ -128,6 +128,10 @@ const fetchActivities = async () => {
     activityTotalItems.value = response.totalItems
     activityTotalPages.value = response.totalPages
   } catch (error) {
+    activityItems.value = []
+    activityTotalItems.value = 0
+    activityTotalPages.value = 0
+    activityError.value = extractApiErrorMessage(error, USERS_PROFILE_ACTIVITIES_ERROR_MESSAGE)
 
   } finally {
     isLoadingActivities.value = false
