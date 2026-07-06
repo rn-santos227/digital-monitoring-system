@@ -124,7 +124,9 @@ const fetchActivities = async () => {
       pageSize: activityPageSize.value,
     })
 
-
+    activityItems.value = response.items
+    activityTotalItems.value = response.totalItems
+    activityTotalPages.value = response.totalPages
   } catch (error) {
 
   } finally {
