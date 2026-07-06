@@ -30,7 +30,14 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
 
   if (!isSelfUpdate && !canUpdateUsers) {
     throw createError({ statusCode: 403, statusMessage: `Missing required permission: ${PERMISSION_CODES.userUpdate}` })
-  
+  }
+
+  if (isSelfUpdate && !canUpdateUsers && (body.personnelId !== undefined || body.accountTypeIds !== undefined)) {
+    throw createError({
+      statusCode: 403,
+      statusMessage: 'You can only update your own email, full name, avatar, and password without user management privileges.',
+    })
+  }
 
   if (typeof body.isActive !== 'undefined') {
     throw createError({
