@@ -97,6 +97,7 @@ export interface UserProfileCreate {
 
 export interface UserProfileUpdate {
   personnel_id?: string | null
+  email?: string
   full_name?: string
   avatar_url?: string | null
 }
