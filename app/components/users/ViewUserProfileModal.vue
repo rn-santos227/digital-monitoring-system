@@ -119,6 +119,11 @@ const fetchActivities = async () => {
   activityError.value = ''
 
   try {
+    const response = await getUserProfileAuditLogsEndpoint(props.profile.id, {
+      page: activityPage.value,
+      pageSize: activityPageSize.value,
+    })
+
 
   } catch (error) {
 
