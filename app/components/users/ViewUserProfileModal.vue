@@ -32,6 +32,18 @@
             <dd class="text-sm text-slate-900">{{ profile.personnelId || '—' }}</dd>
           </div>
         </dl>
+        <div>
+          <h3 class="text-sm font-semibold text-slate-700">{{ USERS_PROFILE_ACCOUNT_TYPES_LABEL }}</h3>
+          <div v-if="profile.accountTypes.length" class="mt-2 flex flex-wrap gap-2">
+            <BaseChip
+              v-for="accountType in profile.accountTypes"
+              :key="accountType.id"
+              :label="`${accountType.name} (${accountType.code})`"
+              tone="info"
+            />
+          </div>
+          <p v-else class="mt-2 text-sm text-slate-500">{{ USERS_PROFILE_VIEW_EMPTY_ACCOUNT_TYPES }}</p>
+        </div>
       </template>
     </div>
   </BaseModal>
