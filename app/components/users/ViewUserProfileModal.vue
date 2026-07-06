@@ -100,4 +100,5 @@ const visibleTabItems = computed(() => {
   })
 })
 
+const canViewActivities = computed(() => authStore.hasPermissionAccess(AUDIT_PRIVILEGES.view))
 </script>
