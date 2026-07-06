@@ -12,6 +12,12 @@
         :items="visibleTabItems"
         :aria-label="USERS_PROFILE_VIEW_TAB_ARIA_LABEL"
       />
+
+      <template v-if="activeTab === 'details'">
+        <dl class="grid grid-cols-1 gap-3 md:grid-cols-2">
+          
+        </dl>
+      </template>
     </div>
   </BaseModal>
 </template>
