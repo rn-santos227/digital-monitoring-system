@@ -132,9 +132,13 @@ const fetchActivities = async () => {
     activityTotalItems.value = 0
     activityTotalPages.value = 0
     activityError.value = extractApiErrorMessage(error, USERS_PROFILE_ACTIVITIES_ERROR_MESSAGE)
-
   } finally {
     isLoadingActivities.value = false
   }
+}
+
+const onActivityPageChange = async (page: number) => {
+  activityPage.value = page
+  await fetchActivities()
 }
 </script>
