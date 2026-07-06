@@ -10,6 +10,7 @@ import {
 } from '../../../shared/constants'
 import { buildUserProfileUpdates, normalizeAccountTypeIds, requireRouteId } from '../../../shared/validations'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
+import { requireAuth } from '../../../utils/auth/requireAuth'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { getUserAccountTypeIdsByUserId } from '../../../utils/users/getUserAccountTypeIdsByUserId'
@@ -17,6 +18,7 @@ import { getUserProfileById } from '../../../utils/users/getUserProfileById'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
 import { replaceUserAccountTypes } from '../../../utils/users/replaceUserAccountTypes'
 import { updateUserProfileFieldsById } from '../../../utils/users/updateUserProfileFieldsById'
+import { updateUserEmailById } from '../../../utils/users/updateUserEmailById'
 import { validateUserPersonnelAssignment } from '../../../utils/users/validateUserPersonnelAssignment'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
