@@ -75,7 +75,7 @@ import { mapAuditLogItemToTableRow } from '~/utils/audit'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { getUserProfileAuditLogsEndpoint } from '~/utils/users-endpoints'
 
-defineProps<{
+const props = defineProps<{
   profile: UserProfileViewRecord
 }>()
 
