@@ -96,6 +96,10 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
         }
       },
       rollback: async () => {
+        if (updates.email && updates.email !== existingProfile.email) {
+          await updateUserEmailById(supabase, id, existingProfile.email)
+        }
+
         const { error: profileRollbackError } = await supabase
           .from('user_profiles')
           .update({
