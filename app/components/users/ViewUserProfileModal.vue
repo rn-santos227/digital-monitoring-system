@@ -110,4 +110,11 @@ const activityEmptyMessage = computed(() => {
   return activityError.value || USERS_PROFILE_ACTIVITIES_EMPTY_MESSAGE
 })
 
+const fetchActivities = async () => {
+  if (!canViewActivities.value) {
+    return
+  }
+
+
+}
 </script>
