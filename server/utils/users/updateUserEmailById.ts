@@ -7,4 +7,7 @@ export async function updateUserEmailById(supabase: SupabaseClient, userId: stri
     email_confirm: true,
   })
 
+  if (error) {
+    throw createError({ statusCode: 500, statusMessage: `Failed to update user email: ${error.message}` })
+  }
 }
