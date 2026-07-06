@@ -82,4 +82,14 @@ const props = defineProps<{
 const emit = defineEmits<{
   (event: 'close'): void
 }>()
+
+const authStore = useAuthStore()
+const activeTab = ref<UserProfileViewTabId>('details')
+const activityItems = ref<AuditLogListItem[]>([])
+const activityPage = ref(1)
+const activityPageSize = ref(10)
+const activityTotalItems = ref(0)
+const activityTotalPages = ref(0)
+const isLoadingActivities = ref(false)
+const activityError = ref('')
 </script>
