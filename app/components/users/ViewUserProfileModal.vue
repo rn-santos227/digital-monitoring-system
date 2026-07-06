@@ -141,4 +141,10 @@ const onActivityPageChange = async (page: number) => {
   activityPage.value = page
   await fetchActivities()
 }
+
+const onActivityPageSizeChange = async (pageSize: number) => {
+  activityPageSize.value = pageSize
+  activityPage.value = 1
+  await fetchActivities()
+}
 </script>
