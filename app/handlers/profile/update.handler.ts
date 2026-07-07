@@ -46,4 +46,13 @@ export const useProfileSettingsUpdateHandler = ({
       fallbackMessage: 'Unable to update your profile settings right now.',
     })
   }
+
+  const onSaveDetails = async (payload: ProfileDetailsPayload) => {
+    try {
+      await saveDetails(payload)
+      await showSuccess()
+    } catch (error) {
+      await handleFailure(error)
+    }
+  }
 }
