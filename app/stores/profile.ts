@@ -17,6 +17,13 @@ const INITIAL_PROFILE_SETTINGS_STATE: ProfileSettingsState = {
 }
 
 const profileSettingsStoreOptions = {
+  state: (): ProfileSettingsState => ({ ...INITIAL_PROFILE_SETTINGS_STATE }),
+
+  getters: {
+    isPasswordTab: (state: ProfileSettingsState) => state.activeTab === 'password',
+  },
+
+
 
 }
 
