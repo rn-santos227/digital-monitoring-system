@@ -23,3 +23,12 @@ export const updateProfileEmailEndpoint = async (userId: string, payload: Profil
   }, API_LOADING_MESSAGES.updateUserProfile)
 }
 
+export const updateProfileOtherDetailsEndpoint = async (userId: string, payload: ProfileOtherDetailsPayload): Promise<{ ok: true }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: true }>(USER_MANAGEMENT_API_ENDPOINTS.userProfileById(userId), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updateUserProfile)
+}
