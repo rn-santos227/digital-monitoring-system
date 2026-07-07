@@ -37,4 +37,13 @@ export const useProfileSettingsUpdateHandler = ({
       confirmLabel: 'OK',
     })
   }
+
+  const handleFailure = async (error: unknown) => {
+    await showErrorDialog({
+      showDialog,
+      title: 'Unable to update profile',
+      error,
+      fallbackMessage: 'Unable to update your profile settings right now.',
+    })
+  }
 }
