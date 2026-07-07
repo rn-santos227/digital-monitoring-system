@@ -43,3 +43,9 @@ export const validateProfileEmailForm = (form: { email: string }): FormValidatio
     ? { payload: null, errors: { ...fieldValidation.errors } }
     : { payload: { email }, errors: {} }
 }
+
+export const validateProfileOtherDetailsForm = (form: { avatarUrl: string }): FormValidationResult<ProfileOtherDetailsPayload> => ({
+  payload: { avatarUrl: form.avatarUrl.trim() || null },
+  errors: {},
+})
+
