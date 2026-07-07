@@ -33,6 +33,21 @@
           </div>
         </template>
       </BaseMenu>
+
+      <ProfileSettingsModal
+        v-if="isProfileSettingsOpen"
+        :active-tab="profileSettingsActiveTab"
+        :user="currentUser"
+        :is-submitting="isProfileSettingsSubmitting"
+        :warning-message="profileSettingsWarning"
+        :error-message="profileSettingsError"
+        @close="closeProfileSettings"
+        @update:active-tab="setProfileSettingsActiveTab"
+        @save-details="onSaveDetails"
+        @save-email="onSaveEmail"
+        @save-other-details="onSaveOtherDetails"
+        @save-password="onSavePassword"
+      />
     </div>
   </header>
 </template>
@@ -44,6 +59,7 @@ import { DASHBOARD_SEARCH_PLACEHOLDER, HEADER_ACCOUNT_MENU_ITEMS } from '~/const
 import { APP_HEADER_CLASSES, APP_SURFACE_THEME_CLASSES } from '~/constants/ui.constants'
 import type { BaseMenuItem } from '~/types/domain/misc'
 import { useLogoutHandler } from '~/handlers'
+import { useProfileSettings } from '~/composables/useProfileSettings'
 import { useAuthStore } from '~/stores/auth'
 import { useApplicationSettingsStore } from '~/stores/application-settings'
 
@@ -72,8 +88,32 @@ const onSearch = (value: string) => {
 }
 
 const { handleLogout } = useLogoutHandler()
+const {
+  activeTab: profileSettingsActiveTab,
+  error: profileSettingsError,
+  isOpen: isProfileSettingsOpen,
+  isSubmitting: isProfileSettingsSubmitting,
+  warning: profileSettingsWarning,
+  closeSettings: closeProfileSettings,
+  openSettings: openProfileSettings,
+  setActiveTab: setProfileSettingsActiveTab,
+  onSaveDetails,
+  onSaveEmail,
+  onSaveOtherDetails,
+  onSavePassword,
+} = useProfileSettings()
 
 const onMenuSelect = async (item: BaseMenuItem) => {
+  if (item.value === 'profile' || item.value === 'my-account') {
+    openProfileSettings('details')
+    return
+  }
+
+  if (item.value === 'settings') {
+    openProfileSettings('other')
+    return
+  }
+
   if (item.value === 'logout') {
     await handleLogout()
   }
