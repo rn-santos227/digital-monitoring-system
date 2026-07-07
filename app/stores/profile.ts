@@ -16,3 +16,8 @@ const INITIAL_PROFILE_SETTINGS_STATE: ProfileSettingsState = {
   warning: '',
 }
 
+const profileSettingsStoreOptions = {
+
+}
+
+export const useProfileStore = defineStore('profile', profileSettingsStoreOptions)
