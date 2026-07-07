@@ -8,4 +8,11 @@ import {
 } from '~/utils/profile-settings-endpoints'
 import { extractApiErrorMessage } from '~/utils/api-request'
 
+const INITIAL_PROFILE_SETTINGS_STATE: ProfileSettingsState = {
+  isOpen: false,
+  activeTab: 'details',
+  isSubmitting: false,
+  error: '',
+  warning: '',
+}
 
