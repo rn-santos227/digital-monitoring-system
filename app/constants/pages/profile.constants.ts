@@ -19,3 +19,7 @@ export const PROFILE_SETTINGS_CONFIRM_PASSWORD_PLACEHOLDER = 'Re-enter your new 
 export const PROFILE_SETTINGS_SAVE_DETAILS_LABEL = 'Save details'
 export const PROFILE_SETTINGS_SAVE_EMAIL_LABEL = 'Save email'
 export const PROFILE_SETTINGS_SAVE_OTHER_LABEL = 'Save other details'
+export const PROFILE_SETTINGS_CHANGE_PASSWORD_LABEL = 'Change password'
+export const PROFILE_SETTINGS_CLOSE_LABEL = 'Close'
+export const PROFILE_SETTINGS_PASSWORD_CONFIRMATION_MESSAGE = 'Confirm this password change. You will use the new password the next time you sign in.'
+export const PROFILE_SETTINGS_SUCCESS_MESSAGE = 'Your user settings have been updated successfully.'
