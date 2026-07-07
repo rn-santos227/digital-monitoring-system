@@ -32,3 +32,13 @@ export const updateProfileOtherDetailsEndpoint = async (userId: string, payload:
     })
   }, API_LOADING_MESSAGES.updateUserProfile)
 }
+
+export const updateProfilePasswordEndpoint = async (userId: string, payload: ProfilePasswordPayload): Promise<{ ok: true }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: true }>(USER_MANAGEMENT_API_ENDPOINTS.userProfilePassword(userId), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updateUserPassword)
+}
