@@ -4,3 +4,6 @@ export interface ProfileDetailsPayload {
   fullName: string
 }
 
+export interface ProfileEmailPayload {
+  email: string
+}
