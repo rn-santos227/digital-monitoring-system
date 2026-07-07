@@ -7,3 +7,9 @@ export interface ProfileDetailsPayload {
 export interface ProfileEmailPayload {
   email: string
 }
+
+export interface ProfileOtherDetailsPayload {
+  avatarUrl: string | null
+}
+
+
