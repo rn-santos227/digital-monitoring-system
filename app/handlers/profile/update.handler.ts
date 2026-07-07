@@ -64,4 +64,37 @@ export const useProfileSettingsUpdateHandler = ({
       await handleFailure(error)
     }
   }
+
+
+  const onSaveOtherDetails = async (payload: ProfileOtherDetailsPayload) => {
+    try {
+      await saveOtherDetails(payload)
+      await showSuccess()
+    } catch (error) {
+      await handleFailure(error)
+    }
+  }
+
+  const onSavePassword = async (payload: ProfilePasswordPayload) => {
+    const confirmation = await showDialog({
+      type: 'warning',
+      title: 'Confirm password change',
+      message: PROFILE_SETTINGS_PASSWORD_CONFIRMATION_MESSAGE,
+      confirmLabel: 'Change password',
+      cancelLabel: 'Cancel',
+    })
+
+    if (!confirmation.confirmed) {
+      return
+    }
+
+    try {
+      await savePassword(payload)
+      await showSuccess()
+    } catch (error) {
+      await handleFailure(error)
+    }
+  }
+
+  return { onSaveDetails, onSaveEmail, onSaveOtherDetails, onSavePassword }
 }
