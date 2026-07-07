@@ -11,4 +11,11 @@ import type {
 } from '~/types/domain/profile'
 import { showErrorDialog } from '~/utils/error-handling'
 
+interface UseProfileSettingsUpdateHandlerOptions {
+  refreshSession: () => Promise<void>
+  saveDetails: (payload: ProfileDetailsPayload) => Promise<void>
+  saveEmail: (payload: ProfileEmailPayload) => Promise<void>
+  saveOtherDetails: (payload: ProfileOtherDetailsPayload) => Promise<void>
+  savePassword: (payload: ProfilePasswordPayload) => Promise<void>
+}
 
