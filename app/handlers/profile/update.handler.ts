@@ -26,6 +26,15 @@ export const useProfileSettingsUpdateHandler = ({
   saveOtherDetails,
   savePassword,
 }: UseProfileSettingsUpdateHandlerOptions) => {
+  const { showDialog } = useDialog()
 
-
+  const showSuccess = async () => {
+    await refreshSession()
+    await showDialog({
+      type: 'success',
+      title: 'Profile updated',
+      message: PROFILE_SETTINGS_SUCCESS_MESSAGE,
+      confirmLabel: 'OK',
+    })
+  }
 }
