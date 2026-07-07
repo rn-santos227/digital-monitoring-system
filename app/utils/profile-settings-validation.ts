@@ -25,3 +25,21 @@ export const validateProfileDetailsForm = (form: { fullName: string }): FormVali
     : { payload: { fullName }, errors: {} }
 }
 
+export const validateProfileEmailForm = (form: { email: string }): FormValidationResult<ProfileEmailPayload> => {
+  const normalizedEmail = form.email.trim().toLowerCase()
+  const fieldValidation = validateFields([
+    {
+      field: 'email',
+      label: 'Email',
+      value: normalizedEmail,
+      required: true,
+      pattern: REGEX_PATTERNS.email,
+      patternMessage: 'Please provide a valid email address.',
+    },
+  ] as const)
+  const email = fieldValidation.values.email ?? ''
+
+  return Object.keys(fieldValidation.errors).length > 0
+    ? { payload: null, errors: { ...fieldValidation.errors } }
+    : { payload: { email }, errors: {} }
+}
