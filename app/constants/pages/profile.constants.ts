@@ -13,3 +13,6 @@ export const PROFILE_SETTINGS_AVATAR_URL_PLACEHOLDER = 'https://example.com/avat
 export const PROFILE_SETTINGS_CURRENT_PASSWORD_LABEL = 'Current password'
 export const PROFILE_SETTINGS_CURRENT_PASSWORD_PLACEHOLDER = 'Enter your current password'
 export const PROFILE_SETTINGS_NEW_PASSWORD_LABEL = 'New password'
+export const PROFILE_SETTINGS_NEW_PASSWORD_PLACEHOLDER = 'Enter a new password'
+export const PROFILE_SETTINGS_CONFIRM_PASSWORD_LABEL = 'Confirm new password'
+export const PROFILE_SETTINGS_CONFIRM_PASSWORD_PLACEHOLDER = 'Re-enter your new password'
