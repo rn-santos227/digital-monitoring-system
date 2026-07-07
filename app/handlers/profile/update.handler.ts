@@ -19,3 +19,13 @@ interface UseProfileSettingsUpdateHandlerOptions {
   savePassword: (payload: ProfilePasswordPayload) => Promise<void>
 }
 
+export const useProfileSettingsUpdateHandler = ({
+  refreshSession,
+  saveDetails,
+  saveEmail,
+  saveOtherDetails,
+  savePassword,
+}: UseProfileSettingsUpdateHandlerOptions) => {
+
+
+}
