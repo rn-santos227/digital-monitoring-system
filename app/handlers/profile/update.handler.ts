@@ -55,4 +55,13 @@ export const useProfileSettingsUpdateHandler = ({
       await handleFailure(error)
     }
   }
+
+  const onSaveEmail = async (payload: ProfileEmailPayload) => {
+    try {
+      await saveEmail(payload)
+      await showSuccess()
+    } catch (error) {
+      await handleFailure(error)
+    }
+  }
 }
