@@ -184,6 +184,7 @@ export interface UpdateUserProfilePayload {
 }
 
 export interface UpdateUserPasswordPayload {
+  currentPassword?: string
   newPassword: string
 }
 
