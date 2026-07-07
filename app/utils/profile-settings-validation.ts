@@ -49,3 +49,26 @@ export const validateProfileOtherDetailsForm = (form: { avatarUrl: string }): Fo
   errors: {},
 })
 
+export const validateProfilePasswordForm = (
+  form: {
+    currentPassword: string
+    newPassword: string
+    confirmPassword: string
+  },
+): FormValidationResult<ProfilePasswordPayload> => {
+  const fieldValidation = validateFields([
+    { field: 'currentPassword', label: 'Current password', value: form.currentPassword, required: true },
+    { field: 'newPassword', label: 'New password', value: form.newPassword, required: true, minLength: PASSWORD_MIN_LENGTH },
+  ] as const)
+  const errors: Record<string, string> = { ...fieldValidation.errors }
+  const currentPassword = fieldValidation.values.currentPassword ?? ''
+  const newPassword = fieldValidation.values.newPassword ?? ''
+
+  if (form.confirmPassword.trim() !== newPassword) {
+    errors.confirmPassword = 'Password confirmation does not match.'
+  }
+
+  return Object.keys(errors).length > 0
+    ? { payload: null, errors }
+    : { payload: { currentPassword, newPassword }, errors }
+}
