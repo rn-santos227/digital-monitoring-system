@@ -13,3 +13,15 @@ interface FormValidationResult<TPayload> {
 }
 
 const PASSWORD_MIN_LENGTH = 8
+
+export const validateProfileDetailsForm = (form: { fullName: string }): FormValidationResult<ProfileDetailsPayload> => {
+  const fieldValidation = validateFields([
+    { field: 'fullName', label: 'Full name', value: form.fullName, required: true },
+  ] as const)
+  const fullName = fieldValidation.values.fullName ?? ''
+
+  return Object.keys(fieldValidation.errors).length > 0
+    ? { payload: null, errors: { ...fieldValidation.errors } }
+    : { payload: { fullName }, errors: {} }
+}
+
