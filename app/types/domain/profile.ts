@@ -17,3 +17,10 @@ export interface ProfilePasswordPayload {
   newPassword: string
 }
 
+export interface ProfileSettingsState {
+  isOpen: boolean
+  activeTab: ProfileSettingsTabId
+  isSubmitting: boolean
+  error: string
+  warning: string
+}
