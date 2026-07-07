@@ -3,3 +3,14 @@ import type { ProfileDetailsPayload, ProfileEmailPayload, ProfileOtherDetailsPay
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
 
+export const updateProfileDetailsEndpoint = async (userId: string, payload: ProfileDetailsPayload): Promise<{ ok: true }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: true }>(USER_MANAGEMENT_API_ENDPOINTS.userProfileById(userId), {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: payload,
+    })
+  }, API_LOADING_MESSAGES.updateUserProfile)
+}
+
+
