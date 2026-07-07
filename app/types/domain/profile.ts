@@ -12,4 +12,8 @@ export interface ProfileOtherDetailsPayload {
   avatarUrl: string | null
 }
 
+export interface ProfilePasswordPayload {
+  currentPassword: string
+  newPassword: string
+}
 
