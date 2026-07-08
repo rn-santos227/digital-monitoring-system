@@ -7,5 +7,17 @@ import { pruneExpiredNotifications } from './pruneExpiredNotifications'
 export const createCachedNotification = (input: CreateNotificationInput): AppNotification => {
   pruneExpiredNotifications()
 
+  const now = Date.now()
+  const notification: AppNotification = {
+    id: randomUUID(),
+    type: input.type,
+    title: input.title,
+    message: input.message,
+    sourceId: input.sourceId ?? null,
+    sourcePath: input.sourcePath ?? null,
+    createdAt: new Date(now).toISOString(),
+    expiresAt: new Date(now + NOTIFICATION_CACHE_TTL_MS).toISOString(),
+    readByUserIds: [],
+  }
 
 }
