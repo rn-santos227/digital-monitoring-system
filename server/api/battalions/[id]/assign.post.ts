@@ -11,6 +11,7 @@ import { getBattalionById } from '../../../utils/battalions/getBattalionById'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
 import { getPersonnelById } from '../../../utils/personnel/getPersonnelById'
 import { updatePersonnelById } from '../../../utils/personnel/updatePersonnelById'
+import { notifyPersonnelAssigned } from '../../../utils/notifications/notifyPersonnelAssigned'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.battalionUpdate)
@@ -80,6 +81,14 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       statusCode: 200,
       outcome: AUDIT_LOG_OUTCOMES.success,
       message: 'Battalion personnel assignment updated successfully.',
+    })
+
+    notifyPersonnelAssigned({
+      personnelName: existingPersonnel.full_name ?? null,
+      personnelCode: existingPersonnel.personnel_code ?? null,
+      unitName: battalion.name,
+      unitType: 'battalion',
+      personnelId,
     })
 
     return { ok: true }
