@@ -4,3 +4,7 @@ export interface NotificationListItem extends Omit<AppNotification, 'readByUserI
   isRead: boolean
 }
 
+export interface NotificationListResponse {
+  items: NotificationListItem[]
+  unreadCount: number
+}
