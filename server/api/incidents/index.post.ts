@@ -17,6 +17,7 @@ import { assertIncidentReferencesExist } from '../../utils/incidents/assertIncid
 import { createEquipmentIncident } from '../../utils/incidents/createEquipmentIncident'
 import { deleteEquipmentIncidentById } from '../../utils/incidents/deleteEquipmentIncidentById'
 import { getEquipmentIncidentById } from '../../utils/incidents/getEquipmentIncidentById'
+import { notifyIncidentRecorded } from '../../utils/notifications/notifyIncidentRecorded'
 
 export default defineEventHandler(async (event): Promise<CreateEquipmentIncidentResponse> => {
   const actor = await requireAnyPermission(event, INCIDENT_MUTATION_PERMISSION_CODES)
@@ -67,6 +68,8 @@ export default defineEventHandler(async (event): Promise<CreateEquipmentIncident
       outcome: AUDIT_LOG_OUTCOMES.success,
       message: 'Equipment incident created successfully.',
     })
+
+    notifyIncidentRecorded(item)
 
     return { ok: true, id: createdId, item }
   } catch (error: unknown) {
