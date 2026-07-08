@@ -20,4 +20,11 @@ export const createCachedNotification = (input: CreateNotificationInput): AppNot
     readByUserIds: [],
   }
 
+  notifications.unshift(notification)
+
+  if (notifications.length > NOTIFICATION_CACHE_MAX_ITEMS) {
+    notifications.splice(NOTIFICATION_CACHE_MAX_ITEMS)
+  }
+
+  return notification
 }
