@@ -12,6 +12,7 @@ import { executeWithRollback } from '../../utils/db/executeWithRollback'
 import { createTraining } from '../../utils/trainings/createTraining'
 import { getTrainingById } from '~~/server/utils/trainings/getTrainingById'
 import { deleteTrainingById } from '../../utils/trainings/deleteTrainingById'
+import { notifyTrainingScheduled } from '../../utils/notifications/notifyTrainingScheduled'
 
 export default defineEventHandler(async (event): Promise<CreateTrainingResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.trainingCreate)
@@ -63,10 +64,13 @@ export default defineEventHandler(async (event): Promise<CreateTrainingResponse>
       message: 'Training created successfully.',
     })
 
+    const item = mapTrainingListItem(newRow)
+    notifyTrainingScheduled(item)
+
     return {
       ok: true,
       id: result.createdId,
-      item: mapTrainingListItem(newRow)
+      item,
     }
   } catch (error: unknown) {
     const statusCode = (error as { statusCode?: number }).statusCode ?? 500
