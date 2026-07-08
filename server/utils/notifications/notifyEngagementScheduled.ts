@@ -7,4 +7,11 @@ export const notifyEngagementScheduled = (item: EngagementListItem) => {
     return
   }
 
+  createCachedNotification({
+    type: 'engagement-schedule',
+    title: 'Engagement on schedule',
+    message: `${item.engagementTitle} is scheduled for ${formatNotificationDateRange(item.startDate, item.endDate)}.`,
+    sourceId: item.id,
+    sourcePath: '/engagement-records?tab=calendar',
+  })
 }
