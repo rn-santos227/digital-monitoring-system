@@ -11,3 +11,11 @@ export interface AppNotification {
   expiresAt: string
   readByUserIds: string[]
 }
+
+export interface CreateNotificationInput {
+  type: NotificationType
+  title: string
+  message: string
+  sourceId?: string | null
+  sourcePath?: string | null
+}
