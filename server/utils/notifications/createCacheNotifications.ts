@@ -4,4 +4,8 @@ import { NOTIFICATION_CACHE_MAX_ITEMS, NOTIFICATION_CACHE_TTL_MS } from '../../s
 import { notifications } from '../../shared/utils'
 import { pruneExpiredNotifications } from './pruneExpiredNotifications'
 
+export const createCachedNotification = (input: CreateNotificationInput): AppNotification => {
+  pruneExpiredNotifications()
 
+
+}
