@@ -12,6 +12,7 @@ import { executeWithRollback } from '../../utils/db/executeWithRollback'
 import { createEngagement } from '../../utils/engagements/createEngagement'
 import { getEngagementById } from '~~/server/utils/engagements/getEngagementById'
 import { deleteEngagementById } from '../../utils/engagements/deleteEngagementById'
+import { notifyEngagementScheduled } from '../../utils/notifications/notifyEngagementScheduled'
 
 export default defineEventHandler(async (event): Promise<CreateEngagementResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.engagementCreate)
@@ -64,6 +65,8 @@ export default defineEventHandler(async (event): Promise<CreateEngagementRespons
       outcome: AUDIT_LOG_OUTCOMES.success,
       message: 'Engagement created successfully.',
     })
+
+    notifyEngagementScheduled(item)
 
     return { ok: true, id: result.createdId, item }
   } catch (error: unknown) {
