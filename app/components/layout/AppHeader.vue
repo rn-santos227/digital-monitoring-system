@@ -8,13 +8,7 @@
       />
     </div>
     <div class="flex items-center gap-3">
-      <button
-        type="button"
-        class="rounded-full p-2 text-slate-500 transition hover:bg-emerald-200/70 hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600"
-        aria-label="Notifications"
-      >
-        <BaseIcon name="bell" class="h-5 w-5" />
-      </button>
+      <NotificationMenu />
 
       <BaseMenu
         :items="HEADER_ACCOUNT_MENU_ITEMS as BaseMenuItem[]"
