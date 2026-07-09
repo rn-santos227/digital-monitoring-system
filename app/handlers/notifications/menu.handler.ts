@@ -27,4 +27,8 @@ export const useNotificationMenuHandler = () => {
       await fetchNotifications()
     }
   }
+
+  const markRead = async () => {
+    await markAllRead()
+  }
 }
