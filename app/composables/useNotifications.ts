@@ -9,5 +9,8 @@ export const useNotifications = () => {
 
   const unreadCountLabel = computed(() => unreadCount.value > 99 ? '99+' : String(unreadCount.value))
 
+  const fetchNotifications = async () => {
+    await notificationStore.fetchNotifications()
+  }
 
 }
