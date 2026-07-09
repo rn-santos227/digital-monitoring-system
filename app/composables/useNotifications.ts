@@ -38,4 +38,15 @@ export const useNotifications = () => {
       window.clearInterval(refreshInterval)
     }
   })
+
+  return {
+    items,
+    unreadCount,
+    unreadCountLabel,
+    isLoading,
+    isMarkingRead,
+    fetchNotifications,
+    markAllRead,
+    formatNotificationDate,
+  }
 }
