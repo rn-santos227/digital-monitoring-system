@@ -9,13 +9,15 @@ const INITIAL_NOTIFICATION_STATE: NotificationState = {
   isMarkingRead: false,
 }
 
-
 interface NotificationGetters {
   hasUnreadNotifications: (state: NotificationState) => boolean
   recentNotifications: (state: NotificationState) => NotificationState['items']
 }
 
-
+interface NotificationActions {
+  fetchNotifications(): Promise<void>
+  markAllRead(): Promise<void>
+}
 
 const notificationStoreOptions = {
   state: (): NotificationState => ({ ...INITIAL_NOTIFICATION_STATE }),
