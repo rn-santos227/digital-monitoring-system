@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import type { DefineStoreOptions } from 'pinia'
 import type { NotificationState } from '~/types/domain/notification'
 import { getNotificationsEndpoint, markNotificationsReadEndpoint } from '~/utils/notification-endpoints'
 
@@ -19,7 +20,13 @@ interface NotificationActions {
   markAllRead(): Promise<void>
 }
 
-const notificationStoreOptions = {
+const notificationStoreOptions: DefineStoreOptions<
+  'notifications',
+  NotificationState,
+  NotificationGetters,
+  NotificationActions
+> = {
+  id: 'notifications',
   state: (): NotificationState => ({ ...INITIAL_NOTIFICATION_STATE }),
 
   getters: {
