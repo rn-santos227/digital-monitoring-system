@@ -8,3 +8,9 @@ const INITIAL_NOTIFICATION_STATE: NotificationState = {
   isLoading: false,
   isMarkingRead: false,
 }
+
+const notificationStoreOptions = {
+
+}
+
+export const useNotificationStore = defineStore('notifications', notificationStoreOptions)
