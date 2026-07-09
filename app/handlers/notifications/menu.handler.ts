@@ -20,4 +20,11 @@ export const useNotificationMenuHandler = () => {
     isOpen.value = false
   }
 
+  const toggleMenu = async () => {
+    isOpen.value = !isOpen.value
+
+    if (isOpen.value) {
+      await fetchNotifications()
+    }
+  }
 }
