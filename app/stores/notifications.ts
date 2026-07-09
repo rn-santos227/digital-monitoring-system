@@ -30,6 +30,17 @@ const notificationStoreOptions = {
       }
     },
 
+    async markAllRead(this: NotificationState) {
+      this.isMarkingRead = true
+
+      try {
+        await markNotificationsReadEndpoint()
+        this.items = this.items.map(item => ({ ...item, isRead: true }))
+        this.unreadCount = 0
+      } finally {
+        this.isMarkingRead = false
+      }
+    },
   },
 }
 
