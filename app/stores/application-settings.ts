@@ -53,9 +53,9 @@ const applicationSettingsStoreOptions = {
         saveApplicationSettingsToStorage(response.item)
       } catch (error) {
         this.loadError = extractApiErrorMessage(error, 'Unable to load application settings.')
+        this.hasLoaded = false
         throw error
       } finally {
-        this.hasLoaded = true
         this.isLoading = false
       }
     },

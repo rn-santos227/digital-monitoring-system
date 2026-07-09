@@ -6,7 +6,7 @@ import { toApplicationSettingsItem } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 
 export default defineEventHandler(async (event): Promise<ApplicationSettingsResponse> => {
-  await requirePermission(event, PERMISSION_CODES.userUpdate)
+  await requirePermission(event, PERMISSION_CODES.settingsUpdate)
   const settings = await getCachedApplicationSettings()
 
   return {

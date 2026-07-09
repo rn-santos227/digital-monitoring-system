@@ -15,6 +15,7 @@ export const PERMISSION_CODES = {
   userCreate: 'user.create',
   userUpdate: 'user.update',
   userDelete: 'user.delete',
+  settingsUpdate: 'settings.update',
   accountTypeCreate: 'account_type.create',
   accountTypeUpdate: 'account_type.update',
   accountTypeDelete: 'account_type.delete',

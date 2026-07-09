@@ -9,7 +9,7 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { buildSettingsChangeSet, toApplicationSettingsAuditRecord, toApplicationSettingsItem } from '../../shared/utils'
 
 export default defineEventHandler(async (event) => {
-  const actor = await requirePermission(event, PERMISSION_CODES.userUpdate)
+  const actor = await requirePermission(event, PERMISSION_CODES.settingsUpdate)
   const body = await readBody<UpdateApplicationSettingsRequest>(event)
   const updates = parseApplicationSettingsUpdates(body)
   const existing = await getCachedApplicationSettings()
