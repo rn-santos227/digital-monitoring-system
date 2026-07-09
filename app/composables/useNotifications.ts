@@ -32,4 +32,10 @@ export const useNotifications = () => {
       void fetchNotifications()
     }, 30000)
   })
+
+  onBeforeUnmount(() => {
+    if (refreshInterval) {
+      window.clearInterval(refreshInterval)
+    }
+  })
 }
