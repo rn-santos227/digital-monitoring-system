@@ -5,7 +5,7 @@ import { useNotificationStore } from '~/stores/notifications'
 export const useNotifications = () => {
   const notificationStore = useNotificationStore()
   const { items, unreadCount, isLoading, isMarkingRead } = storeToRefs(notificationStore)
-  let refreshInterval: ReturnType<typeof window.setInterval> | null = null
+  let refreshInterval: number | null = null
 
   const unreadCountLabel = computed(() => unreadCount.value > 99 ? '99+' : String(unreadCount.value))
 
@@ -25,4 +25,11 @@ export const useNotifications = () => {
       minute: '2-digit',
     }).format(new Date(value))
   }
+
+  onMounted(async () => {
+    await fetchNotifications()
+    refreshInterval = window.setInterval(() => {
+      void fetchNotifications()
+    }, 30000)
+  })
 }
