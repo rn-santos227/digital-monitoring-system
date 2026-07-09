@@ -16,3 +16,10 @@ export interface NotificationListResponse {
   items: NotificationListItem[]
   unreadCount: number
 }
+
+export interface NotificationState {
+  items: NotificationListItem[]
+  unreadCount: number
+  isLoading: boolean
+  isMarkingRead: boolean
+}
