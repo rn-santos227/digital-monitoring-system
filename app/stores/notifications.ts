@@ -16,6 +16,21 @@ const notificationStoreOptions = {
     hasUnreadNotifications: (state: NotificationState) => state.unreadCount > 0,
     recentNotifications: (state: NotificationState) => state.items,
   },
+
+  actions: {
+    async fetchNotifications(this: NotificationState) {
+      this.isLoading = true
+
+      try {
+        const response = await getNotificationsEndpoint()
+        this.items = response.items
+        this.unreadCount = response.unreadCount
+      } finally {
+        this.isLoading = false
+      }
+    },
+
+  },
 }
 
 export const useNotificationStore = defineStore('notifications', notificationStoreOptions)
