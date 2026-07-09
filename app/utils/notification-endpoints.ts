@@ -12,3 +12,12 @@ export const getNotificationsEndpoint = async (): Promise<NotificationListRespon
   }, 'Loading notifications...', { useGlobalLoading: false })
 }
 
+export const markNotificationsReadEndpoint = async (): Promise<{ ok: boolean }> => {
+  return await withApiLoading(async () => {
+    return await $fetch<{ ok: boolean }>(NOTIFICATION_API_ENDPOINTS.markRead, {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+    })
+  }, 'Marking notifications read...', { useGlobalLoading: false })
+}
+
