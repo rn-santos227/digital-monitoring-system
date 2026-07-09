@@ -13,4 +13,7 @@ export const useNotifications = () => {
     await notificationStore.fetchNotifications()
   }
 
+  const markAllRead = async () => {
+    await notificationStore.markAllRead()
+  }
 }
