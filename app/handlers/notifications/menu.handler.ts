@@ -46,4 +46,8 @@ export const useNotificationMenuHandler = () => {
   onMounted(() => {
     document.addEventListener('click', onDocumentClick)
   })
+
+  onBeforeUnmount(() => {
+    document.removeEventListener('click', onDocumentClick)
+  })
 }
