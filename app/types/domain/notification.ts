@@ -12,3 +12,7 @@ export interface NotificationListItem {
   isRead: boolean
 }
 
+export interface NotificationListResponse {
+  items: NotificationListItem[]
+  unreadCount: number
+}
