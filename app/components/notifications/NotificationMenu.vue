@@ -15,6 +15,30 @@
         {{ unreadCountLabel }}
       </span>
     </button>
+
+    <Transition name="dropdown-slide">
+      <section
+        v-if="isOpen"
+        class="absolute right-0 top-11 z-40 w-96 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl"
+        aria-label="Notifications panel"
+      >
+        <div class="flex items-center justify-between border-b border-slate-100 px-4 py-3">
+          <div>
+            <p class="text-sm font-semibold text-slate-900">Notifications</p>
+            <p class="text-xs text-slate-500">Temporarily cached activity alerts</p>
+          </div>
+          <BaseButton
+            v-if="unreadCount > 0"
+            size="sm"
+            variant="ghost"
+            :disabled="isMarkingRead"
+            @click="markRead"
+          >
+            Mark read
+          </BaseButton>
+        </div>
+      </section>
+    </Transition>
   </div>
 </template>
 
