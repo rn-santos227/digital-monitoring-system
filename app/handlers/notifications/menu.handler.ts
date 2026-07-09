@@ -50,4 +50,18 @@ export const useNotificationMenuHandler = () => {
   onBeforeUnmount(() => {
     document.removeEventListener('click', onDocumentClick)
   })
+
+  return {
+    items,
+    unreadCount,
+    unreadCountLabel,
+    isLoading,
+    isMarkingRead,
+    menuRoot,
+    isOpen,
+    closeMenu,
+    toggleMenu,
+    markRead,
+    formatNotificationDate,
+  }
 }
