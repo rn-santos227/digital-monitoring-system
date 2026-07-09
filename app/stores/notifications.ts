@@ -10,7 +10,7 @@ const INITIAL_NOTIFICATION_STATE: NotificationState = {
 }
 
 const notificationStoreOptions = {
-
+  state: (): NotificationState => ({ ...INITIAL_NOTIFICATION_STATE }),
 }
 
 export const useNotificationStore = defineStore('notifications', notificationStoreOptions)
