@@ -12,4 +12,12 @@ export const useNotificationMenuHandler = () => {
     markAllRead,
     formatNotificationDate,
   } = useNotifications()
+
+  const menuRoot = ref<HTMLElement | null>(null)
+  const isOpen = ref(false)
+
+  const closeMenu = () => {
+    isOpen.value = false
+  }
+
 }
