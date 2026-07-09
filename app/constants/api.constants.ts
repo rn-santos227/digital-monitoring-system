@@ -1,3 +1,8 @@
+export const NOTIFICATION_API_ENDPOINTS = Object.freeze({
+  notifications: '/api/notifications',
+  markRead: '/api/notifications/read',
+})
+
 export const SEARCH_API_ENDPOINTS = Object.freeze({
   suggestions: '/api/search/suggestions',
 })
