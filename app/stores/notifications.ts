@@ -11,6 +11,11 @@ const INITIAL_NOTIFICATION_STATE: NotificationState = {
 
 const notificationStoreOptions = {
   state: (): NotificationState => ({ ...INITIAL_NOTIFICATION_STATE }),
+
+  getters: {
+    hasUnreadNotifications: (state: NotificationState) => state.unreadCount > 0,
+    recentNotifications: (state: NotificationState) => state.items,
+  },
 }
 
 export const useNotificationStore = defineStore('notifications', notificationStoreOptions)
