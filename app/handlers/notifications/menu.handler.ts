@@ -42,4 +42,8 @@ export const useNotificationMenuHandler = () => {
       closeMenu()
     }
   }
+
+  onMounted(() => {
+    document.addEventListener('click', onDocumentClick)
+  })
 }
