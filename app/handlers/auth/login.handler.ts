@@ -28,6 +28,7 @@ export const useLoginPageHandlers = (
       await authStore.login({
         email: formState.email,
         password: formState.password,
+        rememberSession: formState.rememberSession,
       })
 
       addToast({

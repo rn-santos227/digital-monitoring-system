@@ -16,6 +16,7 @@ export interface SessionResponse {
 export interface LoginPayload {
   email: string
   password: string
+  rememberSession?: boolean
 }
 
 export interface AuthState {

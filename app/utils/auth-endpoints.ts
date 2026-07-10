@@ -44,7 +44,7 @@ export const loginWithPasswordEndpoint = async (payload: LoginPayload): Promise<
     })
   }, API_LOADING_MESSAGES.authenticate)
 
-  saveSessionToken(response.sessionToken, response.expiresAt)
+  saveSessionToken(response.sessionToken, response.expiresAt, payload.rememberSession ?? true)
   return normalizeSessionResponse(response)
 }
 
