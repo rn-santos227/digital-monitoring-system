@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import type { DefineStoreOptions } from 'pinia'
 import type { NotificationState } from '~/types/domain/notification'
 import { getNotificationsEndpoint, markNotificationsReadEndpoint } from '~/utils/notification-endpoints'
 
@@ -10,23 +9,7 @@ const INITIAL_NOTIFICATION_STATE: NotificationState = {
   isMarkingRead: false,
 }
 
-interface NotificationGetters {
-  hasUnreadNotifications: (state: NotificationState) => boolean
-  recentNotifications: (state: NotificationState) => NotificationState['items']
-}
-
-interface NotificationActions {
-  fetchNotifications(): Promise<void>
-  markAllRead(): Promise<void>
-}
-
-const notificationStoreOptions: DefineStoreOptions<
-  'notifications',
-  NotificationState,
-  NotificationGetters,
-  NotificationActions
-> = {
-  id: 'notifications',
+const notificationStoreOptions = {
   state: (): NotificationState => ({ ...INITIAL_NOTIFICATION_STATE }),
 
   getters: {
@@ -45,6 +28,11 @@ const notificationStoreOptions: DefineStoreOptions<
       } finally {
         this.isLoading = false
       }
+    },
+
+    replaceFromStream(this: NotificationState, response: Pick<NotificationState, 'items' | 'unreadCount'>) {
+      this.items = response.items
+      this.unreadCount = response.unreadCount
     },
 
     async markAllRead(this: NotificationState) {
