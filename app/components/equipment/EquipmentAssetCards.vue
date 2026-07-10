@@ -14,6 +14,9 @@
       :status="row.assetStatusName"
       :status-tone="row.assetStatusName === 'Available' ? 'success' : 'info'"
       :description="row.remarks || row.currentLocation || 'Tracked equipment asset.'"
+      :image-url="row.equipmentImageUrl"
+      :image-alt="`${row.equipmentItemName} equipment image`"
+      placeholder-label="Equipment image unavailable"
       :details="[
         { label: 'Equipment Code', value: row.equipmentItemCode },
         { label: 'Serial No.', value: row.serialNo },
