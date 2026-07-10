@@ -152,6 +152,7 @@ const personnelStoreOptions = {
             companyName: item.companyName,
             battalionName: item.battalionName,
             serviceStatus: item.serviceStatus,
+            profileImageUrl: item.profileImageUrl ?? null,
           }))
           this.pagination = {
             page: response.page,
@@ -173,6 +174,7 @@ const personnelStoreOptions = {
           companyName: item.companyName,
           battalionName: item.battalionName,
           serviceStatus: item.serviceStatus,
+          profileImageUrl: item.profileImageUrl ?? null,
         }))
         this.pagination = {
           page: response.page,

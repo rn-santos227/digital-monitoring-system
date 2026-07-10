@@ -44,6 +44,7 @@ export interface PersonnelListItem {
   serviceStatus: string
   createdAt: string
   updatedAt: string
+  profileImageUrl?: string | null
 }
 
 export interface PersonnelListCompactItem {
@@ -56,6 +57,7 @@ export interface PersonnelListCompactItem {
   companyName: string | null
   battalionName: string | null
   serviceStatus: string
+  profileImageUrl?: string | null
 }
 
 export interface PersonnelListResponse {
@@ -130,6 +132,7 @@ export interface PersonnelTableRow {
   rankName: string
   assignment: string
   serviceStatus: string
+  profileImageUrl?: string | null
 }
 
 export interface PersonnelState {

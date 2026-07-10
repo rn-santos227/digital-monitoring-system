@@ -322,6 +322,7 @@ export interface EquipmentAssetListItem {
   remarks: string | null
   createdAt: string
   updatedAt: string
+  equipmentImageUrl?: string | null
 }
 
 export interface EquipmentAssetKpiCounts {
