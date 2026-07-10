@@ -137,10 +137,24 @@ on conflict (name) do nothing;
 insert into public.ranks (code, name, sort_order)
 values
   ('PVT', 'Private', 1),
-  ('CPL', 'Corporal', 2),
-  ('SGT', 'Sergeant', 3),
-  ('LT', 'Lieutenant', 4),
-  ('CPT', 'Captain', 5)
+  ('PFC', 'Private First Class', 2),
+  ('CPL', 'Corporal', 3),
+  ('SGT', 'Sergeant', 4),
+  ('SSGT', 'Staff Sergeant', 5),
+  ('TSGT', 'Technical Sergeant', 6),
+  ('MSGT', 'Master Sergeant', 7),
+  ('SMSGT', 'Senior Master Sergeant', 8),
+  ('CMSGT', 'Chief Master Sergeant', 9),
+  ('2LT', 'Second Lieutenant', 10),
+  ('1LT', 'First Lieutenant', 11),
+  ('CPT', 'Captain', 12),
+  ('MAJ', 'Major', 13),
+  ('LTC', 'Lieutenant Colonel', 14),
+  ('COL', 'Colonel', 15),
+  ('BGEN', 'Brigadier General', 16),
+  ('MGEN', 'Major General', 17),
+  ('LTGEN', 'Lieutenant General', 18),
+  ('GEN', 'General', 19)
 on conflict (code) do update
 set name = excluded.name,
     sort_order = excluded.sort_order;
