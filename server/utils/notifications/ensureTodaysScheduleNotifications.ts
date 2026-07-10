@@ -69,4 +69,8 @@ export const ensureTodaysScheduleNotifications = async (
   if (includeTrainings) {
     await ensureTodaysTrainingNotifications(supabase, today)
   }
+
+  if (includeEngagements) {
+    await ensureTodaysEngagementNotifications(supabase, today)
+  }
 }
