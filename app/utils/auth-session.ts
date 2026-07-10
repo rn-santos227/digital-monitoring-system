@@ -69,9 +69,10 @@ export const saveSessionToken = (token?: string, expiresAt?: string, rememberSes
   const msUntilExpiry = new Date(expiresAt).getTime() - Date.now()
   if (msUntilExpiry > 0) {
     window.setTimeout(() => {
-      const storedExpiry = localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionTokenExpiresAt) ?? ''
+      const storedExpiry = storage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionTokenExpiresAt) ?? ''
       if (storedExpiry && isExpired(storedExpiry)) {
-        clearStoredSessionToken()
+        storage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
+        storage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionTokenExpiresAt)
       }
     }, msUntilExpiry)
   }
