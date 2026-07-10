@@ -1,6 +1,27 @@
 <template>
   <BaseCard padding="md" class="flex h-full min-h-80 flex-col">
     <div class="flex flex-1 flex-col gap-4">
+      <div class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
+        <img
+          v-if="imageUrl"
+          :src="imageUrl"
+          :alt="imageAlt"
+          class="h-40 w-full object-cover"
+          loading="lazy"
+        >
+        <div
+          v-else
+          class="flex h-40 w-full items-center justify-center bg-gradient-to-br from-emerald-50 via-slate-100 to-slate-200 text-center"
+        >
+          <div class="space-y-2 px-4">
+            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white text-lg font-bold text-emerald-700 shadow-sm">
+              {{ placeholderInitials }}
+            </div>
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">{{ placeholderLabel }}</p>
+          </div>
+        </div>
+      </div>
+
       <div class="flex items-start justify-between gap-3">
         <div class="min-w-0 space-y-2">
           <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">{{ eyebrow }}</p>
