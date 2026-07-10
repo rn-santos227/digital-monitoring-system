@@ -3,11 +3,13 @@ import { extractApiErrorMessage } from '~/utils/api-request'
 import type { CreateDeploymentRecordPayload } from '~/types/domain/deployment'
 import type { CreateEngagementRecordPayload } from '~/types/domain/engagement'
 import type { CreateTrainingRecordPayload } from '~/types/domain/training'
+import type { CreateEquipmentIssuancePayload } from '~/types/domain/equipment'
 import {
   assignPersonnelDeploymentRecordEndpoint,
   assignPersonnelEngagementRecordEndpoint,
   assignPersonnelTrainingRecordEndpoint,
 } from '~/utils/service-status-endpoints'
+import { createEquipmentIssuanceEndpoint } from '~/utils/equipment-endpoints'
 import type { AssignmentsStoreState } from '~/types/domain/service-status'
 
 export const useAssignmentsStore = defineStore('assignments', {
@@ -52,6 +54,19 @@ export const useAssignmentsStore = defineStore('assignments', {
         await assignPersonnelTrainingRecordEndpoint(personnelId, payload)
       } catch (error) {
         this.error = extractApiErrorMessage(error, 'Unable to assign training record.')
+        throw error
+      } finally {
+        this.isSubmitting = false
+      }
+    },
+
+    async assignEquipment(_personnelId: string, payload: CreateEquipmentIssuancePayload) {
+      this.isSubmitting = true
+      this.error = ''
+      try {
+        await createEquipmentIssuanceEndpoint(payload)
+      } catch (error) {
+        this.error = extractApiErrorMessage(error, 'Unable to assign equipment issuance.')
         throw error
       } finally {
         this.isSubmitting = false
