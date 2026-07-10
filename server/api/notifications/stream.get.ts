@@ -8,5 +8,14 @@ import { listReadableCachedNotifications } from '../../utils/notifications/listR
 const NOTIFICATION_STREAM_INTERVAL_MS = 30000
 
 export default defineEventHandler(async (event) => {
+  const actor = await requireAuth(event)
+
+  const response = event.node.res
+  response.writeHead(200, {
+    'cache-control': 'no-cache, no-transform',
+    connection: 'keep-alive',
+    'content-type': 'text/event-stream',
+    'x-accel-buffering': 'no',
+  })
 
 })
