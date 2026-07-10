@@ -31,4 +31,9 @@ const ensureTodaysTrainingNotifications = async (supabase: SupabaseClient, today
   if (error) {
     throw new Error(`Failed to inspect today's training schedules: ${error.message}`)
   }
+
+  ;((data ?? []) as TrainingRow[])
+    .map(mapTrainingListItem)
+    .filter(item => !hasNotificationForToday('training-schedule', item.id, today))
+    .forEach(notifyTrainingScheduled)
 }
