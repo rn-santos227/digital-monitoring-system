@@ -49,16 +49,16 @@ export const getStoredSessionToken = (): string => {
   return ''
 }
 
-export const saveSessionToken = (token?: string, expiresAt?: string): void => {
+export const saveSessionToken = (token?: string, expiresAt?: string, rememberSession = true): void => {
   if (!import.meta.client) return
 
+  clearStoredSessionToken()
+
   if (!token || !expiresAt) {
-    clearStoredSessionToken()
     return
   }
 
   if (isExpired(expiresAt)) {
-    clearStoredSessionToken()
     return
   }
 
