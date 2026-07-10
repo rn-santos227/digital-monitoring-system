@@ -8,6 +8,19 @@ interface NotificationStreamHandlers {
   onError?: (error: Error) => void
 }
 
+const parseNotificationStreamEvent = (event: string): NotificationListResponse | null => {
+  const dataLines = event
+    .split('\n')
+    .filter(line => line.startsWith('data:'))
+    .map(line => line.slice(5).trim())
+
+  if (dataLines.length === 0) {
+    return null
+  }
+
+  return JSON.parse(dataLines.join('\n')) as NotificationListResponse
+}
+
 export const getNotificationsEndpoint = async (): Promise<NotificationListResponse> => {
   return await withApiLoading(async () => {
     return await $fetch<NotificationListResponse>(NOTIFICATION_API_ENDPOINTS.notifications, {
