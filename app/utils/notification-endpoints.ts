@@ -39,3 +39,10 @@ export const markNotificationsReadEndpoint = async (): Promise<{ ok: boolean }> 
   }, 'Marking notifications read...', { useGlobalLoading: false })
 }
 
+export const openNotificationsStream = (handlers: NotificationStreamHandlers): AbortController => {
+  const controller = new AbortController()
+
+  if (!import.meta.client) {
+    return controller
+  }
+}
