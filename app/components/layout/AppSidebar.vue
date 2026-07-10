@@ -69,6 +69,7 @@ const route = useRoute()
 const authStore = useAuthStore()
 const applicationSettingsStore = useApplicationSettingsStore()
 const { hasLoaded: hasApplicationSettingsLoaded, item: applicationSettingsItem } = storeToRefs(applicationSettingsStore)
+const isSidebarMinimized = ref(false)
 
 const isSidebarBrandingLoading = computed(() => !hasApplicationSettingsLoaded.value)
 
@@ -85,6 +86,12 @@ const sidebarClasses = computed(() => {
 
   return [APP_SIDEBAR_CLASSES, widthClasses, themeClasses]
 })
+
+const brandingClasses = computed(() => [
+  'flex shrink-0 items-center border-b border-white/10 py-5',
+  isSidebarMinimized.value ? 'justify-center px-3' : 'justify-between gap-3 px-6',
+])
+
 
 const sidebarSectionTitleClasses = computed(() => {
   const themeKey = resolvedTheme.value
