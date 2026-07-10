@@ -3,7 +3,7 @@
     <div v-if="showApplicationShell" class="flex min-h-screen bg-slate-100">
       <AppSidebar />
 
-      <div class="flex min-h-screen flex-1 flex-col">
+      <div class="flex min-h-screen min-w-0 flex-1 flex-col">
         <AppHeader />
         <div class="flex-1">
           <slot />

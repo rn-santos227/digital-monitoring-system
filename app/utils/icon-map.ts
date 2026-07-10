@@ -7,6 +7,8 @@ import {
   BuildingOffice2Icon,
   CheckCircleIcon,
   ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
   ChevronUpIcon,
   ClipboardDocumentCheckIcon,
   ClipboardDocumentListIcon,
@@ -67,6 +69,8 @@ export const HERO_ICON_MAP: Record<IconName, Component> = {
   'magnifying-glass': MagnifyingGlassIcon,
   'chevron-up': ChevronUpIcon,
   'chevron-down': ChevronDownIcon,
+  'chevron-left': ChevronLeftIcon,
+  'chevron-right': ChevronRightIcon,
   'user-plus': UserPlusIcon
 }
 
