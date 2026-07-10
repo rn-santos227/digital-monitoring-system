@@ -1,11 +1,12 @@
 import { computed, onBeforeUnmount, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useNotificationStore } from '~/stores/notifications'
+import { openNotificationsStream } from '~/utils/notification-endpoints'
 
 export const useNotifications = () => {
   const notificationStore = useNotificationStore()
   const { items, unreadCount, isLoading, isMarkingRead } = storeToRefs(notificationStore)
-  let refreshInterval: number | null = null
+  let streamController: AbortController | null = null
 
   const unreadCountLabel = computed(() => unreadCount.value > 99 ? '99+' : String(unreadCount.value))
 
@@ -28,15 +29,16 @@ export const useNotifications = () => {
 
   onMounted(async () => {
     await fetchNotifications()
-    refreshInterval = window.setInterval(() => {
-      void fetchNotifications()
-    }, 30000)
+    streamController = openNotificationsStream({
+      onMessage: response => notificationStore.replaceFromStream(response),
+      onError: () => {
+        void fetchNotifications()
+      },
+    })
   })
 
   onBeforeUnmount(() => {
-    if (refreshInterval) {
-      window.clearInterval(refreshInterval)
-    }
+    streamController?.abort()
   })
 
   return {
