@@ -7,27 +7,46 @@ const isExpired = (expiresAt: string): boolean => {
   return Date.now() >= expirationTimestamp
 }
 
-const clearStoredSessionToken = (): void => {
-  if (!import.meta.client) return
+const getClientStorageTargets = (): Storage[] => {
+  if (!import.meta.client) return []
 
-  localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
-  localStorage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionTokenExpiresAt)
+  return [localStorage, sessionStorage]
+}
+
+const clearStoredSessionToken = (): void => {
+  for (const storage of getClientStorageTargets()) {
+    storage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
+    storage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionTokenExpiresAt)
+  }
+}
+
+const getStoredSessionTokenFromStorage = (storage: Storage): string => {
+  const sessionToken = storage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken) ?? ''
+  const expiresAt = storage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionTokenExpiresAt) ?? ''
+
+  if (!sessionToken) return ''
+
+  if (!expiresAt || isExpired(expiresAt)) {
+    storage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken)
+    storage.removeItem(AUTH_LOCAL_STORAGE_KEYS.sessionTokenExpiresAt)
+    return ''
+  }
+
+  return sessionToken
 }
 
 export const getStoredSessionToken = (): string => {
   if (!import.meta.client) return ''
 
-  const sessionToken = localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken) ?? ''
-  const expiresAt = localStorage.getItem(AUTH_LOCAL_STORAGE_KEYS.sessionTokenExpiresAt) ?? ''
+  for (const storage of getClientStorageTargets()) {
+    const sessionToken = getStoredSessionTokenFromStorage(storage)
 
-  if (!sessionToken) return ''
-
-  if (!expiresAt || isExpired(expiresAt)) {
-    clearStoredSessionToken()
-    return ''
+    if (sessionToken) {
+      return sessionToken
+    }
   }
 
-  return sessionToken
+  return ''
 }
 
 export const saveSessionToken = (token?: string, expiresAt?: string): void => {
