@@ -60,5 +60,5 @@ export const ensureTodaysScheduleNotifications = async (
   options: EnsureTodaysScheduleNotificationsOptions = {},
   today = toIsoDate(new Date()),
 ) => {
-
+  pruneExpiredNotifications()
 }
