@@ -44,4 +44,12 @@ export default defineEventHandler(async (event) => {
       unreadCount: items.filter(item => !item.isRead).length,
     })}\n\n`)
   }
+
+  const interval = setInterval(() => {
+    void sendNotificationSnapshot().catch((error: unknown) => {
+      const message = error instanceof Error ? error.message : 'Failed to refresh notifications.'
+      response.write(`event: error\n`)
+      response.write(`data: ${JSON.stringify({ message })}\n\n`)
+    })
+  }, NOTIFICATION_STREAM_INTERVAL_MS)
 })
