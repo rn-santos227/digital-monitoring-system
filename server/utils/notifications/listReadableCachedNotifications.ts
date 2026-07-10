@@ -12,3 +12,8 @@ const canReadNotification = (notificationType: string, permissionCodes: string[]
 
   return true
 }
+
+export const listReadableCachedNotifications = (permissionCodes: string[]) => {
+  return listCachedNotifications()
+    .filter(notification => canReadNotification(notification.type, permissionCodes))
+}
