@@ -69,4 +69,18 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   (event: 'action', actionKey: string): void
 }>()
+
+const getInitials = (value: string): string => {
+  const words = value
+    .split(/\s+/)
+    .map((word) => word.trim())
+    .filter(Boolean)
+
+  const firstInitial = words[0]?.[0] ?? '—'
+  const secondInitial = words[1]?.[0] ?? ''
+
+  return `${firstInitial}${secondInitial}`.toUpperCase()
+}
+
+const placeholderInitials = computed(() => getInitials(props.title || props.eyebrow))
 </script>
