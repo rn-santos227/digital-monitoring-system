@@ -65,4 +65,8 @@ export const ensureTodaysScheduleNotifications = async (
   const previousNotificationCount = notifications.length
   const includeTrainings = options.includeTrainings ?? true
   const includeEngagements = options.includeEngagements ?? true
+
+  if (includeTrainings) {
+    await ensureTodaysTrainingNotifications(supabase, today)
+  }
 }
