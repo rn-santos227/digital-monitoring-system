@@ -92,6 +92,10 @@ const brandingClasses = computed(() => [
   isSidebarMinimized.value ? 'justify-center px-3' : 'justify-between gap-3 px-6',
 ])
 
+const brandTitleClasses = computed(() => [
+  'mt-1 text-lg font-semibold text-white',
+  isSidebarMinimized.value ? 'sr-only' : 'truncate',
+])
 
 const sidebarSectionTitleClasses = computed(() => {
   const themeKey = resolvedTheme.value
