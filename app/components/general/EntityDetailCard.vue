@@ -36,6 +36,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseCard from '~/components/ui/BaseCard.vue'
 import BaseChip from '~/components/ui/BaseChip.vue'
@@ -46,17 +47,23 @@ export interface EntityCardDetail {
   value: string | number | null | undefined
 }
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   eyebrow: string
   title: string
   status: string
   statusTone?: UiTone
   description?: string
+  imageUrl?: string | null
+  imageAlt?: string
+  placeholderLabel?: string
   details: readonly EntityCardDetail[]
   actions: readonly DataTableAction[]
 }>(), {
   statusTone: 'info',
   description: '',
+  imageUrl: null,
+  imageAlt: 'Entity image',
+  placeholderLabel: 'Image unavailable',
 })
 
 const emit = defineEmits<{
