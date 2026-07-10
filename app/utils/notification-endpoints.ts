@@ -47,6 +47,11 @@ export const openNotificationsStream = (handlers: NotificationStreamHandlers): A
   }
 
   void (async () => {
+    const response = await fetch(NOTIFICATION_API_ENDPOINTS.stream, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      signal: controller.signal,
+    })
 
   })().catch((error: unknown) => {
     if (controller.signal.aborted) {
