@@ -1,8 +1,8 @@
 <template>
   <aside :class="sidebarClasses">
-    <div class="border-b border-white/10 px-6 py-5">
+    <div :class="brandingClasses">
       <BaseInlineLoader
-        v-if="isSidebarBrandingLoading"
+        v-if="isSidebarBrandingLoading && !isSidebarMinimized"
         label="Loading application branding..."
         class="text-white [&>span:first-child]:border-white [&>span:first-child]:border-t-transparent"
       />
