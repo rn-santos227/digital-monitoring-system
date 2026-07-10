@@ -6,4 +6,9 @@ const canReadNotification = (notificationType: string, permissionCodes: string[]
     return permissionCodes.includes(PERMISSION_CODES.trainingView)
   }
 
+  if (notificationType === 'engagement-schedule') {
+    return permissionCodes.includes(PERMISSION_CODES.engagementView)
+  }
+
+  return true
 }
