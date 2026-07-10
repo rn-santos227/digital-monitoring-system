@@ -144,7 +144,15 @@ export const BASE_TABLE_ACTIONS_COLUMN_WIDTH_CLASSES = Object.freeze({
   4: 'w-40'
 })
 
-export const APP_SIDEBAR_CLASSES = 'sticky top-0 flex h-screen w-72 flex-col'
+export const APP_SIDEBAR_CLASSES = 'sticky top-0 flex h-screen shrink-0 flex-col transition-[width] duration-200 ease-in-out'
+export const APP_SIDEBAR_EXPANDED_WIDTH_CLASSES = 'w-72'
+export const APP_SIDEBAR_COLLAPSED_WIDTH_CLASSES = 'w-20'
+export const APP_SIDEBAR_TOGGLE_BUTTON_CLASSES =
+  'inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/15 bg-white/5 text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70'
+export const APP_SIDEBAR_LABEL_COLLAPSED_CLASSES = 'sr-only'
+export const APP_SIDEBAR_LABEL_EXPANDED_CLASSES = 'truncate'
+export const APP_SIDEBAR_ICON_COLLAPSED_CLASSES = 'mx-auto'
+export const APP_SIDEBAR_ICON_EXPANDED_CLASSES = ''
 
 export const APP_SIDEBAR_THEME_CLASSES = Object.freeze({
   light: 'border-r border-emerald-800 bg-emerald-950 text-emerald-50',
