@@ -39,5 +39,9 @@ const ensureTodaysTrainingNotifications = async (supabase: SupabaseClient, today
 }
 
 const ensureTodaysEngagementNotifications = async (supabase: SupabaseClient, today: string) => {
+  const { data, error } = await supabase
+    .from('engagements')
+    .select(ENGAGEMENT_SELECT_COLUMNS)
+    .or(`start_date.eq.${today},end_date.eq.${today}`)
 
 }
