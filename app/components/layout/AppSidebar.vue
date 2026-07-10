@@ -117,7 +117,11 @@ const sidebarSectionTitleClasses = computed(() => {
   const themeKey = resolvedTheme.value
   const itemTheme = APP_SIDEBAR_ITEM_THEME_CLASSES[themeKey] ?? APP_SIDEBAR_ITEM_THEME_CLASSES.light
 
-  return [APP_SIDEBAR_SECTION_TITLE_CLASSES, itemTheme.sectionTitle]
+  return [
+    APP_SIDEBAR_SECTION_TITLE_CLASSES,
+    itemTheme.sectionTitle,
+    isSidebarMinimized.value ? 'sr-only' : '',
+  ]
 })
 
 const hasPermissionAccess = (item: NavigationItem) => {
