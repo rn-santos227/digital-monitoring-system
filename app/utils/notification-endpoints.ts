@@ -53,6 +53,13 @@ export const openNotificationsStream = (handlers: NotificationStreamHandlers): A
       signal: controller.signal,
     })
 
+    if (!response.ok || !response.body) {
+      throw new Error('Unable to open notification stream.')
+    }
+
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder()
+    let buffer = ''
   })().catch((error: unknown) => {
     if (controller.signal.aborted) {
       return
