@@ -21,3 +21,7 @@ const hasNotificationForToday = (type: 'training-schedule' | 'engagement-schedul
       && notification.createdAt.startsWith(today)
   })
 }
+
+const ensureTodaysTrainingNotifications = async (supabase: SupabaseClient, today: string) => {
+
+}
