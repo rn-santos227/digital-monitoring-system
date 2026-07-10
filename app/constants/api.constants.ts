@@ -1,5 +1,6 @@
 export const NOTIFICATION_API_ENDPOINTS = Object.freeze({
   notifications: '/api/notifications',
+  stream: '/api/notifications/stream',
   markRead: '/api/notifications/read',
 })
 
