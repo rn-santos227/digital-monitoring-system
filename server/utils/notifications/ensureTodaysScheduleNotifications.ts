@@ -23,5 +23,9 @@ const hasNotificationForToday = (type: 'training-schedule' | 'engagement-schedul
 }
 
 const ensureTodaysTrainingNotifications = async (supabase: SupabaseClient, today: string) => {
+  const { data, error } = await supabase
+    .from('trainings')
+    .select(TRAINING_SELECT_COLUMNS)
+    .or(`start_date.eq.${today},end_date.eq.${today}`)
 
 }
