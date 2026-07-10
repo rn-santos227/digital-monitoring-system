@@ -97,6 +97,10 @@ const brandTitleClasses = computed(() => [
   isSidebarMinimized.value ? 'sr-only' : 'truncate',
 ])
 
+const navigationClasses = computed(() => [
+  'min-h-0 flex-1 overflow-y-auto px-3 py-4',
+])
+
 const sidebarSectionTitleClasses = computed(() => {
   const themeKey = resolvedTheme.value
   const itemTheme = APP_SIDEBAR_ITEM_THEME_CLASSES[themeKey] ?? APP_SIDEBAR_ITEM_THEME_CLASSES.light
