@@ -7,4 +7,6 @@ import { listReadableCachedNotifications } from '../../utils/notifications/listR
 
 const NOTIFICATION_STREAM_INTERVAL_MS = 30000
 
+export default defineEventHandler(async (event) => {
 
+})
