@@ -44,4 +44,7 @@ const ensureTodaysEngagementNotifications = async (supabase: SupabaseClient, tod
     .select(ENGAGEMENT_SELECT_COLUMNS)
     .or(`start_date.eq.${today},end_date.eq.${today}`)
 
+  if (error) {
+    throw new Error(`Failed to inspect today's engagement schedules: ${error.message}`)
+  }
 }
