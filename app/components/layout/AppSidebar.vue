@@ -6,7 +6,21 @@
         label="Loading application branding..."
         class="text-white [&>span:first-child]:border-white [&>span:first-child]:border-t-transparent"
       />
-      <p v-else class="mt-1 text-lg font-semibold text-white">Operations Console</p>
+      <p
+        v-else
+        :class="brandTitleClasses"
+      >
+        Operations Console
+      </p>
+      <button
+        type="button"
+        :class="APP_SIDEBAR_TOGGLE_BUTTON_CLASSES"
+        :aria-label="sidebarToggleLabel"
+        :title="sidebarToggleLabel"
+        @click="toggleSidebar"
+      >
+        <BaseIcon :name="sidebarToggleIconName" size="sm" />
+      </button>
     </div>
 
     <nav class="flex-1 overflow-y-auto px-3 py-4">
