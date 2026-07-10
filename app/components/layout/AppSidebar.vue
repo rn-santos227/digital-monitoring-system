@@ -44,18 +44,25 @@
 
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { SIDEBAR_FOOTER_ITEMS, SIDEBAR_NAVIGATION_SECTIONS } from '~/constants/navigation.constants'
 import { useApplicationSettingsStore } from '~/stores/application-settings'
 import { useAuthStore } from '~/stores/auth'
-import type { NavigationItem } from '~/types/domain/misc'
+import type { IconName, NavigationItem } from '~/types/domain/misc'
 import {
+  APP_SIDEBAR_COLLAPSED_WIDTH_CLASSES,
   APP_SIDEBAR_CLASSES,
+  APP_SIDEBAR_EXPANDED_WIDTH_CLASSES,
+  APP_SIDEBAR_ICON_COLLAPSED_CLASSES,
+  APP_SIDEBAR_ICON_EXPANDED_CLASSES,
   APP_SIDEBAR_ITEM_BASE_CLASSES,
   APP_SIDEBAR_ITEM_THEME_CLASSES,
+  APP_SIDEBAR_LABEL_COLLAPSED_CLASSES,
+  APP_SIDEBAR_LABEL_EXPANDED_CLASSES,
   APP_SIDEBAR_SECTION_TITLE_CLASSES,
   APP_SIDEBAR_THEME_CLASSES,
+  APP_SIDEBAR_TOGGLE_BUTTON_CLASSES,
 } from '~/constants/ui.constants'
 
 const route = useRoute()
@@ -64,7 +71,6 @@ const applicationSettingsStore = useApplicationSettingsStore()
 const { hasLoaded: hasApplicationSettingsLoaded, item: applicationSettingsItem } = storeToRefs(applicationSettingsStore)
 
 const isSidebarBrandingLoading = computed(() => !hasApplicationSettingsLoaded.value)
-
 
 const resolvedTheme = computed(() => {
   const appTheme = applicationSettingsItem.value?.appTheme ?? 'light'
@@ -75,8 +81,9 @@ const resolvedTheme = computed(() => {
 const sidebarClasses = computed(() => {
   const themeKey = resolvedTheme.value
   const themeClasses = APP_SIDEBAR_THEME_CLASSES[themeKey] ?? APP_SIDEBAR_THEME_CLASSES.light
+  const widthClasses = isSidebarMinimized.value ? APP_SIDEBAR_COLLAPSED_WIDTH_CLASSES : APP_SIDEBAR_EXPANDED_WIDTH_CLASSES
 
-  return [APP_SIDEBAR_CLASSES, themeClasses]
+  return [APP_SIDEBAR_CLASSES, widthClasses, themeClasses]
 })
 
 const sidebarSectionTitleClasses = computed(() => {
