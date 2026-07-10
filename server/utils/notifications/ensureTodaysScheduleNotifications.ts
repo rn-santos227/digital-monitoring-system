@@ -73,4 +73,9 @@ export const ensureTodaysScheduleNotifications = async (
   if (includeEngagements) {
     await ensureTodaysEngagementNotifications(supabase, today)
   }
+
+  return {
+    createdCount: notifications.length - previousNotificationCount,
+    checkedDate: today,
+  }
 }
