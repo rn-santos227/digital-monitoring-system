@@ -45,4 +45,17 @@ export const openNotificationsStream = (handlers: NotificationStreamHandlers): A
   if (!import.meta.client) {
     return controller
   }
+
+  void (async () => {
+
+  })().catch((error: unknown) => {
+    if (controller.signal.aborted) {
+      return
+    }
+
+    const streamError = error instanceof Error ? error : new Error('Notification stream failed.')
+    handlers.onError?.(streamError)
+  })
+
+  return controller
 }
