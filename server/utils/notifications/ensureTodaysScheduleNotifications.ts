@@ -37,3 +37,7 @@ const ensureTodaysTrainingNotifications = async (supabase: SupabaseClient, today
     .filter(item => !hasNotificationForToday('training-schedule', item.id, today))
     .forEach(notifyTrainingScheduled)
 }
+
+const ensureTodaysEngagementNotifications = async (supabase: SupabaseClient, today: string) => {
+
+}
