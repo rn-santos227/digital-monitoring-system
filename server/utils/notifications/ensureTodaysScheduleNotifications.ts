@@ -47,4 +47,9 @@ const ensureTodaysEngagementNotifications = async (supabase: SupabaseClient, tod
   if (error) {
     throw new Error(`Failed to inspect today's engagement schedules: ${error.message}`)
   }
+
+  ;((data ?? []) as EngagementRow[])
+    .map(mapEngagementListItem)
+    .filter(item => !hasNotificationForToday('engagement-schedule', item.id, today))
+    .forEach(notifyEngagementScheduled)
 }
