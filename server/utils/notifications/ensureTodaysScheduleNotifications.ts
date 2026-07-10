@@ -61,4 +61,8 @@ export const ensureTodaysScheduleNotifications = async (
   today = toIsoDate(new Date()),
 ) => {
   pruneExpiredNotifications()
+
+  const previousNotificationCount = notifications.length
+  const includeTrainings = options.includeTrainings ?? true
+  const includeEngagements = options.includeEngagements ?? true
 }
