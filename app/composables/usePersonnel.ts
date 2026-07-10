@@ -19,6 +19,7 @@ export const usePersonnel = () => {
       rankName: item.rankName,
       assignment: [item.companyName, item.battalionName].filter(Boolean).join(' / ') || 'Unassigned',
       serviceStatus: item.serviceStatus,
+      profileImageUrl: item.profileImageUrl ?? null,
     }))
   })
 
