@@ -8,7 +8,7 @@ import type {
   TrainingSearchQuery,
 } from '~/types/domain/training'
 
-const TRAINING_MANAGEMENT_TAB_IDS: readonly TrainingManagementTabId[] = ['records', 'trainings', 'categories']
+const TRAINING_MANAGEMENT_TAB_IDS: readonly TrainingManagementTabId[] = ['records', 'trainings', 'categories', 'calendar']
 const TRAINING_RECORD_SEARCHABLE_FIELDS = ['recordNo', 'trainingTitle', 'certificateNo', 'remarks'] as const
 
 interface UseTrainingPageActionHandlersOptions {

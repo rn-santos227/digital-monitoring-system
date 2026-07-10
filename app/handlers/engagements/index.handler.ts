@@ -8,6 +8,7 @@ import { useEngagementSearchHandlers } from './search.handler'
 const ENGAGEMENT_RECORDS_TAB_IDS: readonly EngagementRecordsTabId[] = [
   'records',
   'engagements',
+  'calendar',
 ]
 
 export const useEngagementManagementPageHandlers = (

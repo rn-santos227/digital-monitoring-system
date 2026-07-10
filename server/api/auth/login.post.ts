@@ -18,6 +18,7 @@ export default defineEventHandler(async (event) => {
   const body = await readBody<LoginBody>(event)
   const email = body.email?.trim().toLowerCase()
   const password = body.password
+  const rememberSession = body.rememberSession !== false
   const requestData = buildLoginAuditRequestData(email, password)
 
   const recordLoginAuditLog = async (
@@ -145,7 +146,7 @@ export default defineEventHandler(async (event) => {
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
     path: '/',
-    expires: expiresAtDate,
+    ...(rememberSession ? { expires: expiresAtDate } : {}),
   })
 
   return {
