@@ -60,6 +60,28 @@ export const openNotificationsStream = (handlers: NotificationStreamHandlers): A
     const reader = response.body.getReader()
     const decoder = new TextDecoder()
     let buffer = ''
+
+    while (!controller.signal.aborted) {
+      const { done, value } = await reader.read()
+      if (done) {
+        break
+      }
+
+      buffer += decoder.decode(value, { stream: true })
+      const events = buffer.split('\n\n')
+      buffer = events.pop() ?? ''
+
+      events.forEach((event) => {
+        if (!event.includes('event: notifications')) {
+          return
+        }
+
+        const payload = parseNotificationStreamEvent(event)
+        if (payload) {
+          handlers.onMessage(payload)
+        }
+      })
+    }
   })().catch((error: unknown) => {
     if (controller.signal.aborted) {
       return
