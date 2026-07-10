@@ -23,7 +23,7 @@
       </button>
     </div>
 
-    <nav class="flex-1 overflow-y-auto px-3 py-4">
+    <nav :class="navigationClasses">
       <section
         v-for="section in filteredSidebarNavigationSections"
         :key="section.title"
@@ -35,22 +35,24 @@
           :key="item.to"
           :to="item.to"
           :class="resolveItemClasses(item.to)"
+          :title="item.label"
         >
-          <BaseIcon :name="item.icon" size="sm" />
-          <span>{{ item.label }}</span>
+          <BaseIcon :name="item.icon" size="sm" :class="sidebarIconClasses" />
+          <span :class="sidebarLabelClasses">{{ item.label }}</span>
         </NuxtLink>
       </section>
     </nav>
 
-    <div class="border-t border-white/10 px-3 py-4">
+    <div :class="footerClasses">
       <NuxtLink
         v-for="item in filteredSidebarFooterItems"
         :key="item.to"
         :to="item.to"
         :class="resolveItemClasses(item.to)"
+        :title="item.label"
       >
-        <BaseIcon :name="item.icon" size="sm" />
-        <span>{{ item.label }}</span>
+        <BaseIcon :name="item.icon" size="sm" :class="sidebarIconClasses" />
+        <span :class="sidebarLabelClasses">{{ item.label }}</span>
       </NuxtLink>
     </div>
   </aside>
