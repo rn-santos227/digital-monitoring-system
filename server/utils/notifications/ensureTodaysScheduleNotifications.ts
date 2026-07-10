@@ -7,4 +7,10 @@ import { notifyEngagementScheduled } from './notifyEngagementScheduled'
 import { notifyTrainingScheduled } from './notifyTrainingScheduled'
 import { pruneExpiredNotifications } from './pruneExpiredNotifications'
 
+interface EnsureTodaysScheduleNotificationsOptions {
+  includeTrainings?: boolean
+  includeEngagements?: boolean
+}
+
+const toIsoDate = (date: Date): string => date.toISOString().slice(0, 10)
 
