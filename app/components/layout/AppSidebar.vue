@@ -163,10 +163,12 @@ const filteredSidebarFooterItems = computed(() => {
 
 const resolveItemClasses = (path: string) => {
   const isActive = route.path === path
+  const itemTheme = APP_SIDEBAR_ITEM_THEME_CLASSES[resolvedTheme.value] ?? APP_SIDEBAR_ITEM_THEME_CLASSES.light
 
   return [
     APP_SIDEBAR_ITEM_BASE_CLASSES,
-    isActive ? (APP_SIDEBAR_ITEM_THEME_CLASSES[resolvedTheme.value] ?? APP_SIDEBAR_ITEM_THEME_CLASSES.light).active : (APP_SIDEBAR_ITEM_THEME_CLASSES[resolvedTheme.value] ?? APP_SIDEBAR_ITEM_THEME_CLASSES.light).inactive,
+    isSidebarMinimized.value ? 'justify-center px-2' : '',
+    isActive ? itemTheme.active : itemTheme.inactive,
   ]
 }
 
