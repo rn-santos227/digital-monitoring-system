@@ -15,6 +15,7 @@ import type {
   PersonnelTrainingRecordListItem,
   PersonnelDeploymentRecordListItem,
   PersonnelEngagementRecordListItem,
+  PersonnelEquipmentIssuanceListItem,
   PersonnelRecordListResponse,
   UpdatePersonnelPayload,
   UpdatePersonnelResponse,
@@ -145,4 +146,14 @@ export const getPersonnelEngagementRecordsEndpoint = async (id: string, pageSize
       query: { page: 1, pageSize },
     })
   }, API_LOADING_MESSAGES.fetchPersonnel)
+}
+
+export const getPersonnelEquipmentIssuancesEndpoint = async (id: string, pageSize = 100): Promise<PersonnelRecordListResponse<PersonnelEquipmentIssuanceListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<PersonnelRecordListResponse<PersonnelEquipmentIssuanceListItem>>(PERSONNEL_API_ENDPOINTS.personnelEquipmentIssuances(id), {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query: { page: 1, pageSize },
+    })
+  }, API_LOADING_MESSAGES.fetchEquipmentIssuances)
 }

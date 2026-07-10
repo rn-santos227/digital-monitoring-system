@@ -159,6 +159,7 @@ export const PERSONNEL_API_ENDPOINTS = Object.freeze({
   personnelEngagementRecords: (id: string) => `/api/personnel/${id}/engagement-records`,
   personnelEngagementRecord: (id: string) => `/api/personnel/${id}/engagement-record`,
   personnelTrainingRecord: (id: string) => `/api/personnel/${id}/training-record`,
+  personnelEquipmentIssuances: (id: string) => `/api/personnel/${id}/equipment-issuances`,
   locations: '/api/personnel/locations',
   ranks: '/api/ranks',
   rankSuggestions: '/api/ranks/suggestions',
