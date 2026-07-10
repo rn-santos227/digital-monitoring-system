@@ -14,6 +14,9 @@
       :status="row.serviceStatus"
       :status-tone="row.serviceStatus === 'Active' ? 'success' : 'warning'"
       :description="row.email"
+      :image-url="row.profileImageUrl"
+      :image-alt="`${row.fullName} personnel image`"
+      placeholder-label="Personnel image unavailable"
       :details="[
         { label: 'Rank', value: row.rankName },
         { label: 'Serial No.', value: row.serviceNumber },
