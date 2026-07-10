@@ -128,6 +128,14 @@ const sidebarToggleLabel = computed(() => {
   return isSidebarMinimized.value ? 'Expand sidebar' : 'Minimize sidebar'
 })
 
+const sidebarToggleIconName = computed<IconName>(() => {
+  return isSidebarMinimized.value ? 'chevron-right' : 'chevron-left'
+})
+
+const toggleSidebar = () => {
+  isSidebarMinimized.value = !isSidebarMinimized.value
+}
+
 const hasPermissionAccess = (item: NavigationItem) => {
   if (item.requiredPermissionMode === 'any') {
     return authStore.hasAnyPermissionAccess(item.requiredPermissions)
