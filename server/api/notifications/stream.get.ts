@@ -27,5 +27,9 @@ export default defineEventHandler(async (event) => {
       return
     }
 
+    await ensureTodaysScheduleNotifications(supabase, {
+      includeTrainings: actor.permission_codes.includes(PERMISSION_CODES.trainingView),
+      includeEngagements: actor.permission_codes.includes(PERMISSION_CODES.engagementView),
+    })
   }
 })
