@@ -267,6 +267,18 @@ export interface PersonnelEngagementRecordListItem {
   remarks: string | null
 }
 
+export interface PersonnelEquipmentIssuanceListItem {
+  id: string
+  issueNo: string
+  assetTag: string
+  equipmentItemName: string
+  status: string
+  issueDate: string
+  expectedReturnDate: string | null
+  actualReturnDate: string | null
+  issuePurpose: string | null
+}
+
 export interface PersonnelRecordListResponse<TItem> {
   items: TItem[]
   page: number

@@ -11,7 +11,7 @@
         >
         <div
           v-else
-          class="flex h-40 w-full items-center justify-center bg-gradient-to-br from-emerald-50 via-slate-100 to-slate-200 text-center"
+          class="flex h-40 w-full items-center justify-center bg-linear-to-br from-emerald-50 via-slate-100 to-slate-200 text-center"
         >
           <div class="space-y-2 px-4">
             <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white text-lg font-bold text-emerald-700 shadow-sm">
