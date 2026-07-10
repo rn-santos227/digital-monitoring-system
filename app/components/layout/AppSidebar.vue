@@ -124,6 +124,10 @@ const sidebarSectionTitleClasses = computed(() => {
   ]
 })
 
+const sidebarToggleLabel = computed(() => {
+  return isSidebarMinimized.value ? 'Expand sidebar' : 'Minimize sidebar'
+})
+
 const hasPermissionAccess = (item: NavigationItem) => {
   if (item.requiredPermissionMode === 'any') {
     return authStore.hasAnyPermissionAccess(item.requiredPermissions)
