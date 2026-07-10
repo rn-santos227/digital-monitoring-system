@@ -15,5 +15,9 @@ interface EnsureTodaysScheduleNotificationsOptions {
 const toIsoDate = (date: Date): string => date.toISOString().slice(0, 10)
 
 const hasNotificationForToday = (type: 'training-schedule' | 'engagement-schedule', sourceId: string, today: string): boolean => {
-
+  return notifications.some((notification) => {
+    return notification.type === type
+      && notification.sourceId === sourceId
+      && notification.createdAt.startsWith(today)
+  })
 }
