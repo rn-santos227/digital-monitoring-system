@@ -18,4 +18,14 @@ export default defineEventHandler(async (event) => {
     'x-accel-buffering': 'no',
   })
 
+  const supabase = getServiceSupabaseClient()
+  let isClosed = false
+
+
+  const sendNotificationSnapshot = async () => {
+    if (isClosed) {
+      return
+    }
+
+  }
 })
