@@ -62,8 +62,9 @@ export const saveSessionToken = (token?: string, expiresAt?: string, rememberSes
     return
   }
 
-  localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken, token)
-  localStorage.setItem(AUTH_LOCAL_STORAGE_KEYS.sessionTokenExpiresAt, expiresAt)
+  const storage = rememberSession ? localStorage : sessionStorage
+  storage.setItem(AUTH_LOCAL_STORAGE_KEYS.sessionToken, token)
+  storage.setItem(AUTH_LOCAL_STORAGE_KEYS.sessionTokenExpiresAt, expiresAt)
 
   const msUntilExpiry = new Date(expiresAt).getTime() - Date.now()
   if (msUntilExpiry > 0) {
