@@ -52,4 +52,15 @@ export default defineEventHandler(async (event) => {
       response.write(`data: ${JSON.stringify({ message })}\n\n`)
     })
   }, NOTIFICATION_STREAM_INTERVAL_MS)
+
+  await sendNotificationSnapshot()
+
+  return await new Promise<void>((resolve) => {
+    event.node.req.on('close', () => {
+      isClosed = true
+      clearInterval(interval)
+      response.end()
+      resolve()
+    })
+  })
 })
