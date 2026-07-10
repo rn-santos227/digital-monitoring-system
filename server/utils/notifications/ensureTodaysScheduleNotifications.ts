@@ -53,3 +53,12 @@ const ensureTodaysEngagementNotifications = async (supabase: SupabaseClient, tod
     .filter(item => !hasNotificationForToday('engagement-schedule', item.id, today))
     .forEach(notifyEngagementScheduled)
 }
+
+
+export const ensureTodaysScheduleNotifications = async (
+  supabase: SupabaseClient,
+  options: EnsureTodaysScheduleNotificationsOptions = {},
+  today = toIsoDate(new Date()),
+) => {
+
+}
