@@ -31,5 +31,17 @@ export default defineEventHandler(async (event) => {
       includeTrainings: actor.permission_codes.includes(PERMISSION_CODES.trainingView),
       includeEngagements: actor.permission_codes.includes(PERMISSION_CODES.engagementView),
     })
+
+    const items = listReadableCachedNotifications(actor.permission_codes)
+      .map(({ readByUserIds, ...notification }) => ({
+        ...notification,
+        isRead: readByUserIds.includes(actor.id),
+      }))
+
+    response.write(`event: notifications\n`)
+    response.write(`data: ${JSON.stringify({
+      items,
+      unreadCount: items.filter(item => !item.isRead).length,
+    })}\n\n`)
   }
 })
