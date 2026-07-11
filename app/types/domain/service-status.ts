@@ -5,7 +5,7 @@ import type { CreateEngagementRecordPayload } from '~/types/domain/engagement'
 import type { PersonnelLocationItem } from '~/types/domain/personnel'
 import type { CreateTrainingRecordPayload } from '~/types/domain/training'
 
-export type ActiveServiceStatusModal = 'deployment' | 'engagement' | 'training' | null
+export type ActiveServiceStatusModal = 'deployment' | 'engagement' | 'training' | 'equipment' | null
 
 export interface PersonnelLocationsResponse {
   items: PersonnelLocationItem[]
