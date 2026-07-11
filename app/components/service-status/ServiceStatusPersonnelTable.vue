@@ -37,13 +37,19 @@ interface ServiceStatusTableRow {
   item: PersonnelLocationItem
 }
 
-type ServiceStatusTableActionKey = 'view-personnel' | 'assign-deployment' | 'assign-engagement' | 'assign-training'
+type ServiceStatusTableActionKey =
+  | 'view-personnel'
+  | 'assign-deployment'
+  | 'assign-engagement'
+  | 'assign-training'
+  | 'assign-equipment'
 
 const props = defineProps<{ items: PersonnelLocationItem[] }>()
 const emit = defineEmits<{
   (event: 'assign-deployment', item: PersonnelLocationItem): void
   (event: 'assign-engagement', item: PersonnelLocationItem): void
   (event: 'assign-training', item: PersonnelLocationItem): void
+  (event: 'assign-equipment', item: PersonnelLocationItem): void
 }>()
 
 const formatCoordinates = (latitude: number | null, longitude: number | null) => {
@@ -86,6 +92,11 @@ const handleAction = (payload: { actionKey: string; row: ServiceStatusTableRow }
 
   if (actionKey === 'assign-training') {
     emit('assign-training', item)
+    return
+  }
+
+  if (actionKey === 'assign-equipment') {
+    emit('assign-equipment', item)
   }
 }
 </script>

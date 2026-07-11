@@ -4,6 +4,7 @@ import type { CreateDeploymentRecordPayload } from '~/types/domain/deployment'
 import type { CreateEngagementRecordPayload } from '~/types/domain/engagement'
 import type { PersonnelLocationItem } from '~/types/domain/personnel'
 import type { CreateTrainingRecordPayload } from '~/types/domain/training'
+import type { CreateEquipmentIssuancePayload } from '~/types/domain/equipment'
 
 export type ActiveServiceStatusModal = 'deployment' | 'engagement' | 'training' | 'equipment' | null
 
@@ -24,5 +25,6 @@ export interface ServiceStatusAssignmentHandlerOptions {
   assignDeployment: (personnelId: string, payload: Omit<CreateDeploymentRecordPayload, 'personnel_id'>) => Promise<void>
   assignEngagement: (personnelId: string, payload: Omit<CreateEngagementRecordPayload, 'personnel_id'>) => Promise<void>
   assignTraining: (personnelId: string, payload: Omit<CreateTrainingRecordPayload, 'personnelId'>) => Promise<void>
+  assignEquipment: (personnelId: string, payload: Omit<CreateEquipmentIssuancePayload, 'issuedToPersonnelId'>) => Promise<void>
   reload: () => Promise<void>
 }

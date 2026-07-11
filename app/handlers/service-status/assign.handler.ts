@@ -2,6 +2,7 @@ import type { PersonnelLocationItem } from '~/types/domain/personnel'
 import type { CreateDeploymentRecordPayload } from '~/types/domain/deployment'
 import type { CreateEngagementRecordPayload } from '~/types/domain/engagement'
 import type { CreateTrainingRecordPayload } from '~/types/domain/training'
+import type { CreateEquipmentIssuancePayload } from '~/types/domain/equipment'
 import { showErrorDialog } from '~/utils/error-handling'
 
 import type { ServiceStatusAssignmentHandlerOptions } from '~/types/domain/service-status'
@@ -25,12 +26,18 @@ export const useServiceStatusAssignmentHandler = (options: ServiceStatusAssignme
     options.activeModal.value = 'training'
   }
 
+  const onOpenAssignEquipment = (item: PersonnelLocationItem) => {
+    options.selectedPersonnelId.value = item.personnelId
+    options.modalErrorMessage.value = ''
+    options.activeModal.value = 'equipment'
+  }
+
   const onCloseModal = () => {
     options.activeModal.value = null
     options.modalErrorMessage.value = ''
   }
 
-const onSubmitAssignDeployment = async (payload: Omit<CreateDeploymentRecordPayload, 'personnel_id'>) => {
+  const onSubmitAssignDeployment = async (payload: Omit<CreateDeploymentRecordPayload, 'personnel_id'>) => {
     if (!options.selectedPersonnelId.value) {
       return
     }
@@ -49,7 +56,7 @@ const onSubmitAssignDeployment = async (payload: Omit<CreateDeploymentRecordPayl
     }
   }
 
-const onSubmitAssignEngagement = async (payload: Omit<CreateEngagementRecordPayload, 'personnel_id'>) => {
+  const onSubmitAssignEngagement = async (payload: Omit<CreateEngagementRecordPayload, 'personnel_id'>) => {
     if (!options.selectedPersonnelId.value) {
       return
     }
@@ -87,13 +94,34 @@ const onSubmitAssignTraining = async (payload: Omit<CreateTrainingRecordPayload,
     }
   }
 
+  const onSubmitAssignEquipment = async (payload: Omit<CreateEquipmentIssuancePayload, 'issuedToPersonnelId'>) => {
+    if (!options.selectedPersonnelId.value) {
+      return
+    }
+
+    try {
+      await options.assignEquipment(options.selectedPersonnelId.value, payload)
+      onCloseModal()
+      await options.reload()
+    } catch (error) {
+      options.modalErrorMessage.value = await showErrorDialog({
+        showDialog: options.showDialog,
+        title: 'Equipment assignment failed',
+        error,
+        fallbackMessage: 'Unable to assign equipment issuance right now.',
+      })
+    }
+  }
+
   return {
     onOpenAssignDeployment,
     onOpenAssignEngagement,
     onOpenAssignTraining,
+    onOpenAssignEquipment,
     onCloseModal,
     onSubmitAssignDeployment,
     onSubmitAssignEngagement,
     onSubmitAssignTraining,
+    onSubmitAssignEquipment,
   }
 }

@@ -56,6 +56,7 @@
           @assign-deployment="onOpenAssignDeployment"
           @assign-engagement="onOpenAssignEngagement"
           @assign-training="onOpenAssignTraining"
+          @assign-equipment="onOpenAssignEquipment"
         />
       </section>
     </template>
@@ -83,6 +84,15 @@
       @close="onCloseModal"
       @submit="onSubmitAssignTraining"
     />
+
+    <QuickAssignEquipmentModal
+      v-if="activeModal === 'equipment' && selectedPersonnelId"
+      :personnel-id="selectedPersonnelId"
+      :is-submitting="isSubmitting"
+      :error-message="modalErrorMessage || assignmentError"
+      @close="onCloseModal"
+      @submit="onSubmitAssignEquipment"
+    />
   </main>
 </template>
 
@@ -98,6 +108,7 @@ import QuickAssignDeploymentModal from '~/components/service-status/QuickAssignD
 import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import QuickAssignEngagementModal from '~/components/service-status/QuickAssignEngagementModal.vue'
 import QuickAssignTrainingModal from '~/components/service-status/QuickAssignTrainingModal.vue'
+import QuickAssignEquipmentModal from '~/components/service-status/QuickAssignEquipmentModal.vue'
 import ServiceStatusPersonnelTable from '~/components/service-status/ServiceStatusPersonnelTable.vue'
 import ServiceStatusTacticalMap from '~/components/service-status/ServiceStatusTacticalMap.vue'
 import BaseAlert from '~/components/ui/BaseAlert.vue'
@@ -120,8 +131,9 @@ import type { CreateDeploymentRecordPayload } from '~/types/domain/deployment'
 import type { CreateEngagementRecordPayload } from '~/types/domain/engagement'
 import type { PersonnelLocationItem } from '~/types/domain/personnel'
 import type { CreateTrainingRecordPayload } from '~/types/domain/training'
-import { fetchPersonnelLocationsEndpoint } from '~/utils/service-status-endpoints'
+import type { CreateEquipmentIssuancePayload } from '~/types/domain/equipment'
 import type { ActiveServiceStatusModal } from '~/types/domain/service-status'
+import { fetchPersonnelLocationsEndpoint } from '~/utils/service-status-endpoints'
 import { usePrintServiceStatusHandler } from '~/handlers/service-status'
 
 const { showDialog } = useDialog()
@@ -131,6 +143,7 @@ const {
   assignDeployment,
   assignEngagement,
   assignTraining,
+  assignEquipment,
 } = useAssignments()
 
 const activeTab = ref('service-map')
@@ -200,10 +213,12 @@ const {
   onOpenAssignDeployment,
   onOpenAssignEngagement,
   onOpenAssignTraining,
+  onOpenAssignEquipment,
   onCloseModal,
   onSubmitAssignDeployment,
   onSubmitAssignEngagement,
   onSubmitAssignTraining,
+  onSubmitAssignEquipment,
 } = useServiceStatusAssignmentHandler({
   selectedPersonnelId,
   activeModal,
@@ -217,6 +232,9 @@ const {
   },
   assignTraining: async (personnelId, payload: Omit<CreateTrainingRecordPayload, 'personnelId'>) => {
     await assignTraining(personnelId, { ...payload, personnelId: personnelId })
+  },
+  assignEquipment: async (personnelId, payload: Omit<CreateEquipmentIssuancePayload, 'issuedToPersonnelId'>) => {
+    await assignEquipment(personnelId, { ...payload, issuedToPersonnelId: personnelId })
   },
   reload: loadLocations,
 })
