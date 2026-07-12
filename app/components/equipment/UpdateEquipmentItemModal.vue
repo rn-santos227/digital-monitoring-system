@@ -2,6 +2,8 @@
   <BaseModal
     title="Update Equipment Item"
     description="Update equipment item details."
+    scroll-body
+    size="lg"
     @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
