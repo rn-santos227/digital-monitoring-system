@@ -126,4 +126,42 @@ export const useCharts = (data: MaybeRef<readonly ChartDataPoint[]>) => {
       },
     ],
   }))
+
+  const donutChartOption = computed<EChartsOption>(() => ({
+    color: chartData.value.map((item) => item.color ?? '#0f766e'),
+    tooltip: {
+      trigger: 'item',
+      valueFormatter: (value) => `${value} records`,
+    },
+    legend: {
+      orient: 'vertical',
+      right: 0,
+      top: 'middle',
+      textStyle: {
+        color: '#475569',
+      },
+    },
+    series: [
+      {
+        type: 'pie',
+        radius: ['48%', '72%'],
+        center: ['32%', '50%'],
+        avoidLabelOverlap: true,
+        data: chartData.value.map((item) => ({
+          name: item.label,
+          value: item.value,
+        })),
+        label: {
+          formatter: '{b}: {d}%',
+          color: '#475569',
+        },
+        emphasis: {
+          label: {
+            show: true,
+            fontWeight: 'bold',
+          },
+        },
+      },
+    ],
+  }))
 }
