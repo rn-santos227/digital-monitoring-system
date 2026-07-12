@@ -6,4 +6,9 @@ export interface ChartDataPoint {
   color?: string
 }
 
+export interface ReportSummaryMetric {
+  label: string
+  value: string
+  description: string
+}
 
