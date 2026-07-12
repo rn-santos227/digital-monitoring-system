@@ -24,7 +24,8 @@
         <BaseTextField v-model="form.unitOfMeasure" label="Unit of measure" :error="errors.unitOfMeasure" />
       </div>
       <BaseTextArea v-model="form.description" label="Description" :error="errors.description" />
-      <div class="grid gap-4 md:grid-cols-2">
+
+      <div :class="EQUIPMENT_ITEM_MODAL_FIELD_GRID_CLASSES">
         <BaseTextField
           v-model="minimumStockLevelInput"
           type="number"
@@ -32,7 +33,7 @@
           :error="errors.minimumStockLevel"
           required
         />
-        <div class="flex flex-col justify-end gap-3 rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3">
+        <div :class="EQUIPMENT_ITEM_MODAL_CHECKBOX_PANEL_CLASSES">
           <BaseCheckbox v-model="form.isSerialized" label="Serialized item" />
           <BaseCheckbox v-model="form.isActive" label="Active" />
         </div>
@@ -51,6 +52,10 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
 import { useDialog } from '~/composables/useDialog'
+import {
+  EQUIPMENT_ITEM_MODAL_CHECKBOX_PANEL_CLASSES,
+  EQUIPMENT_ITEM_MODAL_FIELD_GRID_CLASSES,
+} from '~/constants/shared.constants'
 import type { CreateEquipmentItemPayload } from '~/types/domain/equipment'
 import { validateCreateEquipmentItemForm } from '~/utils/equipment-validation'
 import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
