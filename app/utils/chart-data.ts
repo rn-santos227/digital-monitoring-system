@@ -35,6 +35,9 @@ export const limitChartData = (
   maximumItems: number,
   otherLabel = 'Other',
 ): ChartDataPoint[] => {
+  if (data.length <= maximumItems) {
+    return [...data]
+  }
 
 
 }
