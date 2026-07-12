@@ -12,3 +12,7 @@ export interface ReportSummaryMetric {
   description: string
 }
 
+export interface ReportPrintableSection {
+  title: string
+  rows: readonly ReportSummaryMetric[]
+}
