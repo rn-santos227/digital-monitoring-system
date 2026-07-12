@@ -9,17 +9,17 @@
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
       <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
-      <div class="grid gap-4 md:grid-cols-2">
+      <div :class="EQUIPMENT_ITEM_MODAL_FIELD_GRID_CLASSES">
         <BaseTextField v-model="form.equipmentCode" label="Equipment code" :error="errors.equipmentCode" required />
         <BaseTextField v-model="form.name" label="Item name" :error="errors.name" required />
       </div>
 
-      <div class="grid gap-4 md:grid-cols-2">
+      <div :class="EQUIPMENT_ITEM_MODAL_FIELD_GRID_CLASSES">
         <EquipmentCategoriesSuggestionField v-model="form.categoryId" :error="errors.categoryId" />
         <BaseTextField v-model="form.model" label="Model" :error="errors.model" />
       </div>
 
-      <div class="grid gap-4 md:grid-cols-2">
+      <div :class="EQUIPMENT_ITEM_MODAL_FIELD_GRID_CLASSES">
         <BaseTextField v-model="form.manufacturer" label="Manufacturer" :error="errors.manufacturer" />
         <BaseTextField v-model="form.unitOfMeasure" label="Unit of measure" :error="errors.unitOfMeasure" />
       </div>
