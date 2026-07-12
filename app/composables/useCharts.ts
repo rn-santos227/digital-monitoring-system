@@ -73,4 +73,57 @@ export const useCharts = (data: MaybeRef<readonly ChartDataPoint[]>) => {
       },
     ],
   }))
+
+  const lineChartOption = computed<EChartsOption>(() => ({
+    color: ['#0f766e'],
+    tooltip: {
+      trigger: 'axis',
+      valueFormatter: (value) => `${value} records`,
+    },
+    grid: {
+      top: 20,
+      right: 24,
+      bottom: 36,
+      left: 48,
+      containLabel: true,
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: chartData.value.map((item) => item.label),
+      axisLabel: {
+        color: '#64748b',
+      },
+    },
+    yAxis: {
+      type: 'value',
+      minInterval: 1,
+      axisLabel: {
+        color: '#64748b',
+      },
+      splitLine: {
+        lineStyle: {
+          color: '#e2e8f0',
+        },
+      },
+    },
+    series: [
+      {
+        type: 'line',
+        smooth: true,
+        symbolSize: 8,
+        areaStyle: {
+          color: 'rgba(15, 118, 110, 0.12)',
+        },
+        lineStyle: {
+          color: '#0f766e',
+          width: 3,
+        },
+        itemStyle: {
+          color: '#0f766e',
+        },
+        data: chartData.value.map((item) => item.value),
+      },
+    ],
+  }))
 }
