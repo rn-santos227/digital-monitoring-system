@@ -2,6 +2,8 @@
   <BaseModal
     title="Create Equipment Item"
     description="Register a new equipment item for category-based asset tracking."
+    scroll-body
+    size="lg"
     @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
