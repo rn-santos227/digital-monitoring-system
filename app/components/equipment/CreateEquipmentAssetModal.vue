@@ -103,7 +103,7 @@ const emit = defineEmits<{
   (event: 'submit', payload: CreateEquipmentAssetPayload): void
 }>()
 
-const form = reactive({
+const initialFormValues = {
   assetTag: '',
   equipmentItemId: '',
   serialNo: '',
@@ -116,8 +116,9 @@ const form = reactive({
   serviceabilityStatusId: '',
   assetStatusId: 'In Stock',
   remarks: '',
-})
+}
 
+const form = reactive({ ...initialFormValues })
 const errors = reactive<Record<string, string>>({})
 const { showDialog } = useDialog()
 
