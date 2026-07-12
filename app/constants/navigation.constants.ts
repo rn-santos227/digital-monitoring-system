@@ -61,8 +61,8 @@ export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.
         to: ROUTE_PATHS.engagementRecords,
         icon: 'shield',
         requiredPermissions: ENGAGEMENT_PRIVILEGES.manage,
-      }
-    ]
+      },
+    ],
   },
   {
     title: 'Equipment Handling',
@@ -70,21 +70,22 @@ export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.
       { label: 'Equipment Categories', to: ROUTE_PATHS.equipmentCategories, icon: 'squares' },
       { label: 'Equipment Items', to: ROUTE_PATHS.equipmentItems, icon: 'cube' },
       { label: 'Equipment Assets', to: ROUTE_PATHS.equipmentAssets, icon: 'archive' },
-      { label: 'Equipment Issuances', to: ROUTE_PATHS.equipmentIssuances, icon: 'arrow-path' }
+      { label: 'Equipment Issuances', to: ROUTE_PATHS.equipmentIssuances, icon: 'arrow-path' },
+      { label: 'Incident Tracking', to: ROUTE_PATHS.incidents, icon: 'exclamation' },
     ]
   },
   {
-    title: 'Incidents & Audits',
+    title: 'Audits & Reports',
     items: [
-      { label: 'Incident Tracking', to: ROUTE_PATHS.incidents, icon: 'exclamation' },
       {
         label: 'Audit Trail',
         to: ROUTE_PATHS.auditTrail,
         icon: 'clock',
         requiredPermissions: AUDIT_PRIVILEGES.view,
-      }
-    ]
-  }
+      },
+      { label: 'Reports', to: ROUTE_PATHS.reports, icon: 'chart-bar' },
+    ],
+  },
 ])
 
 export const SIDEBAR_FOOTER_ITEMS: readonly NavigationItem[] = Object.freeze([
