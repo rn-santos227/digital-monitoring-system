@@ -53,6 +53,10 @@ export const TRAINING_FILTER_FOOTER_CLASSES = 'border-t border-slate-200 pt-4'
 export const TRAINING_FILTER_ACTIONS_CLASSES = 'flex justify-end gap-2'
 export const TRAINING_TABLE_ACTIONS_ROW_CLASSES = 'flex items-center justify-end gap-2'
 
+export const EQUIPMENT_ITEM_MODAL_FIELD_GRID_CLASSES = 'grid gap-4 md:grid-cols-2'
+export const EQUIPMENT_ITEM_MODAL_CHECKBOX_PANEL_CLASSES =
+  'flex flex-col justify-end gap-3 rounded-xl border border-slate-200 bg-slate-50/70 px-4 py-3'
+
 export const DEPLOYMENTS_PAGE_HEADER_CLASSES = 'space-y-2'
 export const DEPLOYMENTS_FILTER_FORM_CLASSES = 'space-y-4'
 export const DEPLOYMENTS_FILTER_FIELDS_GRID_CLASSES = 'grid gap-3 md:grid-cols-2 lg:grid-cols-3'
