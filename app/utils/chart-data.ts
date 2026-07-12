@@ -39,5 +39,15 @@ export const limitChartData = (
     return [...data]
   }
 
+  const visibleItems = data.slice(0, maximumItems)
+  const hiddenTotal = data.slice(maximumItems).reduce((total, item) => total + item.value, 0)
 
+  return [
+    ...visibleItems,
+    {
+      label: otherLabel,
+      value: hiddenTotal,
+      color: CHART_DEFAULT_COLORS[maximumItems % CHART_DEFAULT_COLORS.length] ?? CHART_DEFAULT_COLORS[0],
+    },
+  ]
 }
