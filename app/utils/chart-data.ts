@@ -29,3 +29,12 @@ export const groupRecordsByStringValue = <TItem>(
     }))
     .sort((left, right) => right.value - left.value || left.label.localeCompare(right.label))
 }
+
+export const limitChartData = (
+  data: readonly ChartDataPoint[],
+  maximumItems: number,
+  otherLabel = 'Other',
+): ChartDataPoint[] => {
+
+
+}
