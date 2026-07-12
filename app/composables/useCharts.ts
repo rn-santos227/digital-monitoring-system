@@ -8,4 +8,8 @@ export const useCharts = (data: MaybeRef<readonly ChartDataPoint[]>) => {
   const totalValue = computed(() => sumChartValues(chartData.value))
   const highestValue = computed(() => Math.max(...chartData.value.map((item) => item.value), 0))
 
+  const getPercentage = (value: number): number => {
+    return toPercent(value, totalValue.value)
+  }
+
 }
