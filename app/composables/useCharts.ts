@@ -12,4 +12,11 @@ export const useCharts = (data: MaybeRef<readonly ChartDataPoint[]>) => {
     return toPercent(value, totalValue.value)
   }
 
+  const getBarWidth = (value: number): string => {
+    if (highestValue.value <= 0) {
+      return '0%'
+    }
+
+    return `${Math.max(Math.round((value / highestValue.value) * 100), 4)}%`
+  }
 }
