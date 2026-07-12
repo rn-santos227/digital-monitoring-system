@@ -26,6 +26,7 @@ export type IconName =
   | 'map-pin'
   | 'shield'
   | 'shield-exclamation'
+  | 'chart-bar'
   | 'squares'
   | 'table-cells'
   | 'cube'
