@@ -51,3 +51,12 @@ export const limitChartData = (
     },
   ]
 }
+
+export const groupRecordsByMonth = <TItem>(
+  items: readonly TItem[],
+  resolveValue: (item: TItem) => string | null | undefined,
+  fallbackLabel = 'Unknown month',
+): ChartDataPoint[] => {
+
+
+}
