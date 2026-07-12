@@ -1,4 +1,8 @@
+import { fileURLToPath } from 'node:url'
+
 import tailwindcss from '@tailwindcss/vite'
+
+const nuxtAppManifestAlias = fileURLToPath(new URL('./app/utils/nuxt-app-manifest.ts', import.meta.url))
 
 const supabaseUrl = process.env.NUXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL
 const supabaseKey =
@@ -20,7 +24,15 @@ export default defineNuxtConfig({
     },
   ],
   css: ['./app/assets/css/main.css'],
+  alias: {
+    '#app-manifest': nuxtAppManifestAlias,
+  },
   vite: {
+    resolve: {
+      alias: {
+        '#app-manifest': nuxtAppManifestAlias,
+      },
+    },
     plugins: [tailwindcss()],
     optimizeDeps: {
       include: [
