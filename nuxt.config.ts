@@ -12,10 +12,7 @@ const supabaseServiceRoleKey =
 
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
-  modules: [
-    '@pinia/nuxt',
-    '@nuxtjs/supabase',
-  ],
+  modules: ['@pinia/nuxt', '@nuxtjs/supabase', 'nuxt-echarts'],
   components: [
     {
       path: '~/components',

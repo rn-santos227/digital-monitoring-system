@@ -13,10 +13,13 @@
     "@heroicons/vue": "^2.2.0",
     "@nuxtjs/supabase": "^2.0.4",
     "@pinia/nuxt": "^0.11.3",
+    "echarts": "^6.1.0",
     "exceljs": "^4.4.0",
     "nuxt": "^4.4.2",
+    "nuxt-echarts": "^1.0.1",
     "pinia": "^3.0.4",
-    "vue": "^3.5.30"
+    "vue": "^3.5.30",
+    "vue-echarts": "^8.0.1"
   },
   "devDependencies": {
     "@nuxt/test-utils": "^4.0.3",
