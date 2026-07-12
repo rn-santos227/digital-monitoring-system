@@ -8,3 +8,12 @@ export const CHART_DEFAULT_COLORS = Object.freeze([
   '#dc2626',
   '#0891b2',
 ])
+
+export const groupRecordsByStringValue = <TItem>(
+  items: readonly TItem[],
+  resolveValue: (item: TItem) => string | null | undefined,
+  fallbackLabel = 'Not specified',
+): ChartDataPoint[] => {
+
+
+}
