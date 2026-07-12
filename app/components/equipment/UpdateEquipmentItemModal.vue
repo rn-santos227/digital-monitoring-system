@@ -46,6 +46,10 @@
 
 <script setup lang="ts">
 import { computed, reactive, watch } from 'vue'
+import {
+  EQUIPMENT_ITEM_MODAL_CHECKBOX_PANEL_CLASSES,
+  EQUIPMENT_ITEM_MODAL_FIELD_GRID_CLASSES,
+} from '~/constants/shared.constants'
 import { useDialog } from '~/composables/useDialog'
 import type { UpdateEquipmentItemPayload } from '~/types/domain/equipment'
 import { validateUpdateEquipmentItemForm } from '~/utils/equipment-validation'
