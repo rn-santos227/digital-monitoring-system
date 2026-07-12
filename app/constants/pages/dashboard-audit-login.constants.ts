@@ -74,3 +74,17 @@ export const DASHBOARD_LOGOUT_DIALOG_TITLE = 'Log out from dashboard?'
 export const DASHBOARD_LOGOUT_DIALOG_MESSAGE = 'You are about to end your authenticated session in the Digital AFP Personnel and Equipment Monitoring System.'
 export const DASHBOARD_LOGOUT_DIALOG_CONFIRM_LABEL = 'Log out'
 export const DASHBOARD_LOGOUT_DIALOG_CANCEL_LABEL = 'Stay signed in'
+
+export const REPORTS_PAGE_TITLE = 'Reports'
+export const REPORTS_PAGE_SUBTITLE = 'View printable personnel and equipment monitoring summaries with adjustable charts.'
+export const REPORTS_PAGE_SECTION_CLASSES = 'space-y-6 print:space-y-4'
+export const REPORTS_TABS_ARIA_LABEL = 'Report categories'
+export const REPORTS_PRINT_BUTTON_LABEL = 'Print Report'
+export const REPORTS_PERSONNEL_TAB_TITLE = 'Personnel Report'
+export const REPORTS_EQUIPMENT_TAB_TITLE = 'Equipment Report'
+export const REPORTS_SUMMARY_CARD_TITLE = 'Printable Summary'
+export const REPORTS_SUMMARY_CARD_SUBTITLE = 'Use the print action to produce an operator-ready summary of the current tab.'
+export const REPORTS_TAB_ITEMS = Object.freeze([
+  { id: 'personnel', label: 'Personnel' },
+  { id: 'equipment', label: 'Equipment' },
+])
