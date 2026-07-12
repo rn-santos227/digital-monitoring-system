@@ -24,15 +24,19 @@
         <BaseTextField v-model="form.unitOfMeasure" label="Unit of measure" :error="errors.unitOfMeasure" />
       </div>
       <BaseTextArea v-model="form.description" label="Description" :error="errors.description" />
-      <BaseTextField
-        v-model="minimumStockLevelInput"
-        type="number"
-        label="Minimum stock level"
-        :error="errors.minimumStockLevel"
-        required
-      />
-      <BaseCheckbox v-model="form.isSerialized" label="Serialized item" />
-      <BaseCheckbox v-model="form.isActive" label="Active" />
+      <div :class="EQUIPMENT_ITEM_MODAL_FIELD_GRID_CLASSES">
+        <BaseTextField
+          v-model="minimumStockLevelInput"
+          type="number"
+          label="Minimum stock level"
+          :error="errors.minimumStockLevel"
+          required
+        />
+        <div :class="EQUIPMENT_ITEM_MODAL_CHECKBOX_PANEL_CLASSES">
+          <BaseCheckbox v-model="form.isSerialized" label="Serialized item" />
+          <BaseCheckbox v-model="form.isActive" label="Active" />
+        </div>
+      </div>
     </form>
 
     <template #footer>
