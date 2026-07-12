@@ -92,3 +92,10 @@ export const sumChartValues = (data: readonly ChartDataPoint[]): number => {
   return data.reduce((total, item) => total + item.value, 0)
 }
 
+export const toPercent = (value: number, total: number): number => {
+  if (total <= 0) {
+    return 0
+  }
+
+  return Math.round((value / total) * 100)
+}
