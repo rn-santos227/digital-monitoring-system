@@ -164,4 +164,15 @@ export const useCharts = (data: MaybeRef<readonly ChartDataPoint[]>) => {
       },
     ],
   }))
+
+  return {
+    chartData,
+    totalValue,
+    highestValue,
+    getPercentage,
+    getBarWidth,
+    barChartOption,
+    donutChartOption,
+    lineChartOption,
+  }
 }
