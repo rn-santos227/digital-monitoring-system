@@ -87,3 +87,8 @@ export const groupRecordsByMonth = <TItem>(
       return new Date(left.label).getTime() - new Date(right.label).getTime()
     })
 }
+
+export const sumChartValues = (data: readonly ChartDataPoint[]): number => {
+  return data.reduce((total, item) => total + item.value, 0)
+}
+
