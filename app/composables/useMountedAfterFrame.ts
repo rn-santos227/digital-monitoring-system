@@ -33,4 +33,12 @@ export const useMountedAfterFrame = (target?: Ref<HTMLElement | null>) => {
       resizeObserver.observe(targetElement)
     })
   })
+
+  onBeforeUnmount(() => {
+    if (frameId !== undefined) {
+      cancelAnimationFrame(frameId)
+    }
+
+    resizeObserver?.disconnect()
+  })
 }
