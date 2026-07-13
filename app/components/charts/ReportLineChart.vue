@@ -16,4 +16,6 @@ const props = withDefaults(
     subtitle: '',
   }
 )
+
+const { chartData, lineChartOption } = useCharts(toRef(props, 'data'))
 </script>
