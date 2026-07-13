@@ -57,4 +57,10 @@ const personnelMetrics = computed(() => [
   { label: 'Battalions Represented', value: new Set(personnelItems.value.map((item) => item.battalionName).filter(Boolean)).size.toLocaleString(), description: 'Unique battalion assignments in the loaded report data.' },
   { label: 'Companies Represented', value: new Set(personnelItems.value.map((item) => item.companyName).filter(Boolean)).size.toLocaleString(), description: 'Unique company assignments in the loaded report data.' },
 ])
+
+const equipmentMetrics = computed(() => [
+  { label: 'Equipment Assets', value: equipmentAssetsResponse.totalItems.toLocaleString(), description: 'Total equipment asset records available for this report.' },
+  { label: 'Equipment Items', value: equipmentItemsResponse.totalItems.toLocaleString(), description: 'Total equipment item definitions available for chart grouping.' },
+  { label: 'Tracked Locations', value: new Set(equipmentAssets.value.map((item) => item.currentLocation).filter(Boolean)).size.toLocaleString(), description: 'Unique current locations in the loaded report data.' },
+])
 </script>
