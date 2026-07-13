@@ -1,5 +1,9 @@
 <template>
-
+  <BaseCard :title="title" :subtitle="subtitle">
+    <div v-if="chartData.length" class="space-y-4">
+      
+    </div>
+  </BaseCard>
 </template>
 
 <script setup lang="ts">
