@@ -8,6 +8,12 @@
             <span class="font-medium text-slate-700">{{ item.label }}</span>
             <span class="text-slate-500">{{ item.value }} · {{ getPercentage(item.value) }}%</span>
           </div>
+          <div class="h-2 overflow-hidden rounded-full bg-slate-100">
+            <div
+              class="h-full rounded-full transition-all"
+              :style="{ width: getBarWidth(item.value), backgroundColor: item.color || fallbackColor }"
+            />
+          </div>
         </div>
       </div>
     </div>
