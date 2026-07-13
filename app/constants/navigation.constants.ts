@@ -73,11 +73,36 @@ export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.
   {
     title: 'Equipment Handling',
     items: [
-      { label: 'Equipment Categories', to: ROUTE_PATHS.equipmentCategories, icon: 'squares' },
-      { label: 'Equipment Items', to: ROUTE_PATHS.equipmentItems, icon: 'cube' },
-      { label: 'Equipment Assets', to: ROUTE_PATHS.equipmentAssets, icon: 'archive' },
-      { label: 'Equipment Issuances', to: ROUTE_PATHS.equipmentIssuances, icon: 'arrow-path' },
-      { label: 'Incident Tracking', to: ROUTE_PATHS.incidents, icon: 'exclamation' },
+      {
+        label: 'Equipment Categories',
+        to: ROUTE_PATHS.equipmentCategories,
+        icon: 'squares',
+        requiredPermissions: EQUIPMENT_PRIVILEGES.view,
+      },
+      {
+        label: 'Equipment Items',
+        to: ROUTE_PATHS.equipmentItems,
+        icon: 'cube',
+        requiredPermissions: EQUIPMENT_PRIVILEGES.view,
+      },
+      {
+        label: 'Equipment Assets',
+        to: ROUTE_PATHS.equipmentAssets,
+        icon: 'archive',
+        requiredPermissions: EQUIPMENT_PRIVILEGES.view,
+      },
+      {
+        label: 'Equipment Issuances',
+        to: ROUTE_PATHS.equipmentIssuances,
+        icon: 'arrow-path',
+        requiredPermissions: EQUIPMENT_PRIVILEGES.view,
+      },
+      {
+        label: 'Incident Tracking',
+        to: ROUTE_PATHS.incidents,
+        icon: 'exclamation',
+        requiredPermissions: EQUIPMENT_PRIVILEGES.view,
+      },
     ]
   },
   {
