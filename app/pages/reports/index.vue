@@ -45,4 +45,10 @@ const personnelBattalionChart = computed(() => limitChartData(groupRecordsByStri
 const personnelCompanyChart = computed(() => limitChartData(groupRecordsByStringValue(personnelItems.value, (item) => item.companyName), 5))
 const personnelSexChart = computed(() => groupRecordsByStringValue(personnelItems.value, (item) => item.sex))
 const personnelTimelineChart = computed(() => groupRecordsByMonth(personnelItems.value, (item) => item.createdAt))
+
+const equipmentAssetStatusChart = computed(() => groupRecordsByStringValue(equipmentAssets.value, (item) => item.assetStatusName))
+const equipmentServiceabilityChart = computed(() => groupRecordsByStringValue(equipmentAssets.value, (item) => item.serviceabilityStatusName))
+const equipmentItemsChart = computed(() => limitChartData(groupRecordsByStringValue(equipmentAssets.value, (item) => item.equipmentItemName), 5))
+const equipmentLocationChart = computed(() => limitChartData(groupRecordsByStringValue(equipmentAssets.value, (item) => item.currentLocation), 5))
+const equipmentTimelineChart = computed(() => groupRecordsByMonth(equipmentAssets.value, (item) => item.procurementDate ?? item.createdAt))
 </script>
