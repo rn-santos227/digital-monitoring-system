@@ -4,6 +4,7 @@ import {
   AUDIT_PRIVILEGES,
   BATTALION_PRIVILEGES,
   COMPANY_PRIVILEGES,
+  EQUIPMENT_PRIVILEGES,
   PERSONNEL_PRIVILEGES,
   TRAINING_PRIVILEGES,
   DEPLOYMENT_PRIVILEGES,
@@ -38,7 +39,12 @@ export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.
         requiredPermissions: Object.freeze([...BATTALION_PRIVILEGES.view, ...COMPANY_PRIVILEGES.view]),
         requiredPermissionMode: 'any',
       },
-      { label: 'Service & Employment Status', to: ROUTE_PATHS.serviceStatuses, icon: 'clipboard' }
+      {
+        label: 'Service & Employment Status',
+        to: ROUTE_PATHS.serviceStatuses,
+        icon: 'clipboard',
+        requiredPermissions: PERSONNEL_PRIVILEGES.view,
+      },
     ]
   },
   {
