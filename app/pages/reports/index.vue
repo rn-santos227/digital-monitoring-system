@@ -17,6 +17,16 @@
         :items="REPORTS_TAB_ITEMS"
         :aria-label="REPORTS_TABS_ARIA_LABEL"
       />
+
+      <section v-if="activeTab === 'personnel'" class="space-y-6">
+        <h2 class="sr-only">{{ REPORTS_PERSONNEL_TAB_TITLE }}</h2>
+        <div class="grid gap-4 md:grid-cols-3">
+          <BaseCard v-for="metric in personnelMetrics" :key="metric.label" :title="metric.label">
+            <p class="text-3xl font-semibold text-slate-900">{{ metric.value }}</p>
+            <p class="mt-2 text-sm text-slate-500">{{ metric.description }}</p>
+          </BaseCard>
+        </div>
+      </section>
     </section>
   </main>
 </template>
