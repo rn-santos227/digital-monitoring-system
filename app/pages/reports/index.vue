@@ -65,4 +65,13 @@ const equipmentMetrics = computed(() => [
 ])
 
 const activeMetrics = computed(() => activeTab.value === 'personnel' ? personnelMetrics.value : equipmentMetrics.value)
+
+const handlePrintReport = (): void => {
+  printReportSections(activeTab.value === 'personnel' ? REPORTS_PERSONNEL_TAB_TITLE : REPORTS_EQUIPMENT_TAB_TITLE, [
+    {
+      title: REPORTS_SUMMARY_CARD_TITLE,
+      rows: activeMetrics.value,
+    },
+  ])
+}
 </script>
