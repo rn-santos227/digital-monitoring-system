@@ -34,6 +34,16 @@
           <ReportLineChart title="Personnel Records Timeline" subtitle="Personnel records grouped by creation month." :data="personnelTimelineChart" />
         </div>
       </section>
+
+      <section v-else class="space-y-6">
+        <h2 class="sr-only">{{ REPORTS_EQUIPMENT_TAB_TITLE }}</h2>
+        <div class="grid gap-4 md:grid-cols-3">
+          <BaseCard v-for="metric in equipmentMetrics" :key="metric.label" :title="metric.label">
+            <p class="text-3xl font-semibold text-slate-900">{{ metric.value }}</p>
+            <p class="mt-2 text-sm text-slate-500">{{ metric.description }}</p>
+          </BaseCard>
+        </div> 
+      </section>
     </section>
   </main>
 </template>
