@@ -34,4 +34,23 @@ const toReferenceName = (value: ReportReferenceRow | ReportReferenceRow[] | null
   return row?.name ?? null
 }
 
+export const buildReportStringChart = <TItem>(
+  items: readonly TItem[],
+  resolveValue: (item: TItem) => string | null | undefined,
+  fallbackLabel = 'Not specified',
+): ReportChartDataPoint[] => {
+  const counts = new Map<string, number>()
 
+  for (const item of items) {
+    const label = resolveValue(item)?.trim() || fallbackLabel
+    counts.set(label, (counts.get(label) ?? 0) + 1)
+  }
+
+  return Array.from(counts.entries())
+    .map(([label, value], index) => ({
+      label,
+      value,
+      color: getChartColor(index),
+    }))
+    .sort((left, right) => right.value - left.value || left.label.localeCompare(right.label))
+}
