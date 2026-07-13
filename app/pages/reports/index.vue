@@ -42,7 +42,14 @@
             <p class="text-3xl font-semibold text-slate-900">{{ metric.value }}</p>
             <p class="mt-2 text-sm text-slate-500">{{ metric.description }}</p>
           </BaseCard>
-        </div> 
+        </div>
+        <div class="grid gap-4 xl:grid-cols-2">
+          <ReportDonutChart title="Assets by Asset Status" subtitle="Equipment asset lifecycle status distribution." :data="equipmentAssetStatusChart" />
+          <ReportDonutChart title="Assets by Serviceability" subtitle="Operational serviceability distribution." :data="equipmentServiceabilityChart" />
+          <ReportBarChart title="Assets by Equipment Item" subtitle="Assets grouped by equipment item." :data="equipmentItemsChart" />
+          <ReportBarChart title="Assets by Current Location" subtitle="Assets grouped by recorded current location." :data="equipmentLocationChart" />
+          <ReportLineChart title="Equipment Assets Timeline" subtitle="Equipment assets grouped by procurement or record creation month." :data="equipmentTimelineChart" />
+        </div>
       </section>
     </section>
   </main>
