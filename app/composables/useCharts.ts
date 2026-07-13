@@ -34,7 +34,8 @@ export const useCharts = (data: MaybeRef<readonly ChartDataPoint[]>) => {
       right: 16,
       bottom: 24,
       left: 120,
-      containLabel: true,
+      outerBoundsMode: 'same',
+      outerBoundsContain: 'axisLabel',
     },
     xAxis: {
       type: 'value',
@@ -85,7 +86,8 @@ export const useCharts = (data: MaybeRef<readonly ChartDataPoint[]>) => {
       right: 24,
       bottom: 36,
       left: 48,
-      containLabel: true,
+      outerBoundsMode: 'same',
+      outerBoundsContain: 'axisLabel',
     },
     xAxis: {
       type: 'category',
