@@ -27,4 +27,12 @@ import type { ReportTabId } from '~/types/domain/reports'
 import { groupRecordsByMonth, limitChartData, groupRecordsByStringValue } from '~/utils/chart-data'
 import { getEquipmentAssetsEndpoint, getEquipmentItemsEndpoint } from '~/utils/equipment-endpoints'
 import { getPersonnelEndpoint } from '~/utils/personnel-endpoints'
+
+const activeTab = ref<ReportTabId>('personnel')
+
+const [personnelResponse, equipmentAssetsResponse, equipmentItemsResponse] = await Promise.all([
+  getPersonnelEndpoint({ page: 1, pageSize: 500 }),
+  getEquipmentAssetsEndpoint({ page: 1, pageSize: 500 }),
+  getEquipmentItemsEndpoint({ page: 1, pageSize: 500 }),
+])
 </script>
