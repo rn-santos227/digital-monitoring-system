@@ -3,7 +3,12 @@
     <div v-if="chartData.length" class="space-y-4">
       <VChart class="h-80 w-full print:h-64" :option="barChartOption" autoresize />
       <div class="space-y-3 print:hidden">
-        <div v-for="item in chartData" :key="item.label" class="space-y-2"></div>
+        <div v-for="item in chartData" :key="item.label" class="space-y-2">
+          <div class="flex items-center justify-between gap-3 text-sm">
+            <span class="font-medium text-slate-700">{{ item.label }}</span>
+            <span class="text-slate-500">{{ item.value }} · {{ getPercentage(item.value) }}%</span>
+          </div>
+        </div>
       </div>
     </div>
   </BaseCard>
