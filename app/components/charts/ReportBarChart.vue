@@ -21,6 +21,7 @@
 </template>
 
 <script setup lang="ts">
+import VChart from 'vue-echarts'
 import BaseCard from '~/components/ui/BaseCard.vue'
 import type { ChartDataPoint } from '~/types/domain/reports'
 
