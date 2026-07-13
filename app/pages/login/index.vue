@@ -70,7 +70,7 @@
               <BaseButton
                 type="submit"
                 full-width
-                :disabled="isSubmitDisabled"
+                :disabled="isLoginSubmitButtonDisabled"
               >
                 {{ isSubmitting ? 'Signing In...' : LOGIN_PAGE_SIGN_IN_LABEL }}
               </BaseButton>
