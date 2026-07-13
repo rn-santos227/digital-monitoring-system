@@ -26,6 +26,9 @@
             <p class="mt-2 text-sm text-slate-500">{{ metric.description }}</p>
           </BaseCard>
         </div>
+        <div class="grid gap-4 xl:grid-cols-2">
+          <ReportDonutChart title="Personnel by Service Status" subtitle="Current service status distribution." :data="personnelServiceStatusChart" />
+        </div>
       </section>
     </section>
   </main>
