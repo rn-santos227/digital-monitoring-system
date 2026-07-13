@@ -113,15 +113,9 @@ const personnelResponse = ref<PersonnelListResponse>(createEmptyListResponse())
 const equipmentAssetsResponse = ref<EquipmentAssetListResponse>(createEmptyListResponse())
 const equipmentItemsResponse = ref<EquipmentItemListResponse>(createEmptyListResponse())
 
-const [personnelResponse, equipmentAssetsResponse, equipmentItemsResponse] = await Promise.all([
-  getPersonnelEndpoint({ page: 1, pageSize: 500 }),
-  getEquipmentAssetsEndpoint({ page: 1, pageSize: 500 }),
-  getEquipmentItemsEndpoint({ page: 1, pageSize: 500 }),
-])
-
-const personnelItems = computed(() => personnelResponse.items)
-const equipmentAssets = computed(() => equipmentAssetsResponse.items)
-const equipmentItems = computed(() => equipmentItemsResponse.items)
+const personnelItems = computed(() => personnelResponse.value.items)
+const equipmentAssets = computed(() => equipmentAssetsResponse.value.items)
+const equipmentItems = computed(() => equipmentItemsResponse.value.items)
 
 const personnelServiceStatusChart = computed(() => groupRecordsByStringValue(personnelItems.value, (item) => item.serviceStatus))
 const personnelBattalionChart = computed(() => limitChartData(groupRecordsByStringValue(personnelItems.value, (item) => item.battalionName), 5))
