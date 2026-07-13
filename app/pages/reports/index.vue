@@ -51,4 +51,10 @@ const equipmentServiceabilityChart = computed(() => groupRecordsByStringValue(eq
 const equipmentItemsChart = computed(() => limitChartData(groupRecordsByStringValue(equipmentAssets.value, (item) => item.equipmentItemName), 5))
 const equipmentLocationChart = computed(() => limitChartData(groupRecordsByStringValue(equipmentAssets.value, (item) => item.currentLocation), 5))
 const equipmentTimelineChart = computed(() => groupRecordsByMonth(equipmentAssets.value, (item) => item.procurementDate ?? item.createdAt))
+
+const personnelMetrics = computed(() => [
+  { label: 'Personnel Records', value: personnelResponse.totalItems.toLocaleString(), description: 'Total personnel records available for this report.' },
+  { label: 'Battalions Represented', value: new Set(personnelItems.value.map((item) => item.battalionName).filter(Boolean)).size.toLocaleString(), description: 'Unique battalion assignments in the loaded report data.' },
+  { label: 'Companies Represented', value: new Set(personnelItems.value.map((item) => item.companyName).filter(Boolean)).size.toLocaleString(), description: 'Unique company assignments in the loaded report data.' },
+])
 </script>
