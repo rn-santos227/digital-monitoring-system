@@ -1,6 +1,8 @@
 <template>
   <BaseCard :title="title" :subtitle="subtitle">
-    <div v-if="chartData.length" class="space-y-4"></div>
+    <div v-if="chartData.length" class="space-y-4">
+      <VChart class="h-80 w-full print:h-64" :option="lineChartOption" autoresize />
+    </div>
   </BaseCard>
 </template>
 
