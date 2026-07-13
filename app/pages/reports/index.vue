@@ -11,6 +11,13 @@
         </BaseButton>
       </header>
 
+      <BaseAlert
+        v-if="reportLoadError"
+        title="Unable to load reports"
+        :message="reportLoadError"
+        tone="danger"
+      />
+
       <BaseTab
         v-model="activeTab"
         class="print:hidden"
