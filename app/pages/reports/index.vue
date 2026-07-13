@@ -147,7 +147,7 @@ const equipmentLocationChart = computed(() => limitChartData(groupRecordsByStrin
 const equipmentTimelineChart = computed(() => groupRecordsByMonth(equipmentAssets.value, (item) => item.procurementDate ?? item.createdAt))
 
 const personnelMetrics = computed(() => [
-  { label: 'Personnel Records', value: personnelResponse.totalItems.toLocaleString(), description: 'Total personnel records available for this report.' },
+  { label: 'Personnel Records', value: personnelResponse.value.totalItems.toLocaleString(), description: 'Total personnel records available for this report.' },
   { label: 'Battalions Represented', value: new Set(personnelItems.value.map((item) => item.battalionName).filter(Boolean)).size.toLocaleString(), description: 'Unique battalion assignments in the loaded report data.' },
   { label: 'Companies Represented', value: new Set(personnelItems.value.map((item) => item.companyName).filter(Boolean)).size.toLocaleString(), description: 'Unique company assignments in the loaded report data.' },
 ])
