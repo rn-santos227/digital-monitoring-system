@@ -2,6 +2,9 @@
   <BaseCard :title="title" :subtitle="subtitle">
     <div v-if="chartData.length" class="space-y-4">
       <VChart class="h-80 w-full print:h-64" :option="barChartOption" autoresize />
+      <div class="space-y-3 print:hidden">
+        <div v-for="item in chartData" :key="item.label" class="space-y-2"></div>
+      </div>
     </div>
   </BaseCard>
 </template>
