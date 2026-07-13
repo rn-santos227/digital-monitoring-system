@@ -1,16 +1,4 @@
-export const useMountedAfterFrame = () => {
-  const isMountedAfterFrame = ref(false)
+import { nextTick, onBeforeUnmount, onMounted, ref, type Ref } from 'vue'
 
-  onMounted(async () => {
-    await nextTick()
-    await new Promise<void>((resolve) => {
-      requestAnimationFrame(() => resolve())
-    })
+const hasRenderableSize = (element: HTMLElement) => element.clientWidth > 0 && element.clientHeight > 0
 
-    isMountedAfterFrame.value = true
-  })
-
-  return {
-    isMountedAfterFrame,
-  }
-}
