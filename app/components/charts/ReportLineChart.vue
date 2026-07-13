@@ -1,6 +1,6 @@
 <template>
   <BaseCard :title="title" :subtitle="subtitle">
-    <div v-if="chartData.length" class="space-y-4">
+    <div v-if="chartData.length" ref="chartContainer" class="space-y-4">
       <VChart v-if="isChartReady" class="h-80 w-full print:h-64" :option="lineChartOption" autoresize />
       <ol class="grid gap-2 text-sm sm:grid-cols-2 print:hidden">
         <li v-for="item in chartData" :key="item.label" class="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2">
@@ -29,5 +29,6 @@ const props = withDefaults(
 )
 
 const { chartData, lineChartOption } = useCharts(toRef(props, 'data'))
-const { isMountedAfterFrame: isChartReady } = useMountedAfterFrame()
+const chartContainer = ref<HTMLElement | null>(null)
+const { isMountedAfterFrame: isChartReady } = useMountedAfterFrame(chartContainer)
 </script>
