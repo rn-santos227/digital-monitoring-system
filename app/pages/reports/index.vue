@@ -117,6 +117,23 @@ const personnelItems = computed(() => personnelResponse.value.items)
 const equipmentAssets = computed(() => equipmentAssetsResponse.value.items)
 const equipmentItems = computed(() => equipmentItemsResponse.value.items)
 
+onMounted(async () => {
+  reportLoadError.value = ''
+
+  try {
+    const [nextPersonnelResponse, nextEquipmentAssetsResponse, nextEquipmentItemsResponse] = await Promise.all([
+      getPersonnelEndpoint({ page: 1, pageSize: REPORTS_PAGE_SIZE }),
+      getEquipmentAssetsEndpoint({ page: 1, pageSize: REPORTS_PAGE_SIZE }),
+      getEquipmentItemsEndpoint({ page: 1, pageSize: REPORTS_PAGE_SIZE }),
+    ])
+    personnelResponse.value = nextPersonnelResponse
+    equipmentAssetsResponse.value = nextEquipmentAssetsResponse
+    equipmentItemsResponse.value = nextEquipmentItemsResponse
+  } catch (error) {
+    reportLoadError.value = extractApiErrorMessage(error, 'Unable to load report data right now.')
+  }
+})
+
 const personnelServiceStatusChart = computed(() => groupRecordsByStringValue(personnelItems.value, (item) => item.serviceStatus))
 const personnelBattalionChart = computed(() => limitChartData(groupRecordsByStringValue(personnelItems.value, (item) => item.battalionName), 5))
 const personnelCompanyChart = computed(() => limitChartData(groupRecordsByStringValue(personnelItems.value, (item) => item.companyName), 5))
