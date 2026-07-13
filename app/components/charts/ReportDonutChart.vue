@@ -16,4 +16,7 @@ const props = withDefaults(
     subtitle: '',
   }
 )
+
+const fallbackColor = '#0f766e'
+const { chartData, donutChartOption, getPercentage } = useCharts(toRef(props, 'data'))
 </script>
