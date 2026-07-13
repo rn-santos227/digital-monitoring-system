@@ -108,6 +108,10 @@ const createEmptyListResponse = <TItem>(): { items: TItem[]; page: number; pageS
 }
 
 const activeTab = ref<ReportTabId>('personnel')
+const reportLoadError = ref('')
+const personnelResponse = ref<PersonnelListResponse>(createEmptyListResponse())
+const equipmentAssetsResponse = ref<EquipmentAssetListResponse>(createEmptyListResponse())
+const equipmentItemsResponse = ref<EquipmentItemListResponse>(createEmptyListResponse())
 
 const [personnelResponse, equipmentAssetsResponse, equipmentItemsResponse] = await Promise.all([
   getPersonnelEndpoint({ page: 1, pageSize: 500 }),
