@@ -63,4 +63,6 @@ const equipmentMetrics = computed(() => [
   { label: 'Equipment Items', value: equipmentItemsResponse.totalItems.toLocaleString(), description: 'Total equipment item definitions available for chart grouping.' },
   { label: 'Tracked Locations', value: new Set(equipmentAssets.value.map((item) => item.currentLocation).filter(Boolean)).size.toLocaleString(), description: 'Unique current locations in the loaded report data.' },
 ])
+
+const activeMetrics = computed(() => activeTab.value === 'personnel' ? personnelMetrics.value : equipmentMetrics.value)
 </script>
