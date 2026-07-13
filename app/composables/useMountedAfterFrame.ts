@@ -41,4 +41,8 @@ export const useMountedAfterFrame = (target?: Ref<HTMLElement | null>) => {
 
     resizeObserver?.disconnect()
   })
+
+  return {
+    isMountedAfterFrame,
+  }
 }
