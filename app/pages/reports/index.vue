@@ -28,6 +28,10 @@
         </div>
         <div class="grid gap-4 xl:grid-cols-2">
           <ReportDonutChart title="Personnel by Service Status" subtitle="Current service status distribution." :data="personnelServiceStatusChart" />
+          <ReportBarChart title="Personnel by Battalion" subtitle="Personnel records grouped by battalion assignment." :data="personnelBattalionChart" />
+          <ReportBarChart title="Personnel by Company" subtitle="Personnel records grouped by company assignment." :data="personnelCompanyChart" />
+          <ReportDonutChart title="Personnel by Sex" subtitle="Personnel record sex distribution." :data="personnelSexChart" />
+          <ReportLineChart title="Personnel Records Timeline" subtitle="Personnel records grouped by creation month." :data="personnelTimelineChart" />
         </div>
       </section>
     </section>
