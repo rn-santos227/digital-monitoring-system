@@ -10,6 +10,13 @@
           {{ REPORTS_PRINT_BUTTON_LABEL }}
         </BaseButton>
       </header>
+
+      <BaseTab
+        v-model="activeTab"
+        class="print:hidden"
+        :items="REPORTS_TAB_ITEMS"
+        :aria-label="REPORTS_TABS_ARIA_LABEL"
+      />
     </section>
   </main>
 </template>
