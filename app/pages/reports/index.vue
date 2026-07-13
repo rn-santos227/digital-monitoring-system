@@ -1,7 +1,15 @@
 <template>
   <main :class="APP_MAIN_CONTENT_CLASSES">
     <section :class="REPORTS_PAGE_SECTION_CLASSES">
-      
+      <header class="flex flex-col gap-4 print:block sm:flex-row sm:items-start sm:justify-between">
+        <div class="space-y-2">
+          <h1 class="text-3xl font-semibold text-slate-900">{{ REPORTS_PAGE_TITLE }}</h1>
+          <p class="max-w-3xl text-sm text-slate-600">{{ REPORTS_PAGE_SUBTITLE }}</p>
+        </div>
+        <BaseButton class="print:hidden" @click="handlePrintReport">
+          {{ REPORTS_PRINT_BUTTON_LABEL }}
+        </BaseButton>
+      </header>
     </section>
   </main>
 </template>
