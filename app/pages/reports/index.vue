@@ -95,6 +95,18 @@ import { getEquipmentAssetsEndpoint, getEquipmentItemsEndpoint } from '~/utils/e
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { getPersonnelEndpoint } from '~/utils/personnel-endpoints'
 
+const REPORTS_PAGE_SIZE = 500
+
+const createEmptyListResponse = <TItem>(): { items: TItem[]; page: number; pageSize: number; totalItems: number; totalPages: number } => {
+  return {
+    items: [],
+    page: 1,
+    pageSize: REPORTS_PAGE_SIZE,
+    totalItems: 0,
+    totalPages: 0,
+  }
+}
+
 const activeTab = ref<ReportTabId>('personnel')
 
 const [personnelResponse, equipmentAssetsResponse, equipmentItemsResponse] = await Promise.all([
