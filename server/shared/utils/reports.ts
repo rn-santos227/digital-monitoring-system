@@ -16,4 +16,17 @@ interface ReportReferenceRow {
   name?: string | null
 }
 
+export interface ReportEquipmentAssetChartRow {
+  current_location: string | null
+  procurement_date: string | null
+  created_at: string | null
+  equipment_item: ReportReferenceRow | ReportReferenceRow[] | null
+  serviceability_status: ReportReferenceRow | ReportReferenceRow[] | null
+  asset_status: ReportReferenceRow | ReportReferenceRow[] | null
+}
+
+const getChartColor = (index: number): string => {
+  return REPORT_CHART_DEFAULT_COLORS[index % REPORT_CHART_DEFAULT_COLORS.length] ?? REPORT_CHART_DEFAULT_COLORS[0]
+}
+
 
