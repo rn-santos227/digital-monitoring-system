@@ -29,4 +29,9 @@ const getChartColor = (index: number): string => {
   return REPORT_CHART_DEFAULT_COLORS[index % REPORT_CHART_DEFAULT_COLORS.length] ?? REPORT_CHART_DEFAULT_COLORS[0]
 }
 
+const toReferenceName = (value: ReportReferenceRow | ReportReferenceRow[] | null | undefined): string | null => {
+  const row = Array.isArray(value) ? (value[0] ?? null) : (value ?? null)
+  return row?.name ?? null
+}
+
 
