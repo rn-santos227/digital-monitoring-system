@@ -69,6 +69,7 @@
 import ReportBarChart from '~/components/charts/ReportBarChart.vue'
 import ReportDonutChart from '~/components/charts/ReportDonutChart.vue'
 import ReportLineChart from '~/components/charts/ReportLineChart.vue'
+import BaseAlert from '~/components/ui/BaseAlert.vue'
 import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseCard from '~/components/ui/BaseCard.vue'
 import BaseTab from '~/components/ui/BaseTab.vue'
@@ -86,9 +87,12 @@ import {
 } from '~/constants/page.constants'
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 import { printReportSections } from '~/handlers/reports'
+import type { EquipmentAssetListResponse, EquipmentItemListResponse } from '~/types/domain/equipment'
+import type { PersonnelListResponse } from '~/types/domain/personnel'
 import type { ReportTabId } from '~/types/domain/reports'
 import { groupRecordsByMonth, limitChartData, groupRecordsByStringValue } from '~/utils/chart-data'
 import { getEquipmentAssetsEndpoint, getEquipmentItemsEndpoint } from '~/utils/equipment-endpoints'
+import { extractApiErrorMessage } from '~/utils/api-request'
 import { getPersonnelEndpoint } from '~/utils/personnel-endpoints'
 
 const activeTab = ref<ReportTabId>('personnel')
