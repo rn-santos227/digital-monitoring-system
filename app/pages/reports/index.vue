@@ -21,4 +21,10 @@ import {
   REPORTS_TAB_ITEMS,
   REPORTS_TABS_ARIA_LABEL,
 } from '~/constants/page.constants'
+import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
+import { printReportSections } from '~/handlers/reports'
+import type { ReportTabId } from '~/types/domain/reports'
+import { groupRecordsByMonth, limitChartData, groupRecordsByStringValue } from '~/utils/chart-data'
+import { getEquipmentAssetsEndpoint, getEquipmentItemsEndpoint } from '~/utils/equipment-endpoints'
+import { getPersonnelEndpoint } from '~/utils/personnel-endpoints'
 </script>
