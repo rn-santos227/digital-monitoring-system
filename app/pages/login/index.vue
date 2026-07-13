@@ -94,7 +94,7 @@
 <script setup lang="ts">
 import { ShieldCheckIcon } from '@heroicons/vue/24/outline'
 import { storeToRefs } from 'pinia'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import {
   LOGIN_PAGE_BADGE,
   LOGIN_PAGE_CARD_SUBTITLE,
@@ -138,6 +138,8 @@ const {
 
 const { submitLoginForm } = useLoginPageHandlers(formState, loginError, validateForm)
 
+const hasHydrated = ref(false)
+const isLoginSubmitButtonDisabled = computed(() => hasHydrated.value && isSubmitDisabled.value)
 
 const applicationSettingsStore = useApplicationSettingsStore()
 const { hasLoaded, item: settingsItem } = storeToRefs(applicationSettingsStore)
@@ -196,6 +198,8 @@ const securityTextClasses = computed(() => ['text-sm font-medium', themeClasses.
 const footerNoticeClasses = computed(() => ['relative z-10 text-xs', themeClasses.value.footerNotice])
 
 onMounted(async () => {
+  hasHydrated.value = true
+
   if (applicationSettingsStore.hasLoaded) {
     return
   }
