@@ -2,6 +2,11 @@
   <BaseCard :title="title" :subtitle="subtitle">
     <div v-if="chartData.length" class="space-y-4">
       <VChart class="h-80 w-full print:h-64" :option="donutChartOption" autoresize />
+      <div class="grid gap-3 text-sm sm:grid-cols-2 print:hidden">
+        <div v-for="item in chartData" :key="item.label" class="flex items-center justify-between gap-3 rounded-xl bg-slate-50 px-3 py-2">
+          
+        </div>
+      </div>
     </div>
   </BaseCard>
 </template>
