@@ -83,7 +83,7 @@ export const SIDEBAR_NAVIGATION_SECTIONS: readonly NavigationSection[] = Object.
         icon: 'clock',
         requiredPermissions: AUDIT_PRIVILEGES.view,
       },
-      { label: 'Reports', to: ROUTE_PATHS.reports, icon: 'chart-bar' },
+      { label: 'Graphs & Reports', to: ROUTE_PATHS.reports, icon: 'chart-bar' },
     ],
   },
 ])
