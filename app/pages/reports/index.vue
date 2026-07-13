@@ -35,4 +35,8 @@ const [personnelResponse, equipmentAssetsResponse, equipmentItemsResponse] = awa
   getEquipmentAssetsEndpoint({ page: 1, pageSize: 500 }),
   getEquipmentItemsEndpoint({ page: 1, pageSize: 500 }),
 ])
+
+const personnelItems = computed(() => personnelResponse.items)
+const equipmentAssets = computed(() => equipmentAssetsResponse.items)
+const equipmentItems = computed(() => equipmentItemsResponse.items)
 </script>
