@@ -17,4 +17,20 @@ export const useMountedAfterFrame = (target?: Ref<HTMLElement | null>) => {
     isMountedAfterFrame.value = true
     resizeObserver?.disconnect()
   }
+
+  onMounted(async () => {
+    await nextTick()
+
+    frameId = requestAnimationFrame(() => {
+      const targetElement = target?.value
+
+      if (!targetElement || hasRenderableSize(targetElement)) {
+        markReadyWhenRenderable()
+        return
+      }
+
+      resizeObserver = new ResizeObserver(markReadyWhenRenderable)
+      resizeObserver.observe(targetElement)
+    })
+  })
 }
