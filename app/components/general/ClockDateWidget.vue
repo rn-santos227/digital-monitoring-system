@@ -1,7 +1,7 @@
 <template>
   <div class="inline-flex items-center gap-2 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-medium text-slate-600">
     <ClockIcon class="h-4 w-4 text-slate-500" aria-hidden="true" />
-    <span>{{ formattedDateTime }}</span>
+    <span>{{ mountedFormattedDateTime }}</span>
   </div>
 </template>
 
@@ -11,7 +11,9 @@ import { storeToRefs } from 'pinia'
 import { useDateDisplay } from '~/composables/useDateDisplay'
 import { useApplicationSettingsStore } from '~/stores/application-settings'
 
-const now = ref(new Date())
+const clockPlaceholder = '—'
+const hasMounted = ref(false)
+const now = ref<Date | null>(null)
 const { formatDate } = useDateDisplay()
 const applicationSettingsStore = useApplicationSettingsStore()
 const { item } = storeToRefs(applicationSettingsStore)
@@ -32,15 +34,23 @@ const formatTime = (date: Date): string => {
 
 const formattedDateTime = computed(() => {
   const currentDate = now.value
+
+  if (!currentDate) {
+    return clockPlaceholder
+  }
   const formattedDate = formatDate(currentDate.toISOString(), '—')
   const formattedTime = formatTime(currentDate)
 
   return `${formattedDate} ${formattedTime}`
 })
 
+const mountedFormattedDateTime = computed(() => hasMounted.value ? formattedDateTime.value : clockPlaceholder)
 let timer: ReturnType<typeof setInterval> | null = null
 
 onMounted(() => {
+  hasMounted.value = true
+  now.value = new Date()
+
   timer = setInterval(() => {
     now.value = new Date()
   }, 1000)
