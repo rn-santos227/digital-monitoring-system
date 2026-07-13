@@ -2,6 +2,12 @@
   <BaseCard :title="title" :subtitle="subtitle">
     <div v-if="chartData.length" class="space-y-4">
       <VChart class="h-80 w-full print:h-64" :option="lineChartOption" autoresize />
+      <ol class="grid gap-2 text-sm sm:grid-cols-2 print:hidden">
+        <li v-for="item in chartData" :key="item.label" class="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2">
+          <span class="font-medium text-slate-700">{{ item.label }}</span>
+          <span class="text-slate-500">{{ item.value }} records</span>
+        </li>
+      </ol>
     </div>
   </BaseCard>
 </template>
