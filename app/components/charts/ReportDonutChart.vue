@@ -1,7 +1,9 @@
 <template>
   <BaseCard :title="title" :subtitle="subtitle">
-    <div v-if="chartData.length" ref="chartContainer" class="space-y-4">
-      <VChart v-if="isChartReady" class="h-80 w-full print:h-64" :option="donutChartOption" autoresize />
+    <div v-if="chartData.length" class="space-y-4">
+      <div ref="chartContainer" class="h-80 w-full print:h-64">
+        <VChart v-if="isChartReady" class="h-full w-full" :option="donutChartOption" autoresize />
+      </div>
       <div class="grid gap-3 text-sm sm:grid-cols-2 print:hidden">
         <div v-for="item in chartData" :key="item.label" class="flex items-center justify-between gap-3 rounded-xl bg-slate-50 px-3 py-2">
           <span class="flex items-center gap-2 text-slate-700">

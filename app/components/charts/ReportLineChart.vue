@@ -1,7 +1,9 @@
 <template>
   <BaseCard :title="title" :subtitle="subtitle">
-    <div v-if="chartData.length" ref="chartContainer" class="space-y-4">
-      <VChart v-if="isChartReady" class="h-80 w-full print:h-64" :option="lineChartOption" autoresize />
+    <div v-if="chartData.length" class="space-y-4">
+      <div ref="chartContainer" class="h-80 w-full print:h-64">
+        <VChart v-if="isChartReady" class="h-full w-full" :option="lineChartOption" autoresize />
+      </div>
       <ol class="grid gap-2 text-sm sm:grid-cols-2 print:hidden">
         <li v-for="item in chartData" :key="item.label" class="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2">
           <span class="font-medium text-slate-700">{{ item.label }}</span>
