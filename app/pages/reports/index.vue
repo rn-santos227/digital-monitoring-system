@@ -51,6 +51,16 @@
           <ReportLineChart title="Equipment Assets Timeline" subtitle="Equipment assets grouped by procurement or record creation month." :data="equipmentTimelineChart" />
         </div>
       </section>
+
+      <BaseCard :title="REPORTS_SUMMARY_CARD_TITLE" :subtitle="REPORTS_SUMMARY_CARD_SUBTITLE">
+        <dl class="grid gap-4 md:grid-cols-3">
+          <div v-for="metric in activeMetrics" :key="metric.label" class="rounded-xl bg-slate-50 p-4">
+            <dt class="text-sm font-medium text-slate-600">{{ metric.label }}</dt>
+            <dd class="mt-2 text-2xl font-semibold text-slate-900">{{ metric.value }}</dd>
+            <p class="mt-1 text-xs text-slate-500">{{ metric.description }}</p>
+          </div>
+        </dl>
+      </BaseCard>
     </section>
   </main>
 </template>
