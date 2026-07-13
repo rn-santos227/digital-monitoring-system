@@ -4,19 +4,9 @@ import { extractApiErrorMessage } from '~/utils/api-request'
 import { getApplicationSettingsEndpoint, updateApplicationSettingsEndpoint } from '~/utils/application-settings-endpoints'
 import { loadApplicationSettingsFromStorage, saveApplicationSettingsToStorage } from '~/utils/application-settings-storage'
 
-const loadInitialApplicationSettingsItem = () => {
-  if (!import.meta.client) {
-    return null
-  }
-
-  return loadApplicationSettingsFromStorage()
-}
-
-const initialApplicationSettingsItem = loadInitialApplicationSettingsItem()
-
 const INITIAL_APPLICATION_SETTINGS_STATE: ApplicationSettingsState = {
-  item: initialApplicationSettingsItem,
-  hasLoaded: Boolean(initialApplicationSettingsItem),
+  item: null,
+  hasLoaded: false,
   isLoading: false,
   isSubmitting: false,
   loadError: '',
