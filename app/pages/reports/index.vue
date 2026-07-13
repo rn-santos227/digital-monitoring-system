@@ -39,4 +39,10 @@ const [personnelResponse, equipmentAssetsResponse, equipmentItemsResponse] = awa
 const personnelItems = computed(() => personnelResponse.items)
 const equipmentAssets = computed(() => equipmentAssetsResponse.items)
 const equipmentItems = computed(() => equipmentItemsResponse.items)
+
+const personnelServiceStatusChart = computed(() => groupRecordsByStringValue(personnelItems.value, (item) => item.serviceStatus))
+const personnelBattalionChart = computed(() => limitChartData(groupRecordsByStringValue(personnelItems.value, (item) => item.battalionName), 5))
+const personnelCompanyChart = computed(() => limitChartData(groupRecordsByStringValue(personnelItems.value, (item) => item.companyName), 5))
+const personnelSexChart = computed(() => groupRecordsByStringValue(personnelItems.value, (item) => item.sex))
+const personnelTimelineChart = computed(() => groupRecordsByMonth(personnelItems.value, (item) => item.createdAt))
 </script>
