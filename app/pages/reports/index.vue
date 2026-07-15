@@ -118,5 +118,8 @@ const personnelTimelineChart = computed<ChartDataPoint[]>(() => personnelCharts.
 
 const equipmentAssetStatusChart = computed<ChartDataPoint[]>(() => equipmentCharts.value.assetStatus)
 const equipmentServiceabilityChart = computed<ChartDataPoint[]>(() => equipmentCharts.value.serviceability)
+const equipmentItemsChart = computed<ChartDataPoint[]>(() => equipmentCharts.value.items)
+const equipmentLocationChart = computed<ChartDataPoint[]>(() => equipmentCharts.value.locations)
+const equipmentTimelineChart = computed<ChartDataPoint[]>(() => equipmentCharts.value.timeline)
 
 </script>
