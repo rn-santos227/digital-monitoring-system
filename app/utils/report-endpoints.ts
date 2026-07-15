@@ -23,6 +23,9 @@ const getReportSessionHeaders = (): Record<string, string> => {
 
 export const getReportChartsEndpoint = async (): Promise<ReportChartsResponse> => {
   return await withApiLoading(async () => {
-
+    return await $fetch<ReportChartsResponse>(REPORTS_API_ENDPOINTS.reports, {
+      method: 'GET',
+      headers: getReportSessionHeaders(),
+    })
   }
 }
