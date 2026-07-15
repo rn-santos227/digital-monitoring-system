@@ -25,6 +25,12 @@ export const createEmptyReportChartsResponse = (): ReportChartsResponse => ({
       totalItems: 0,
       trackedLocations: 0,
     },
-
+    charts: {
+      assetStatus: [],
+      serviceability: [],
+      items: [],
+      locations: [],
+      timeline: [],
+    },
   },
 })
