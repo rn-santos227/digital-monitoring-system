@@ -110,4 +110,10 @@ onMounted(async () => {
 const personnelCharts = computed(() => reportChartsResponse.value.personnel.charts)
 const equipmentCharts = computed(() => reportChartsResponse.value.equipment.charts)
 
+const personnelServiceStatusChart = computed<ChartDataPoint[]>(() => personnelCharts.value.serviceStatus)
+const personnelBattalionChart = computed<ChartDataPoint[]>(() => personnelCharts.value.battalions)
+const personnelCompanyChart = computed<ChartDataPoint[]>(() => personnelCharts.value.companies)
+const personnelSexChart = computed<ChartDataPoint[]>(() => personnelCharts.value.sex)
+const personnelTimelineChart = computed<ChartDataPoint[]>(() => personnelCharts.value.timeline)
+
 </script>
