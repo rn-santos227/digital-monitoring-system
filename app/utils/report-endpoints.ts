@@ -4,5 +4,8 @@ import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
 
 const getReportSessionHeaders = (): Record<string, string> => {
+  if (!import.meta.server) {
+    return createSessionHeaders()
+  }
 
 }
