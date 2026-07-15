@@ -1,5 +1,5 @@
 <template>
-  <main :class="APP_MAIN_CONTENT_CLASSES">
+  <!-- <main :class="APP_MAIN_CONTENT_CLASSES">
     <section :class="REPORTS_PAGE_SECTION_CLASSES">
       <header class="flex flex-col gap-4 print:block sm:flex-row sm:items-start sm:justify-between">
         <div class="space-y-2">
@@ -69,7 +69,7 @@
         </dl>
       </BaseCard>
     </section>
-  </main>
+  </main> -->
 </template>
 
 <script setup lang="ts">
@@ -102,77 +102,5 @@ import { getEquipmentAssetsEndpoint, getEquipmentItemsEndpoint } from '~/utils/e
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { getPersonnelEndpoint } from '~/utils/personnel-endpoints'
 
-const REPORTS_PAGE_SIZE = 500
 
-const createEmptyListResponse = <TItem>(): { items: TItem[]; page: number; pageSize: number; totalItems: number; totalPages: number } => {
-  return {
-    items: [],
-    page: 1,
-    pageSize: REPORTS_PAGE_SIZE,
-    totalItems: 0,
-    totalPages: 0,
-  }
-}
-
-const activeTab = ref<ReportTabId>('personnel')
-const reportLoadError = ref('')
-const personnelResponse = ref<PersonnelListResponse>(createEmptyListResponse())
-const equipmentAssetsResponse = ref<EquipmentAssetListResponse>(createEmptyListResponse())
-const equipmentItemsResponse = ref<EquipmentItemListResponse>(createEmptyListResponse())
-
-const personnelItems = computed(() => personnelResponse.value.items)
-const equipmentAssets = computed(() => equipmentAssetsResponse.value.items)
-const equipmentItems = computed(() => equipmentItemsResponse.value.items)
-
-onMounted(async () => {
-  reportLoadError.value = ''
-
-  try {
-    const [nextPersonnelResponse, nextEquipmentAssetsResponse, nextEquipmentItemsResponse] = await Promise.all([
-      getPersonnelEndpoint({ page: 1, pageSize: REPORTS_PAGE_SIZE }),
-      getEquipmentAssetsEndpoint({ page: 1, pageSize: REPORTS_PAGE_SIZE }),
-      getEquipmentItemsEndpoint({ page: 1, pageSize: REPORTS_PAGE_SIZE }),
-    ])
-    personnelResponse.value = nextPersonnelResponse
-    equipmentAssetsResponse.value = nextEquipmentAssetsResponse
-    equipmentItemsResponse.value = nextEquipmentItemsResponse
-  } catch (error) {
-    reportLoadError.value = extractApiErrorMessage(error, 'Unable to load report data right now.')
-  }
-})
-
-const personnelServiceStatusChart = computed(() => groupRecordsByStringValue(personnelItems.value, (item) => item.serviceStatus))
-const personnelBattalionChart = computed(() => limitChartData(groupRecordsByStringValue(personnelItems.value, (item) => item.battalionName), 5))
-const personnelCompanyChart = computed(() => limitChartData(groupRecordsByStringValue(personnelItems.value, (item) => item.companyName), 5))
-const personnelSexChart = computed(() => groupRecordsByStringValue(personnelItems.value, (item) => item.sex))
-const personnelTimelineChart = computed(() => groupRecordsByMonth(personnelItems.value, (item) => item.createdAt))
-
-const equipmentAssetStatusChart = computed(() => groupRecordsByStringValue(equipmentAssets.value, (item) => item.assetStatusName))
-const equipmentServiceabilityChart = computed(() => groupRecordsByStringValue(equipmentAssets.value, (item) => item.serviceabilityStatusName))
-const equipmentItemsChart = computed(() => limitChartData(groupRecordsByStringValue(equipmentAssets.value, (item) => item.equipmentItemName), 5))
-const equipmentLocationChart = computed(() => limitChartData(groupRecordsByStringValue(equipmentAssets.value, (item) => item.currentLocation), 5))
-const equipmentTimelineChart = computed(() => groupRecordsByMonth(equipmentAssets.value, (item) => item.procurementDate ?? item.createdAt))
-
-const personnelMetrics = computed(() => [
-  { label: 'Personnel Records', value: personnelResponse.value.totalItems.toLocaleString(), description: 'Total personnel records available for this report.' },
-  { label: 'Battalions Represented', value: new Set(personnelItems.value.map((item) => item.battalionName).filter(Boolean)).size.toLocaleString(), description: 'Unique battalion assignments in the loaded report data.' },
-  { label: 'Companies Represented', value: new Set(personnelItems.value.map((item) => item.companyName).filter(Boolean)).size.toLocaleString(), description: 'Unique company assignments in the loaded report data.' },
-])
-
-const equipmentMetrics = computed(() => [
-  { label: 'Equipment Assets', value: equipmentAssetsResponse.value.totalItems.toLocaleString(), description: 'Total equipment asset records available for this report.' },
-  { label: 'Equipment Items', value: equipmentItemsResponse.value.totalItems.toLocaleString(), description: 'Total equipment item definitions available for chart grouping.' },
-  { label: 'Tracked Locations', value: new Set(equipmentAssets.value.map((item) => item.currentLocation).filter(Boolean)).size.toLocaleString(), description: 'Unique current locations in the loaded report data.' },
-])
-
-const activeMetrics = computed(() => activeTab.value === 'personnel' ? personnelMetrics.value : equipmentMetrics.value)
-
-const handlePrintReport = (): void => {
-  printReportSections(activeTab.value === 'personnel' ? REPORTS_PERSONNEL_TAB_TITLE : REPORTS_EQUIPMENT_TAB_TITLE, [
-    {
-      title: REPORTS_SUMMARY_CARD_TITLE,
-      rows: activeMetrics.value,
-    },
-  ])
-}
 </script>
