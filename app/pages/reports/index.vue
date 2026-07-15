@@ -95,6 +95,6 @@ import {
 import type { ChartDataPoint, ReportChartsResponse, ReportTabId } from '~/types/domain/reports'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { getPersonnelEndpoint } from '~/utils/personnel-endpoints'
-
+import { getReportChartsEndpoint } from '~/utils/report-endpoints'
 
 </script>
