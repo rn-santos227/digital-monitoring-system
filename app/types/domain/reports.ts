@@ -32,3 +32,9 @@ export interface ReportEquipmentChartGroups {
   locations: ChartDataPoint[]
   timeline: ChartDataPoint[]
 }
+
+export interface ReportPersonnelMetrics {
+  totalRecords: number
+  battalionsRepresented: number
+  companiesRepresented: number
+}
