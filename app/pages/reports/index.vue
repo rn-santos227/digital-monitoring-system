@@ -122,4 +122,10 @@ const equipmentItemsChart = computed<ChartDataPoint[]>(() => equipmentCharts.val
 const equipmentLocationChart = computed<ChartDataPoint[]>(() => equipmentCharts.value.locations)
 const equipmentTimelineChart = computed<ChartDataPoint[]>(() => equipmentCharts.value.timeline)
 
+const personnelMetrics = computed(() => [
+  { label: 'Personnel Records', value: reportChartsResponse.value.personnel.metrics.totalRecords.toLocaleString(), description: 'Total personnel records available for this report.' },
+  { label: 'Battalions Represented', value: reportChartsResponse.value.personnel.metrics.battalionsRepresented.toLocaleString(), description: 'Unique battalion assignments in the backend report data.' },
+  { label: 'Companies Represented', value: reportChartsResponse.value.personnel.metrics.companiesRepresented.toLocaleString(), description: 'Unique company assignments in the backend report data.' },
+])
+
 </script>
