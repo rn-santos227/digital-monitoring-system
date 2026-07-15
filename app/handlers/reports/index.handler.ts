@@ -44,6 +44,6 @@ export const loadReportCharts = async ({
   reportChartsResponse,
   reportLoadError,
 }: LoadReportChartsOptions): Promise<void> => {
-
+  reportLoadError.value = ''
 
 }
