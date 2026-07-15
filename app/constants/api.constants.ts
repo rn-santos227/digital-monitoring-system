@@ -133,6 +133,10 @@ export const INCIDENT_MANAGEMENT_API_ENDPOINTS = Object.freeze({
   investigationStatusSuggestions: '/api/incidents/suggestions',
 })
 
+export const REPORTS_API_ENDPOINTS = Object.freeze({
+  reports: '/api/reports',
+})
+
 export const DASHBOARD_API_ENDPOINTS = Object.freeze({
   unitManagementKpis: '/api/dashboard/unit-management',
   topKpis: '/api/dashboard/top-kpis',
