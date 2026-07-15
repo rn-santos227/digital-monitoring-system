@@ -47,5 +47,9 @@ export interface ReportEquipmentMetrics {
 
 export interface ReportChartsResponse {
   asOf: string
+  personnel: {
+    metrics: ReportPersonnelMetrics
+    charts: ReportPersonnelChartGroups
+  }
 
 }
