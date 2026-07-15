@@ -51,5 +51,8 @@ export interface ReportChartsResponse {
     metrics: ReportPersonnelMetrics
     charts: ReportPersonnelChartGroups
   }
-
+  equipment: {
+    metrics: ReportEquipmentMetrics
+    charts: ReportEquipmentChartGroups
+  }
 }
