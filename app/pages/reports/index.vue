@@ -100,4 +100,11 @@ const activeTab = ref<ReportTabId>('personnel')
 const reportLoadError = ref('')
 const reportChartsResponse = ref<ReportChartsResponse>(createEmptyReportChartsResponse())
 
+onMounted(async () => {
+  await loadReportCharts({
+    reportChartsResponse,
+    reportLoadError,
+  })
+})
+
 </script>
