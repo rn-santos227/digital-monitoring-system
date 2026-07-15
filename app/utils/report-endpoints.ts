@@ -10,4 +10,8 @@ const getReportSessionHeaders = (): Record<string, string> => {
 
   const requestHeaders = useRequestHeaders(['cookie'])
   const cookie = requestHeaders.cookie?.trim() ?? ''
+
+  if (!cookie) {
+    return createSessionHeaders()
+  }
 }
