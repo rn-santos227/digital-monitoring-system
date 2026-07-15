@@ -14,4 +14,9 @@ const getReportSessionHeaders = (): Record<string, string> => {
   if (!cookie) {
     return createSessionHeaders()
   }
+
+  return {
+    cookie,
+    ...createSessionHeaders(),
+  }
 }
