@@ -1,5 +1,5 @@
 <template>
-  <!-- <main :class="APP_MAIN_CONTENT_CLASSES">
+  <main :class="APP_MAIN_CONTENT_CLASSES">
     <section :class="REPORTS_PAGE_SECTION_CLASSES">
       <header class="flex flex-col gap-4 print:block sm:flex-row sm:items-start sm:justify-between">
         <div class="space-y-2">
@@ -69,7 +69,7 @@
         </dl>
       </BaseCard>
     </section>
-  </main> -->
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -134,4 +134,14 @@ const equipmentMetrics = computed(() => [
   { label: 'Tracked Locations', value: reportChartsResponse.value.equipment.metrics.trackedLocations.toLocaleString(), description: 'Unique current locations in the backend report data.' },
 ])
 
+const activeMetrics = computed(() => activeTab.value === 'personnel' ? personnelMetrics.value : equipmentMetrics.value)
+
+const handlePrintReport = (): void => {
+  printReportSections(activeTab.value === 'personnel' ? REPORTS_PERSONNEL_TAB_TITLE : REPORTS_EQUIPMENT_TAB_TITLE, [
+    {
+      title: REPORTS_SUMMARY_CARD_TITLE,
+      rows: activeMetrics.value,
+    },
+  ])
+}
 </script>
