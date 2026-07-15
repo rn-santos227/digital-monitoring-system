@@ -96,4 +96,8 @@ import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 import { createEmptyReportChartsResponse, loadReportCharts, printReportSections } from '~/handlers/reports'
 import type { ChartDataPoint, ReportChartsResponse, ReportTabId } from '~/types/domain/reports'
 
+const activeTab = ref<ReportTabId>('personnel')
+const reportLoadError = ref('')
+const reportChartsResponse = ref<ReportChartsResponse>(createEmptyReportChartsResponse())
+
 </script>
