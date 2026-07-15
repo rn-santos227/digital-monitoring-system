@@ -128,4 +128,10 @@ const personnelMetrics = computed(() => [
   { label: 'Companies Represented', value: reportChartsResponse.value.personnel.metrics.companiesRepresented.toLocaleString(), description: 'Unique company assignments in the backend report data.' },
 ])
 
+const equipmentMetrics = computed(() => [
+  { label: 'Equipment Assets', value: reportChartsResponse.value.equipment.metrics.totalAssets.toLocaleString(), description: 'Total equipment asset records available for this report.' },
+  { label: 'Equipment Items', value: reportChartsResponse.value.equipment.metrics.totalItems.toLocaleString(), description: 'Total equipment item definitions available for chart grouping.' },
+  { label: 'Tracked Locations', value: reportChartsResponse.value.equipment.metrics.trackedLocations.toLocaleString(), description: 'Unique current locations in the backend report data.' },
+])
+
 </script>
