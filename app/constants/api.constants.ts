@@ -234,6 +234,7 @@ export const API_LOADING_MESSAGES = Object.freeze({
   fetchDashboardLocationLoadAnalysis: 'Loading dashboard location load analysis...',
   fetchDashboardPersonnelDeploymentHistory: 'Loading dashboard personnel deployment history...',
   fetchDashboardOperationalTimeMonitoring: 'Loading dashboard operational time monitoring...',
+  fetchReportCharts: 'Loading report charts...',
   createBattalion: 'Creating battalion record...',
   updateBattalion: 'Updating battalion record...',
   deleteBattalion: 'Deleting battalion record...',
