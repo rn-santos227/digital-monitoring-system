@@ -5,4 +5,12 @@ import { getReportChartsEndpoint } from '~/utils/report-endpoints'
 
 export const createEmptyReportChartsResponse = (): ReportChartsResponse => ({
   asOf: '',
+  personnel: {
+    metrics: {
+      totalRecords: 0,
+      battalionsRepresented: 0,
+      companiesRepresented: 0,
+    },
+
+  },
 })
