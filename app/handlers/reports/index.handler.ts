@@ -34,3 +34,8 @@ export const createEmptyReportChartsResponse = (): ReportChartsResponse => ({
     },
   },
 })
+
+interface LoadReportChartsOptions {
+  reportChartsResponse: Ref<ReportChartsResponse>
+  reportLoadError: Ref<string>
+}
