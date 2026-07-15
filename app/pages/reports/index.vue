@@ -107,4 +107,7 @@ onMounted(async () => {
   })
 })
 
+const personnelCharts = computed(() => reportChartsResponse.value.personnel.charts)
+const equipmentCharts = computed(() => reportChartsResponse.value.equipment.charts)
+
 </script>
