@@ -24,3 +24,11 @@ export interface ReportPersonnelChartGroups {
   sex: ChartDataPoint[]
   timeline: ChartDataPoint[]
 }
+
+export interface ReportEquipmentChartGroups {
+  assetStatus: ChartDataPoint[]
+  serviceability: ChartDataPoint[]
+  items: ChartDataPoint[]
+  locations: ChartDataPoint[]
+  timeline: ChartDataPoint[]
+}
