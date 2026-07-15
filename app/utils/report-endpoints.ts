@@ -20,3 +20,9 @@ const getReportSessionHeaders = (): Record<string, string> => {
     ...createSessionHeaders(),
   }
 }
+
+export const getReportChartsEndpoint = async (): Promise<ReportChartsResponse> => {
+  return await withApiLoading(async () => {
+
+  }
+}
