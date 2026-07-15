@@ -46,4 +46,9 @@ export const loadReportCharts = async ({
 }: LoadReportChartsOptions): Promise<void> => {
   reportLoadError.value = ''
 
+  try {
+    reportChartsResponse.value = await getReportChartsEndpoint()
+  } catch (error) {
+    reportLoadError.value = extractApiErrorMessage(error, 'Unable to load report data right now.')
+  }
 }
