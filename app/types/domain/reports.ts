@@ -38,3 +38,9 @@ export interface ReportPersonnelMetrics {
   battalionsRepresented: number
   companiesRepresented: number
 }
+
+export interface ReportEquipmentMetrics {
+  totalAssets: number
+  totalItems: number
+  trackedLocations: number
+}
