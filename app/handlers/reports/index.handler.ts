@@ -39,3 +39,11 @@ interface LoadReportChartsOptions {
   reportChartsResponse: Ref<ReportChartsResponse>
   reportLoadError: Ref<string>
 }
+
+export const loadReportCharts = async ({
+  reportChartsResponse,
+  reportLoadError,
+}: LoadReportChartsOptions): Promise<void> => {
+
+
+}
