@@ -116,4 +116,7 @@ const personnelCompanyChart = computed<ChartDataPoint[]>(() => personnelCharts.v
 const personnelSexChart = computed<ChartDataPoint[]>(() => personnelCharts.value.sex)
 const personnelTimelineChart = computed<ChartDataPoint[]>(() => personnelCharts.value.timeline)
 
+const equipmentAssetStatusChart = computed<ChartDataPoint[]>(() => equipmentCharts.value.assetStatus)
+const equipmentServiceabilityChart = computed<ChartDataPoint[]>(() => equipmentCharts.value.serviceability)
+
 </script>
