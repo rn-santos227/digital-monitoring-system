@@ -44,3 +44,8 @@ export interface ReportEquipmentMetrics {
   totalItems: number
   trackedLocations: number
 }
+
+export interface ReportChartsResponse {
+  asOf: string
+
+}
