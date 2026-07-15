@@ -19,4 +19,12 @@ export const createEmptyReportChartsResponse = (): ReportChartsResponse => ({
       timeline: [],
     },
   },
+  equipment: {
+    metrics: {
+      totalAssets: 0,
+      totalItems: 0,
+      trackedLocations: 0,
+    },
+
+  },
 })
