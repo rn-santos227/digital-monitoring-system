@@ -92,9 +92,8 @@ import {
   REPORTS_TAB_ITEMS,
   REPORTS_TABS_ARIA_LABEL,
 } from '~/constants/page.constants'
+import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
+import { createEmptyReportChartsResponse, loadReportCharts, printReportSections } from '~/handlers/reports'
 import type { ChartDataPoint, ReportChartsResponse, ReportTabId } from '~/types/domain/reports'
-import { extractApiErrorMessage } from '~/utils/api-request'
-import { getPersonnelEndpoint } from '~/utils/personnel-endpoints'
-import { getReportChartsEndpoint } from '~/utils/report-endpoints'
 
 </script>
