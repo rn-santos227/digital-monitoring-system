@@ -27,5 +27,5 @@ export const getReportChartsEndpoint = async (): Promise<ReportChartsResponse> =
       method: 'GET',
       headers: getReportSessionHeaders(),
     })
-  }
+  }, API_LOADING_MESSAGES.fetchReportCharts)
 }
