@@ -319,4 +319,10 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     ),
     deleteReferences: [],
   },
+  ranks: {
+    table: 'ranks',
+    deletePermissions: [PERMISSION_CODES.rankDelete],
+    writableColumns: [],
+    deleteReferences: [{ table: 'personnel', column: 'rank_id' }],
+  },
 }
