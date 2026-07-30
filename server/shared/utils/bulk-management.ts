@@ -97,4 +97,13 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
       { table: 'user_profiles', column: 'personnel_id' },
     ],
   },
+  'training-categories': {
+    table: 'training_categories',
+    updatePermissions: [PERMISSION_CODES.trainingUpdate],
+    deletePermissions: [PERMISSION_CODES.trainingDelete],
+    writableColumns: mutable('code', 'name', 'description', 'is_active'),
+    deleteReferences: [
+      { table: 'training_records', column: 'training_category_id' },
+    ],
+  },
 }
