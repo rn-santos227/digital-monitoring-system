@@ -8,3 +8,8 @@ const mutable = (...columns: string[]) =>
     (column) => !timestamps.includes(column as (typeof timestamps)[number]),
   )
 
+export const BULK_DOMAIN_DEFINITIONS: Readonly<
+  Record<string, BulkDomainDefinition>
+> = {
+
+}
