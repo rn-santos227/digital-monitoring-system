@@ -140,4 +140,21 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     ),
     deleteReferences: [],
   },
+  deployments: {
+    table: 'deployments',
+    updatePermissions: [PERMISSION_CODES.deploymentUpdate],
+    deletePermissions: [PERMISSION_CODES.deploymentDelete],
+    writableColumns: mutable(
+      'name',
+      'description',
+      'location',
+      'start_date',
+      'end_date',
+      'status_id',
+      'supervisor_id',
+    ),
+    deleteReferences: [
+      { table: 'deployment_records', column: 'deployment_id' },
+    ],
+  },
 }
