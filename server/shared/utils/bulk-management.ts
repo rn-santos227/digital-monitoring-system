@@ -361,5 +361,12 @@ export const parseBulkUpdateItems = (
   values: unknown,
   writableColumns: readonly string[],
 ): Array<{ id: string; updates: Record<string, unknown> }> => {
+  if (!Array.isArray(values)) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'items must be an array.',
+    })
+  }
+
 
 }
