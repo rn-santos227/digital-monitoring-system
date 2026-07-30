@@ -175,4 +175,21 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
       { table: 'equipment_issuances', column: 'deployment_id' },
     ],
   },
+  engagements: {
+    table: 'engagements',
+    updatePermissions: [PERMISSION_CODES.engagementUpdate],
+    deletePermissions: [PERMISSION_CODES.engagementDelete],
+    writableColumns: mutable(
+      'title',
+      'description',
+      'engagement_type_id',
+      'location',
+      'start_date',
+      'end_date',
+      'status_id',
+    ),
+    deleteReferences: [
+      { table: 'engagement_records', column: 'engagement_id' },
+    ],
+  },
 }
