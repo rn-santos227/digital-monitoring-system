@@ -330,3 +330,18 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
 export const getBulkDomainDefinition = (
   domain: string,
 ): BulkDomainDefinition | undefined => BULK_DOMAIN_DEFINITIONS[domain]
+
+export const parseBulkIds = (values: unknown): string[] => {
+  if (
+    !Array.isArray(values) ||
+    values.length === 0 ||
+    values.length > MAX_BULK_MUTATION_ITEMS
+  ) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: `Provide between 1 and ${MAX_BULK_MUTATION_ITEMS} records.`,
+    })
+  }
+
+
+}
