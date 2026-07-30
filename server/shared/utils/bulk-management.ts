@@ -54,4 +54,20 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
       { table: 'equipment_assets', column: 'assigned_battalion_id' },
     ],
   },
+  companies: {
+    table: 'companies',
+    updatePermissions: [PERMISSION_CODES.companyUpdate],
+    deletePermissions: [PERMISSION_CODES.companyDelete],
+    writableColumns: mutable(
+      'code',
+      'name',
+      'battalion_id',
+      'location',
+      'is_active',
+    ),
+    deleteReferences: [
+      { table: 'personnel', column: 'company_id' },
+      { table: 'equipment_assets', column: 'assigned_company_id' },
+    ],
+  },
 }
