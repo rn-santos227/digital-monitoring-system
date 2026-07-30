@@ -1,4 +1,6 @@
 export const AUDIT_LOG_ACTIONS = {
+  bulkUpdate: 'BULK_UPDATE',
+  bulkDelete: 'BULK_DELETE',
   loginAttempt: 'LOGIN_ATTEMPT',
   login: 'LOGIN',
   logout: 'LOGOUT',
@@ -65,6 +67,8 @@ export const AUDIT_LOG_OUTCOMES = {
 } as const
 
 export const AUDIT_LOG_ENDPOINTS = {
+  domainBulkUpdate: '/api/:domain/bulk',
+  domainBulkDelete: '/api/:domain/bulk',
   authLogin: '/api/auth/login',
   authLogout: '/api/auth/logout',
   accountTypesCreate: '/api/account-types',
