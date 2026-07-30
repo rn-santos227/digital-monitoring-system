@@ -268,4 +268,30 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
       { table: 'personnel_weapon_assignments', column: 'equipment_asset_id' },
     ],
   },
+  'equipment-issuances': {
+    table: 'equipment_issuances',
+    updatePermissions: [
+      PERMISSION_CODES.equipmentIssue,
+      PERMISSION_CODES.equipmentManage,
+    ],
+    deletePermissions: [
+      PERMISSION_CODES.equipmentDelete,
+      PERMISSION_CODES.equipmentManage,
+    ],
+    writableColumns: mutable(
+      'equipment_asset_id',
+      'issued_to_personnel_id',
+      'issued_by_personnel_id',
+      'deployment_id',
+      'issue_date',
+      'expected_return_date',
+      'actual_return_date',
+      'quantity_issued',
+      'status_id',
+      'issued_location',
+      'return_location',
+      'remarks',
+    ),
+    deleteReferences: [],
+  },
 }
