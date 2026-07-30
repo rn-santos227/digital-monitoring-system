@@ -23,4 +23,10 @@ export async function assertBulkRowsUnused(
       usages.push(`${reference.table}.${reference.column}`)
   }
 
+  if (usages.length > 0) {
+    throw createError({
+      statusCode: 409,
+      statusMessage: `Selected records are in use by ${usages.join(', ')}. No records were deleted.`,
+    })
+  }
 }
