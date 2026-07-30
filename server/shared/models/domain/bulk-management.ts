@@ -3,3 +3,6 @@ export interface BulkMutationItem {
   updates?: Record<string, unknown>
 }
 
+export interface BulkUpdateRequest {
+  items?: BulkMutationItem[]
+}
