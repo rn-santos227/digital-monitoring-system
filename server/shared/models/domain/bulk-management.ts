@@ -11,3 +11,8 @@ export interface BulkDeleteRequest {
   ids?: string[]
 }
 
+export interface BulkMutationResponse {
+  ok: true
+  affectedCount: number
+  ids: string[]
+}
