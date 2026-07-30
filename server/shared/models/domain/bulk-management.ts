@@ -21,3 +21,11 @@ export interface BulkDeleteReference {
   table: string
   column: string
 }
+
+export interface BulkDomainDefinition {
+  table: string
+  updatePermissions?: readonly string[]
+  deletePermissions?: readonly string[]
+  writableColumns: readonly string[]
+  deleteReferences: readonly BulkDeleteReference[]
+}
