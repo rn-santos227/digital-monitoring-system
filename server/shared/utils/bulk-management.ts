@@ -355,3 +355,11 @@ export const parseBulkIds = (values: unknown): string[] => {
 
   return ids
 }
+
+
+export const parseBulkUpdateItems = (
+  values: unknown,
+  writableColumns: readonly string[],
+): Array<{ id: string; updates: Record<string, unknown> }> => {
+
+}
