@@ -121,4 +121,23 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     ),
     deleteReferences: [{ table: 'training_records', column: 'training_id' }],
   },
+  'training-records': {
+    table: 'training_records',
+    updatePermissions: [PERMISSION_CODES.trainingManage],
+    deletePermissions: [PERMISSION_CODES.trainingManage],
+    writableColumns: mutable(
+      'personnel_id',
+      'training_id',
+      'training_category_id',
+      'level_id',
+      'status_id',
+      'start_date',
+      'end_date',
+      'completion_date',
+      'provider',
+      'certificate_no',
+      'remarks',
+    ),
+    deleteReferences: [],
+  },
 }
