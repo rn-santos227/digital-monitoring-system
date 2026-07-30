@@ -223,4 +223,24 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     ),
     deleteReferences: [{ table: 'equipment_items', column: 'category_id' }],
   },
+  'equipment-items': {
+    table: 'equipment_items',
+    updatePermissions: [PERMISSION_CODES.equipmentUpdate],
+    deletePermissions: [PERMISSION_CODES.equipmentDelete],
+    writableColumns: mutable(
+      'equipment_code',
+      'category_id',
+      'name',
+      'model',
+      'manufacturer',
+      'description',
+      'unit_of_measure',
+      'minimum_stock_level',
+      'is_serialized',
+      'is_active',
+    ),
+    deleteReferences: [
+      { table: 'equipment_assets', column: 'equipment_item_id' },
+    ],
+  },
 }
