@@ -343,5 +343,15 @@ export const parseBulkIds = (values: unknown): string[] => {
     })
   }
 
+  const ids = values.map((value) =>
+    typeof value === 'string' ? value.trim() : '',
+  )
+  if (ids.some((id) => !id) || new Set(ids).size !== ids.length) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Record ids must be non-empty and unique.',
+    })
+  }
 
+  return ids
 }
