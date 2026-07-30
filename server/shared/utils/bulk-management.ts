@@ -294,4 +294,29 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     ),
     deleteReferences: [],
   },
+  incidents: {
+    table: 'equipment_incidents',
+    updatePermissions: [
+      PERMISSION_CODES.equipmentMaintain,
+      PERMISSION_CODES.equipmentManage,
+    ],
+    deletePermissions: [
+      PERMISSION_CODES.equipmentDelete,
+      PERMISSION_CODES.equipmentManage,
+    ],
+    writableColumns: mutable(
+      'equipment_asset_id',
+      'personnel_id',
+      'deployment_id',
+      'incident_type_id',
+      'incident_date',
+      'location',
+      'description',
+      'immediate_action',
+      'investigation_status_id',
+      'resolution',
+      'resolved_at',
+    ),
+    deleteReferences: [],
+  },
 }
