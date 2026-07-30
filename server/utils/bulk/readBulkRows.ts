@@ -12,5 +12,5 @@ export async function readBulkRows(
       statusCode: 500,
       statusMessage: `Failed to read ${table}: ${error.message}`,
     })
-
+  return (data ?? []) as Record<string, unknown>[]
 }
