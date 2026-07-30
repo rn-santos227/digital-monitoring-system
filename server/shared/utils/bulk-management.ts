@@ -386,5 +386,16 @@ export const parseBulkUpdateItems = (
       })
     }
 
-  }
+    const forbidden = Object.keys(updates).filter(
+      (column) => !allowed.has(column),
+    )
+    if (forbidden.length > 0) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: `Unsupported update fields: ${forbidden.join(', ')}.`,
+      })
+    }
+
+    return { id: ids[index] ?? '', updates: { ...updates } }
+  })
 }
