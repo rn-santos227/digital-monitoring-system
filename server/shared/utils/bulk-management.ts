@@ -11,5 +11,19 @@ const mutable = (...columns: string[]) =>
 export const BULK_DOMAIN_DEFINITIONS: Readonly<
   Record<string, BulkDomainDefinition>
 > = {
-
+  'account-types': {
+    table: 'account_types',
+    updatePermissions: [PERMISSION_CODES.accountTypeUpdate],
+    deletePermissions: [PERMISSION_CODES.accountTypeDelete],
+    writableColumns: mutable(
+      'code',
+      'name',
+      'description',
+      'is_system',
+      'is_active',
+    ),
+    deleteReferences: [
+      { table: 'user_account_types', column: 'account_type_id' },
+    ],
+  },
 }
