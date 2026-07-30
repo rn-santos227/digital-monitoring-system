@@ -326,3 +326,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     deleteReferences: [{ table: 'personnel', column: 'rank_id' }],
   },
 }
+
+export const getBulkDomainDefinition = (
+  domain: string,
+): BulkDomainDefinition | undefined => BULK_DOMAIN_DEFINITIONS[domain]
