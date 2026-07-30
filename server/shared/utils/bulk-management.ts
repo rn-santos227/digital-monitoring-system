@@ -26,4 +26,16 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
       { table: 'user_account_types', column: 'account_type_id' },
     ],
   },
+  users: {
+    table: 'user_profiles',
+    updatePermissions: [PERMISSION_CODES.userUpdate],
+    writableColumns: mutable(
+      'personnel_id',
+      'email',
+      'full_name',
+      'avatar_url',
+      'is_active',
+    ),
+    deleteReferences: [],
+  },
 }
