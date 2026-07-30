@@ -6,6 +6,6 @@ export async function readBulkRows(
   table: string,
   ids: string[],
 ): Promise<Record<string, unknown>[]> {
-
+  const { data, error } = await supabase.from(table).select('*').in('id', ids)
 
 }
