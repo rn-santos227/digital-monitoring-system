@@ -16,3 +16,8 @@ export interface BulkMutationResponse {
   affectedCount: number
   ids: string[]
 }
+
+export interface BulkDeleteReference {
+  table: string
+  column: string
+}
