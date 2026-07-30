@@ -209,4 +209,18 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     ),
     deleteReferences: [],
   },
+  'equipment-categories': {
+    table: 'equipment_categories',
+    updatePermissions: [PERMISSION_CODES.equipmentUpdate],
+    deletePermissions: [PERMISSION_CODES.equipmentDelete],
+    writableColumns: mutable(
+      'code',
+      'name',
+      'requires_serial',
+      'is_consumable',
+      'is_controlled',
+      'is_active',
+    ),
+    deleteReferences: [{ table: 'equipment_items', column: 'category_id' }],
+  },
 }
