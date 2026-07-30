@@ -7,5 +7,10 @@ export async function readBulkRows(
   ids: string[],
 ): Promise<Record<string, unknown>[]> {
   const { data, error } = await supabase.from(table).select('*').in('id', ids)
+  if (error)
+    throw createError({
+      statusCode: 500,
+      statusMessage: `Failed to read ${table}: ${error.message}`,
+    })
 
 }
