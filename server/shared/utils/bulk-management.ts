@@ -192,4 +192,21 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
       { table: 'engagement_records', column: 'engagement_id' },
     ],
   },
+  'engagement-records': {
+    table: 'engagement_records',
+    updatePermissions: [PERMISSION_CODES.engagementManage],
+    deletePermissions: [PERMISSION_CODES.engagementManage],
+    writableColumns: mutable(
+      'personnel_id',
+      'engagement_id',
+      'engagement_type_id',
+      'level_id',
+      'status_id',
+      'start_date',
+      'end_date',
+      'role',
+      'remarks',
+    ),
+    deleteReferences: [],
+  },
 }
