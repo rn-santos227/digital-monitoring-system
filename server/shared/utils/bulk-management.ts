@@ -372,4 +372,19 @@ export const parseBulkUpdateItems = (
   const ids = parseBulkIds(items.map((item) => item?.id))
   const allowed = new Set(writableColumns)
 
+  
+  return items.map((item, index) => {
+    const updates = item.updates
+    if (
+      !updates ||
+      Array.isArray(updates) ||
+      Object.keys(updates).length === 0
+    ) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: `Updates are required for record ${ids[index] ?? ''}.`,
+      })
+    }
+
+  }
 }
