@@ -38,4 +38,20 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     ),
     deleteReferences: [],
   },
+  battalions: {
+    table: 'battalions',
+    updatePermissions: [PERMISSION_CODES.battalionUpdate],
+    deletePermissions: [PERMISSION_CODES.battalionDelete],
+    writableColumns: mutable(
+      'code',
+      'name',
+      'headquarters_location',
+      'is_active',
+    ),
+    deleteReferences: [
+      { table: 'companies', column: 'battalion_id' },
+      { table: 'personnel', column: 'battalion_id' },
+      { table: 'equipment_assets', column: 'assigned_battalion_id' },
+    ],
+  },
 }
