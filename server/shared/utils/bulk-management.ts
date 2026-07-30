@@ -368,5 +368,8 @@ export const parseBulkUpdateItems = (
     })
   }
 
+  const items = values as BulkMutationItem[]
+  const ids = parseBulkIds(items.map((item) => item?.id))
+  const allowed = new Set(writableColumns)
 
 }
