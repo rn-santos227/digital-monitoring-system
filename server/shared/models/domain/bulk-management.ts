@@ -6,3 +6,8 @@ export interface BulkMutationItem {
 export interface BulkUpdateRequest {
   items?: BulkMutationItem[]
 }
+
+export interface BulkDeleteRequest {
+  ids?: string[]
+}
+
