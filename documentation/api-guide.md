@@ -259,6 +259,21 @@ Update keys use the schema-aligned `snake_case` column names shown in the suppor
 
 The server reads and verifies every selected row before applying updates. If an update fails after earlier rows were changed, it performs compensation by restoring the captured original row values. A compensation failure is recorded in the failed audit entry. This is application-level rollback behavior, not a client-visible database transaction.
 
+### Bulk delete
+
+Send `DELETE /api/:domain/bulk` with an `ids` array:
+
+```json
+{
+  "ids": [
+    "67a7a86c-99c0-46da-b5d6-08bc16fb6fb8",
+    "7ad72c43-a945-4450-a4ce-4fe748fc121d"
+  ]
+}
+```
+
+Before deleting anything, the server verifies that every selected row exists and checks the configured referencing tables for all selected IDs. If one selected record is in use, the entire request returns `409 Conflict` and no selected records are deleted. Database foreign-key restrictions remain the final integrity safeguard. Domains without a configured delete permission, such as `users`, do not expose bulk delete and return `404` for that operation.
+
 ## Notes for Maintainers
 
 - This guide is a route inventory of the current backend implementation.
