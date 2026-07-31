@@ -243,6 +243,12 @@ const toggleRow = (row: TRow, selected: boolean) => {
   selected ? nextKeys.add(key) : nextKeys.delete(key)
   updateSelection(nextKeys)
 }
+const toggleAllVisibleRows = (selected: boolean) => {
+  const nextKeys = new Set(props.selectedRowKeys)
+  selectableRowKeys.value.forEach((key) => selected ? nextKeys.add(key) : nextKeys.delete(key))
+  updateSelection(nextKeys)
+}
+const clearSelection = () => updateSelection([])
 
 const resolveActionButtonVariant = (action: DataTableAction): UiVariant => {
   if (!action.variant) {
