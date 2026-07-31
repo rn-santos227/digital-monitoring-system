@@ -118,6 +118,7 @@ import {
   BASE_TABLE_HEADING_CLASSES,
   BASE_TABLE_ROW_CLASSES,
   BASE_TABLE_SCROLL_CLASSES,
+  BASE_TABLE_SELECTION_CELL_CLASSES,
   BASE_TABLE_SEARCH_WRAPPER_CLASSES,
   BASE_TABLE_WINDOW_WRAPPER_CLASSES,
   type DataTableAction,
@@ -147,6 +148,9 @@ const props = withDefaults(
     actionButtonCount?: number
     actionsColumnLabel?: string
     showSearch?: boolean
+    selectable?: boolean
+    selectedRowKeys?: readonly string[]
+    isRowSelectable?: (row: TRow) => boolean
   }>(),
   {
     rowKey: 'id',
@@ -164,7 +168,10 @@ const props = withDefaults(
     pageSizeOptions: () => [10, 25, 50, 100],
     actionButtonCount: 0,
     actionsColumnLabel: 'Actions',
-    showSearch: true
+    showSearch: true,
+    selectable: false,
+    selectedRowKeys: () => [],
+    isRowSelectable: () => true,
   }
 )
 
@@ -174,6 +181,7 @@ const emit = defineEmits<{
   (event: 'update:searchQuery', value: string): void
   (event: 'update:currentPage', value: number): void
   (event: 'update:pageSize', value: number): void
+  (event: 'update:selectedRowKeys', value: string[]): void
 }>()
 
 const { formatDate } = useDateDisplay()
