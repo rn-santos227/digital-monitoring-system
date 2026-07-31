@@ -35,5 +35,16 @@ export default defineEventHandler(
     const supabase = getServiceSupabaseClient()
     let oldRows: Record<string, unknown>[] = []
     let rollbackErrorMessage: string | null = null
+
+    try {
+      const items = parseBulkUpdateItems(body.items, definition.writableColumns)
+      const ids = items.map((item) => item.id)
+      oldRows = await readBulkRows(supabase, definition.table, ids)
+      const foundIds = new Set(oldRows.map((row) => String(row.id ?? '')))
+      const missingIds = ids.filter((id) => !foundIds.has(id))
+
+    } catch (error: unknown) {
+
+    }
   },
 )
