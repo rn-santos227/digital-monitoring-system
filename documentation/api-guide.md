@@ -230,6 +230,35 @@ Bulk mutations use the domain segment in `/api/:domain/bulk`. Only the domain ke
 }
 ```
 
+
+### Bulk update
+
+Send `PATCH /api/:domain/bulk` with an `items` array. Every item has its own `id` and non-empty `updates` object, so different records may receive different changes in one request.
+
+Update keys use the schema-aligned `snake_case` column names shown in the supported-domain table. Unknown, immutable, `id`, `created_at`, and `updated_at` fields are rejected. Normal database constraints, including unique and foreign-key constraints, still apply.
+
+```json
+{
+  "items": [
+    {
+      "id": "67a7a86c-99c0-46da-b5d6-08bc16fb6fb8",
+      "updates": {
+        "current_location": "Fort Bonifacio",
+        "service_status_id": "ab84e19f-53e2-48eb-90c6-04dd955156f9"
+      }
+    },
+    {
+      "id": "7ad72c43-a945-4450-a4ce-4fe748fc121d",
+      "updates": {
+        "current_location": "Camp Aguinaldo"
+      }
+    }
+  ]
+}
+```
+
+The server reads and verifies every selected row before applying updates. If an update fails after earlier rows were changed, it performs compensation by restoring the captured original row values. A compensation failure is recorded in the failed audit entry. This is application-level rollback behavior, not a client-visible database transaction.
+
 ## Notes for Maintainers
 
 - This guide is a route inventory of the current backend implementation.
