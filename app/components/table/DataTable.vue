@@ -215,6 +215,12 @@ const resolveCellDisplayValue = (row: TRow, column: DataTableColumn): string | n
 }
 
 const hasActions = computed(() => props.actions.length > 0)
+const tableColumnCount = computed(() => props.columns.length + (hasActions.value ? 1 : 0) + (props.selectable ? 1 : 0))
+
+const rowEntries = computed(() => props.rows.map((row) => ({
+  key: resolveDataTableRowKey(row, props.rowKey),
+  row,
+})))
 
 const resolveActionButtonVariant = (action: DataTableAction): UiVariant => {
   if (!action.variant) {
