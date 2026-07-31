@@ -9,10 +9,12 @@ This document reflects the currently implemented backend API routes under `serve
 - **Auth/session endpoints:** Available under `/api/auth/*`.
 - **Domain alignment:** Endpoint groups are organized around personnel, battalions, companies, training records, deployment records, engagement records, equipment categories/items/assets/issuances, incidents, application settings, and audit logs.
 
-## Route Inventor
+## Route Inventory
 
 | Method | Endpoint |
 | --- | --- |
+| DELETE | `/api/:domain/bulk` |
+| PATCH | `/api/:domain/bulk` |
 | DELETE | `/api/account-types/:id` |
 | GET | `/api/account-types/:id` |
 | PATCH | `/api/account-types/:id` |
@@ -205,6 +207,10 @@ This document reflects the currently implemented backend API routes under `serve
 - **Dashboard and analytics:** `/api/dashboard/*` provides aggregate operational widgets for personnel, equipment, deployment, location load, rotation, and unit management views.
 - **Application settings:** `/api/application-settings` reads and updates singleton runtime configuration such as app identity, localization, theme, map defaults, code prefixes, and reminder/retention toggles.
 - **Audit and file utilities:** `/api/audit/*` exposes audit log listing/search/detail/print routes, and `/api/files/upload` handles uploads.
+
+## Bulk Mutation Endpoints
+
+Bulk mutations use the domain segment in `/api/:domain/bulk`. Only the domain keys listed below are accepted; the value is not a database table name supplied by the client. Each operation checks the signed-in user's applicable RBAC permission before reading or changing protected data.
 
 ## Notes for Maintainers
 
