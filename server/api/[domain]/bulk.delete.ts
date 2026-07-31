@@ -27,5 +27,12 @@ export default defineEventHandler(
         statusMessage: 'Bulk delete is not supported for this domain.',
       })
 
+    const actor = await requireBulkPermission(
+      event,
+      definition.deletePermissions,
+    )
+    const body = await readBody<BulkDeleteApiRequest>(event)
+    const supabase = getServiceSupabaseClient()
+    let oldRows: Record<string, unknown>[] = []
   },
 )
