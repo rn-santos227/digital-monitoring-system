@@ -81,7 +81,25 @@ export default defineEventHandler(
         },
       })
     } catch (error: unknown) {
-
+      await recordManagementAuditLog(event, {
+        userId: actor.id,
+        action: AUDIT_LOG_ACTIONS.bulkUpdate,
+        tableName: definition.table,
+        endpoint: AUDIT_LOG_ENDPOINTS.domainBulkUpdate,
+        requestData: body,
+        oldData: { items: oldRows },
+        statusCode: 500,
+        outcome: AUDIT_LOG_OUTCOMES.failed,
+        message: [
+          error instanceof Error ? error.message : 'Unknown error',
+          rollbackErrorMessage
+            ? `Rollback error: ${rollbackErrorMessage}`
+            : null,
+        ]
+          .filter(Boolean)
+          .join(' '),
+      })
+      throw error
     }
   },
 )
