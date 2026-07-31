@@ -80,6 +80,21 @@ export default defineEventHandler(
           console.error(`Failed to rollback ${domain} bulk update.`, error)
         },
       })
+
+      const newRows = await readBulkRows(supabase, definition.table, ids)
+      await recordManagementAuditLog(event, {
+        userId: actor.id,
+        action: AUDIT_LOG_ACTIONS.bulkUpdate,
+        tableName: definition.table,
+        endpoint: AUDIT_LOG_ENDPOINTS.domainBulkUpdate,
+        requestData: body,
+        oldData: { items: oldRows },
+        newData: { items: newRows },
+        statusCode: 200,
+        outcome: AUDIT_LOG_OUTCOMES.success,
+        message: `${ids.length} ${domain} records updated successfully.`,
+      })
+      return { ok: true, affectedCount: ids.length, ids }
     } catch (error: unknown) {
       await recordManagementAuditLog(event, {
         userId: actor.id,
