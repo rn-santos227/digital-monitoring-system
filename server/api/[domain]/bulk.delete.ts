@@ -34,5 +34,15 @@ export default defineEventHandler(
     const body = await readBody<BulkDeleteApiRequest>(event)
     const supabase = getServiceSupabaseClient()
     let oldRows: Record<string, unknown>[] = []
+
+    try {
+      const ids = parseBulkIds(body.ids)
+      oldRows = await readBulkRows(supabase, definition.table, ids)
+      const foundIds = new Set(oldRows.map((row) => String(row.id ?? '')))
+      const missingIds = ids.filter((id) => !foundIds.has(id))
+
+    } catch (error: unknown) {
+
+    }
   },
 )
