@@ -74,7 +74,11 @@ export default defineEventHandler(
             )
           }
         },
-
+        onRollbackError: (error) => {
+          rollbackErrorMessage =
+            error instanceof Error ? error.message : 'Unknown rollback error'
+          console.error(`Failed to rollback ${domain} bulk update.`, error)
+        },
       })
     } catch (error: unknown) {
 
