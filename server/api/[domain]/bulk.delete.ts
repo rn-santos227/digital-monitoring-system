@@ -19,6 +19,13 @@ import { requireBulkPermission } from '../../utils/bulk/requireBulkPermission'
 
 export default defineEventHandler(
   async (event): Promise<BulkMutationApiResponse> => {
+    const domain = getRouterParam(event, 'domain') ?? ''
+    const definition = getBulkDomainDefinition(domain)
+    if (!definition?.deletePermissions?.length)
+      throw createError({
+        statusCode: 404,
+        statusMessage: 'Bulk delete is not supported for this domain.',
+      })
 
   },
 )
