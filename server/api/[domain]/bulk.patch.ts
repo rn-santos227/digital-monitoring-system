@@ -19,6 +19,13 @@ import { executeWithRollback } from '../../utils/db/executeWithRollback'
 
 export default defineEventHandler(
   async (event): Promise<BulkMutationApiResponse> => {
+    const domain = getRouterParam(event, 'domain') ?? ''
+    const definition = getBulkDomainDefinition(domain)
+    if (!definition?.updatePermissions?.length)
+      throw createError({
+        statusCode: 404,
+        statusMessage: 'Bulk update is not supported for this domain.',
+      })
 
   },
 )
