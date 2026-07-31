@@ -233,6 +233,10 @@ const areAllVisibleRowsSelected = computed(() => selectableRowKeys.value.length 
 const areSomeVisibleRowsSelected = computed(() => !areAllVisibleRowsSelected.value
   && selectableRowKeys.value.some((key) => selectedRowKeySet.value.has(key)))
 
+const isRowSelectionEnabled = (row: TRow): boolean => props.isRowSelectable(row)
+const isRowSelected = (row: TRow): boolean => selectedRowKeySet.value.has(resolveDataTableRowKey(row, props.rowKey))
+const updateSelection = (keys: Iterable<string>) => emit('update:selectedRowKeys', [...keys])
+
 const resolveActionButtonVariant = (action: DataTableAction): UiVariant => {
   if (!action.variant) {
     return 'ghost'
