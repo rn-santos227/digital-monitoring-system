@@ -58,6 +58,22 @@ export default defineEventHandler(
               item.updates,
             )
         },
+        rollback: async () => {
+          for (const row of oldRows) {
+            const {
+              id,
+              created_at: _createdAt,
+              updated_at: _updatedAt,
+              ...updates
+            } = row
+            await updateBulkRow(
+              supabase,
+              definition.table,
+              String(id ?? ''),
+              updates,
+            )
+          }
+        },
 
       })
     } catch (error: unknown) {
