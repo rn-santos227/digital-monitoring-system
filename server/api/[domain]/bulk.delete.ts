@@ -46,6 +46,20 @@ export default defineEventHandler(
           statusMessage: `Records not found: ${missingIds.join(', ')}. No records were deleted.`,
         })
 
+      await assertBulkRowsUnused(supabase, ids, definition.deleteReferences)
+      await deleteBulkRows(supabase, definition.table, ids)
+      await recordManagementAuditLog(event, {
+        userId: actor.id,
+        action: AUDIT_LOG_ACTIONS.bulkDelete,
+        tableName: definition.table,
+        endpoint: AUDIT_LOG_ENDPOINTS.domainBulkDelete,
+        requestData: body,
+        oldData: { items: oldRows },
+        statusCode: 200,
+        outcome: AUDIT_LOG_OUTCOMES.success,
+        message: `${ids.length} ${domain} records deleted successfully.`,
+      })
+      return { ok: true, affectedCount: ids.length, ids }
     } catch (error: unknown) {
       await recordManagementAuditLog(event, {
         userId: actor.id,
