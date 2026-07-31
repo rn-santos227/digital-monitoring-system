@@ -237,6 +237,13 @@ const isRowSelectionEnabled = (row: TRow): boolean => props.isRowSelectable(row)
 const isRowSelected = (row: TRow): boolean => selectedRowKeySet.value.has(resolveDataTableRowKey(row, props.rowKey))
 const updateSelection = (keys: Iterable<string>) => emit('update:selectedRowKeys', [...keys])
 
+const toggleRow = (row: TRow, selected: boolean) => {
+  const nextKeys = new Set(props.selectedRowKeys)
+  const key = resolveDataTableRowKey(row, props.rowKey)
+  selected ? nextKeys.add(key) : nextKeys.delete(key)
+  updateSelection(nextKeys)
+}
+
 const resolveActionButtonVariant = (action: DataTableAction): UiVariant => {
   if (!action.variant) {
     return 'ghost'
