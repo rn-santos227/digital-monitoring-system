@@ -40,6 +40,11 @@ export default defineEventHandler(
       oldRows = await readBulkRows(supabase, definition.table, ids)
       const foundIds = new Set(oldRows.map((row) => String(row.id ?? '')))
       const missingIds = ids.filter((id) => !foundIds.has(id))
+      if (missingIds.length > 0)
+        throw createError({
+          statusCode: 404,
+          statusMessage: `Records not found: ${missingIds.join(', ')}. No records were deleted.`,
+        })
 
     } catch (error: unknown) {
       await recordManagementAuditLog(event, {
