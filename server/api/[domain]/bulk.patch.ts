@@ -27,5 +27,13 @@ export default defineEventHandler(
         statusMessage: 'Bulk update is not supported for this domain.',
       })
 
+    const actor = await requireBulkPermission(
+      event,
+      definition.updatePermissions,
+    )
+    const body = await readBody<BulkUpdateApiRequest>(event)
+    const supabase = getServiceSupabaseClient()
+    let oldRows: Record<string, unknown>[] = []
+    let rollbackErrorMessage: string | null = null
   },
 )
