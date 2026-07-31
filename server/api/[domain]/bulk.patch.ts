@@ -17,3 +17,8 @@ import { requireBulkPermission } from '../../utils/bulk/requireBulkPermission'
 import { updateBulkRow } from '../../utils/bulk/updateBulkRows'
 import { executeWithRollback } from '../../utils/db/executeWithRollback'
 
+export default defineEventHandler(
+  async (event): Promise<BulkMutationApiResponse> => {
+
+  },
+)
