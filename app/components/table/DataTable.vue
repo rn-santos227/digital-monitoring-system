@@ -228,6 +228,10 @@ const selectedRowKeySet = computed(() => new Set(props.selectedRowKeys))
 const selectedRows = computed(() => rowEntries.value
   .filter(({ key }) => selectedRowKeySet.value.has(key))
   .map(({ row }) => row))
+const areAllVisibleRowsSelected = computed(() => selectableRowKeys.value.length > 0
+  && selectableRowKeys.value.every((key) => selectedRowKeySet.value.has(key)))
+const areSomeVisibleRowsSelected = computed(() => !areAllVisibleRowsSelected.value
+  && selectableRowKeys.value.some((key) => selectedRowKeySet.value.has(key)))
 
 const resolveActionButtonVariant = (action: DataTableAction): UiVariant => {
   if (!action.variant) {
