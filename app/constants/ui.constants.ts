@@ -127,6 +127,7 @@ export const BASE_TABLE_SCROLL_CLASSES = 'w-full overflow-x-auto rounded-lg bord
 export const BASE_TABLE_CLASSES = 'min-w-full border-collapse text-left text-sm text-slate-700'
 export const BASE_TABLE_HEAD_CLASSES = 'border-b border-slate-200 bg-slate-50 text-slate-700'
 export const BASE_TABLE_HEAD_CELL_CLASSES = 'px-3 py-2.5 text-xs font-semibold uppercase tracking-wide whitespace-nowrap'
+export const BASE_TABLE_SELECTION_CELL_CLASSES = 'w-10 px-3 py-2.5 text-center align-middle'
 export const BASE_TABLE_ROW_CLASSES = 'border-b border-slate-200 last:border-b-0 hover:bg-slate-50/70'
 export const BASE_TABLE_BODY_CELL_CLASSES = 'px-3 py-2.5 align-middle whitespace-nowrap'
 export const BASE_TABLE_ACTIONS_CELL_CLASSES = 'px-3 py-2.5 text-right'
