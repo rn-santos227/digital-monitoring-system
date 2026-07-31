@@ -26,6 +26,16 @@
       <table :class="BASE_TABLE_CLASSES">
         <thead :class="BASE_TABLE_HEAD_CLASSES">
           <tr>
+            <th v-if="selectable" :class="BASE_TABLE_SELECTION_CELL_CLASSES" scope="col">
+              <BaseCheckbox
+                :model-value="areAllVisibleRowsSelected"
+                :indeterminate="areSomeVisibleRowsSelected"
+                :disabled="selectableRowKeys.length === 0"
+                visually-hidden-label
+                label="Select all rows"
+                @update:model-value="toggleAllVisibleRows"
+              />
+            </th>
             <th
               v-for="column in columns"
               :key="column.key"
