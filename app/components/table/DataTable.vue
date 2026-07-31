@@ -2,6 +2,16 @@
   <section :class="BASE_TABLE_WINDOW_WRAPPER_CLASSES">
     <header class="space-y-4">
       <h2 :class="BASE_TABLE_HEADING_CLASSES">{{ title }}</h2>
+      <div v-if="selectable && selectedRowKeys.length" role="status" aria-live="polite">
+        <slot
+          name="bulk-actions"
+          :selected-row-keys="selectedRowKeys"
+          :selected-rows="selectedRows"
+          :clear-selection="clearSelection"
+        >
+          <span class="text-sm text-slate-600">{{ selectedRowKeys.length }} selected</span>
+        </slot>
+      </div>
       <div v-if="showSearch" :class="BASE_TABLE_SEARCH_WRAPPER_CLASSES">
         <BaseTextField
           :model-value="searchQuery"
