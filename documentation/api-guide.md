@@ -299,6 +299,20 @@ When a permission cell contains multiple codes, possession of any listed code au
 | `incidents` | `equipment.maintain` or `equipment.manage` | `equipment.delete` or `equipment.manage` | `equipment_asset_id`, `personnel_id`, `deployment_id`, `incident_type_id`, `incident_date`, `location`, `description`, `immediate_action`, `investigation_status_id`, `resolution`, `resolved_at` |
 | `ranks` | — | `rank.delete` | — |
 
+### Bulk mutation status codes and auditing
+
+| Status | Meaning |
+| --- | --- |
+| `200` | The complete bulk mutation succeeded. |
+| `400` | The batch is empty, exceeds 100 records, contains invalid or duplicate IDs, has empty updates, or contains unsupported update fields. |
+| `401` | No valid authenticated session was provided. |
+| `403` | The signed-in user lacks every permission accepted for the requested domain operation. |
+| `404` | The domain operation is unsupported or at least one selected record does not exist. |
+| `409` | A selected record is referenced by protected related data, or the database rejected a delete due to an integrity constraint. |
+| `500` | A database update/read/reference check failed or an unexpected server error occurred. |
+
+Successful and failed bulk mutations create management audit records. Update audits include the request, original rows, and resulting rows on success. Delete audits include the request and original rows. Failed update audits also include any compensation error.
+
 ## Notes for Maintainers
 
 - This guide is a route inventory of the current backend implementation.
