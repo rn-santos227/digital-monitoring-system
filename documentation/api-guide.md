@@ -212,6 +212,24 @@ This document reflects the currently implemented backend API routes under `serve
 
 Bulk mutations use the domain segment in `/api/:domain/bulk`. Only the domain keys listed below are accepted; the value is not a database table name supplied by the client. Each operation checks the signed-in user's applicable RBAC permission before reading or changing protected data.
 
+### Request limits and common response
+
+- A request must contain between 1 and 100 records.
+- Record IDs must be non-empty strings and must not be repeated within one request.
+- The endpoint rejects the complete request if any selected ID does not exist.
+- Successful requests return the IDs in request order:
+
+```json
+{
+  "ok": true,
+  "affectedCount": 2,
+  "ids": [
+    "67a7a86c-99c0-46da-b5d6-08bc16fb6fb8",
+    "7ad72c43-a945-4450-a4ce-4fe748fc121d"
+  ]
+}
+```
+
 ## Notes for Maintainers
 
 - This guide is a route inventory of the current backend implementation.
