@@ -42,7 +42,18 @@ export default defineEventHandler(
       const missingIds = ids.filter((id) => !foundIds.has(id))
 
     } catch (error: unknown) {
-
+      await recordManagementAuditLog(event, {
+        userId: actor.id,
+        action: AUDIT_LOG_ACTIONS.bulkDelete,
+        tableName: definition.table,
+        endpoint: AUDIT_LOG_ENDPOINTS.domainBulkDelete,
+        requestData: body,
+        oldData: { items: oldRows },
+        statusCode: 500,
+        outcome: AUDIT_LOG_OUTCOMES.failed,
+        message: error instanceof Error ? error.message : 'Unknown error',
+      })
+      throw error
     }
   },
 )
