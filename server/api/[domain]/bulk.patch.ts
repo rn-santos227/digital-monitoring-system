@@ -47,7 +47,19 @@ export default defineEventHandler(
           statusCode: 404,
           statusMessage: `Records not found: ${missingIds.join(', ')}. No records were updated.`,
         })
+    
+      await executeWithRollback({
+        operation: async () => {
+          for (const item of items)
+            await updateBulkRow(
+              supabase,
+              definition.table,
+              item.id,
+              item.updates,
+            )
+        },
 
+      })
     } catch (error: unknown) {
 
     }
