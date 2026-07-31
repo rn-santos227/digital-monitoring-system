@@ -274,6 +274,31 @@ Send `DELETE /api/:domain/bulk` with an `ids` array:
 
 Before deleting anything, the server verifies that every selected row exists and checks the configured referencing tables for all selected IDs. If one selected record is in use, the entire request returns `409 Conflict` and no selected records are deleted. Database foreign-key restrictions remain the final integrity safeguard. Domains without a configured delete permission, such as `users`, do not expose bulk delete and return `404` for that operation.
 
+### Supported domains, permissions, and update fields
+
+When a permission cell contains multiple codes, possession of any listed code authorizes that operation. A dash means that operation is not supported for the domain.
+
+| Domain key | Bulk update permission | Bulk delete permission | Allowed update fields |
+| --- | --- | --- | --- |
+| `account-types` | `account_type.update` | `account_type.delete` | `code`, `name`, `description`, `is_system`, `is_active` |
+| `users` | `user.update` | — | `personnel_id`, `email`, `full_name`, `avatar_url`, `is_active` |
+| `battalions` | `battalion.update` | `battalion.delete` | `code`, `name`, `headquarters_location`, `is_active` |
+| `companies` | `company.update` | `company.delete` | `code`, `name`, `battalion_id`, `location`, `is_active` |
+| `personnel` | `personnel.update` | `personnel.delete` | `rank_id`, `company_id`, `battalion_id`, `employment_status_id`, `service_status_id`, `position_title`, `current_location` |
+| `training-categories` | `training.update` | `training.delete` | `code`, `name`, `description`, `is_active` |
+| `trainings` | `training.update` | `training.delete` | `training_category_id`, `title`, `description`, `start_date`, `end_date`, `location`, `status_id` |
+| `training-records` | `training.manage` | `training.manage` | `personnel_id`, `training_id`, `training_category_id`, `level_id`, `status_id`, `start_date`, `end_date`, `completion_date`, `provider`, `certificate_no`, `remarks` |
+| `deployments` | `deployment.update` | `deployment.delete` | `name`, `description`, `location`, `start_date`, `end_date`, `status_id`, `supervisor_id` |
+| `deployment-records` | `deployment.manage` | `deployment.manage` | `personnel_id`, `deployment_id`, `location`, `start_date`, `end_date`, `status_id`, `supervisor_id`, `remarks` |
+| `engagements` | `engagement.update` | `engagement.delete` | `title`, `description`, `engagement_type_id`, `location`, `start_date`, `end_date`, `status_id` |
+| `engagement-records` | `engagement.manage` | `engagement.manage` | `personnel_id`, `engagement_id`, `engagement_type_id`, `level_id`, `status_id`, `start_date`, `end_date`, `role`, `remarks` |
+| `equipment-categories` | `equipment.update` | `equipment.delete` | `code`, `name`, `requires_serial`, `is_consumable`, `is_controlled`, `is_active` |
+| `equipment-items` | `equipment.update` | `equipment.delete` | `equipment_code`, `category_id`, `name`, `model`, `manufacturer`, `description`, `unit_of_measure`, `minimum_stock_level`, `is_serialized`, `is_active` |
+| `equipment-assets` | `equipment.update` | `equipment.delete` | `asset_tag`, `equipment_item_id`, `serial_no`, `batch_no`, `procurement_date`, `acquisition_cost`, `fund_source`, `current_location`, `condition_status_id`, `serviceability_status_id`, `asset_status_id`, `remarks` |
+| `equipment-issuances` | `equipment.issue` or `equipment.manage` | `equipment.delete` or `equipment.manage` | `equipment_asset_id`, `issued_to_personnel_id`, `issued_by_personnel_id`, `deployment_id`, `issue_date`, `expected_return_date`, `actual_return_date`, `quantity_issued`, `status_id`, `issued_location`, `return_location`, `remarks` |
+| `incidents` | `equipment.maintain` or `equipment.manage` | `equipment.delete` or `equipment.manage` | `equipment_asset_id`, `personnel_id`, `deployment_id`, `incident_type_id`, `incident_date`, `location`, `description`, `immediate_action`, `investigation_status_id`, `resolution`, `resolved_at` |
+| `ranks` | — | `rank.delete` | — |
+
 ## Notes for Maintainers
 
 - This guide is a route inventory of the current backend implementation.
