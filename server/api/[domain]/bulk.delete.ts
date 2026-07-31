@@ -16,3 +16,9 @@ import { assertBulkRowsUnused } from '../../utils/bulk/assertBulkRowsUnused'
 import { deleteBulkRows } from '../../utils/bulk/deleteBulkRows'
 import { readBulkRows } from '../../utils/bulk/readBulkRows'
 import { requireBulkPermission } from '../../utils/bulk/requireBulkPermission'
+
+export default defineEventHandler(
+  async (event): Promise<BulkMutationApiResponse> => {
+
+  },
+)
