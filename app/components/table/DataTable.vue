@@ -61,12 +61,12 @@
 
         <tbody>
           <tr v-if="shouldRenderLoadingState">
-            <td :class="BASE_TABLE_EMPTY_STATE_CLASSES" :colspan="columns.length + (hasActions ? 1 : 0)">
+            <td :class="BASE_TABLE_EMPTY_STATE_CLASSES" :colspan="tableColumnCount">
               <BaseInlineLoader :label="loadingLabel" />
             </td>
           </tr>
           <tr v-else-if="!rows.length">
-            <td :class="BASE_TABLE_EMPTY_STATE_CLASSES" :colspan="columns.length + (hasActions ? 1 : 0)">
+            <td :class="BASE_TABLE_EMPTY_STATE_CLASSES" :colspan="tableColumnCount">
               {{ emptyMessage }}
             </td>
           </tr>
@@ -76,6 +76,15 @@
             :key="resolveDataTableRowKey(row, rowKey)"
             :class="BASE_TABLE_ROW_CLASSES"
           >
+            <td v-if="selectable" :class="BASE_TABLE_SELECTION_CELL_CLASSES">
+              <BaseCheckbox
+                :model-value="isRowSelected(row)"
+                :disabled="!isRowSelectionEnabled(row)"
+                visually-hidden-label
+                :label="`Select row ${resolveDataTableRowKey(row, rowKey)}`"
+                @update:model-value="toggleRow(row, $event)"
+              />
+            </td>
             <td
               v-for="column in columns"
               :key="`${resolveDataTableRowKey(row, rowKey)}-${column.key}`"
