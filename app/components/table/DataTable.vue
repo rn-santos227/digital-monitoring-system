@@ -221,6 +221,10 @@ const rowEntries = computed(() => props.rows.map((row) => ({
   key: resolveDataTableRowKey(row, props.rowKey),
   row,
 })))
+const selectableRowKeys = computed(() => rowEntries.value
+  .filter(({ row }) => props.isRowSelectable(row))
+  .map(({ key }) => key))
+const selectedRowKeySet = computed(() => new Set(props.selectedRowKeys))
 
 const resolveActionButtonVariant = (action: DataTableAction): UiVariant => {
   if (!action.variant) {
