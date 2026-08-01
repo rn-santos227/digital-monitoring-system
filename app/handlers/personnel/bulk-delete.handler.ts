@@ -28,7 +28,15 @@ export const useBulkDeletePersonnelHandler = ({ selectedIds, loadPersonnel, show
     }
 
     try {
-
+      const response = await deleteBulkRecordsEndpoint('personnel', ids)
+      selectedIds.value = []
+      await loadPersonnel()
+      await showDialog({
+        type: 'success',
+        title: 'Personnel records deleted',
+        message: `${response.affectedCount} personnel record${response.affectedCount === 1 ? ' was' : 's were'} deleted successfully.`,
+        confirmLabel: 'OK',
+      })
     } catch (error: unknown) {
       await showDialog({
         type: 'error',
@@ -38,4 +46,6 @@ export const useBulkDeletePersonnelHandler = ({ selectedIds, loadPersonnel, show
       })
     }
   }
+
+  return { deleteSelectedPersonnel }
 }
