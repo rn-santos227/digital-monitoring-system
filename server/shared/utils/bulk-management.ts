@@ -186,6 +186,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     updatePermissions: [PERMISSION_CODES.deploymentManage],
     deletePermissions: [PERMISSION_CODES.deploymentManage],
     writableColumns: mutable(
+      'equipment-categories',
       'personnel_id',
       'deployment_id',
       'location',
@@ -204,6 +205,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     updatePermissions: [PERMISSION_CODES.engagementUpdate],
     deletePermissions: [PERMISSION_CODES.engagementDelete],
     writableColumns: mutable(
+      'equipment-items',
       'title',
       'description',
       'engagement_type_id',
@@ -221,6 +223,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     updatePermissions: [PERMISSION_CODES.engagementManage],
     deletePermissions: [PERMISSION_CODES.engagementManage],
     writableColumns: mutable(
+      'equipment-assets',
       'personnel_id',
       'engagement_id',
       'engagement_type_id',
