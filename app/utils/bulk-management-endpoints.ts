@@ -6,5 +6,11 @@ export const deleteBulkRecordsEndpoint = async (
   domain: string,
   ids: readonly string[],
 ): Promise<BulkMutationResponse> => {
-
+ return await withApiLoading(async () => {
+    return await $fetch<BulkMutationResponse>(`/api/${encodeURIComponent(domain)}/bulk`, {
+      method: 'DELETE',
+      headers: createSessionHeaders(),
+      body: { ids: [...ids] },
+    })
+  }, `Deleting ${ids.length} selected record${ids.length === 1 ? '' : 's'}...`)
 }
