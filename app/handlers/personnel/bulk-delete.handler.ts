@@ -17,11 +17,11 @@ export const useBulkDeletePersonnelHandler = ({ selectedIds, loadPersonnel, show
     }
 
     const result = await showDialog({
-      type: 'warning',
-      title: `Delete ${ids.length} personnel record${ids.length === 1 ? '' : 's'}?`,
-      message: 'This cannot be undone. For safety, no records will be deleted if any selection is missing or is referenced by another record.',
-      confirmLabel: 'Delete selected',
-      cancelLabel: 'Keep records',
+      type: 'question',
+      title: 'Proceed with bulk delete?',
+      message: `Are you sure you want to delete ${ids.length} selected personnel record${ids.length === 1 ? '' : 's'}? This action cannot be undone. For safety, no records will be deleted if any selection is missing or is referenced by another record.`,
+      confirmLabel: 'Yes, delete selected',
+      cancelLabel: 'No, keep records',
     })
     if (!result.confirmed) {
       return
