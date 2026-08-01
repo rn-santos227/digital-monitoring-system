@@ -11,6 +11,11 @@ interface BulkDeletePersonnelHandlerOptions {
 
 export const useBulkDeletePersonnelHandler = ({ selectedIds, loadPersonnel, showDialog }: BulkDeletePersonnelHandlerOptions) => {
   const deleteSelectedPersonnel = async () => {
+    const ids = [...new Set(selectedIds.value)].filter(Boolean)
+    if (ids.length === 0) {
+      return
+    }
+
 
   }
 }
