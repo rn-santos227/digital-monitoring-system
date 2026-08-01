@@ -241,6 +241,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     updatePermissions: [PERMISSION_CODES.equipmentUpdate],
     deletePermissions: [PERMISSION_CODES.equipmentDelete],
     writableColumns: mutable(
+     'incidents',
       'code',
       'name',
       'requires_serial',
