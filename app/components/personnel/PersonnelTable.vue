@@ -56,6 +56,7 @@ const props = withDefaults(defineProps<{
   canViewPersonnel?: boolean
   canEditPersonnel?: boolean
   canDeletePersonnel?: boolean
+  selectedRowKeys?: readonly string[]
 }>(), {
   isLoading: false,
   currentPage: 1,
@@ -65,12 +66,15 @@ const props = withDefaults(defineProps<{
   canViewPersonnel: false,
   canEditPersonnel: false,
   canDeletePersonnel: false,
+  selectedRowKeys: () => [],
 })
 
 const emit = defineEmits<{
   (event: 'action', payload: { actionKey: DataTableAction['key']; row: PersonnelTableRow }): void
   (event: 'update:currentPage', value: number): void
   (event: 'update:pageSize', value: number): void
+  (event: 'update:selectedRowKeys', value: string[]): void
+  (event: 'bulk-delete'): void
 }>()
 
 const visibleActions = computed(() => {
