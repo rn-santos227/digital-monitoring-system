@@ -15,5 +15,13 @@ export const BULK_UPDATE_PROTECTED_COLUMNS: Readonly<
     'middle_name',
     'last_name',
   ],
-
+  'training-categories': ['code', 'name'],
+  'training-records': ['record_no'],
+  'deployment-records': ['record_no'],
+  'engagement-records': ['record_no'],
+  'equipment-categories': ['code', 'name'],
+  'equipment-items': ['equipment_code'],
+  'equipment-assets': ['asset_tag', 'serial_no'],
+  'equipment-issuances': ['issue_no'],
+  incidents: ['incident_no'],
 }
