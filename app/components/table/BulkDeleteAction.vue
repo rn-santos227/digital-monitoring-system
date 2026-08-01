@@ -1,8 +1,26 @@
 <template>
-
+  <div :class="BULK_DELETE_ACTION_CLASSES">
+    <p class="text-sm font-medium text-slate-700">
+      {{ selectedCount }} {{ selectedCount === 1 ? singularLabel : pluralLabel }} selected
+    </p>
+    <div class="flex flex-wrap gap-2">
+      <BaseButton size="sm" variant="secondary" :disabled="isDeleting" @click="emit('clear')">
+        Clear selection
+      </BaseButton>
+      <BaseButton
+        size="sm"
+        variant="danger"
+        icon-name="trash"
+        :disabled="isDeleting || selectedCount === 0"
+        @click="emit('delete')"
+      >
+        {{ isDeleting ? 'Deleting...' : `Delete selected ${pluralLabel}` }}
+      </BaseButton>
+    </div>
+  </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { BULK_DELETE_ACTION_CLASSES } from '~/constants/shared.constants'
 
 withDefaults(defineProps<{
