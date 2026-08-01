@@ -9,3 +9,6 @@ interface BulkDeletePersonnelHandlerOptions {
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
 
+export const useBulkDeletePersonnelHandler = ({ selectedIds, loadPersonnel, showDialog }: BulkDeletePersonnelHandlerOptions) => {
+
+}
