@@ -228,6 +228,7 @@ import { usePersonnel } from '~/composables/usePersonnel'
 import {
   createCompleteListPrintHandler,
   useCreatePersonnelModalHandler,
+  useBulkDeletePersonnelHandler,
   useDeletePersonnelHandler,
   useDeleteRankHandler,
   usePersonnelBatchUploadHandler,
@@ -258,6 +259,14 @@ const { handleViewPersonnelProfile } = useViewPersonnelProfileHandler()
 const authStore = useAuthStore()
 const { showDialog } = useDialog()
 const { addToast } = useToast()
+const selectedPersonnelIds = ref<string[]>([])
+const { deleteSelectedPersonnel } = useBulkDeletePersonnelHandler({
+  selectedIds: selectedPersonnelIds,
+  loadPersonnel,
+  showDialog,
+})
+
+
 
 const filterValidationErrors = ref<FieldValidationMap>({})
 const isCreatePersonnelModalOpen = ref(false)
