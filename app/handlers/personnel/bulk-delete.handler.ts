@@ -16,6 +16,16 @@ export const useBulkDeletePersonnelHandler = ({ selectedIds, loadPersonnel, show
       return
     }
 
+    const result = await showDialog({
+      type: 'warning',
+      title: `Delete ${ids.length} personnel record${ids.length === 1 ? '' : 's'}?`,
+      message: 'This cannot be undone. For safety, no records will be deleted if any selection is missing or is referenced by another record.',
+      confirmLabel: 'Delete selected',
+      cancelLabel: 'Keep records',
+    })
+    if (!result.confirmed) {
+      return
+    }
 
   }
 }
