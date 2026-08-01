@@ -40,6 +40,8 @@ export const PERSONNEL_PROFILE_PAGE_SECTION_CLASSES = 'space-y-6'
 export const PERSONNEL_PROFILE_GRID_CLASSES = 'grid gap-3 md:grid-cols-2'
 
 export const UNITS_PAGE_HEADER_CLASSES = 'space-y-2'
+export const BULK_DELETE_ACTION_CLASSES =
+  'flex flex-wrap items-center justify-between gap-3 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3'
 export const UNITS_FILTER_FORM_CLASSES = 'space-y-4'
 export const UNITS_FILTER_FIELDS_GRID_CLASSES = 'grid gap-3 md:grid-cols-2 lg:grid-cols-4'
 export const UNITS_FILTER_FOOTER_CLASSES = 'border-t border-slate-200 pt-4'
