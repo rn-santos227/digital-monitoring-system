@@ -16,7 +16,20 @@
     @action="emit('action', $event)"
     @update:current-page="emit('update:currentPage', $event)"
     @update:page-size="emit('update:pageSize', $event)"
-  />
+    :selectable="visibleActions.some((action) => action.key.startsWith('delete'))"
+    :selected-row-keys="selectedRowKeys"
+    @update:selected-row-keys="emit('update:selectedRowKeys', $event)"
+  >
+    <template #bulk-actions="{ selectedRowKeys: selectedKeys, clearSelection }">
+      <BulkDeleteAction
+        :selected-count="selectedKeys.length"
+        singular-label="engagement record"
+        plural-label="engagement records"
+        @clear="clearSelection"
+        @delete="emit('bulk-delete')"
+      />
+    </template>
+  </DataTable>
 </template>
 
 <script setup lang="ts">
