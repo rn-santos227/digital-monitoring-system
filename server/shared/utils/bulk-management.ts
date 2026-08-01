@@ -132,6 +132,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     updatePermissions: [PERMISSION_CODES.trainingUpdate],
     deletePermissions: [PERMISSION_CODES.trainingDelete],
     writableColumns: mutable(
+      'trainings',
       'training_category_id',
       'title',
       'description',
@@ -147,6 +148,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     updatePermissions: [PERMISSION_CODES.trainingManage],
     deletePermissions: [PERMISSION_CODES.trainingManage],
     writableColumns: mutable(
+      'training-records',
       'personnel_id',
       'training_id',
       'training_category_id',
@@ -166,6 +168,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     updatePermissions: [PERMISSION_CODES.deploymentUpdate],
     deletePermissions: [PERMISSION_CODES.deploymentDelete],
     writableColumns: mutable(
+      'deployments',
       'name',
       'description',
       'location',
