@@ -27,6 +27,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     updatePermissions: [PERMISSION_CODES.accountTypeUpdate],
     deletePermissions: [PERMISSION_CODES.accountTypeDelete],
     writableColumns: mutable(
+      'account-types',
       'code',
       'name',
       'description',
@@ -41,6 +42,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     table: 'user_profiles',
     updatePermissions: [PERMISSION_CODES.userUpdate],
     writableColumns: mutable(
+      'users',
       'personnel_id',
       'email',
       'full_name',
@@ -54,6 +56,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     updatePermissions: [PERMISSION_CODES.battalionUpdate],
     deletePermissions: [PERMISSION_CODES.battalionDelete],
     writableColumns: mutable(
+      'battalions',
       'code',
       'name',
       'headquarters_location',
@@ -70,6 +73,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     updatePermissions: [PERMISSION_CODES.companyUpdate],
     deletePermissions: [PERMISSION_CODES.companyDelete],
     writableColumns: mutable(
+      'personnel',
       'code',
       'name',
       'battalion_id',
