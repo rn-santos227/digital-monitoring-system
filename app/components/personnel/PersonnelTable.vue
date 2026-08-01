@@ -14,10 +14,22 @@
     :total-pages="totalPages"
     :total-items="totalItems"
     :page-size="pageSize"
+    :selectable="canDeletePersonnel"
+    :selected-row-keys="selectedRowKeys"
+    @update:selected-row-keys="emit('update:selectedRowKeys', $event)"
     @update:current-page="emit('update:currentPage', $event)"
     @update:page-size="emit('update:pageSize', $event)"
     @action="emit('action', $event)"
   >
+    <template #bulk-actions="{ selectedRowKeys: selectedKeys, clearSelection }">
+      <BulkDeleteAction
+        :selected-count="selectedKeys.length"
+        singular-label="personnel record"
+        plural-label="personnel records"
+        @clear="clearSelection"
+        @delete="emit('bulk-delete')"
+      />
+    </template>
     <template #cell-fullName="{ row }">
       <NuxtLink :to="ROUTE_PATHS.personnelProfile(String(row.id ?? ''))" class="text-emerald-700 hover:text-emerald-900 hover:underline">
         {{ row.fullName }}
