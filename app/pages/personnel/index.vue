@@ -89,6 +89,7 @@
           />
           <BaseViewToggle v-model="personnelViewMode" />
 
+
           <PersonnelTable
             v-if="personnelViewMode === 'table'"
             :rows="tableRows"
@@ -101,9 +102,11 @@
             :can-view-personnel="canViewPersonnel"
             :can-edit-personnel="canEditPersonnel"
             :can-delete-personnel="canDeletePersonnel"
+            v-model:selected-row-keys="selectedPersonnelIds"
             @update:current-page="handlePageChange"
             @update:page-size="handlePageSizeChange"
             @action="handleTableAction"
+            @bulk-delete="deleteSelectedPersonnel"
           />
 
           <PersonnelCards
