@@ -7,9 +7,9 @@ import {
 } from '../constants'
 
 const timestamps = ['created_at', 'updated_at'] as const
-const mutable = (...columns: string[]) =>
-  columns.filter(
-    (column) => !timestamps.includes(column as (typeof timestamps)[number]),
+const mutable = (domain: string, ...columns: string[]) => {
+  const protectedColumns = new Set(
+    BULK_UPDATE_PROTECTED_COLUMNS[domain] ?? [],
   )
 
 export const BULK_DOMAIN_DEFINITIONS: Readonly<
