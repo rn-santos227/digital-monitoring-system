@@ -12,6 +12,13 @@ const mutable = (domain: string, ...columns: string[]) => {
     BULK_UPDATE_PROTECTED_COLUMNS[domain] ?? [],
   )
 
+  return columns.filter(
+    (column) =>
+      !timestamps.includes(column as (typeof timestamps)[number]) &&
+      !protectedColumns.has(column),
+  )
+}
+
 export const BULK_DOMAIN_DEFINITIONS: Readonly<
   Record<string, BulkDomainDefinition>
 > = {
