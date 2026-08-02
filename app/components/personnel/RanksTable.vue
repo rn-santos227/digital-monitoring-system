@@ -12,10 +12,15 @@
     :total-pages="totalPages"
     :total-items="totalItems"
     :page-size="pageSize"
+    :selectable="canDelete"
+    :selected-row-keys="selectedRowKeys"
+    @update:selected-row-keys="emit('update:selectedRowKeys', $event)"
     @update:current-page="emit('update:currentPage', $event)"
     @update:page-size="emit('update:pageSize', $event)"
     @action="emit('action', $event)"
-  />
+  >
+
+  </DataTable>
 </template>
 
 <script setup lang="ts">
