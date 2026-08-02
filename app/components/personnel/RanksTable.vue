@@ -30,6 +30,7 @@ withDefaults(defineProps<{
   totalPages?: number
   totalItems?: number
   pageSize?: number
+  selectedRowKeys?: readonly string[]
 }>(), {
   isLoading: false,
   canDelete: false,
@@ -37,11 +38,14 @@ withDefaults(defineProps<{
   totalPages: 1,
   totalItems: 0,
   pageSize: 10,
+  selectedRowKeys: () => [],
 })
 
 const emit = defineEmits<{
   (event: 'action', payload: { actionKey: string; row: RankListItem }): void
   (event: 'update:currentPage', value: number): void
   (event: 'update:pageSize', value: number): void
+  (event: 'update:selectedRowKeys', value: string[]): void
+  (event: 'bulk-delete'): void
 }>()
 </script>
