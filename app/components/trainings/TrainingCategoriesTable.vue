@@ -60,6 +60,8 @@ const emit = defineEmits<{
   (event: 'action', payload: { actionKey: string; row: Record<string, unknown> }): void
   (event: 'update:currentPage', value: number): void
   (event: 'update:pageSize', value: number): void
+  (event: 'update:selectedRowKeys', value: string[]): void
+  (event: 'bulk-delete'): void
 }>()
 
 const visibleActions = computed(() => {
