@@ -30,7 +30,6 @@
         @delete="emit('bulk-delete')"
       />
     </template>
-
   </DataTable>
 </template>
 

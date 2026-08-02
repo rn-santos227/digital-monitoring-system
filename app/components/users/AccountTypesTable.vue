@@ -41,18 +41,22 @@ withDefaults(defineProps<{
   totalPages?: number
   totalItems?: number
   pageSize?: number
+  selectedRowKeys?: readonly string[]
 }>(), {
   isLoading: false,
   currentPage: 1,
   totalPages: 1,
   totalItems: 0,
   pageSize: 10,
+  selectedRowKeys: () => [],
 })
 
 const emit = defineEmits<{
   (event: 'action', payload: { actionKey: string; row: Record<string, unknown> }): void
   (event: 'update:currentPage', value: number): void
   (event: 'update:pageSize', value: number): void
+  (event: 'update:selectedRowKeys', value: string[]): void
+  (event: 'bulk-delete'): void
 }>()
 
 const authStore = useAuthStore()
