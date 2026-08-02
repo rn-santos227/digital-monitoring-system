@@ -20,7 +20,15 @@
     @update:current-page="emit('update:currentPage', $event)"
     @update:page-size="emit('update:pageSize', $event)"
   >
-
+    <template #bulk-actions="{ selectedRowKeys: selectedKeys, clearSelection }">
+      <BulkDeleteAction
+        :selected-count="selectedKeys.length"
+        singular-label="equipment item"
+        plural-label="equipment items"
+        @clear="clearSelection"
+        @delete="emit('bulk-delete')"
+      />
+    </template>
   </DataTable>
 </template>
 
