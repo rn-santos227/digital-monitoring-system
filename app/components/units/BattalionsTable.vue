@@ -10,14 +10,18 @@
     :is-loading="props.isLoading"
     :show-search="false"
     :empty-message="BATTALIONS_TABLE_EMPTY_MESSAGE"
-   :current-page="props.currentPage"
+    :current-page="props.currentPage"
     :total-pages="props.totalPages"
     :total-items="props.totalItems"
     :page-size="props.pageSize"
+    :selectable="visibleActions.some((action) => action.key.startsWith('delete'))"
+    :selected-row-keys="selectedRowKeys"
+    @update:selected-row-keys="emit('update:selectedRowKeys', $event)"
     @action="emit('action', $event)"
     @update:current-page="emit('update:currentPage', $event)"
     @update:page-size="emit('update:pageSize', $event)"
-  />
+  >
+  </DataTable>
 </template>
 
 <script setup lang="ts">
