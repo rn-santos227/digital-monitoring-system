@@ -34,6 +34,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import {
   DEPLOYMENTS_TABLE_ACTIONS,
   DEPLOYMENTS_TABLE_ACTIONS_COLUMN_LABEL,
@@ -41,7 +42,6 @@ import {
   DEPLOYMENTS_TABLE_EMPTY_MESSAGE,
   DEPLOYMENTS_TABLE_TITLE,
 } from '~/constants/table.constants'
-import { computed } from 'vue'
 import { DEPLOYMENT_PRIVILEGES } from '~/constants/privileges.constants'
 import { useAuthStore } from '~/stores/auth'
 

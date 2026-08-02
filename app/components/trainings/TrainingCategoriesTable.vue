@@ -39,21 +39,23 @@ const props = withDefaults(defineProps<{
   totalPages?: number
   totalItems?: number
   pageSize?: number
+  selectedRowKeys?: readonly string[]
 }>(), {
   isLoading: false,
   currentPage: 1,
   totalPages: 1,
   totalItems: 0,
   pageSize: 10,
+  selectedRowKeys: () => [],
 })
+
+const authStore = useAuthStore()
 
 const emit = defineEmits<{
   (event: 'action', payload: { actionKey: string; row: Record<string, unknown> }): void
   (event: 'update:currentPage', value: number): void
   (event: 'update:pageSize', value: number): void
 }>()
-
-const authStore = useAuthStore()
 
 const visibleActions = computed(() => {
   return TRAINING_CATEGORIES_TABLE_ACTIONS.filter((action) => {
