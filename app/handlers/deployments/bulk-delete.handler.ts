@@ -68,5 +68,9 @@ export const useBulkDeleteDeploymentRecordsHandler = ({
   reload,
   showDialog,
 }: BulkDeleteDeploymentRecordsHandlerOptions) => {
+  const deleteSelectedDeploymentRecords = async () => {
 
+  }
+
+  return { deleteSelectedDeploymentRecords }
 }
