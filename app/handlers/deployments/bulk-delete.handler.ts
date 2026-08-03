@@ -38,6 +38,9 @@ export const useBulkDeleteDeploymentsHandler = ({
     }
 
     try {
+      const response = await deleteBulkRecordsEndpoint('deployments', ids)
+      selectedIds.value = []
+      await reload()
 
     } catch (error: unknown) {
       await showDialog({
