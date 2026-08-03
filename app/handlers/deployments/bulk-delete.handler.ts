@@ -21,6 +21,10 @@ export const useBulkDeleteDeploymentsHandler = ({
   showDialog,
 }: BulkDeleteDeploymentsHandlerOptions) => {
   const deleteSelectedDeployments = async () => {
+    const ids = [...new Set(selectedIds.value)].filter(Boolean)
+    if (ids.length === 0) {
+      return
+    }
 
   }
 
