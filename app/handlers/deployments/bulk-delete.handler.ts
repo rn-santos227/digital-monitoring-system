@@ -62,3 +62,11 @@ export const useBulkDeleteDeploymentsHandler = ({
 
   return { deleteSelectedDeployments }
 }
+
+export const useBulkDeleteDeploymentRecordsHandler = ({
+  selectedIds,
+  reload,
+  showDialog,
+}: BulkDeleteDeploymentRecordsHandlerOptions) => {
+
+}
