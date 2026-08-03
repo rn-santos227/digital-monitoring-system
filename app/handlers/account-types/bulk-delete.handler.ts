@@ -27,5 +27,17 @@ export const useBulkDeleteBattalionsHandler = ({
       confirmLabel: 'Yes, delete selected',
       cancelLabel: 'No, keep records',
     })
+
+    if (!result.confirmed) {
+      return
+    }
+
+    try {
+      const response = await deleteBulkRecordsEndpoint('battalions', ids)
+      selectedIds.value = []
+      await reload()
+    } catch (error: unknown) {
+
+    }
   }
 }
