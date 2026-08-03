@@ -8,3 +8,9 @@ interface BulkDeleteDeploymentsHandlerOptions {
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
+
+interface BulkDeleteDeploymentRecordsHandlerOptions {
+  selectedIds: Ref<string[]>
+  reload: () => Promise<void>
+  showDialog: (input: DialogInput) => Promise<DialogResult>
+}
