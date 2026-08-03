@@ -14,6 +14,13 @@ export const useBulkDeleteCompaniesHandler = ({
   reload,
   showDialog,
 }: BulkDeleteCompaniesHandlerOptions) => {
+  const deleteSelectedCompanies = async () => {
+    const ids = [...new Set(selectedIds.value)].filter(Boolean)
+    if (ids.length === 0) {
+      return
+    }
 
+  }
 
+  return { deleteSelectedCompanies }
 }
