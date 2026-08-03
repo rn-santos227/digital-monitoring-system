@@ -9,3 +9,10 @@ interface BulkDeleteBattalionsHandlerOptions {
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
 
+export const useBulkDeleteBattalionsHandler = ({
+  selectedIds,
+  reload,
+  showDialog,
+}: BulkDeleteBattalionsHandlerOptions) => {
+
+}
