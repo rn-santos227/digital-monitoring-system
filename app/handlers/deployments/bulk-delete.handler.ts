@@ -14,3 +14,11 @@ interface BulkDeleteDeploymentRecordsHandlerOptions {
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
+
+export const useBulkDeleteDeploymentsHandler = ({
+  selectedIds,
+  reload,
+  showDialog,
+}: BulkDeleteDeploymentsHandlerOptions) => {
+
+}
