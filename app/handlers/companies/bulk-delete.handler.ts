@@ -14,5 +14,9 @@ export const useBulkDeleteCompaniesHandler = ({
   reload,
   showDialog,
 }: BulkDeleteCompaniesHandlerOptions) => {
+  const deleteSelectedCompanies = async () => {
 
+  }
+
+  return { deleteSelectedCompanies }
 }
