@@ -85,6 +85,19 @@ export const useBulkDeleteDeploymentRecordsHandler = ({
       return
     }
 
+    try {
+
+    } catch (error: unknown) {
+      await showDialog({
+        type: 'error',
+        title: 'Bulk delete blocked',
+        message: extractApiErrorMessage(
+          error,
+          'No deployment records were deleted. Check whether the selected records are still in use and try again.',
+        ),
+        confirmLabel: 'OK',
+      })
+    }
   }
 
   return { deleteSelectedDeploymentRecords }
