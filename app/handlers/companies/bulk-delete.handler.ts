@@ -35,7 +35,12 @@ export const useBulkDeleteCompaniesHandler = ({
       const response = await deleteBulkRecordsEndpoint('companies', ids)
       selectedIds.value = []
       await reload()
-
+      await showDialog({
+        type: 'success',
+        title: 'Companies deleted',
+        message: `${response.affectedCount} ${response.affectedCount === 1 ? 'company' : 'companies'} ${response.affectedCount === 1 ? 'was' : 'were'} deleted successfully.`,
+        confirmLabel: 'OK',
+      })
     } catch (error: unknown) {
       await showDialog({
         type: 'error',
