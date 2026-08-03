@@ -9,3 +9,10 @@ interface BulkDeleteCompaniesHandlerOptions {
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
 
+export const useBulkDeleteCompaniesHandler = ({
+  selectedIds,
+  reload,
+  showDialog,
+}: BulkDeleteCompaniesHandlerOptions) => {
+
+}
