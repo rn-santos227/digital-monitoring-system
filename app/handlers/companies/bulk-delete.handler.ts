@@ -27,6 +27,9 @@ export const useBulkDeleteCompaniesHandler = ({
       confirmLabel: 'Yes, delete selected',
       cancelLabel: 'No, keep records',
     })
+    if (!result.confirmed) {
+      return
+    }
   }
 
   return { deleteSelectedCompanies }
