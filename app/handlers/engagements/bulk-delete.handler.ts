@@ -20,6 +20,8 @@ export const useBulkDeleteEngagementRecordsHandler = ({
   reload,
   showDialog,
 }: BulkDeleteEngagementRecordsHandlerOptions) => {
+  const deleteSelectedEngagementRecords = async () => {
 
-
+  }
+  return { deleteSelectedEngagementRecords }
 }
