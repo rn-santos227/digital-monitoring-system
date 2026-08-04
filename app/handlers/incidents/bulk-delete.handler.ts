@@ -15,6 +15,10 @@ export const useBulkDeleteIncidentsHandler = ({
   showDialog,
 }: BulkDeleteIncidentsHandlerOptions) => {
   const deleteSelectedIncidents = async () => {
+    const ids = [...new Set(selectedIds.value)].filter(Boolean)
+    if (ids.length === 0) {
+      return
+    }
 
   }
 
