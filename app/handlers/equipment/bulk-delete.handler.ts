@@ -48,6 +48,12 @@ export const useBulkDeleteEquipmentCategoriesHandler = ({
     if (!result.confirmed) {
       return
     }
+
+    try {
+
+    } catch (error: unknown) {
+
+    }
   }
 
   return { deleteSelectedEquipmentCategories }
