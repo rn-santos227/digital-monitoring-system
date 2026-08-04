@@ -22,6 +22,10 @@ export const useBulkDeleteEngagementRecordsHandler = ({
 }: BulkDeleteEngagementRecordsHandlerOptions) => {
   const deleteSelectedEngagementRecords = async () => {
     const ids = [...new Set(selectedIds.value)].filter(Boolean)
+    if (ids.length === 0) {
+      return
+    }
+
   }
 
   return { deleteSelectedEngagementRecords }
