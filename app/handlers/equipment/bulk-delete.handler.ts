@@ -189,6 +189,15 @@ export const useBulkDeleteEquipmentIssuancesHandler = ({
       confirmLabel: 'Yes, delete selected',
       cancelLabel: 'No, keep records',
     })
+    if (!result.confirmed) {
+      return
+    }
+
+    try {
+
+    } catch (error: unknown) {
+
+    }
   }
 
   return { deleteSelectedEquipmentIssuances }
