@@ -8,3 +8,7 @@ interface BulkDeleteEquipmentCategoriesHandlerOptions {
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
+
+interface BulkDeleteEquipmentItemsHandlerOptions {
+
+}
