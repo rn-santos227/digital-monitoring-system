@@ -75,7 +75,6 @@ export const useBulkDeleteEquipmentCategoriesHandler = ({
   return { deleteSelectedEquipmentCategories }
 }
 
-
 export const useBulkDeleteEquipmentItemsHandler = ({
   selectedIds,
   reload,
@@ -122,4 +121,13 @@ export const useBulkDeleteEquipmentItemsHandler = ({
   }
 
   return { deleteSelectedEquipmentItems }
+}
+
+export const useBulkDeleteEquipmentAssetsHandler = ({
+  selectedIds,
+  reload,
+  showDialog,
+}: BulkDeleteEquipmentAssetsHandlerOptions) => {
+
+
 }
