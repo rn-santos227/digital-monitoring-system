@@ -14,5 +14,9 @@ export const useBulkDeleteIncidentsHandler = ({
   reload,
   showDialog,
 }: BulkDeleteIncidentsHandlerOptions) => {
+  const deleteSelectedIncidents = async () => {
 
+  }
+
+  return { deleteSelectedIncidents }
 }
