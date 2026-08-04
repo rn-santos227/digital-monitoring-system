@@ -89,7 +89,12 @@ export const useBulkDeleteEngagementRecordsHandler = ({
       const response = await deleteBulkRecordsEndpoint('engagement-records', ids)
       selectedIds.value = []
       await reload()
-
+      await showDialog({
+        type: 'success',
+        title: 'Engagement records deleted',
+        message: `${response.affectedCount} ${response.affectedCount === 1 ? 'engagement record' : 'engagement records'} ${response.affectedCount === 1 ? 'was' : 'were'} deleted successfully.`,
+        confirmLabel: 'OK',
+      })
     } catch (error: unknown) {
       await showDialog({
         type: 'error',
