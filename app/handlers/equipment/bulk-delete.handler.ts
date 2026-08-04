@@ -148,7 +148,10 @@ export const useBulkDeleteEquipmentAssetsHandler = ({
     try {
 
     } catch (error: unknown) {
-
+      await showDialog({
+        type: 'error',
+        title: 'Bulk delete blocked',
+      })
     }
   }
 
