@@ -199,7 +199,11 @@ export const useBulkDeleteEquipmentIssuancesHandler = ({
       await showDialog({
         type: 'error',
         title: 'Bulk delete blocked',
-
+        message: extractApiErrorMessage(
+          error,
+          'No equipment issuances were deleted. Check whether the selected records are still in use and try again.',
+        ),
+        confirmLabel: 'OK',
       })
     }
   }
