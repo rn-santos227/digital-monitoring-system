@@ -133,6 +133,11 @@ export const useBulkDeleteEquipmentAssetsHandler = ({
     if (ids.length === 0) {
       return
     }
+
+    const result = await showDialog({
+      type: 'question',
+      title: 'Proceed with bulk delete?',
+    })
   }
 
   return { deleteSelectedEquipmentAssets }
