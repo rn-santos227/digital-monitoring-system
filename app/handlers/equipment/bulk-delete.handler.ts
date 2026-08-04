@@ -102,7 +102,11 @@ export const useBulkDeleteEquipmentItemsHandler = ({
       const response = await deleteBulkRecordsEndpoint('equipment-items', ids)
       selectedIds.value = []
       await reload()
+      await showDialog({
+        type: 'success',
+        title: 'Equipment items deleted',
 
+      })
     } catch (error: unknown) {
       await showDialog({
         type: 'error',
