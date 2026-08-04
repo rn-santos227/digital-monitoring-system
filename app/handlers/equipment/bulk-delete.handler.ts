@@ -21,9 +21,16 @@ interface BulkDeleteEquipmentAssetsHandlerOptions {
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
 
-
 interface BulkDeleteEquipmentIssuancesHandlerOptions {
   selectedIds: Ref<string[]>
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
+}
+
+export const useBulkDeleteEquipmentCategoriesHandler = ({
+  selectedIds,
+  reload,
+  showDialog,
+}: BulkDeleteEquipmentCategoriesHandlerOptions) => {
+
 }
