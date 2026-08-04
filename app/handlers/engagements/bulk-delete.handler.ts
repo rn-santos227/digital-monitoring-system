@@ -10,5 +10,7 @@ interface BulkDeleteEngagementsHandlerOptions {
 }
 
 interface BulkDeleteEngagementRecordsHandlerOptions {
-
+  selectedIds: Ref<string[]>
+  reload: () => Promise<void>
+  showDialog: (input: DialogInput) => Promise<DialogResult>
 }
