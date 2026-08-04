@@ -9,3 +9,10 @@ interface BulkDeleteIncidentsHandlerOptions {
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
 
+export const useBulkDeleteIncidentsHandler = ({
+  selectedIds,
+  reload,
+  showDialog,
+}: BulkDeleteIncidentsHandlerOptions) => {
+
+}
