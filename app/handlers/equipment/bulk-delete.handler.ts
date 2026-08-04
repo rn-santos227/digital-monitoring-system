@@ -152,7 +152,8 @@ export const useBulkDeleteEquipmentAssetsHandler = ({
       await showDialog({
         type: 'success',
         title: 'Equipment assets deleted',
-
+        message: `${response.affectedCount} ${response.affectedCount === 1 ? 'equipment asset' : 'equipment assets'} ${response.affectedCount === 1 ? 'was' : 'were'} deleted successfully.`,
+        confirmLabel: 'OK',
       })
     } catch (error: unknown) {
       await showDialog({
