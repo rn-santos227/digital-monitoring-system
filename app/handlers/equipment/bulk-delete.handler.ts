@@ -170,3 +170,11 @@ export const useBulkDeleteEquipmentAssetsHandler = ({
 
   return { deleteSelectedEquipmentAssets }
 }
+
+export const useBulkDeleteEquipmentIssuancesHandler = ({
+  selectedIds,
+  reload,
+  showDialog,
+}: BulkDeleteEquipmentIssuancesHandlerOptions) => {
+
+}
