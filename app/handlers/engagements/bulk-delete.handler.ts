@@ -38,6 +38,10 @@ export const useBulkDeleteEngagementRecordsHandler = ({
     }
 
     try {
+      const response = await deleteBulkRecordsEndpoint('engagements', ids)
+      selectedIds.value = []
+      await reload()
+
     } catch (error: unknown) {
       await showDialog({
         type: 'error',
