@@ -128,6 +128,9 @@ export const useBulkDeleteEquipmentAssetsHandler = ({
   reload,
   showDialog,
 }: BulkDeleteEquipmentAssetsHandlerOptions) => {
+  const deleteSelectedEquipmentAssets = async () => {
 
+  }
 
+  return { deleteSelectedEquipmentAssets }
 }
