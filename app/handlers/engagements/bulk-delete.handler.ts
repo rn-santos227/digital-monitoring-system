@@ -26,6 +26,11 @@ export const useBulkDeleteEngagementRecordsHandler = ({
       return
     }
 
+    const result = await showDialog({
+      type: 'question',
+      title: 'Proceed with bulk delete?',
+
+    })
   }
 
   return { deleteSelectedEngagementRecords }
