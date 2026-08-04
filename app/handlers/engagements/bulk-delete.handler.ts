@@ -4,5 +4,7 @@ import { extractApiErrorMessage } from '~/utils/api-request'
 import { deleteBulkRecordsEndpoint } from '~/utils/bulk-management-endpoints'
 
 interface BulkDeleteEngagementsHandlerOptions {
-
+  selectedIds: Ref<string[]>
+  reload: () => Promise<void>
+  showDialog: (input: DialogInput) => Promise<DialogResult>
 }
