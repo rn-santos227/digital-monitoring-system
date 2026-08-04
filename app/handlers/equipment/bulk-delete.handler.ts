@@ -32,5 +32,9 @@ export const useBulkDeleteEquipmentCategoriesHandler = ({
   reload,
   showDialog,
 }: BulkDeleteEquipmentCategoriesHandlerOptions) => {
+  const deleteSelectedEquipmentCategories = async () => {
 
+  }
+
+  return { deleteSelectedEquipmentCategories }
 }
