@@ -182,7 +182,10 @@ export const useBulkDeleteEquipmentIssuancesHandler = ({
       return
     }
 
-
+    const result = await showDialog({
+      type: 'question',
+      title: 'Proceed with bulk delete?',
+    })
   }
 
   return { deleteSelectedEquipmentIssuances }
