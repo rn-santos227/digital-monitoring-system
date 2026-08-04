@@ -30,6 +30,29 @@ export const useBulkDeleteIncidentsHandler = ({
     if (!result.confirmed) {
       return
     }
+
+
+    try {
+      const response = await deleteBulkRecordsEndpoint('incidents', ids)
+      selectedIds.value = []
+      await reload()
+      await showDialog({
+        type: 'success',
+        title: 'Incidents deleted',
+        message: `${response.affectedCount} ${response.affectedCount === 1 ? 'incident' : 'incidents'} ${response.affectedCount === 1 ? 'was' : 'were'} deleted successfully.`,
+        confirmLabel: 'OK',
+      })
+    } catch (error: unknown) {
+      await showDialog({
+        type: 'error',
+        title: 'Bulk delete blocked',
+        message: extractApiErrorMessage(
+          error,
+          'No incidents were deleted. Check whether the selected records are still in use and try again.',
+        ),
+        confirmLabel: 'OK',
+      })
+    }
   }
 
   return { deleteSelectedIncidents }
