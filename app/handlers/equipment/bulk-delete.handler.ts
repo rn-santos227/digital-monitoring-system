@@ -200,7 +200,8 @@ export const useBulkDeleteEquipmentIssuancesHandler = ({
       await showDialog({
         type: 'success',
         title: 'Equipment issuances deleted',
-
+        message: `${response.affectedCount} ${response.affectedCount === 1 ? 'equipment issuance' : 'equipment issuances'} ${response.affectedCount === 1 ? 'was' : 'were'} deleted successfully.`,
+        confirmLabel: 'OK',
       })
     } catch (error: unknown) {
       await showDialog({
