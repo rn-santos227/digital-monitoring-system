@@ -82,7 +82,7 @@ export const useBulkDeleteEquipmentItemsHandler = ({
   showDialog,
 }: BulkDeleteEquipmentItemsHandlerOptions) => {
   const deleteSelectedEquipmentItems = async () => {
-
+    const ids = [...new Set(selectedIds.value)].filter(Boolean)
   }
 
   return { deleteSelectedEquipmentItems }
