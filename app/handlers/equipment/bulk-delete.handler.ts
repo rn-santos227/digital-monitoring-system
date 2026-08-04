@@ -176,5 +176,9 @@ export const useBulkDeleteEquipmentIssuancesHandler = ({
   reload,
   showDialog,
 }: BulkDeleteEquipmentIssuancesHandlerOptions) => {
+  const deleteSelectedEquipmentIssuances = async () => {
 
+  }
+
+  return { deleteSelectedEquipmentIssuances }
 }
