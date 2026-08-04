@@ -15,12 +15,12 @@ interface BulkDeleteEngagementRecordsHandlerOptions {
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
 
-export const useBulkDeleteEngagementRecordsHandler = ({
+export const useBulkDeleteEngagementsHandler = ({
   selectedIds,
   reload,
   showDialog,
-}: BulkDeleteEngagementRecordsHandlerOptions) => {
-  const deleteSelectedEngagementRecords = async () => {
+}: BulkDeleteEngagementsHandlerOptions) => {
+  const deleteSelectedEngagements = async () => {
     const ids = [...new Set(selectedIds.value)].filter(Boolean)
     if (ids.length === 0) {
       return
@@ -57,8 +57,16 @@ export const useBulkDeleteEngagementRecordsHandler = ({
         ),
         confirmLabel: 'OK',
       })
-    }  
+    }
   }
 
-  return { deleteSelectedEngagementRecords }
+  return { deleteSelectedEngagements }
+}
+
+export const useBulkDeleteEngagementRecordsHandler = ({
+  selectedIds,
+  reload,
+  showDialog,
+}: BulkDeleteEngagementRecordsHandlerOptions) => {
+
 }
