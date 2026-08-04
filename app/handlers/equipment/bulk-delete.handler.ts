@@ -50,6 +50,9 @@ export const useBulkDeleteEquipmentCategoriesHandler = ({
     }
 
     try {
+      const response = await deleteBulkRecordsEndpoint('equipment-categories', ids)
+      selectedIds.value = []
+      await reload()
 
     } catch (error: unknown) {
       await showDialog({
