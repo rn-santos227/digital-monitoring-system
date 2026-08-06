@@ -80,6 +80,10 @@ export const useBulkDeleteTrainingsHandler = ({
       return
     }
 
+    const result = await showDialog({
+      type: 'question',
+      title: 'Proceed with bulk delete?',
+    })
   }
 
   return { deleteSelectedTrainings }
