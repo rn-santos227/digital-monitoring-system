@@ -20,3 +20,11 @@ interface BulkDeleteTrainingRecordsHandlerOptions {
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
+
+export const useBulkDeleteTrainingCategoriesHandler = ({
+  selectedIds,
+  reload,
+  showDialog,
+}: BulkDeleteTrainingCategoriesHandlerOptions) => {
+
+}
