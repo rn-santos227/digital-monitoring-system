@@ -14,5 +14,9 @@ export const useBulkDeleteRanksHandler = ({
   reload,
   showDialog,
 }: BulkDeleteRanksHandlerOptions) => {
+  const deleteSelectedRanks = async () => {
 
+  }
+
+  return { deleteSelectedRanks }
 }
