@@ -74,5 +74,9 @@ export const useBulkDeleteTrainingsHandler = ({
   reload,
   showDialog,
 }: BulkDeleteTrainingsHandlerOptions) => {
+  const deleteSelectedTrainings = async () => {
 
+  }
+
+  return { deleteSelectedTrainings }
 }
