@@ -44,6 +44,9 @@ export const useBulkDeleteTrainingCategoriesHandler = ({
     }
 
     try {
+      const response = await deleteBulkRecordsEndpoint('training-categories', ids)
+      selectedIds.value = []
+      await reload()
 
     } catch (error: unknown) {
       await showDialog({
