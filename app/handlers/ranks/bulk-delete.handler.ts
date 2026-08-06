@@ -38,6 +38,8 @@ export const useBulkDeleteRanksHandler = ({
       await showDialog({
         type: 'success',
         title: 'Ranks deleted',
+        message: `${response.affectedCount} ${response.affectedCount === 1 ? 'rank' : 'ranks'} ${response.affectedCount === 1 ? 'was' : 'were'} deleted successfully.`,
+        confirmLabel: 'OK',
       })
     } catch (error: unknown) {
       await showDialog({
