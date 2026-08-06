@@ -16,5 +16,7 @@ interface BulkDeleteTrainingsHandlerOptions {
 }
 
 interface BulkDeleteTrainingRecordsHandlerOptions {
-
+  selectedIds: Ref<string[]>
+  reload: () => Promise<void>
+  showDialog: (input: DialogInput) => Promise<DialogResult>
 }
