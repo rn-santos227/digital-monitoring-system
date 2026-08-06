@@ -68,3 +68,11 @@ export const useBulkDeleteTrainingCategoriesHandler = ({
 
   return { deleteSelectedTrainingCategories }
 }
+
+export const useBulkDeleteTrainingsHandler = ({
+  selectedIds,
+  reload,
+  showDialog,
+}: BulkDeleteTrainingsHandlerOptions) => {
+
+}
