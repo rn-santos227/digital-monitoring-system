@@ -26,5 +26,9 @@ export const useBulkDeleteTrainingCategoriesHandler = ({
   reload,
   showDialog,
 }: BulkDeleteTrainingCategoriesHandlerOptions) => {
+  const deleteSelectedTrainingCategories = async () => {
 
+  }
+
+  return { deleteSelectedTrainingCategories }
 }
