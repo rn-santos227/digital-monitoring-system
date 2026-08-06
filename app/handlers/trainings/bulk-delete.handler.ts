@@ -27,6 +27,10 @@ export const useBulkDeleteTrainingCategoriesHandler = ({
   showDialog,
 }: BulkDeleteTrainingCategoriesHandlerOptions) => {
   const deleteSelectedTrainingCategories = async () => {
+    const ids = [...new Set(selectedIds.value)].filter(Boolean)
+    if (ids.length === 0) {
+      return
+    }
 
   }
 
