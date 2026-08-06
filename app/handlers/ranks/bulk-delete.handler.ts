@@ -8,3 +8,11 @@ interface BulkDeleteRanksHandlerOptions {
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
+
+export const useBulkDeleteRanksHandler = ({
+  selectedIds,
+  reload,
+  showDialog,
+}: BulkDeleteRanksHandlerOptions) => {
+
+}
