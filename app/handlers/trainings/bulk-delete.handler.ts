@@ -94,7 +94,10 @@ export const useBulkDeleteTrainingsHandler = ({
     try {
 
     } catch (error: unknown) {
-
+      await showDialog({
+        type: 'error',
+        title: 'Bulk delete blocked',
+      })
     }
   }
 
