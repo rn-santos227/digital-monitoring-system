@@ -8,3 +8,7 @@ interface BulkDeleteTrainingCategoriesHandlerOptions {
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
+
+interface BulkDeleteTrainingsHandlerOptions {
+
+}
