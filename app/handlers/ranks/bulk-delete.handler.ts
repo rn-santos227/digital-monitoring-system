@@ -32,6 +32,9 @@ export const useBulkDeleteRanksHandler = ({
     }
 
     try {
+      const response = await deleteBulkRecordsEndpoint('ranks', ids)
+      selectedIds.value = []
+      await reload()
 
     } catch (error: unknown) {
       await showDialog({
