@@ -32,6 +32,11 @@ export const useBulkDeleteTrainingCategoriesHandler = ({
       return
     }
 
+    const result = await showDialog({
+      type: 'question',
+      title: 'Proceed with bulk delete?',
+    })
+
   }
 
   return { deleteSelectedTrainingCategories }
