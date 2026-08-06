@@ -50,6 +50,8 @@ export const useBulkDeleteTrainingCategoriesHandler = ({
       await showDialog({
         type: 'success',
         title: 'Training categories deleted',
+        message: `${response.affectedCount} ${response.affectedCount === 1 ? 'training category' : 'training categories'} ${response.affectedCount === 1 ? 'was' : 'were'} deleted successfully.`,
+        confirmLabel: 'OK',
       })
     } catch (error: unknown) {
       await showDialog({
