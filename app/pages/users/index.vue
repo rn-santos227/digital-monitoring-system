@@ -283,6 +283,11 @@ const { deleteSelectedUsers } = useBulkDeleteUsersHandler({
   reload: () => loadUserProfiles(),
   showDialog,
 })
+const { deleteSelectedAccountTypes } = useBulkDeleteAccountTypesHandler({
+  selectedIds: selectedAccountTypeIds,
+  reload: () => loadUserAccounts(),
+  showDialog,
+})
 
 const visibleTabItems = computed(() => {
   return USERS_PAGE_TAB_ITEMS.filter((tabItem) => {
