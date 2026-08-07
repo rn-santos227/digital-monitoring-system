@@ -147,7 +147,8 @@ export const useBulkDeleteTrainingRecordsHandler = ({
       await showDialog({
         type: 'success',
         title: 'Training records deleted',
-
+        message: `${response.affectedCount} ${response.affectedCount === 1 ? 'training record' : 'training records'} ${response.affectedCount === 1 ? 'was' : 'were'} deleted successfully.`,
+        confirmLabel: 'OK',
       })
     } catch (error: unknown) {
       await showDialog({
