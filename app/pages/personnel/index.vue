@@ -232,6 +232,7 @@ import {
   createCompleteListPrintHandler,
   useCreatePersonnelModalHandler,
   useBulkDeletePersonnelHandler,
+  useBulkDeleteRanksHandler,
   useDeletePersonnelHandler,
   useDeleteRankHandler,
   usePersonnelBatchUploadHandler,
@@ -263,6 +264,8 @@ const authStore = useAuthStore()
 const { showDialog } = useDialog()
 const { addToast } = useToast()
 const selectedPersonnelIds = ref<string[]>([])
+const selectedRankIds = ref<string[]>([])
+
 const { deleteSelectedPersonnel } = useBulkDeletePersonnelHandler({
   selectedIds: selectedPersonnelIds,
   loadPersonnel,
