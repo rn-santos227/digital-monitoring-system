@@ -274,6 +274,10 @@ const handlePrintAccountTypes = createCompleteListPrintHandler({
 const authStore = useAuthStore()
 const { showDialog } = useDialog()
 const { addToast } = useToast()
+const selectedUserProfileIds = ref<string[]>([])
+const selectedAccountTypeIds = ref<string[]>([])
+
+
 
 const visibleTabItems = computed(() => {
   return USERS_PAGE_TAB_ITEMS.filter((tabItem) => {
