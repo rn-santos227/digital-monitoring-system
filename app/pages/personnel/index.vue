@@ -266,6 +266,12 @@ const { addToast } = useToast()
 const selectedPersonnelIds = ref<string[]>([])
 const selectedRankIds = ref<string[]>([])
 
+const { deleteSelectedRanks } = useBulkDeleteRanksHandler({
+  selectedIds: selectedRankIds,
+  reload: () => loadRanks(),
+  showDialog,
+})
+
 const { deleteSelectedPersonnel } = useBulkDeletePersonnelHandler({
   selectedIds: selectedPersonnelIds,
   loadPersonnel,
