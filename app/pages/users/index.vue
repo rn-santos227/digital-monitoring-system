@@ -293,6 +293,10 @@ watch(profileTableRows, (rows) => {
   const visibleIds = new Set(rows.map((row) => String(row.id ?? '')))
   selectedUserProfileIds.value = selectedUserProfileIds.value.filter((id) => visibleIds.has(id))
 })
+watch(accountTableRows, (rows) => {
+  const visibleIds = new Set(rows.map((row) => String(row.id ?? '')))
+  selectedAccountTypeIds.value = selectedAccountTypeIds.value.filter((id) => visibleIds.has(id))
+})
 
 const visibleTabItems = computed(() => {
   return USERS_PAGE_TAB_ITEMS.filter((tabItem) => {
