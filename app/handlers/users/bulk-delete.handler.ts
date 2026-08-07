@@ -42,6 +42,8 @@ export const useBulkDeleteUsersHandler = ({
       await showDialog({
         type: 'success',
         title: 'User profiles deleted',
+        message: `${ids.length} user profile${ids.length === 1 ? ' was' : 's were'} deleted successfully.`,
+        confirmLabel: 'OK',
       })
     } catch (error: unknown) {
       await reload()
