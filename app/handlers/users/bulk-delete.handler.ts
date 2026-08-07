@@ -15,5 +15,9 @@ export const useBulkDeleteUsersHandler = ({
   reload,
   showDialog,
 }: BulkDeleteUsersHandlerOptions) => {
+  const deleteSelectedUsers = async () => {
 
+  }
+
+  return { deleteSelectedUsers }
 }
