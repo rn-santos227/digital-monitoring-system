@@ -72,6 +72,8 @@
           :total-pages="battalionPagination.totalPages"
           :total-items="battalionPagination.totalItems"
           :page-size="battalionPagination.pageSize"
+          v-model:selected-row-keys="selectedBattalionIds"
+          @bulk-delete="deleteSelectedBattalions"
           @action="onBattalionAction"
           @update:current-page="onBattalionPageChange"
           @update:page-size="onBattalionPageSizeChange"
