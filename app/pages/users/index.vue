@@ -277,7 +277,12 @@ const { addToast } = useToast()
 const selectedUserProfileIds = ref<string[]>([])
 const selectedAccountTypeIds = ref<string[]>([])
 
-
+const { deleteSelectedUsers } = useBulkDeleteUsersHandler({
+  selectedIds: selectedUserProfileIds,
+  deleteUserProfile,
+  reload: () => loadUserProfiles(),
+  showDialog,
+})
 
 const visibleTabItems = computed(() => {
   return USERS_PAGE_TAB_ITEMS.filter((tabItem) => {
