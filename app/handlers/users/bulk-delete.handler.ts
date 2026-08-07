@@ -39,6 +39,9 @@ export const useBulkDeleteUsersHandler = ({
       for (const id of ids) {
         await deleteUserProfile(id)
       }
+      selectedIds.value = []
+      await reload()
+
     }
   }
 
