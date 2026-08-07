@@ -3,5 +3,8 @@ import type { DialogInput, DialogResult } from '~/composables/useDialog'
 import { extractApiErrorMessage } from '~/utils/api-request'
 
 interface BulkDeleteUsersHandlerOptions {
-
+  selectedIds: Ref<string[]>
+  deleteUserProfile: (id: string) => Promise<void>
+  reload: () => Promise<void>
+  showDialog: (input: DialogInput) => Promise<DialogResult>
 }
