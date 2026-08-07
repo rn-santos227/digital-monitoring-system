@@ -128,6 +128,11 @@ export const useBulkDeleteTrainingRecordsHandler = ({
       return
     }
 
+    const result = await showDialog({
+      type: 'question',
+      title: 'Proceed with bulk delete?',
+    })
+
   }
 
   return { deleteSelectedTrainingRecords }
