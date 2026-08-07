@@ -279,6 +279,13 @@ const {
   assignPersonnel: assignPersonnelToCompany,
 } = useCompanies()
 
+const { deleteSelectedBattalions } = useBulkDeleteBattalionsHandler({
+  selectedIds: selectedBattalionIds,
+  reload: () => loadBattalions(),
+  showDialog,
+})
+
+
 const { printBattalions } = usePrintBattalionsHandler()
 const { printCompanies } = usePrintCompaniesHandler()
 
