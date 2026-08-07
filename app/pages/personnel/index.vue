@@ -282,6 +282,10 @@ watch(tableRows, (rows) => {
   const visibleIds = new Set(rows.map((row) => row.id))
   selectedPersonnelIds.value = selectedPersonnelIds.value.filter((id) => visibleIds.has(id))
 })
+watch(rankRows, (rows) => {
+  const visibleIds = new Set(rows.map((row) => row.id))
+  selectedRankIds.value = selectedRankIds.value.filter((id) => visibleIds.has(id))
+})
 
 const filterValidationErrors = ref<FieldValidationMap>({})
 const isCreatePersonnelModalOpen = ref(false)
