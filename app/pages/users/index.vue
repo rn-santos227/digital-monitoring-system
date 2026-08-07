@@ -208,6 +208,8 @@ import {
   useCreateAccountTypeHandler,
   useCreateUserProfileHandler,
   useDeleteUserProfileHandler,
+  useBulkDeleteUsersHandler,
+  useBulkDeleteAccountTypesHandler,
   useDeleteAccountTypeHandler,
   useUserActivationHandler,
   useUserPasswordHandler,
