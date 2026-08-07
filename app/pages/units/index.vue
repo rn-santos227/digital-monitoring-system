@@ -101,6 +101,8 @@
           :total-pages="companyPagination.totalPages"
           :total-items="companyPagination.totalItems"
           :page-size="companyPagination.pageSize"
+          v-model:selected-row-keys="selectedCompanyIds"
+          @bulk-delete="deleteSelectedCompanies"
           @action="onCompanyAction"
           @update:current-page="onCompanyPageChange"
           @update:page-size="onCompanyPageSizeChange"
