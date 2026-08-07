@@ -24,6 +24,9 @@ export const useBulkDeleteUsersHandler = ({
     const result = await showDialog({
       type: 'question',
       title: 'Proceed with bulk delete?',
+      message: `Are you sure you want to delete ${ids.length} selected user profile${ids.length === 1 ? '' : 's'}? This action cannot be undone.`,
+      confirmLabel: 'Yes, delete selected',
+      cancelLabel: 'No, keep records',
     })
   }
 
