@@ -44,6 +44,8 @@ export const useBulkDeleteUsersHandler = ({
       await showDialog({
         type: 'error',
         title: 'Bulk delete stopped',
+        message: extractApiErrorMessage(error, 'The remaining user profiles were not deleted. The list has been refreshed to show the current state.'),
+        confirmLabel: 'OK',
       })
     }
   }
