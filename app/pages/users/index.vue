@@ -289,6 +289,11 @@ const { deleteSelectedAccountTypes } = useBulkDeleteAccountTypesHandler({
   showDialog,
 })
 
+watch(profileTableRows, (rows) => {
+  const visibleIds = new Set(rows.map((row) => String(row.id ?? '')))
+  selectedUserProfileIds.value = selectedUserProfileIds.value.filter((id) => visibleIds.has(id))
+})
+
 const visibleTabItems = computed(() => {
   return USERS_PAGE_TAB_ITEMS.filter((tabItem) => {
     const requiredPermissions = USERS_PAGE_TAB_REQUIRED_PERMISSIONS[tabItem.id as keyof typeof USERS_PAGE_TAB_REQUIRED_PERMISSIONS]
