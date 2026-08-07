@@ -131,6 +131,9 @@ export const useBulkDeleteTrainingRecordsHandler = ({
     const result = await showDialog({
       type: 'question',
       title: 'Proceed with bulk delete?',
+      message: `Are you sure you want to delete ${ids.length} selected ${ids.length === 1 ? 'training record' : 'training records'}? This action cannot be undone. For safety, no records will be deleted if any selection is missing or is referenced by another record.`,
+      confirmLabel: 'Yes, delete selected',
+      cancelLabel: 'No, keep records',
     })
 
   }
