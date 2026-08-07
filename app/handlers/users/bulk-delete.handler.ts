@@ -8,3 +8,12 @@ interface BulkDeleteUsersHandlerOptions {
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
+
+export const useBulkDeleteUsersHandler = ({
+  selectedIds,
+  deleteUserProfile,
+  reload,
+  showDialog,
+}: BulkDeleteUsersHandlerOptions) => {
+
+}
