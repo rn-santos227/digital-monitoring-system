@@ -39,6 +39,10 @@ export const useBulkDeleteUsersHandler = ({
       }
       selectedIds.value = []
       await reload()
+      await showDialog({
+        type: 'success',
+        title: 'User profiles deleted',
+      })
     } catch (error: unknown) {
       await reload()
       await showDialog({
