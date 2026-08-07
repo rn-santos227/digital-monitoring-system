@@ -136,6 +136,15 @@ export const useBulkDeleteTrainingRecordsHandler = ({
       cancelLabel: 'No, keep records',
     })
 
+    if (!result.confirmed) {
+      return
+    }
+
+    try {
+
+    } catch (error: unknown) {
+
+    }
   }
 
   return { deleteSelectedTrainingRecords }
