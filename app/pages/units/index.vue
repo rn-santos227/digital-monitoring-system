@@ -202,6 +202,8 @@ import {
   useCreateCompanyHandler,
   useCreateUnitHandler,
   useDeleteBattalionHandler,
+  useBulkDeleteBattalionsHandler,
+  useBulkDeleteCompaniesHandler,
   useDeleteCompanyHandler,
   useDeleteUnitHandler,
   useUnitsPageHandlers,
@@ -242,6 +244,8 @@ const isAssignToBattalionModalOpen = ref(false)
 const isAssignToCompanyModalOpen = ref(false)
 const selectedBattalionId = ref('')
 const selectedCompanyId = ref('')
+const selectedBattalionIds = ref<string[]>([])
+const selectedCompanyIds = ref<string[]>([])
 const selectedBattalion = ref<{ code: string; name: string; isActive: boolean } | null>(null)
 const selectedCompany = ref<{ battalionId: string | null; code: string; name: string; isActive: boolean } | null>(null)
 const selectedBattalionView = ref<BattalionDetailItem | null>(null)

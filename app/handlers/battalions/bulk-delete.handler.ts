@@ -3,18 +3,18 @@ import type { DialogInput, DialogResult } from '~/composables/useDialog'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { deleteBulkRecordsEndpoint } from '~/utils/bulk-management-endpoints'
 
-interface BulkDeleteCompaniesHandlerOptions {
+interface BulkDeleteBattalionsHandlerOptions {
   selectedIds: Ref<string[]>
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
 
-export const useBulkDeleteCompaniesHandler = ({
+export const useBulkDeleteBattalionsHandler = ({
   selectedIds,
   reload,
   showDialog,
-}: BulkDeleteCompaniesHandlerOptions) => {
-  const deleteSelectedCompanies = async () => {
+}: BulkDeleteBattalionsHandlerOptions) => {
+  const deleteSelectedBattalions = async () => {
     const ids = [...new Set(selectedIds.value)].filter(Boolean)
     if (ids.length === 0) {
       return
@@ -23,7 +23,7 @@ export const useBulkDeleteCompaniesHandler = ({
     const result = await showDialog({
       type: 'question',
       title: 'Proceed with bulk delete?',
-      message: `Are you sure you want to delete ${ids.length} selected ${ids.length === 1 ? 'company' : 'companies'}? This action cannot be undone. For safety, no records will be deleted if any selection is missing or is referenced by another record.`,
+      message: `Are you sure you want to delete ${ids.length} selected ${ids.length === 1 ? 'battalion' : 'battalions'}? This action cannot be undone. For safety, no records will be deleted if any selection is missing or is referenced by another record.`,
       confirmLabel: 'Yes, delete selected',
       cancelLabel: 'No, keep records',
     })
@@ -32,13 +32,13 @@ export const useBulkDeleteCompaniesHandler = ({
     }
 
     try {
-      const response = await deleteBulkRecordsEndpoint('companies', ids)
+      const response = await deleteBulkRecordsEndpoint('battalions', ids)
       selectedIds.value = []
       await reload()
       await showDialog({
         type: 'success',
-        title: 'Companies deleted',
-        message: `${response.affectedCount} ${response.affectedCount === 1 ? 'company' : 'companies'} ${response.affectedCount === 1 ? 'was' : 'were'} deleted successfully.`,
+        title: 'Battalions deleted',
+        message: `${response.affectedCount} ${response.affectedCount === 1 ? 'battalion' : 'battalions'} ${response.affectedCount === 1 ? 'was' : 'were'} deleted successfully.`,
         confirmLabel: 'OK',
       })
     } catch (error: unknown) {
@@ -47,12 +47,12 @@ export const useBulkDeleteCompaniesHandler = ({
         title: 'Bulk delete blocked',
         message: extractApiErrorMessage(
           error,
-          'No companies were deleted. Check whether the selected records are still in use and try again.',
+          'No battalions were deleted. Check whether the selected records are still in use and try again.',
         ),
         confirmLabel: 'OK',
       })
     }
   }
 
-  return { deleteSelectedCompanies }
+  return { deleteSelectedBattalions }
 }
