@@ -294,6 +294,10 @@ watch(battalionTableRows, (rows) => {
   const visibleIds = new Set(rows.map((row) => String(row.id ?? '')))
   selectedBattalionIds.value = selectedBattalionIds.value.filter((id) => visibleIds.has(id))
 })
+watch(companyTableRows, (rows) => {
+  const visibleIds = new Set(rows.map((row) => String(row.id ?? '')))
+  selectedCompanyIds.value = selectedCompanyIds.value.filter((id) => visibleIds.has(id))
+})
 
 const { printBattalions } = usePrintBattalionsHandler()
 const { printCompanies } = usePrintCompaniesHandler()
