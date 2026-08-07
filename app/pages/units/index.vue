@@ -284,6 +284,11 @@ const { deleteSelectedBattalions } = useBulkDeleteBattalionsHandler({
   reload: () => loadBattalions(),
   showDialog,
 })
+const { deleteSelectedCompanies } = useBulkDeleteCompaniesHandler({
+  selectedIds: selectedCompanyIds,
+  reload: () => loadCompanies(),
+  showDialog,
+})
 
 
 const { printBattalions } = usePrintBattalionsHandler()
