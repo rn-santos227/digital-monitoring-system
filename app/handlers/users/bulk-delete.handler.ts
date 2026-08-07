@@ -36,7 +36,9 @@ export const useBulkDeleteUsersHandler = ({
     try {
 
     } catch (error: unknown) {
-
+      for (const id of ids) {
+        await deleteUserProfile(id)
+      }
     }
   }
 
