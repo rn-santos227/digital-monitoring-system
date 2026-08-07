@@ -34,14 +34,17 @@ export const useBulkDeleteUsersHandler = ({
     }
 
     try {
-
-    } catch (error: unknown) {
       for (const id of ids) {
         await deleteUserProfile(id)
       }
       selectedIds.value = []
       await reload()
-
+    } catch (error: unknown) {
+      await reload()
+      await showDialog({
+        type: 'error',
+        title: 'Bulk delete stopped',
+      })
     }
   }
 
