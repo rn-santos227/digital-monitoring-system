@@ -16,6 +16,10 @@ export const useBulkDeleteUsersHandler = ({
   showDialog,
 }: BulkDeleteUsersHandlerOptions) => {
   const deleteSelectedUsers = async () => {
+    const ids = [...new Set(selectedIds.value)].filter(Boolean)
+    if (ids.length === 0) {
+      return
+    }
 
   }
 
