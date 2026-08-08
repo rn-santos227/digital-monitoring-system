@@ -192,7 +192,13 @@ const isViewEquipmentAssetModalOpen = ref(false)
 const selectedEquipmentAsset = ref<EquipmentAssetListItem | null>(null)
 const selectedEquipmentAssetIds = ref<string[]>([])
 
-
+const { deleteSelectedEquipmentAssets } = useBulkDeleteEquipmentAssetsHandler({
+  selectedIds: selectedEquipmentAssetIds,
+  reload: async () => {
+    await loadEquipmentAssets()
+  },
+  showDialog,
+})
 
 const {
   onOpenCreateEquipmentAssetModal,
