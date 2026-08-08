@@ -149,6 +149,13 @@ const selectedViewEquipmentIssuance = ref<EquipmentIssuanceListItem | null>(null
 const selectedEquipmentIssuance = ref<EquipmentIssuanceListItem | null>(null)
 const selectedEquipmentItemIds = ref<string[]>([])
 
+const { deleteSelectedEquipmentItems } = useBulkDeleteEquipmentItemsHandler({
+  selectedIds: selectedEquipmentItemIds,
+  reload: async () => {
+    await loadEquipmentItems()
+  },
+  showDialog,
+})
 
 const {
   onOpenCreateEquipmentIssuanceModal,
