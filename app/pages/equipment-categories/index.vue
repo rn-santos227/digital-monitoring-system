@@ -160,7 +160,13 @@ const isViewEquipmentCategoryModalOpen = ref(false)
 const selectedEquipmentCategory = ref<EquipmentCategoryDetailItem | null>(null)
 const selectedEquipmentCategoryIds = ref<string[]>([])
 
-
+const { deleteSelectedEquipmentCategories } = useBulkDeleteEquipmentCategoriesHandler({
+  selectedIds: selectedEquipmentCategoryIds,
+  reload: async () => {
+    await loadEquipmentCategories()
+  },
+  showDialog,
+})
 
 const { onOpenCreateEquipmentCategoryModal, onCloseCreateEquipmentCategoryModal, onCreateEquipmentCategory } = useCreateEquipmentCategoryHandler({
   isCreateEquipmentCategoryModalOpen,
