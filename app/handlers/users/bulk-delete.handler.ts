@@ -1,17 +1,16 @@
 import type { Ref } from 'vue'
 import type { DialogInput, DialogResult } from '~/composables/useDialog'
 import { extractApiErrorMessage } from '~/utils/api-request'
+import { deleteBulkRecordsEndpoint } from '~/utils/bulk-management-endpoints'
 
 interface BulkDeleteUsersHandlerOptions {
   selectedIds: Ref<string[]>
-  deleteUserProfile: (id: string) => Promise<void>
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
 
 export const useBulkDeleteUsersHandler = ({
   selectedIds,
-  deleteUserProfile,
   reload,
   showDialog,
 }: BulkDeleteUsersHandlerOptions) => {
@@ -33,9 +32,7 @@ export const useBulkDeleteUsersHandler = ({
     }
 
     try {
-      for (const id of ids) {
-        await deleteUserProfile(id)
-      }
+      const response = await deleteBulkRecordsEndpoint('users', ids)
       selectedIds.value = []
       await reload()
       await showDialog({
