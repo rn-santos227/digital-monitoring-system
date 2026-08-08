@@ -123,6 +123,7 @@ import {
   createCompleteListPrintHandler,
   useCreateEquipmentAssetHandler,
   useDeleteEquipmentAssetHandler,
+  useBulkDeleteEquipmentAssetsHandler,
   useEquipmentListHandlers,
   useEquipmentSearchHandlers,
   useUpdateEquipmentAssetHandler,
@@ -189,6 +190,9 @@ const isCreateEquipmentAssetModalOpen = ref(false)
 const isUpdateEquipmentAssetModalOpen = ref(false)
 const isViewEquipmentAssetModalOpen = ref(false)
 const selectedEquipmentAsset = ref<EquipmentAssetListItem | null>(null)
+const selectedEquipmentAssetIds = ref<string[]>([])
+
+
 
 const {
   onOpenCreateEquipmentAssetModal,
