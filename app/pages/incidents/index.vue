@@ -148,6 +148,7 @@ import {
   createIncidentTableActionHandler,
   useCreateEquipmentIncidentHandler,
   useDeleteEquipmentIncidentHandler,
+  useBulkDeleteIncidentsHandler,
   useIncidentListHandlers,
   useIncidentSearchHandlers,
   usePrintIncidentsHandler,
@@ -209,6 +210,10 @@ const activeUpdateSection = ref<IncidentUpdateSection | null>(null)
 
 const { showDialog } = useDialog()
 const { handleFilterApply, handleFilterReset } = useIncidentSearchHandlers(filters)
+const selectedIncidentIds = ref<string[]>([])
+
+
+
 const {
   onOpenCreateEquipmentIncidentModal,
   onCloseCreateEquipmentIncidentModal,
