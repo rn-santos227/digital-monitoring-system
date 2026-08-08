@@ -153,9 +153,11 @@
             :total-items="rankPagination.totalItems"
             :page-size="rankPagination.pageSize"
             :can-delete="canDeleteRanks"
+            v-model:selected-row-keys="selectedRankIds"
             @update:current-page="onRankPageChange"
             @update:page-size="onRankPageSizeChange"
             @action="onRankTableAction"
+            @bulk-delete="deleteSelectedRanks"
           />
         </template>
       </template>
