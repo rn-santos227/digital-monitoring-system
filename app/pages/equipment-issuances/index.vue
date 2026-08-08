@@ -94,6 +94,7 @@ import {
   createEquipmentTableActionHandler,
   useCreateEquipmentIssuanceHandler,
   useDeleteEquipmentIssuanceHandler,
+  useBulkDeleteEquipmentItemsHandler,
   useEquipmentListHandlers,
   useEquipmentSearchHandlers,
   useUpdateEquipmentIssuanceHandler,
@@ -146,6 +147,9 @@ const isViewEquipmentIssuanceModalOpen = ref(false)
 const isUpdateEquipmentIssuanceModalOpen = ref(false)
 const selectedViewEquipmentIssuance = ref<EquipmentIssuanceListItem | null>(null)
 const selectedEquipmentIssuance = ref<EquipmentIssuanceListItem | null>(null)
+const selectedEquipmentItemIds = ref<string[]>([])
+
+
 const {
   onOpenCreateEquipmentIssuanceModal,
   onCloseCreateEquipmentIssuanceModal,
