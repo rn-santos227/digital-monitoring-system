@@ -65,9 +65,11 @@
           :total-pages="deploymentRecordsPagination.totalPages"
           :total-items="deploymentRecordsPagination.totalItems"
           :page-size="deploymentRecordsPagination.pageSize"
+          v-model:selected-row-keys="selectedDeploymentRecordIds"
           @update:current-page="onDeploymentRecordsPageChange"
           @update:page-size="onDeploymentRecordsPageSizeChange"
           @action="onDeploymentRecordsTableAction"
+          @bulk-delete="deleteSelectedDeploymentRecords"
         />
       </template>
 
