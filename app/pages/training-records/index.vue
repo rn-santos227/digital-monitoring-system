@@ -305,6 +305,14 @@ const { deleteSelectedTrainings } = useBulkDeleteTrainingsHandler({
   showDialog,
 })
 
+const { deleteSelectedTrainingCategories } = useBulkDeleteTrainingCategoriesHandler({
+  selectedIds: selectedTrainingCategoryIds,
+  reload: async () => {
+    await loadTrainingCategories()
+  },
+  showDialog,
+})
+
 const {
   filters: trainingFilters,
   tableRows: trainingTableRows,
