@@ -211,6 +211,8 @@ import { useToast } from '~/composables/useToast'
 import {
   useCreateDeploymentHandler,
   useDeleteDeploymentHandler,
+  useBulkDeleteDeploymentRecordsHandler,
+  useBulkDeleteDeploymentsHandler,
   useCreateDeploymentRecordHandler,
   useDeleteDeploymentRecordHandler,
   useDeploymentManagementPageHandlers,
@@ -249,6 +251,11 @@ const authStore = useAuthStore()
 const { showDialog } = useDialog()
 const { addToast } = useToast()
 const { printDeploymentRecords, printDeployments } = usePrintDeploymentsHandler()
+
+const selectedDeploymentRecordIds = ref<string[]>([])
+const selectedDeploymentIds = ref<string[]>([])
+
+
 
 const {
   filters: deploymentsFilters,
