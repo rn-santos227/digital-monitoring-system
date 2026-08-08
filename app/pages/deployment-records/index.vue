@@ -102,9 +102,11 @@
           :total-items="deploymentsPagination.totalItems"
           :page-size="deploymentsPagination.pageSize"
           :show-actions="activeTab === 'deployments'"
+          v-model:selected-row-keys="selectedDeploymentIds"
           @action="onDeploymentsTableAction"
           @update:current-page="onDeploymentsPageChange"
           @update:page-size="onDeploymentsPageSizeChange"
+          @bulk-delete="deleteSelectedDeployments"
         />
       </template>
 
