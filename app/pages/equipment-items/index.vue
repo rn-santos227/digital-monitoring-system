@@ -83,6 +83,7 @@ import {
   createEquipmentTableActionHandler,
   useCreateEquipmentItemHandler,
   useDeleteEquipmentItemHandler,
+  useBulkDeleteEquipmentItemsHandler,
   useEquipmentListHandlers,
   useEquipmentSearchHandlers,
   useUpdateEquipmentItemHandler,
@@ -128,6 +129,9 @@ const { handleFilterApply, handleFilterReset } = useEquipmentSearchHandlers(filt
 const isCreateEquipmentItemModalOpen = ref(false)
 const isUpdateEquipmentItemModalOpen = ref(false)
 const selectedEquipmentItem = ref<EquipmentItemListItem | null>(null)
+const selectedEquipmentItemIds = ref<string[]>([])
+
+
 
 const {
   onOpenCreateEquipmentItemModal,
