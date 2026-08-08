@@ -140,9 +140,11 @@
           :total-pages="categoryPagination.totalPages"
           :total-items="categoryPagination.totalItems"
           :page-size="categoryPagination.pageSize"
+          v-model:selected-row-keys="selectedTrainingCategoryIds"
           @action="onCategoryTableAction"
           @update:current-page="onCategoryPageChange"
           @update:page-size="onCategoryPageSizeChange"
+          @bulk-delete="deleteSelectedTrainingCategories"
         />
       </template>
 
