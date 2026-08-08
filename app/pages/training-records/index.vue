@@ -82,9 +82,11 @@
           :total-pages="trainingRecordsPagination.totalPages"
           :total-items="trainingRecordsPagination.totalItems"
           :page-size="trainingRecordsPagination.pageSize"
+          v-model:selected-row-keys="selectedTrainingRecordIds"
           @action="onTrainingRecordTableAction"
           @update:current-page="onTrainingRecordsPageChange"
           @update:page-size="onTrainingRecordsPageSizeChange"
+          @bulk-delete="deleteSelectedTrainingRecords"
         />
       </template>
 
