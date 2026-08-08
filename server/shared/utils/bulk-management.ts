@@ -41,6 +41,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
   users: {
     table: 'user_profiles',
     updatePermissions: [PERMISSION_CODES.userUpdate],
+    deletePermissions: [PERMISSION_CODES.userDelete],
     writableColumns: mutable(
       'users',
       'personnel_id',
