@@ -191,6 +191,8 @@ import {
   useCreateEngagementRecordHandler,
   useDeleteEngagementHandler,
   useDeleteEngagementRecordHandler,
+  useBulkDeleteEngagementRecordsHandler,
+  useBulkDeleteEngagementsHandler,
   useEngagementManagementPageHandlers,
   useEngagementTableActionHandlers,
   useEngagementTabHandler,
