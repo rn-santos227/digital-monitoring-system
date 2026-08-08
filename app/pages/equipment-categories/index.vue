@@ -111,6 +111,7 @@ import {
   createEquipmentTableActionHandler,
   useCreateEquipmentCategoryHandler,
   useDeleteEquipmentCategoryHandler,
+  useBulkDeleteEquipmentCategoriesHandler,
   useEquipmentCategoryPageHandlers,
   useEquipmentListHandlers,
   useUpdateEquipmentCategoryHandler,
@@ -157,6 +158,9 @@ const isCreateEquipmentCategoryModalOpen = ref(false)
 const isUpdateEquipmentCategoryModalOpen = ref(false)
 const isViewEquipmentCategoryModalOpen = ref(false)
 const selectedEquipmentCategory = ref<EquipmentCategoryDetailItem | null>(null)
+const selectedEquipmentCategoryIds = ref<string[]>([])
+
+
 
 const { onOpenCreateEquipmentCategoryModal, onCloseCreateEquipmentCategoryModal, onCreateEquipmentCategory } = useCreateEquipmentCategoryHandler({
   isCreateEquipmentCategoryModalOpen,
