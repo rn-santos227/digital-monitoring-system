@@ -131,7 +131,13 @@ const isUpdateEquipmentItemModalOpen = ref(false)
 const selectedEquipmentItem = ref<EquipmentItemListItem | null>(null)
 const selectedEquipmentItemIds = ref<string[]>([])
 
-
+const { deleteSelectedEquipmentItems } = useBulkDeleteEquipmentItemsHandler({
+  selectedIds: selectedEquipmentItemIds,
+  reload: async () => {
+    await loadEquipmentItems()
+  },
+  showDialog,
+})
 
 const {
   onOpenCreateEquipmentItemModal,
