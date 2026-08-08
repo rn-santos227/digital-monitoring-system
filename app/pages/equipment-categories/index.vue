@@ -61,9 +61,11 @@
         :total-pages="pagination.totalPages"
         :total-items="pagination.totalItems"
         :page-size="pagination.pageSize"
+        v-model:selected-row-keys="selectedEquipmentCategoryIds"
         @action="onTableAction"
         @update:current-page="onPageChange"
         @update:page-size="onPageSizeChange"
+        @bulk-delete="deleteSelectedEquipmentCategories"
       />
 
       <CreateEquipmentCategoryModal
