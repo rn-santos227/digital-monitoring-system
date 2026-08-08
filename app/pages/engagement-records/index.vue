@@ -259,6 +259,11 @@ const {
   loadEngagementCalendarEvents,
 } = useEngagements()
 
+const selectedEngagementRecordIds = ref<string[]>([])
+const selectedEngagementIds = ref<string[]>([])
+
+
+
 const visibleTabItems = computed(() => {
   return ENGAGEMENT_RECORDS_PAGE_TAB_ITEMS.filter((tab) => {
     const tabId = tab.id as EngagementRecordsTabId
