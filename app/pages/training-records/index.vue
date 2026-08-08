@@ -289,6 +289,14 @@ const selectedTrainingRecordIds = ref<string[]>([])
 const selectedTrainingIds = ref<string[]>([])
 const selectedTrainingCategoryIds = ref<string[]>([])
 
+const { deleteSelectedTrainingRecords } = useBulkDeleteTrainingRecordsHandler({
+  selectedIds: selectedTrainingRecordIds,
+  reload: async () => {
+    await loadTrainingRecords()
+  },
+  showDialog,
+})
+
 const {
   filters: trainingFilters,
   tableRows: trainingTableRows,
