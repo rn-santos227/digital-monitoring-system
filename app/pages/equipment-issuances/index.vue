@@ -94,7 +94,7 @@ import {
   createEquipmentTableActionHandler,
   useCreateEquipmentIssuanceHandler,
   useDeleteEquipmentIssuanceHandler,
-  useBulkDeleteEquipmentItemsHandler,
+  useBulkDeleteEquipmentIssuancesHandler,
   useEquipmentListHandlers,
   useEquipmentSearchHandlers,
   useUpdateEquipmentIssuanceHandler,
@@ -147,12 +147,12 @@ const isViewEquipmentIssuanceModalOpen = ref(false)
 const isUpdateEquipmentIssuanceModalOpen = ref(false)
 const selectedViewEquipmentIssuance = ref<EquipmentIssuanceListItem | null>(null)
 const selectedEquipmentIssuance = ref<EquipmentIssuanceListItem | null>(null)
-const selectedEquipmentItemIds = ref<string[]>([])
+const selectedEquipmentIssuanceIds = ref<string[]>([])
 
-const { deleteSelectedEquipmentItems } = useBulkDeleteEquipmentItemsHandler({
-  selectedIds: selectedEquipmentItemIds,
+const { deleteSelectedEquipmentIssuances } = useBulkDeleteEquipmentIssuancesHandler({
+  selectedIds: selectedEquipmentIssuanceIds,
   reload: async () => {
-    await loadEquipmentItems()
+    await loadEquipmentIssuances()
   },
   showDialog,
 })
