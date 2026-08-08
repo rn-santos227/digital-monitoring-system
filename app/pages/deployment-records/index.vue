@@ -263,6 +263,13 @@ const { deleteSelectedDeploymentRecords } = useBulkDeleteDeploymentRecordsHandle
   showDialog,
 })
 
+const { deleteSelectedDeployments } = useBulkDeleteDeploymentsHandler({
+  selectedIds: selectedDeploymentIds,
+  reload: async () => {
+    await loadDeployments()
+  },
+  showDialog,
+})
 
 const {
   filters: deploymentsFilters,
