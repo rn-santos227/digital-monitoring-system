@@ -39,9 +39,11 @@
         :total-pages="pagination.totalPages"
         :total-items="pagination.totalItems"
         :page-size="pagination.pageSize"
+        v-model:selected-row-keys="selectedIncidentIds"
         @action="onTableAction"
         @update:current-page="onPageChange"
         @update:page-size="onPageSizeChange"
+        @bulk-delete="deleteSelectedIncidents"
       />
 
       <EquipmentIncidentCards
