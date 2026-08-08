@@ -270,6 +270,13 @@ const { deleteSelectedEngagementRecords } = useBulkDeleteEngagementRecordsHandle
   showDialog,
 })
 
+const { deleteSelectedEngagements } = useBulkDeleteEngagementsHandler({
+  selectedIds: selectedEngagementIds,
+  reload: async () => {
+    await loadEngagements()
+  },
+  showDialog,
+})
 
 const visibleTabItems = computed(() => {
   return ENGAGEMENT_RECORDS_PAGE_TAB_ITEMS.filter((tab) => {
