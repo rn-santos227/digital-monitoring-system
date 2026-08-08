@@ -297,6 +297,14 @@ const { deleteSelectedTrainingRecords } = useBulkDeleteTrainingRecordsHandler({
   showDialog,
 })
 
+const { deleteSelectedTrainings } = useBulkDeleteTrainingsHandler({
+  selectedIds: selectedTrainingIds,
+  reload: async () => {
+    await loadTrainings()
+  },
+  showDialog,
+})
+
 const {
   filters: trainingFilters,
   tableRows: trainingTableRows,
