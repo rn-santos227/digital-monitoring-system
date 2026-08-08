@@ -286,7 +286,7 @@ const hasLoadedTrainingRecords = ref(false)
 const hasLoadedTrainings = ref(false)
 const hasLoadedCategories = ref(false)
 const selectedTrainingRecordIds = ref<string[]>([])
-
+const selectedTrainingIds = ref<string[]>([])
 
 
 const {
