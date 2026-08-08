@@ -285,6 +285,9 @@ const trainingPersonnelRows = ref<Record<string, string>[]>([])
 const hasLoadedTrainingRecords = ref(false)
 const hasLoadedTrainings = ref(false)
 const hasLoadedCategories = ref(false)
+const selectedTrainingRecordIds = ref<string[]>([])
+
+
 
 const {
   filters: trainingFilters,
