@@ -212,7 +212,13 @@ const { showDialog } = useDialog()
 const { handleFilterApply, handleFilterReset } = useIncidentSearchHandlers(filters)
 const selectedIncidentIds = ref<string[]>([])
 
-
+const { deleteSelectedIncidents } = useBulkDeleteIncidentsHandler({
+  selectedIds: selectedIncidentIds,
+  reload: async () => {
+    await loadEquipmentIncidents()
+  },
+  showDialog,
+})
 
 const {
   onOpenCreateEquipmentIncidentModal,
