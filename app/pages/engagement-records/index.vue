@@ -64,9 +64,11 @@
           :total-pages="engagementRecordsPagination.totalPages"
           :total-items="engagementRecordsPagination.totalItems"
           :page-size="engagementRecordsPagination.pageSize"
+          v-model:selected-row-keys="selectedEngagementRecordIds"
           @update:current-page="onEngagementRecordsPageChange"
           @update:page-size="onEngagementRecordsPageSizeChange"
           @action="onEngagementRecordAction"
+          @bulk-delete="deleteSelectedEngagementRecords"
         />
       </template>
 
