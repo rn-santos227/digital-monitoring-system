@@ -255,6 +255,13 @@ const { printDeploymentRecords, printDeployments } = usePrintDeploymentsHandler(
 const selectedDeploymentRecordIds = ref<string[]>([])
 const selectedDeploymentIds = ref<string[]>([])
 
+const { deleteSelectedDeploymentRecords } = useBulkDeleteDeploymentRecordsHandler({
+  selectedIds: selectedDeploymentRecordIds,
+  reload: async () => {
+    await loadDeploymentRecords()
+  },
+  showDialog,
+})
 
 
 const {
