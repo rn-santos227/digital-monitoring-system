@@ -262,6 +262,13 @@ const {
 const selectedEngagementRecordIds = ref<string[]>([])
 const selectedEngagementIds = ref<string[]>([])
 
+const { deleteSelectedEngagementRecords } = useBulkDeleteEngagementRecordsHandler({
+  selectedIds: selectedEngagementRecordIds,
+  reload: async () => {
+    await loadEngagementRecords()
+  },
+  showDialog,
+})
 
 
 const visibleTabItems = computed(() => {
