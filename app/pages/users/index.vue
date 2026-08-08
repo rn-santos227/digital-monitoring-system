@@ -283,7 +283,6 @@ const selectedAccountTypeIds = ref<string[]>([])
 
 const { deleteSelectedUsers } = useBulkDeleteUsersHandler({
   selectedIds: selectedUserProfileIds,
-  deleteUserProfile,
   reload: () => loadUserProfiles(),
   showDialog,
 })
