@@ -12,3 +12,11 @@ interface ValidateDeploymentBulkUpdateOptions {
   form: Readonly<Partial<Record<DeploymentBulkUpdateFieldKey, string>>>
   enabled: Readonly<Partial<Record<DeploymentBulkUpdateFieldKey, boolean>>>
 }
+
+export const validateDeploymentBulkUpdate = ({
+  fields,
+  form,
+  enabled,
+}: ValidateDeploymentBulkUpdateOptions): DeploymentBulkUpdateValidationResult => {
+
+}
