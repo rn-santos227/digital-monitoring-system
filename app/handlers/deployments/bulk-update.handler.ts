@@ -46,6 +46,10 @@ export const useBulkUpdateDeploymentsHandler = ({
     try {
 
     } catch (error: unknown) {
+      errorMessage.value = extractApiErrorMessage(
+        error,
+        `No ${label}s were updated. Review the selected values and try again.`,
+      );
 
     }
   }
