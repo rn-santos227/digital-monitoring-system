@@ -53,4 +53,19 @@ export const validateDeploymentBulkUpdate = ({
   }
 
   const payload: DeploymentBulkUpdateValues = {}
+
+  selectedFields.forEach((field) => {
+    const value = form[field]?.trim() ?? ''
+
+    if (field === 'deployment_area') {
+      payload.deployment_area = value
+      return
+    }
+
+  })
+
+  return {
+    error: '',
+    payload,
+  }
 }
