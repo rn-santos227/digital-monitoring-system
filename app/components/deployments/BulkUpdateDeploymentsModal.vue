@@ -12,4 +12,13 @@ import {
 import type { DeploymentBulkUpdateValues } from "~/types/domain/deployment";
 import { validateDeploymentBulkUpdate } from "~/utils/bulk-management-validation";
 
+type FieldKey =
+  | "deployment_area"
+  | "assignment_role"
+  | "operation_name"
+  | "start_date"
+  | "end_date"
+  | "location"
+  | "default_remarks";
+
 </script>
