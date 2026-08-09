@@ -56,4 +56,9 @@ withDefaults(
   }>(),
   { isSubmitting: false, errorMessage: "" },
 );
+
+const emit = defineEmits<{
+  (event: "close"): void;
+  (event: "submit", payload: DeploymentBulkUpdateValues): void;
+}>();
 </script>
