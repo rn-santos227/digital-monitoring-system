@@ -1,5 +1,12 @@
 <template>
+  <BaseModal
+    :title="DEPLOYMENT_RECORDS_BULK_UPDATE_MODAL_TITLE"
+    :description="DEPLOYMENT_RECORDS_BULK_UPDATE_MODAL_DESCRIPTION"
+    size="xl"
+    @close="emit('close')"
+  >
 
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
