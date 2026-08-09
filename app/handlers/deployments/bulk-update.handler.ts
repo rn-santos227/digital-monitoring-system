@@ -27,4 +27,9 @@ export const useBulkUpdateDeploymentsHandler = ({
     errorMessage.value = "";
     isModalOpen.value = true;
   };
+
+  const closeBulkUpdateModal = () => {
+    errorMessage.value = "";
+    isModalOpen.value = false;
+  };
 }
