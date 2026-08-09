@@ -44,6 +44,10 @@ export const useBulkUpdateDeploymentsHandler = ({
 
     errorMessage.value = "";
     try {
+      const response = await updateBulkRecordsEndpoint(domain, ids, updates);
+      selectedIds.value = [];
+      closeBulkUpdateModal();
+      await reload();
 
     } catch (error: unknown) {
       errorMessage.value = extractApiErrorMessage(
