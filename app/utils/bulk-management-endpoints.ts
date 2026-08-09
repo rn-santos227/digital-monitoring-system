@@ -20,5 +20,11 @@ export const updateBulkRecordsEndpoint = async (
   ids: readonly string[],
   updates: Readonly<Record<string, unknown>>,
 ): Promise<BulkMutationResponse> => {
-
+  return await withApiLoading(async () => {
+    return await $fetch<BulkMutationResponse>(`/api/${encodeURIComponent(domain)}/bulk`, {
+      method: 'PATCH',
+      headers: createSessionHeaders(),
+      body: { items: ids.map((id) => ({ id, updates: { ...updates } })) },
+    })
+  }, `Updating ${ids.length} selected record${ids.length === 1 ? '' : 's'}...`)
 }
