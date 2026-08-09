@@ -76,3 +76,8 @@ export const DEPLOYMENTS_VIEW_MAP_TITLE = 'Tactical Map View'
 export const DEPLOYMENTS_VIEW_MAP_SUBTITLE = 'Operational deployment area coordinates and map context.'
 
 export const DEPLOYMENTS_RECORDS_PENDING_MESSAGE = 'Deployment records tab will be added in the next iteration.'
+export const DEPLOYMENTS_BULK_UPDATE_MODAL_TITLE = 'Bulk Update Deployments'
+export const DEPLOYMENTS_BULK_UPDATE_MODAL_DESCRIPTION = 'Choose non-unique fields to apply to every selected deployment.'
+export const DEPLOYMENT_RECORDS_BULK_UPDATE_MODAL_TITLE = 'Bulk Update Deployment Records'
+export const DEPLOYMENT_RECORDS_BULK_UPDATE_MODAL_DESCRIPTION = 'Choose non-unique fields to apply to every selected deployment record.'
+export const DEPLOYMENTS_BULK_UPDATE_WARNING = 'Only checked fields will be changed. Existing record numbers and personnel or deployment assignments remain unchanged.'
