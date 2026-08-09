@@ -44,4 +44,13 @@ export const validateDeploymentBulkUpdate = ({
       payload: null,
     }
   }
+
+  if (enabled.start_date && enabled.end_date && endDate && endDate < startDate) {
+    return {
+      error: 'End date cannot be earlier than start date.',
+      payload: null,
+    }
+  }
+
+  const payload: DeploymentBulkUpdateValues = {}
 }
