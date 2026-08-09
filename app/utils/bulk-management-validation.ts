@@ -18,5 +18,13 @@ export const validateDeploymentBulkUpdate = ({
   form,
   enabled,
 }: ValidateDeploymentBulkUpdateOptions): DeploymentBulkUpdateValidationResult => {
+  const selectedFields = fields.filter((field) => enabled[field] ?? false)
+
+  if (selectedFields.length === 0) {
+    return {
+      error: 'Select at least one field to update.',
+      payload: null,
+    }
+  }
 
 }
