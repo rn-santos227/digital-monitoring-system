@@ -1,5 +1,12 @@
 <template>
-
+  <BaseModal
+    :title="DEPLOYMENTS_BULK_UPDATE_MODAL_TITLE"
+    :description="DEPLOYMENTS_BULK_UPDATE_MODAL_DESCRIPTION"
+    size="xl"
+    @close="emit('close')"
+  >
+    <form class="space-y-4" @submit.prevent="onSubmit"></form>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
