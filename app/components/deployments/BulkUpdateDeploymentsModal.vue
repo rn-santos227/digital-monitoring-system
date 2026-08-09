@@ -38,6 +38,11 @@ const fields: readonly {
     label: "Operation Name",
     placeholder: "Enter operation name",
   },
+  {
+    key: "assignment_role",
+    label: "Assignment Role",
+    placeholder: "Enter assignment role",
+  },
 
 ]);
 </script>
