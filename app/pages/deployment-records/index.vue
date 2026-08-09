@@ -70,6 +70,7 @@
           @update:page-size="onDeploymentRecordsPageSizeChange"
           @action="onDeploymentRecordsTableAction"
           @bulk-delete="deleteSelectedDeploymentRecords"
+          @bulk-update="openBulkUpdateDeploymentRecordsModal"
         />
       </template>
 
@@ -109,6 +110,7 @@
           @update:current-page="onDeploymentsPageChange"
           @update:page-size="onDeploymentsPageSizeChange"
           @bulk-delete="deleteSelectedDeployments"
+          @bulk-update="openBulkUpdateDeploymentsModal"
         />
       </template>
 
@@ -173,6 +175,15 @@
         v-if="isViewDeploymentRecordModalOpen && selectedDeploymentRecord"
         :deployment-record="selectedDeploymentRecord"
         @close="onCloseViewDeploymentRecordModal"
+      />
+
+      <BulkUpdateDeploymentsModal
+        v-if="isBulkUpdateDeploymentsModalOpen"
+        :selected-count="selectedDeploymentIds.length"
+        :is-submitting="isDeploymentsLoading"
+        :error-message="bulkUpdateDeploymentsErrorMessage"
+        @close="closeBulkUpdateDeploymentsModal"
+        @submit="updateSelectedDeployments"
       />
     </section>
   </main>
