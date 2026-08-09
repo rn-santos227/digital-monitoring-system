@@ -62,6 +62,10 @@ export const validateDeploymentBulkUpdate = ({
       return
     }
 
+    if (field === 'start_date') {
+      payload.start_date = value
+      return
+    }
   })
 
   return {
