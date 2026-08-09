@@ -48,4 +48,12 @@ const fields: readonly {
   { key: "remarks", label: "Remarks", placeholder: "Enter remarks" },
 ])
 
+withDefaults(
+  defineProps<{
+    selectedCount: number;
+    isSubmitting?: boolean;
+    errorMessage?: string;
+  }>(),
+  { isSubmitting: false, errorMessage: "" },
+);
 </script>
