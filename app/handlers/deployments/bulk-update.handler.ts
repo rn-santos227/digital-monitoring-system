@@ -23,4 +23,8 @@ export const useBulkUpdateDeploymentsHandler = ({
 }: BulkUpdateDeploymentsHandlerOptions) => {
   const label = domain === "deployments" ? "deployment" : "deployment record";
 
+  const openBulkUpdateModal = () => {
+    errorMessage.value = "";
+    isModalOpen.value = true;
+  };
 }
