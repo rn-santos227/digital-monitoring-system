@@ -12,3 +12,15 @@ interface BulkUpdateDeploymentsHandlerOptions {
   reload: () => Promise<void>;
   showDialog: (input: DialogInput) => Promise<DialogResult>;
 }
+
+export const useBulkUpdateDeploymentsHandler = ({
+  domain,
+  selectedIds,
+  isModalOpen,
+  errorMessage,
+  reload,
+  showDialog,
+}: BulkUpdateDeploymentsHandlerOptions) => {
+  const label = domain === "deployments" ? "deployment" : "deployment record";
+
+}
