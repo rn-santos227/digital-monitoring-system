@@ -137,3 +137,15 @@ export interface DeploymentManagementKpiCounts {
   totalDeployments: number
   totalDeploymentRecords: number
 }
+
+export type DeploymentBulkUpdateValues = Partial<{
+  deployment_area: string
+  assignment_role: string | null
+  operation_name: string | null
+  start_date: string
+  end_date: string | null
+  location: string | null
+  remarks: string | null
+  default_remarks: string | null
+}>
+
