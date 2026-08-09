@@ -43,6 +43,13 @@ const fields: readonly {
     label: "Assignment Role",
     placeholder: "Enter assignment role",
   },
-
+  { key: "location", label: "Location", placeholder: "Enter location" },
+  { key: "start_date", label: "Start Date", placeholder: "", type: "date" },
+  { key: "end_date", label: "End Date", placeholder: "", type: "date" },
+  {
+    key: "default_remarks",
+    label: "Default Remarks",
+    placeholder: "Enter remarks",
+  },
 ]);
 </script>
