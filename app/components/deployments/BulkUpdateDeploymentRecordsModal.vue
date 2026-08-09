@@ -27,6 +27,25 @@ const fields: readonly {
   placeholder: string;
   type?: "date";
 }[] = Object.freeze([
-
+  {
+    key: "deployment_area",
+    label: "Deployment Area",
+    placeholder: "Enter deployment area",
+  },
+  {
+    key: "operation_name",
+    label: "Operation Name",
+    placeholder: "Enter operation name",
+  },
+  {
+    key: "assignment_role",
+    label: "Assignment Role",
+    placeholder: "Enter assignment role",
+  },
+  { key: "location", label: "Location", placeholder: "Enter location" },
+  { key: "start_date", label: "Start Date", placeholder: "", type: "date" },
+  { key: "end_date", label: "End Date", placeholder: "", type: "date" },
+  { key: "remarks", label: "Remarks", placeholder: "Enter remarks" },
 ])
+
 </script>
