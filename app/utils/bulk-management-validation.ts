@@ -30,4 +30,11 @@ export const validateDeploymentBulkUpdate = ({
   const deploymentArea = form.deployment_area?.trim() ?? ''
   const startDate = form.start_date?.trim() ?? ''
   const endDate = form.end_date?.trim() ?? ''
+
+  if (enabled.deployment_area && !deploymentArea) {
+    return {
+      error: 'Deployment area cannot be empty.',
+      payload: null,
+    }
+  }
 }
