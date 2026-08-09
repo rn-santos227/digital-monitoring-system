@@ -81,4 +81,18 @@ const enabled = reactive<Record<FieldKey, boolean>>({
   location: false,
   remarks: false,
 });
+
+const validationError = ref("");
+const onSubmit = () => {
+  const result = validateDeploymentBulkUpdate({
+    fields: fields.map((field) => field.key),
+    form,
+    enabled,
+  });
+  validationError.value = result.error;
+
+  if (result.payload) {
+    emit("submit", result.payload);
+  }
+};
 </script>
