@@ -32,4 +32,16 @@ export const useBulkUpdateDeploymentsHandler = ({
     errorMessage.value = "";
     isModalOpen.value = false;
   };
+
+  const updateSelectedDeployments = async (
+    updates: DeploymentBulkUpdateValues,
+  ) => {
+
+  }
+
+  return {
+    openBulkUpdateModal,
+    closeBulkUpdateModal,
+    updateSelectedDeployments,
+  };
 }
