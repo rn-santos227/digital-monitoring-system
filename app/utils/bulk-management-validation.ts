@@ -66,6 +66,13 @@ export const validateDeploymentBulkUpdate = ({
       payload.start_date = value
       return
     }
+
+    if (field === 'assignment_role') payload.assignment_role = value || null
+    if (field === 'operation_name') payload.operation_name = value || null
+    if (field === 'end_date') payload.end_date = value || null
+    if (field === 'location') payload.location = value || null
+    if (field === 'remarks') payload.remarks = value || null
+    if (field === 'default_remarks') payload.default_remarks = value || null
   })
 
   return {
