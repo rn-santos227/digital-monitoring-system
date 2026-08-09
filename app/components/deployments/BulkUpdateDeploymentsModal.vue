@@ -33,6 +33,11 @@ const fields: readonly {
     label: "Deployment Area",
     placeholder: "Enter deployment area",
   },
+  {
+    key: "operation_name",
+    label: "Operation Name",
+    placeholder: "Enter operation name",
+  },
 
 ]);
 </script>
