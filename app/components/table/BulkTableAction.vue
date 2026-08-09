@@ -20,6 +20,7 @@
   </div>
 </template>
 
+
 <script setup lang="ts">
 import { BULK_DELETE_ACTION_CLASSES } from '~/constants/shared.constants'
 
@@ -28,14 +29,17 @@ withDefaults(defineProps<{
   singularLabel?: string
   pluralLabel?: string
   isDeleting?: boolean
+  showUpdate?: boolean
 }>(), {
   singularLabel: 'record',
   pluralLabel: 'records',
   isDeleting: false,
+  showUpdate: false,
 })
 
 const emit = defineEmits<{
   (event: 'clear'): void
   (event: 'delete'): void
+  (event: 'update'): void
 }>()
 </script>
