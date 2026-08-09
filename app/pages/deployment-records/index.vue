@@ -193,6 +193,8 @@ import CreateDeploymentModal from '~/components/deployments/CreateDeploymentModa
 import UpdateDeploymentDetailModal from '~/components/deployments/UpdateDeploymentDetailModal.vue'
 import UpdateDeploymentLocationModal from '~/components/deployments/UpdateDeploymentLocationModal.vue'
 import ViewDeploymentModal from '~/components/deployments/ViewDeploymentModal.vue'
+import BulkUpdateDeploymentsModal from '~/components/deployments/BulkUpdateDeploymentsModal.vue'
+import BulkUpdateDeploymentRecordsModal from '~/components/deployments/BulkUpdateDeploymentRecordsModal.vue'
 import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import { useDeploymentRecords } from '~/composables/useDeploymentRecords'
 import { useDeployments } from '~/composables/useDeployments'
@@ -217,6 +219,7 @@ import {
   useDeleteDeploymentHandler,
   useBulkDeleteDeploymentRecordsHandler,
   useBulkDeleteDeploymentsHandler,
+  useBulkUpdateDeploymentsHandler,
   useCreateDeploymentRecordHandler,
   useDeleteDeploymentRecordHandler,
   useDeploymentManagementPageHandlers,
@@ -258,6 +261,10 @@ const { printDeploymentRecords, printDeployments } = usePrintDeploymentsHandler(
 
 const selectedDeploymentRecordIds = ref<string[]>([])
 const selectedDeploymentIds = ref<string[]>([])
+const isBulkUpdateDeploymentsModalOpen = ref(false)
+const isBulkUpdateDeploymentRecordsModalOpen = ref(false)
+const bulkUpdateDeploymentsErrorMessage = ref('')
+const bulkUpdateDeploymentRecordsErrorMessage = ref('')
 
 const { deleteSelectedDeploymentRecords } = useBulkDeleteDeploymentRecordsHandler({
   selectedIds: selectedDeploymentRecordIds,
