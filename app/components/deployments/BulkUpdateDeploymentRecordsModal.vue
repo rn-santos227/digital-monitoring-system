@@ -61,4 +61,14 @@ const emit = defineEmits<{
   (event: "close"): void;
   (event: "submit", payload: DeploymentBulkUpdateValues): void;
 }>();
+
+const form = reactive<Record<FieldKey, string>>({
+  deployment_area: "",
+  assignment_role: "",
+  operation_name: "",
+  start_date: "",
+  end_date: "",
+  location: "",
+  remarks: "",
+});
 </script>
