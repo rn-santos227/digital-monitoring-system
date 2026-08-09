@@ -14,3 +14,11 @@ export const deleteBulkRecordsEndpoint = async (
     })
   }, `Deleting ${ids.length} selected record${ids.length === 1 ? '' : 's'}...`)
 }
+
+export const updateBulkRecordsEndpoint = async (
+  domain: string,
+  ids: readonly string[],
+  updates: Readonly<Record<string, unknown>>,
+): Promise<BulkMutationResponse> => {
+
+}
