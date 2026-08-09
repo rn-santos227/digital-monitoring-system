@@ -28,6 +28,11 @@ const fields: readonly {
   placeholder: string;
   type?: "date";
 }[] = Object.freeze([
+  {
+    key: "deployment_area",
+    label: "Deployment Area",
+    placeholder: "Enter deployment area",
+  },
 
 ]);
 </script>
