@@ -185,6 +185,15 @@
         @close="closeBulkUpdateDeploymentsModal"
         @submit="updateSelectedDeployments"
       />
+
+      <BulkUpdateDeploymentRecordsModal
+        v-if="isBulkUpdateDeploymentRecordsModalOpen"
+        :selected-count="selectedDeploymentRecordIds.length"
+        :is-submitting="isDeploymentRecordsLoading"
+        :error-message="bulkUpdateDeploymentRecordsErrorMessage"
+        @close="closeBulkUpdateDeploymentRecordsModal"
+        @submit="updateSelectedDeploymentRecords"
+      />
     </section>
   </main>
 </template>
