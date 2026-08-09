@@ -37,4 +37,11 @@ export const validateDeploymentBulkUpdate = ({
       payload: null,
     }
   }
+
+  if (enabled.start_date && !startDate) {
+    return {
+      error: 'Start date cannot be empty.',
+      payload: null,
+    }
+  }
 }
