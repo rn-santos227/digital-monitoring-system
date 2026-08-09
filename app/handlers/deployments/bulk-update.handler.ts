@@ -42,6 +42,12 @@ export const useBulkUpdateDeploymentsHandler = ({
       return;
     }
 
+    errorMessage.value = "";
+    try {
+
+    } catch (error: unknown) {
+
+    }
   }
 
   return {
