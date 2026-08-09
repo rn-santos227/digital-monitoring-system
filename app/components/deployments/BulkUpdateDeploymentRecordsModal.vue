@@ -21,4 +21,12 @@ type FieldKey =
   | "location"
   | "remarks";
 
+const fields: readonly {
+  key: FieldKey;
+  label: string;
+  placeholder: string;
+  type?: "date";
+}[] = Object.freeze([
+
+])
 </script>
