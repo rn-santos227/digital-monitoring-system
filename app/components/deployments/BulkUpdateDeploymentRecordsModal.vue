@@ -71,4 +71,14 @@ const form = reactive<Record<FieldKey, string>>({
   location: "",
   remarks: "",
 });
+
+const enabled = reactive<Record<FieldKey, boolean>>({
+  deployment_area: false,
+  assignment_role: false,
+  operation_name: false,
+  start_date: false,
+  end_date: false,
+  location: false,
+  remarks: false,
+});
 </script>
