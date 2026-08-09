@@ -311,6 +311,20 @@ const {
   getDeploymentRecordById,
 } = useDeploymentRecords()
 
+const {
+  openBulkUpdateModal: openBulkUpdateDeploymentsModal,
+  closeBulkUpdateModal: closeBulkUpdateDeploymentsModal,
+  updateSelectedDeployments,
+} = useBulkUpdateDeploymentsHandler({
+  domain: 'deployments',
+  selectedIds: selectedDeploymentIds,
+  isModalOpen: isBulkUpdateDeploymentsModalOpen,
+  errorMessage: bulkUpdateDeploymentsErrorMessage,
+  reload: async () => { await loadDeployments() },
+  showDialog,
+})
+
+
 const handlePrintDeployments = createCompleteListPrintHandler({
   rows: deploymentRows,
   pagination: deploymentsPagination,
