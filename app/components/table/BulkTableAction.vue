@@ -8,6 +8,16 @@
         Clear selection
       </BaseButton>
       <BaseButton
+        v-if="showUpdate"
+        size="sm"
+        variant="warning"
+        icon-name="pencil-square"
+        :disabled="isDeleting || selectedCount === 0"
+        @click="emit('update')"
+      >
+        Update selected {{ pluralLabel }}
+      </BaseButton>
+      <BaseButton
         size="sm"
         variant="danger"
         icon-name="trash"
