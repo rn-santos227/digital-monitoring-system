@@ -80,6 +80,12 @@ export const PERSONNEL_UPDATE_MODAL_DESCRIPTION = 'Update personnel profile deta
 export const RANK_CREATE_BUTTON_LABEL = 'Create Rank'
 export const RANK_CREATE_MODAL_TITLE = 'Create Rank Record'
 export const RANK_CREATE_MODAL_DESCRIPTION = 'Register a rank for personnel assignment and reporting.'
+export const PERSONNEL_BULK_UPDATE_MODAL_TITLE = 'Update Selected Personnel'
+export const PERSONNEL_BULK_UPDATE_MODAL_DESCRIPTION = 'Apply the same non-unique assignment or location value to every selected personnel record.'
+export const PERSONNEL_BULK_UPDATE_WARNING = 'Only selected fields will change. Empty optional fields clear their existing values.'
+export const RANK_BULK_UPDATE_MODAL_TITLE = 'Update Selected Ranks'
+export const RANK_BULK_UPDATE_MODAL_DESCRIPTION = 'Apply the same non-unique sort order to every selected rank.'
+export const RANK_BULK_UPDATE_WARNING = 'Rank codes and names are unique and cannot be changed in bulk.'
 
 export const PERSONNEL_PROFILE_PAGE_TITLE = 'Personnel Profile'
 export const PERSONNEL_PROFILE_PAGE_SUBTITLE = 'Profile details, assignments, and readiness context for operational review.'
