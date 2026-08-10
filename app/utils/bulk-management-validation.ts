@@ -103,4 +103,11 @@ export const validatePersonnelBulkUpdate = ({
     return { error: 'Select at least one field to update.', payload: null }
   }
 
+  const requiredFields: ReadonlyArray<keyof PersonnelBulkUpdateValues> = ['rank_id']
+  const emptyRequiredField = requiredFields.find(
+    (field) => enabled[field] && !form[field].trim(),
+  )
+  if (emptyRequiredField) {
+    return { error: 'Rank cannot be empty.', payload: null }
+  }
 }
