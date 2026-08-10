@@ -110,4 +110,15 @@ export const validatePersonnelBulkUpdate = ({
   if (emptyRequiredField) {
     return { error: 'Rank cannot be empty.', payload: null }
   }
+
+  const payload: PersonnelBulkUpdateValues = {}
+  selectedFields.forEach((field) => {
+    const value = form[field].trim()
+    if (field === 'rank_id') payload.rank_id = value
+    if (field === 'company_id') payload.company_id = value || null
+    if (field === 'battalion_id') payload.battalion_id = value || null
+    if (field === 'position') payload.position = value || null
+  })
+
+  return { error: '', payload }
 }
