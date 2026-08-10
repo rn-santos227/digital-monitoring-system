@@ -14,6 +14,10 @@ export interface BulkUpdateValidationResult<T> {
   payload: T | null
 }
 
+interface ValidatePersonnelBulkUpdateOptions {
+  form: Readonly<Record<keyof PersonnelBulkUpdateValues, string>>
+  enabled: Readonly<Record<keyof PersonnelBulkUpdateValues, boolean>>
+}
 
 interface ValidateDeploymentBulkUpdateOptions {
   fields: readonly DeploymentBulkUpdateFieldKey[]
