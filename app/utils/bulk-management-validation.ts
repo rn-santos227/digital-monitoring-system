@@ -122,3 +122,9 @@ export const validatePersonnelBulkUpdate = ({
 
   return { error: '', payload }
 }
+
+export const validateRankBulkUpdate = (
+  value: string,
+): BulkUpdateValidationResult<RankBulkUpdateValues> => {
+
+}
