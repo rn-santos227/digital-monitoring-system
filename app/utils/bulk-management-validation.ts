@@ -131,4 +131,10 @@ export const validateRankBulkUpdate = (
     return { error: 'Sort order is required.', payload: null }
   }
 
+  const sortOrder = Number(normalizedValue)
+  if (!Number.isInteger(sortOrder) || sortOrder < 0) {
+    return { error: 'Sort order must be a non-negative whole number.', payload: null }
+  }
+
+  return { error: '', payload: { sort_order: sortOrder } }
 }
