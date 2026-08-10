@@ -44,6 +44,10 @@ export interface CreateRankResponse {
   item: RankListItem
 }
 
+export type RankBulkUpdateValues = Partial<{
+  sort_order: number
+}>
+
 export interface RankTablePagination {
   page: number
   pageSize: number
