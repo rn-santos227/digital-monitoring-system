@@ -15,6 +15,7 @@ export const BULK_UPDATE_PROTECTED_COLUMNS: Readonly<
     'middle_name',
     'last_name',
   ],
+  ranks: ['code', 'name'],
   'training-categories': ['code', 'name'],
   'training-records': ['record_no'],
   'deployment-records': ['record_no'],

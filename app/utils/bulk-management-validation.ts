@@ -1,4 +1,6 @@
 import type { DeploymentBulkUpdateValues } from '~/types/domain/deployment'
+import type { PersonnelBulkUpdateValues } from '~/types/domain/personnel'
+import type { RankBulkUpdateValues } from '~/types/domain/rank'
 
 export type DeploymentBulkUpdateFieldKey = keyof DeploymentBulkUpdateValues
 
@@ -6,6 +8,12 @@ export interface DeploymentBulkUpdateValidationResult {
   error: string
   payload: DeploymentBulkUpdateValues | null
 }
+
+export interface BulkUpdateValidationResult<T> {
+  error: string
+  payload: T | null
+}
+
 
 interface ValidateDeploymentBulkUpdateOptions {
   fields: readonly DeploymentBulkUpdateFieldKey[]
