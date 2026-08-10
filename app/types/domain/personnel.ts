@@ -194,6 +194,13 @@ export interface UpdatePersonnelResponse {
   ok: boolean
 }
 
+export type PersonnelBulkUpdateValues = Partial<{
+  rank_id: string
+  company_id: string | null
+  battalion_id: string | null
+  position: string | null
+}>
+
 export interface DeletePersonnelResponse {
   ok: boolean
 }
