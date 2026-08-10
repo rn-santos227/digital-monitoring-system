@@ -92,3 +92,15 @@ export const validateDeploymentBulkUpdate = ({
     payload,
   }
 }
+
+export const validatePersonnelBulkUpdate = ({
+  form,
+  enabled,
+}: ValidatePersonnelBulkUpdateOptions): BulkUpdateValidationResult<PersonnelBulkUpdateValues> => {
+  const fields = Object.keys(enabled) as Array<keyof PersonnelBulkUpdateValues>
+  const selectedFields = fields.filter((field) => enabled[field])
+  if (selectedFields.length === 0) {
+    return { error: 'Select at least one field to update.', payload: null }
+  }
+
+}
