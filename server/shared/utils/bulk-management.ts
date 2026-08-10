@@ -91,13 +91,13 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     updatePermissions: [PERMISSION_CODES.personnelUpdate],
     deletePermissions: [PERMISSION_CODES.personnelDelete],
     writableColumns: mutable(
+      'personnel',
       'rank_id',
       'company_id',
       'battalion_id',
       'employment_status_id',
       'service_status_id',
-      'position_title',
-      'current_location',
+      'position',
     ),
     deleteReferences: [
       { table: 'training_records', column: 'personnel_id' },
@@ -359,8 +359,8 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
   },
   ranks: {
     table: 'ranks',
-    deletePermissions: [PERMISSION_CODES.rankDelete],
-    writableColumns: [],
+    updatePermissions: [PERMISSION_CODES.rankCreate],
+    writableColumns: ['sort_order'],
     deleteReferences: [{ table: 'personnel', column: 'rank_id' }],
   },
 }
