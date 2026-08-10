@@ -126,5 +126,9 @@ export const validatePersonnelBulkUpdate = ({
 export const validateRankBulkUpdate = (
   value: string,
 ): BulkUpdateValidationResult<RankBulkUpdateValues> => {
+  const normalizedValue = value.trim()
+  if (!normalizedValue) {
+    return { error: 'Sort order is required.', payload: null }
+  }
 
 }
