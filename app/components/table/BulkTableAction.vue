@@ -18,6 +18,7 @@
         Update selected {{ pluralLabel }}
       </BaseButton>
       <BaseButton
+        v-if="showDelete"
         size="sm"
         variant="danger"
         icon-name="trash"
@@ -40,11 +41,13 @@ withDefaults(defineProps<{
   pluralLabel?: string
   isDeleting?: boolean
   showUpdate?: boolean
+  showDelete?: boolean
 }>(), {
   singularLabel: 'record',
   pluralLabel: 'records',
   isDeleting: false,
   showUpdate: false,
+  showDelete: true,
 })
 
 const emit = defineEmits<{
