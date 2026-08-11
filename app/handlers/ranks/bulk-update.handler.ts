@@ -18,4 +18,9 @@ export const useBulkUpdateRanksHandler = (options: BulkUpdateRanksHandlerOptions
     options.isModalOpen.value = false
   }
 
+  const openBulkUpdateRanksModal = () => {
+    options.errorMessage.value = ''
+    options.isModalOpen.value = true
+  }
+
 }
