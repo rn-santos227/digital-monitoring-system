@@ -32,6 +32,12 @@ export const useBulkUpdateRanksHandler = (options: BulkUpdateRanksHandlerOptions
     
     } catch (error: unknown) {
       options.errorMessage.value = extractApiErrorMessage(error, 'No ranks were updated. Review the sort order and try again.')
+      await options.showDialog({
+        type: 'error',
+        title: 'Bulk update failed',
+        message: options.errorMessage.value,
+        confirmLabel: 'OK',
+      })
     }
   }
 
