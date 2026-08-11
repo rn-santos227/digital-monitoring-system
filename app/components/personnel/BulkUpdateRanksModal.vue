@@ -5,6 +5,12 @@
       <BaseAlert v-if="errorMessage || validationError" :message="errorMessage || validationError" tone="danger" />
       <BaseTextField v-model="sortOrder" type="number" min="0" label="Sort Order" placeholder="Enter a non-negative whole number" required />
     </form>
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton :disabled="isSubmitting" @click="onSubmit">Update {{ selectedCount }} selected</BaseButton>
+      </div>
+    </template>
   </BaseModal>
 </template>
 
