@@ -22,7 +22,7 @@
     @update:page-size="emit('update:pageSize', $event)"
   >
     <template #bulk-actions="{ selectedRowKeys: selectedKeys, clearSelection }">
-      <BulkDeleteAction
+      <BulkTableAction
         :selected-count="selectedKeys.length"
         singular-label="equipment category"
         plural-label="equipment categories"

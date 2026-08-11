@@ -22,7 +22,7 @@
     @action="emit('action', $event)"
   >
     <template #bulk-actions="{ selectedRowKeys: selectedKeys, clearSelection }">
-      <BulkDeleteAction
+      <BulkTableAction
         :selected-count="selectedKeys.length"
         singular-label="personnel record"
         plural-label="personnel records"

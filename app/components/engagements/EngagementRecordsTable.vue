@@ -21,7 +21,7 @@
     @update:selected-row-keys="emit('update:selectedRowKeys', $event)"
   >
     <template #bulk-actions="{ selectedRowKeys: selectedKeys, clearSelection }">
-      <BulkDeleteAction
+      <BulkTableAction
         :selected-count="selectedKeys.length"
         singular-label="engagement record"
         plural-label="engagement records"

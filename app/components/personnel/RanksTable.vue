@@ -12,7 +12,7 @@
     :total-pages="totalPages"
     :total-items="totalItems"
     :page-size="pageSize"
-    :selectable="canDelete"
+    :selectable="canUpdate || canDelete"
     :selected-row-keys="selectedRowKeys"
     @update:selected-row-keys="emit('update:selectedRowKeys', $event)"
     @update:current-page="emit('update:currentPage', $event)"
@@ -20,11 +20,14 @@
     @action="emit('action', $event)"
   >
     <template #bulk-actions="{ selectedRowKeys: selectedKeys, clearSelection }">
-      <BulkDeleteAction
+      <BulkTableAction
         :selected-count="selectedKeys.length"
         singular-label="rank"
         plural-label="ranks"
+        :show-update="canUpdate"
+        :show-delete="canDelete"
         @clear="clearSelection"
+        @update="emit('bulk-update')"
         @delete="emit('bulk-delete')"
       />
     </template>
