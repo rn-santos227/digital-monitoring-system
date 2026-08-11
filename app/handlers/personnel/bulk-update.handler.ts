@@ -28,6 +28,11 @@ export const useBulkUpdatePersonnelHandler = (options: BulkUpdatePersonnelHandle
     if (ids.length === 0) return closeBulkUpdatePersonnelModal()
 
     options.errorMessage.value = ''
+    try {
+
+    } catch (error: unknown) {
+      options.errorMessage.value = extractApiErrorMessage(error, 'No personnel records were updated. Review the selected values and try again.')
+    }
   }
 
   return { 
