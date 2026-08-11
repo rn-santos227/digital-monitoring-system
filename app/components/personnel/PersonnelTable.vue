@@ -14,7 +14,7 @@
     :total-pages="totalPages"
     :total-items="totalItems"
     :page-size="pageSize"
-    :selectable="canDeletePersonnel"
+    :selectable="canEditPersonnel || canDeletePersonnel"
     :selected-row-keys="selectedRowKeys"
     @update:selected-row-keys="emit('update:selectedRowKeys', $event)"
     @update:current-page="emit('update:currentPage', $event)"
@@ -26,7 +26,10 @@
         :selected-count="selectedKeys.length"
         singular-label="personnel record"
         plural-label="personnel records"
+        :show-update="canEditPersonnel"
+        :show-delete="canDeletePersonnel"
         @clear="clearSelection"
+        @update="emit('bulk-update')"
         @delete="emit('bulk-delete')"
       />
     </template>
@@ -87,6 +90,7 @@ const emit = defineEmits<{
   (event: 'update:pageSize', value: number): void
   (event: 'update:selectedRowKeys', value: string[]): void
   (event: 'bulk-delete'): void
+  (event: 'bulk-update'): void
 }>()
 
 const visibleActions = computed(() => {
