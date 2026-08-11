@@ -16,5 +16,11 @@ const emit = defineEmits<{
   (event: 'close'): void
   (event: 'submit', payload: RankBulkUpdateValues): void
 }>()
-
+const sortOrder = ref('')
+const validationError = ref('')
+const onSubmit = () => {
+  const result = validateRankBulkUpdate(sortOrder.value)
+  validationError.value = result.error
+  if (result.payload) emit('submit', result.payload)
+}
 </script>
