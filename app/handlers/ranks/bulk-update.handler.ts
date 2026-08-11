@@ -24,6 +24,8 @@ export const useBulkUpdateRanksHandler = (options: BulkUpdateRanksHandlerOptions
   }
 
   const updateSelectedRanks = async (updates: RankBulkUpdateValues) => {
+    const ids = [...new Set(options.selectedIds.value)].filter(Boolean)
+    if (ids.length === 0) return closeBulkUpdateRanksModal()
 
   }
 
