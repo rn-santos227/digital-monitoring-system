@@ -1,5 +1,16 @@
 <template>
-
+  <BaseModal
+    :title="PERSONNEL_BULK_UPDATE_MODAL_TITLE"
+    :description="PERSONNEL_BULK_UPDATE_MODAL_DESCRIPTION"
+    size="xl"
+    scroll-body
+    @close="emit('close')"
+  >
+    <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert :message="PERSONNEL_BULK_UPDATE_WARNING" tone="warning" />
+      <BaseAlert v-if="errorMessage || validationError" :message="errorMessage || validationError" tone="danger" />
+    </form>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
