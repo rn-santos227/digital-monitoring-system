@@ -24,4 +24,10 @@ const emit = defineEmits<{
   (event: 'close'): void
   (event: 'submit', payload: PersonnelBulkUpdateValues): void
 }>()
+const form = reactive<Record<FieldKey, string>>({
+  rank_id: '',
+  company_id: '',
+  battalion_id: '',
+  position: '',
+})
 </script>
