@@ -18,4 +18,8 @@ export const useBulkUpdatePersonnelHandler = (options: BulkUpdatePersonnelHandle
     options.isModalOpen.value = false
   }
 
+  const openBulkUpdatePersonnelModal = () => {
+    options.errorMessage.value = ''
+    options.isModalOpen.value = true
+  }
 }
