@@ -18,6 +18,10 @@
           <BaseCheckbox v-model="enabled.battalion_id" label="Battalion" />
           <BattalionsSuggestionField v-model="form.battalion_id" label="Battalion" placeholder="Search battalion" :disabled="!enabled.battalion_id" />
         </div>
+        <div class="space-y-2 rounded-lg border border-slate-200 p-3">
+          <BaseCheckbox v-model="enabled.company_id" label="Company" />
+          <CompaniesSuggestionField v-model="form.company_id" label="Company" placeholder="Search company" :battalion-id="form.battalion_id" :disabled="!enabled.company_id" />
+        </div>
       </div>
     </form>
     <template #footer>
