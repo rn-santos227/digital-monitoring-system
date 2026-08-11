@@ -33,7 +33,12 @@ export const useBulkUpdateRanksHandler = (options: BulkUpdateRanksHandlerOptions
       options.selectedIds.value = []
       closeBulkUpdateRanksModal()
       await options.reload()
-
+      await options.showDialog({
+        type: 'success',
+        title: 'Bulk update complete',
+        message: `${response.affectedCount} rank${response.affectedCount === 1 ? '' : 's'} updated successfully.`,
+        confirmLabel: 'OK',
+      })
     } catch (error: unknown) {
       options.errorMessage.value = extractApiErrorMessage(error, 'No ranks were updated. Review the sort order and try again.')
       await options.showDialog({
