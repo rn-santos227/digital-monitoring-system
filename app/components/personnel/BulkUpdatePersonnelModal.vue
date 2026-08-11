@@ -36,4 +36,10 @@ const enabled = reactive<Record<FieldKey, boolean>>({
   battalion_id: false,
   position: false,
 })
+const validationError = ref('')
+const onSubmit = () => {
+  const result = validatePersonnelBulkUpdate({ form, enabled })
+  validationError.value = result.error
+  if (result.payload) emit('submit', result.payload)
+}
 </script>
