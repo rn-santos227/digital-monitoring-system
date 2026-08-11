@@ -14,6 +14,10 @@
           <BaseCheckbox v-model="enabled.rank_id" label="Rank" />
           <RankSuggestionField v-model="form.rank_id" label="Rank" placeholder="Search rank code or name" :disabled="!enabled.rank_id" />
         </div>
+        <div class="space-y-2 rounded-lg border border-slate-200 p-3">
+          <BaseCheckbox v-model="enabled.battalion_id" label="Battalion" />
+          <BattalionsSuggestionField v-model="form.battalion_id" label="Battalion" placeholder="Search battalion" :disabled="!enabled.battalion_id" />
+        </div>
       </div>
     </form>
     <template #footer>
