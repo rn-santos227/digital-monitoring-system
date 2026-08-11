@@ -13,5 +13,9 @@ interface BulkUpdatePersonnelHandlerOptions {
 }
 
 export const useBulkUpdatePersonnelHandler = (options: BulkUpdatePersonnelHandlerOptions) => {
+  const closeBulkUpdatePersonnelModal = () => {
+    options.errorMessage.value = ''
+    options.isModalOpen.value = false
+  }
 
 }
