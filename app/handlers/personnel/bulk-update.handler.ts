@@ -4,3 +4,6 @@ import type { PersonnelBulkUpdateValues } from '~/types/domain/personnel'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { updateBulkRecordsEndpoint } from '~/utils/bulk-management-endpoints'
 
+interface BulkUpdatePersonnelHandlerOptions {
+
+}
