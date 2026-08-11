@@ -4,3 +4,6 @@ import type { RankBulkUpdateValues } from '~/types/domain/rank'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { updateBulkRecordsEndpoint } from '~/utils/bulk-management-endpoints'
 
+interface BulkUpdateRanksHandlerOptions {
+  
+}
