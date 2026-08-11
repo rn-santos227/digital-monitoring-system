@@ -33,7 +33,12 @@ export const useBulkUpdatePersonnelHandler = (options: BulkUpdatePersonnelHandle
       options.selectedIds.value = []
       closeBulkUpdatePersonnelModal()
       await options.reload()
-
+      await options.showDialog({
+        type: 'success',
+        title: 'Bulk update complete',
+        message: `${response.affectedCount} personnel record${response.affectedCount === 1 ? '' : 's'} updated successfully.`,
+        confirmLabel: 'OK',
+      })
     } catch (error: unknown) {
       options.errorMessage.value = extractApiErrorMessage(error, 'No personnel records were updated. Review the selected values and try again.')
       await options.showDialog({
