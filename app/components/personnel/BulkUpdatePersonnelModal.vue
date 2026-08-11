@@ -14,4 +14,10 @@ import {
 } from '~/constants/page.constants'
 import type { PersonnelBulkUpdateValues } from '~/types/domain/personnel'
 import { validatePersonnelBulkUpdate } from '~/utils/bulk-management-validation'
+
+type FieldKey = keyof PersonnelBulkUpdateValues
+withDefaults(defineProps<{ selectedCount: number; isSubmitting?: boolean; errorMessage?: string }>(), {
+  isSubmitting: false,
+  errorMessage: '',
+})
 </script>
