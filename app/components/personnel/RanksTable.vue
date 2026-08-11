@@ -31,6 +31,7 @@
   </DataTable>
 </template>
 
+
 <script setup lang="ts">
 import { RANK_TABLE_ACTIONS, RANK_TABLE_COLUMNS, RANK_TABLE_EMPTY_MESSAGE } from '~/constants/table.constants'
 import type { RankListItem } from '~/types/domain/rank'
@@ -39,6 +40,7 @@ withDefaults(defineProps<{
   rows: readonly RankListItem[]
   isLoading?: boolean
   canDelete?: boolean
+  canUpdate?: boolean
   currentPage?: number
   totalPages?: number
   totalItems?: number
@@ -47,6 +49,7 @@ withDefaults(defineProps<{
 }>(), {
   isLoading: false,
   canDelete: false,
+  canUpdate: false,
   currentPage: 1,
   totalPages: 1,
   totalItems: 0,
@@ -60,5 +63,6 @@ const emit = defineEmits<{
   (event: 'update:pageSize', value: number): void
   (event: 'update:selectedRowKeys', value: string[]): void
   (event: 'bulk-delete'): void
+  (event: 'bulk-update'): void
 }>()
 </script>
