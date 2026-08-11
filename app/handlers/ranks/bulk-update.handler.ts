@@ -13,5 +13,9 @@ interface BulkUpdateRanksHandlerOptions {
 }
 
 export const useBulkUpdateRanksHandler = (options: BulkUpdateRanksHandlerOptions) => {
+  const closeBulkUpdateRanksModal = () => {
+    options.errorMessage.value = ''
+    options.isModalOpen.value = false
+  }
 
 }
