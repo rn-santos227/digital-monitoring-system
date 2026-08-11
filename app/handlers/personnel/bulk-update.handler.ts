@@ -24,7 +24,10 @@ export const useBulkUpdatePersonnelHandler = (options: BulkUpdatePersonnelHandle
   }
 
   const updateSelectedPersonnel = async (updates: PersonnelBulkUpdateValues) => {
+    const ids = [...new Set(options.selectedIds.value)].filter(Boolean)
+    if (ids.length === 0) return closeBulkUpdatePersonnelModal()
 
+    options.errorMessage.value = ''
   }
 
   return { 
