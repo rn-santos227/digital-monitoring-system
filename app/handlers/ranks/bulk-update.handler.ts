@@ -11,3 +11,7 @@ interface BulkUpdateRanksHandlerOptions {
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
+
+export const useBulkUpdateRanksHandler = (options: BulkUpdateRanksHandlerOptions) => {
+
+}
