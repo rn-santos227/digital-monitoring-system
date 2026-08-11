@@ -22,4 +22,14 @@ export const useBulkUpdatePersonnelHandler = (options: BulkUpdatePersonnelHandle
     options.errorMessage.value = ''
     options.isModalOpen.value = true
   }
+
+  const updateSelectedPersonnel = async (updates: PersonnelBulkUpdateValues) => {
+
+  }
+
+  return { 
+    openBulkUpdatePersonnelModal,
+    closeBulkUpdatePersonnelModal,
+    updateSelectedPersonnel
+  }
 }
