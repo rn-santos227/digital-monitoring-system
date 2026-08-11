@@ -30,4 +30,10 @@ const form = reactive<Record<FieldKey, string>>({
   battalion_id: '',
   position: '',
 })
+const enabled = reactive<Record<FieldKey, boolean>>({
+  rank_id: false,
+  company_id: false,
+  battalion_id: false,
+  position: false,
+})
 </script>
