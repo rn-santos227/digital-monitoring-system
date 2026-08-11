@@ -32,6 +32,12 @@ export const useBulkUpdatePersonnelHandler = (options: BulkUpdatePersonnelHandle
 
     } catch (error: unknown) {
       options.errorMessage.value = extractApiErrorMessage(error, 'No personnel records were updated. Review the selected values and try again.')
+      await options.showDialog({
+        type: 'error',
+        title: 'Bulk update failed',
+        message: options.errorMessage.value,
+        confirmLabel: 'OK',
+      })
     }
   }
 
