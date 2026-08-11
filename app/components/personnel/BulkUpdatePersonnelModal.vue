@@ -20,4 +20,8 @@ withDefaults(defineProps<{ selectedCount: number; isSubmitting?: boolean; errorM
   isSubmitting: false,
   errorMessage: '',
 })
+const emit = defineEmits<{
+  (event: 'close'): void
+  (event: 'submit', payload: PersonnelBulkUpdateValues): void
+}>()
 </script>
