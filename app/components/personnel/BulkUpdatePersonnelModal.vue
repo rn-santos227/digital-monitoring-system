@@ -22,6 +22,10 @@
           <BaseCheckbox v-model="enabled.company_id" label="Company" />
           <CompaniesSuggestionField v-model="form.company_id" label="Company" placeholder="Search company" :battalion-id="form.battalion_id" :disabled="!enabled.company_id" />
         </div>
+        <div class="space-y-2 rounded-lg border border-slate-200 p-3">
+          <BaseCheckbox v-model="enabled.position" label="Position / AFPPOS" />
+          <BaseTextField v-model="form.position" label="Position / AFPPOS" placeholder="Enter position or AFPPOS" :disabled="!enabled.position" />
+        </div>
       </div>
     </form>
     <template #footer>
