@@ -23,4 +23,13 @@ export const useBulkUpdateRanksHandler = (options: BulkUpdateRanksHandlerOptions
     options.isModalOpen.value = true
   }
 
+  const updateSelectedRanks = async (updates: RankBulkUpdateValues) => {
+
+  }
+
+  return { 
+    openBulkUpdateRanksModal,
+    closeBulkUpdateRanksModal,
+    updateSelectedRanks
+  }
 }
