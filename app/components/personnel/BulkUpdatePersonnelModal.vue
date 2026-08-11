@@ -9,6 +9,12 @@
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert :message="PERSONNEL_BULK_UPDATE_WARNING" tone="warning" />
       <BaseAlert v-if="errorMessage || validationError" :message="errorMessage || validationError" tone="danger" />
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="space-y-2 rounded-lg border border-slate-200 p-3">
+          <BaseCheckbox v-model="enabled.rank_id" label="Rank" />
+          <RankSuggestionField v-model="form.rank_id" label="Rank" placeholder="Search rank code or name" :disabled="!enabled.rank_id" />
+        </div>
+      </div>
     </form>
     <template #footer>
       <div class="flex justify-end gap-2">
