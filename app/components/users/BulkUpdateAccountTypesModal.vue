@@ -15,4 +15,13 @@ import {
 } from '~/constants/page.constants'
 import type { AccountTypeBulkUpdateValues } from '~/types/domain/users'
 import { validateAccountTypeBulkUpdate } from '~/utils/bulk-management-validation'
+
+withDefaults(defineProps<{
+  selectedCount: number
+  isSubmitting?: boolean
+  errorMessage?: string
+}>(), {
+  isSubmitting: false,
+  errorMessage: '',
+})
 </script>
