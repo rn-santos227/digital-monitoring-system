@@ -13,5 +13,9 @@ interface BulkUpdateUsersHandlerOptions {
 }
 
 export const useBulkUpdateUsersHandler = (options: BulkUpdateUsersHandlerOptions) => {
+  const closeBulkUpdateUsersModal = () => {
+    options.errorMessage.value = ''
+    options.isModalOpen.value = false
+  }
 
 }
