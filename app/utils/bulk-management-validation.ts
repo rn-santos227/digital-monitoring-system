@@ -166,4 +166,10 @@ export const validateUserProfileBulkUpdate = ({
       return { error: 'Avatar URL must be a valid URL.', payload: null }
     }
   }
+
+  const payload: UserProfileBulkUpdateValues = {}
+  if (enabled.avatar_url) payload.avatar_url = normalizedAvatarUrl || null
+  if (enabled.is_active) payload.is_active = isActive
+
+  return { error: '', payload }
 }
