@@ -417,6 +417,10 @@ const canCreateRanks = computed(() => {
   return authStore.hasPermissionAccess(RANK_PRIVILEGES.create)
 })
 
+const canUpdateRanks = computed(() => {
+  return authStore.hasPermissionAccess(RANK_PRIVILEGES.create)
+})
+
 const canDeleteRanks = computed(() => {
   return authStore.hasPermissionAccess(RANK_PRIVILEGES.delete)
 })
