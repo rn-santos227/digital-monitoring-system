@@ -107,6 +107,7 @@
             @update:page-size="handlePageSizeChange"
             @action="handleTableAction"
             @bulk-delete="deleteSelectedPersonnel"
+            @bulk-update="openBulkUpdatePersonnelModal"
           />
 
           <PersonnelCards
