@@ -14,7 +14,7 @@
     :total-pages="totalPages"
     :total-items="totalItems"
     :page-size="pageSize"
-    :selectable="visibleActions.some((action) => action.key.startsWith('delete'))"
+    :selectable="canBulkUpdate || canBulkDelete"
     :selected-row-keys="selectedRowKeys"
     @update:selected-row-keys="emit('update:selectedRowKeys', $event)"
     @action="emit('action', $event)"
