@@ -44,6 +44,7 @@ const onSubmit = () => {
     description: description.value,
     isSystem: isSystem.value,
   })
-
+  validationError.value = result.error
+  if (result.payload) emit('submit', result.payload)
 }
 </script>
