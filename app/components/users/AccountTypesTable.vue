@@ -26,7 +26,10 @@
         :selected-count="selectedKeys.length"
         singular-label="account type"
         plural-label="account types"
+        :show-update="canBulkUpdate"
+        :show-delete="canBulkDelete"
         @clear="clearSelection"
+        @update="emit('bulk-update')"
         @delete="emit('bulk-delete')"
       />
     </template>
