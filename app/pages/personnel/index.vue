@@ -200,6 +200,14 @@
         @close="closeBulkUpdatePersonnelModal"
         @submit="updateSelectedPersonnel"
       />
+
+      <BulkUpdateRanksModal
+        v-if="isBulkUpdateRanksModalOpen"
+        :selected-count="selectedRankIds.length"
+        :error-message="bulkUpdateRanksError"
+        @close="closeBulkUpdateRanksModal"
+        @submit="updateSelectedRanks"
+      />
     </section>
   </main>
 </template>
