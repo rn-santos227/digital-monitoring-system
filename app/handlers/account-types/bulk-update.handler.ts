@@ -22,4 +22,14 @@ export const useBulkUpdateAccountTypesHandler = (options: BulkUpdateAccountTypes
     options.errorMessage.value = ''
     options.isModalOpen.value = true
   }
+
+  const updateSelectedAccountTypes = async (updates: AccountTypeBulkUpdateValues) => {
+
+  }
+
+  return {
+    openBulkUpdateAccountTypesModal,
+    closeBulkUpdateAccountTypesModal,
+    updateSelectedAccountTypes
+  }
 }
