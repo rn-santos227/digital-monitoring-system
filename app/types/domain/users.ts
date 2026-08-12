@@ -50,6 +50,11 @@ export interface UserAccountDetailRecord {
   permissionIds: string[]
 }
 
+export type UserProfileBulkUpdateValues = Partial<{
+  avatar_url: string | null
+  is_active: boolean
+}>
+
 export interface PrivilegeRecord {
   id: string
   code: string
