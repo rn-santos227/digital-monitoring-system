@@ -271,6 +271,10 @@ const { showDialog } = useDialog()
 const { addToast } = useToast()
 const selectedPersonnelIds = ref<string[]>([])
 const selectedRankIds = ref<string[]>([])
+const isBulkUpdatePersonnelModalOpen = ref(false)
+const isBulkUpdateRanksModalOpen = ref(false)
+const bulkUpdatePersonnelError = ref('')
+const bulkUpdateRanksError = ref('')
 
 const { deleteSelectedRanks } = useBulkDeleteRanksHandler({
   selectedIds: selectedRankIds,
