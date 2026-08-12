@@ -11,3 +11,7 @@ interface BulkUpdateUsersHandlerOptions {
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
+
+export const useBulkUpdateUsersHandler = (options: BulkUpdateUsersHandlerOptions) => {
+
+}
