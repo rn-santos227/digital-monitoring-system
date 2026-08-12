@@ -31,7 +31,7 @@ export const useBulkUpdateAccountTypesHandler = (options: BulkUpdateAccountTypes
     try {
     
     } catch (error: unknown) {
-
+      options.errorMessage.value = extractApiErrorMessage(error, 'No account types were updated. Review the selected values and try again.')
     }
   }
 
