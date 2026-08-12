@@ -148,3 +148,11 @@ export const validateRankBulkUpdate = (
 
   return { error: '', payload: { sort_order: sortOrder } }
 }
+
+export const validateUserProfileBulkUpdate = ({
+  enabled,
+  avatarUrl,
+  isActive,
+}: ValidateUserProfileBulkUpdateOptions): BulkUpdateValidationResult<UserProfileBulkUpdateValues> => {
+
+}
