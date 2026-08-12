@@ -189,4 +189,9 @@ export const validateAccountTypeBulkUpdate = ({
     return { error: 'Select at least one field to update.', payload: null }
   }
 
+  const payload: AccountTypeBulkUpdateValues = {}
+  if (enabled.description) payload.description = description.trim() || null
+  if (enabled.is_system) payload.is_system = isSystem
+
+  return { error: '', payload }
 }
