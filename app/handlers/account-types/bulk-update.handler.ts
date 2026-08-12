@@ -33,6 +33,12 @@ export const useBulkUpdateAccountTypesHandler = (options: BulkUpdateAccountTypes
       options.selectedIds.value = []
       closeBulkUpdateAccountTypesModal()
       await options.reload()
+      await options.showDialog({
+        type: 'success',
+        title: 'Bulk update complete',
+        message: `${response.affectedCount} account type${response.affectedCount === 1 ? '' : 's'} updated successfully.`,
+        confirmLabel: 'OK',
+      })
 
     } catch (error: unknown) {
       options.errorMessage.value = extractApiErrorMessage(error, 'No account types were updated. Review the selected values and try again.')
