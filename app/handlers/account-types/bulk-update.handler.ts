@@ -11,3 +11,7 @@ interface BulkUpdateAccountTypesHandlerOptions {
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
+
+export const useBulkUpdateAccountTypesHandler = (options: BulkUpdateAccountTypesHandlerOptions) => {
+
+}
