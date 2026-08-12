@@ -39,6 +39,11 @@ const isSystem = ref(false)
 const validationError = ref('')
 
 const onSubmit = () => {
+  const result = validateAccountTypeBulkUpdate({
+    enabled,
+    description: description.value,
+    isSystem: isSystem.value,
+  })
 
 }
 </script>
