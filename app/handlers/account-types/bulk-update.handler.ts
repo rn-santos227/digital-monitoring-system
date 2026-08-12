@@ -24,6 +24,8 @@ export const useBulkUpdateAccountTypesHandler = (options: BulkUpdateAccountTypes
   }
 
   const updateSelectedAccountTypes = async (updates: AccountTypeBulkUpdateValues) => {
+    const ids = [...new Set(options.selectedIds.value)].filter(Boolean)
+    if (ids.length === 0) return closeBulkUpdateAccountTypesModal()
 
   }
 
