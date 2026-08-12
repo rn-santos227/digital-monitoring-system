@@ -237,6 +237,8 @@ import {
   useCreatePersonnelModalHandler,
   useBulkDeletePersonnelHandler,
   useBulkDeleteRanksHandler,
+  useBulkUpdatePersonnelHandler,
+  useBulkUpdateRanksHandler,
   useDeletePersonnelHandler,
   useDeleteRankHandler,
   usePersonnelBatchUploadHandler,
