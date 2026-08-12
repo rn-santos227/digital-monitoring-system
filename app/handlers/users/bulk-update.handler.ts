@@ -29,6 +29,9 @@ export const useBulkUpdateUsersHandler = (options: BulkUpdateUsersHandlerOptions
 
     options.errorMessage.value = ''
     try {
+      const response = await updateBulkRecordsEndpoint('users', ids, updates)
+      options.selectedIds.value = []
+
     } catch (error: unknown) {
 
     }
