@@ -40,7 +40,13 @@ export const useBulkUpdateUsersHandler = (options: BulkUpdateUsersHandlerOptions
         confirmLabel: 'OK',
       })
     } catch (error: unknown) {
-
+      options.errorMessage.value = extractApiErrorMessage(error, 'No user profiles were updated. Review the selected values and try again.')
+      await options.showDialog({
+        type: 'error',
+        title: 'Bulk update failed',
+        message: options.errorMessage.value,
+        confirmLabel: 'OK',
+      })
     }
   }
 
