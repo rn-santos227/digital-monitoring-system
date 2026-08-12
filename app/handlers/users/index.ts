@@ -1,5 +1,6 @@
 export * from './activate.handler'
 export * from './bulk-delete.handler'
+export * from './bulk-update.handler'
 export * from './constants'
 export * from './create.handler'
 export * from './delete.handler'
