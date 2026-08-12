@@ -154,5 +154,8 @@ export const validateUserProfileBulkUpdate = ({
   avatarUrl,
   isActive,
 }: ValidateUserProfileBulkUpdateOptions): BulkUpdateValidationResult<UserProfileBulkUpdateValues> => {
+  if (!enabled.avatar_url && !enabled.is_active) {
+    return { error: 'Select at least one field to update.', payload: null }
+  }
 
 }
