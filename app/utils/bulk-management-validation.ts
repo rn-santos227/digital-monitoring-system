@@ -185,5 +185,8 @@ export const validateAccountTypeBulkUpdate = ({
   description,
   isSystem,
 }: ValidateAccountTypeBulkUpdateOptions): BulkUpdateValidationResult<AccountTypeBulkUpdateValues> => {
+  if (!enabled.description && !enabled.is_system) {
+    return { error: 'Select at least one field to update.', payload: null }
+  }
 
 }
