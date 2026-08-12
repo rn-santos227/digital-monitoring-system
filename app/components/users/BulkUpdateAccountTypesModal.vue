@@ -38,4 +38,7 @@ const description = ref('')
 const isSystem = ref(false)
 const validationError = ref('')
 
+const onSubmit = () => {
+
+}
 </script>
