@@ -9,6 +9,17 @@
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert :message="USERS_ACCOUNT_BULK_UPDATE_WARNING" tone="warning" />
       <BaseAlert v-if="errorMessage || validationError" :message="errorMessage || validationError" tone="danger" />
+
+      <div class="space-y-2 rounded-lg border border-slate-200 p-3">
+        <BaseCheckbox v-model="enabled.description" :label="USERS_ACCOUNT_DESCRIPTION_LABEL" />
+        <BaseTextArea
+          v-model="description"
+          :label="USERS_ACCOUNT_DESCRIPTION_LABEL"
+          :placeholder="USERS_ACCOUNT_DESCRIPTION_PLACEHOLDER"
+          helper-text="Leave empty to clear the description for all selected account types."
+          :disabled="!enabled.description"
+        />
+      </div>
     </form>
   </BaseModal>
 </template>
