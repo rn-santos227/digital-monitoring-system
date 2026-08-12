@@ -276,6 +276,18 @@ const isBulkUpdateRanksModalOpen = ref(false)
 const bulkUpdatePersonnelError = ref('')
 const bulkUpdateRanksError = ref('')
 
+const {
+  openBulkUpdatePersonnelModal,
+  closeBulkUpdatePersonnelModal,
+  updateSelectedPersonnel,
+} = useBulkUpdatePersonnelHandler({
+  selectedIds: selectedPersonnelIds,
+  isModalOpen: isBulkUpdatePersonnelModalOpen,
+  errorMessage: bulkUpdatePersonnelError,
+  reload: () => loadPersonnel(),
+  showDialog,
+})
+
 const { deleteSelectedRanks } = useBulkDeleteRanksHandler({
   selectedIds: selectedRankIds,
   reload: () => loadRanks(),
