@@ -158,4 +158,12 @@ export const validateUserProfileBulkUpdate = ({
     return { error: 'Select at least one field to update.', payload: null }
   }
 
+  const normalizedAvatarUrl = avatarUrl.trim()
+  if (enabled.avatar_url && normalizedAvatarUrl) {
+    try {
+      new URL(normalizedAvatarUrl)
+    } catch {
+      return { error: 'Avatar URL must be a valid URL.', payload: null }
+    }
+  }
 }
