@@ -179,3 +179,11 @@ export const validateUserProfileBulkUpdate = ({
 
   return { error: '', payload }
 }
+
+export const validateAccountTypeBulkUpdate = ({
+  enabled,
+  description,
+  isSystem,
+}: ValidateAccountTypeBulkUpdateOptions): BulkUpdateValidationResult<AccountTypeBulkUpdateValues> => {
+
+}
