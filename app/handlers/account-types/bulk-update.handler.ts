@@ -29,7 +29,9 @@ export const useBulkUpdateAccountTypesHandler = (options: BulkUpdateAccountTypes
 
     options.errorMessage.value = ''
     try {
-    
+      const response = await updateBulkRecordsEndpoint('account-types', ids, updates)
+      options.selectedIds.value = []
+
     } catch (error: unknown) {
       options.errorMessage.value = extractApiErrorMessage(error, 'No account types were updated. Review the selected values and try again.')
       await options.showDialog({
