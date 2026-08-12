@@ -13,5 +13,9 @@ interface BulkUpdateAccountTypesHandlerOptions {
 }
 
 export const useBulkUpdateAccountTypesHandler = (options: BulkUpdateAccountTypesHandlerOptions) => {
+  const closeBulkUpdateAccountTypesModal = () => {
+    options.errorMessage.value = ''
+    options.isModalOpen.value = false
+  }
 
 }
