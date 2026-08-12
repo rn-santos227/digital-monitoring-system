@@ -24,4 +24,9 @@ withDefaults(defineProps<{
   isSubmitting: false,
   errorMessage: '',
 })
+
+const emit = defineEmits<{
+  (event: 'close'): void
+  (event: 'submit', payload: AccountTypeBulkUpdateValues): void
+}>()
 </script>
