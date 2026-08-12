@@ -33,7 +33,12 @@ export const useBulkUpdateUsersHandler = (options: BulkUpdateUsersHandlerOptions
       options.selectedIds.value = []
       closeBulkUpdateUsersModal()
       await options.reload()
-
+      await options.showDialog({
+        type: 'success',
+        title: 'Bulk update complete',
+        message: `${response.affectedCount} user profile${response.affectedCount === 1 ? '' : 's'} updated successfully.`,
+        confirmLabel: 'OK',
+      })
     } catch (error: unknown) {
 
     }
