@@ -35,6 +35,12 @@ interface ValidateUserProfileBulkUpdateOptions {
   isActive: boolean
 }
 
+interface ValidateAccountTypeBulkUpdateOptions {
+  enabled: Readonly<Record<keyof AccountTypeBulkUpdateValues, boolean>>
+  description: string
+  isSystem: boolean
+}
+
 export const validateDeploymentBulkUpdate = ({
   fields,
   form,
