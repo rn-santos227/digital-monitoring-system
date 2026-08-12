@@ -18,4 +18,8 @@ export const useBulkUpdateAccountTypesHandler = (options: BulkUpdateAccountTypes
     options.isModalOpen.value = false
   }
 
+  const openBulkUpdateAccountTypesModal = () => {
+    options.errorMessage.value = ''
+    options.isModalOpen.value = true
+  }
 }
