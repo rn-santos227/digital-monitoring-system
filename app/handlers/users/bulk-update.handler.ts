@@ -18,4 +18,8 @@ export const useBulkUpdateUsersHandler = (options: BulkUpdateUsersHandlerOptions
     options.isModalOpen.value = false
   }
 
+  const openBulkUpdateUsersModal = () => {
+    options.errorMessage.value = ''
+    options.isModalOpen.value = true
+  }
 }
