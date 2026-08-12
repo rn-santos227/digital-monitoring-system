@@ -29,4 +29,9 @@ const emit = defineEmits<{
   (event: 'close'): void
   (event: 'submit', payload: AccountTypeBulkUpdateValues): void
 }>()
+
+const enabled = reactive<Record<keyof AccountTypeBulkUpdateValues, boolean>>({
+  description: false,
+  is_system: false,
+})
 </script>
