@@ -34,4 +34,8 @@ const enabled = reactive<Record<keyof AccountTypeBulkUpdateValues, boolean>>({
   description: false,
   is_system: false,
 })
+const description = ref('')
+const isSystem = ref(false)
+const validationError = ref('')
+
 </script>
