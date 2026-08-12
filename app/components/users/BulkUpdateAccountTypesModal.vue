@@ -20,6 +20,16 @@
           :disabled="!enabled.description"
         />
       </div>
+
+      <div class="space-y-2 rounded-lg border border-slate-200 p-3">
+        <BaseCheckbox v-model="enabled.is_system" label="Account Type Classification" />
+        <BaseCheckbox
+          v-model="isSystem"
+          :label="USERS_ACCOUNT_IS_SYSTEM_LABEL"
+          :description="USERS_ACCOUNT_IS_SYSTEM_DESCRIPTION"
+          :disabled="!enabled.is_system"
+        />
+      </div>
     </form>
   </BaseModal>
 </template>
