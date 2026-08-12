@@ -288,6 +288,18 @@ const {
   showDialog,
 })
 
+const {
+  openBulkUpdateRanksModal,
+  closeBulkUpdateRanksModal,
+  updateSelectedRanks,
+} = useBulkUpdateRanksHandler({
+  selectedIds: selectedRankIds,
+  isModalOpen: isBulkUpdateRanksModalOpen,
+  errorMessage: bulkUpdateRanksError,
+  reload: () => loadRanks(),
+  showDialog,
+})
+
 const { deleteSelectedRanks } = useBulkDeleteRanksHandler({
   selectedIds: selectedRankIds,
   reload: () => loadRanks(),
