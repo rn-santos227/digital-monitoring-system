@@ -55,6 +55,11 @@ export type UserProfileBulkUpdateValues = Partial<{
   is_active: boolean
 }>
 
+export type AccountTypeBulkUpdateValues = Partial<{
+  description: string | null
+  is_system: boolean
+}>
+
 export interface PrivilegeRecord {
   id: string
   code: string
