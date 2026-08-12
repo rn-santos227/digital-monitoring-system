@@ -27,6 +27,12 @@ export const useBulkUpdateAccountTypesHandler = (options: BulkUpdateAccountTypes
     const ids = [...new Set(options.selectedIds.value)].filter(Boolean)
     if (ids.length === 0) return closeBulkUpdateAccountTypesModal()
 
+    options.errorMessage.value = ''
+    try {
+    
+    } catch (error: unknown) {
+
+    }
   }
 
   return {
