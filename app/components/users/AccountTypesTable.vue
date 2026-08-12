@@ -70,9 +70,12 @@ const emit = defineEmits<{
   (event: 'update:pageSize', value: number): void
   (event: 'update:selectedRowKeys', value: string[]): void
   (event: 'bulk-delete'): void
+  (event: 'bulk-update'): void
 }>()
 
 const authStore = useAuthStore()
+const canBulkUpdate = computed(() => authStore.hasPermissionAccess(USERS_ACCOUNT_REQUIRED_PERMISSIONS.edit))
+const canBulkDelete = computed(() => authStore.hasPermissionAccess(USERS_ACCOUNT_REQUIRED_PERMISSIONS.delete))
 
 const visibleActions = computed(() => {
   return USERS_ACCOUNT_TABLE_ACTIONS.filter((action) => {
