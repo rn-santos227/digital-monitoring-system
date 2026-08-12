@@ -304,6 +304,11 @@ export const USERS_ACCOUNT_PRIVILEGES_LABEL = 'Privileges'
 export const USERS_ACCOUNT_PRIVILEGES_DESCRIPTION = 'Select privileges to include in this account type.'
 export const USERS_ACCOUNT_PRIVILEGES_SELECT_ALL_LABEL = 'Select All Privileges'
 export const USERS_ACCOUNT_PRIVILEGES_SELECT_ALL_DESCRIPTION = 'Toggle all available privileges in this checklist.'
+export const USERS_ACCOUNT_BULK_UPDATE_MODAL_TITLE = 'Update Selected Account Types'
+export const USERS_ACCOUNT_BULK_UPDATE_MODAL_DESCRIPTION =
+  'Apply the same non-unique account type values to every selected account type.'
+export const USERS_ACCOUNT_BULK_UPDATE_WARNING =
+  'Unique codes and names, as well as privilege assignments, are not changed in bulk. Only checked fields will be updated.'
 export const USERS_ACCOUNT_PRIVILEGES_PLACEHOLDER = 'Type privilege name, code, or module'
 export const USERS_ACCOUNT_PRIVILEGES_EMPTY_MESSAGE = 'No privileges are currently available.'
 export const USERS_ACCOUNT_PRIVILEGES_CODE_PREFIX = 'Code'
