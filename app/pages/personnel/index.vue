@@ -192,6 +192,14 @@
         @close="isCreateRankModalOpen = false"
         @submit="handleCreateRank"
       />
+
+      <BulkUpdatePersonnelModal
+        v-if="isBulkUpdatePersonnelModalOpen"
+        :selected-count="selectedPersonnelIds.length"
+        :error-message="bulkUpdatePersonnelError"
+        @close="closeBulkUpdatePersonnelModal"
+        @submit="updateSelectedPersonnel"
+      />
     </section>
   </main>
 </template>
