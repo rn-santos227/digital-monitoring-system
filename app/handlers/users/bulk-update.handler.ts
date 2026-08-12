@@ -22,4 +22,14 @@ export const useBulkUpdateUsersHandler = (options: BulkUpdateUsersHandlerOptions
     options.errorMessage.value = ''
     options.isModalOpen.value = true
   }
+
+  const updateSelectedUsers = async (updates: UserProfileBulkUpdateValues) => {
+
+  }
+
+  return { 
+    openBulkUpdateUsersModal,
+    closeBulkUpdateUsersModal,
+    updateSelectedUsers
+  }
 }
