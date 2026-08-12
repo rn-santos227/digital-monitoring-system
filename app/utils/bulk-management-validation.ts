@@ -1,6 +1,10 @@
 import type { DeploymentBulkUpdateValues } from '~/types/domain/deployment'
 import type { PersonnelBulkUpdateValues } from '~/types/domain/personnel'
 import type { RankBulkUpdateValues } from '~/types/domain/rank'
+import type {
+  AccountTypeBulkUpdateValues,
+  UserProfileBulkUpdateValues,
+} from '~/types/domain/users'
 
 export type DeploymentBulkUpdateFieldKey = keyof DeploymentBulkUpdateValues
 
@@ -23,6 +27,12 @@ interface ValidateDeploymentBulkUpdateOptions {
   fields: readonly DeploymentBulkUpdateFieldKey[]
   form: Readonly<Partial<Record<DeploymentBulkUpdateFieldKey, string>>>
   enabled: Readonly<Partial<Record<DeploymentBulkUpdateFieldKey, boolean>>>
+}
+
+interface ValidateUserProfileBulkUpdateOptions {
+  enabled: Readonly<Record<keyof UserProfileBulkUpdateValues, boolean>>
+  avatarUrl: string
+  isActive: boolean
 }
 
 export const validateDeploymentBulkUpdate = ({
