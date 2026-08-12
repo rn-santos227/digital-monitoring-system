@@ -1,5 +1,16 @@
 <template>
-
+  <BaseModal
+    :title="USERS_ACCOUNT_BULK_UPDATE_MODAL_TITLE"
+    :description="USERS_ACCOUNT_BULK_UPDATE_MODAL_DESCRIPTION"
+    size="lg"
+    scroll-body
+    @close="emit('close')"
+  >
+    <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert :message="USERS_ACCOUNT_BULK_UPDATE_WARNING" tone="warning" />
+      <BaseAlert v-if="errorMessage || validationError" :message="errorMessage || validationError" tone="danger" />
+    </form>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
