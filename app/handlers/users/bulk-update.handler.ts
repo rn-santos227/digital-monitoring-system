@@ -31,6 +31,8 @@ export const useBulkUpdateUsersHandler = (options: BulkUpdateUsersHandlerOptions
     try {
       const response = await updateBulkRecordsEndpoint('users', ids, updates)
       options.selectedIds.value = []
+      closeBulkUpdateUsersModal()
+      await options.reload()
 
     } catch (error: unknown) {
 
