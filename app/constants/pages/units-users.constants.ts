@@ -279,6 +279,12 @@ export const USERS_PROFILE_ACTIVITIES_EMPTY_MESSAGE = 'No activities recorded fo
 export const USERS_PROFILE_ACTIVITIES_LOADING_LABEL = 'Loading user activities...'
 export const USERS_PROFILE_ACTIVITIES_ERROR_MESSAGE = 'Unable to load user activities.'
 export const USERS_MODAL_CLOSE_LABEL = 'Close'
+export const USERS_PROFILE_BULK_UPDATE_MODAL_TITLE = 'Update Selected User Profiles'
+export const USERS_PROFILE_BULK_UPDATE_MODAL_DESCRIPTION =
+  'Apply the same non-unique profile values to every selected user profile.'
+export const USERS_PROFILE_BULK_UPDATE_WARNING =
+  'Email, full name, personnel assignment, and account type assignment are not changed in bulk. Only checked fields will be updated.'
+
 
 export const USERS_ACCOUNT_CREATE_MODAL_TITLE = 'Create Account Type'
 export const USERS_ACCOUNT_CREATE_MODAL_DESCRIPTION =
