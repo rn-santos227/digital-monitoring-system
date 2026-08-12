@@ -24,7 +24,8 @@ export const useBulkUpdateUsersHandler = (options: BulkUpdateUsersHandlerOptions
   }
 
   const updateSelectedUsers = async (updates: UserProfileBulkUpdateValues) => {
-
+    const ids = [...new Set(options.selectedIds.value)].filter(Boolean)
+    if (ids.length === 0) return closeBulkUpdateUsers
   }
 
   return { 
