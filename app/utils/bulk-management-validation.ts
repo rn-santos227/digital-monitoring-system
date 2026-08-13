@@ -220,4 +220,11 @@ export const validateEquipmentBulkUpdate = <T extends Record<string, unknown>>({
     return { error: 'Select at least one field to update.', payload: null }
   }
 
+  const emptyRequiredField = requiredFields.find((field) => {
+    if (!enabled[field]) return false
+    const value = values[field]
+    return typeof value === 'string'
+      ? !value.trim()
+      : value === null || value === undefined
+  })
 }
