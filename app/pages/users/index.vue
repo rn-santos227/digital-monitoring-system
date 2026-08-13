@@ -310,6 +310,17 @@ const {
   reload: () => loadUserProfiles(),
   showDialog,
 })
+const {
+  openBulkUpdateAccountTypesModal,
+  closeBulkUpdateAccountTypesModal,
+  updateSelectedAccountTypes,
+} = useBulkUpdateAccountTypesHandler({
+  selectedIds: selectedAccountTypeIds,
+  isModalOpen: isBulkUpdateAccountTypesModalOpen,
+  errorMessage: bulkUpdateAccountTypesError,
+  reload: () => loadUserAccounts(),
+  showDialog,
+})
 
 watch(profileTableRows, (rows) => {
   const visibleIds = new Set(rows.map((row) => String(row.id ?? '')))
