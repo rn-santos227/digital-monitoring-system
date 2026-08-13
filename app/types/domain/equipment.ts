@@ -575,3 +575,17 @@ export interface EquipmentAssetBulkUpdateValues {
   asset_status_id?: string
   remarks?: string | null
 }
+
+export interface EquipmentIssuanceBulkUpdateValues {
+  issued_to_personnel_id?: string
+  issued_by_personnel_id?: string
+  deployment_id?: string | null
+  issue_date?: string
+  expected_return_date?: string | null
+  actual_return_date?: string | null
+  quantity_issued?: number
+  status_id?: string
+  issued_location?: string | null
+  return_location?: string | null
+  remarks?: string | null
+}
