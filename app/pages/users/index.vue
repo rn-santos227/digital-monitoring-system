@@ -184,6 +184,8 @@ import UsersFilter from '~/components/users/UsersFilter.vue'
 import AccountTypesFilter from '~/components/users/AccountTypesFilter.vue'
 import UsersTable from '~/components/users/UsersTable.vue'
 import AccountTypesTable from '~/components/users/AccountTypesTable.vue'
+import BulkUpdateUsersModal from '~/components/users/BulkUpdateUsersModal.vue'
+import BulkUpdateAccountTypesModal from '~/components/users/BulkUpdateAccountTypesModal.vue'
 import type { FieldValidationMap } from '~/utils/field-validation'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 import { useDialog } from '~/composables/useDialog'
@@ -214,6 +216,8 @@ import {
   useDeleteUserProfileHandler,
   useBulkDeleteUsersHandler,
   useBulkDeleteAccountTypesHandler,
+  useBulkUpdateUsersHandler,
+  useBulkUpdateAccountTypesHandler,
   useDeleteAccountTypeHandler,
   useUserActivationHandler,
   useUserPasswordHandler,
