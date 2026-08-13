@@ -236,4 +236,10 @@ export const validateEquipmentBulkUpdate = <T extends Record<string, unknown>>({
     const value = values[field]
     return typeof value !== 'number' || !Number.isFinite(value) || value < 0
   })
+  if (invalidNumericField) {
+    return {
+      error: 'Enabled numeric fields must be non-negative numbers.',
+      payload: null,
+    }
+  }
 }
