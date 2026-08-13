@@ -251,7 +251,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     updatePermissions: [PERMISSION_CODES.equipmentUpdate],
     deletePermissions: [PERMISSION_CODES.equipmentDelete],
     writableColumns: mutable(
-     'incidents',
+      'equipment-categories',
       'code',
       'name',
       'requires_serial',
@@ -266,6 +266,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     updatePermissions: [PERMISSION_CODES.equipmentUpdate],
     deletePermissions: [PERMISSION_CODES.equipmentDelete],
     writableColumns: mutable(
+      'equipment-items',
       'equipment_code',
       'category_id',
       'name',
@@ -286,6 +287,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
     updatePermissions: [PERMISSION_CODES.equipmentUpdate],
     deletePermissions: [PERMISSION_CODES.equipmentDelete],
     writableColumns: mutable(
+      'equipment-assets',
       'asset_tag',
       'equipment_item_id',
       'serial_no',
@@ -317,6 +319,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
       PERMISSION_CODES.equipmentManage,
     ],
     writableColumns: mutable(
+      'equipment-issuances',
       'equipment_asset_id',
       'issued_to_personnel_id',
       'issued_by_personnel_id',
@@ -343,6 +346,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
       PERMISSION_CODES.equipmentManage,
     ],
     writableColumns: mutable(
+      'incidents',
       'equipment_asset_id',
       'personnel_id',
       'deployment_id',
@@ -394,7 +398,6 @@ export const parseBulkIds = (values: unknown): string[] => {
   return ids
 }
 
-
 export const parseBulkUpdateItems = (
   values: unknown,
   writableColumns: readonly string[],
@@ -410,7 +413,6 @@ export const parseBulkUpdateItems = (
   const ids = parseBulkIds(items.map((item) => item?.id))
   const allowed = new Set(writableColumns)
 
-  
   return items.map((item, index) => {
     const updates = item.updates
     if (
