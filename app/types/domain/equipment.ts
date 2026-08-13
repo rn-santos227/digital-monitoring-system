@@ -589,3 +589,9 @@ export interface EquipmentIssuanceBulkUpdateValues {
   return_location?: string | null
   remarks?: string | null
 }
+
+export type EquipmentBulkUpdateValues =
+  | EquipmentCategoryBulkUpdateValues
+  | EquipmentItemBulkUpdateValues
+  | EquipmentAssetBulkUpdateValues
+  | EquipmentIssuanceBulkUpdateValues
