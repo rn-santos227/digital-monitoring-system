@@ -182,6 +182,14 @@
         @close="closeBulkUpdateUsersModal"
         @submit="updateSelectedUsers"
       />
+
+      <BulkUpdateAccountTypesModal
+        v-if="isBulkUpdateAccountTypesModalOpen"
+        :selected-count="selectedAccountTypeIds.length"
+        :error-message="bulkUpdateAccountTypesError"
+        @close="closeBulkUpdateAccountTypesModal"
+        @submit="updateSelectedAccountTypes"
+      />
     </section>
   </main>
 </template>
