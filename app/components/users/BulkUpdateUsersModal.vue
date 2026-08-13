@@ -31,4 +31,8 @@ const enabled = reactive<Record<keyof UserProfileBulkUpdateValues, boolean>>({
   avatar_url: false,
   is_active: false,
 })
+const avatarUrl = ref('')
+const isActive = ref(true)
+const validationError = ref('')
+
 </script>
