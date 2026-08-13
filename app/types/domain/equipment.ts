@@ -546,3 +546,8 @@ export interface EquipmentIssuancesState {
   createError: string
   updateError: string
 }
+
+export interface EquipmentCategoryBulkUpdateValues {
+  is_active?: boolean
+}
+
