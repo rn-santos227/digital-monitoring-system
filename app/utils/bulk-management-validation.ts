@@ -227,4 +227,7 @@ export const validateEquipmentBulkUpdate = <T extends Record<string, unknown>>({
       ? !value.trim()
       : value === null || value === undefined
   })
+  if (emptyRequiredField) {
+    return { error: 'Enabled required fields cannot be empty.', payload: null }
+  }
 }
