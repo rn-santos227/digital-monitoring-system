@@ -299,6 +299,17 @@ const { deleteSelectedAccountTypes } = useBulkDeleteAccountTypesHandler({
   reload: () => loadUserAccounts(),
   showDialog,
 })
+const {
+  openBulkUpdateUsersModal,
+  closeBulkUpdateUsersModal,
+  updateSelectedUsers,
+} = useBulkUpdateUsersHandler({
+  selectedIds: selectedUserProfileIds,
+  isModalOpen: isBulkUpdateUsersModalOpen,
+  errorMessage: bulkUpdateUsersError,
+  reload: () => loadUserProfiles(),
+  showDialog,
+})
 
 watch(profileTableRows, (rows) => {
   const visibleIds = new Set(rows.map((row) => String(row.id ?? '')))
