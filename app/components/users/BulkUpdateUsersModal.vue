@@ -12,4 +12,13 @@ import {
 } from '~/constants/page.constants'
 import type { UserProfileBulkUpdateValues } from '~/types/domain/users'
 import { validateUserProfileBulkUpdate } from '~/utils/bulk-management-validation'
+
+withDefaults(defineProps<{
+  selectedCount: number
+  isSubmitting?: boolean
+  errorMessage?: string
+}>(), {
+  isSubmitting: false,
+  errorMessage: '',
+})
 </script>
