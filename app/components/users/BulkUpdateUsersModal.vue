@@ -21,6 +21,16 @@
           :disabled="!enabled.avatar_url"
         />
       </div>
+
+      <div class="space-y-2 rounded-lg border border-slate-200 p-3">
+        <BaseCheckbox v-model="enabled.is_active" label="Profile Status" />
+        <BaseCheckbox
+          v-model="isActive"
+          label="Active User Profile"
+          description="Enable or disable access for all selected user profiles."
+          :disabled="!enabled.is_active"
+        />
+      </div>
     </form>
 
     <template #footer>
