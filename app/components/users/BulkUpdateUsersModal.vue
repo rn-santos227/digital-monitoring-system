@@ -27,4 +27,8 @@ const emit = defineEmits<{
   (event: 'submit', payload: UserProfileBulkUpdateValues): void
 }>()
 
+const enabled = reactive<Record<keyof UserProfileBulkUpdateValues, boolean>>({
+  avatar_url: false,
+  is_active: false,
+})
 </script>
