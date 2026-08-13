@@ -9,6 +9,18 @@
     <form class="space-y-4" @submit.prevent="onSubmit">
       <BaseAlert :message="USERS_PROFILE_BULK_UPDATE_WARNING" tone="warning" />
       <BaseAlert v-if="errorMessage || validationError" :message="errorMessage || validationError" tone="danger" />
+
+      <div class="space-y-2 rounded-lg border border-slate-200 p-3">
+        <BaseCheckbox v-model="enabled.avatar_url" :label="USERS_PROFILE_AVATAR_URL_LABEL" />
+        <BaseTextField
+          v-model="avatarUrl"
+          type="url"
+          :label="USERS_PROFILE_AVATAR_URL_LABEL"
+          :placeholder="USERS_PROFILE_AVATAR_URL_PLACEHOLDER"
+          helper-text="Leave empty to clear the avatar URL for all selected profiles."
+          :disabled="!enabled.avatar_url"
+        />
+      </div>
     </form>
 
     <template #footer>
