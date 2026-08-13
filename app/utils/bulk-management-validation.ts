@@ -242,4 +242,14 @@ export const validateEquipmentBulkUpdate = <T extends Record<string, unknown>>({
       payload: null,
     }
   }
+
+  const payload: Partial<T> = {}
+  selectedFields.forEach((field) => {
+    const value = values[field]
+    payload[field] = (
+      typeof value === 'string' ? value.trim() : value
+    ) as T[keyof T]
+  })
+
+  return { error: '', payload }
 }
