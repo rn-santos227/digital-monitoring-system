@@ -35,4 +35,13 @@ const avatarUrl = ref('')
 const isActive = ref(true)
 const validationError = ref('')
 
+const onSubmit = () => {
+  const result = validateUserProfileBulkUpdate({
+    enabled,
+    avatarUrl: avatarUrl.value,
+    isActive: isActive.value,
+  })
+  validationError.value = result.error
+  if (result.payload) emit('submit', result.payload)
+}
 </script>
