@@ -213,5 +213,7 @@ export const validateEquipmentBulkUpdate = <T extends Record<string, unknown>>({
 }: ValidateEquipmentBulkUpdateOptions<T>): BulkUpdateValidationResult<
   Partial<T>
 > => {
+  const fields = Object.keys(enabled) as Array<keyof T>
+  const selectedFields = fields.filter((field) => enabled[field] ?? false)
 
 }
