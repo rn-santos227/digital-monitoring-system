@@ -551,3 +551,14 @@ export interface EquipmentCategoryBulkUpdateValues {
   is_active?: boolean
 }
 
+export interface EquipmentItemBulkUpdateValues {
+  category_id?: string
+  name?: string
+  model?: string | null
+  manufacturer?: string | null
+  description?: string | null
+  unit_of_measure?: string | null
+  minimum_stock_level?: number
+  is_serialized?: boolean
+  is_active?: boolean
+}
