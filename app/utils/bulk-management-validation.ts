@@ -204,3 +204,14 @@ export const validateAccountTypeBulkUpdate = ({
 
   return { error: '', payload }
 }
+
+export const validateEquipmentBulkUpdate = <T extends Record<string, unknown>>({
+  enabled,
+  values,
+  requiredFields = [],
+  numericFields = [],
+}: ValidateEquipmentBulkUpdateOptions<T>): BulkUpdateValidationResult<
+  Partial<T>
+> => {
+
+}
