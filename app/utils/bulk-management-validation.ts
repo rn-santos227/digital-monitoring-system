@@ -41,6 +41,15 @@ interface ValidateAccountTypeBulkUpdateOptions {
   isSystem: boolean
 }
 
+interface ValidateEquipmentBulkUpdateOptions<
+  T extends Record<string, unknown>,
+> {
+  enabled: Readonly<Partial<Record<keyof T, boolean>>>
+  values: Readonly<T>
+  requiredFields?: readonly (keyof T)[]
+  numericFields?: readonly (keyof T)[]
+}
+
 export const validateDeploymentBulkUpdate = ({
   fields,
   form,
