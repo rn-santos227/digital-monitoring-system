@@ -230,4 +230,10 @@ export const validateEquipmentBulkUpdate = <T extends Record<string, unknown>>({
   if (emptyRequiredField) {
     return { error: 'Enabled required fields cannot be empty.', payload: null }
   }
+
+  const invalidNumericField = numericFields.find((field) => {
+    if (!enabled[field]) return false
+    const value = values[field]
+    return typeof value !== 'number' || !Number.isFinite(value) || value < 0
+  })
 }
