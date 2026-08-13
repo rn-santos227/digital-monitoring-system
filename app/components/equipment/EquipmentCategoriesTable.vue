@@ -33,6 +33,7 @@
   </DataTable>
 </template>
 
+
 <script setup lang="ts">
 import { computed } from 'vue'
 import { EQUIPMENT_PRIVILEGES } from '~/constants/privileges.constants'
@@ -69,9 +70,12 @@ const emit = defineEmits<{
   (event: 'update:pageSize', value: number): void
   (event: 'update:selectedRowKeys', value: string[]): void
   (event: 'bulk-delete'): void
+  (event: 'bulk-update'): void
 }>()
 
 const authStore = useAuthStore()
+const canBulkUpdate = computed(() => authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.edit))
+const canBulkDelete = computed(() => authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.delete))
 
 const visibleActions = computed(() => {
   return EQUIPMENT_CATEGORIES_TABLE_ACTIONS.filter((action) => {
