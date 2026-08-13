@@ -174,6 +174,14 @@
         @close="onCloseUpdateAccountTypeModal"
         @submit="onUpdateAccountTypeWithFeedback"
       />
+
+      <BulkUpdateUsersModal
+        v-if="isBulkUpdateUsersModalOpen"
+        :selected-count="selectedUserProfileIds.length"
+        :error-message="bulkUpdateUsersError"
+        @close="closeBulkUpdateUsersModal"
+        @submit="updateSelectedUsers"
+      />
     </section>
   </main>
 </template>
