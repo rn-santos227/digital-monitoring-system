@@ -284,6 +284,10 @@ const { showDialog } = useDialog()
 const { addToast } = useToast()
 const selectedUserProfileIds = ref<string[]>([])
 const selectedAccountTypeIds = ref<string[]>([])
+const isBulkUpdateUsersModalOpen = ref(false)
+const isBulkUpdateAccountTypesModalOpen = ref(false)
+const bulkUpdateUsersError = ref('')
+const bulkUpdateAccountTypesError = ref('')
 
 const { deleteSelectedUsers } = useBulkDeleteUsersHandler({
   selectedIds: selectedUserProfileIds,
