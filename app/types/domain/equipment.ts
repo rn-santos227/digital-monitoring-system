@@ -562,3 +562,16 @@ export interface EquipmentItemBulkUpdateValues {
   is_serialized?: boolean
   is_active?: boolean
 }
+
+export interface EquipmentAssetBulkUpdateValues {
+  equipment_item_id?: string
+  batch_no?: string | null
+  procurement_date?: string | null
+  acquisition_cost?: number | null
+  fund_source?: string | null
+  current_location?: string | null
+  condition_status_id?: string | null
+  serviceability_status_id?: string | null
+  asset_status_id?: string
+  remarks?: string | null
+}
