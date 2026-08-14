@@ -75,4 +75,8 @@ const fields = [
   },
   { key: 'remarks', label: 'Remarks' },
 ] as const
+const validationError = ref('')
+const onSubmit = () => {
+
+}
 </script>
