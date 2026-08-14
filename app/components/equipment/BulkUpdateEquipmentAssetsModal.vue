@@ -68,5 +68,11 @@ const fields = [
     label: 'Serviceability status',
     options: EQUIPMENT_ASSETS_SERVICEABILITY_STATUS_OPTIONS,
   },
-]
+  {
+    key: 'asset_status_id',
+    label: 'Asset status',
+    options: EQUIPMENT_ASSETS_ASSET_STATUS_OPTIONS,
+  },
+  { key: 'remarks', label: 'Remarks' },
+] as const
 </script>
