@@ -11,5 +11,11 @@ type EquipmentBulkDomain =
   | 'equipment-issuances'
 
 interface BulkUpdateEquipmentHandlerOptions {
-
+  domain: EquipmentBulkDomain
+  label: string
+  selectedIds: Ref<string[]>
+  isModalOpen: Ref<boolean>
+  errorMessage: Ref<string>
+  reload: () => Promise<void>
+  showDialog: (input: DialogInput) => Promise<DialogResult>
 }
