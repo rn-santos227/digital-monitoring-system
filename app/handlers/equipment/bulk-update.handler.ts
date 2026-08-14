@@ -19,3 +19,10 @@ interface BulkUpdateEquipmentHandlerOptions {
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
+
+export const useBulkUpdateEquipmentHandler = (
+  options: BulkUpdateEquipmentHandlerOptions,
+) => {
+
+
+}
