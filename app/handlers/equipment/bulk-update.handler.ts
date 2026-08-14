@@ -54,7 +54,13 @@ export const useBulkUpdateEquipmentHandler = <
 
     options.errorMessage.value = ''
     try {
-
+      const response = await updateBulkRecordsEndpoint<
+        EquipmentBulkUpdateValuesByDomain[TDomain]
+      >(
+        options.domain,
+        ids,
+        updates,
+      )
     } catch (error: unknown) {
       options.errorMessage.value = extractApiErrorMessage(
         error,
