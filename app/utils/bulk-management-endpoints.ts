@@ -15,10 +15,10 @@ export const deleteBulkRecordsEndpoint = async (
   }, `Deleting ${ids.length} selected record${ids.length === 1 ? '' : 's'}...`)
 }
 
-export const updateBulkRecordsEndpoint = async (
+export const updateBulkRecordsEndpoint = async <TUpdates extends object>(
   domain: string,
   ids: readonly string[],
-  updates: Readonly<Record<string, unknown>>,
+  updates: Readonly<TUpdates>,
 ): Promise<BulkMutationResponse> => {
   return await withApiLoading(async () => {
     return await $fetch<BulkMutationResponse>(`/api/${encodeURIComponent(domain)}/bulk`, {
