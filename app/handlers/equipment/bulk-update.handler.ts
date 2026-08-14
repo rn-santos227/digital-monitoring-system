@@ -42,6 +42,12 @@ export const useBulkUpdateEquipmentHandler = (
       return
     }
 
+    options.errorMessage.value = ''
+    try {
+      
+    } catch (error: unknown) {
+
+    }
   }
 
   return {
