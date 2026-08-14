@@ -1,17 +1,25 @@
 import type { Ref } from 'vue'
 import type { DialogInput, DialogResult } from '~/composables/useDialog'
-import type { EquipmentBulkUpdateValues } from '~/types/domain/equipment'
+import type {
+  EquipmentAssetBulkUpdateValues,
+  EquipmentCategoryBulkUpdateValues,
+  EquipmentIssuanceBulkUpdateValues,
+  EquipmentItemBulkUpdateValues,
+} from '~/types/domain/equipment'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { updateBulkRecordsEndpoint } from '~/utils/bulk-management-endpoints'
 
-type EquipmentBulkDomain =
-  | 'equipment-categories'
-  | 'equipment-items'
-  | 'equipment-assets'
-  | 'equipment-issuances'
+interface EquipmentBulkUpdateValuesByDomain {
+  'equipment-categories': EquipmentCategoryBulkUpdateValues
+  'equipment-items': EquipmentItemBulkUpdateValues
+  'equipment-assets': EquipmentAssetBulkUpdateValues
+  'equipment-issuances': EquipmentIssuanceBulkUpdateValues
+}
 
-interface BulkUpdateEquipmentHandlerOptions {
-  domain: EquipmentBulkDomain
+type EquipmentBulkDomain = keyof EquipmentBulkUpdateValuesByDomain
+
+interface BulkUpdateEquipmentHandlerOptions<TDomain extends EquipmentBulkDomain> {
+  domain: TDomain
   label: string
   selectedIds: Ref<string[]>
   isModalOpen: Ref<boolean>
@@ -20,8 +28,10 @@ interface BulkUpdateEquipmentHandlerOptions {
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
 
-export const useBulkUpdateEquipmentHandler = (
-  options: BulkUpdateEquipmentHandlerOptions,
+export const useBulkUpdateEquipmentHandler = <
+  TDomain extends EquipmentBulkDomain,
+>(
+  options: BulkUpdateEquipmentHandlerOptions<TDomain>,
 ) => {
   const openBulkUpdateEquipmentModal = () => {
     options.errorMessage.value = ''
@@ -34,7 +44,7 @@ export const useBulkUpdateEquipmentHandler = (
   }
 
   const updateSelectedEquipment = async (
-    updates: EquipmentBulkUpdateValues,
+    updates: EquipmentBulkUpdateValuesByDomain[TDomain],
   ) => {
     const ids = [...new Set(options.selectedIds.value)].filter(Boolean)
     if (ids.length === 0) {

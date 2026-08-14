@@ -546,7 +546,6 @@ export interface EquipmentIssuancesState {
   createError: string
   updateError: string
 }
-
 export interface EquipmentCategoryBulkUpdateValues {
   is_active?: boolean
 }
@@ -589,9 +588,3 @@ export interface EquipmentIssuanceBulkUpdateValues {
   return_location?: string | null
   remarks?: string | null
 }
-
-export type EquipmentBulkUpdateValues =
-  | EquipmentCategoryBulkUpdateValues
-  | EquipmentItemBulkUpdateValues
-  | EquipmentAssetBulkUpdateValues
-  | EquipmentIssuanceBulkUpdateValues
