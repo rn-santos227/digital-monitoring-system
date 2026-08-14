@@ -20,6 +20,13 @@
           v-model="values.equipment_item_id"
           :disabled="!enabled.equipment_item_id"
         />
+        <BaseDatePicker
+          v-else-if="field.type === 'date'"
+          v-model="values[field.key]"
+          :label="field.label"
+          :disabled="!enabled[field.key]"
+        />
+
       </div>
     </form>
     <template #footer>
