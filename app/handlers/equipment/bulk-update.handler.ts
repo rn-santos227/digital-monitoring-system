@@ -36,6 +36,11 @@ export const useBulkUpdateEquipmentHandler = (
   const updateSelectedEquipment = async (
     updates: EquipmentBulkUpdateValues,
   ) => {
+    const ids = [...new Set(options.selectedIds.value)].filter(Boolean)
+    if (ids.length === 0) {
+      closeBulkUpdateEquipmentModal()
+      return
+    }
 
   }
 
