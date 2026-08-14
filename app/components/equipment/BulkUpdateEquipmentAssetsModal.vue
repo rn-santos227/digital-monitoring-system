@@ -7,6 +7,8 @@
     @close="emit('close')"
   >
     <form class="grid gap-4 md:grid-cols-2" @submit.prevent="onSubmit">
+      <BaseAlert class="md:col-span-2" :message="EQUIPMENT_BULK_UPDATE_WARNING" tone="warning" />
+      <BaseAlert v-if="errorMessage || validationError" class="md:col-span-2" :message="errorMessage || validationError" tone="danger" />
 
     </form>
     <template #footer>
