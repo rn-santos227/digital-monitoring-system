@@ -77,6 +77,12 @@ const fields = [
 ] as const
 const validationError = ref('')
 const onSubmit = () => {
+  const result = validateEquipmentBulkUpdate({
+    enabled,
+    values,
+    requiredFields: ['equipment_item_id', 'asset_status_id'],
+    numericFields: ['acquisition_cost'],
+  })
 
 }
 </script>
