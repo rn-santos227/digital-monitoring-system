@@ -54,5 +54,8 @@ const values = reactive({
 const fields = [
   { key: 'equipment_item_id', label: 'Equipment item' },
   { key: 'batch_no', label: 'Batch number' },
+  { key: 'procurement_date', label: 'Procurement date', type: 'date' },
+  { key: 'acquisition_cost', label: 'Acquisition cost', type: 'number' },
+
 ]
 </script>
