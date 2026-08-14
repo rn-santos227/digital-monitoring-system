@@ -23,6 +23,10 @@ interface BulkUpdateEquipmentHandlerOptions {
 export const useBulkUpdateEquipmentHandler = (
   options: BulkUpdateEquipmentHandlerOptions,
 ) => {
+  const openBulkUpdateEquipmentModal = () => {
+    options.errorMessage.value = ''
+    options.isModalOpen.value = true
+  }
 
 
 }
