@@ -50,7 +50,12 @@ export const useBulkUpdateEquipmentHandler = (
         error,
         `No ${options.label}s were updated. Review the selected values and try again.`,
       )
-
+      await options.showDialog({
+        type: 'error',
+        title: 'Bulk update failed',
+        message: options.errorMessage.value,
+        confirmLabel: 'OK',
+      })
     }
   }
 
