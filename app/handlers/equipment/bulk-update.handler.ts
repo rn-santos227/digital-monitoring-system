@@ -9,3 +9,7 @@ type EquipmentBulkDomain =
   | 'equipment-items'
   | 'equipment-assets'
   | 'equipment-issuances'
+
+interface BulkUpdateEquipmentHandlerOptions {
+
+}
