@@ -13,5 +13,13 @@ import {
 } from '~/constants/page.constants'
 import type { EquipmentAssetBulkUpdateValues } from '~/types/domain/equipment'
 import { validateEquipmentBulkUpdate } from '~/utils/bulk-management-validation'
+withDefaults(
+  defineProps<{
+    selectedCount: number
+    isSubmitting?: boolean
+    errorMessage?: string
+  }>(),
+  { isSubmitting: false, errorMessage: '' },
+)
 
 </script>
