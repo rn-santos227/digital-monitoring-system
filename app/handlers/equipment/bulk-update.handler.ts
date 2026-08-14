@@ -28,5 +28,8 @@ export const useBulkUpdateEquipmentHandler = (
     options.isModalOpen.value = true
   }
 
-
+  const closeBulkUpdateEquipmentModal = () => {
+    options.errorMessage.value = ''
+    options.isModalOpen.value = false
+  }
 }
