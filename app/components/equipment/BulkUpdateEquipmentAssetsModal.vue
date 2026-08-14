@@ -39,4 +39,16 @@ const enabled = reactive<Record<keyof EquipmentAssetBulkUpdateValues, boolean>>(
     remarks: false,
   },
 )
+const values = reactive({
+  equipment_item_id: '',
+  batch_no: null as string | null,
+  procurement_date: null as string | null,
+  acquisition_cost: null as number | null,
+  fund_source: null as string | null,
+  current_location: null as string | null,
+  condition_status_id: null as string | null,
+  serviceability_status_id: null as string | null,
+  asset_status_id: '',
+  remarks: null as string | null,
+})
 </script>
