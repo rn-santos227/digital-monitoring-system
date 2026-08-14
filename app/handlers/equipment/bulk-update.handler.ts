@@ -64,6 +64,12 @@ export const useBulkUpdateEquipmentHandler = <
       options.selectedIds.value = []
       closeBulkUpdateEquipmentModal()
       await options.reload()
+      await options.showDialog({
+        type: 'success',
+        title: 'Bulk update complete',
+        message: `${response.affectedCount} ${options.label}${response.affectedCount === 1 ? '' : 's'} updated successfully.`,
+        confirmLabel: 'OK',
+      })
     } catch (error: unknown) {
       options.errorMessage.value = extractApiErrorMessage(
         error,
