@@ -44,8 +44,12 @@ export const useBulkUpdateEquipmentHandler = (
 
     options.errorMessage.value = ''
     try {
-      
+
     } catch (error: unknown) {
+      options.errorMessage.value = extractApiErrorMessage(
+        error,
+        `No ${options.label}s were updated. Review the selected values and try again.`,
+      )
 
     }
   }
