@@ -32,4 +32,16 @@ export const useBulkUpdateEquipmentHandler = (
     options.errorMessage.value = ''
     options.isModalOpen.value = false
   }
+
+  const updateSelectedEquipment = async (
+    updates: EquipmentBulkUpdateValues,
+  ) => {
+
+  }
+
+  return {
+    openBulkUpdateEquipmentModal,
+    closeBulkUpdateEquipmentModal,
+    updateSelectedEquipment,
+  }
 }
