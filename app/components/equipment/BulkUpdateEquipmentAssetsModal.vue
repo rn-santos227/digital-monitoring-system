@@ -13,6 +13,7 @@ import {
 } from '~/constants/page.constants'
 import type { EquipmentAssetBulkUpdateValues } from '~/types/domain/equipment'
 import { validateEquipmentBulkUpdate } from '~/utils/bulk-management-validation'
+
 withDefaults(
   defineProps<{
     selectedCount: number
@@ -77,12 +78,13 @@ const fields = [
 ] as const
 const validationError = ref('')
 const onSubmit = () => {
-  const result = validateEquipmentBulkUpdate({
+  const result = validateEquipmentBulkUpdate<EquipmentAssetBulkUpdateValues>({
     enabled,
     values,
     requiredFields: ['equipment_item_id', 'asset_status_id'],
     numericFields: ['acquisition_cost'],
   })
-
+  validationError.value = result.error
+  if (result.payload) emit('submit', result.payload)
 }
 </script>

@@ -42,7 +42,7 @@ interface ValidateAccountTypeBulkUpdateOptions {
 }
 
 interface ValidateEquipmentBulkUpdateOptions<
-  T extends Record<string, unknown>,
+  T extends object,
 > {
   enabled: Readonly<Partial<Record<keyof T, boolean>>>
   values: Readonly<T>
@@ -205,7 +205,7 @@ export const validateAccountTypeBulkUpdate = ({
   return { error: '', payload }
 }
 
-export const validateEquipmentBulkUpdate = <T extends Record<string, unknown>>({
+export const validateEquipmentBulkUpdate = <T extends object>({
   enabled,
   values,
   requiredFields = [],
