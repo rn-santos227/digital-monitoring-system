@@ -56,6 +56,8 @@ const fields = [
   { key: 'batch_no', label: 'Batch number' },
   { key: 'procurement_date', label: 'Procurement date', type: 'date' },
   { key: 'acquisition_cost', label: 'Acquisition cost', type: 'number' },
+  { key: 'fund_source', label: 'Fund source' },
+  { key: 'current_location', label: 'Current location' },
 
 ]
 </script>
