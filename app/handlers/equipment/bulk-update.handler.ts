@@ -61,6 +61,9 @@ export const useBulkUpdateEquipmentHandler = <
         ids,
         updates,
       )
+      options.selectedIds.value = []
+      closeBulkUpdateEquipmentModal()
+      await options.reload()
     } catch (error: unknown) {
       options.errorMessage.value = extractApiErrorMessage(
         error,
