@@ -58,6 +58,10 @@ const fields = [
   { key: 'acquisition_cost', label: 'Acquisition cost', type: 'number' },
   { key: 'fund_source', label: 'Fund source' },
   { key: 'current_location', label: 'Current location' },
-
+  {
+    key: 'condition_status_id',
+    label: 'Condition status',
+    options: EQUIPMENT_ASSETS_CONDITION_STATUS_OPTIONS,
+  },
 ]
 </script>
