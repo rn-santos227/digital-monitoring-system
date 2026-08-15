@@ -43,5 +43,17 @@ const enabled = reactive<
   return_location: false,
   remarks: false,
 })
-
+const values = reactive({
+  issued_to_personnel_id: '',
+  issued_by_personnel_id: '',
+  deployment_id: null as string | null,
+  issue_date: '',
+  expected_return_date: null as string | null,
+  actual_return_date: null as string | null,
+  quantity_issued: 1,
+  status_id: '',
+  issued_location: null as string | null,
+  return_location: null as string | null,
+  remarks: null as string | null,
+})
 </script>
