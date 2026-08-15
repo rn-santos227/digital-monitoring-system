@@ -71,5 +71,8 @@ const fields: readonly BulkUpdateField<keyof EquipmentIssuanceBulkUpdateValues>[
   { key: 'issued_by_personnel_id', label: 'Issued by personnel' },
   { key: 'deployment_id', label: 'Deployment' },
   { key: 'issue_date', label: 'Issue date', type: 'date' },
+  { key: 'expected_return_date', label: 'Expected return date', type: 'date' },
+  { key: 'actual_return_date', label: 'Actual return date', type: 'date' },
+  { key: 'quantity_issued', label: 'Quantity issued', type: 'number' },
 ]
 </script>
