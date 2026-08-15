@@ -66,4 +66,8 @@ const setFieldValue = (
     : value
   Reflect.set(values, key, normalizedValue)
 }
+const fields: readonly BulkUpdateField<keyof EquipmentIssuanceBulkUpdateValues>[] = [
+  { key: 'issued_to_personnel_id', label: 'Issued to personnel' },
+  { key: 'issued_by_personnel_id', label: 'Issued by personnel' },
+]
 </script>
