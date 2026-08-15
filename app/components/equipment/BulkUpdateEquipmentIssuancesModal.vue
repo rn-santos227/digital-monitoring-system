@@ -56,4 +56,11 @@ const values = reactive({
   return_location: null as string | null,
   remarks: null as string | null,
 })
+const setFieldValue = (
+  key: keyof EquipmentIssuanceBulkUpdateValues,
+  value: string,
+  type?: BulkUpdateField<keyof EquipmentIssuanceBulkUpdateValues>['type'],
+) => {
+
+}
 </script>
