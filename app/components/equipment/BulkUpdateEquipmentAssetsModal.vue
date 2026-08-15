@@ -22,11 +22,11 @@
         />
         <BaseDatePicker
           v-else-if="field.type === 'date'"
-          v-model="values[field.key]"
+          :model-value="formatBulkUpdateInputValue(values[field.key])"
+          @update:model-value="setFieldValue(field.key, $event, field.type)"
           :label="field.label"
           :disabled="!enabled[field.key]"
         />
-
       </div>
     </form>
     <template #footer>
@@ -53,7 +53,10 @@ import {
   EQUIPMENT_BULK_UPDATE_WARNING,
 } from '~/constants/page.constants'
 import type { EquipmentAssetBulkUpdateValues } from '~/types/domain/equipment'
-import { validateEquipmentBulkUpdate } from '~/utils/bulk-management-validation'
+import {
+  formatBulkUpdateInputValue,
+  validateEquipmentBulkUpdate,
+} from '~/utils/bulk-management-validation'
 withDefaults(
   defineProps<{
     selectedCount: number
@@ -92,6 +95,17 @@ const values = reactive({
   asset_status_id: '',
   remarks: null as string | null,
 })
+const setFieldValue = (
+  key: keyof EquipmentAssetBulkUpdateValues,
+  value: string,
+  type?: BulkUpdateField<keyof EquipmentAssetBulkUpdateValues>['type'],
+) => {
+  const normalizedValue = type === 'number'
+    ? (value === '' ? null : Number(value))
+    : value
+  Reflect.set(values, key, normalizedValue)
+}
+
 const fields: readonly BulkUpdateField<keyof EquipmentAssetBulkUpdateValues>[] = [
   { key: 'equipment_item_id', label: 'Equipment item' },
   { key: 'batch_no', label: 'Batch number' },
