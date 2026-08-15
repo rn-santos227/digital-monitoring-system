@@ -29,5 +29,10 @@ const enabled = reactive<
 const values = reactive<Required<EquipmentCategoryBulkUpdateValues>>({
   is_active: true,
 })
-
+const validationError = ref('')
+const onSubmit = () => {
+  const result = validateEquipmentBulkUpdate<EquipmentCategoryBulkUpdateValues>({ enabled, values })
+  validationError.value = result.error
+  if (result.payload) emit('submit', result.payload)
+}
 </script>
