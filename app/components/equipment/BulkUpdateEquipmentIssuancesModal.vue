@@ -79,5 +79,8 @@ const fields: readonly BulkUpdateField<keyof EquipmentIssuanceBulkUpdateValues>[
     label: 'Issuance status',
     options: EQUIPMENT_ISSUANCES_STATUS_OPTIONS,
   },
+  { key: 'issued_location', label: 'Issued location' },
+  { key: 'return_location', label: 'Return location' },
+  { key: 'remarks', label: 'Remarks' },
 ]
 </script>
