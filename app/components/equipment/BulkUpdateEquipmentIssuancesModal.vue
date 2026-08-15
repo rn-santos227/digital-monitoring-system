@@ -69,5 +69,7 @@ const setFieldValue = (
 const fields: readonly BulkUpdateField<keyof EquipmentIssuanceBulkUpdateValues>[] = [
   { key: 'issued_to_personnel_id', label: 'Issued to personnel' },
   { key: 'issued_by_personnel_id', label: 'Issued by personnel' },
+  { key: 'deployment_id', label: 'Deployment' },
+  { key: 'issue_date', label: 'Issue date', type: 'date' },
 ]
 </script>
