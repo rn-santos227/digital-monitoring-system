@@ -1,5 +1,13 @@
 <template>
-
+  <BaseModal
+    :title="EQUIPMENT_ISSUANCES_BULK_UPDATE_MODAL_TITLE"
+    :description="EQUIPMENT_ISSUANCES_BULK_UPDATE_MODAL_DESCRIPTION"
+    size="xl"
+    scroll-body
+    @close="emit('close')"
+  >
+    <form class="grid gap-4 md:grid-cols-2" @submit.prevent="onSubmit"></form>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
