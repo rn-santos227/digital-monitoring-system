@@ -83,4 +83,20 @@ const fields: readonly BulkUpdateField<keyof EquipmentIssuanceBulkUpdateValues>[
   { key: 'return_location', label: 'Return location' },
   { key: 'remarks', label: 'Remarks' },
 ]
+const validationError = ref('')
+const onSubmit = () => {
+  const result = validateEquipmentBulkUpdate<EquipmentIssuanceBulkUpdateValues>({
+    enabled,
+    values,
+    requiredFields: [
+      'issued_to_personnel_id',
+      'issued_by_personnel_id',
+      'issue_date',
+      'status_id',
+    ],
+    numericFields: ['quantity_issued'],
+  })
+  validationError.value = result.error
+  if (result.payload) emit('submit', result.payload)
+}
 </script>
