@@ -14,6 +14,12 @@
         :key="field.key"
         class="space-y-2 rounded-lg border border-slate-200 p-3"
       >
+        <BaseCheckbox v-model="enabled[field.key]" :label="field.label" />
+        <EquipmentItemsSuggestionField
+          v-if="field.key === 'equipment_item_id'"
+          v-model="values.equipment_item_id"
+          :disabled="!enabled.equipment_item_id"
+        />
 
       </div>
     </form>
