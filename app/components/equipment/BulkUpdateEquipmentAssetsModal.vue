@@ -31,6 +31,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
+import type { BulkUpdateField } from '~/constants/ui.constants'
 import {
   EQUIPMENT_ASSETS_ASSET_STATUS_OPTIONS,
   EQUIPMENT_ASSETS_BULK_UPDATE_MODAL_DESCRIPTION,
@@ -41,7 +42,6 @@ import {
 } from '~/constants/page.constants'
 import type { EquipmentAssetBulkUpdateValues } from '~/types/domain/equipment'
 import { validateEquipmentBulkUpdate } from '~/utils/bulk-management-validation'
-
 withDefaults(
   defineProps<{
     selectedCount: number
@@ -80,7 +80,7 @@ const values = reactive({
   asset_status_id: '',
   remarks: null as string | null,
 })
-const fields = [
+const fields: readonly BulkUpdateField<keyof EquipmentAssetBulkUpdateValues>[] = [
   { key: 'equipment_item_id', label: 'Equipment item' },
   { key: 'batch_no', label: 'Batch number' },
   { key: 'procurement_date', label: 'Procurement date', type: 'date' },
@@ -103,7 +103,7 @@ const fields = [
     options: EQUIPMENT_ASSETS_ASSET_STATUS_OPTIONS,
   },
   { key: 'remarks', label: 'Remarks' },
-] as const
+]
 const validationError = ref('')
 const onSubmit = () => {
   const result = validateEquipmentBulkUpdate<EquipmentAssetBulkUpdateValues>({
