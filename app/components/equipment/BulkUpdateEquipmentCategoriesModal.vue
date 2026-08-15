@@ -11,7 +11,14 @@
         :message="errorMessage || validationError"
         tone="danger"
       />
-
+      <div class="space-y-2 rounded-lg border border-slate-200 p-3">
+        <BaseCheckbox v-model="enabled.is_active" label="Category status" />
+        <BaseCheckbox
+          v-model="values.is_active"
+          label="Active"
+          :disabled="!enabled.is_active"
+        />
+      </div>
     </form>
     <template #footer>
       <div class="flex justify-end gap-2">
