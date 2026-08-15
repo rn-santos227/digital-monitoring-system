@@ -4,7 +4,17 @@
     :description="EQUIPMENT_CATEGORIES_BULK_UPDATE_MODAL_DESCRIPTION"
     @close="emit('close')"
   >
-    <form class="space-y-4" @submit.prevent="onSubmit"></form>
+    <form class="space-y-4" @submit.prevent="onSubmit">
+
+    </form>
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton :disabled="isSubmitting" @click="onSubmit"
+          >Update {{ selectedCount }} selected
+        </BaseButton>
+      </div>
+    </template>
   </BaseModal>
 </template>
 
