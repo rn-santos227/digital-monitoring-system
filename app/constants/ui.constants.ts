@@ -1,4 +1,4 @@
-import type { LoginPageThemeStyle, KpiToneStyle, IconName } from '~/types/domain/misc'
+import type { LoginPageThemeStyle, KpiToneStyle, IconName, SelectOption } from '~/types/domain/misc'
 
 export type UiSize = 'sm' | 'md' | 'lg'
 export type UiTone = 'neutral' | 'success' | 'warning' | 'danger' | 'info'
@@ -61,6 +61,19 @@ export interface SuggestionFieldOption {
   value: string
   label: string
   description?: string
+}
+
+export interface BulkUpdateField<TKey extends PropertyKey> {
+  key: TKey
+  label: string
+  type?: 'text' | 'date' | 'number'
+  options?: readonly SelectOption[]
+}
+
+export interface BulkUpdateBooleanField<TKey extends PropertyKey> {
+  key: TKey
+  label: string
+  valueLabel: string
 }
 
 export interface BaseGeoMapPin {
