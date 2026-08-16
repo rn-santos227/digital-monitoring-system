@@ -18,7 +18,20 @@
         :key="field.key"
         class="space-y-2 rounded-lg border border-slate-200 p-3"
       >
-
+        <BaseCheckbox v-model="enabled[field.key]" :label="field.label" />
+        <EquipmentCategoriesSuggestionField
+          v-if="field.key === 'category_id'"
+          v-model="values.category_id"
+          :disabled="!enabled.category_id"
+        />
+        <BaseTextField
+          v-else
+          :model-value="formatBulkUpdateInputValue(values[field.key])"
+          :label="field.label"
+          :type="field.type"
+          @update:model-value="setFieldValue(field.key, $event, field.type)"
+          :disabled="!enabled[field.key]"
+        />
       </div>
     </form>
     <template #footer>
