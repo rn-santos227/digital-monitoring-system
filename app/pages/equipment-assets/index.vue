@@ -203,7 +203,15 @@ const {
   closeBulkUpdateEquipmentModal,
   updateSelectedEquipment,
 } = useBulkUpdateEquipmentHandler({
-
+  domain: 'equipment-assets',
+  label: 'equipment asset',
+  selectedIds: selectedEquipmentAssetIds,
+  isModalOpen: isBulkUpdateEquipmentModalOpen,
+  errorMessage: bulkUpdateEquipmentError,
+  reload: async () => {
+    await loadEquipmentAssets()
+  },
+  showDialog,
 })
 
 const { deleteSelectedEquipmentAssets } = useBulkDeleteEquipmentAssetsHandler({
