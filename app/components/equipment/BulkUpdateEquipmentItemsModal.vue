@@ -38,4 +38,15 @@ const enabled = reactive<Record<keyof EquipmentItemBulkUpdateValues, boolean>>({
   is_serialized: false,
   is_active: false,
 })
+const values = reactive({
+  category_id: '',
+  name: '',
+  model: null as string | null,
+  manufacturer: null as string | null,
+  description: null as string | null,
+  unit_of_measure: null as string | null,
+  minimum_stock_level: 0,
+  is_serialized: false,
+  is_active: true,
+})
 </script>
