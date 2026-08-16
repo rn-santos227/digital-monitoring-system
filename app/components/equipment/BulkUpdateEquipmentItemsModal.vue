@@ -67,4 +67,13 @@ const setFieldValue = (
     : value
   Reflect.set(values, key, normalizedValue)
 }
+const textFields: readonly BulkUpdateField<EquipmentItemTextFieldKey>[] = [
+  { key: 'category_id', label: 'Equipment category' },
+  { key: 'name', label: 'Item name' },
+  { key: 'model', label: 'Model' },
+  { key: 'manufacturer', label: 'Manufacturer' },
+  { key: 'description', label: 'Description' },
+  { key: 'unit_of_measure', label: 'Unit of measure' },
+  { key: 'minimum_stock_level', label: 'Minimum stock level', type: 'number' },
+]
 </script>
