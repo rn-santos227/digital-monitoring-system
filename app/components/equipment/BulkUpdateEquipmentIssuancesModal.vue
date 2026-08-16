@@ -52,6 +52,14 @@
           :options="field.options"
           :disabled="!enabled[field.key]"
         />
+        <BaseTextField
+          v-else
+          :model-value="formatBulkUpdateInputValue(values[field.key])"
+          @update:model-value="setFieldValue(field.key, $event, field.type)"
+          :label="field.label"
+          :type="field.type"
+          :disabled="!enabled[field.key]"
+        />
       </div>
     </form>
     <template #footer>
