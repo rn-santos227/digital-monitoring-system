@@ -70,6 +70,14 @@
         @close="closeUpdateEquipmentIssuanceModal"
         @submit="onUpdateEquipmentIssuanceWithFeedback"
       />
+
+      <BulkUpdateEquipmentIssuancesModal
+        v-if="isBulkUpdateEquipmentModalOpen"
+        :selected-count="selectedEquipmentIssuanceIds.length"
+        :error-message="bulkUpdateEquipmentError"
+        @close="closeBulkUpdateEquipmentModal"
+        @submit="updateSelectedEquipment"
+      />
     </section>
   </main>
 </template>
