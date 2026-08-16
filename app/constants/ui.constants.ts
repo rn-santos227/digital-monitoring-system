@@ -4,7 +4,6 @@ export type UiSize = 'sm' | 'md' | 'lg'
 export type UiTone = 'neutral' | 'success' | 'warning' | 'danger' | 'info'
 export type UiVariant =  'primary' | 'secondary' | 'ghost' | 'danger' | 'info' | 'warning' | 'success'
 export type KpiTone = 'emerald' | 'sky' | 'violet' | 'amber'
-export type BulkUpdateFieldType = 'text' | 'date' | 'number'
 
 export const KPI_TONE_STYLES: Record<KpiTone, KpiToneStyle> = {
   emerald: {
@@ -64,11 +63,22 @@ export interface SuggestionFieldOption {
   description?: string
 }
 
-export interface BulkUpdateField<TKey extends PropertyKey> {
+export type BulkUpdateFieldType = 'text' | 'date' | 'number'
+
+export interface BulkUpdateField<
+  TKey extends PropertyKey,
+  TType extends BulkUpdateFieldType = BulkUpdateFieldType,
+> {
   key: TKey
   label: string
-  type?: 'text' | 'date' | 'number'
+  type?: TType
   options?: readonly SelectOption[]
+}
+
+export interface BulkUpdateBooleanField<TKey extends PropertyKey> {
+  key: TKey
+  label: string
+  valueLabel: string
 }
 
 export interface BulkUpdateBooleanField<TKey extends PropertyKey> {
