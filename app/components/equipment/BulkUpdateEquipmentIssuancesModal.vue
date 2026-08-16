@@ -30,6 +30,12 @@
           :label="field.label"
           :disabled="!enabled[field.key]"
         />
+        <DeploymentSuggestionField
+          v-else-if="field.key === 'deployment_id'"
+          :model-value="formatBulkUpdateInputValue(values.deployment_id)"
+          :disabled="!enabled.deployment_id"
+          @update:model-value="setFieldValue('deployment_id', $event)"
+        />
       </div>
     </form>
     <template #footer>
