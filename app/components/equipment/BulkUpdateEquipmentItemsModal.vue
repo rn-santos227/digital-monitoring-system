@@ -49,4 +49,8 @@ const values = reactive({
   is_serialized: false,
   is_active: true,
 })
+type EquipmentItemTextFieldKey = Exclude<
+  keyof EquipmentItemBulkUpdateValues,
+  'is_serialized' | 'is_active'
+>
 </script>
