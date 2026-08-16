@@ -77,6 +77,14 @@
         @action="onTableAction"
       />
 
+      <BulkUpdateEquipmentAssetsModal
+        v-if="isBulkUpdateEquipmentModalOpen"
+        :selected-count="selectedEquipmentAssetIds.length"
+        :error-message="bulkUpdateEquipmentError"
+        @close="closeBulkUpdateEquipmentModal"
+        @submit="updateSelectedEquipment"
+      />
+
       <CreateEquipmentAssetModal
         v-if="isCreateEquipmentAssetModalOpen"
         @close="onCloseCreateEquipmentAssetModal"
