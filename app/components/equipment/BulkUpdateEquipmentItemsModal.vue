@@ -57,4 +57,11 @@ type EquipmentItemBooleanFieldKey = Extract<
   keyof EquipmentItemBulkUpdateValues,
   'is_serialized' | 'is_active'
 >
+const setFieldValue = (
+  key: EquipmentItemTextFieldKey,
+  value: string,
+  type?: BulkUpdateField<EquipmentItemTextFieldKey>['type'],
+) => {
+
+}
 </script>
