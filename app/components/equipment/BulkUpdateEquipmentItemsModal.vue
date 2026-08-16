@@ -15,5 +15,13 @@ import {
   formatBulkUpdateInputValue,
   validateEquipmentBulkUpdate,
 } from '~/utils/bulk-management-validation'
+withDefaults(
+  defineProps<{
+    selectedCount: number
+    isSubmitting?: boolean
+    errorMessage?: string
+  }>(),
+  { isSubmitting: false, errorMessage: '' },
+)
 
 </script>
