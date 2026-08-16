@@ -11,5 +11,9 @@ import {
   EQUIPMENT_ITEMS_BULK_UPDATE_MODAL_TITLE,
 } from '~/constants/page.constants'
 import type { EquipmentItemBulkUpdateValues } from '~/types/domain/equipment'
+import {
+  formatBulkUpdateInputValue,
+  validateEquipmentBulkUpdate,
+} from '~/utils/bulk-management-validation'
 
 </script>
