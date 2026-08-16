@@ -76,4 +76,12 @@ const textFields: readonly BulkUpdateField<EquipmentItemTextFieldKey>[] = [
   { key: 'unit_of_measure', label: 'Unit of measure' },
   { key: 'minimum_stock_level', label: 'Minimum stock level', type: 'number' },
 ]
+const booleanFields: readonly BulkUpdateBooleanField<EquipmentItemBooleanFieldKey>[] = [
+  {
+    key: 'is_serialized',
+    label: 'Serialization',
+    valueLabel: 'Serialized item',
+  },
+  { key: 'is_active', label: 'Item status', valueLabel: 'Active' },
+]
 </script>
