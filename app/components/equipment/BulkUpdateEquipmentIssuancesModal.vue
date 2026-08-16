@@ -14,7 +14,13 @@
         :message="errorMessage || validationError"
         tone="danger"
       />
+      <div
+        v-for="field in fields"
+        :key="field.key"
+        class="space-y-2 rounded-lg border border-slate-200 p-3"
+      >
 
+      </div>
     </form>
     <template #footer>
       <div class="flex justify-end gap-2">
