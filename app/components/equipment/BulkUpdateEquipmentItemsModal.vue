@@ -62,6 +62,9 @@ const setFieldValue = (
   value: string,
   type?: BulkUpdateField<EquipmentItemTextFieldKey>['type'],
 ) => {
-
+  const normalizedValue = type === 'number'
+    ? (value === '' ? 0 : Number(value))
+    : value
+  Reflect.set(values, key, normalizedValue)
 }
 </script>
