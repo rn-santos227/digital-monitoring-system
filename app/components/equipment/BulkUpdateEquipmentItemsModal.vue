@@ -84,4 +84,8 @@ const booleanFields: readonly BulkUpdateBooleanField<EquipmentItemBooleanFieldKe
   },
   { key: 'is_active', label: 'Item status', valueLabel: 'Active' },
 ]
+const validationError = ref('')
+const onSubmit = () => {
+
+}
 </script>
