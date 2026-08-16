@@ -1,5 +1,15 @@
 <template>
-
+  <BaseModal
+    :title="EQUIPMENT_ITEMS_BULK_UPDATE_MODAL_TITLE"
+    :description="EQUIPMENT_ITEMS_BULK_UPDATE_MODAL_DESCRIPTION"
+    size="lg"
+    scroll-body
+    @close="emit('close')"
+  >
+    <form class="space-y-4" @submit.prevent="onSubmit">
+      
+    </form>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
