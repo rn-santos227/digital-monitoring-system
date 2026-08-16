@@ -87,6 +87,14 @@
         :category="selectedEquipmentCategory"
         @close="closeViewEquipmentCategoryModal"
       />
+
+      <BulkUpdateEquipmentCategoriesModal
+        v-if="isBulkUpdateEquipmentModalOpen"
+        :selected-count="selectedEquipmentCategoryIds.length"
+        :error-message="bulkUpdateEquipmentError"
+        @close="closeBulkUpdateEquipmentModal"
+        @submit="updateSelectedEquipment"
+      />
     </section>
   </main>
 </template>
