@@ -103,6 +103,7 @@
 import { computed, ref, watch } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateEquipmentAssetModal from '~/components/equipment/CreateEquipmentAssetModal.vue'
+import BulkUpdateEquipmentAssetsModal from '~/components/equipment/BulkUpdateEquipmentAssetsModal.vue'
 import EquipmentAssetsFilter from '~/components/equipment/EquipmentAssetsFilter.vue'
 import EquipmentAssetCards from '~/components/equipment/EquipmentAssetCards.vue'
 import EquipmentAssetsTable from '~/components/equipment/EquipmentAssetsTable.vue'
@@ -126,6 +127,7 @@ import {
   useCreateEquipmentAssetHandler,
   useDeleteEquipmentAssetHandler,
   useBulkDeleteEquipmentAssetsHandler,
+  useBulkUpdateEquipmentHandler,
   useEquipmentListHandlers,
   useEquipmentSearchHandlers,
   useUpdateEquipmentAssetHandler,
