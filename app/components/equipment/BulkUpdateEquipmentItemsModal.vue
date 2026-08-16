@@ -53,4 +53,8 @@ type EquipmentItemTextFieldKey = Exclude<
   keyof EquipmentItemBulkUpdateValues,
   'is_serialized' | 'is_active'
 >
+type EquipmentItemBooleanFieldKey = Extract<
+  keyof EquipmentItemBulkUpdateValues,
+  'is_serialized' | 'is_active'
+>
 </script>
