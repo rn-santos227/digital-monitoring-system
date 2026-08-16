@@ -4,6 +4,7 @@ export type UiSize = 'sm' | 'md' | 'lg'
 export type UiTone = 'neutral' | 'success' | 'warning' | 'danger' | 'info'
 export type UiVariant =  'primary' | 'secondary' | 'ghost' | 'danger' | 'info' | 'warning' | 'success'
 export type KpiTone = 'emerald' | 'sky' | 'violet' | 'amber'
+export type BulkUpdateFieldType = 'text' | 'date' | 'number'
 
 export const KPI_TONE_STYLES: Record<KpiTone, KpiToneStyle> = {
   emerald: {
