@@ -65,6 +65,7 @@
         @action="onTableAction"
         @update:current-page="onPageChange"
         @update:page-size="onPageSizeChange"
+        @bulk-update="openBulkUpdateEquipmentModal"
         @bulk-delete="deleteSelectedEquipmentAssets"
       />
 

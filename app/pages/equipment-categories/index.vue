@@ -94,6 +94,7 @@
 import { computed, ref } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateEquipmentCategoryModal from '~/components/equipment/CreateEquipmentCategoryModal.vue'
+import BulkUpdateEquipmentCategoriesModal from '~/components/equipment/BulkUpdateEquipmentCategoriesModal.vue'
 import EquipmentCategoriesFilter from '~/components/equipment/EquipmentCategoriesFilter.vue'
 import EquipmentCategoriesTable from '~/components/equipment/EquipmentCategoriesTable.vue'
 import UpdateEquipmentCategoryModal from '~/components/equipment/UpdateEquipmentCategoryModal.vue'
@@ -114,6 +115,7 @@ import {
   useCreateEquipmentCategoryHandler,
   useDeleteEquipmentCategoryHandler,
   useBulkDeleteEquipmentCategoriesHandler,
+  useBulkUpdateEquipmentHandler,
   useEquipmentCategoryPageHandlers,
   useEquipmentListHandlers,
   useUpdateEquipmentCategoryHandler,
