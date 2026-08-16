@@ -27,5 +27,15 @@ const emit = defineEmits<{
   (event: 'close'): void
   (event: 'submit', payload: EquipmentItemBulkUpdateValues): void
 }>()
-
+const enabled = reactive<Record<keyof EquipmentItemBulkUpdateValues, boolean>>({
+  category_id: false,
+  name: false,
+  model: false,
+  manufacturer: false,
+  description: false,
+  unit_of_measure: false,
+  minimum_stock_level: false,
+  is_serialized: false,
+  is_active: false,
+})
 </script>
