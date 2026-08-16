@@ -33,6 +33,18 @@
           :disabled="!enabled[field.key]"
         />
       </div>
+      <div
+        v-for="field in booleanFields"
+        :key="field.key"
+        class="space-y-2 rounded-lg border border-slate-200 p-3"
+      >
+        <BaseCheckbox v-model="enabled[field.key]" :label="field.label" />
+        <BaseCheckbox
+          v-model="values[field.key]"
+          :label="field.valueLabel"
+          :disabled="!enabled[field.key]"
+        />
+      </div>
     </form>
     <template #footer>
       <div class="flex justify-end gap-2">
