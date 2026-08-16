@@ -96,21 +96,30 @@ type EquipmentItemTextFieldKey = Exclude<
   keyof EquipmentItemBulkUpdateValues,
   'is_serialized' | 'is_active'
 >
+type EquipmentItemTextInputType = 'text' | 'number'
 type EquipmentItemBooleanFieldKey = Extract<
   keyof EquipmentItemBulkUpdateValues,
   'is_serialized' | 'is_active'
 >
+
 const setFieldValue = (
   key: EquipmentItemTextFieldKey,
   value: string,
-  type?: BulkUpdateField<EquipmentItemTextFieldKey>['type'],
+  type?: BulkUpdateField<
+    EquipmentItemTextFieldKey,
+    EquipmentItemTextInputType
+  >['type'],
 ) => {
   const normalizedValue = type === 'number'
     ? (value === '' ? 0 : Number(value))
     : value
   Reflect.set(values, key, normalizedValue)
 }
-const textFields: readonly BulkUpdateField<EquipmentItemTextFieldKey>[] = [
+
+const textFields: readonly BulkUpdateField<
+  EquipmentItemTextFieldKey,
+  EquipmentItemTextInputType
+>[] = [
   { key: 'category_id', label: 'Equipment category' },
   { key: 'name', label: 'Item name' },
   { key: 'model', label: 'Model' },
