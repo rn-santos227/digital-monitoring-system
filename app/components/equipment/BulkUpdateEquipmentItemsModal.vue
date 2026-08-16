@@ -92,5 +92,7 @@ const onSubmit = () => {
     requiredFields: ['category_id', 'name'],
     numericFields: ['minimum_stock_level'],
   })
+  validationError.value = result.error
+  if (result.payload) emit('submit', result.payload)
 }
 </script>
