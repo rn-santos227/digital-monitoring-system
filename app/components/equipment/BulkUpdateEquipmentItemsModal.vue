@@ -86,6 +86,11 @@ const booleanFields: readonly BulkUpdateBooleanField<EquipmentItemBooleanFieldKe
 ]
 const validationError = ref('')
 const onSubmit = () => {
-
+  const result = validateEquipmentBulkUpdate<EquipmentItemBulkUpdateValues>({
+    enabled,
+    values,
+    requiredFields: ['category_id', 'name'],
+    numericFields: ['minimum_stock_level'],
+  })
 }
 </script>
