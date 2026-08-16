@@ -65,6 +65,7 @@
         @action="onTableAction"
         @update:current-page="onPageChange"
         @update:page-size="onPageSizeChange"
+        @bulk-update="openBulkUpdateEquipmentModal"
         @bulk-delete="deleteSelectedEquipmentCategories"
       />
 
@@ -165,6 +166,22 @@ const selectedEquipmentCategory = ref<EquipmentCategoryDetailItem | null>(null)
 const selectedEquipmentCategoryIds = ref<string[]>([])
 const isBulkUpdateEquipmentModalOpen = ref(false)
 const bulkUpdateEquipmentError = ref('')
+
+const {
+  openBulkUpdateEquipmentModal,
+  closeBulkUpdateEquipmentModal,
+  updateSelectedEquipment,
+} = useBulkUpdateEquipmentHandler({
+  domain: 'equipment-categories',
+  label: 'equipment category',
+  selectedIds: selectedEquipmentCategoryIds,
+  isModalOpen: isBulkUpdateEquipmentModalOpen,
+  errorMessage: bulkUpdateEquipmentError,
+  reload: async () => {
+    await loadEquipmentCategories()
+  },
+  showDialog,
+})
 
 const { deleteSelectedEquipmentCategories } = useBulkDeleteEquipmentCategoriesHandler({
   selectedIds: selectedEquipmentCategoryIds,
