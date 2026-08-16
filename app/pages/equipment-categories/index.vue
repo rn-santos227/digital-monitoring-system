@@ -163,6 +163,8 @@ const isUpdateEquipmentCategoryModalOpen = ref(false)
 const isViewEquipmentCategoryModalOpen = ref(false)
 const selectedEquipmentCategory = ref<EquipmentCategoryDetailItem | null>(null)
 const selectedEquipmentCategoryIds = ref<string[]>([])
+const isBulkUpdateEquipmentModalOpen = ref(false)
+const bulkUpdateEquipmentError = ref('')
 
 const { deleteSelectedEquipmentCategories } = useBulkDeleteEquipmentCategoriesHandler({
   selectedIds: selectedEquipmentCategoryIds,
