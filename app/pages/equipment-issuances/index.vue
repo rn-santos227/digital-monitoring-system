@@ -77,6 +77,7 @@
 import { computed, ref } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateEquipmentIssuanceModal from '~/components/equipment/CreateEquipmentIssuanceModal.vue'
+import BulkUpdateEquipmentIssuancesModal from '~/components/equipment/BulkUpdateEquipmentIssuancesModal.vue'
 import UpdateEquipmentIssuanceModal from '~/components/equipment/UpdateEquipmentIssuanceModal.vue'
 import ViewEquipmentIssuanceModal from '~/components/equipment/ViewEquipmentIssuanceModal.vue'
 import EquipmentIssuancesFilter from '~/components/equipment/EquipmentIssuancesFilter.vue'
@@ -97,6 +98,7 @@ import {
   useCreateEquipmentIssuanceHandler,
   useDeleteEquipmentIssuanceHandler,
   useBulkDeleteEquipmentIssuancesHandler,
+  useBulkUpdateEquipmentHandler,
   useEquipmentListHandlers,
   useEquipmentSearchHandlers,
   useUpdateEquipmentIssuanceHandler,
@@ -150,6 +152,8 @@ const isUpdateEquipmentIssuanceModalOpen = ref(false)
 const selectedViewEquipmentIssuance = ref<EquipmentIssuanceListItem | null>(null)
 const selectedEquipmentIssuance = ref<EquipmentIssuanceListItem | null>(null)
 const selectedEquipmentIssuanceIds = ref<string[]>([])
+const isBulkUpdateEquipmentModalOpen = ref(false)
+const bulkUpdateEquipmentError = ref('')
 
 const { deleteSelectedEquipmentIssuances } = useBulkDeleteEquipmentIssuancesHandler({
   selectedIds: selectedEquipmentIssuanceIds,
