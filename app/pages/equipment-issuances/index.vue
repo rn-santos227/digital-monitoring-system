@@ -44,6 +44,7 @@
         @action="onTableAction"
         @update:current-page="onPageChange"
         @update:page-size="onPageSizeChange"
+        @bulk-update="openBulkUpdateEquipmentModal"
         @bulk-delete="deleteSelectedEquipmentIssuances"
       />
 
@@ -154,6 +155,22 @@ const selectedEquipmentIssuance = ref<EquipmentIssuanceListItem | null>(null)
 const selectedEquipmentIssuanceIds = ref<string[]>([])
 const isBulkUpdateEquipmentModalOpen = ref(false)
 const bulkUpdateEquipmentError = ref('')
+
+const {
+  openBulkUpdateEquipmentModal,
+  closeBulkUpdateEquipmentModal,
+  updateSelectedEquipment,
+} = useBulkUpdateEquipmentHandler({
+  domain: 'equipment-issuances',
+  label: 'equipment issuance',
+  selectedIds: selectedEquipmentIssuanceIds,
+  isModalOpen: isBulkUpdateEquipmentModalOpen,
+  errorMessage: bulkUpdateEquipmentError,
+  reload: async () => {
+    await loadEquipmentIssuances()
+  },
+  showDialog,
+})
 
 const { deleteSelectedEquipmentIssuances } = useBulkDeleteEquipmentIssuancesHandler({
   selectedIds: selectedEquipmentIssuanceIds,
