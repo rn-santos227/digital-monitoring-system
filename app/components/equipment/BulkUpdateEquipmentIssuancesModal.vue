@@ -105,14 +105,15 @@ const values = reactive({
 })
 const setFieldValue = (
   key: keyof EquipmentIssuanceBulkUpdateValues,
-  value: string,
+  value: string | null,
   type?: BulkUpdateField<keyof EquipmentIssuanceBulkUpdateValues>['type'],
 ) => {
   const normalizedValue = type === 'number'
-    ? (value === '' ? null : Number(value))
+    ? (value === null || value === '' ? null : Number(value))
     : value
   Reflect.set(values, key, normalizedValue)
 }
+
 const fields: readonly BulkUpdateField<keyof EquipmentIssuanceBulkUpdateValues>[] = [
   { key: 'issued_to_personnel_id', label: 'Issued to personnel' },
   { key: 'issued_by_personnel_id', label: 'Issued by personnel' },
