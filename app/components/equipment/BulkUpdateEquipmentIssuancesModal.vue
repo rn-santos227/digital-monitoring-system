@@ -20,6 +20,7 @@
         class="space-y-2 rounded-lg border border-slate-200 p-3"
       >
         <BaseCheckbox v-model="enabled[field.key]" :label="field.label" />
+        <BaseCheckbox v-model="enabled[field.key]" :label="field.label" />
         <PersonnelSuggestionField
           v-if="
             field.key === 'issued_to_personnel_id' ||
@@ -35,6 +36,13 @@
           :model-value="formatBulkUpdateInputValue(values.deployment_id)"
           :disabled="!enabled.deployment_id"
           @update:model-value="setFieldValue('deployment_id', $event)"
+        />
+        <BaseDatePicker
+          v-else-if="field.type === 'date'"
+          :model-value="formatBulkUpdateInputValue(values[field.key])"
+          @update:model-value="setFieldValue(field.key, $event, field.type)"
+          :label="field.label"
+          :disabled="!enabled[field.key]"
         />
       </div>
     </form>
