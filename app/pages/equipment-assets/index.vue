@@ -198,6 +198,13 @@ const selectedEquipmentAssetIds = ref<string[]>([])
 const isBulkUpdateEquipmentModalOpen = ref(false)
 const bulkUpdateEquipmentError = ref('')
 
+const {
+  openBulkUpdateEquipmentModal,
+  closeBulkUpdateEquipmentModal,
+  updateSelectedEquipment,
+} = useBulkUpdateEquipmentHandler({
+
+})
 
 const { deleteSelectedEquipmentAssets } = useBulkDeleteEquipmentAssetsHandler({
   selectedIds: selectedEquipmentAssetIds,
