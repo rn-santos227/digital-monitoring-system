@@ -262,3 +262,11 @@ export const validateEquipmentBulkUpdate = <T extends object>({
 
   return { error: '', payload }
 }
+
+export const validateIncidentBulkUpdate = ({
+  enabled,
+  values,
+}: ValidateIncidentBulkUpdateOptions): BulkUpdateValidationResult<EquipmentIncidentBulkUpdateValues> => {
+
+
+}
