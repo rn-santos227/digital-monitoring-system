@@ -44,6 +44,7 @@
         @action="onTableAction"
         @update:current-page="onPageChange"
         @update:page-size="onPageSizeChange"
+        @bulk-update="openBulkUpdateEquipmentModal"
         @bulk-delete="deleteSelectedEquipmentItems"
       />
 
@@ -58,6 +59,14 @@
         :initial-values="selectedEquipmentItemFormValues"
         @close="closeUpdateEquipmentItemModal"
         @submit="onUpdateEquipmentItem"
+      />
+
+      <BulkUpdateEquipmentItemsModal
+        v-if="isBulkUpdateEquipmentModalOpen"
+        :selected-count="selectedEquipmentItemIds.length"
+        :error-message="bulkUpdateEquipmentError"
+        @close="closeBulkUpdateEquipmentModal"
+        @submit="updateSelectedEquipment"
       />
     </section>
   </main>
