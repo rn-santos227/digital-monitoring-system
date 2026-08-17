@@ -40,7 +40,12 @@ export const useBulkUpdateIncidentsHandler = (options: BulkUpdateIncidentsHandle
         error,
         'No incidents were updated. Review the selected values and try again.',
       )
-
+      await options.showDialog({
+        type: 'error',
+        title: 'Bulk update failed',
+        message: options.errorMessage.value,
+        confirmLabel: 'OK',
+      })
     } finally {
       options.isSubmitting.value = false
     }
