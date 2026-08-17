@@ -89,4 +89,8 @@ const fields: readonly IncidentBulkUpdateField[] = [
   { key: 'resolution', label: 'Resolution', multiline: true },
   { key: 'remarks', label: 'Remarks', multiline: true },
 ]
+
+const incidentTypeOptions = ref<SelectOption[]>([...EQUIPMENT_INCIDENTS_INCIDENT_TYPE_OPTIONS])
+const investigationStatusOptions = ref<SelectOption[]>([...EQUIPMENT_INCIDENTS_INVESTIGATION_STATUS_OPTIONS])
+const validationError = ref('')
 </script>
