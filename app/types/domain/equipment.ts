@@ -549,7 +549,6 @@ export interface EquipmentIssuancesState {
 export interface EquipmentCategoryBulkUpdateValues {
   is_active?: boolean
 }
-
 export interface EquipmentItemBulkUpdateValues {
   category_id?: string
   name?: string

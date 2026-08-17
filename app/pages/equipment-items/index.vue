@@ -67,6 +67,7 @@
 import { computed, ref } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import CreateEquipmentItemModal from '~/components/equipment/CreateEquipmentItemModal.vue'
+import BulkUpdateEquipmentItemsModal from '~/components/equipment/BulkUpdateEquipmentItemsModal.vue'
 import EquipmentItemsFilter from '~/components/equipment/EquipmentItemsFilter.vue'
 import EquipmentItemsTable from '~/components/equipment/EquipmentItemsTable.vue'
 import UpdateEquipmentItemModal from '~/components/equipment/UpdateEquipmentItemModal.vue'
@@ -86,6 +87,7 @@ import {
   useCreateEquipmentItemHandler,
   useDeleteEquipmentItemHandler,
   useBulkDeleteEquipmentItemsHandler,
+  useBulkUpdateEquipmentHandler,
   useEquipmentListHandlers,
   useEquipmentSearchHandlers,
   useUpdateEquipmentItemHandler,
