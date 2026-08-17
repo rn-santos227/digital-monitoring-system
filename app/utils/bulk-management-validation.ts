@@ -280,4 +280,7 @@ export const validateIncidentBulkUpdate = ({
     'incident_date',
     'description',
   ]
+  if (requiredFields.some((field) => enabled[field] && !String(values[field] ?? '').trim())) {
+    return { error: 'Enabled required fields cannot be empty.', payload: null }
+  }
 }
