@@ -102,4 +102,18 @@ onMounted(async () => {
   incidentTypeOptions.value = incidentTypes.items.map((item) => ({ label: item.name, value: item.id }))
   investigationStatusOptions.value = investigationStatuses.items.map((item) => ({ label: item.name, value: item.id }))
 })
+
+const setStringValue = (key: keyof EquipmentIncidentBulkUpdateValues, value: string) => {
+  values[key] = value
+}
+
+const setFieldValue = (key: keyof EquipmentIncidentBulkUpdateValues, value: string, type?: string) => {
+  values[key] = type === 'number' ? (value === '' ? null : Number(value)) : value
+}
+
+const onSubmit = () => {
+  const result = validateIncidentBulkUpdate({ enabled, values })
+  validationError.value = result.error
+  if (result.payload) emit('submit', result.payload)
+}
 </script>
