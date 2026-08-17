@@ -19,4 +19,8 @@ export const useBulkUpdateIncidentsHandler = (options: BulkUpdateIncidentsHandle
     options.isModalOpen.value = true
   }
 
+  const closeBulkUpdateIncidentsModal = () => {
+    options.errorMessage.value = ''
+    options.isModalOpen.value = false
+  }
 }
