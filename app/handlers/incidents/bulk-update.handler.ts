@@ -36,6 +36,10 @@ export const useBulkUpdateIncidentsHandler = (options: BulkUpdateIncidentsHandle
     try {
 
     } catch (error: unknown) {
+      options.errorMessage.value = extractApiErrorMessage(
+        error,
+        'No incidents were updated. Review the selected values and try again.',
+      )
 
     } finally {
       options.isSubmitting.value = false
