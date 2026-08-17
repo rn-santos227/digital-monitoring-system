@@ -32,4 +32,9 @@ withDefaults(defineProps<{
   isSubmitting: false,
   errorMessage: '',
 })
+
+const emit = defineEmits<{
+  (event: 'close'): void
+  (event: 'submit', payload: EquipmentIncidentBulkUpdateValues): void
+}>()
 </script>
