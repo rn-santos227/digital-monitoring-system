@@ -12,3 +12,7 @@ interface BulkUpdateIncidentsHandlerOptions {
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
+
+export const useBulkUpdateIncidentsHandler = (options: BulkUpdateIncidentsHandlerOptions) => {
+
+}
