@@ -23,4 +23,14 @@ export const useBulkUpdateIncidentsHandler = (options: BulkUpdateIncidentsHandle
     options.errorMessage.value = ''
     options.isModalOpen.value = false
   }
+
+  const updateSelectedIncidents = async (updates: EquipmentIncidentBulkUpdateValues) => {
+
+  }
+
+  return {
+    openBulkUpdateIncidentsModal,
+    closeBulkUpdateIncidentsModal,
+    updateSelectedIncidents,
+  }
 }
