@@ -270,5 +270,8 @@ export const validateIncidentBulkUpdate = ({
   const fields = Object.keys(enabled) as Array<keyof EquipmentIncidentBulkUpdateValues>
   const selectedFields = fields.filter((field) => enabled[field])
 
+  if (selectedFields.length === 0) {
+    return { error: 'Select at least one field to update.', payload: null }
+  }
 
 }
