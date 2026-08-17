@@ -94,6 +94,21 @@ export interface CreateEquipmentIncidentPayload {
 
 export type UpdateEquipmentIncidentPayload = Partial<CreateEquipmentIncidentPayload>
 
+export interface EquipmentIncidentBulkUpdateValues {
+  equipment_asset_id?: string
+  personnel_id?: string | null
+  deployment_id?: string | null
+  incident_type_id?: string
+  incident_date?: string
+  location?: string | null
+  location_latitude?: number | null
+  location_longitude?: number | null
+  description?: string
+  investigation_status_id?: string | null
+  resolution?: string | null
+  remarks?: string | null
+}
+
 export interface UpdateEquipmentIncidentDetailsPayload {
   incidentNo: string
   incidentTypeId: string
