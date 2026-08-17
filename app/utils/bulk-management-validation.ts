@@ -52,7 +52,8 @@ interface ValidateEquipmentBulkUpdateOptions<
 }
 
 interface ValidateIncidentBulkUpdateOptions {
-
+  enabled: Readonly<Record<keyof EquipmentIncidentBulkUpdateValues, boolean>>
+  values: Readonly<Record<keyof EquipmentIncidentBulkUpdateValues, string | number | null>>
 }
 
 export const formatBulkUpdateInputValue = (value: unknown): string =>
