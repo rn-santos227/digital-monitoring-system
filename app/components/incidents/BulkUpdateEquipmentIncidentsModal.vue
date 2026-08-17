@@ -52,4 +52,19 @@ const enabled = reactive<Record<keyof EquipmentIncidentBulkUpdateValues, boolean
   resolution: false,
   remarks: false,
 })
+
+const values = reactive<Record<keyof EquipmentIncidentBulkUpdateValues, string | number | null>>({
+  equipment_asset_id: '',
+  personnel_id: null,
+  deployment_id: null,
+  incident_type_id: '',
+  incident_date: '',
+  location: null,
+  location_latitude: null,
+  location_longitude: null,
+  description: '',
+  investigation_status_id: null,
+  resolution: null,
+  remarks: null,
+})
 </script>
