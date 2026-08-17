@@ -67,4 +67,11 @@ const values = reactive<Record<keyof EquipmentIncidentBulkUpdateValues, string |
   resolution: null,
   remarks: null,
 })
+
+interface IncidentBulkUpdateField {
+  key: keyof EquipmentIncidentBulkUpdateValues
+  label: string
+  type?: 'text' | 'date' | 'number'
+  multiline?: boolean
+}
 </script>
