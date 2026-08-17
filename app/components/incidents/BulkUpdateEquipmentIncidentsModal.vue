@@ -23,4 +23,13 @@ import {
   getIncidentTypeSuggestionsEndpoint,
   getInvestigationStatusSuggestionsEndpoint,
 } from '~/utils/incident-endpoints'
+
+withDefaults(defineProps<{
+  selectedCount: number
+  isSubmitting?: boolean
+  errorMessage?: string
+}>(), {
+  isSubmitting: false,
+  errorMessage: '',
+})
 </script>
