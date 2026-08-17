@@ -5,5 +5,10 @@ import { extractApiErrorMessage } from '~/utils/api-request'
 import { updateBulkRecordsEndpoint } from '~/utils/bulk-management-endpoints'
 
 interface BulkUpdateIncidentsHandlerOptions {
-
+  selectedIds: Ref<string[]>
+  isModalOpen: Ref<boolean>
+  errorMessage: Ref<string>
+  isSubmitting: Ref<boolean>
+  reload: () => Promise<void>
+  showDialog: (input: DialogInput) => Promise<DialogResult>
 }
