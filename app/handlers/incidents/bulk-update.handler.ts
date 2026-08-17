@@ -38,7 +38,12 @@ export const useBulkUpdateIncidentsHandler = (options: BulkUpdateIncidentsHandle
       options.selectedIds.value = []
       closeBulkUpdateIncidentsModal()
       await options.reload()
-
+      await options.showDialog({
+        type: 'success',
+        title: 'Bulk update complete',
+        message: `${response.affectedCount} ${response.affectedCount === 1 ? 'incident' : 'incidents'} updated successfully.`,
+        confirmLabel: 'OK',
+      })
     } catch (error: unknown) {
       options.errorMessage.value = extractApiErrorMessage(
         error,
