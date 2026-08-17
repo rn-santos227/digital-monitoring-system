@@ -267,6 +267,8 @@ export const validateIncidentBulkUpdate = ({
   enabled,
   values,
 }: ValidateIncidentBulkUpdateOptions): BulkUpdateValidationResult<EquipmentIncidentBulkUpdateValues> => {
+  const fields = Object.keys(enabled) as Array<keyof EquipmentIncidentBulkUpdateValues>
+  const selectedFields = fields.filter((field) => enabled[field])
 
 
 }
