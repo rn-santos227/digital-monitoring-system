@@ -293,4 +293,12 @@ export const validateIncidentBulkUpdate = ({
   if (enabled.location_longitude && longitude !== null && (typeof longitude !== 'number' || !Number.isFinite(longitude) || longitude < -180 || longitude > 180)) {
     return { error: 'Longitude must be between -180 and 180.', payload: null }
   }
+
+  const payload: EquipmentIncidentBulkUpdateValues = {}
+  selectedFields.forEach((field) => {
+    const value = values[field]
+    Reflect.set(payload, field, typeof value === 'string' ? value.trim() || null : value)
+  })
+
+  return { error: '', payload }
 }
