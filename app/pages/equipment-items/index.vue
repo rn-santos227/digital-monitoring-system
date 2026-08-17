@@ -137,6 +137,22 @@ const selectedEquipmentItemIds = ref<string[]>([])
 const isBulkUpdateEquipmentModalOpen = ref(false)
 const bulkUpdateEquipmentError = ref('')
 
+const {
+  openBulkUpdateEquipmentModal,
+  closeBulkUpdateEquipmentModal,
+  updateSelectedEquipment,
+} = useBulkUpdateEquipmentHandler({
+  domain: 'equipment-items',
+  label: 'equipment item',
+  selectedIds: selectedEquipmentItemIds,
+  isModalOpen: isBulkUpdateEquipmentModalOpen,
+  errorMessage: bulkUpdateEquipmentError,
+  reload: async () => {
+    await loadEquipmentItems()
+  },
+  showDialog,
+})
+
 const { deleteSelectedEquipmentItems } = useBulkDeleteEquipmentItemsHandler({
   selectedIds: selectedEquipmentItemIds,
   reload: async () => {
