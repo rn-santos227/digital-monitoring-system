@@ -93,4 +93,13 @@ const fields: readonly IncidentBulkUpdateField[] = [
 const incidentTypeOptions = ref<SelectOption[]>([...EQUIPMENT_INCIDENTS_INCIDENT_TYPE_OPTIONS])
 const investigationStatusOptions = ref<SelectOption[]>([...EQUIPMENT_INCIDENTS_INVESTIGATION_STATUS_OPTIONS])
 const validationError = ref('')
+
+onMounted(async () => {
+  const [incidentTypes, investigationStatuses] = await Promise.all([
+    getIncidentTypeSuggestionsEndpoint(),
+    getInvestigationStatusSuggestionsEndpoint(),
+  ])
+  incidentTypeOptions.value = incidentTypes.items.map((item) => ({ label: item.name, value: item.id }))
+  investigationStatusOptions.value = investigationStatuses.items.map((item) => ({ label: item.name, value: item.id }))
+})
 </script>
