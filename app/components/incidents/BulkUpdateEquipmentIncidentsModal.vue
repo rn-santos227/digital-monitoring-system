@@ -74,4 +74,19 @@ interface IncidentBulkUpdateField {
   type?: 'text' | 'date' | 'number'
   multiline?: boolean
 }
+
+const fields: readonly IncidentBulkUpdateField[] = [
+  { key: 'equipment_asset_id', label: 'Equipment asset' },
+  { key: 'personnel_id', label: 'Personnel' },
+  { key: 'deployment_id', label: 'Deployment' },
+  { key: 'incident_type_id', label: 'Incident type' },
+  { key: 'incident_date', label: 'Incident date', type: 'date' },
+  { key: 'location', label: 'Location' },
+  { key: 'location_latitude', label: 'Latitude', type: 'number' },
+  { key: 'location_longitude', label: 'Longitude', type: 'number' },
+  { key: 'description', label: 'Description', multiline: true },
+  { key: 'investigation_status_id', label: 'Investigation status' },
+  { key: 'resolution', label: 'Resolution', multiline: true },
+  { key: 'remarks', label: 'Remarks', multiline: true },
+]
 </script>
