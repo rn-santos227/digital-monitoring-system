@@ -51,6 +51,10 @@ interface ValidateEquipmentBulkUpdateOptions<
   numericFields?: readonly (keyof T)[]
 }
 
+interface ValidateIncidentBulkUpdateOptions {
+
+}
+
 export const formatBulkUpdateInputValue = (value: unknown): string =>
   value === null || value === undefined ? '' : String(value)
 
