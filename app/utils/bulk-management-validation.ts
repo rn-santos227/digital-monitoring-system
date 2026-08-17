@@ -288,4 +288,9 @@ export const validateIncidentBulkUpdate = ({
   if (enabled.location_latitude && latitude !== null && (typeof latitude !== 'number' || !Number.isFinite(latitude) || latitude < -90 || latitude > 90)) {
     return { error: 'Latitude must be between -90 and 90.', payload: null }
   }
+
+  const longitude = values.location_longitude
+  if (enabled.location_longitude && longitude !== null && (typeof longitude !== 'number' || !Number.isFinite(longitude) || longitude < -180 || longitude > 180)) {
+    return { error: 'Longitude must be between -180 and 180.', payload: null }
+  }
 }
