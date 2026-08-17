@@ -4,3 +4,6 @@ import type { EquipmentIncidentBulkUpdateValues } from '~/types/domain/incident'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { updateBulkRecordsEndpoint } from '~/utils/bulk-management-endpoints'
 
+interface BulkUpdateIncidentsHandlerOptions {
+
+}
