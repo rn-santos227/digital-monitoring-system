@@ -134,6 +134,8 @@ const isCreateEquipmentItemModalOpen = ref(false)
 const isUpdateEquipmentItemModalOpen = ref(false)
 const selectedEquipmentItem = ref<EquipmentItemListItem | null>(null)
 const selectedEquipmentItemIds = ref<string[]>([])
+const isBulkUpdateEquipmentModalOpen = ref(false)
+const bulkUpdateEquipmentError = ref('')
 
 const { deleteSelectedEquipmentItems } = useBulkDeleteEquipmentItemsHandler({
   selectedIds: selectedEquipmentItemIds,
