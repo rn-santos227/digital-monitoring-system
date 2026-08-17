@@ -274,4 +274,10 @@ export const validateIncidentBulkUpdate = ({
     return { error: 'Select at least one field to update.', payload: null }
   }
 
+  const requiredFields: ReadonlyArray<keyof EquipmentIncidentBulkUpdateValues> = [
+    'equipment_asset_id',
+    'incident_type_id',
+    'incident_date',
+    'description',
+  ]
 }
