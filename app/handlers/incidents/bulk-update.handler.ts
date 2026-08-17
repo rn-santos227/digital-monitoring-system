@@ -33,6 +33,13 @@ export const useBulkUpdateIncidentsHandler = (options: BulkUpdateIncidentsHandle
 
     options.errorMessage.value = ''
     options.isSubmitting.value = true
+    try {
+
+    } catch (error: unknown) {
+
+    } finally {
+      options.isSubmitting.value = false
+    }
   }
 
   return {
