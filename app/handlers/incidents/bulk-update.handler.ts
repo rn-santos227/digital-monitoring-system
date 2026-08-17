@@ -25,6 +25,11 @@ export const useBulkUpdateIncidentsHandler = (options: BulkUpdateIncidentsHandle
   }
 
   const updateSelectedIncidents = async (updates: EquipmentIncidentBulkUpdateValues) => {
+    const ids = [...new Set(options.selectedIds.value)].filter(Boolean)
+    if (ids.length === 0) {
+      closeBulkUpdateIncidentsModal()
+      return
+    }
 
   }
 
