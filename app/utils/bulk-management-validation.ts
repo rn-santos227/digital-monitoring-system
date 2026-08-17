@@ -1,6 +1,7 @@
 import type { DeploymentBulkUpdateValues } from '~/types/domain/deployment'
 import type { PersonnelBulkUpdateValues } from '~/types/domain/personnel'
 import type { RankBulkUpdateValues } from '~/types/domain/rank'
+import type { EquipmentIncidentBulkUpdateValues } from '~/types/domain/incident'
 import type {
   AccountTypeBulkUpdateValues,
   UserProfileBulkUpdateValues,
