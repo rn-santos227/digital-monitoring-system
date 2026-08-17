@@ -14,5 +14,9 @@ interface BulkUpdateIncidentsHandlerOptions {
 }
 
 export const useBulkUpdateIncidentsHandler = (options: BulkUpdateIncidentsHandlerOptions) => {
+  const openBulkUpdateIncidentsModal = () => {
+    options.errorMessage.value = ''
+    options.isModalOpen.value = true
+  }
 
 }
