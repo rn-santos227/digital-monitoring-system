@@ -31,6 +31,8 @@ export const useBulkUpdateIncidentsHandler = (options: BulkUpdateIncidentsHandle
       return
     }
 
+    options.errorMessage.value = ''
+    options.isSubmitting.value = true
   }
 
   return {
