@@ -34,6 +34,8 @@ export const useBulkUpdateIncidentsHandler = (options: BulkUpdateIncidentsHandle
     options.errorMessage.value = ''
     options.isSubmitting.value = true
     try {
+      const response = await updateBulkRecordsEndpoint('incidents', ids, updates)
+      options.selectedIds.value = []
 
     } catch (error: unknown) {
       options.errorMessage.value = extractApiErrorMessage(
