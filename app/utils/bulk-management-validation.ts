@@ -283,4 +283,9 @@ export const validateIncidentBulkUpdate = ({
   if (requiredFields.some((field) => enabled[field] && !String(values[field] ?? '').trim())) {
     return { error: 'Enabled required fields cannot be empty.', payload: null }
   }
+
+  const latitude = values.location_latitude
+  if (enabled.location_latitude && latitude !== null && (typeof latitude !== 'number' || !Number.isFinite(latitude) || latitude < -90 || latitude > 90)) {
+    return { error: 'Latitude must be between -90 and 90.', payload: null }
+  }
 }
