@@ -117,3 +117,11 @@ export interface EngagementManagementKpiCounts {
   totalEngagements: number
   totalEngagementRecords: number
 }
+
+export type EngagementBulkUpdateValues = Partial<{
+  start_date: string | null
+  end_date: string | null
+  role: string | null
+  remarks: string | null
+  default_remarks: string | null
+}>
