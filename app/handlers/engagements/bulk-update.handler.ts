@@ -22,5 +22,5 @@ export const useBulkUpdateEngagementsHandler = ({
   reload,
   showDialog,
 }: BulkUpdateEngagementsHandlerOptions) => {
-
+  const label = domain === 'engagements' ? 'engagement' : 'engagement record'
 }
