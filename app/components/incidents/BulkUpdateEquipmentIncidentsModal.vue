@@ -1,4 +1,13 @@
 <template>
+  <BaseModal
+    :title="EQUIPMENT_INCIDENTS_BULK_UPDATE_MODAL_TITLE"
+    :description="EQUIPMENT_INCIDENTS_BULK_UPDATE_MODAL_DESCRIPTION"
+    size="xl"
+    scroll-body
+    @close="emit('close')"
+  >
+
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
