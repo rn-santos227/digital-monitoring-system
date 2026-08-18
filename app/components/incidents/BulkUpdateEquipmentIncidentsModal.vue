@@ -49,6 +49,14 @@
           :disabled="!enabled.investigation_status_id"
           @update:model-value="setNullableStringValue('investigation_status_id', $event)"
         />
+
+        <BaseDatePicker
+          v-else-if="field.type === 'date'"
+          :model-value="values.incident_date"
+          :label="field.label"
+          :disabled="!enabled.incident_date"
+          @update:model-value="setStringValue('incident_date', $event)"
+        />
       </div>
     </form>
 
