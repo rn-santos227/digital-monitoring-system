@@ -41,6 +41,12 @@ export const useBulkUpdateEngagementsHandler = ({
       return
     }
 
+    errorMessage.value = ''
+    try {
+
+    } catch (error: unknown) {
+
+    }
   }
 
   return {
