@@ -50,6 +50,8 @@ export const useBulkUpdateEngagementsHandler = ({
       await showDialog({
         type: 'success',
         title: 'Bulk update complete',
+        message: `${response.affectedCount} ${response.affectedCount === 1 ? label : `${label}s`} updated successfully.`,
+        confirmLabel: 'OK',
       })
     } catch (error: unknown) {
       errorMessage.value = extractApiErrorMessage(
