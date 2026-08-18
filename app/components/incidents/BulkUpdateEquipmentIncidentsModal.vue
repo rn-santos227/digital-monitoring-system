@@ -6,7 +6,18 @@
     scroll-body
     @close="emit('close')"
   >
+    <form class="grid gap-4 md:grid-cols-2" @submit.prevent="onSubmit">
 
+    </form>
+
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        <BaseButton variant="ghost" @click="emit('close')">Cancel</BaseButton>
+        <BaseButton :disabled="isSubmitting" @click="onSubmit">
+          Update {{ selectedCount }} selected
+        </BaseButton>
+      </div>
+    </template>
   </BaseModal>
 </template>
 
