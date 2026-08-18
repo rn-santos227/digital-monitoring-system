@@ -23,4 +23,9 @@ export const useBulkUpdateEngagementsHandler = ({
   showDialog,
 }: BulkUpdateEngagementsHandlerOptions) => {
   const label = domain === 'engagements' ? 'engagement' : 'engagement record'
+
+  const openBulkUpdateModal = () => {
+    errorMessage.value = ''
+    isModalOpen.value = true
+  }
 }
