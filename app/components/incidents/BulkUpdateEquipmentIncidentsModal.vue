@@ -65,6 +65,15 @@
           :disabled="!enabled[field.key]"
           @update:model-value="setStringValue(field.key, $event)"
         />
+
+        <BaseTextField
+          v-else
+          :model-value="formatBulkUpdateInputValue(values[field.key])"
+          :label="field.label"
+          :type="field.type"
+          :disabled="!enabled[field.key]"
+          @update:model-value="setFieldValue(field.key, $event, field.type)"
+        />
       </div>
     </form>
 
