@@ -124,7 +124,7 @@
 import { computed, ref, watch } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
-import EquipmentIncidentsFilterComponent from '~/components/incidents/EquipmentIncidentsFilterComponent.vue'
+import EquipmentIncidentsFilterComponent from '~/components/incidents/EquipmentIncidentsFilter.vue'
 import CreateEquipmentIncidentModal from '~/components/incidents/CreateEquipmentIncidentModal.vue'
 import EquipmentIncidentCards from '~/components/incidents/EquipmentIncidentCards.vue'
 import EquipmentIncidentsTableComponent from '~/components/incidents/EquipmentIncidentsTableComponent.vue'
