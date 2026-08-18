@@ -28,4 +28,9 @@ export const useBulkUpdateEngagementsHandler = ({
     errorMessage.value = ''
     isModalOpen.value = true
   }
+
+  const closeBulkUpdateModal = () => {
+    errorMessage.value = ''
+    isModalOpen.value = false
+  }
 }
