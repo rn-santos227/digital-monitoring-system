@@ -34,18 +34,20 @@
 
         <BaseSelect
           v-else-if="field.key === 'incident_type_id'"
-          v-model="values.incident_type_id"
+          :model-value="values.incident_type_id ?? ''"
           label="Incident type"
           :options="incidentTypeOptions"
           :disabled="!enabled.incident_type_id"
+          @update:model-value="setNullableStringValue('incident_type_id', $event)"
         />
 
         <BaseSelect
           v-else-if="field.key === 'investigation_status_id'"
-          v-model="values.investigation_status_id"
+          :model-value="values.investigation_status_id ?? ''"
           label="Investigation status"
           :options="investigationStatusOptions"
           :disabled="!enabled.investigation_status_id"
+          @update:model-value="setNullableStringValue('investigation_status_id', $event)"
         />
       </div>
     </form>
