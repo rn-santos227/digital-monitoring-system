@@ -31,6 +31,14 @@
           v-model="values.deployment_id"
           :disabled="!enabled.deployment_id"
         />
+
+        <BaseSelect
+          v-else-if="field.key === 'incident_type_id'"
+          v-model="values.incident_type_id"
+          label="Incident type"
+          :options="incidentTypeOptions"
+          :disabled="!enabled.incident_type_id"
+        />
       </div>
     </form>
 
