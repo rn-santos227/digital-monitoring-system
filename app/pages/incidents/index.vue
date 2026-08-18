@@ -219,6 +219,21 @@ const isBulkUpdateIncidentsModalOpen = ref(false)
 const isBulkUpdating = ref(false)
 const bulkUpdateError = ref('')
 
+const {
+  openBulkUpdateIncidentsModal,
+  closeBulkUpdateIncidentsModal,
+  updateSelectedIncidents,
+} = useBulkUpdateIncidentsHandler({
+  selectedIds: selectedIncidentIds,
+  isModalOpen: isBulkUpdateIncidentsModalOpen,
+  errorMessage: bulkUpdateError,
+  isSubmitting: isBulkUpdating,
+  reload: async () => {
+    await loadEquipmentIncidents()
+  },
+  showDialog,
+})
+
 const { deleteSelectedIncidents } = useBulkDeleteIncidentsHandler({
   selectedIds: selectedIncidentIds,
   reload: async () => {
