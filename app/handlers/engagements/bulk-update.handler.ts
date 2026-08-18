@@ -33,4 +33,8 @@ export const useBulkUpdateEngagementsHandler = ({
     errorMessage.value = ''
     isModalOpen.value = false
   }
+
+  const updateSelectedEngagements = async (updates: EngagementBulkUpdateValues) => {
+
+  }
 }
