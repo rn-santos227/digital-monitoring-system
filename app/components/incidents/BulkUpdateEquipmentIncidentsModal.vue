@@ -9,6 +9,10 @@
     <form class="grid gap-4 md:grid-cols-2" @submit.prevent="onSubmit">
       <BaseAlert class="md:col-span-2" :message="EQUIPMENT_INCIDENTS_BULK_UPDATE_WARNING" tone="warning" />
       <BaseAlert v-if="errorMessage || validationError" class="md:col-span-2" :message="errorMessage || validationError" tone="danger" />
+
+      <div v-for="field in fields" :key="field.key" class="space-y-2 rounded-lg border border-slate-200 p-3">
+        <BaseCheckbox v-model="enabled[field.key]" :label="field.label" />
+      </div>
     </form>
 
     <template #footer>
