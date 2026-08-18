@@ -39,6 +39,7 @@
   </BaseModal>
 </template>
 
+
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue'
 import DeploymentSuggestionField from '~/components/general/DeploymentSuggestionField.vue'
@@ -91,7 +92,22 @@ const enabled = reactive<Record<keyof EquipmentIncidentBulkUpdateValues, boolean
   remarks: false,
 })
 
-const values = reactive<Record<keyof EquipmentIncidentBulkUpdateValues, string | number | null>>({
+interface IncidentBulkUpdateFormValues {
+  equipment_asset_id: string | null
+  personnel_id: string | null
+  deployment_id: string | null
+  incident_type_id: string | null
+  incident_date: string
+  location: string | null
+  location_latitude: number | null
+  location_longitude: number | null
+  description: string
+  investigation_status_id: string | null
+  resolution: string | null
+  remarks: string | null
+}
+
+const values = reactive<IncidentBulkUpdateFormValues>({
   equipment_asset_id: '',
   personnel_id: null,
   deployment_id: null,
@@ -142,11 +158,11 @@ onMounted(async () => {
 })
 
 const setStringValue = (key: keyof EquipmentIncidentBulkUpdateValues, value: string) => {
-  values[key] = value
+  Reflect.set(values, key, value)
 }
 
 const setFieldValue = (key: keyof EquipmentIncidentBulkUpdateValues, value: string, type?: string) => {
-  values[key] = type === 'number' ? (value === '' ? null : Number(value)) : value
+  Reflect.set(values, key, type === 'number' ? (value === '' ? null : Number(value)) : value)
 }
 
 const onSubmit = () => {
