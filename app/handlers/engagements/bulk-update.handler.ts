@@ -52,7 +52,12 @@ export const useBulkUpdateEngagementsHandler = ({
         error,
         `No ${label}s were updated. Review the selected values and try again.`,
       )
-
+      await showDialog({
+        type: 'error',
+        title: 'Bulk update failed',
+        message: errorMessage.value,
+        confirmLabel: 'OK',
+      })
     }
   }
 
