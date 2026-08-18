@@ -144,6 +144,11 @@ export const validateEngagementBulkUpdate = ({
     return { error: 'Select at least one field to update.', payload: null }
   }
 
+  const startDate = form.start_date?.trim() ?? ''
+  const endDate = form.end_date?.trim() ?? ''
+  if (enabled.start_date && enabled.end_date && startDate && endDate && endDate < startDate) {
+    return { error: 'End date cannot be earlier than start date.', payload: null }
+  }
 
 }
 
