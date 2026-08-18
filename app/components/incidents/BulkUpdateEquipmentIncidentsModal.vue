@@ -18,6 +18,13 @@
           v-model="values.equipment_asset_id"
           :disabled="!enabled.equipment_asset_id"
         />
+
+        <PersonnelSuggestionField
+          v-else-if="field.key === 'personnel_id'"
+          v-model="values.personnel_id"
+          label="Personnel"
+          :disabled="!enabled.personnel_id"
+        />
       </div>
     </form>
 
