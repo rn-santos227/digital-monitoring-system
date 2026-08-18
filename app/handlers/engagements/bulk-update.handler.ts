@@ -37,4 +37,10 @@ export const useBulkUpdateEngagementsHandler = ({
   const updateSelectedEngagements = async (updates: EngagementBulkUpdateValues) => {
 
   }
+
+  return {
+    openBulkUpdateModal,
+    closeBulkUpdateModal,
+    updateSelectedEngagements,
+  }
 }
