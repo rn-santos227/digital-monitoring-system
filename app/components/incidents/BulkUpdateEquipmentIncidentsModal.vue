@@ -57,6 +57,14 @@
           :disabled="!enabled.incident_date"
           @update:model-value="setStringValue('incident_date', $event)"
         />
+
+        <BaseTextArea
+          v-else-if="field.multiline"
+          :model-value="String(values[field.key] ?? '')"
+          :label="field.label"
+          :disabled="!enabled[field.key]"
+          @update:model-value="setStringValue(field.key, $event)"
+        />
       </div>
     </form>
 
