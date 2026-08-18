@@ -39,6 +39,14 @@
           :options="incidentTypeOptions"
           :disabled="!enabled.incident_type_id"
         />
+
+        <BaseSelect
+          v-else-if="field.key === 'investigation_status_id'"
+          v-model="values.investigation_status_id"
+          label="Investigation status"
+          :options="investigationStatusOptions"
+          :disabled="!enabled.investigation_status_id"
+        />
       </div>
     </form>
 
