@@ -25,6 +25,12 @@
           label="Personnel"
           :disabled="!enabled.personnel_id"
         />
+
+        <DeploymentSuggestionField
+          v-else-if="field.key === 'deployment_id'"
+          v-model="values.deployment_id"
+          :disabled="!enabled.deployment_id"
+        />
       </div>
     </form>
 
