@@ -15,7 +15,12 @@ interface BulkUpdateEngagementsHandlerOptions {
 
 
 export const useBulkUpdateEngagementsHandler = ({
-
+  domain,
+  selectedIds,
+  isModalOpen,
+  errorMessage,
+  reload,
+  showDialog,
 }: BulkUpdateEngagementsHandlerOptions) => {
 
 }
