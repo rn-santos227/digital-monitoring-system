@@ -179,7 +179,21 @@ onMounted(async () => {
   investigationStatusOptions.value = investigationStatuses.items.map((item) => ({ label: item.name, value: item.id }))
 })
 
+const setFieldEnabled = (
+  key: keyof EquipmentIncidentBulkUpdateValues,
+  value: boolean,
+) => {
+  enabled[key] = value
+}
+
 const setStringValue = (key: keyof EquipmentIncidentBulkUpdateValues, value: string) => {
+  Reflect.set(values, key, value)
+}
+
+const setNullableStringValue = (
+  key: keyof EquipmentIncidentBulkUpdateValues,
+  value: string | null,
+) => {
   Reflect.set(values, key, value)
 }
 
