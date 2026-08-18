@@ -14,7 +14,7 @@
     :total-pages="props.totalPages"
     :total-items="props.totalItems"
     :page-size="props.pageSize"
-    :selectable="visibleActions.some((action) => action.key.startsWith('delete'))"
+    :selectable="canBulkUpdate || canBulkDelete"
     :selected-row-keys="selectedRowKeys"
     @update:selected-row-keys="emit('update:selectedRowKeys', $event)"
     @action="emit('action', $event)"
@@ -26,7 +26,10 @@
         :selected-count="selectedKeys.length"
         singular-label="incident"
         plural-label="incidents"
+        :show-update="canBulkUpdate"
+        :show-delete="canBulkDelete"
         @clear="clearSelection"
+        @update="emit('bulk-update')"
         @delete="emit('bulk-delete')"
       />
     </template>
