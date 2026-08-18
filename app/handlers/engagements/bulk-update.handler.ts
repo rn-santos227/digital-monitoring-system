@@ -3,3 +3,7 @@ import type { DialogInput, DialogResult } from '~/composables/useDialog'
 import type { EngagementBulkUpdateValues } from '~/types/domain/engagement'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { updateBulkRecordsEndpoint } from '~/utils/bulk-management-endpoints'
+
+interface BulkUpdateEngagementsHandlerOptions {
+
+}
