@@ -43,6 +43,9 @@ export const useBulkUpdateEngagementsHandler = ({
 
     errorMessage.value = ''
     try {
+      const response = await updateBulkRecordsEndpoint(domain, ids, updates)
+      selectedIds.value = []
+      closeBulkUpdateModal()
 
     } catch (error: unknown) {
 
