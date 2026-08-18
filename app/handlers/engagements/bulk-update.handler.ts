@@ -12,3 +12,10 @@ interface BulkUpdateEngagementsHandlerOptions {
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
+
+
+export const useBulkUpdateEngagementsHandler = ({
+
+}: BulkUpdateEngagementsHandlerOptions) => {
+
+}
