@@ -31,6 +31,12 @@ interface ValidateDeploymentBulkUpdateOptions {
   enabled: Readonly<Partial<Record<DeploymentBulkUpdateFieldKey, boolean>>>
 }
 
+interface ValidateEngagementBulkUpdateOptions {
+  fields: readonly (keyof EngagementBulkUpdateValues)[]
+  form: Readonly<Partial<Record<keyof EngagementBulkUpdateValues, string>>>
+  enabled: Readonly<Partial<Record<keyof EngagementBulkUpdateValues, boolean>>>
+}
+
 interface ValidateUserProfileBulkUpdateOptions {
   enabled: Readonly<Record<keyof UserProfileBulkUpdateValues, boolean>>
   avatarUrl: string
