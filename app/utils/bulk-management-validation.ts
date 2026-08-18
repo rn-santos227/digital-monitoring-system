@@ -134,6 +134,15 @@ export const validateDeploymentBulkUpdate = ({
   }
 }
 
+export const validateEngagementBulkUpdate = ({
+  fields,
+  form,
+  enabled,
+}: ValidateEngagementBulkUpdateOptions): BulkUpdateValidationResult<EngagementBulkUpdateValues> => {
+
+
+}
+
 export const validatePersonnelBulkUpdate = ({
   form,
   enabled,
