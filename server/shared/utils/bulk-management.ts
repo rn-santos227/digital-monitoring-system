@@ -181,6 +181,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
       'status_id',
       'supervisor_id',
       'default_remarks',
+      'default_remarks',
     ),
     deleteReferences: [
       { table: 'deployment_records', column: 'deployment_id' },
