@@ -1,4 +1,5 @@
 import type { DeploymentBulkUpdateValues } from '~/types/domain/deployment'
+import type { EngagementBulkUpdateValues } from '~/types/domain/engagement'
 import type { PersonnelBulkUpdateValues } from '~/types/domain/personnel'
 import type { RankBulkUpdateValues } from '~/types/domain/rank'
 import type { EquipmentIncidentBulkUpdateValues } from '~/types/domain/incident'
