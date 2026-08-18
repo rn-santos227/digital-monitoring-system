@@ -126,8 +126,9 @@ import KpiCard from '~/components/general/KpiCard.vue'
 import PrintDataListButton from '~/components/general/PrintDataListButton.vue'
 import EquipmentIncidentsFilterComponent from '~/components/incidents/EquipmentIncidentsFilter.vue'
 import CreateEquipmentIncidentModal from '~/components/incidents/CreateEquipmentIncidentModal.vue'
+import BulkUpdateEquipmentIncidentsModal from '~/components/incidents/BulkUpdateEquipmentIncidentsModal.vue'
 import EquipmentIncidentCards from '~/components/incidents/EquipmentIncidentCards.vue'
-import EquipmentIncidentsTableComponent from '~/components/incidents/EquipmentIncidentsTableComponent.vue'
+import EquipmentIncidentsTableComponent from '~/components/incidents/EquipmentIncidentsTable.vue'
 import BaseViewToggle from '~/components/ui/BaseViewToggle.vue'
 import UpdateEquipmentIncidentDeploymentModal from '~/components/incidents/UpdateEquipmentIncidentDeploymentModal.vue'
 import UpdateEquipmentIncidentDetailsModal from '~/components/incidents/UpdateEquipmentIncidentDetailsModal.vue'
@@ -151,6 +152,7 @@ import {
   useCreateEquipmentIncidentHandler,
   useDeleteEquipmentIncidentHandler,
   useBulkDeleteIncidentsHandler,
+  useBulkUpdateIncidentsHandler,
   useIncidentListHandlers,
   useIncidentSearchHandlers,
   usePrintIncidentsHandler,
@@ -213,6 +215,9 @@ const activeUpdateSection = ref<IncidentUpdateSection | null>(null)
 const { showDialog } = useDialog()
 const { handleFilterApply, handleFilterReset } = useIncidentSearchHandlers(filters)
 const selectedIncidentIds = ref<string[]>([])
+const isBulkUpdateIncidentsModalOpen = ref(false)
+const isBulkUpdating = ref(false)
+const bulkUpdateError = ref('')
 
 const { deleteSelectedIncidents } = useBulkDeleteIncidentsHandler({
   selectedIds: selectedIncidentIds,
