@@ -43,6 +43,7 @@
         @action="onTableAction"
         @update:current-page="onPageChange"
         @update:page-size="onPageSizeChange"
+        @bulk-update="openBulkUpdateIncidentsModal"
         @bulk-delete="deleteSelectedIncidents"
       />
 
@@ -61,6 +62,15 @@
         :error-message="createError"
         @close="onCloseCreateEquipmentIncidentModal"
         @submit="onSubmitCreateEquipmentIncident"
+      />
+
+      <BulkUpdateEquipmentIncidentsModal
+        v-if="isBulkUpdateIncidentsModalOpen"
+        :selected-count="selectedIncidentIds.length"
+        :is-submitting="isBulkUpdating"
+        :error-message="bulkUpdateError"
+        @close="closeBulkUpdateIncidentsModal"
+        @submit="updateSelectedIncidents"
       />
 
       <UpdateEquipmentIncidentDeploymentModal
