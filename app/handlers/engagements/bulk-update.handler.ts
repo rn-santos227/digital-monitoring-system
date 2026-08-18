@@ -47,6 +47,10 @@ export const useBulkUpdateEngagementsHandler = ({
       selectedIds.value = []
       closeBulkUpdateModal()
       await reload()
+      await showDialog({
+        type: 'success',
+        title: 'Bulk update complete',
+      })
     } catch (error: unknown) {
       errorMessage.value = extractApiErrorMessage(
         error,
