@@ -132,9 +132,6 @@ export const TRAINING_CALENDAR_ERROR_MESSAGE = 'Unable to fetch training calenda
 
 export const TRAININGS_BULK_UPDATE_MODAL_TITLE = 'Bulk Update Trainings'
 export const TRAININGS_BULK_UPDATE_MODAL_DESCRIPTION = 'Choose non-unique fields to apply to every selected training.'
-export const TRAINING_CATEGORIES_BULK_UPDATE_MODAL_TITLE = 'Bulk Update Training Categories'
-export const TRAINING_CATEGORIES_BULK_UPDATE_MODAL_DESCRIPTION = 'Review fields that can be safely updated across selected training categories.'
 export const TRAINING_RECORDS_BULK_UPDATE_MODAL_TITLE = 'Bulk Update Training Records'
 export const TRAINING_RECORDS_BULK_UPDATE_MODAL_DESCRIPTION = 'Choose non-unique fields to apply to every selected training record.'
 export const TRAININGS_BULK_UPDATE_WARNING = 'Only checked fields will change. Unique identifiers and titles remain unchanged.'
-export const TRAINING_CATEGORIES_BULK_UPDATE_WARNING = 'Only the checked description field will change. Unique category codes and names remain unchanged.'

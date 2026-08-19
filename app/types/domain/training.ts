@@ -235,3 +235,9 @@ export type TrainingBulkUpdateValues = Partial<{
 export type TrainingCategoryBulkUpdateValues = Partial<{
   description: string | null
 }>
+
+export type TrainingRecordBulkUpdateValues = Partial<{
+  certificate_no: string | null
+  valid_until: string | null
+  remarks: string | null
+}>
