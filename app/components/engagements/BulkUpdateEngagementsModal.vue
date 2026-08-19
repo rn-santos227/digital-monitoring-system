@@ -37,4 +37,10 @@ const emit = defineEmits<{
   (event: 'close'): void
   (event: 'submit', payload: EngagementBulkUpdateValues): void
 }>()
+
+const form = reactive<Record<FieldKey, string>>({
+  start_date: '',
+  end_date: '',
+  default_remarks: '',
+})
 </script>
