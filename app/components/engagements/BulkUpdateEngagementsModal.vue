@@ -43,4 +43,10 @@ const form = reactive<Record<FieldKey, string>>({
   end_date: '',
   default_remarks: '',
 })
+
+const enabled = reactive<Record<FieldKey, boolean>>({
+  start_date: false,
+  end_date: false,
+  default_remarks: false,
+})
 </script>
