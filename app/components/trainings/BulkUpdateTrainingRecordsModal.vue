@@ -22,5 +22,7 @@ const fields: readonly { key: FieldKey, label: string, type?: 'date' }[] = Objec
 withDefaults(defineProps<{ selectedCount: number, isSubmitting?: boolean, errorMessage?: string }>(), { isSubmitting: false, errorMessage: '' })
 const emit = defineEmits<{ (event: 'close'): void, (event: 'submit', payload: TrainingRecordBulkUpdateValues): void }>()
 const form = reactive<Record<FieldKey, string>>({ certificate_no: '', valid_until: '', remarks: '' })
+const enabled = reactive<Record<FieldKey, boolean>>({ certificate_no: false, valid_until: false, remarks: false })
+const validationError = ref('')
 
 </script>
