@@ -24,9 +24,11 @@
     <template #bulk-actions="{ selectedRowKeys: selectedKeys, clearSelection }">
       <BulkTableAction
         :selected-count="selectedKeys.length"
-        singular-label="training category"
-        plural-label="training categories"
+        :show-update="true"
+        singular-label="training record"
+        plural-label="training records"
         @clear="clearSelection"
+        @update="emit('bulk-update')"
         @delete="emit('bulk-delete')"
       />
     </template>
