@@ -12,3 +12,15 @@ interface BulkUpdateTrainingsHandlerOptions<TDomain extends TrainingBulkUpdateDo
   reload: () => Promise<void>
   showDialog: (input: DialogInput) => Promise<DialogResult>
 }
+
+export const useBulkUpdateTrainingsHandler = <TDomain extends TrainingBulkUpdateDomain>({
+  domain,
+  selectedIds,
+  isModalOpen,
+  errorMessage,
+  reload,
+  showDialog,
+}: BulkUpdateTrainingsHandlerOptions<TDomain>) => {
+
+
+}
