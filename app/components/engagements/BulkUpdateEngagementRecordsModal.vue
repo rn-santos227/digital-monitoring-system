@@ -23,4 +23,13 @@ const fields: readonly {
   { key: 'end_date', label: 'End Date', type: 'date' },
   { key: 'remarks', label: 'Remarks', type: 'textarea' },
 ])
+
+withDefaults(defineProps<{
+  selectedCount: number
+  isSubmitting?: boolean
+  errorMessage?: string
+}>(), {
+  isSubmitting: false,
+  errorMessage: '',
+})
 </script>
