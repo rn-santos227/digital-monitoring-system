@@ -53,6 +53,11 @@ const enabled = reactive<Record<FieldKey, boolean>>({
 const validationError = ref('')
 
 const onSubmit = () => {
+  const result = validateEngagementBulkUpdate({
+    fields: fields.map((field) => field.key),
+    form,
+    enabled,
+  })
 
 }
 </script>
