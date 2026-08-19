@@ -286,6 +286,15 @@ const {
   showDialog,
 })
 
+const {
+  openBulkUpdateModal: openBulkUpdateEngagementRecordsModal,
+  closeBulkUpdateModal: closeBulkUpdateEngagementRecordsModal,
+  updateSelectedEngagements: updateSelectedEngagementRecords,
+} = useBulkUpdateEngagementsHandler({
+
+
+})
+
 const { deleteSelectedEngagementRecords } = useBulkDeleteEngagementRecordsHandler({
   selectedIds: selectedEngagementRecordIds,
   reload: async () => {
