@@ -177,6 +177,8 @@
 import { computed, ref, watch } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import OperationsCalendar from '~/components/calendar/OperationsCalendar.vue'
+import BulkUpdateEngagementsModal from '~/components/engagements/BulkUpdateEngagementsModal.vue'
+import BulkUpdateEngagementRecordsModal from '~/components/engagements/BulkUpdateEngagementRecordsModal.vue'
 import CreateEngagementModal from '~/components/engagements/CreateEngagementModal.vue'
 import CreateEngagementRecordModal from '~/components/engagements/CreateEngagementRecordModal.vue'
 import EngagementRecordsFilter from '~/components/engagements/EngagementRecordsFilter.vue'
@@ -197,6 +199,7 @@ import {
   useDeleteEngagementRecordHandler,
   useBulkDeleteEngagementRecordsHandler,
   useBulkDeleteEngagementsHandler,
+  useBulkUpdateEngagementsHandler,
   useEngagementManagementPageHandlers,
   useEngagementTableActionHandlers,
   useEngagementTabHandler,

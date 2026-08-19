@@ -25,14 +25,12 @@
             :label="field.label"
             :disabled="!enabled[field.key]"
           />
-
           <BaseTextArea
             v-else-if="field.type === 'textarea'"
             v-model="form[field.key]"
             :label="field.label"
             :disabled="!enabled[field.key]"
           />
-
           <BaseTextField
             v-else
             v-model="form[field.key]"
