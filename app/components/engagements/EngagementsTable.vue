@@ -32,7 +32,6 @@
   </DataTable>
 </template>
 
-
 <script setup lang="ts">
 import { computed } from 'vue'
 import { ENGAGEMENT_PRIVILEGES } from '~/constants/privileges.constants'
@@ -67,10 +66,14 @@ const emit = defineEmits<{
   (event: 'update:currentPage', value: number): void
   (event: 'update:pageSize', value: number): void
   (event: 'update:selectedRowKeys', value: string[]): void
+  (event: 'bulk-update'): void
   (event: 'bulk-delete'): void
 }>()
 
 const authStore = useAuthStore()
+
+const canBulkUpdate = computed(() => authStore.hasPermissionAccess(ENGAGEMENT_PRIVILEGES.edit))
+const canBulkDelete = computed(() => authStore.hasPermissionAccess(ENGAGEMENT_PRIVILEGES.delete))
 
 const engagementActions: readonly DataTableAction[] = Object.freeze([
   { key: 'view-engagement', tooltip: 'View record', iconName: 'eye', variant: 'info' },
