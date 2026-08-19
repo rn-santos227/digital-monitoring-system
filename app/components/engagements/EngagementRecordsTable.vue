@@ -16,7 +16,7 @@
     @action="emit('action', $event)"
     @update:current-page="emit('update:currentPage', $event)"
     @update:page-size="emit('update:pageSize', $event)"
-    :selectable="visibleActions.some((action) => action.key.startsWith('delete'))"
+    :selectable="canBulkUpdate || canBulkDelete"
     :selected-row-keys="selectedRowKeys"
     @update:selected-row-keys="emit('update:selectedRowKeys', $event)"
   >
@@ -25,7 +25,10 @@
         :selected-count="selectedKeys.length"
         singular-label="engagement record"
         plural-label="engagement records"
+        :show-update="canBulkUpdate"
+        :show-delete="canBulkDelete"
         @clear="clearSelection"
+        @update="emit('bulk-update')"
         @delete="emit('bulk-delete')"
       />
     </template>
@@ -74,7 +77,6 @@ const authStore = useAuthStore()
 
 const canBulkUpdate = computed(() => authStore.hasPermissionAccess(ENGAGEMENT_PRIVILEGES.edit))
 const canBulkDelete = computed(() => authStore.hasPermissionAccess(ENGAGEMENT_PRIVILEGES.delete))
-
 
 const engagementRecordActions: readonly DataTableAction[] = Object.freeze([
   { key: 'view-engagement-record', tooltip: 'View record', iconName: 'eye', variant: 'info' },
