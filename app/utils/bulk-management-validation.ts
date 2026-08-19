@@ -364,4 +364,11 @@ export const validateTrainingBulkUpdate = <
     return { error: 'Select at least one non-unique field to update.', payload: null }
   }
 
+  if (dateRange && enabled[dateRange.start] && enabled[dateRange.end]) {
+    const startDate = form[dateRange.start]?.trim() ?? ''
+    const endDate = form[dateRange.end]?.trim() ?? ''
+    if (startDate && endDate && endDate < startDate) {
+      return { error: 'End date cannot be earlier than start date.', payload: null }
+    }
+  }
 }
