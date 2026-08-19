@@ -68,6 +68,7 @@ const emit = defineEmits<{
   (event: 'update:pageSize', value: number): void
   (event: 'update:selectedRowKeys', value: string[]): void
   (event: 'bulk-delete'): void
+  (event: 'bulk-update'): void
 }>()
 
 const authStore = useAuthStore()
