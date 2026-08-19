@@ -169,6 +169,15 @@
         @submit="updateSelectedEngagements"
       />
 
+      <BulkUpdateEngagementRecordsModal
+        v-if="isBulkUpdateEngagementRecordsModalOpen"
+        :selected-count="selectedEngagementRecordIds.length"
+        :is-submitting="isEngagementRecordsLoading"
+        :error-message="bulkUpdateEngagementRecordsErrorMessage"
+        @close="closeBulkUpdateEngagementRecordsModal"
+        @submit="updateSelectedEngagementRecords"
+      />
+
       <ViewEngagementModal
         v-if="selectedEngagement && isViewEngagementModalOpen"
         :engagement="selectedEngagement"
