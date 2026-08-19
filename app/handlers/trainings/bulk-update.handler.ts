@@ -36,4 +36,14 @@ export const useBulkUpdateTrainingsHandler = <TDomain extends TrainingBulkUpdate
     errorMessage.value = ''
     isModalOpen.value = false
   }
+
+  const updateSelectedTrainings = async (updates: TrainingBulkUpdateValuesByDomain[TDomain]) => {
+
+  }
+
+  return {
+    openBulkUpdateModal,
+    closeBulkUpdateModal,
+    updateSelectedTrainings,
+  }
 }
