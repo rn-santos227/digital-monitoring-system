@@ -11,4 +11,16 @@ import {
 } from '~/constants/page.constants'
 import type { EngagementBulkUpdateValues } from '~/types/domain/engagement'
 import { validateEngagementBulkUpdate } from '~/utils/bulk-management-validation'
+
+type FieldKey = 'start_date' | 'end_date' | 'default_remarks'
+
+const fields: readonly {
+  key: FieldKey
+  label: string
+  type: 'date' | 'text' | 'textarea'
+}[] = Object.freeze([
+  { key: 'start_date', label: 'Start Date', type: 'date' },
+  { key: 'end_date', label: 'End Date', type: 'date' },
+  { key: 'default_remarks', label: 'Default Remarks', type: 'textarea' },
+])
 </script>
