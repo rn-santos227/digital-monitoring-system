@@ -371,4 +371,12 @@ export const validateTrainingBulkUpdate = <
       return { error: 'End date cannot be earlier than start date.', payload: null }
     }
   }
+
+  const payload = {} as T
+  selectedFields.forEach((field) => {
+    const value = form[field]?.trim() ?? ''
+    Reflect.set(payload, field, value || null)
+  })
+
+  return { error: '', payload }
 }
