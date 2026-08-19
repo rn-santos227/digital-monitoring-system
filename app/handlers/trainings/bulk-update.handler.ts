@@ -27,5 +27,8 @@ export const useBulkUpdateTrainingsHandler = <TDomain extends TrainingBulkUpdate
   }
   const label = labels[domain]
 
-
+  const openBulkUpdateModal = () => {
+    errorMessage.value = ''
+    isModalOpen.value = true
+  }
 }
