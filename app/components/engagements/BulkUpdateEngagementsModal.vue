@@ -58,6 +58,10 @@ const onSubmit = () => {
     form,
     enabled,
   })
+  validationError.value = result.error
 
+  if (result.payload) {
+    emit('submit', result.payload)
+  }
 }
 </script>
