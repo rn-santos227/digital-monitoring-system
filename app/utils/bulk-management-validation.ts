@@ -350,3 +350,14 @@ export const validateIncidentBulkUpdate = ({
 
   return { error: '', payload }
 }
+
+export const validateTrainingBulkUpdate = <
+  T extends TrainingBulkUpdateValues | TrainingRecordBulkUpdateValues,
+>({
+  fields,
+  form,
+  enabled,
+  dateRange,
+}: ValidateTrainingBulkUpdateOptions<T>): BulkUpdateValidationResult<T> => {
+
+}
