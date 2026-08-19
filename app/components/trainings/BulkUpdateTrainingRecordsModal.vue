@@ -1,5 +1,14 @@
 <template>
-
+  <BaseModal
+    :title="TRAINING_RECORDS_BULK_UPDATE_MODAL_TITLE"
+    :description="TRAINING_RECORDS_BULK_UPDATE_MODAL_DESCRIPTION"
+    size="lg"
+    @close="emit('close')"
+  >
+    <form class="space-y-4" @submit.prevent="onSubmit">
+      
+    </form>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
