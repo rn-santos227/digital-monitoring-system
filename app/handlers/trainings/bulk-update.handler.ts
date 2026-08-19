@@ -38,6 +38,11 @@ export const useBulkUpdateTrainingsHandler = <TDomain extends TrainingBulkUpdate
   }
 
   const updateSelectedTrainings = async (updates: TrainingBulkUpdateValuesByDomain[TDomain]) => {
+    const ids = [...new Set(selectedIds.value)].filter(Boolean)
+    if (ids.length === 0) {
+      closeBulkUpdateModal()
+      return
+    }
 
   }
 
