@@ -49,4 +49,10 @@ const enabled = reactive<Record<FieldKey, boolean>>({
   end_date: false,
   default_remarks: false,
 })
+
+const validationError = ref('')
+
+const onSubmit = () => {
+
+}
 </script>
