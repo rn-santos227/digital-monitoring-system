@@ -68,6 +68,7 @@
           @update:current-page="onEngagementRecordsPageChange"
           @update:page-size="onEngagementRecordsPageSizeChange"
           @action="onEngagementRecordAction"
+          @bulk-update="openBulkUpdateEngagementRecordsModal"
           @bulk-delete="deleteSelectedEngagementRecords"
         />
       </template>
@@ -109,6 +110,7 @@
           @update:current-page="onEngagementsPageChange"
           @update:page-size="onEngagementsPageSizeChange"
           @action="onEngagementAction"
+          @bulk-update="openBulkUpdateEngagementsModal"
           @bulk-delete="deleteSelectedEngagements"
         />
       </template>
