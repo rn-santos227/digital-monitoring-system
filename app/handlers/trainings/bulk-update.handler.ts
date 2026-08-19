@@ -44,6 +44,11 @@ export const useBulkUpdateTrainingsHandler = <TDomain extends TrainingBulkUpdate
       return
     }
 
+    errorMessage.value = ''
+    try {
+    } catch (error: unknown) {
+
+    }
   }
 
   return {
