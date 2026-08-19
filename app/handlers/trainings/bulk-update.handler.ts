@@ -21,6 +21,11 @@ export const useBulkUpdateTrainingsHandler = <TDomain extends TrainingBulkUpdate
   reload,
   showDialog,
 }: BulkUpdateTrainingsHandlerOptions<TDomain>) => {
+  const labels: Record<TrainingBulkUpdateDomain, string> = {
+    trainings: 'training',
+    'training-records': 'training record',
+  }
+  const label = labels[domain]
 
 
 }
