@@ -6,7 +6,12 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
-
+      <BaseAlert :message="ENGAGEMENTS_BULK_UPDATE_WARNING" tone="warning" />
+      <BaseAlert
+        v-if="errorMessage || validationError"
+        :message="errorMessage || validationError"
+        tone="danger"
+      />
     </form>
 
     <template #footer>
