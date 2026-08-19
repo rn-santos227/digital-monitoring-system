@@ -31,4 +31,9 @@ export const useBulkUpdateTrainingsHandler = <TDomain extends TrainingBulkUpdate
     errorMessage.value = ''
     isModalOpen.value = true
   }
+
+  const closeBulkUpdateModal = () => {
+    errorMessage.value = ''
+    isModalOpen.value = false
+  }
 }
