@@ -273,6 +273,14 @@ const {
 const selectedEngagementRecordIds = ref<string[]>([])
 const selectedEngagementIds = ref<string[]>([])
 
+const {
+  openBulkUpdateModal: openBulkUpdateEngagementsModal,
+  closeBulkUpdateModal: closeBulkUpdateEngagementsModal,
+  updateSelectedEngagements,
+} = useBulkUpdateEngagementsHandler({
+
+})
+
 const { deleteSelectedEngagementRecords } = useBulkDeleteEngagementRecordsHandler({
   selectedIds: selectedEngagementRecordIds,
   reload: async () => {
