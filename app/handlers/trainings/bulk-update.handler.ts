@@ -46,6 +46,11 @@ export const useBulkUpdateTrainingsHandler = <TDomain extends TrainingBulkUpdate
 
     errorMessage.value = ''
     try {
+      const response = await updateBulkRecordsEndpoint<
+        TrainingBulkUpdateValuesByDomain[TDomain]
+      >(domain, ids, updates)
+      selectedIds.value = []
+      closeBulkUpdateModal()
     } catch (error: unknown) {
       errorMessage.value = extractApiErrorMessage(
         error,
