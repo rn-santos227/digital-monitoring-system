@@ -223,3 +223,11 @@ export interface CreateTrainingRecordApiResponse {
   id: string
   item: TrainingRecordListItem
 }
+
+export type TrainingBulkUpdateDomain = 'trainings' | 'training-categories' | 'training-records'
+
+export type TrainingBulkUpdateValues = Partial<{
+  start_date: string | null
+  end_date: string | null
+  default_remarks: string | null
+}>
