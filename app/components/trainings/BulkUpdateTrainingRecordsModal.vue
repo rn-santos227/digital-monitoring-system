@@ -25,7 +25,11 @@ const form = reactive<Record<FieldKey, string>>({ certificate_no: '', valid_unti
 const enabled = reactive<Record<FieldKey, boolean>>({ certificate_no: false, valid_until: false, remarks: false })
 const validationError = ref('')
 const onSubmit = () => {
-  const result = validateTrainingBulkUpdate({ fields: fields.map(field => field.key), form, enabled })
+  const result = validateTrainingBulkUpdate<TrainingRecordBulkUpdateValues>({
+    fields: fields.map(field => field.key),
+    form,
+    enabled,
+  })
   validationError.value = result.error
   if (result.payload) emit('submit', result.payload)
 }
