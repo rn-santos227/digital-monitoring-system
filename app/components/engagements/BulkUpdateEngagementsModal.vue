@@ -32,6 +32,13 @@
             :label="field.label"
             :disabled="!enabled[field.key]"
           />
+
+          <BaseTextField
+            v-else
+            v-model="form[field.key]"
+            :label="field.label"
+            :disabled="!enabled[field.key]"
+          />
         </div>
       </div>
     </form>
