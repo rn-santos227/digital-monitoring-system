@@ -24,9 +24,11 @@
     <template #bulk-actions="{ selectedRowKeys: selectedKeys, clearSelection }">
       <BulkTableAction
         :selected-count="selectedKeys.length"
+        :show-update="true"
         singular-label="training"
         plural-label="trainings"
         @clear="clearSelection"
+        @update="emit('bulk-update')"
         @delete="emit('bulk-delete')"
       />
     </template>
@@ -68,6 +70,7 @@ const emit = defineEmits<{
   (event: 'update:pageSize', value: number): void
   (event: 'update:selectedRowKeys', value: string[]): void
   (event: 'bulk-delete'): void
+  (event: 'bulk-update'): void
 }>()
 
 const authStore = useAuthStore()
