@@ -160,6 +160,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
       'completion_date',
       'provider',
       'certificate_no',
+      'valid_until',
       'remarks',
     ),
     deleteReferences: [],
