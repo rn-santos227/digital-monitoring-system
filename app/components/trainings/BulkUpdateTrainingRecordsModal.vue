@@ -11,6 +11,7 @@
       <div v-for="field in fields" :key="field.key" class="space-y-2 rounded-lg border border-slate-200 p-3">
         <BaseCheckbox v-model="enabled[field.key]" :label="field.label" />
         <BaseDatePicker v-if="field.type === 'date'" v-model="form[field.key]" :label="field.label" :disabled="!enabled[field.key]" />
+        <BaseTextArea v-else-if="field.key === 'remarks'" v-model="form[field.key]" :label="field.label" :disabled="!enabled[field.key]" />
       </div>
     </form>
     <template #footer>
