@@ -62,6 +62,18 @@ interface ValidateEquipmentBulkUpdateOptions<
   numericFields?: readonly (keyof T)[]
 }
 
+interface ValidateTrainingBulkUpdateOptions<
+  T extends TrainingBulkUpdateValues | TrainingRecordBulkUpdateValues,
+> {
+  fields: readonly (keyof T)[]
+  form: Readonly<Partial<Record<keyof T, string>>>
+  enabled: Readonly<Partial<Record<keyof T, boolean>>>
+  dateRange?: {
+    start: keyof T
+    end: keyof T
+  }
+}
+
 interface ValidateIncidentBulkUpdateOptions {
   enabled: Readonly<Record<keyof EquipmentIncidentBulkUpdateValues, boolean>>
   values: Readonly<Record<keyof EquipmentIncidentBulkUpdateValues, string | number | null>>
