@@ -18,4 +18,9 @@ const fields: readonly { key: FieldKey, label: string, type?: 'date' }[] = Objec
   { key: 'valid_until', label: 'Valid Until', type: 'date' },
   { key: 'remarks', label: 'Remarks' },
 ])
+
+withDefaults(defineProps<{ selectedCount: number, isSubmitting?: boolean, errorMessage?: string }>(), { isSubmitting: false, errorMessage: '' })
+const emit = defineEmits<{ (event: 'close'): void, (event: 'submit', payload: TrainingRecordBulkUpdateValues): void }>()
+const form = reactive<Record<FieldKey, string>>({ certificate_no: '', valid_until: '', remarks: '' })
+
 </script>
