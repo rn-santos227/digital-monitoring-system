@@ -4,3 +4,6 @@ import type { TrainingBulkUpdateValuesByDomain, TrainingBulkUpdateDomain } from 
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { updateBulkRecordsEndpoint } from '~/utils/bulk-management-endpoints'
 
+interface BulkUpdateTrainingsHandlerOptions<TDomain extends TrainingBulkUpdateDomain> {
+
+}
