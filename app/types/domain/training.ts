@@ -224,7 +224,7 @@ export interface CreateTrainingRecordApiResponse {
   item: TrainingRecordListItem
 }
 
-export type TrainingBulkUpdateDomain = 'trainings' | 'training-categories' | 'training-records'
+export type TrainingBulkUpdateDomain = 'trainings' | 'training-records'
 
 export type TrainingBulkUpdateValues = Partial<{
   start_date: string | null
@@ -232,12 +232,13 @@ export type TrainingBulkUpdateValues = Partial<{
   default_remarks: string | null
 }>
 
-export type TrainingCategoryBulkUpdateValues = Partial<{
-  description: string | null
-}>
-
 export type TrainingRecordBulkUpdateValues = Partial<{
   certificate_no: string | null
   valid_until: string | null
   remarks: string | null
 }>
+
+export interface TrainingBulkUpdateValuesByDomain {
+  trainings: TrainingBulkUpdateValues
+  'training-records': TrainingRecordBulkUpdateValues
+}
