@@ -291,8 +291,12 @@ const {
   closeBulkUpdateModal: closeBulkUpdateEngagementRecordsModal,
   updateSelectedEngagements: updateSelectedEngagementRecords,
 } = useBulkUpdateEngagementsHandler({
-
-
+  domain: 'engagement-records',
+  selectedIds: selectedEngagementRecordIds,
+  isModalOpen: isBulkUpdateEngagementRecordsModalOpen,
+  errorMessage: bulkUpdateEngagementRecordsErrorMessage,
+  reload: async () => { await loadEngagementRecords() },
+  showDialog,
 })
 
 const { deleteSelectedEngagementRecords } = useBulkDeleteEngagementRecordsHandler({
