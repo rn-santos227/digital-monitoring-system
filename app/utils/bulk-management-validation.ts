@@ -4,6 +4,10 @@ import type { PersonnelBulkUpdateValues } from '~/types/domain/personnel'
 import type { RankBulkUpdateValues } from '~/types/domain/rank'
 import type { EquipmentIncidentBulkUpdateValues } from '~/types/domain/incident'
 import type {
+  TrainingBulkUpdateValues,
+  TrainingRecordBulkUpdateValues,
+} from '~/types/domain/training'
+import type {
   AccountTypeBulkUpdateValues,
   UserProfileBulkUpdateValues,
 } from '~/types/domain/users'
