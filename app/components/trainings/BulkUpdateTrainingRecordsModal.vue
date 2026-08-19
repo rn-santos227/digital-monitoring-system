@@ -6,7 +6,8 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
-
+      <BaseAlert :message="TRAININGS_BULK_UPDATE_WARNING" tone="warning" />
+      <BaseAlert v-if="errorMessage || validationError" :message="errorMessage || validationError" tone="danger" />
     </form>
     <template #footer>
       <div class="flex justify-end gap-2">
