@@ -231,3 +231,7 @@ export type TrainingBulkUpdateValues = Partial<{
   end_date: string | null
   default_remarks: string | null
 }>
+
+export type TrainingCategoryBulkUpdateValues = Partial<{
+  description: string | null
+}>
