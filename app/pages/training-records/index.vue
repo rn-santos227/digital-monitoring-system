@@ -371,6 +371,9 @@ const {
 } = useTrainingCategories()
 
 const {
+  openBulkUpdateModal: openBulkUpdateTrainingsModal,
+  closeBulkUpdateModal: closeBulkUpdateTrainingsModal,
+  updateSelectedTrainings,
 } = useBulkUpdateTrainingsHandler({ domain: 'trainings', selectedIds: selectedTrainingIds, isModalOpen: isBulkUpdateTrainingsModalOpen, errorMessage: bulkUpdateTrainingsError, reload: loadTrainings, showDialog })
 
 const { printTrainingCategories, printTrainingRecords, printTrainings } = usePrintTrainingsHandler()
