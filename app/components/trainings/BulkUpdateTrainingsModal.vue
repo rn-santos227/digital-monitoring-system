@@ -1,4 +1,11 @@
 <template>
+  <BaseModal
+    :title="TRAININGS_BULK_UPDATE_MODAL_TITLE"
+    :description="TRAININGS_BULK_UPDATE_MODAL_DESCRIPTION"
+    size="lg"
+    @close="emit('close')"
+  >
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
