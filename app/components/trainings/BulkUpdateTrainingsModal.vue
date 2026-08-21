@@ -19,6 +19,7 @@ const fields: readonly { key: FieldKey, label: string, type?: 'date' }[] = Objec
 ])
 
 withDefaults(defineProps<{ selectedCount: number, isSubmitting?: boolean, errorMessage?: string }>(), {
-
+  isSubmitting: false,
+  errorMessage: '',
 })
 </script>
