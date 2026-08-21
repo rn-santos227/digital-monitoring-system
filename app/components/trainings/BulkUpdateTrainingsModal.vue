@@ -17,4 +17,8 @@ const fields: readonly { key: FieldKey, label: string, type?: 'date' }[] = Objec
   { key: 'end_date', label: 'End Date', type: 'date' },
   { key: 'default_remarks', label: 'Default Remarks' },
 ])
+
+withDefaults(defineProps<{ selectedCount: number, isSubmitting?: boolean, errorMessage?: string }>(), {
+
+})
 </script>
