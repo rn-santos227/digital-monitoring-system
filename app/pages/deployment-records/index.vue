@@ -33,15 +33,6 @@
       />
 
       <template v-if="activeTab === 'records'">
-        <DeploymentRecordsFilter
-          :model-value="deploymentRecordsFilters"
-          :validation-errors="deploymentRecordsFilterValidationErrors"
-          @apply="onApplyDeploymentRecordsFilter"
-          @reset="onResetDeploymentRecordsFilter"
-        />
-
-        <BaseAlert v-if="deploymentRecordsError" :message="deploymentRecordsError" tone="danger" />
-
         <div class="flex justify-end gap-2">
           <PrintDataListButton
             table-name="deployment_records"
@@ -57,6 +48,15 @@
             Create Deployment Record
           </BaseButton>
         </div>
+
+        <DeploymentRecordsFilter
+          :model-value="deploymentRecordsFilters"
+          :validation-errors="deploymentRecordsFilterValidationErrors"
+          @apply="onApplyDeploymentRecordsFilter"
+          @reset="onResetDeploymentRecordsFilter"
+        />
+
+        <BaseAlert v-if="deploymentRecordsError" :message="deploymentRecordsError" tone="danger" />
 
         <DeploymentRecordsTable
           :rows="deploymentRecordRows"
@@ -75,13 +75,6 @@
       </template>
 
       <template v-else>
-        <DeploymentsFilter
-          :model-value="deploymentsFilters"
-          :validation-errors="deploymentFilterValidationErrors"
-          @apply="onApplyDeploymentsFilter"
-          @reset="onResetDeploymentsFilter"
-        />
-
         <div class="flex justify-end gap-2">
           <PrintDataListButton
             table-name="deployments"
@@ -95,6 +88,12 @@
           </BaseButton>
         </div>
 
+        <DeploymentsFilter
+          :model-value="deploymentsFilters"
+          :validation-errors="deploymentFilterValidationErrors"
+          @apply="onApplyDeploymentsFilter"
+          @reset="onResetDeploymentsFilter"
+        />
         <BaseAlert v-if="deploymentsError" :message="deploymentsError" tone="danger" />
 
         <DeploymentsTable
