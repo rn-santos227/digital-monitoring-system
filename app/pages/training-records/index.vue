@@ -297,7 +297,7 @@ const hasLoadedCategories = ref(false)
 const selectedTrainingRecordIds = ref<string[]>([])
 const selectedTrainingIds = ref<string[]>([])
 const selectedTrainingCategoryIds = ref<string[]>([])
-
+const isBulkUpdateTrainingsModalOpen = ref(false)
 const { deleteSelectedTrainingRecords } = useBulkDeleteTrainingRecordsHandler({
   selectedIds: selectedTrainingRecordIds,
   reload: async () => {
