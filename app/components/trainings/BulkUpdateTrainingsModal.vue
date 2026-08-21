@@ -15,5 +15,6 @@ type FieldKey = keyof TrainingBulkUpdateValuestype FieldKey = keyof TrainingBulk
 const fields: readonly { key: FieldKey, label: string, type?: 'date' }[] = Object.freeze([
   { key: 'start_date', label: 'Start Date', type: 'date' },
   { key: 'end_date', label: 'End Date', type: 'date' },
+  { key: 'default_remarks', label: 'Default Remarks' },
 ])
 </script>
