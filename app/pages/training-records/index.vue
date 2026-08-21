@@ -86,6 +86,7 @@
           @action="onTrainingRecordTableAction"
           @update:current-page="onTrainingRecordsPageChange"
           @update:page-size="onTrainingRecordsPageSizeChange"
+          @bulk-update="openBulkUpdateTrainingRecordsModal"
           @bulk-delete="deleteSelectedTrainingRecords"
         />
       </template>
@@ -111,11 +112,12 @@
           :total-pages="trainingPagination.totalPages"
           :total-items="trainingPagination.totalItems"
           :page-size="trainingPagination.pageSize"
-          v-model:selected-row-keys="selectedTrainingRecordIds"
+          v-model:selected-row-keys="selectedTrainingIds"
           @action="onTrainingTableAction"
           @update:current-page="onTrainingPageChange"
           @update:page-size="onTrainingPageSizeChange"
-          @bulk-delete="deleteSelectedTrainingRecords"
+          @bulk-update="openBulkUpdateTrainingsModal"
+          @bulk-delete="deleteSelectedTrainings"
         />
       </template>
 
