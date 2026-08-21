@@ -10,4 +10,6 @@ import {
 } from '~/constants/page.constants'
 import type { TrainingBulkUpdateValues } from '~/types/domain/training'
 import { validateTrainingBulkUpdate } from '~/utils/bulk-management-validation'
+
+type FieldKey = keyof TrainingBulkUpdateValues
 </script>
