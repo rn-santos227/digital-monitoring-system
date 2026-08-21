@@ -27,4 +27,5 @@ const emit = defineEmits<{
   (event: 'submit', payload: TrainingBulkUpdateValues): void
 }>()
 const form = reactive<Record<FieldKey, string>>({ start_date: '', end_date: '', default_remarks: '' })
+const enabled = reactive<Record<FieldKey, boolean>>({ start_date: false, end_date: false, default_remarks: false })
 </script>
