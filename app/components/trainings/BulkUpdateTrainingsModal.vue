@@ -34,6 +34,10 @@ const onSubmit = () => {
     fields: fields.map(field => field.key),
     form,
     enabled,
+    dateRange: {
+      start: 'start_date',
+      end: 'end_date',
+    },
   })
   validationError.value = result.error
   if (result.payload) emit('submit', result.payload)
