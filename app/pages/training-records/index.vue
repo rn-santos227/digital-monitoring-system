@@ -213,6 +213,9 @@
       @close="closeUpdateTrainingCategoryModal"
       @submit="onUpdateTrainingCategoryWithFeedback"
     />
+    <BulkUpdateTrainingsModal
+
+    />
   </main>
 </template>
 
