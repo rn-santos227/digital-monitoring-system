@@ -177,6 +177,10 @@
       :training-record="selectedTrainingRecord"
       @close="closeViewTrainingRecordModal"
     />
+    <BulkUpdateTrainingRecordsModal
+      v-if="isBulkUpdateTrainingRecordsModalOpen"
+      :selected-count="selectedTrainingRecordIds.length"
+    />
     <CreateTrainingModal
       v-if="isCreateTrainingModalOpen"
       @close="onCloseCreateTrainingModal"
