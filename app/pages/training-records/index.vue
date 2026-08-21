@@ -211,6 +211,8 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import OperationsCalendar from '~/components/calendar/OperationsCalendar.vue'
+import BulkUpdateTrainingsModal from '~/components/trainings/BulkUpdateTrainingsModal.vue'
+import BulkUpdateTrainingRecordsModal from '~/components/trainings/BulkUpdateTrainingRecordsModal.vue'
 import CreateTrainingModal from '~/components/trainings/CreateTrainingModal.vue'
 import CreateTrainingRecordModal from '~/components/trainings/CreateTrainingRecordModal.vue'
 import CreateTrainingCategoryModal from '~/components/trainings/CreateTrainingCategoryModal.vue'
