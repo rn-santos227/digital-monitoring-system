@@ -218,6 +218,7 @@
       :selected-count="selectedTrainingIds.length"
       :error-message="bulkUpdateTrainingsError"
       @close="closeBulkUpdateTrainingsModal"
+      @submit="updateSelectedTrainings"
     />
   </main>
 </template>
