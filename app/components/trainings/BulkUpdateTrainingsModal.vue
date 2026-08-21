@@ -33,5 +33,7 @@ const onSubmit = () => {
   const result = validateTrainingBulkUpdate<TrainingBulkUpdateValues>({
 
   })
+  validationError.value = result.error
+  if (result.payload) emit('submit', result.payload)
 }
 </script>
