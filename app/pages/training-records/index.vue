@@ -180,6 +180,9 @@
     <BulkUpdateTrainingRecordsModal
       v-if="isBulkUpdateTrainingRecordsModalOpen"
       :selected-count="selectedTrainingRecordIds.length"
+      :error-message="bulkUpdateTrainingRecordsError"
+      @close="closeBulkUpdateTrainingRecordsModal"
+      @submit="updateSelectedTrainingRecords"
     />
     <CreateTrainingModal
       v-if="isCreateTrainingModalOpen"
