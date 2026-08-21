@@ -22,4 +22,7 @@ withDefaults(defineProps<{ selectedCount: number, isSubmitting?: boolean, errorM
   isSubmitting: false,
   errorMessage: '',
 })
+const emit = defineEmits<{
+  
+}>()
 </script>
