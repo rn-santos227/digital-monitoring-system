@@ -11,7 +11,7 @@ import {
 import type { TrainingBulkUpdateValues } from '~/types/domain/training'
 import { validateTrainingBulkUpdate } from '~/utils/bulk-management-validation'
 
-type FieldKey = keyof TrainingBulkUpdateValuestype FieldKey = keyof TrainingBulkUpdateValues
+type FieldKey = keyof TrainingBulkUpdateValues
 const fields: readonly { key: FieldKey, label: string, type?: 'date' }[] = Object.freeze([
   { key: 'start_date', label: 'Start Date', type: 'date' },
   { key: 'end_date', label: 'End Date', type: 'date' },
