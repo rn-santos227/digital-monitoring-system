@@ -23,6 +23,7 @@ withDefaults(defineProps<{ selectedCount: number, isSubmitting?: boolean, errorM
   errorMessage: '',
 })
 const emit = defineEmits<{
-  
+  (event: 'close'): void
+  (event: 'submit', payload: TrainingBulkUpdateValues): void
 }>()
 </script>
