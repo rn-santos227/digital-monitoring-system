@@ -299,6 +299,7 @@ const selectedTrainingIds = ref<string[]>([])
 const selectedTrainingCategoryIds = ref<string[]>([])
 const isBulkUpdateTrainingsModalOpen = ref(false)
 const isBulkUpdateTrainingRecordsModalOpen = ref(false)
+const bulkUpdateTrainingsError = ref('')
 
 
 const { deleteSelectedTrainingRecords } = useBulkDeleteTrainingRecordsHandler({
