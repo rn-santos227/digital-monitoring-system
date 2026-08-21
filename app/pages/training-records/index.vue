@@ -214,7 +214,8 @@
       @submit="onUpdateTrainingCategoryWithFeedback"
     />
     <BulkUpdateTrainingsModal
-
+      v-if="isBulkUpdateTrainingsModalOpen"
+      :selected-count="selectedTrainingIds.length"
     />
   </main>
 </template>
