@@ -5,6 +5,9 @@
     size="lg"
     @close="emit('close')"
   >
+    <form class="space-y-4" @submit.prevent="onSubmit">
+      
+    </form>
   </BaseModal>
 </template>
 
