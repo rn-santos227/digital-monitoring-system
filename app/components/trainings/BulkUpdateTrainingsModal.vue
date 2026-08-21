@@ -30,6 +30,8 @@ const form = reactive<Record<FieldKey, string>>({ start_date: '', end_date: '', 
 const enabled = reactive<Record<FieldKey, boolean>>({ start_date: false, end_date: false, default_remarks: false })
 const validationError = ref('')
 const onSubmit = () => {
+  const result = validateTrainingBulkUpdate<TrainingBulkUpdateValues>({
 
+  })
 }
 </script>
