@@ -217,6 +217,7 @@
       v-if="isBulkUpdateTrainingsModalOpen"
       :selected-count="selectedTrainingIds.length"
       :error-message="bulkUpdateTrainingsError"
+      @close="closeBulkUpdateTrainingsModal"
     />
   </main>
 </template>
