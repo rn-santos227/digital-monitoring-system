@@ -254,6 +254,7 @@ import {
   useBulkDeleteTrainingRecordsHandler,
   useBulkDeleteTrainingsHandler,
   useBulkDeleteTrainingCategoriesHandler,
+  useBulkUpdateTrainingsHandler,
   useValidatedListHandlers,
   useTrainingManagementPageHandlers,
   useTrainingPageActionHandlers,
