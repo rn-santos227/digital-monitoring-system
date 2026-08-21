@@ -13,6 +13,6 @@ import { validateTrainingBulkUpdate } from '~/utils/bulk-management-validation'
 
 type FieldKey = keyof TrainingBulkUpdateValuestype FieldKey = keyof TrainingBulkUpdateValues
 const fields: readonly { key: FieldKey, label: string, type?: 'date' }[] = Object.freeze([
-
+  { key: 'start_date', label: 'Start Date', type: 'date' },
 ])
 </script>
