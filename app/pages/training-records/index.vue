@@ -370,6 +370,9 @@ const {
   getTrainingCategoryById,
 } = useTrainingCategories()
 
+const {
+} = useBulkUpdateTrainingsHandler({ domain: 'trainings', selectedIds: selectedTrainingIds, isModalOpen: isBulkUpdateTrainingsModalOpen, errorMessage: bulkUpdateTrainingsError, reload: loadTrainings, showDialog })
+
 const { printTrainingCategories, printTrainingRecords, printTrainings } = usePrintTrainingsHandler()
 const handlePrintTrainingRecords = createCompleteListPrintHandler({
   rows: trainingRecordsTableRows,
