@@ -32,6 +32,8 @@ const validationError = ref('')
 const onSubmit = () => {
   const result = validateTrainingBulkUpdate<TrainingBulkUpdateValues>({
     fields: fields.map(field => field.key),
+    form,
+    enabled,
   })
   validationError.value = result.error
   if (result.payload) emit('submit', result.payload)
