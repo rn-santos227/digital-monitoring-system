@@ -13,11 +13,10 @@ interface NearRotationRow {
   personnel: { first_name: string; last_name: string } | { first_name: string; last_name: string }[] | null
 }
 
-
 const NEAR_ROTATION_WINDOW_DAYS = 14
 
 export default defineEventHandler(async (event): Promise<DashboardNearRotationResponse> => {
-  await requireAuth(event)
+  await requirePermission(event, PERMISSION_CODES.deploymentView)
 
   const supabase = getServiceSupabaseClient()
   const now = new Date()
