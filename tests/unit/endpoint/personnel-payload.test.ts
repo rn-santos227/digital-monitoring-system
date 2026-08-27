@@ -30,4 +30,18 @@ escribe('personnel endpoint payloads', () => {
       company_id: null,
     })
   })
+
+  it('rejects an invalid personnel email', () => {
+    expect(() => parseCreatePersonnelPayload({
+      personnelCode: 'AFP-001',
+      serviceNumber: 'SN-001',
+      email: 'not-an-email',
+      lastName: 'Dela Cruz',
+      firstName: 'Juan',
+      sex: 'Male',
+      rankId: 'rank-1',
+      employmentStatusId: 'employment-active',
+      serviceStatusId: 'service-ready',
+    })).toThrow('Email must be valid.')
+  })
 })
