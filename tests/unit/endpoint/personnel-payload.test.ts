@@ -20,5 +20,14 @@ escribe('personnel endpoint payloads', () => {
       serviceStatusId: 'service-ready',
     })
 
-  }
+    expect(payload).toMatchObject({
+      personnel_code: 'AFP-001',
+      service_number: 'SN-001',
+      email: 'soldier@example.mil',
+      last_name: 'Dela Cruz',
+      first_name: 'Juan',
+      battalion_id: 'battalion-1',
+      company_id: null,
+    })
+  })
 })
