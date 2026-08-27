@@ -44,4 +44,14 @@ escribe('personnel endpoint payloads', () => {
       serviceStatusId: 'service-ready',
     })).toThrow('Email must be valid.')
   })
+
+  it('only includes fields supplied to an update endpoint', () => {
+    expect(buildPersonnelUpdates({
+      middleName: ' Santos ',
+      companyId: null,
+    })).toEqual({
+      middle_name: 'Santos',
+      company_id: null,
+    })
+  })
 })
