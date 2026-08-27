@@ -20,5 +20,8 @@ describe('nullable query filter behavior', () => {
       is: vi.fn().mockReturnThis(),
     }
 
+    expect(applyNullableFilter(query, 'company_id', null)).toBe(query)
+    expect(query.is).toHaveBeenCalledWith('company_id', null)
+    expect(query.eq).not.toHaveBeenCalled()
   })
 })
