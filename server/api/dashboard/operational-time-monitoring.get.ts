@@ -1,6 +1,7 @@
 import { defineEventHandler } from 'h3'
+import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardOperationalTimeMonitoringResponse } from '../../shared/responses'
-import { requireAuth } from '../../utils/auth/requireAuth'
+import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchOperationalTimeDeployments } from '../../utils/dashboard/fetchOperationalTimeDeployments'
 
