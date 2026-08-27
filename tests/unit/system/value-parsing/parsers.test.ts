@@ -11,4 +11,8 @@ describe('system value parsing behavior', () => {
     expect(parseBoolean(input)).toBe(expected)
   })
 
+  it('uses deterministic fallbacks for unsupported values', () => {
+    expect(parseBoolean('unknown', true)).toBe(true)
+    expect(parseNumber('not-a-number', 25)).toBe(25)
+  })
 })
