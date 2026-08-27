@@ -40,4 +40,4 @@ describe('equipment endpoint payloads', () => {
       minimumStockLevel: -1,
     })).toThrow('Minimum stock level must be a non-negative whole number.')
   })
-}
+})
