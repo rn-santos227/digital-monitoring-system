@@ -1,6 +1,7 @@
 import { defineEventHandler } from 'h3'
+import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardUnitManagementKpiResponse } from '../../shared/responses'
-import { requireAuth } from '../../utils/auth/requireAuth'
+import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchUnitManagementCounts } from '../../utils/dashboard/fetchUnitManagementCounts'
 
