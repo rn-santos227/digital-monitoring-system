@@ -1,7 +1,8 @@
 import { defineEventHandler } from 'h3'
+import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardNearRotationResponse, DashboardRotationAlertItem } from '../../shared/responses'
 import { toFullName } from '../../shared/utils'
-import { requireAuth  } from '../../utils/auth/requireAuth'
+import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchNearRotationDeployments } from '../../utils/dashboard/fetchNearRotationDeployments'
 interface NearRotationRow {
@@ -11,6 +12,7 @@ interface NearRotationRow {
   deployment_area: string | null
   personnel: { first_name: string; last_name: string } | { first_name: string; last_name: string }[] | null
 }
+
 
 const NEAR_ROTATION_WINDOW_DAYS = 14
 
