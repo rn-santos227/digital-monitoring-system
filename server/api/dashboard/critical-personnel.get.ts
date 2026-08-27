@@ -9,9 +9,9 @@ import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchPersonnelStatusAndActiveDeployments } from '../../utils/dashboard/fetchPersonnelStatusAndActiveDeployments'
 
-
 export default defineEventHandler(async (event): Promise<DashboardCriticalPersonnelResponse> => {
-  await requireAuth(event)
+  await requirePermission(event, PERMISSION_CODES.personnelView)
+  await requirePermission(event, PERMISSION_CODES.deploymentView)
 
   const supabase = getServiceSupabaseClient()
   const now = new Date()
