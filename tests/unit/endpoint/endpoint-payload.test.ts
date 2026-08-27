@@ -12,7 +12,12 @@ describe('equipment endpoint payloads', () => {
       code: ' comms ',
       name: ' Communications ',
     })).toEqual({
-
+      code: 'COMMS',
+      name: 'Communications',
+      requires_serial: false,
+      is_consumable: false,
+      is_controlled: false,
+      is_active: true,
     })
   }
 }
