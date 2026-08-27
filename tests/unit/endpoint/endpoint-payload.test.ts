@@ -21,6 +21,12 @@ describe('equipment endpoint payloads', () => {
   })
 
   it('converts an equipment item stock level to a whole number', () => {
+    const payload = parseCreateEquipmentItemPayload({
+      equipmentCode: ' radio-01 ',
+      categoryId: 'category-1',
+      name: 'Field Radio',
+      minimumStockLevel: 3.8,
+    })
 
   })
 }
