@@ -1,0 +1,8 @@
+import { describe, expect, it } from 'vitest'
+
+import {
+  parseCreateEquipmentCategoryPayload,
+  parseCreateEquipmentItemPayload,
+} from '../../../../server/shared/validations/domain/equipment-management'
+
+
