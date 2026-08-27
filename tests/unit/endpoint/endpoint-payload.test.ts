@@ -5,4 +5,6 @@ import {
   parseCreateEquipmentItemPayload,
 } from '../../../../server/shared/validations/domain/equipment-management'
 
+describe('equipment endpoint payloads', () => {
 
+}
