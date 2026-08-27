@@ -7,7 +7,10 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "vitest run",
+    "test:endpoints": "vitest run tests/unit/endpoints",
+    "test:system": "vitest run tests/unit/system"
   },
   "dependencies": {
     "@heroicons/vue": "^2.2.0",
