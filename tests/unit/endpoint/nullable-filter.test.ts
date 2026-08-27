@@ -13,4 +13,8 @@ describe('nullable query filter behavior', () => {
     expect(query.eq).toHaveBeenCalledWith('battalion_id', 'battalion-1')
     expect(query.is).not.toHaveBeenCalled()
   })
+
+  it('uses an IS NULL filter when no domain identifier is provided', () => {
+
+  })
 })
