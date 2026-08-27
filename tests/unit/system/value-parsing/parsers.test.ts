@@ -15,4 +15,8 @@ describe('system value parsing behavior', () => {
     expect(parseBoolean('unknown', true)).toBe(true)
     expect(parseNumber('not-a-number', 25)).toBe(25)
   })
+
+  it('parses finite numeric input', () => {
+    expect(parseNumber('12.5')).toBe(12.5)
+  })
 })
