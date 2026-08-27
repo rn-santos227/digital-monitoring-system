@@ -1,7 +1,8 @@
 import { defineEventHandler } from 'h3'
+import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardCriticalEquipmentResponse } from '../../shared/responses'
 import { buildEquipmentMetrics } from '../../shared/utils'
-import { requireAuth } from '../../utils/auth/requireAuth'
+import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchEquipmentAssets } from '../../utils/dashboard/fetchEquipmentAssets'
 
