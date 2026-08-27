@@ -7,6 +7,12 @@ import {
 
 describe('equipment endpoint payloads', () => {
   it('normalizes category codes and applies endpoint defaults', () => {
+  it('normalizes category codes and applies endpoint defaults', () => {
+    expect(parseCreateEquipmentCategoryPayload({
+      code: ' comms ',
+      name: ' Communications ',
+    })).toEqual({
 
+    })
   }
 }
