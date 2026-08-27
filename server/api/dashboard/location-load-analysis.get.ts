@@ -1,10 +1,11 @@
 import { defineEventHandler } from 'h3'
+import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardLocationLoadAnalysisResponse } from '../../shared/responses'
 import {
   buildPersonnelSummaryMetrics,
   normalizeDashboardPersonnelStatusRows,
 } from '../../shared/utils'
-import { requireAuth } from '../../utils/auth/requireAuth'
+import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchPersonnelStatusAndActiveDeployments } from '../../utils/dashboard/fetchPersonnelStatusAndActiveDeployments'
 
