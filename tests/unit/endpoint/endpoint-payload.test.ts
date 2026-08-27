@@ -31,4 +31,8 @@ describe('equipment endpoint payloads', () => {
     expect(payload.equipment_code).toBe('RADIO-01')
     expect(payload.minimum_stock_level).toBe(3)
   })
+
+  it('rejects negative equipment stock levels', () => {
+
+  })
 }
