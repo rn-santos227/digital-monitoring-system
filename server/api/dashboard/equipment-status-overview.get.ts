@@ -7,7 +7,7 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchEquipmentAssets } from '../../utils/dashboard/fetchEquipmentAssets'
 
 export default defineEventHandler(async (event): Promise<DashboardEquipmentStatusOverviewResponse> => {
-  await requireAuth(event)
+  await requirePermission(event, PERMISSION_CODES.equipmentView)
 
   const supabase = getServiceSupabaseClient()
   const now = new Date()
