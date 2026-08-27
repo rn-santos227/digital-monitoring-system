@@ -6,5 +6,7 @@ import {
 } from '../../../../server/shared/validations/domain/equipment-management'
 
 describe('equipment endpoint payloads', () => {
+  it('normalizes category codes and applies endpoint defaults', () => {
 
+  }
 }
