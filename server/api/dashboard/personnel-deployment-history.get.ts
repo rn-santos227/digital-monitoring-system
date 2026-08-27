@@ -21,7 +21,8 @@ const toPerson = (value: DeploymentHistoryRow['personnel']): { first_name: strin
 }
 
 export default defineEventHandler(async (event): Promise<DashboardPersonnelDeploymentHistoryResponse> => {
-  await requireAuth(event)
+  await requirePermission(event, PERMISSION_CODES.personnelView)
+  await requirePermission(event, PERMISSION_CODES.deploymentView)
 
   const supabase = getServiceSupabaseClient()
   const now = new Date()
