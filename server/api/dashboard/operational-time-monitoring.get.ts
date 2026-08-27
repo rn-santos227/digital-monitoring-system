@@ -13,7 +13,7 @@ interface OperationalTimeRow {
 const DAY_IN_MILLISECONDS = 86400000
 
 export default defineEventHandler(async (event): Promise<DashboardOperationalTimeMonitoringResponse> => {
-  await requireAuth(event)
+  await requirePermission(event, PERMISSION_CODES.deploymentView)
 
   const supabase = getServiceSupabaseClient()
   const now = new Date()
