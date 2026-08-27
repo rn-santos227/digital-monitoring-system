@@ -34,7 +34,10 @@ describe('equipment endpoint payloads', () => {
 
   it('rejects negative equipment stock levels', () => {
     expect(() => parseCreateEquipmentItemPayload({
-
+      equipmentCode: 'RADIO-01',
+      categoryId: 'category-1',
+      name: 'Field Radio',
+      minimumStockLevel: -1,
     })).toThrow('Minimum stock level must be a non-negative whole number.')
   })
 }
