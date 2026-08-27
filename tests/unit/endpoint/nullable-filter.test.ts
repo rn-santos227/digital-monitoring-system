@@ -4,6 +4,10 @@ import { applyNullableFilter } from '../../../../server/shared/utils/query-filte
 
 describe('nullable query filter behavior', () => {
   it('uses equality for a populated domain identifier', () => {
+    const query = {
+      eq: vi.fn().mockReturnThis(),
+      is: vi.fn().mockReturnThis(),
+    }
 
   })
 })
