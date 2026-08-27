@@ -15,6 +15,10 @@ describe('nullable query filter behavior', () => {
   })
 
   it('uses an IS NULL filter when no domain identifier is provided', () => {
+    const query = {
+      eq: vi.fn().mockReturnThis(),
+      is: vi.fn().mockReturnThis(),
+    }
 
   })
 })
