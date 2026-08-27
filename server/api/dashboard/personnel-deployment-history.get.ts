@@ -1,7 +1,8 @@
 import { defineEventHandler } from 'h3'
+import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardDeploymentHistoryItem, DashboardPersonnelDeploymentHistoryResponse } from '../../shared/responses'
 import { toFullName } from '../../shared/utils'
-import { requireAuth  } from '../../utils/auth/requireAuth'
+import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchDeploymentHistory, type DeploymentHistoryRow } from '../../utils/dashboard/fetchDeploymentHistory'
 
