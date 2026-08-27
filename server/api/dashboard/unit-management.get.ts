@@ -6,7 +6,8 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchUnitManagementCounts } from '../../utils/dashboard/fetchUnitManagementCounts'
 
 export default defineEventHandler(async (event): Promise<DashboardUnitManagementKpiResponse> => {
-  await requireAuth(event)
+  await requirePermission(event, PERMISSION_CODES.battalionView)
+  await requirePermission(event, PERMISSION_CODES.companyView)
 
   const supabase = getServiceSupabaseClient()
   return await fetchUnitManagementCounts(supabase)
