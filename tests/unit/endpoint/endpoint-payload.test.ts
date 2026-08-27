@@ -28,5 +28,7 @@ describe('equipment endpoint payloads', () => {
       minimumStockLevel: 3.8,
     })
 
+    expect(payload.equipment_code).toBe('RADIO-01')
+    expect(payload.minimum_stock_level).toBe(3)
   })
 }
