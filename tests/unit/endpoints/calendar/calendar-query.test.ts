@@ -22,7 +22,9 @@ describe('calendar endpoint queries', () => {
       hour: 14,
     }).hour).toBe(14)
     expect(() => parseCalendarEventsQuery({
-
+      mode: 'month',
+      date: '2026-08-27',
+      hour: 14,
     })).toThrow('Hour filtering is only available in day calendar mode.')
   })
 })
