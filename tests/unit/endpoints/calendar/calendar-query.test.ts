@@ -14,4 +14,8 @@ describe('calendar endpoint queries', () => {
       hour: null,
     })
   })
+
+  it('allows hour filtering only in day mode', () => {
+
+  })
 })
