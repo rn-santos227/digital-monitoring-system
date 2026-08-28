@@ -10,7 +10,10 @@ describe('application settings endpoint payloads', () => {
       mapDefaultLongitude: 120.98421234,
       mapDefaultZoom: 12.9,
     })).toEqual({
-
+      page_size: 25,
+      map_default_latitude: 14.599512,
+      map_default_longitude: 120.984212,
+      map_default_zoom: 12,
     })
   })
 })
