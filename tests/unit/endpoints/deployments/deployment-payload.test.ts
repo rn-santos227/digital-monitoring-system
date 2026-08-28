@@ -23,7 +23,10 @@ describe('deployment endpoint payloads', () => {
 
   it('rejects coordinates outside valid geographic bounds', () => {
     expect(() => parseCreateDeploymentPayload({
-
+      deploymentArea: 'Northern Sector',
+      deploymentAreaLatitude: 91,
+      startDate: '2026-09-01',
+      statusId: 'active',
     })).toThrow('Deployment area latitude must be between -90 and 90.')
   })
 })
