@@ -7,6 +7,10 @@ import {
 
 describe('engagement endpoint payloads', () => {
   it('supports and normalizes schema-style engagement fields', () => {
+   expect(parseCreateEngagementPayload({
 
+    })).toMatchObject({
+
+    })
   })
 })
