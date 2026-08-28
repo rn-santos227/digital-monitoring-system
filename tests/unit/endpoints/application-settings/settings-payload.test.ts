@@ -16,4 +16,11 @@ describe('application settings endpoint payloads', () => {
       map_default_zoom: 12,
     })
   })
+
+  it('rejects empty updates and invalid page sizes', () => {
+    expect(() => parseApplicationSettingsUpdates({})).toThrow('No updates were provided.')
+    expect(() => parseApplicationSettingsUpdates({ pageSize: 101 })).toThrow(
+      'Page size must be between 1 and 100.',
+    )
+  })
 })
