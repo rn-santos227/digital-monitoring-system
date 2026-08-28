@@ -1,3 +1,4 @@
+import { createError } from 'h3'
 import type { CalendarEventsQuery, CalendarViewMode } from '../../models'
 import { ISO_DATE_PATTERN } from '../../utils/regex'
 
