@@ -12,7 +12,12 @@ describe('deployment endpoint payloads', () => {
       statusId: ' active ',
       supervisorPersonnelId: ' personnel-1 ',
     })).toMatchObject({
-
+      deployment_area: 'Northern Sector',
+      deployment_area_latitude: 14.5995,
+      deployment_area_longitude: 120.9842,
+      start_date: '2026-09-01',
+      status_id: 'active',
+      supervisor_id: 'personnel-1',
     })
   })
 })
