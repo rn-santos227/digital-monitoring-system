@@ -4,6 +4,10 @@ import { parseCreateDeploymentPayload } from '../../../../server/shared/validati
 
 describe('deployment endpoint payloads', () => {
   it('normalizes deployment details and coordinates', () => {
+    expect(parseCreateDeploymentPayload({
 
+    })).toMatchObject({
+
+    })
   })
 })
