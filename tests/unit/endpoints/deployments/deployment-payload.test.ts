@@ -29,4 +29,8 @@ describe('deployment endpoint payloads', () => {
       statusId: 'active',
     })).toThrow('Deployment area latitude must be between -90 and 90.')
   })
+
+  it('rejects a deployment that ends before it starts', () => {
+
+    })).toThrow('End date must be on or after start date.')
 })
