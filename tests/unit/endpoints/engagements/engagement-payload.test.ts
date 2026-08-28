@@ -33,7 +33,8 @@ describe('engagement endpoint payloads', () => {
 
   it('requires personnel when creating an engagement record', () => {
     expect(() => parseCreateEngagementRecordPayload({
-
+      engagementId: 'engagement-1',
+      personnelId: ' ',
     })).toThrow('Personnel id is required.')
   })
 })
