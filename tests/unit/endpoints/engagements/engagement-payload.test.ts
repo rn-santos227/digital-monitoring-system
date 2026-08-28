@@ -30,4 +30,8 @@ describe('engagement endpoint payloads', () => {
       statusId: 'planned',
     })).toThrow('End date must be on or after start date.')
   })
+
+  it('requires personnel when creating an engagement record', () => {
+
+  })
 })
