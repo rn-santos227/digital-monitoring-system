@@ -21,4 +21,8 @@ describe('engagement endpoint payloads', () => {
       status_id: 'planned',
     })
   })
+
+  it('rejects an invalid engagement date range', () => {
+
+  })
 })
