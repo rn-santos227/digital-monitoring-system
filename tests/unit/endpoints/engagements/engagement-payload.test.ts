@@ -24,8 +24,10 @@ describe('engagement endpoint payloads', () => {
 
   it('rejects an invalid engagement date range', () => {
     expect(() => parseCreateEngagementPayload({
-
+      engagementTitle: 'Community Coordination',
+      startDate: '2026-10-11',
+      endDate: '2026-10-10',
+      statusId: 'planned',
     })).toThrow('End date must be on or after start date.')
   })
-
 })
