@@ -8,7 +8,10 @@ describe('calendar endpoint queries', () => {
       mode: 'week',
       date: '2026-08-27',
     })).toEqual({
-
+     viewMode: 'week',
+      rangeStart: '2026-08-23',
+      rangeEnd: '2026-08-29',
+      hour: null,
     })
   })
 })
