@@ -23,6 +23,9 @@ describe('engagement endpoint payloads', () => {
   })
 
   it('rejects an invalid engagement date range', () => {
+    expect(() => parseCreateEngagementPayload({
 
+    })).toThrow('End date must be on or after start date.')
   })
+
 })
