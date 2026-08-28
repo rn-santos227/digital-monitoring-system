@@ -4,6 +4,10 @@ import { parseApplicationSettingsUpdates } from '../../../../server/shared/valid
 
 describe('application settings endpoint payloads', () => {
   it('normalizes pagination and map settings', () => {
+    expect(parseApplicationSettingsUpdates({
 
+    })).toEqual({
+
+    })
   })
 })
