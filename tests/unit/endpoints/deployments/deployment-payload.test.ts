@@ -20,4 +20,8 @@ describe('deployment endpoint payloads', () => {
       supervisor_id: 'personnel-1',
     })
   })
+
+  it('rejects coordinates outside valid geographic bounds', () => {
+
+  })
 })
