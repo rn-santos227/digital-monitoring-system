@@ -31,6 +31,8 @@ describe('deployment endpoint payloads', () => {
   })
 
   it('rejects a deployment that ends before it starts', () => {
+    expect(() => parseCreateDeploymentPayload({
 
     })).toThrow('End date must be on or after start date.')
+  })
 })
