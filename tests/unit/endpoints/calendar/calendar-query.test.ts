@@ -16,6 +16,8 @@ describe('calendar endpoint queries', () => {
   })
 
   it('allows hour filtering only in day mode', () => {
+    expect(parseCalendarEventsQuery({
 
+    }).hour).toBe(14)
   })
 })
