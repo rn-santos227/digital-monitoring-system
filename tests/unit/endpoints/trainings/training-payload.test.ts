@@ -32,6 +32,10 @@ describe('training endpoint payloads', () => {
   })
 
   it('builds a personnel training record payload', () => {
+    expect(parseCreateTrainingRecordPayload({
+    
+    })).toEqual({
 
+    })
   })
 })
