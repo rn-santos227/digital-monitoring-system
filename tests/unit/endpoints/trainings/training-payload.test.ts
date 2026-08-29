@@ -7,6 +7,10 @@ import {
 
 describe('training endpoint payloads', () => {
   it('normalizes a training and its optional relationships', () => {
+    expect(parseCreateTrainingPayload({
 
+    })).toMatchObject({
+
+    })
   })
 })
