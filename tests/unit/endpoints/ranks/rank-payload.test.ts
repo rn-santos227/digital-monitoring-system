@@ -9,7 +9,9 @@ describe('rank endpoint payloads', () => {
       name: ' Captain ',
       sortOrder: 4.9,
     })).toEqual({
-
+      code: 'CPT',
+      name: 'Captain',
+      sort_order: 4,
     })
   })
 })
