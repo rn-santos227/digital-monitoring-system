@@ -24,4 +24,10 @@ describe('user endpoint payloads', () => {
       accountTypeIds: ['operator'],
     })
   })
+
+  it('rejects multiple account types', () => {
+    expect(() => normalizeAccountTypeIds(['admin', 'operator'])).toThrow(
+      'Only one account type can be assigned to a user.',
+    )
+  })
 })
