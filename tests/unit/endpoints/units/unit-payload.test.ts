@@ -14,7 +14,9 @@ describe('unit endpoint payloads', () => {
       is_active: true,
     })
     expect(parseCreateCompanyPayload({
-
+      battalionId: ' battalion-1 ',
+      code: ' alpha ',
+      name: ' Alpha Company ',
     })).toEqual({
 
     })
