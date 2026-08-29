@@ -6,3 +6,9 @@ import {
   parseCreateUserProfilePayload,
   parsePasswordUpdatePayload,
 } from '../../../../server/shared/validations/domain/user-management'
+
+
+describe('user endpoint payloads', () => {
+
+
+})
