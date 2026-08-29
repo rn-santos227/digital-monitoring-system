@@ -19,5 +19,7 @@ describe('bulk mutation endpoints', () => {
       'utf8',
     )
 
+    expect(source).toContain('export default defineEventHandler')
+    expect(source).toContain('requireBulkPermission')
   })
 })
