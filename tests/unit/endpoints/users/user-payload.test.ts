@@ -33,6 +33,8 @@ describe('user endpoint payloads', () => {
 
   it('validates password and activation mutation payloads', () => {
     expect(parsePasswordUpdatePayload({
+      currentPassword: 'old-password',
+      newPassword: ' new-password ',
     })).toEqual({
     })
   })
