@@ -11,9 +11,17 @@ import {
 describe('user endpoint payloads', () => {
   it('normalizes a new user and enforces one account type', () => {
     expect(parseCreateUserProfilePayload({
-    
+      email: ' OPERATOR@EXAMPLE.MIL ',
+      fullName: ' Juan Dela Cruz ',
+      password: ' secure-password ',
+      accountTypeIds: ['operator'],
     })).toEqual({
-
+      personnelId: null,
+      email: 'operator@example.mil',
+      fullName: 'Juan Dela Cruz',
+      avatarUrl: null,
+      password: 'secure-password',
+      accountTypeIds: ['operator'],
     })
   })
 })
