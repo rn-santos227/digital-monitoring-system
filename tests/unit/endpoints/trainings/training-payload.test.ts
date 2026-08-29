@@ -30,4 +30,8 @@ describe('training endpoint payloads', () => {
       statusId: 'scheduled',
     })).toThrow('End date must be on or after start date.')
   })
+
+  it('builds a personnel training record payload', () => {
+
+  })
 })
