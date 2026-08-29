@@ -32,7 +32,8 @@ describe('user endpoint payloads', () => {
   })
 
   it('validates password and activation mutation payloads', () => {
-
-
+    expect(parsePasswordUpdatePayload({
+    })).toEqual({
+    })
   })
 })
