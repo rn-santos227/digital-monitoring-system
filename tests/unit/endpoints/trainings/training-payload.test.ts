@@ -5,4 +5,6 @@ import {
   parseCreateTrainingRecordPayload,
 } from '../../../../server/shared/validations/domain/training-management'
 
+describe('training endpoint payloads', () => {
 
+})
