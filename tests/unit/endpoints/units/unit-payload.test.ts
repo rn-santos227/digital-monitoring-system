@@ -6,3 +6,6 @@ import {
   parseCreateCompanyPayload,
 } from '../../../../server/shared/validations/domain/unit-management'
 
+describe('unit endpoint payloads', () => {
+
+})
