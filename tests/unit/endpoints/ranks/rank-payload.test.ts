@@ -14,4 +14,10 @@ describe('rank endpoint payloads', () => {
       sort_order: 4,
     })
   })
+
+  it('requires a rank name', () => {
+    expect(() => parseCreateRankPayload({ code: 'CPT', name: ' ' })).toThrow(
+      'Rank name is required.',
+    )
+  })
 })
