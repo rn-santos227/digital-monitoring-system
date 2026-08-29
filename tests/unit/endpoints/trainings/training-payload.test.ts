@@ -23,6 +23,8 @@ describe('training endpoint payloads', () => {
   })
 
   it('rejects a training that ends before it starts', () => {
+    expect(() => parseCreateTrainingPayload({
 
+    })).toThrow('End date must be on or after start date.')
   })
 })
