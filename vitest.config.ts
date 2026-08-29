@@ -9,5 +9,9 @@ export default defineConfig({
       '@': fileURLToPath(new URL('.', import.meta.url)),
     },
   },
-
+  test: {
+    environment: 'node',
+    include: ['tests/unit/**/*.test.ts'],
+    passWithNoTests: false,
+  },
 })
