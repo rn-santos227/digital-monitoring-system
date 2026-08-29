@@ -39,5 +39,9 @@ describe('user endpoint payloads', () => {
       currentPassword: 'old-password',
       newPassword: 'new-password',
     })
+    expect(parseActivationPayload({ isActive: false })).toBe(false)
+    expect(() => parseActivationPayload({ isActive: false })).toThrow(
+      'isActive must be provided as a boolean.',
+    )
   })
 })
