@@ -30,4 +30,9 @@ describe('user endpoint payloads', () => {
       'Only one account type can be assigned to a user.',
     )
   })
+
+  it('validates password and activation mutation payloads', () => {
+
+
+  })
 })
