@@ -8,6 +8,8 @@ import {
 
 describe('unit endpoint payloads', () => {
   it('normalizes battalion and company create requests', () => {
+    expect(parseCreateBattalionPayload({ code: ' 1ib ', name: ' First Infantry ' })).toEqual({
 
+    })
   })
 })
