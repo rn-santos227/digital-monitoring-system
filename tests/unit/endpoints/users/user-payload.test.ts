@@ -9,6 +9,7 @@ import {
 
 
 describe('user endpoint payloads', () => {
+  it('normalizes a new user and enforces one account type', () => {
 
-
+  })
 })
