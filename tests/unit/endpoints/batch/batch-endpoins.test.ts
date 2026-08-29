@@ -13,5 +13,11 @@ import {
 import { parsePersonnelBatchUploadWorkbook } from '../../../../server/shared/utils/personnel-batch-upload'
 
 describe('bulk mutation endpoints', () => {
+  it.each(['bulk.patch.ts', 'bulk.delete.ts'])('protects and audits %s', async (fileName) => {
+    const source = await readFile(
+      resolve(process.cwd(), 'server/api/[domain]', fileName),
+      'utf8',
+    )
 
+  })
 })
