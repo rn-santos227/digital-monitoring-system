@@ -36,6 +36,8 @@ describe('user endpoint payloads', () => {
       currentPassword: 'old-password',
       newPassword: ' new-password ',
     })).toEqual({
+      currentPassword: 'old-password',
+      newPassword: 'new-password',
     })
   })
 })
