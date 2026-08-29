@@ -33,7 +33,10 @@ describe('training endpoint payloads', () => {
 
   it('builds a personnel training record payload', () => {
     expect(parseCreateTrainingRecordPayload({
-    
+      trainingId: ' training-1 ',
+      personnelId: ' personnel-1 ',
+      certificateNo: ' CERT-001 ',
+      validUntil: '2027-09-01',
     })).toEqual({
 
     })
