@@ -6,5 +6,7 @@ import {
 } from '../../../../server/shared/validations/domain/training-management'
 
 describe('training endpoint payloads', () => {
+  it('normalizes a training and its optional relationships', () => {
 
+  })
 })
