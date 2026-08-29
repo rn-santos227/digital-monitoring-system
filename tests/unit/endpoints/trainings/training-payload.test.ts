@@ -21,4 +21,8 @@ describe('training endpoint payloads', () => {
       status_id: 'scheduled',
     })
   })
+
+  it('rejects a training that ends before it starts', () => {
+
+  })
 })
