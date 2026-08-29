@@ -24,4 +24,10 @@ describe('unit endpoint payloads', () => {
       is_active: true,
     })
   })
+
+  it('requires personnel for a unit assignment', () => {
+    expect(() => parseAssignUnitPersonnelPayload({ personnelId: ' ' })).toThrow(
+      'Personnel id is required.',
+    )
+  })
 })
