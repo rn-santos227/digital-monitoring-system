@@ -12,4 +12,6 @@ import {
 } from '../../../../server/shared/utils/bulk-management'
 import { parsePersonnelBatchUploadWorkbook } from '../../../../server/shared/utils/personnel-batch-upload'
 
+describe('bulk mutation endpoints', () => {
 
+})
