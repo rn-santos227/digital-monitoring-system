@@ -13,5 +13,10 @@ describe('unit endpoint payloads', () => {
       name: 'First Infantry',
       is_active: true,
     })
+    expect(parseCreateCompanyPayload({
+
+    })).toEqual({
+
+    })
   })
 })
