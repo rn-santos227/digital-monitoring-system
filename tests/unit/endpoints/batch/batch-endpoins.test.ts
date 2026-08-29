@@ -21,5 +21,8 @@ describe('bulk mutation endpoints', () => {
 
     expect(source).toContain('export default defineEventHandler')
     expect(source).toContain('requireBulkPermission')
+    expect(source).toContain('recordManagementAuditLog')
+    expect(source).toContain('AUDIT_LOG_OUTCOMES.success')
+    expect(source).toContain('AUDIT_LOG_OUTCOMES.failed')
   })
 })
