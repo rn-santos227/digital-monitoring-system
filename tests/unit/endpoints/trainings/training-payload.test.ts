@@ -38,7 +38,11 @@ describe('training endpoint payloads', () => {
       certificateNo: ' CERT-001 ',
       validUntil: '2027-09-01',
     })).toEqual({
-
+      training_id: 'training-1',
+      personnel_id: 'personnel-1',
+      certificate_no: 'CERT-001',
+      valid_until: '2027-09-01',
+      remarks: null,
     })
   })
 })
