@@ -18,7 +18,10 @@ describe('unit endpoint payloads', () => {
       code: ' alpha ',
       name: ' Alpha Company ',
     })).toEqual({
-
+      battalion_id: 'battalion-1',
+      code: 'ALPHA',
+      name: 'Alpha Company',
+      is_active: true,
     })
   })
 })
