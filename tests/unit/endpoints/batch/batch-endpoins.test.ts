@@ -92,6 +92,8 @@ describe('personnel batch upload endpoint', () => {
       expect.objectContaining({
         personnelCode: 'AFP-100',
         serviceNumber: 'AFP-100',
+        email: 'afp-100@afp.mil.ph',
+        firstName: 'Juan',
 
       })
     ])
