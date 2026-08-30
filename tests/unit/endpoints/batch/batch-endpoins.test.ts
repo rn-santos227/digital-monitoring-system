@@ -29,6 +29,8 @@ describe('bulk mutation endpoints', () => {
    for (const [domain, definition] of Object.entries(BULK_DOMAIN_DEFINITIONS)) {
       expect(getBulkDomainDefinition(domain)).toBe(definition)
       expect(definition.table).not.toBe('')
+      expect(definition.updatePermissions?.length ?? 0).toBeGreaterThan(0)
+      expect(definition.writableColumns.length).toBeGreaterThan(0)
 
    }
   })
