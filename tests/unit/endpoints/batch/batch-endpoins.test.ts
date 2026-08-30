@@ -58,6 +58,10 @@ describe('bulk mutation endpoints', () => {
         },
       },
     ], ['asset_tag'])).toEqual([
+      {
+        id: 'asset-1',
+        updates: { asset_tag: 'RADIO-001' },
+      },
     ])
   })
 })
