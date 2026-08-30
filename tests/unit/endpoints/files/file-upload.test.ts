@@ -9,3 +9,8 @@ import {
   validateUploadFilePart,
 } from '../../../../server/shared/validations/domain/file-management'
 
+describe('file upload endpoint', () => {
+  it('requires RBAC and audits successful and failed uploads', () => {
+
+  })
+})
