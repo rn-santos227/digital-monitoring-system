@@ -15,6 +15,8 @@ describe('file upload endpoint', () => {
     expect(fileUploadSource).toContain('requireAnyPermission')
     expect(fileUploadSource).toContain('PERSONNEL_PERMISSION_GROUPS.personnelManagement')
     expect(fileUploadSource).toContain('validateUploadFilePart')
-
+    expect(fileUploadSource).toContain('recordManagementAuditLog')
+    expect(fileUploadSource).toContain('AUDIT_LOG_OUTCOMES.success')
+    expect(fileUploadSource).toContain('AUDIT_LOG_OUTCOMES.failed')
   })
 })
