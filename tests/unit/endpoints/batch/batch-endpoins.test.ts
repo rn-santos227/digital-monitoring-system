@@ -39,6 +39,10 @@ describe('bulk mutation endpoints', () => {
   })
 
   it('normalizes batch delete identifiers and rejects duplicates', () => {
+    expect(parseBulkIds([' record-1 ', 'record-2'])).toEqual([
+      'record-1',
+      'record-2',
+    ])
 
 
   })
