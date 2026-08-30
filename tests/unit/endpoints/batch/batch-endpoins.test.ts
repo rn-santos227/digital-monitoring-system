@@ -71,3 +71,7 @@ describe('bulk mutation endpoints', () => {
     ], [])).toThrow('Unsupported update fields: created_at.')
   })
 })
+
+describe('personnel batch upload endpoint', () => {
+
+})
