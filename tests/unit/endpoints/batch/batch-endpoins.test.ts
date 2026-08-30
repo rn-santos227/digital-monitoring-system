@@ -32,6 +32,9 @@ describe('bulk mutation endpoints', () => {
       expect(definition.updatePermissions?.length ?? 0).toBeGreaterThan(0)
       expect(definition.writableColumns.length).toBeGreaterThan(0)
 
-   }
+      if (definition.deletePermissions) {
+        expect(definition.deletePermissions.length).toBeGreaterThan(0)
+      }
+    }
   })
 })
