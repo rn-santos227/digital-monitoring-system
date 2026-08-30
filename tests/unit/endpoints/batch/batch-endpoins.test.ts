@@ -96,7 +96,9 @@ describe('personnel batch upload endpoint', () => {
         firstName: 'Juan',
         lastName: 'Dela Cruz',
         rankId: 'CPT',
-
+        employmentStatusId: 'ACTIVE',
+        serviceStatusId: 'READY',
+        birthdate: '1990-05-04',
       })
     ])
   })
