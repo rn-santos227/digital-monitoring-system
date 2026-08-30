@@ -24,4 +24,8 @@ describe('bulk mutation endpoints', () => {
     expect(source).toContain('AUDIT_LOG_OUTCOMES.success')
     expect(source).toContain('AUDIT_LOG_OUTCOMES.failed')
   })
+
+  it('defines update and delete behavior for every bulk CRUD domain', () => {
+
+  })
 })
