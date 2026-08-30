@@ -11,6 +11,8 @@ import {
 
 describe('file upload endpoint', () => {
   it('requires RBAC and audits successful and failed uploads', () => {
+    expect(fileUploadSource).toContain('export default defineEventHandler')
+    expect(fileUploadSource).toContain('requireAnyPermission')
 
   })
 })
