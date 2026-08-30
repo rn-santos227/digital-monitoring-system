@@ -102,4 +102,8 @@ describe('personnel batch upload endpoint', () => {
       })
     ])
   })
+
+  it('skips incomplete spreadsheet rows', async () => {
+
+  })
 })
