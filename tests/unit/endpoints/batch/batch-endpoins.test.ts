@@ -74,6 +74,9 @@ describe('bulk mutation endpoints', () => {
 
 describe('personnel batch upload endpoint', () => {
   it('protects and audits the batch upload route', () => {
+    expect(personnelBatchUploadSource).toContain('export default defineEventHandler')
+    expect(personnelBatchUploadSource).toContain('requirePermission')
+    expect(personnelBatchUploadSource).toContain('recordManagementAuditLog')
 
   })
 })
