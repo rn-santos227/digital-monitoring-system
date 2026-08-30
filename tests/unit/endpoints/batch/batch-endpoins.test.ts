@@ -14,5 +14,9 @@ import {
 import { parsePersonnelBatchUploadWorkbook } from '../../../../server/shared/utils/personnel-batch-upload'
 
 describe('bulk mutation endpoints', () => {
+  it.each([
 
+  ])('protects and audits %s', (fileName, source) => {
+
+  })
 })
