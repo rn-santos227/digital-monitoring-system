@@ -108,6 +108,8 @@ describe('personnel batch upload endpoint', () => {
     const worksheet = workbook.addWorksheet('Personnel')
     worksheet.addRow(['SERVICE_NUMBER', 'FIRST_NAME', 'LAST_NAME'])
     worksheet.addRow(['AFP-101', 'Maria', ''])
+    const buffer = await workbook.xlsx.writeBuffer()
 
+    await expect(parsePersonnelBatchUploadWorkbook(buffer)).resolves.toEqual([])
   })
 })
