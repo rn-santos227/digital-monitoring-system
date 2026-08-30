@@ -37,4 +37,9 @@ describe('bulk mutation endpoints', () => {
       }
     }
   })
+
+  it('normalizes batch delete identifiers and rejects duplicates', () => {
+
+
+  })
 })
