@@ -50,6 +50,8 @@ describe('bulk mutation endpoints', () => {
   })
 
   it('allows only domain-approved columns in batch updates', () => {
-
+    expect(parseBulkUpdateItems([
+    ], ['asset_tag'])).toEqual([
+    ])
   })
 })
