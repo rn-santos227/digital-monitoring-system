@@ -77,6 +77,7 @@ describe('personnel batch upload endpoint', () => {
     expect(personnelBatchUploadSource).toContain('export default defineEventHandler')
     expect(personnelBatchUploadSource).toContain('requirePermission')
     expect(personnelBatchUploadSource).toContain('recordManagementAuditLog')
-
+    expect(personnelBatchUploadSource).toContain('AUDIT_LOG_OUTCOMES.success')
+    expect(personnelBatchUploadSource).toContain('AUDIT_LOG_OUTCOMES.failed')
   })
 })
