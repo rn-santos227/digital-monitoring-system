@@ -90,7 +90,9 @@ describe('personnel batch upload endpoint', () => {
 
     await expect(parsePersonnelBatchUploadWorkbook(buffer)).resolves.toEqual([
       expect.objectContaining({
-        
+        personnelCode: 'AFP-100',
+        serviceNumber: 'AFP-100',
+
       })
     ])
   })
