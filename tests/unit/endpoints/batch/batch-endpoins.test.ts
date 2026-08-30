@@ -15,7 +15,8 @@ import { parsePersonnelBatchUploadWorkbook } from '../../../../server/shared/uti
 
 describe('bulk mutation endpoints', () => {
   it.each([
-
+    ['bulk.patch.ts', bulkPatchSource],
+    ['bulk.delete.ts', bulkDeleteSource],
   ])('protects and audits %s', (fileName, source) => {
 
   })
