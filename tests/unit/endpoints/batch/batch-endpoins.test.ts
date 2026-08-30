@@ -48,4 +48,8 @@ describe('bulk mutation endpoints', () => {
     )
     expect(() => parseBulkIds([])).toThrow('Provide between 1 and 100 records.')
   })
+
+  it('allows only domain-approved columns in batch updates', () => {
+
+  })
 })
