@@ -84,6 +84,9 @@ describe('personnel batch upload endpoint', () => {
   it('maps spreadsheet aliases, dates, and fallback values', async () => {
     const workbook = new ExcelJS.Workbook()
     const worksheet = workbook.addWorksheet('Personnel')
+    worksheet.addRow(['SN', 'FNAME', 'LNAME', 'RANK_CODE', 'EMPLOYMENT_STATUS', 'SERVICE_STATUS', 'DOB'])
+    worksheet.addRow([' AFP-100 ', ' Juan ', ' Dela Cruz ', 'CPT', 'ACTIVE', 'READY', new Date('1990-05-04T00:00:00Z')])
+    const buffer = await workbook.xlsx.writeBuffer()
 
   })
 })
