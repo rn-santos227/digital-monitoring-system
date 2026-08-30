@@ -4,7 +4,7 @@ import { normalizeWhitespaceToken, stripUnsafeFileNameCharacters } from '../../u
 
 interface MultipartPart {
   name?: string
-  data?: Buffer
+  data?: Uint8Array
   filename?: string
   type?: string
 }
@@ -51,7 +51,7 @@ export const parseMultipartTextField = (parts: MultipartPart[], fieldName: strin
     return null
   }
 
-  const value = fieldPart.data.toString('utf-8').trim()
+  const value = new TextDecoder().decode(fieldPart.data).trim()
   return value.length > 0 ? value : null
 }
 

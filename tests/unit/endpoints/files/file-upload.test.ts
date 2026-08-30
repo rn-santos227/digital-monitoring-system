@@ -9,6 +9,8 @@ import {
   validateUploadFilePart,
 } from '../../../../server/shared/validations/domain/file-management'
 
+const encodeText = (value: string): Uint8Array => new TextEncoder().encode(value)
+
 describe('file upload endpoint', () => {
   it('requires RBAC and audits successful and failed uploads', () => {
     expect(fileUploadSource).toContain('export default defineEventHandler')
@@ -21,6 +23,14 @@ describe('file upload endpoint', () => {
   })
 
   it('accepts a file within the configured size and MIME constraints', () => {
+    const filePart = {
+      name: 'file',
+      data: encodeText('report contents'),
+      filename: 'readiness-report.pdf',
+      type: 'application/pdf',
+    }
+
+
 
   })
 })
