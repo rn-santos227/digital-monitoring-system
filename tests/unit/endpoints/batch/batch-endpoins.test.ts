@@ -73,5 +73,7 @@ describe('bulk mutation endpoints', () => {
 })
 
 describe('personnel batch upload endpoint', () => {
+  it('protects and audits the batch upload route', () => {
 
+  })
 })
