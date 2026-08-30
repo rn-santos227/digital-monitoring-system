@@ -43,7 +43,9 @@ describe('bulk mutation endpoints', () => {
       'record-1',
       'record-2',
     ])
-
-
+    expect(() => parseBulkIds(['record-1', 'record-1'])).toThrow(
+      'Record ids must be non-empty and unique.',
+    )
+    expect(() => parseBulkIds([])).toThrow('Provide between 1 and 100 records.')
   })
 })
