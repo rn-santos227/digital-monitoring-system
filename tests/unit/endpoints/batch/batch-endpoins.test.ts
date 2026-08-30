@@ -94,6 +94,8 @@ describe('personnel batch upload endpoint', () => {
         serviceNumber: 'AFP-100',
         email: 'afp-100@afp.mil.ph',
         firstName: 'Juan',
+        lastName: 'Dela Cruz',
+        rankId: 'CPT',
 
       })
     ])
