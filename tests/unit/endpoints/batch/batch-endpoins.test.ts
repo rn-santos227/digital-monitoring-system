@@ -82,6 +82,8 @@ describe('personnel batch upload endpoint', () => {
   })
 
   it('maps spreadsheet aliases, dates, and fallback values', async () => {
+    const workbook = new ExcelJS.Workbook()
+    const worksheet = workbook.addWorksheet('Personnel')
 
   })
 })
