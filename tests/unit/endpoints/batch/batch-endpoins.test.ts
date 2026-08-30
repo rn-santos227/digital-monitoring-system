@@ -89,7 +89,9 @@ describe('personnel batch upload endpoint', () => {
     const buffer = await workbook.xlsx.writeBuffer()
 
     await expect(parsePersonnelBatchUploadWorkbook(buffer)).resolves.toEqual([
-
+      expect.objectContaining({
+        
+      })
     ])
   })
 })
