@@ -51,6 +51,12 @@ describe('bulk mutation endpoints', () => {
 
   it('allows only domain-approved columns in batch updates', () => {
     expect(parseBulkUpdateItems([
+      {
+        id: ' asset-1 ',
+        updates: {
+          asset_tag: 'RADIO-001',
+        },
+      },
     ], ['asset_tag'])).toEqual([
     ])
   })
