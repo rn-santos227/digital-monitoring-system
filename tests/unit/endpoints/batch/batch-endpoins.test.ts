@@ -18,6 +18,9 @@ describe('bulk mutation endpoints', () => {
     ['bulk.patch.ts', bulkPatchSource],
     ['bulk.delete.ts', bulkDeleteSource],
   ])('protects and audits %s', (fileName, source) => {
+    expect(source).toContain('export default defineEventHandler')
+    expect(source).toContain('requireBulkPermission')
+    expect(source).toContain('recordManagementAuditLog')
 
   })
 })
