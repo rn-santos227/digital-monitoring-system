@@ -80,4 +80,8 @@ describe('personnel batch upload endpoint', () => {
     expect(personnelBatchUploadSource).toContain('AUDIT_LOG_OUTCOMES.success')
     expect(personnelBatchUploadSource).toContain('AUDIT_LOG_OUTCOMES.failed')
   })
+
+  it('maps spreadsheet aliases, dates, and fallback values', async () => {
+
+  })
 })
