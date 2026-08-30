@@ -27,6 +27,7 @@
   "devDependencies": {
     "@nuxt/test-utils": "^4.0.3",
     "@tailwindcss/vite": "^4.2.2",
+    "@types/node": "^26.4.0",
     "@vue/test-utils": "^2.4.11",
     "happy-dom": "^20.10.6",
     "supabase": "^2.84.6",
