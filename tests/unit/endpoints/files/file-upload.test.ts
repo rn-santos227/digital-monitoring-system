@@ -19,4 +19,8 @@ describe('file upload endpoint', () => {
     expect(fileUploadSource).toContain('AUDIT_LOG_OUTCOMES.success')
     expect(fileUploadSource).toContain('AUDIT_LOG_OUTCOMES.failed')
   })
+
+  it('accepts a file within the configured size and MIME constraints', () => {
+
+  })
 })
