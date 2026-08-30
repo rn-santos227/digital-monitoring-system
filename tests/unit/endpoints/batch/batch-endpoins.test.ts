@@ -63,5 +63,8 @@ describe('bulk mutation endpoints', () => {
         updates: { asset_tag: 'RADIO-001' },
       },
     ])
+    expect(() => parseBulkUpdateItems([
+      { id: 'asset-1', updates: { created_at: '2026-01-01' } },
+    ], ['asset_tag'])).toThrow('Unsupported update fields: created_at.')
   })
 })
