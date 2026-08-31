@@ -47,30 +47,6 @@ export const parseExternalAttachmentUrl = (value: unknown): URL => {
   return parsedUrl
 }
 
-export const parseMultipartTextField = (parts: MultipartPart[], fieldName: string): string | null => {
-  const fieldPart = parts.find((part) => part.name === fieldName && !part.filename)
-
-  if (!fieldPart?.data) {
-    return null
-  }
-
-  const value = new TextDecoder().decode(fieldPart.data).trim()
-  return value.length > 0 ? value : null
-}
-
-export const parseAllowedMimePrefixes = (parts: MultipartPart[]): string[] => {
-  const rawValue = parseMultipartTextField(parts, 'allowedMimePrefixes')
-
-  if (!rawValue) {
-    return []
-  }
-
-  return rawValue
-    .split(',')
-    .map((value) => value.trim().toLowerCase())
-    .filter((value) => value.length > 0)
-}
-
 export function validateUploadFilePart(
   filePart: MultipartPart | undefined,
   options: UploadFileValidationOptions,
