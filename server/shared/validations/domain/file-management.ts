@@ -1,5 +1,9 @@
 import { createError } from 'h3'
-import { EXTERNAL_FILE_ALLOWED_PROTOCOLS } from '../../constants'
+import {
+  EXTERNAL_FILE_ALLOWED_PROTOCOLS,
+  SAFE_UPLOAD_IMAGE_TYPES,
+  UPLOAD_ACTIVE_CONTENT_PATTERN,
+} from '../../constants'
 import { normalizeWhitespaceToken, stripUnsafeFileNameCharacters } from '../../utils'
 
 interface MultipartPart {
@@ -11,7 +15,6 @@ interface MultipartPart {
 
 interface UploadFileValidationOptions {
   maxSizeBytes: number
-  allowedMimePrefixes?: string[]
 }
 
 export const normalizeFileName = (name: string): string => {
