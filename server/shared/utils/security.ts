@@ -5,3 +5,9 @@ export interface RateLimitEntry {
   count: number
   resetAt: number
 }
+
+export function parsePositiveInteger(value: unknown, fallback: number): number {
+  const parsed = typeof value === 'number' ? value : Number(value)
+
+  return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : fallback
+}
