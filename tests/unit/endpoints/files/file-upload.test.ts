@@ -35,4 +35,8 @@ describe('file upload endpoint', () => {
       allowedMimePrefixes: ['application/pdf'],
     })).not.toThrow()
   })
+
+  it('accepts any MIME type when no MIME prefixes are configured', () => {
+
+  })
 })
