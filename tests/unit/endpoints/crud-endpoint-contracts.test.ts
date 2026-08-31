@@ -86,7 +86,26 @@ describe.each(CRUD_DOMAINS)('%s CRUD endpoint contracts', (domain) => {
         : [`${domain}/[id]/index.patch.ts`]
 
     for (const updatePath of updatePaths) {
+      const source = readEndpoint(updatePath)
 
+      expectHandlerContract(source)
+      if (domain === 'incidents') {
+        expect(source).toMatch(/updateEquipmentIncident[A-Z]/)
+      } else {
+        expect(source).toContain('recordManagementAuditLog')
+        expect(source).toContain('AUDIT_LOG_OUTCOMES.success')
+        expect(source).toContain('AUDIT_LOG_OUTCOMES.failed')
+      }
     }
+  })
+
+  it('protects, usage-checks, and audits the delete endpoint', async () => {
+    const source = readEndpoint(`${domain}/[id]/index.delete.ts`)
+
+    expectHandlerContract(source)
+    expect(source).toContain('recordManagementAuditLog')
+    expect(source).toContain('AUDIT_LOG_OUTCOMES.success')
+    expect(source).toContain('AUDIT_LOG_OUTCOMES.failed')
+    expect(source).toMatch(/existing|usage|Unused/)
   })
 })
