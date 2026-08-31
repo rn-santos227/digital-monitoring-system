@@ -317,9 +317,7 @@ const onSubmit = async () => {
     isProfileImageUploading.value = true
 
     try {
-      const response = await uploadFileEndpoint(profileImageFile.value, {
-        allowedMimePrefixes: FILE_UPLOAD_CONSTRAINTS.imageMimePrefixes,
-      })
+      const response = await uploadFileEndpoint(profileImageFile.value)
       form.profileImageUrl = response.attachment.publicUrl
     } catch (error) {
       errors.profileImageFile = extractApiErrorMessage(error, 'Unable to upload profile image file.')
