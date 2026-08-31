@@ -31,3 +31,24 @@ export function normalizeOrigin(value: string): string | undefined {
     return undefined
   }
 }
+
+export function isRequestOriginAllowed(event: H3Event, allowedOrigins: ReadonlySet<string>): boolean {
+  const fetchSite = getHeader(event, 'sec-fetch-site')?.toLowerCase()
+
+  if (fetchSite === 'cross-site') {
+    return false
+  }
+
+  const originHeader = getHeader(event, 'origin')
+  if (!originHeader) {
+    return true
+  }
+
+  const origin = normalizeOrigin(originHeader)
+  if (!origin) {
+    return false
+  }
+
+  return origin === getRequestURL(event).origin || allowedOrigins.has(origin)
+}
+
