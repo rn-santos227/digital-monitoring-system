@@ -7,3 +7,7 @@ const endpointSources = import.meta.glob('/server/api/**/*.ts', {
   import: 'default',
   query: '?raw',
 }) as Record<string, string>
+
+const CRUD_DOMAINS = [
+
+]
