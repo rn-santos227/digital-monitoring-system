@@ -61,6 +61,9 @@ describe('file upload endpoint', () => {
   })
 
   it('rejects a file larger than the maximum upload size', () => {
-
+    expect(() => validateUploadFilePart({
+    }, {
+      maxSizeBytes: 4,
+    })).toThrow('File size exceeds the maximum allowed upload size.')
   })
 })
