@@ -26,3 +26,7 @@ const CRUD_DOMAINS = [
   'training-records',
   'trainings',
 ]
+
+const readEndpoint = (relativePath: string): string => {
+  const source = endpointSources[`/server/api/${relativePath}`]
+}
