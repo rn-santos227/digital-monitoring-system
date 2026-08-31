@@ -60,6 +60,9 @@ describe.each(CRUD_DOMAINS)('%s CRUD endpoint contracts', (domain) => {
   })
 
   it('protects the single-record read endpoint', async () => {
+   const source = readEndpoint(`${domain}/[id]/index.get.ts`)
 
+    expectHandlerContract(source)
+    expect(source).toMatch(/getRouterParam\(event, ['"]id['"]\)/)
   })
 })
