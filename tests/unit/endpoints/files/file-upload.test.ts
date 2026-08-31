@@ -47,4 +47,8 @@ describe('file upload endpoint', () => {
       allowedMimePrefixes: [],
     })).not.toThrow()
   })
+
+  it('rejects a missing file payload', () => {
+
+  })
 })
