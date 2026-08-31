@@ -75,7 +75,7 @@ export function validateUploadFilePart(
     throw createError({ statusCode: 415, statusMessage: 'File contents do not match the declared image type.' })
   }
 
-  if (!isAllowed) {
-    throw createError({ statusCode: 415, statusMessage: 'File type is not allowed for this upload.' })
+  if (containsActiveContent(filePart.data)) {
+    throw createError({ statusCode: 415, statusMessage: 'Files containing active or executable content are not allowed.' })
   }
 }
