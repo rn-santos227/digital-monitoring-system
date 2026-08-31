@@ -31,6 +31,8 @@ describe('file upload endpoint', () => {
     }
 
 
+    expect(() => validateUploadFilePart(filePart, {
 
+    })).not.toThrow()
   })
 })
