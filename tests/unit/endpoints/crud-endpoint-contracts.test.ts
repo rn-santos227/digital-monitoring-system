@@ -85,5 +85,8 @@ describe.each(CRUD_DOMAINS)('%s CRUD endpoint contracts', (domain) => {
           ]
         : [`${domain}/[id]/index.patch.ts`]
 
+    for (const updatePath of updatePaths) {
+
+    }
   })
 })
