@@ -33,6 +33,10 @@ const hasValidImageSignature = (mimeType: SafeUploadMimeType, data: Uint8Array):
   if (mimeType === 'image/png') {
     return data.length >= 8 && hasBytes(data, 0, [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])
   }
+
+  return data.length >= 12
+    && hasBytes(data, 0, [0x52, 0x49, 0x46, 0x46])
+    && hasBytes(data, 8, [0x57, 0x45, 0x42, 0x50])
 }
 
 const containsActiveContent = (data: Uint8Array): boolean => {
