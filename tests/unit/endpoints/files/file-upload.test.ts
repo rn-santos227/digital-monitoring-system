@@ -84,11 +84,19 @@ describe('file upload endpoint', () => {
     })).toThrow('File contents do not match the declared image type.')
   })
 
-    expect(parseAllowedMimePrefixes(parts)).toEqual([
-      'image/',
-      'application/pdf',
-      'text/plain',
+  it('rejects active content hidden inside an otherwise recognized image', () => {
+    const polyglot = new Uint8Array([
+      ...validPng,
+      ...encodeText('<script>alert(1)</script>'),
     ])
+
+    expect(() => validateUploadFilePart({
+      data: polyglot,
+      filename: 'payload.png',
+      type: 'image/png',
+    }, {
+      maxSizeBytes: 1024,
+    })).toThrow('Files containing active or executable content are not allowed.')
   })
 
   it('normalizes unsafe upload file names', () => {
