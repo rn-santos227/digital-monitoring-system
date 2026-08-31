@@ -2,7 +2,7 @@ import { createError, defineEventHandler, readMultipartFormData } from 'h3'
 import type { FileUploadResponse } from '../../shared/responses'
 import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERSONNEL_PERMISSION_GROUPS } from '../../shared/constants'
 import { buildStorageObjectPath } from '../../shared/utils'
-import { parseAllowedMimePrefixes, validateUploadFilePart } from '../../shared/validations'
+import { validateUploadFilePart } from '../../shared/validations'
 import { FILE_UPLOAD_MAX_SIZE_BYTES } from '../../config/storage-s3'
 import { resolveSupabaseStorageS3Connection } from '../../config/storage-s3'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
@@ -26,11 +26,9 @@ export default defineEventHandler(async (event): Promise<FileUploadResponse> => 
     const formData = await readMultipartFormData(event)
     const multipartParts = formData ?? []
     const filePart = multipartParts.find((part) => Boolean(part.filename))
-    const allowedMimePrefixes = parseAllowedMimePrefixes(multipartParts)
 
     validateUploadFilePart(filePart, {
       maxSizeBytes: FILE_UPLOAD_MAX_SIZE_BYTES,
-      allowedMimePrefixes,
     })
 
     const storagePath = buildStorageObjectPath(filePart.filename)
@@ -40,7 +38,6 @@ export default defineEventHandler(async (event): Promise<FileUploadResponse> => 
     requestData.fileName = filePart.filename
     requestData.mimeType = filePart.type ?? null
     requestData.sizeBytes = filePart.data.length
-    requestData.allowedMimePrefixes = allowedMimePrefixes
 
     await uploadStorageObject(supabase, {
       bucket: s3Config.bucket,
