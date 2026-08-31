@@ -90,4 +90,8 @@ describe('file upload endpoint', () => {
       allowedMimePrefixes: ['image/', 'application/pdf'],
     })).toThrow('File type is not allowed for this upload.')
   })
+
+  it('parses and normalizes allowed MIME prefixes from multipart fields', () => {
+
+  })
 })
