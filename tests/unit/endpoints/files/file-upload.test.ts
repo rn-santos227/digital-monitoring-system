@@ -25,9 +25,9 @@ describe('file upload endpoint', () => {
   it('accepts a file within the configured size and MIME constraints', () => {
     const filePart = {
       name: 'file',
-      data: encodeText('report contents'),
-      filename: 'readiness-report.pdf',
-      type: 'application/pdf',
+      data: validJpeg,
+      filename: 'personnel-photo.jpg',
+      type: 'image/jpeg',
     }
 
     expect(() => validateUploadFilePart(filePart, {
