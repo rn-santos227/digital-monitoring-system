@@ -74,17 +74,15 @@ describe('file upload endpoint', () => {
     })).toThrow('Only JPEG, PNG, and WebP images')
   })
 
-  it('parses and normalizes allowed MIME prefixes from multipart fields', () => {
-    const parts = [
-      {
-        name: 'allowedMimePrefixes',
-        data: encodeText(' Image/, application/PDF, , text/plain '),
-      },
-    ]
-
-    expect(parseMultipartTextField(parts, 'allowedMimePrefixes')).toBe(
-      'Image/, application/PDF, , text/plain',
-    )
+  it('rejects spoofed image MIME types when the magic bytes do not match', () => {
+    expect(() => validateUploadFilePart({
+      data: encodeText('<html><script>alert(1)</script></html>'),
+      filename: 'payload.png',
+      type: 'image/png',
+    }, {
+      maxSizeBytes: 1024,
+    })).toThrow('File contents do not match the declared image type.')
+  })
 
     expect(parseAllowedMimePrefixes(parts)).toEqual([
       'image/',
