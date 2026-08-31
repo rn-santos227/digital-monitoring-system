@@ -116,4 +116,11 @@ describe('file upload endpoint', () => {
     )
     expect(normalizeFileName('***')).toBe('attachment')
   })
+
+  it('accepts HTTP attachment URLs and rejects unsafe protocols', () => {
+    expect(parseExternalAttachmentUrl('https://files.example.mil/report.pdf').href).toBe(
+      'https://files.example.mil/report.pdf',
+    )
+
+  })
 })
