@@ -18,4 +18,7 @@ const CRUD_DOMAINS = [
   'engagements',
   'equipment-assets',
   'equipment-categories',
+  'equipment-issuances',
+  'equipment-items',
+  'incidents',
 ]
