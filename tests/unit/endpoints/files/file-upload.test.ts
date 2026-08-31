@@ -57,15 +57,13 @@ describe('file upload endpoint', () => {
     })).toThrow('File size exceeds the maximum allowed upload size.')
   })
 
-  it('requires a MIME type when an allowlist is configured', () => {
+  it('requires an approved MIME type and matching safe extension', () => {
     expect(() => validateUploadFilePart({
-      data: encodeText('data'),
-      filename: 'unknown-file',
+      data: validPng,
+      filename: 'unknown-file.png',
     }, {
       maxSizeBytes: 1024,
-      allowedMimePrefixes: ['image/'],
-    })).toThrow('File type is required for this upload.')
-  })
+    })).toThrow('Only JPEG, PNG, and WebP images')
 
   it('rejects MIME types outside the configured allowlist', () => {
     expect(() => validateUploadFilePart({
