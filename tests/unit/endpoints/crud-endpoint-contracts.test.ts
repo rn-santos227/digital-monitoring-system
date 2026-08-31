@@ -58,4 +58,8 @@ describe.each(CRUD_DOMAINS)('%s CRUD endpoint contracts', (domain) => {
     expect(source).toContain('AUDIT_LOG_OUTCOMES.success')
     expect(source).toContain('AUDIT_LOG_OUTCOMES.failed')
   })
+
+  it('protects the single-record read endpoint', async () => {
+
+  })
 })
