@@ -108,7 +108,7 @@
           :label="PERSONNEL_CREATE_PROFILE_IMAGE_LABEL"
           :helper-text="profileImageUploadHelperText"
           :error="errors.profileImageFile"
-          accept="image/*"
+          :accept="FILE_UPLOAD_CONSTRAINTS.imageAccept"
           :allowed-mime-prefixes="FILE_UPLOAD_CONSTRAINTS.imageMimePrefixes"
           :max-size-bytes="FILE_UPLOAD_CONSTRAINTS.maxSizeBytes"
           :disabled="isSubmitting || isProfileImageUploading"
@@ -334,9 +334,7 @@ const onSubmit = async () => {
     isProfileImageUploading.value = true
 
     try {
-      const response = await uploadFileEndpoint(profileImageFile.value, {
-        allowedMimePrefixes: FILE_UPLOAD_CONSTRAINTS.imageMimePrefixes,
-      })
+      const response = await uploadFileEndpoint(profileImageFile.value)
       form.profileImageUrl = response.attachment.publicUrl
     } catch (error) {
       errors.profileImageFile = extractApiErrorMessage(error, 'Unable to upload profile image file.')
