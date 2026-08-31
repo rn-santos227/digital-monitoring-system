@@ -3,13 +3,13 @@ import { describe, expect, it } from 'vitest'
 import fileUploadSource from '../../../../server/api/files/upload.post'
 import {
   normalizeFileName,
-  parseAllowedMimePrefixes,
   parseExternalAttachmentUrl,
-  parseMultipartTextField,
   validateUploadFilePart,
 } from '../../../../server/shared/validations/domain/file-management'
 
 const encodeText = (value: string): Uint8Array => new TextEncoder().encode(value)
+const validJpeg = new Uint8Array([0xff, 0xd8, 0xff, 0xe0, 0xff, 0xd9])
+const validPng = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])
 
 describe('file upload endpoint', () => {
   it('requires RBAC and audits successful and failed uploads', () => {
