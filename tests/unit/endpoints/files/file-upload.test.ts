@@ -124,6 +124,8 @@ describe('file upload endpoint', () => {
     expect(() => parseExternalAttachmentUrl('file:///etc/passwd')).toThrow(
       'External URL protocol is not allowed.',
     )
-
+    expect(() => parseExternalAttachmentUrl('not a URL')).toThrow(
+      'External URL is invalid.',
+    )
   })
 })
