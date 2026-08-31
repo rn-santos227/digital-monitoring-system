@@ -167,9 +167,7 @@ const onSubmit = async () => {
     isAvatarUploading.value = true
 
     try {
-      const response = await uploadFileEndpoint(avatarFile.value, {
-        allowedMimePrefixes: FILE_UPLOAD_CONSTRAINTS.imageMimePrefixes,
-      })
+      const response = await uploadFileEndpoint(avatarFile.value)
       form.avatarUrl = response.attachment.publicUrl
       result.payload.avatarUrl = response.attachment.publicUrl
     } catch (error) {
