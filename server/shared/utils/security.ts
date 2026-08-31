@@ -52,3 +52,8 @@ export function isRequestOriginAllowed(event: H3Event, allowedOrigins: ReadonlyS
   return origin === getRequestURL(event).origin || allowedOrigins.has(origin)
 }
 
+export function getRateLimitKey(event: H3Event): string {
+  // Do not trust a caller-controlled X-Forwarded-For value. A trusted reverse
+  // proxy should overwrite the socket address before forwarding the request.
+  return getRequestIP(event) ?? 'unknown-client'
+}
