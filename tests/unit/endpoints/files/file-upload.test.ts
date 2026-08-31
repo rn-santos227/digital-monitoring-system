@@ -92,6 +92,12 @@ describe('file upload endpoint', () => {
   })
 
   it('parses and normalizes allowed MIME prefixes from multipart fields', () => {
+    const parts = [
+      {
+        name: 'allowedMimePrefixes',
+        data: encodeText(' Image/, application/PDF, , text/plain '),
+      },
+    ]
 
   })
 })
