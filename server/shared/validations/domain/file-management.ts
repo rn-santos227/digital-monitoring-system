@@ -17,6 +17,8 @@ interface UploadFileValidationOptions {
   maxSizeBytes: number
 }
 
+type SafeUploadMimeType = keyof typeof SAFE_UPLOAD_IMAGE_TYPES
+
 export const normalizeFileName = (name: string): string => {
   const normalized = stripUnsafeFileNameCharacters(normalizeWhitespaceToken(name, '-').toLowerCase())
 
