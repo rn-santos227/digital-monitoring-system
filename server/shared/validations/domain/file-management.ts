@@ -23,6 +23,12 @@ const hasBytes = (data: Uint8Array, offset: number, expected: readonly number[])
   return expected.every((value, index) => data[offset + index] === value)
 }
 
+const containsActiveContent = (data: Uint8Array): boolean => {
+  const decoded = new TextDecoder('utf-8', { fatal: false }).decode(data)
+
+  return UPLOAD_ACTIVE_CONTENT_PATTERN.test(decoded)
+}
+
 export const normalizeFileName = (name: string): string => {
   const normalized = stripUnsafeFileNameCharacters(normalizeWhitespaceToken(name, '-').toLowerCase())
 
