@@ -82,6 +82,9 @@ describe('file upload endpoint', () => {
 
   it('rejects MIME types outside the configured allowlist', () => {
     expect(() => validateUploadFilePart({
+      data: encodeText('executable'),
+      filename: 'unsafe.exe',
+      type: 'application/x-msdownload',
     }, {
       maxSizeBytes: 1024,
       allowedMimePrefixes: ['image/', 'application/pdf'],
