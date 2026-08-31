@@ -180,7 +180,8 @@ export const APPLICATION_SETTINGS_API_ENDPOINTS = Object.freeze({
 
 export const FILE_UPLOAD_CONSTRAINTS = Object.freeze({
   maxSizeBytes: 10 * 1024 * 1024,
-  imageMimePrefixes: ['image/'],
+  imageAccept: '.jpg,.jpeg,.png,.webp',
+  imageMimePrefixes: ['image/jpeg', 'image/png', 'image/webp'],
 })
 
 export const AUTH_LOCAL_STORAGE_KEYS = Object.freeze({

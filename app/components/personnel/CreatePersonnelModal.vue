@@ -131,7 +131,7 @@
           :label="PERSONNEL_CREATE_PROFILE_IMAGE_LABEL"
           :helper-text="profileImageUploadHelperText"
           :error="errors.profileImageFile"
-          accept="image/*"
+          :accept="FILE_UPLOAD_CONSTRAINTS.imageAccept"
           :allowed-mime-prefixes="FILE_UPLOAD_CONSTRAINTS.imageMimePrefixes"
           :max-size-bytes="FILE_UPLOAD_CONSTRAINTS.maxSizeBytes"
           :disabled="isSubmitting || isProfileImageUploading"
