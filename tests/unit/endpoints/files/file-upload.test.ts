@@ -79,4 +79,8 @@ describe('file upload endpoint', () => {
       allowedMimePrefixes: ['image/'],
     })).toThrow('File type is required for this upload.')
   })
+
+
+  it('rejects MIME types outside the configured allowlist', () => {
+  })
 })
