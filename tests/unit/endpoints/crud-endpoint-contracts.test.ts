@@ -21,4 +21,8 @@ const CRUD_DOMAINS = [
   'equipment-issuances',
   'equipment-items',
   'incidents',
+  'personnel',
+  'training-categories',
+  'training-records',
+  'trainings',
 ]
