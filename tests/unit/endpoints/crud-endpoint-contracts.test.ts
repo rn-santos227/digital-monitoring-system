@@ -43,5 +43,10 @@ const expectHandlerContract = (source: string) => {
 }
 
 describe.each(CRUD_DOMAINS)('%s CRUD endpoint contracts', (domain) => {
+  it('protects the collection read endpoint', async () => {
+    const source = readEndpoint(`${domain}/index.get.ts`)
+
+    expectHandlerContract(source)
+  })
 
 })
