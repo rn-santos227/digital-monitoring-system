@@ -43,7 +43,8 @@ describe('file upload endpoint', () => {
     }
 
     expect(() => validateUploadFilePart(filePart, {
-
-    })
+      maxSizeBytes: 1024,
+      allowedMimePrefixes: [],
+    })).not.toThrow()
   })
 })
