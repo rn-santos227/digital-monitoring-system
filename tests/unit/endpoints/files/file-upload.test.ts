@@ -83,6 +83,8 @@ describe('file upload endpoint', () => {
   it('rejects MIME types outside the configured allowlist', () => {
     expect(() => validateUploadFilePart({
     }, {
+      maxSizeBytes: 1024,
+      allowedMimePrefixes: ['image/', 'application/pdf'],
     })).toThrow('File type is not allowed for this upload.')
   })
 })
