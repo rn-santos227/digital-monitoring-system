@@ -57,3 +57,20 @@ export function getRateLimitKey(event: H3Event): string {
   // proxy should overwrite the socket address before forwarding the request.
   return getRequestIP(event) ?? 'unknown-client'
 }
+
+export function consumeRateLimit(
+  entries: Map<string, RateLimitEntry>,
+  key: string,
+  now: number,
+  limit: number,
+  windowMs: number,
+): RateLimitEntry {
+  const existing = entries.get(key)
+  const entry = !existing || existing.resetAt <= now
+    ? { count: 1, resetAt: now + windowMs }
+    : { count: existing.count + 1, resetAt: existing.resetAt }
+
+  entries.set(key, entry)
+  return entry
+}
+
