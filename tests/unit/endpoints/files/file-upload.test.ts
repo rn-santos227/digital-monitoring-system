@@ -102,5 +102,11 @@ describe('file upload endpoint', () => {
     expect(parseMultipartTextField(parts, 'allowedMimePrefixes')).toBe(
       'Image/, application/PDF, , text/plain',
     )
+
+    expect(parseAllowedMimePrefixes(parts)).toEqual([
+      'image/',
+      'application/pdf',
+      'text/plain',
+    ])
   })
 })
