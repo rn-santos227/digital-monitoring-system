@@ -29,4 +29,10 @@ const CRUD_DOMAINS = [
 
 const readEndpoint = (relativePath: string): string => {
   const source = endpointSources[`/server/api/${relativePath}`]
+
+  if (!source) {
+    throw new Error(`Endpoint source was not found: ${relativePath}`)
+  }
+
+  return source
 }
