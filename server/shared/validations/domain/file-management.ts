@@ -24,6 +24,11 @@ const hasBytes = (data: Uint8Array, offset: number, expected: readonly number[])
 }
 
 const hasValidImageSignature = (mimeType: SafeUploadMimeType, data: Uint8Array): boolean => {
+  if (mimeType === 'image/jpeg') {
+    return data.length >= 4
+      && hasBytes(data, 0, [0xff, 0xd8, 0xff])
+      && hasBytes(data, data.length - 2, [0xff, 0xd9])
+  }
 
 
 }
