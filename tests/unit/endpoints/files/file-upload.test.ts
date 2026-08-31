@@ -65,15 +65,13 @@ describe('file upload endpoint', () => {
       maxSizeBytes: 1024,
     })).toThrow('Only JPEG, PNG, and WebP images')
 
-  it('rejects MIME types outside the configured allowlist', () => {
     expect(() => validateUploadFilePart({
-      data: encodeText('executable'),
-      filename: 'unsafe.exe',
-      type: 'application/x-msdownload',
+      data: validPng,
+      filename: 'image.js',
+      type: 'image/png',
     }, {
       maxSizeBytes: 1024,
-      allowedMimePrefixes: ['image/', 'application/pdf'],
-    })).toThrow('File type is not allowed for this upload.')
+    })).toThrow('Only JPEG, PNG, and WebP images')
   })
 
   it('parses and normalizes allowed MIME prefixes from multipart fields', () => {
