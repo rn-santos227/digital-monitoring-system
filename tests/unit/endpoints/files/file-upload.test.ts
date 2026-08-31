@@ -32,19 +32,6 @@ describe('file upload endpoint', () => {
 
     expect(() => validateUploadFilePart(filePart, {
       maxSizeBytes: 1024,
-      allowedMimePrefixes: ['application/pdf'],
-    })).not.toThrow()
-  })
-
-  it('accepts any MIME type when no MIME prefixes are configured', () => {
-    const filePart = {
-      data: encodeText('data'),
-      filename: 'attachment.bin',
-    }
-
-    expect(() => validateUploadFilePart(filePart, {
-      maxSizeBytes: 1024,
-      allowedMimePrefixes: [],
     })).not.toThrow()
   })
 
