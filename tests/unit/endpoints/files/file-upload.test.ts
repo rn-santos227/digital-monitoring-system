@@ -30,9 +30,9 @@ describe('file upload endpoint', () => {
       type: 'application/pdf',
     }
 
-
     expect(() => validateUploadFilePart(filePart, {
-
+      maxSizeBytes: 1024,
+      allowedMimePrefixes: ['application/pdf'],
     })).not.toThrow()
   })
 })
