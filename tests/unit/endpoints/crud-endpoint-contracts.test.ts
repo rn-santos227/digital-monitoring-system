@@ -36,3 +36,9 @@ const readEndpoint = (relativePath: string): string => {
 
   return source
 }
+
+const expectHandlerContract = (source: string) => {
+  expect(source).toContain('export default defineEventHandler')
+  expect(source).toMatch(/require(?:Any)?Permission\(|requireBulkPermission\(/)
+}
+
