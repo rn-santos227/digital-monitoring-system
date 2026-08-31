@@ -19,6 +19,10 @@ interface UploadFileValidationOptions {
 
 type SafeUploadMimeType = keyof typeof SAFE_UPLOAD_IMAGE_TYPES
 
+const hasBytes = (data: Uint8Array, offset: number, expected: readonly number[]): boolean => {
+  return expected.every((value, index) => data[offset + index] === value)
+}
+
 export const normalizeFileName = (name: string): string => {
   const normalized = stripUnsafeFileNameCharacters(normalizeWhitespaceToken(name, '-').toLowerCase())
 
