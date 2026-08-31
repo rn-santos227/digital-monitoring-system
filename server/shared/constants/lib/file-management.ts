@@ -9,3 +9,10 @@ export {
   FILE_UPLOAD_ALLOWED_SOURCE_TYPES,
   FILE_UPLOAD_MAX_SIZE_BYTES,
 }
+
+export const SAFE_UPLOAD_IMAGE_TYPES = Object.freeze({
+  'image/jpeg': Object.freeze({ extensions: Object.freeze(['jpg', 'jpeg']) }),
+  'image/png': Object.freeze({ extensions: Object.freeze(['png']) }),
+  'image/webp': Object.freeze({ extensions: Object.freeze(['webp']) }),
+} as const)
+
