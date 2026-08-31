@@ -61,8 +61,14 @@ export function validateUploadFilePart(
 
   const normalizedMimeType = filePart.type?.trim().toLowerCase() ?? ''
 
-  if (!normalizedMimeType) {
-    throw createError({ statusCode: 415, statusMessage: 'File type is required for this upload.' })
+  const safeType = SAFE_UPLOAD_IMAGE_TYPES[normalizedMimeType as SafeUploadMimeType]
+  const extension = filePart.filename.split('.').pop()?.toLowerCase() ?? ''
+
+  if (!safeType || !safeType.extensions.some((allowedExtension) => allowedExtension === extension)) {
+    throw createError({
+      statusCode: 415,
+      statusMessage: 'Only JPEG, PNG, and WebP images with matching file extensions are allowed.',
+    })
   }
 
   const isAllowed = (options.allowedMimePrefixes ?? []).some((prefix) => normalizedMimeType.startsWith(prefix))
