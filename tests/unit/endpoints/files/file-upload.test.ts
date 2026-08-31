@@ -69,4 +69,8 @@ describe('file upload endpoint', () => {
       maxSizeBytes: 4,
     })).toThrow('File size exceeds the maximum allowed upload size.')
   })
+
+  it('requires a MIME type when an allowlist is configured', () => {
+
+  })
 })
