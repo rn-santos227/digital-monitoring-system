@@ -62,7 +62,7 @@
           :label="USERS_PROFILE_AVATAR_LABEL"
           :helper-text="avatarUploadHelperText"
           :error="errors.avatarFile"
-          accept="image/*"
+          :accept="FILE_UPLOAD_CONSTRAINTS.imageAccept"
           :allowed-mime-prefixes="FILE_UPLOAD_CONSTRAINTS.imageMimePrefixes"
           :max-size-bytes="FILE_UPLOAD_CONSTRAINTS.maxSizeBytes"
           :disabled="isSubmitting || isAvatarUploading"
@@ -220,9 +220,7 @@ const onSubmit = async () => {
     isAvatarUploading.value = true
 
     try {
-      const response = await uploadFileEndpoint(avatarFile.value, {
-        allowedMimePrefixes: FILE_UPLOAD_CONSTRAINTS.imageMimePrefixes,
-      })
+      const response = await uploadFileEndpoint(avatarFile.value)
       form.avatarUrl = response.attachment.publicUrl
       result.payload.avatarUrl = response.attachment.publicUrl
     } catch (error) {
