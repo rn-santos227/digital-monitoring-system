@@ -23,3 +23,9 @@ export const CONTENT_SECURITY_POLICY = [
   'upgrade-insecure-requests',
 ].join('; ')
 
+export const API_PATH_PREFIX = '/api/'
+export const DEFAULT_API_RATE_LIMIT = 120
+export const DEFAULT_API_RATE_LIMIT_WINDOW_MS = 60_000
+export const DEFAULT_MAX_REQUEST_BODY_BYTES = 11_534_336
+export const MUTATING_HTTP_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE'])
+export const RATE_LIMIT_CLEANUP_INTERVAL_MS = 60_000
