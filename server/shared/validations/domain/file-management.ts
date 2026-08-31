@@ -71,7 +71,9 @@ export function validateUploadFilePart(
     })
   }
 
-  const isAllowed = (options.allowedMimePrefixes ?? []).some((prefix) => normalizedMimeType.startsWith(prefix))
+  if (!hasValidImageSignature(normalizedMimeType as SafeUploadMimeType, filePart.data)) {
+    throw createError({ statusCode: 415, statusMessage: 'File contents do not match the declared image type.' })
+  }
 
   if (!isAllowed) {
     throw createError({ statusCode: 415, statusMessage: 'File type is not allowed for this upload.' })
