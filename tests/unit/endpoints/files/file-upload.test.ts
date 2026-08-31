@@ -72,7 +72,11 @@ describe('file upload endpoint', () => {
 
   it('requires a MIME type when an allowlist is configured', () => {
     expect(() => validateUploadFilePart({
+      data: encodeText('data'),
+      filename: 'unknown-file',
     }, {
+      maxSizeBytes: 1024,
+      allowedMimePrefixes: ['image/'],
     })).toThrow('File type is required for this upload.')
   })
 })
