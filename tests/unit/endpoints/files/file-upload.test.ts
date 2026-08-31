@@ -37,6 +37,10 @@ describe('file upload endpoint', () => {
   })
 
   it('accepts any MIME type when no MIME prefixes are configured', () => {
+    const filePart = {
+      data: encodeText('data'),
+      filename: 'attachment.bin',
+    }
 
   })
 })
