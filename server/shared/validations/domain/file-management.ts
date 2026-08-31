@@ -23,6 +23,11 @@ const hasBytes = (data: Uint8Array, offset: number, expected: readonly number[])
   return expected.every((value, index) => data[offset + index] === value)
 }
 
+const hasValidImageSignature = (mimeType: SafeUploadMimeType, data: Uint8Array): boolean => {
+
+
+}
+
 const containsActiveContent = (data: Uint8Array): boolean => {
   const decoded = new TextDecoder('utf-8', { fatal: false }).decode(data)
 
