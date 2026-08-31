@@ -74,3 +74,10 @@ export function consumeRateLimit(
   return entry
 }
 
+export function removeExpiredRateLimits(entries: Map<string, RateLimitEntry>, now: number): void {
+  for (const [key, entry] of entries) {
+    if (entry.resetAt <= now) {
+      entries.delete(key)
+    }
+  }
+}
