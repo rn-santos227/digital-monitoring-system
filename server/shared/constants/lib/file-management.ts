@@ -16,3 +16,4 @@ export const SAFE_UPLOAD_IMAGE_TYPES = Object.freeze({
   'image/webp': Object.freeze({ extensions: Object.freeze(['webp']) }),
 } as const)
 
+export const UPLOAD_ACTIVE_CONTENT_PATTERN = /<\s*(?:html|script|svg)|javascript\s*:|on(?:error|load)\s*=|<\?php|<%|#!\//i
