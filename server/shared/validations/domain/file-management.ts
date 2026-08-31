@@ -59,10 +59,6 @@ export function validateUploadFilePart(
     throw createError({ statusCode: 413, statusMessage: 'File size exceeds the maximum allowed upload size.' })
   }
 
-  if ((options.allowedMimePrefixes?.length ?? 0) === 0) {
-    return
-  }
-
   const normalizedMimeType = filePart.type?.trim().toLowerCase() ?? ''
 
   if (!normalizedMimeType) {
