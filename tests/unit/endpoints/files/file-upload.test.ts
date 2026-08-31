@@ -62,6 +62,9 @@ describe('file upload endpoint', () => {
 
   it('rejects a file larger than the maximum upload size', () => {
     expect(() => validateUploadFilePart({
+      data: new Uint8Array(5),
+      filename: 'oversized.pdf',
+      type: 'application/pdf',
     }, {
       maxSizeBytes: 4,
     })).toThrow('File size exceeds the maximum allowed upload size.')
