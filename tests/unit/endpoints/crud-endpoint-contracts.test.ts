@@ -55,5 +55,7 @@ describe.each(CRUD_DOMAINS)('%s CRUD endpoint contracts', (domain) => {
 
     expectHandlerContract(source)
     expect(source).toContain('recordManagementAuditLog')
+    expect(source).toContain('AUDIT_LOG_OUTCOMES.success')
+    expect(source).toContain('AUDIT_LOG_OUTCOMES.failed')
   })
 })
