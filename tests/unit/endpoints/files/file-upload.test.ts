@@ -59,4 +59,8 @@ describe('file upload endpoint', () => {
       maxSizeBytes: 1024,
     })).toThrow('File payload is required.')
   })
+
+  it('rejects a file larger than the maximum upload size', () => {
+
+  })
 })
