@@ -53,5 +53,7 @@ describe.each(CRUD_DOMAINS)('%s CRUD endpoint contracts', (domain) => {
   it('protects and audits the create endpoint', async () => {
     const source = readEndpoint(`${domain}/index.post.ts`)
 
+    expectHandlerContract(source)
+    expect(source).toContain('recordManagementAuditLog')
   })
 })
