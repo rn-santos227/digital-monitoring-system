@@ -42,5 +42,8 @@ describe('file upload endpoint', () => {
       filename: 'attachment.bin',
     }
 
+    expect(() => validateUploadFilePart(filePart, {
+
+    })
   })
 })
