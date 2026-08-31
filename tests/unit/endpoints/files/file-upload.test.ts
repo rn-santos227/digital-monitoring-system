@@ -71,6 +71,8 @@ describe('file upload endpoint', () => {
   })
 
   it('requires a MIME type when an allowlist is configured', () => {
-
+    expect(() => validateUploadFilePart({
+    }, {
+    })).toThrow('File type is required for this upload.')
   })
 })
