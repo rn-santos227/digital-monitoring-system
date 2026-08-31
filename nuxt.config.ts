@@ -43,6 +43,12 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     supabaseServiceRoleKey,
+    security: {
+      allowedOrigins: process.env.NUXT_SECURITY_ALLOWED_ORIGINS || '',
+      apiRateLimit: process.env.NUXT_SECURITY_API_RATE_LIMIT || '120',
+      apiRateLimitWindowMs: process.env.NUXT_SECURITY_API_RATE_LIMIT_WINDOW_MS || '60000',
+      maxRequestBodyBytes: process.env.NUXT_SECURITY_MAX_REQUEST_BODY_BYTES || '11534336',
+    },
     public: {
       supabase: {
         redirect: false,
