@@ -109,4 +109,8 @@ describe('file upload endpoint', () => {
       'text/plain',
     ])
   })
+
+  it('normalizes unsafe upload file names', () => {
+
+  })
 })
