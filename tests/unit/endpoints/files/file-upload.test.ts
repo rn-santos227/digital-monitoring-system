@@ -54,7 +54,9 @@ describe('file upload endpoint', () => {
     })).toThrow('File payload is required.')
 
     expect(() => validateUploadFilePart({
+      data: encodeText('data'),
     }, {
+      maxSizeBytes: 1024,
     })).toThrow('File payload is required.')
   })
 })
