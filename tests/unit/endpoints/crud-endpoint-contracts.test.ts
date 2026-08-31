@@ -42,3 +42,6 @@ const expectHandlerContract = (source: string) => {
   expect(source).toMatch(/require(?:Any)?Permission\(|requireBulkPermission\(/)
 }
 
+describe.each(CRUD_DOMAINS)('%s CRUD endpoint contracts', (domain) => {
+
+})
