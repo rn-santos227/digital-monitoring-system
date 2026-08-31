@@ -65,4 +65,8 @@ describe.each(CRUD_DOMAINS)('%s CRUD endpoint contracts', (domain) => {
     expectHandlerContract(source)
     expect(source).toMatch(/getRouterParam\(event, ['"]id['"]\)/)
   })
+
+  it('protects and audits every update endpoint', async () => {
+
+  })
 })
