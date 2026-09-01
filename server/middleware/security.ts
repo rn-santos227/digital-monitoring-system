@@ -54,4 +54,12 @@ export default defineEventHandler((event) => {
   const contentLengthHeader = getHeader(event, 'content-length')
   const contentLength = contentLengthHeader ? Number(contentLengthHeader) : 0
   const maxBodyBytes = parsePositiveInteger(securityConfig.maxRequestBodyBytes, DEFAULT_MAX_REQUEST_BODY_BYTES)
+
+  if (!Number.isSafeInteger(contentLength) || contentLength < 0 || contentLength > maxBodyBytes) {
+    throw createError({
+      statusCode: 413,
+      statusMessage: 'Payload Too Large',
+      message: `Request bodies must not exceed ${maxBodyBytes} bytes.`,
+    })
+  }
 })
