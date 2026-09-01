@@ -14,4 +14,5 @@ import {
   type RateLimitEntry,
 } from '../shared/utils'
 
-
+const rateLimits = new Map<string, RateLimitEntry>()
+let nextCleanupAt = 0
