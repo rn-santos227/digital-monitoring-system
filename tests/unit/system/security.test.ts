@@ -40,4 +40,8 @@ describe('OWASP security utilities', () => {
     expect(parsePositiveInteger('1.5', 10)).toBe(10)
     expect(parsePositiveInteger(undefined, 10)).toBe(10)
   })
+
+  it('counts requests per fixed window and resets expired clients', () => {
+
+  })
 })
