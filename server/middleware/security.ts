@@ -26,4 +26,7 @@ export default defineEventHandler((event) => {
   const securityConfig = config.security
   const requestUrl = getRequestURL(event)
 
+  setResponseHeaders(event, SECURITY_HEADERS)
+  setResponseHeader(event, 'Content-Security-Policy', CONTENT_SECURITY_POLICY)
+  setResponseHeader(event, 'Strict-Transport-Security', 'max-age=31536000; includeSubDomains')
 })
