@@ -32,4 +32,6 @@ export default defineEventHandler((event) => {
   const limit = parsePositiveInteger(config.apiRateLimit, DEFAULT_API_RATE_LIMIT)
   const windowMs = parsePositiveInteger(config.apiRateLimitWindowMs, DEFAULT_API_RATE_LIMIT_WINDOW_MS)
   const entry = consumeRateLimit(rateLimits, getRateLimitKey(event), now, limit, windowMs)
+  const remaining = Math.max(0, limit - entry.count)
+  const resetSeconds = Math.max(1, Math.ceil((entry.resetAt - now) / 1000))
 })
