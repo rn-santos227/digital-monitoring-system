@@ -20,3 +20,7 @@ import {
   parseAllowedOrigins,
   parsePositiveInteger,
 } from '../shared/utils'
+
+export default defineEventHandler((event) => {
+
+})
