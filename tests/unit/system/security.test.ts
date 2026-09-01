@@ -35,6 +35,8 @@ describe('OWASP security utilities', () => {
   })
 
   it('normalizes positive security limits and rejects unsafe values', () => {
+    expect(parsePositiveInteger('120', 10)).toBe(120)
+    expect(parsePositiveInteger('-1', 10)).toBe(10)
 
   })
 })
