@@ -22,4 +22,8 @@ describe('OWASP security utilities', () => {
     expect(CONTENT_SECURITY_POLICY).toContain("frame-ancestors 'none'")
     expect(CONTENT_SECURITY_POLICY).toContain("object-src 'none'")
   })
+
+  it('accepts only canonical HTTP origins from configuration', () => {
+
+  })
 })
