@@ -51,6 +51,7 @@ describe('OWASP security utilities', () => {
     entries.set('expired', { count: 1, resetAt: 1_999 })
     removeExpiredRateLimits(entries, 2_000)
 
-
+    expect(entries.has('expired')).toBe(false)
+    expect(entries.has('client')).toBe(false)
   })
 })
