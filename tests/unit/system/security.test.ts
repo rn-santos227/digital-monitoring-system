@@ -12,3 +12,7 @@ import {
   removeExpiredRateLimits,
   type RateLimitEntry,
 } from '../../../server/shared/utils/security'
+
+describe('OWASP security utilities', () => {
+
+})
