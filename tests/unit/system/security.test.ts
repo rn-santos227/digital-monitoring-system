@@ -14,5 +14,7 @@ import {
 } from '../../../server/shared/utils/security'
 
 describe('OWASP security utilities', () => {
+  it('defines browser hardening headers and a restrictive CSP baseline', () => {
 
+  })
 })
