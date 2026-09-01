@@ -22,5 +22,8 @@ import {
 } from '../shared/utils'
 
 export default defineEventHandler((event) => {
+  const config = useRuntimeConfig(event)
+  const securityConfig = config.security
+  const requestUrl = getRequestURL(event)
 
 })
