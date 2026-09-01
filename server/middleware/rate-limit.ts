@@ -34,4 +34,10 @@ export default defineEventHandler((event) => {
   const entry = consumeRateLimit(rateLimits, getRateLimitKey(event), now, limit, windowMs)
   const remaining = Math.max(0, limit - entry.count)
   const resetSeconds = Math.max(1, Math.ceil((entry.resetAt - now) / 1000))
+
+  setResponseHeaders(event, {
+    'RateLimit-Limit': String(limit),
+    'RateLimit-Remaining': String(remaining),
+    'RateLimit-Reset': String(resetSeconds),
+  })
 })
