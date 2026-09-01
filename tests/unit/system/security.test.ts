@@ -18,6 +18,8 @@ describe('OWASP security utilities', () => {
     expect(SECURITY_HEADERS['X-Content-Type-Options']).toBe('nosniff')
     expect(SECURITY_HEADERS['X-Frame-Options']).toBe('DENY')
     expect(SECURITY_HEADERS['Referrer-Policy']).toBe('strict-origin-when-cross-origin')
-
+    expect(CONTENT_SECURITY_POLICY).toContain("default-src 'self'")
+    expect(CONTENT_SECURITY_POLICY).toContain("frame-ancestors 'none'")
+    expect(CONTENT_SECURITY_POLICY).toContain("object-src 'none'")
   })
 })
