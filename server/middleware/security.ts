@@ -29,4 +29,8 @@ export default defineEventHandler((event) => {
   setResponseHeaders(event, SECURITY_HEADERS)
   setResponseHeader(event, 'Content-Security-Policy', CONTENT_SECURITY_POLICY)
   setResponseHeader(event, 'Strict-Transport-Security', 'max-age=31536000; includeSubDomains')
+  
+  if (!requestUrl.pathname.startsWith(API_PATH_PREFIX)) {
+    return
+  }
 })
