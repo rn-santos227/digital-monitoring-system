@@ -44,6 +44,10 @@ export default defineEventHandler((event) => {
 
   const allowedOrigins = parseAllowedOrigins(securityConfig.allowedOrigins)
   if (!isRequestOriginAllowed(event, allowedOrigins)) {
-
+    throw createError({
+      statusCode: 403,
+      statusMessage: 'Cross-site request rejected',
+      message: 'The request origin is not trusted.',
+    })
   }
 })
