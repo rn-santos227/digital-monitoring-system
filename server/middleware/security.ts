@@ -40,4 +40,10 @@ export default defineEventHandler((event) => {
   if (!MUTATING_HTTP_METHODS.has(method)) {
     return
   }
+
+
+  const allowedOrigins = parseAllowedOrigins(securityConfig.allowedOrigins)
+  if (!isRequestOriginAllowed(event, allowedOrigins)) {
+
+  }
 })
