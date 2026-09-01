@@ -50,4 +50,8 @@ export default defineEventHandler((event) => {
       message: 'The request origin is not trusted.',
     })
   }
+
+  const contentLengthHeader = getHeader(event, 'content-length')
+  const contentLength = contentLengthHeader ? Number(contentLengthHeader) : 0
+  const maxBodyBytes = parsePositiveInteger(securityConfig.maxRequestBodyBytes, DEFAULT_MAX_REQUEST_BODY_BYTES)
 })
