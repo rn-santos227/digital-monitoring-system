@@ -43,5 +43,9 @@ describe('OWASP security utilities', () => {
 
   it('counts requests per fixed window and resets expired clients', () => {
     const entries = new Map<string, RateLimitEntry>()
+
+    expect(consumeRateLimit(entries, 'client', 1_000, 2, 500)).toEqual({ count: 1, resetAt: 1_500 })
+    expect(consumeRateLimit(entries, 'client', 1_100, 2, 500)).toEqual({ count: 2, resetAt: 1_500 })
+    expect(consumeRateLimit(entries, 'client', 1_500, 2, 500)).toEqual({ count: 1, resetAt: 2_000 })
   })
 })
