@@ -42,6 +42,6 @@ describe('OWASP security utilities', () => {
   })
 
   it('counts requests per fixed window and resets expired clients', () => {
-
+    const entries = new Map<string, RateLimitEntry>()
   })
 })
