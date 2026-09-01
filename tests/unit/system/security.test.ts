@@ -15,6 +15,9 @@ import {
 
 describe('OWASP security utilities', () => {
   it('defines browser hardening headers and a restrictive CSP baseline', () => {
+    expect(SECURITY_HEADERS['X-Content-Type-Options']).toBe('nosniff')
+    expect(SECURITY_HEADERS['X-Frame-Options']).toBe('DENY')
+    expect(SECURITY_HEADERS['Referrer-Policy']).toBe('strict-origin-when-cross-origin')
 
   })
 })
