@@ -35,4 +35,9 @@ export default defineEventHandler((event) => {
   }
 
   setResponseHeader(event, 'Cache-Control', 'no-store')
+
+  const method = getMethod(event).toUpperCase()
+  if (!MUTATING_HTTP_METHODS.has(method)) {
+    return
+  }
 })
