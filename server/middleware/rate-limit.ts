@@ -40,4 +40,8 @@ export default defineEventHandler((event) => {
     'RateLimit-Remaining': String(remaining),
     'RateLimit-Reset': String(resetSeconds),
   })
+
+  if (entry.count > limit) {
+    setResponseHeaders(event, { 'Retry-After': String(resetSeconds) })
+  }
 })
