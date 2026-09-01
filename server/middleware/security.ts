@@ -15,4 +15,8 @@ import {
   MUTATING_HTTP_METHODS,
   SECURITY_HEADERS,
 } from '../shared/constants'
-
+import {
+  isRequestOriginAllowed,
+  parseAllowedOrigins,
+  parsePositiveInteger,
+} from '../shared/utils'
