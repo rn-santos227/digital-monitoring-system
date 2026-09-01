@@ -16,3 +16,7 @@ import {
 
 const rateLimits = new Map<string, RateLimitEntry>()
 let nextCleanupAt = 0
+
+export default defineEventHandler((event) => {
+
+})
