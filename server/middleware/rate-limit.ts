@@ -22,4 +22,9 @@ export default defineEventHandler((event) => {
     return
   }
 
+  const now = Date.now()
+  if (now >= nextCleanupAt) {
+    removeExpiredRateLimits(rateLimits, now)
+    nextCleanupAt = now + RATE_LIMIT_CLEANUP_INTERVAL_MS
+  }
 })
