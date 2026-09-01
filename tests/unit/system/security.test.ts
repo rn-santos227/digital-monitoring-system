@@ -33,4 +33,8 @@ describe('OWASP security utilities', () => {
       'http://localhost:3000',
     ])
   })
+
+  it('normalizes positive security limits and rejects unsafe values', () => {
+
+  })
 })
