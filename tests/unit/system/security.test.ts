@@ -24,6 +24,9 @@ describe('OWASP security utilities', () => {
   })
 
   it('accepts only canonical HTTP origins from configuration', () => {
+    expect(normalizeOrigin('https://monitoring.example.mil')).toBe('https://monitoring.example.mil')
+    expect(normalizeOrigin('javascript:alert(1)')).toBeUndefined()
+    expect(normalizeOrigin('https://monitoring.example.mil/path')).toBeUndefined()
 
   })
 })
