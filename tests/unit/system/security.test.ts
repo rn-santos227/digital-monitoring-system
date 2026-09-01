@@ -28,5 +28,9 @@ describe('OWASP security utilities', () => {
     expect(normalizeOrigin('javascript:alert(1)')).toBeUndefined()
     expect(normalizeOrigin('https://monitoring.example.mil/path')).toBeUndefined()
 
+    expect([...parseAllowedOrigins('https://one.example, invalid, http://localhost:3000')]).toEqual([
+      'https://one.example',
+      'http://localhost:3000',
+    ])
   })
 })
