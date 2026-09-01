@@ -27,4 +27,7 @@ export default defineEventHandler((event) => {
     removeExpiredRateLimits(rateLimits, now)
     nextCleanupAt = now + RATE_LIMIT_CLEANUP_INTERVAL_MS
   }
+
+  const config = useRuntimeConfig(event).security
+  const limit = parsePositiveInteger(config.apiRateLimit, DEFAULT_API_RATE_LIMIT)
 })
