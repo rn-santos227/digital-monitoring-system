@@ -43,5 +43,10 @@ export default defineEventHandler((event) => {
 
   if (entry.count > limit) {
     setResponseHeaders(event, { 'Retry-After': String(resetSeconds) })
+    throw createError({
+      statusCode: 429,
+      statusMessage: 'Too Many Requests',
+      message: 'The API request limit has been exceeded. Try again later.',
+    })
   }
 })
