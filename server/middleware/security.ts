@@ -33,4 +33,6 @@ export default defineEventHandler((event) => {
   if (!requestUrl.pathname.startsWith(API_PATH_PREFIX)) {
     return
   }
+
+  setResponseHeader(event, 'Cache-Control', 'no-store')
 })
