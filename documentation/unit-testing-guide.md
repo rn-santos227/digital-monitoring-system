@@ -42,3 +42,10 @@ Run only system utility and security tests:
 ```bash
 npm run test:system
 ```
+
+Pass a file or directory to Vitest through the main test script to narrow a run:
+
+```bash
+npm test -- tests/unit/endpoints/personnel/personnel-payload.test.ts
+npm test -- tests/unit/system/value-parsing
+```
