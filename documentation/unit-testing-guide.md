@@ -164,3 +164,6 @@ Update the route inventory in the contract test only if the application route ge
 ## Review checklist
 
 Before submitting unit-test changes, confirm that:
+
+- the new file is discoverable by the Vitest include pattern;
+- descriptions explain behavior and expected outcomes;
