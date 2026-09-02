@@ -135,3 +135,14 @@ A useful unit test should follow Arrange–Act–Assert, even when those stages 
 5. Run the related endpoint or system suite.
 6. Run the complete suite before committing.
 
+Example workflow:
+
+```bash
+npm test -- tests/unit/endpoints/personnel/personnel-payload.test.ts
+npm run test:endpoints
+npm test
+```
+
+## Troubleshooting
+
+
