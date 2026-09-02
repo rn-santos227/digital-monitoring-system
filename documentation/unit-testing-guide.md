@@ -126,3 +126,9 @@ describe('boolean parsing', () => {
 })
 ```
 
+A useful unit test should follow Arrange–Act–Assert, even when those stages are compact:
+
+1. **Arrange:** create a representative input and any deterministic dependencies.
+2. **Act:** call the production function or inspect the route contract.
+3. **Assert:** verify the returned value, normalized persistence shape, or expected error.
+
