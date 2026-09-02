@@ -6,6 +6,7 @@ A Nuxt-based monitoring system for AFP personnel, unit organization, deployments
 
 - [`documentation/api-guide.md`](documentation/api-guide.md) lists the currently implemented Nuxt server API routes under `server/api`.
 - [`documentation/schema-guide.md`](documentation/schema-guide.md) summarizes the Supabase schema generated from the migration files under `supabase/migrations`.
+- [`documentation/unit-testing-guide.md`](documentation/unit-testing-guide.md) explains how to run, organize, and extend the Vitest unit test suite.
 - [`AGENTS.md`](AGENTS.md) records repository conventions for domain naming, shared modules, frontend organization, backend API safety, RBAC, and audit logging.
 
 ## Tech stack
