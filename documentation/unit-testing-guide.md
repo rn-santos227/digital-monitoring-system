@@ -25,3 +25,9 @@ The existing unit tests are deterministic and do not require a running Nuxt deve
 
 ## Running tests
 
+Run the complete unit test suite once:
+
+```bash
+npm test
+```
+
