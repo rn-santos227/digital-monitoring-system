@@ -100,3 +100,9 @@ Follow these conventions when adding a test:
 3. Place reusable infrastructure and cross-domain utility tests under `tests/unit/system/<concern>`.
 4. Use a descriptive kebab-case file name, such as `deployment-payload.test.ts`.
 5. Group related behavior with `describe` and state the observable result in each `it` description.
+
+For example, tests for `server/shared/validations/domain/personnel-management.ts` belong in `tests/unit/endpoints/personnel/personnel-payload.test.ts`.
+
+## Writing a unit test
+
+Import test helpers from Vitest and exercise the smallest public production function that represents the behavior:
