@@ -46,6 +46,9 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
           is_active: existingRow.is_active,
         })
       },
+      onRollbackError: (rollbackError) => {
+        console.error('Failed to rollback equipment item patch API changes.', rollbackError)
+      },
     })
     await recordManagementAuditLog(event, { 
       userId: actor.id,
