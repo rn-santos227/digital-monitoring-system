@@ -167,3 +167,5 @@ Before submitting unit-test changes, confirm that:
 
 - the new file is discoverable by the Vitest include pattern;
 - descriptions explain behavior and expected outcomes;
+- both success and relevant failure paths are covered;
+- fixtures contain no secrets or real personnel information;
