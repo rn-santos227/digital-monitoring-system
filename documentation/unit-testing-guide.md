@@ -90,3 +90,10 @@ The endpoint suite primarily verifies:
 - structural API contracts such as RBAC enforcement, audit logging, route parameters, and destructive-operation usage checks.
 
 The system suite verifies cross-domain behavior such as security headers, allowed-origin parsing, rate limiting, nullable query filters, and primitive value parsers.
+
+## Naming and placement
+
+Follow these conventions when adding a test:
+
+1. Use a `.test.ts` suffix so Vitest discovers the file.
+2. Mirror the production domain under `tests/unit/endpoints/<domain>` for endpoint request and validation behavior.
