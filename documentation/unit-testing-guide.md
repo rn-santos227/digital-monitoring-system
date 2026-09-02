@@ -36,3 +36,9 @@ Run only endpoint-focused tests:
 ```bash
 npm run test:endpoints
 ```
+
+Run only system utility and security tests:
+
+```bash
+npm run test:system
+```
