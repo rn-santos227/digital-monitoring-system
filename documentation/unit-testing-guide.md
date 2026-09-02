@@ -131,4 +131,7 @@ A useful unit test should follow Arrange–Act–Assert, even when those stages 
 1. **Arrange:** create a representative input and any deterministic dependencies.
 2. **Act:** call the production function or inspect the route contract.
 3. **Assert:** verify the returned value, normalized persistence shape, or expected error.
+4. Run the new test file by itself for fast feedback.
+5. Run the related endpoint or system suite.
+6. Run the complete suite before committing.
 
