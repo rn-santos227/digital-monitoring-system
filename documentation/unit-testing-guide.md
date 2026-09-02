@@ -160,3 +160,7 @@ First extract deterministic parsing, formatting, or validation into the appropri
 ### A source-contract test fails after moving a route
 
 Update the route inventory in the contract test only if the application route genuinely changed. Do not remove RBAC, audit, route-parameter, or deletion-safety assertions merely to make the test pass.
+
+## Review checklist
+
+Before submitting unit-test changes, confirm that:
