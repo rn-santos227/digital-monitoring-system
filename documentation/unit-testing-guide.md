@@ -85,3 +85,8 @@ The endpoint suite primarily verifies:
 - request payload parsing and normalization;
 - required-field, format, and business-rule validation;
 - create and partial-update persistence shapes;
+- file upload and external attachment safety;
+- query parsing and batch request behavior; and
+- structural API contracts such as RBAC enforcement, audit logging, route parameters, and destructive-operation usage checks.
+
+The system suite verifies cross-domain behavior such as security headers, allowed-origin parsing, rate limiting, nullable query filters, and primitive value parsers.
