@@ -97,3 +97,6 @@ Follow these conventions when adding a test:
 
 1. Use a `.test.ts` suffix so Vitest discovers the file.
 2. Mirror the production domain under `tests/unit/endpoints/<domain>` for endpoint request and validation behavior.
+3. Place reusable infrastructure and cross-domain utility tests under `tests/unit/system/<concern>`.
+4. Use a descriptive kebab-case file name, such as `deployment-payload.test.ts`.
+5. Group related behavior with `describe` and state the observable result in each `it` description.
