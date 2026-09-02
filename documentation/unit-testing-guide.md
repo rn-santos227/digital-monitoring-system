@@ -79,3 +79,9 @@ tests/unit/
     ├── query-filters/
     └── value-parsing/
 ```
+
+The endpoint suite primarily verifies:
+
+- request payload parsing and normalization;
+- required-field, format, and business-rule validation;
+- create and partial-update persistence shapes;
