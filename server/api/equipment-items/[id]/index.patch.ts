@@ -28,7 +28,6 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   }
 
   try {
-    await executeWithRollback({ operation: async () => { await updateEquipmentItemById(supabase, id, updates) }, rollback: async () => { await updateEquipmentItemById(supabase, id, { equipment_code: existingRow.equipment_code, category_id: existingRow.category_id, name: existingRow.name, model: existingRow.model, manufacturer: existingRow.manufacturer, description: existingRow.description, unit_of_measure: existingRow.unit_of_measure, minimum_stock_level: existingRow.minimum_stock_level, is_serialized: existingRow.is_serialized, is_active: existingRow.is_active }) }, onRollbackError: (rollbackError) => { console.error('Failed to rollback equipment item patch API changes.', rollbackError) } })
     await recordManagementAuditLog(event, { 
       userId: actor.id,
       action: AUDIT_LOG_ACTIONS.equipmentItemUpdate,
@@ -39,7 +38,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       oldData: existingRow as Record<string, unknown>,
       statusCode: 200,
       outcome: AUDIT_LOG_OUTCOMES.success,
-      message: 'Equipment item updated successfully.'
+      message: 'Equipment item updated successfully.',
     })
     return { ok: true }
   } catch (error: unknown) {
@@ -54,7 +53,7 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       oldData: existingRow as Record<string, unknown>,
       statusCode: 500,
       outcome: AUDIT_LOG_OUTCOMES.failed,
-      message
+      message,
     })
     throw error
   }
