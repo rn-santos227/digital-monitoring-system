@@ -28,6 +28,12 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   }
 
   try {
+    await executeWithRollback({
+      operation: async () => {
+        await updateEquipmentItemById(supabase, id, updates)
+      },
+
+    })
     await recordManagementAuditLog(event, { 
       userId: actor.id,
       action: AUDIT_LOG_ACTIONS.equipmentItemUpdate,
