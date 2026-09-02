@@ -49,3 +49,10 @@ Pass a file or directory to Vitest through the main test script to narrow a run:
 npm test -- tests/unit/endpoints/personnel/personnel-payload.test.ts
 npm test -- tests/unit/system/value-parsing
 ```
+
+Use Vitest directly when an interactive watch session is useful during development:
+
+```bash
+npx vitest tests/unit/endpoints/personnel/personnel-payload.test.ts
+```
+
