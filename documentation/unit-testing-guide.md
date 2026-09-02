@@ -11,3 +11,5 @@ The project uses [Vitest](https://vitest.dev/) as its test runner. The configura
 - resolves both `~` and `@` to the repository root; and
 - treats a run with no discovered tests as a failure.
 
+Tests can import production modules through a relative path or a configured root alias. Prefer the root alias when it makes a deeply nested import easier to read.
+
