@@ -106,3 +106,23 @@ For example, tests for `server/shared/validations/domain/personnel-management.ts
 ## Writing a unit test
 
 Import test helpers from Vitest and exercise the smallest public production function that represents the behavior:
+
+```ts
+import { describe, expect, it } from 'vitest'
+
+import { parseBoolean } from '@/server/shared/utils/parsers'
+
+describe('boolean parsing', () => {
+  it.each([
+    [' yes ', true],
+    ['0', false],
+  ])('parses %j as %j', (input, expected) => {
+    expect(parseBoolean(input)).toBe(expected)
+  })
+
+  it('uses the supplied fallback for an unsupported value', () => {
+    expect(parseBoolean('unknown', true)).toBe(true)
+  })
+})
+```
+
