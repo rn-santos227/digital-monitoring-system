@@ -56,3 +56,6 @@ Use Vitest directly when an interactive watch session is useful during developme
 npx vitest tests/unit/endpoints/personnel/personnel-payload.test.ts
 ```
 
+## Suite organization
+
+Unit tests live under `tests/unit` and are grouped by the production behavior they verify:
