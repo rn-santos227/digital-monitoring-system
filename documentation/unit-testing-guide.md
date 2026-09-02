@@ -31,3 +31,8 @@ Run the complete unit test suite once:
 npm test
 ```
 
+Run only endpoint-focused tests:
+
+```bash
+npm run test:endpoints
+```
