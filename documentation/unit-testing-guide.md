@@ -152,3 +152,7 @@ Confirm that the file is under `tests/unit`, ends in `.test.ts`, and matches the
 ### An import cannot be resolved
 
 Confirm the file path and capitalization. Both `@/` and `~/` point to the repository root, not directly to `app` or `server`.
+
+### A test depends on Nuxt runtime globals
+
+First extract deterministic parsing, formatting, or validation into the appropriate shared utility and test that function directly. If runtime integration is the behavior under test, use the Nuxt test utilities in a separately configured integration suite rather than weakening the Node-based unit suite.
