@@ -169,3 +169,6 @@ Before submitting unit-test changes, confirm that:
 - descriptions explain behavior and expected outcomes;
 - both success and relevant failure paths are covered;
 - fixtures contain no secrets or real personnel information;
+- assertions are deterministic and independent of execution order;
+- domain naming matches the Supabase schema and repository conventions; and
+- `npm test` passes locally.
