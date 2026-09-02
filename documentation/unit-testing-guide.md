@@ -145,4 +145,7 @@ npm test
 
 ## Troubleshooting
 
+### Vitest reports that no tests were found
+
+Confirm that the file is under `tests/unit`, ends in `.test.ts`, and matches the configured `tests/unit/**/*.test.ts` pattern. An empty run intentionally fails.
 
