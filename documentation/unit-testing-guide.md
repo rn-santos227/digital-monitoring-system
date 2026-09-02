@@ -59,3 +59,23 @@ npx vitest tests/unit/endpoints/personnel/personnel-payload.test.ts
 ## Suite organization
 
 Unit tests live under `tests/unit` and are grouped by the production behavior they verify:
+
+```text
+tests/unit/
+├── endpoints/
+│   ├── application-settings/
+│   ├── batch/
+│   ├── calendar/
+│   ├── deployments/
+│   ├── engagements/
+│   ├── equipment/
+│   ├── files/
+│   ├── personnel/
+│   ├── ranks/
+│   ├── trainings/
+│   ├── units/
+│   └── users/
+└── system/
+    ├── query-filters/
+    └── value-parsing/
+```
