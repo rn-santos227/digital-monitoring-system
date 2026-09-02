@@ -149,3 +149,6 @@ npm test
 
 Confirm that the file is under `tests/unit`, ends in `.test.ts`, and matches the configured `tests/unit/**/*.test.ts` pattern. An empty run intentionally fails.
 
+### An import cannot be resolved
+
+Confirm the file path and capitalization. Both `@/` and `~/` point to the repository root, not directly to `app` or `server`.
