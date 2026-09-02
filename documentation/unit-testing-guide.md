@@ -19,3 +19,9 @@ Install the project dependencies before running the suite:
 
 ```bash
 npm install
+```
+
+The existing unit tests are deterministic and do not require a running Nuxt development server or a local Supabase instance.
+
+## Running tests
+
