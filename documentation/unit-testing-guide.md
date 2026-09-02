@@ -13,3 +13,9 @@ The project uses [Vitest](https://vitest.dev/) as its test runner. The configura
 
 Tests can import production modules through a relative path or a configured root alias. Prefer the root alias when it makes a deeply nested import easier to read.
 
+## Prerequisites
+
+Install the project dependencies before running the suite:
+
+```bash
+npm install
