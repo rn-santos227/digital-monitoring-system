@@ -32,7 +32,20 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
       operation: async () => {
         await updateEquipmentItemById(supabase, id, updates)
       },
-
+      rollback: async () => {
+        await updateEquipmentItemById(supabase, id, {
+          equipment_code: existingRow.equipment_code,
+          category_id: existingRow.category_id,
+          name: existingRow.name,
+          model: existingRow.model,
+          manufacturer: existingRow.manufacturer,
+          description: existingRow.description,
+          unit_of_measure: existingRow.unit_of_measure,
+          minimum_stock_level: existingRow.minimum_stock_level,
+          is_serialized: existingRow.is_serialized,
+          is_active: existingRow.is_active,
+        })
+      },
     })
     await recordManagementAuditLog(event, { 
       userId: actor.id,
