@@ -103,6 +103,8 @@ export function validateUploadFilePart(
       || allowedExtensions.some((allowedExtension) => (
         extension === allowedExtension.trim().toLowerCase().replace(/^\./, '')
       ))
+    const hasRequiredSignature = !options.requiredSignature
+      || hasBytes(filePart.data, 0, options.requiredSignature)
 
   }
 
