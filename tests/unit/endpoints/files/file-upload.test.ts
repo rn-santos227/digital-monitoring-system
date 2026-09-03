@@ -114,6 +114,11 @@ describe('file upload endpoint', () => {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     }, options)).not.toThrow()
 
+    expect(() => validateUploadFilePart({
+      data: encodeText('not a workbook'),
+      filename: 'personnel.xlsx',
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    }, options)).toThrow('The uploaded file type, extension, or contents are not allowed.')
   })
 
   it('normalizes unsafe upload file names', () => {
