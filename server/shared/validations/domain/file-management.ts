@@ -91,9 +91,11 @@ export function validateUploadFilePart(
   }
 
   const normalizedMimeType = filePart.type?.trim().toLowerCase() ?? ''
+  const extension = filePart.filename.split('.').pop()?.toLowerCase() ?? ''
+  const allowedMimePrefixes = options.allowedMimePrefixes ?? []
+
 
   const safeType = SAFE_UPLOAD_IMAGE_TYPES[normalizedMimeType as SafeUploadMimeType]
-  const extension = filePart.filename.split('.').pop()?.toLowerCase() ?? ''
 
   if (!safeType || !safeType.extensions.some((allowedExtension) => allowedExtension === extension)) {
     throw createError({
