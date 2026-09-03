@@ -15,6 +15,9 @@ interface MultipartPart {
 
 interface UploadFileValidationOptions {
   maxSizeBytes: number
+  allowedMimePrefixes?: readonly string[]
+  allowedExtensions?: readonly string[]
+  requiredSignature?: readonly number[]
 }
 
 type SafeUploadMimeType = keyof typeof SAFE_UPLOAD_IMAGE_TYPES
