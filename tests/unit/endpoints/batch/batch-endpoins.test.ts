@@ -26,7 +26,7 @@ describe('bulk mutation endpoints', () => {
   })
 
   it('defines update and delete behavior for every bulk CRUD domain', () => {
-   for (const [domain, definition] of Object.entries(BULK_DOMAIN_DEFINITIONS)) {
+    for (const [domain, definition] of Object.entries(BULK_DOMAIN_DEFINITIONS)) {
       expect(getBulkDomainDefinition(domain)).toBe(definition)
       expect(definition.table).not.toBe('')
       expect(definition.updatePermissions?.length ?? 0).toBeGreaterThan(0)

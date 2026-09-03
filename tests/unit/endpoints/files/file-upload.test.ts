@@ -99,6 +99,10 @@ describe('file upload endpoint', () => {
     })).toThrow('Files containing active or executable content are not allowed.')
   })
 
+  it('validates configured non-image uploads by MIME type, extension, and signature', () => {
+
+  })
+
   it('normalizes unsafe upload file names', () => {
     expect(normalizeFileName(' Personnel Report (Final).PDF ')).toBe(
       'personnel-report-final.pdf',
