@@ -108,6 +108,11 @@ describe('file upload endpoint', () => {
       requiredSignature: [0x50, 0x4b, 0x03, 0x04],
     }
 
+    expect(() => validateUploadFilePart({
+      data: validWorkbook,
+      filename: 'personnel.xlsx',
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    }, options)).not.toThrow()
 
   })
 
