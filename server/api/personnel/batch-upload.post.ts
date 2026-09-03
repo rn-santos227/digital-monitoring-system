@@ -29,6 +29,8 @@ export default defineEventHandler(async (event): Promise<PersonnelBatchUploadRes
     validateUploadFilePart(filePart, {
       maxSizeBytes: 10 * 1024 * 1024,
       allowedMimePrefixes: EXCEL_MIME_PREFIXES,
+      allowedExtensions: EXCEL_FILE_EXTENSIONS,
+      requiredSignature: ZIP_FILE_SIGNATURE,
     })
 
     requestData.fileName = filePart.filename
