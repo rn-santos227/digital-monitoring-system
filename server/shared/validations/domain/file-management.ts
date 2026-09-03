@@ -98,6 +98,11 @@ export function validateUploadFilePart(
     const hasAllowedMimeType = allowedMimePrefixes.some((prefix) => (
       normalizedMimeType.startsWith(prefix.trim().toLowerCase())
     ))
+    const allowedExtensions = options.allowedExtensions ?? []
+    const hasAllowedExtension = allowedExtensions.length === 0
+      || allowedExtensions.some((allowedExtension) => (
+        extension === allowedExtension.trim().toLowerCase().replace(/^\./, '')
+      ))
 
   }
 
