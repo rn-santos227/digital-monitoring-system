@@ -106,6 +106,14 @@ export function validateUploadFilePart(
     const hasRequiredSignature = !options.requiredSignature
       || hasBytes(filePart.data, 0, options.requiredSignature)
 
+    if (!hasAllowedMimeType || !hasAllowedExtension || !hasRequiredSignature) {
+      throw createError({
+        statusCode: 415,
+        statusMessage: 'The uploaded file type, extension, or contents are not allowed.',
+      })
+    }
+
+    return
   }
 
   const safeType = SAFE_UPLOAD_IMAGE_TYPES[normalizedMimeType as SafeUploadMimeType]
