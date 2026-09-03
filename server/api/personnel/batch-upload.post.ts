@@ -14,6 +14,8 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { processPersonnelBatchUpload } from '../../utils/personnel/processPersonnelBatchUpload'
 
 const EXCEL_MIME_PREFIXES = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+const EXCEL_FILE_EXTENSIONS = ['xlsx']
+const ZIP_FILE_SIGNATURE = [0x50, 0x4b, 0x03, 0x04]
 
 export default defineEventHandler(async (event): Promise<PersonnelBatchUploadResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.personnelCreate)
