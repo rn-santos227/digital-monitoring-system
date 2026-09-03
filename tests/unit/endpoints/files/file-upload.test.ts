@@ -100,6 +100,14 @@ describe('file upload endpoint', () => {
   })
 
   it('validates configured non-image uploads by MIME type, extension, and signature', () => {
+    const validWorkbook = new Uint8Array([0x50, 0x4b, 0x03, 0x04, 0x01])
+    const options = {
+      maxSizeBytes: 1024,
+      allowedMimePrefixes: ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
+      allowedExtensions: ['xlsx'],
+      requiredSignature: [0x50, 0x4b, 0x03, 0x04],
+    }
+
 
   })
 
