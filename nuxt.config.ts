@@ -23,7 +23,7 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
-  css: ['./app/assets/css/main.css'],
+  css: ['~/assets/css/main.css'],
   alias: {
     '#app-manifest': nuxtAppManifestAlias,
   },
