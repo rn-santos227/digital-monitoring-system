@@ -51,6 +51,7 @@ export type IconName =
   | 'chevron-left'
   | 'chevron-right'
   | 'user-plus'
+  | 'plus'
 
 export type NavigationItem = {
   label: string

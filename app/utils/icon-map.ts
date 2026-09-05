@@ -24,6 +24,7 @@ import {
   MapIcon,
   MapPinIcon,
   PencilSquareIcon,
+  PlusIcon,
   QuestionMarkCircleIcon,
   ShieldCheckIcon,
   ShieldExclamationIcon,
@@ -73,7 +74,8 @@ export const HERO_ICON_MAP: Record<IconName, Component> = {
   'chevron-down': ChevronDownIcon,
   'chevron-left': ChevronLeftIcon,
   'chevron-right': ChevronRightIcon,
-  'user-plus': UserPlusIcon
+  'user-plus': UserPlusIcon,
+  'plus': PlusIcon
 }
 
 export const getHeroIcon = (name: IconName): Component => HERO_ICON_MAP[name]
