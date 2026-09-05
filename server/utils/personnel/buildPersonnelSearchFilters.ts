@@ -9,6 +9,12 @@ const SEARCHABLE_PERSONNEL_FIELDS = {
   rankName: 'rank_name',
 } as const
 
+export interface PersonnelSearchFilter {
+  column: string
+  operator: 'eq' | 'neq' | 'ilike'
+  value: string
+}
+
 export const buildPersonnelSearchFilters = (term: string, fields?: string) => {
   const rawFields = typeof fields === 'string' ? fields.split(',').map(field => field.trim()) : []
   const selectedFields = rawFields.length > 0
