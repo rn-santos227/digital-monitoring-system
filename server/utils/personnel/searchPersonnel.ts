@@ -1,8 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { PERSONNEL_PROFILE_LIST_SELECT_COLUMNS } from '../../shared/constants'
+import type { PersonnelSearchFilter } from './buildPersonnelSearchFilters'
 
 interface SearchPersonnelOptions {
-  filters: string[]
+  filters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
   rangeFrom: number
   rangeTo: number
 }

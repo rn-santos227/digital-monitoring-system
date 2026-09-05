@@ -4,6 +4,15 @@ export const PERSONNEL_MODULES = {
   personnelManagement: 'personnel',
 } as const
 
+export const PERSONNEL_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
+  personnelCode: 'personnel_code',
+  serviceNumber: 'service_number',
+  lastName: 'last_name',
+  firstName: 'first_name',
+  email: 'email',
+  rankName: 'rank_name',
+})
+
 export const PERSONNEL_PERMISSION_GROUPS = {
   personnelManagement: [
     'personnel.view',
