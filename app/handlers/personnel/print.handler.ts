@@ -18,9 +18,11 @@ export const usePrintPersonnelHandler = () => {
         pageSize: PRINT_FETCH_PAGE_SIZE,
         term: filters.term?.trim() || undefined,
         fields: filters.fields?.trim() || undefined,
+        conditions: filters.conditions?.trim() || undefined,
+        match: filters.match,
       }
     
-      const response = requestQuery.term
+      const response = requestQuery.term || requestQuery.conditions
         ? await searchPersonnelEndpoint(requestQuery)
         : await getPersonnelEndpoint(requestQuery)
 
