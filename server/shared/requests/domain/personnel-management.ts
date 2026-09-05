@@ -55,3 +55,8 @@ export interface PersonnelBatchUploadRowRequest {
   position?: string | null
   dateEnlisted?: string | null
 }
+
+export type PersonnelSearchMatch = 'any' | 'all'
+export type PersonnelSearchOperator = 'contains' | 'equals' | 'notEquals' | 'startsWith' | 'endsWith'
+
+
