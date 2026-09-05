@@ -37,7 +37,8 @@ export default defineEventHandler(async (event): Promise<PersonnelListCompactRes
   }
 
   const supabase = getServiceSupabaseClient()
-  const { data, count, error } = await searchPersonnel(supabase, { filters, rangeFrom, rangeTo })
+  const match = query.match === 'any' ? 'any' : 'all'
+  const { data, count, error } = await searchPersonnel(supabase, { filters, match, rangeFrom, rangeTo })
 
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to search personnel records: ${error.message}` })
