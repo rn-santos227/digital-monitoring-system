@@ -1,5 +1,5 @@
 import { createError } from 'h3'
-import type { CreatePersonnelRequest, UpdatePersonnelRequest } from '../../requests'
+import type { CreatePersonnelRequest, PersonnelAdvancedSearchConditionRequest, UpdatePersonnelRequest } from '../../requests'
 import { isValidEmail, normalizeOptionalText } from '../../utils'
 
 const normalizeOptionalDate = (value: unknown): string | null => {
@@ -231,4 +231,13 @@ export const buildPersonnelUpdates = (body: UpdatePersonnelRequest) => {
   }
 
   return updates
+}
+
+export const parsePersonnelAdvancedSearchConditions = (
+  serializedConditions: string,
+): PersonnelAdvancedSearchConditionRequest[] => {
+  if (!serializedConditions) {
+    return []
+  }
+
 }
