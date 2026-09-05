@@ -72,6 +72,11 @@ export interface AdvancedSearchValue {
   conditions: readonly AdvancedSearchCondition[]
 }
 
+export interface AdvancedSearchField {
+  value: string
+  label: string
+}
+
 export interface SuggestionFieldOption {
   value: string
   label: string
