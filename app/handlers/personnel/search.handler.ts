@@ -12,8 +12,13 @@ export const usePersonnelSearchHandlers = (filters: Ref<Partial<PersonnelSearchQ
         match: value.match === 'any' ? 'any' : 'all',
       }
 
+      return {
+        filters: sanitizedFilters,
+        errors: {},
+        isValid: true,
+      }
     }
-    
+
     const commonValidation = validateFields([
       {
         field: 'term',
