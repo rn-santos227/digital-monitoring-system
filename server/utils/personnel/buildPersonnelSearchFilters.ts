@@ -23,7 +23,12 @@ const OPERATOR_VALUE_BUILDERS: Record<PersonnelSearchOperator, (value: string) =
   endsWith: value => `%${value}`,
 }
 
-export const buildPersonnelSearchFilters = (term: string, fields?: string) => {
+const normalizeSearchValue = (value: string): string => value
+  .trim()
+  .replace(/[(),]/g, ' ')
+  .slice(0, 120)
+
+export const buildPersonnelSearchFilters = (term: string, fields?: string): PersonnelSearchFilter[] => {
   const rawFields = typeof fields === 'string' ? fields.split(',').map(field => field.trim()) : []
   const selectedFields = rawFields.length > 0
     ? rawFields.filter((field): field is keyof typeof SEARCHABLE_PERSONNEL_FIELDS => field in SEARCHABLE_PERSONNEL_FIELDS)
