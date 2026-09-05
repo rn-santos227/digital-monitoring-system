@@ -250,4 +250,20 @@ export const parsePersonnelAdvancedSearchConditions = (
   if (!Array.isArray(parsed) || parsed.length > 12) {
     throw createError({ statusCode: 400, statusMessage: 'Advanced search accepts between 1 and 12 conditions.' })
   }
+
+  return parsed.map((condition) => {
+    if (!condition || typeof condition !== 'object') {
+      return {}
+    }
+
+    const record = condition as Record<string, unknown>
+    return {
+      id: typeof record.id === 'string' ? record.id : undefined,
+      field: typeof record.field === 'string' ? record.field : undefined,
+      operator: typeof record.operator === 'string'
+        ? record.operator as PersonnelAdvancedSearchConditionRequest['operator']
+        : undefined,
+      value: typeof record.value === 'string' ? record.value : undefined,
+    }
+  })
 }
