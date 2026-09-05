@@ -6,6 +6,14 @@ import { REGEX_PATTERNS } from '~/utils/regex'
 
 export const usePersonnelSearchHandlers = (filters: Ref<Partial<PersonnelSearchQuery>>) => {
   const handleFilterApply = (value: Partial<PersonnelSearchQuery>) => {
+    if (value.conditions) {
+      const sanitizedFilters: Partial<PersonnelSearchQuery> = {
+        conditions: value.conditions,
+        match: value.match === 'any' ? 'any' : 'all',
+      }
+
+    }
+    
     const commonValidation = validateFields([
       {
         field: 'term',
