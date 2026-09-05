@@ -60,6 +60,13 @@ export interface DataTableAction {
 export type AdvancedSearchMatch = 'any' | 'all'
 export type AdvancedSearchOperator = 'contains' | 'equals' | 'notEquals' | 'startsWith' | 'endsWith'
 
+export interface AdvancedSearchCondition {
+  id: string
+  field: string
+  operator: AdvancedSearchOperator
+  value: string
+}
+
 export interface SuggestionFieldOption {
   value: string
   label: string
