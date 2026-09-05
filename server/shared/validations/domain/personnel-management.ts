@@ -246,4 +246,8 @@ export const parsePersonnelAdvancedSearchConditions = (
   } catch {
     throw createError({ statusCode: 400, statusMessage: 'Advanced search conditions must be valid JSON.' })
   }
+
+  if (!Array.isArray(parsed) || parsed.length > 12) {
+    throw createError({ statusCode: 400, statusMessage: 'Advanced search accepts between 1 and 12 conditions.' })
+  }
 }
