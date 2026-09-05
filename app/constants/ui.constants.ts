@@ -57,6 +57,9 @@ export interface DataTableAction {
   variant?: UiVariant
 }
 
+export type AdvancedSearchMatch = 'any' | 'all'
+export type AdvancedSearchOperator = 'contains' | 'equals' | 'notEquals' | 'startsWith' | 'endsWith'
+
 export interface SuggestionFieldOption {
   value: string
   label: string
