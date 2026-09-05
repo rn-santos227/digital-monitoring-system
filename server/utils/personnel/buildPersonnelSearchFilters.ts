@@ -15,6 +15,14 @@ export interface PersonnelSearchFilter {
   value: string
 }
 
+const OPERATOR_VALUE_BUILDERS: Record<PersonnelSearchOperator, (value: string) => string> = {
+  contains: value => `%${value}%`,
+  equals: value => value,
+  notEquals: value => value,
+  startsWith: value => `${value}%`,
+  endsWith: value => `%${value}`,
+}
+
 export const buildPersonnelSearchFilters = (term: string, fields?: string) => {
   const rawFields = typeof fields === 'string' ? fields.split(',').map(field => field.trim()) : []
   const selectedFields = rawFields.length > 0
