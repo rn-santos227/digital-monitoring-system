@@ -28,6 +28,12 @@ export interface PersonnelKpiCounts {
   unusedRanks: number
 }
 
+export interface PersonnelSearchFilter {
+  column: string
+  operator: 'eq' | 'neq' | 'ilike'
+  value: string
+}
+
 export interface PersonnelCreate {
   personnelCode?: string
   serviceNumber?: string
