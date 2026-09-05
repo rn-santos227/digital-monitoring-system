@@ -5,6 +5,7 @@ import type {
   UUID,
 } from '../database.tables'
 import type { Sex } from '../enums'
+import type { AdvancedSearchMatch, AdvancedSearchOperator } from '~/constants/ui.constants'
 
 export type PersonnelCreateInput = PersonnelInsert
 export type PersonnelUpdateInput = PersonnelUpdate
@@ -84,6 +85,15 @@ export interface PersonnelEndpointQuery {
 export interface PersonnelSearchQuery extends PersonnelEndpointQuery {
   term?: string
   fields?: string
+  conditions?: string
+  match?: AdvancedSearchMatch
+}
+
+export interface PersonnelSearchCondition {
+  id: string
+  field: string
+  operator: AdvancedSearchOperator
+  value: string
 }
 
 export interface PersonnelSuggestion {
