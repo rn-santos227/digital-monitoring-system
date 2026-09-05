@@ -240,4 +240,10 @@ export const parsePersonnelAdvancedSearchConditions = (
     return []
   }
 
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(serializedConditions)
+  } catch {
+    throw createError({ statusCode: 400, statusMessage: 'Advanced search conditions must be valid JSON.' })
+  }
 }
