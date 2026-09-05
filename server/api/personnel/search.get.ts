@@ -2,8 +2,10 @@ import { createError, defineEventHandler, getQuery } from 'h3'
 import type { PersonnelListCompactResponse } from '../../shared/responses'
 import { PERSONNEL_PERMISSION_GROUPS, PERSONNEL_PROFILE_LIST_SELECT_COLUMNS } from '../../shared/constants'
 import { mapPersonnelCompactListItem, parseManagementPaginationQuery } from '../../shared/utils'
+import { parsePersonnelAdvancedSearchConditions } from '../../shared/validations'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { buildPersonnelAdvancedSearchFilters } from '../../utils/personnel/buildPersonnelAdvancedSearchFilters'
 import { buildPersonnelSearchFilters } from '../../utils/personnel/buildPersonnelSearchFilters'
 import { searchPersonnel } from '../../utils/personnel/searchPersonnel'
 
@@ -13,8 +15,9 @@ export default defineEventHandler(async (event): Promise<PersonnelListCompactRes
 
   const query = getQuery(event)
   const term = typeof query.term === 'string' ? query.term.trim() : ''
+  const serializedConditions = typeof query.conditions === 'string' ? query.conditions : ''
 
-  if (!term) {
+  if (!term && !serializedConditions) {
     throw createError({ statusCode: 400, statusMessage: 'Search term is required.' })
   }
 
