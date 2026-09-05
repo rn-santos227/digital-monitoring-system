@@ -26,7 +26,11 @@ export default defineEventHandler(async (event): Promise<PersonnelListCompactRes
     pageSize: query.pageSize,
   })
 
-  const filters = buildPersonnelSearchFilters(term, typeof query.fields === 'string' ? query.fields : undefined)
+  const advancedConditions = parsePersonnelAdvancedSearchConditions(serializedConditions)
+
+  const filters = Array.isArray(advancedConditions) && advancedConditions.length
+    ? buildPersonnelAdvancedSearchFilters(advancedConditions)
+    : buildPersonnelSearchFilters(term, typeof query.fields === 'string' ? query.fields : undefined)
 
   if (filters.length === 0) {
     throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
