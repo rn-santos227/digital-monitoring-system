@@ -85,6 +85,11 @@ export const ADVANCED_SEARCH_OPERATOR_OPTIONS = Object.freeze([
   { value: 'endsWith', label: 'ends with' },
 ])
 
+export const ADVANCED_SEARCH_MATCH_OPTIONS = Object.freeze([
+  { value: 'any', label: 'Any condition' },
+  { value: 'all', label: 'All conditions' },
+])
+
 export interface SuggestionFieldOption {
   value: string
   label: string
