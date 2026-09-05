@@ -1,8 +1,11 @@
+import type { PersonnelAdvancedSearchConditionRequest, PersonnelSearchOperator } from '../../shared/requests'
+
 const SEARCHABLE_PERSONNEL_FIELDS = {
   personnelCode: 'personnel_code',
   serviceNumber: 'service_number',
   lastName: 'last_name',
   firstName: 'first_name',
+  email: 'email',
   rankName: 'rank_name',
 } as const
 
