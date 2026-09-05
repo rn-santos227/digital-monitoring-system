@@ -34,5 +34,10 @@ export const buildPersonnelSearchFilters = (term: string, fields?: string): Pers
     ? rawFields.filter((field): field is keyof typeof SEARCHABLE_PERSONNEL_FIELDS => field in SEARCHABLE_PERSONNEL_FIELDS)
     : Object.keys(SEARCHABLE_PERSONNEL_FIELDS) as Array<keyof typeof SEARCHABLE_PERSONNEL_FIELDS>
 
-  return selectedFields.map(field => `${SEARCHABLE_PERSONNEL_FIELDS[field]}.ilike.%${term}%`)
+  const normalizedTerm = normalizeSearchValue(term)
+  return selectedFields.map(field => ({
+    column: SEARCHABLE_PERSONNEL_FIELDS[field],
+    operator: 'ilike',
+    value: `%${normalizedTerm}%`,
+  }))
 }
