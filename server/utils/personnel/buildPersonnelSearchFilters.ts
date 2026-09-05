@@ -41,3 +41,22 @@ export const buildPersonnelSearchFilters = (term: string, fields?: string): Pers
     value: `%${normalizedTerm}%`,
   }))
 }
+
+export const buildPersonnelAdvancedSearchFilters = (
+  conditions: readonly PersonnelAdvancedSearchConditionRequest[],
+): PersonnelSearchFilter[] => conditions.flatMap((condition) => {
+  const field = condition.field ?? ''
+  const operator = condition.operator ?? 'contains'
+  const value = normalizeSearchValue(condition.value ?? '')
+
+  if (!(field in SEARCHABLE_PERSONNEL_FIELDS) || !(operator in OPERATOR_VALUE_BUILDERS) || !value) {
+    return []
+  }
+
+  const typedField = field as keyof typeof SEARCHABLE_PERSONNEL_FIELDS
+  return [{
+    column: SEARCHABLE_PERSONNEL_FIELDS[typedField],
+    operator: operator === 'equals' ? 'eq' : operator === 'notEquals' ? 'neq' : 'ilike',
+    value: OPERATOR_VALUE_BUILDERS[operator](value),
+  }]
+})
