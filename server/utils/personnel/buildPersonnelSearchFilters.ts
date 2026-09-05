@@ -1,62 +1,22 @@
-import type { PersonnelAdvancedSearchConditionRequest, PersonnelSearchOperator } from '../../shared/requests'
-
-const SEARCHABLE_PERSONNEL_FIELDS = {
-  personnelCode: 'personnel_code',
-  serviceNumber: 'service_number',
-  lastName: 'last_name',
-  firstName: 'first_name',
-  email: 'email',
-  rankName: 'rank_name',
-} as const
-
-export interface PersonnelSearchFilter {
-  column: string
-  operator: 'eq' | 'neq' | 'ilike'
-  value: string
-}
-
-const OPERATOR_VALUE_BUILDERS: Record<PersonnelSearchOperator, (value: string) => string> = {
-  contains: value => `%${value}%`,
-  equals: value => value,
-  notEquals: value => value,
-  startsWith: value => `${value}%`,
-  endsWith: value => `%${value}`,
-}
-
-const normalizeSearchValue = (value: string): string => value
-  .trim()
-  .replace(/[(),]/g, ' ')
-  .slice(0, 120)
+import { PERSONNEL_SEARCHABLE_FIELD_COLUMNS } from '../../shared/constants'
+import type { PersonnelSearchFilter } from '../../shared/models'
 
 export const buildPersonnelSearchFilters = (term: string, fields?: string): PersonnelSearchFilter[] => {
   const rawFields = typeof fields === 'string' ? fields.split(',').map(field => field.trim()) : []
   const selectedFields = rawFields.length > 0
-    ? rawFields.filter((field): field is keyof typeof SEARCHABLE_PERSONNEL_FIELDS => field in SEARCHABLE_PERSONNEL_FIELDS)
-    : Object.keys(SEARCHABLE_PERSONNEL_FIELDS) as Array<keyof typeof SEARCHABLE_PERSONNEL_FIELDS>
+    ? rawFields.filter((field): field is keyof typeof PERSONNEL_SEARCHABLE_FIELD_COLUMNS => (
+        field in PERSONNEL_SEARCHABLE_FIELD_COLUMNS
+      ))
+    : Object.keys(PERSONNEL_SEARCHABLE_FIELD_COLUMNS) as Array<keyof typeof PERSONNEL_SEARCHABLE_FIELD_COLUMNS>
 
-  const normalizedTerm = normalizeSearchValue(term)
+  const normalizedTerm = term
+    .trim()
+    .replace(/[(),]/g, ' ')
+    .slice(0, 120)
+
   return selectedFields.map(field => ({
-    column: SEARCHABLE_PERSONNEL_FIELDS[field],
+    column: PERSONNEL_SEARCHABLE_FIELD_COLUMNS[field],
     operator: 'ilike',
     value: `%${normalizedTerm}%`,
   }))
 }
-
-export const buildPersonnelAdvancedSearchFilters = (
-  conditions: readonly PersonnelAdvancedSearchConditionRequest[],
-): PersonnelSearchFilter[] => conditions.flatMap((condition) => {
-  const field = condition.field ?? ''
-  const operator = condition.operator ?? 'contains'
-  const value = normalizeSearchValue(condition.value ?? '')
-
-  if (!(field in SEARCHABLE_PERSONNEL_FIELDS) || !(operator in OPERATOR_VALUE_BUILDERS) || !value) {
-    return []
-  }
-
-  const typedField = field as keyof typeof SEARCHABLE_PERSONNEL_FIELDS
-  return [{
-    column: SEARCHABLE_PERSONNEL_FIELDS[typedField],
-    operator: operator === 'equals' ? 'eq' : operator === 'notEquals' ? 'neq' : 'ilike',
-    value: OPERATOR_VALUE_BUILDERS[operator](value),
-  }]
-})
