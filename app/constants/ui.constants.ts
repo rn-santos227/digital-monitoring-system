@@ -77,6 +77,14 @@ export interface AdvancedSearchField {
   label: string
 }
 
+export const ADVANCED_SEARCH_OPERATOR_OPTIONS = Object.freeze([
+  { value: 'contains', label: 'contains' },
+  { value: 'equals', label: 'is' },
+  { value: 'notEquals', label: 'is not' },
+  { value: 'startsWith', label: 'starts with' },
+  { value: 'endsWith', label: 'ends with' },
+])
+
 export interface SuggestionFieldOption {
   value: string
   label: string
