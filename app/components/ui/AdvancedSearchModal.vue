@@ -7,7 +7,16 @@
     @close="emit('close')"
   >
     <form class="space-y-5" @submit.prevent="applySearch">
-      
+      <BaseRadioGroup
+        v-model="draft.match"
+        label="Results must match"
+        name="advanced-search-match"
+        :options="matchOptions"
+      />
+
+      <section class="space-y-3" aria-labelledby="advanced-search-conditions-heading">
+        
+      </section>
     </form>
 
     <template #footer>
