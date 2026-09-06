@@ -38,8 +38,14 @@ const draft = reactive<{ match: AdvancedSearchMatch; conditions: AdvancedSearchC
     ? props.modelValue.conditions.map(createCondition)
     : [createCondition()],
 })
-})
 const errorMessage = ref('')
 const matchOptions = [...ADVANCED_SEARCH_MATCH_OPTIONS]
 const operatorOptions = [...ADVANCED_SEARCH_OPERATOR_OPTIONS]
+
+const addCondition = () => draft.conditions.push(createCondition())
+const removeCondition = (id: string) => {
+  if (draft.conditions.length > 1) {
+    draft.conditions = draft.conditions.filter(condition => condition.id !== id)
+  }
+}
 </script>
