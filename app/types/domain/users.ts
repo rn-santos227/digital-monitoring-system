@@ -1,5 +1,7 @@
 export type UserManagementTabId = 'user-profile' | 'user-account'
 export type UserProfileViewTabId = 'details' | 'activities'
+import type { AdvancedSearchCondition } from '~/constants/ui.constants'
+
 
 export interface UserProfileRecord {
   id: string
@@ -97,7 +99,11 @@ export interface UsersState {
 export interface UserProfilesSearchQuery extends UserProfilesEndpointQuery {
   term?: string
   fields?: string
+  conditions?: string
+  match?: 'any' | 'all'
 }
+
+export type UserProfileSearchCondition = AdvancedSearchCondition
 
 export interface UserProfilesEndpointQuery {
   page?: number
