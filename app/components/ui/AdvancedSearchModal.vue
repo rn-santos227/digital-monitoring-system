@@ -1,5 +1,15 @@
 <template>
-
+  <BaseModal
+    title="Advanced Search"
+    description="Build a list of conditions to narrow the records shown."
+    size="xl"
+    scroll-body
+    @close="emit('close')"
+  >
+    <form class="space-y-5" @submit.prevent="applySearch">
+      
+    </form>
+  </BaseModal>
 </template>
 
 <script setup lang="ts">
