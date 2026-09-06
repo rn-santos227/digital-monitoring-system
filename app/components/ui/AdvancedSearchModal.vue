@@ -7,6 +7,12 @@
     @close="emit('close')"
   >
     <form class="space-y-5" @submit.prevent="applySearch">
+      <BaseAlert
+        v-if="errorMessage"
+        title="Search values required"
+        :message="errorMessage"
+      />
+
       <BaseRadioGroup
         v-model="draft.match"
         label="Results must match"
@@ -31,7 +37,12 @@
         >
           <BaseSelect v-model="condition.field" :label="`Field ${index + 1}`" :options="fields" />
           <BaseSelect v-model="condition.operator" label="Operator" :options="operatorOptions" />
-          <BaseTextField v-model="condition.value" label="Value" placeholder="Enter a value" />
+          <BaseTextField
+            v-model="condition.value"
+            label="Value"
+            :placeholder="ADVANCED_SEARCH_VALUE_PLACEHOLDER"
+            :helper-text="ADVANCED_SEARCH_VALUE_HELPER_TEXT"
+          />
           <BaseButton
             type="button"
             variant="danger"
@@ -63,6 +74,8 @@ import { reactive, ref } from 'vue'
 import {
   ADVANCED_SEARCH_MATCH_OPTIONS,
   ADVANCED_SEARCH_OPERATOR_OPTIONS,
+  ADVANCED_SEARCH_VALUE_HELPER_TEXT,
+  ADVANCED_SEARCH_VALUE_PLACEHOLDER,
   type AdvancedSearchCondition,
   type AdvancedSearchField,
   type AdvancedSearchMatch,
