@@ -35,5 +35,11 @@ const conditions = computed<PersonnelSearchCondition[]>(() => {
       : []
   }
 
+  try {
+    const parsed: unknown = JSON.parse(props.modelValue.conditions)
+    return Array.isArray(parsed) ? parsed as PersonnelSearchCondition[] : []
+  } catch {
+    return []
+  }
 })
 </script>
