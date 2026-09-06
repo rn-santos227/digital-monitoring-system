@@ -29,7 +29,9 @@
           :key="condition.id"
           class="grid gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 md:grid-cols-[minmax(0,1fr)_minmax(0,0.75fr)_minmax(0,1.25fr)_auto] md:items-end"
         >
-
+          <BaseSelect v-model="condition.field" :label="`Field ${index + 1}`" :options="fields" />
+          <BaseSelect v-model="condition.operator" label="Operator" :options="operatorOptions" />
+          <BaseTextField v-model="condition.value" label="Value" placeholder="Enter a value" />
         </div>
       </section>
     </form>
