@@ -12,22 +12,23 @@ const OPERATOR_VALUE_BUILDERS: Record<PersonnelSearchOperator, (value: string) =
 
 export const buildPersonnelAdvancedSearchFilters = (
   conditions: readonly PersonnelAdvancedSearchConditionRequest[],
-): PersonnelSearchFilter[] => conditions.flatMap((condition) => {
+): PersonnelSearchFilter[] => conditions.flatMap((condition, conditionIndex) => {
   const field = condition.field ?? ''
   const operator = condition.operator ?? 'contains'
-  const value = (condition.value ?? '')
-    .trim()
-    .replace(/[(),]/g, ' ')
-    .slice(0, 120)
+  const values = (condition.value ?? '')
+    .split(',')
+    .map(value => value.replace(/[()]/g, ' ').trim().slice(0, 120))
+    .filter(Boolean)
 
-  if (!(field in PERSONNEL_SEARCHABLE_FIELD_COLUMNS) || !(operator in OPERATOR_VALUE_BUILDERS) || !value) {
+  if (!(field in PERSONNEL_SEARCHABLE_FIELD_COLUMNS) || !(operator in OPERATOR_VALUE_BUILDERS) || !values.length) {
     return []
   }
 
   const typedField = field as keyof typeof PERSONNEL_SEARCHABLE_FIELD_COLUMNS
-  return [{
+  return values.map(value => ({
     column: PERSONNEL_SEARCHABLE_FIELD_COLUMNS[typedField],
     operator: operator === 'equals' ? 'eq' : operator === 'notEquals' ? 'neq' : 'ilike',
     value: OPERATOR_VALUE_BUILDERS[operator](value),
-  }]
+    conditionGroup: `condition-${conditionIndex}`,
+  }))
 })
