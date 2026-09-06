@@ -78,6 +78,12 @@ export const PERSONNEL_CREATE_PROFILE_IMAGE_URL_PLACEHOLDER = 'https://example.c
 export const PERSONNEL_UPDATE_MODAL_TITLE = 'Update Personnel Record'
 export const PERSONNEL_UPDATE_MODAL_DESCRIPTION = 'Update personnel profile details and assignment information.'
 export const RANK_CREATE_BUTTON_LABEL = 'Create Rank'
+export const RANK_FILTER_CARD_TITLE = 'Search Ranks'
+export const RANK_FILTER_RESET_LABEL = 'Reset'
+export const RANK_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: 'code', label: 'Code' },
+  { value: 'name', label: 'Name' },
+])
 export const RANK_CREATE_MODAL_TITLE = 'Create Rank Record'
 export const RANK_CREATE_MODAL_DESCRIPTION = 'Register a rank for personnel assignment and reporting.'
 export const PERSONNEL_BULK_UPDATE_MODAL_TITLE = 'Update Selected Personnel'
