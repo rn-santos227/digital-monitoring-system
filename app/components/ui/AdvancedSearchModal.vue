@@ -23,4 +23,12 @@ const emit = defineEmits<{
   (event: 'clear'): void
   (event: 'close'): void
 }>()
+
+let nextConditionId = 0
+const createCondition = (condition?: Partial<AdvancedSearchCondition>): AdvancedSearchCondition => ({
+  id: condition?.id ?? `advanced-condition-${nextConditionId++}`,
+  field: condition?.field ?? props.fields[0]?.value ?? '',
+  operator: condition?.operator ?? 'contains',
+  value: condition?.value ?? '',
+})
 </script>
