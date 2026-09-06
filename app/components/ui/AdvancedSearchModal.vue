@@ -50,6 +50,9 @@ const removeCondition = (id: string) => {
 }
 
 const applySearch = () => {
+  const conditions = draft.conditions
+    .map(condition => ({ ...condition, value: condition.value.trim() }))
+    .filter(condition => condition.value)
 
 }
 
