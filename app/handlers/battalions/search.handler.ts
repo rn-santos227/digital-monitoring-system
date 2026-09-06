@@ -7,6 +7,10 @@ const BATTALION_SEARCHABLE_FIELDS = ['code', 'name'] as const
 
 export const useBattalionSearchHandlers = (filters: Ref<Partial<BattalionSearchQuery>>) => {
   const handleFilterApply = (value: Partial<BattalionSearchQuery>) => {
+    if (value.conditions) {
+      return { filters: { conditions: value.conditions, match: value.match === 'any' ? 'any' as const : 'all' as const }, errors: {}, isValid: true }
+    }
+
     const commonValidation = validateFields([
       { field: 'term', label: 'Search term', value: value.term ?? '', maxLength: 120, pattern: REGEX_PATTERNS.alphaNumericSpace, patternMessage: 'Search term allows letters, numbers, spaces, periods, underscores, and hyphens only.' },
       { field: 'fields', label: 'Search field', value: value.fields ?? '', maxLength: 64 },
