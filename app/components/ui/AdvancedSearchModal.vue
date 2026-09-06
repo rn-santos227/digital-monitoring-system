@@ -12,4 +12,9 @@ import {
   type AdvancedSearchMatch,
   type AdvancedSearchValue,
 } from '~/constants/ui.constants'
+
+const props = defineProps<{
+  fields: readonly AdvancedSearchField[]
+  modelValue: AdvancedSearchValue
+}>()
 </script>
