@@ -9,6 +9,16 @@
     <form class="space-y-5" @submit.prevent="applySearch">
       
     </form>
+
+    <template #footer>
+      <div class="flex justify-between gap-3">
+        <BaseButton type="button" variant="ghost" @click="clearSearch">Clear all</BaseButton>
+        <div class="flex gap-2">
+          <BaseButton type="button" variant="secondary" @click="emit('close')">Cancel</BaseButton>
+          <BaseButton type="button" @click="applySearch">Apply search</BaseButton>
+        </div>
+      </div>
+    </template>
   </BaseModal>
 </template>
 
