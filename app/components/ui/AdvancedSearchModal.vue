@@ -31,4 +31,11 @@ const createCondition = (condition?: Partial<AdvancedSearchCondition>): Advanced
   operator: condition?.operator ?? 'contains',
   value: condition?.value ?? '',
 })
+
+const draft = reactive<{ match: AdvancedSearchMatch; conditions: AdvancedSearchCondition[] }>({
+  match: props.modelValue.match,
+  conditions: props.modelValue.conditions.length
+    ? props.modelValue.conditions.map(createCondition)
+    : [createCondition()],
+})
 </script>
