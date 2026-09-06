@@ -48,4 +48,10 @@ const removeCondition = (id: string) => {
     draft.conditions = draft.conditions.filter(condition => condition.id !== id)
   }
 }
+
+const applySearch = () => {
+
+}
+
+const clearSearch = () => emit('clear')
 </script>
