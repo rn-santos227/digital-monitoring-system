@@ -32,6 +32,7 @@ export interface PersonnelSearchFilter {
   column: string
   operator: 'eq' | 'neq' | 'ilike'
   value: string
+  conditionGroup?: string
 }
 
 export interface PersonnelCreate {

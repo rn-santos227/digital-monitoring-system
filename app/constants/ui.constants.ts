@@ -90,6 +90,9 @@ export const ADVANCED_SEARCH_MATCH_OPTIONS = Object.freeze([
   { value: 'all', label: 'All conditions' },
 ])
 
+export const ADVANCED_SEARCH_VALUE_PLACEHOLDER = 'Enter one or more values'
+export const ADVANCED_SEARCH_VALUE_HELPER_TEXT = 'Separate multiple specific values with commas.'
+
 export interface SuggestionFieldOption {
   value: string
   label: string
