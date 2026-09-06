@@ -28,6 +28,22 @@ export const searchPersonnel = async (supabase: SupabaseClient, options: SearchP
       groupFilters.push(filter)
       filterGroups.set(groupKey, groupFilters)
     })
+
+    filterGroups.forEach((filters) => {
+      if (filters.length === 1) {
+        const filter = filters[0]
+        if (filter) {
+          query = query.filter(filter.column, filter.operator, filter.value)
+        }
+        return
+      }
+
+      const expressions = filters.map((filter) => {
+        const escapedValue = filter.value.replace(/["\\]/g, '')
+        return `${filter.column}.${filter.operator}."${escapedValue}"`
+      })
+      query = query.or(expressions.join(','))
+    })
   }
 
   return query
