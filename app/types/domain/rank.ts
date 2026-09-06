@@ -1,3 +1,5 @@
+import type { AdvancedSearchCondition } from '~/constants/ui.constants'
+
 export interface RankSuggestionItem {
   id: string
   code: string
@@ -30,7 +32,13 @@ export interface RankListQuery {
   page?: number
   pageSize?: number
   search?: string
+  term?: string
+  fields?: string
+  conditions?: string
+  match?: 'any' | 'all'
 }
+
+export type RankSearchCondition = AdvancedSearchCondition
 
 export interface CreateRankPayload {
   code: string
