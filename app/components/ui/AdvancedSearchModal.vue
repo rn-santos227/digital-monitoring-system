@@ -32,6 +32,16 @@
           <BaseSelect v-model="condition.field" :label="`Field ${index + 1}`" :options="fields" />
           <BaseSelect v-model="condition.operator" label="Operator" :options="operatorOptions" />
           <BaseTextField v-model="condition.value" label="Value" placeholder="Enter a value" />
+          <BaseButton
+            type="button"
+            variant="danger"
+            size="sm"
+            icon-only
+            icon-name="trash"
+            :aria-label="`Remove condition ${index + 1}`"
+            :disabled="draft.conditions.length === 1"
+            @click="removeCondition(condition.id)"
+          />
         </div>
       </section>
     </form>
