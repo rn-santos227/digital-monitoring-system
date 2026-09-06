@@ -27,4 +27,13 @@ const emit = defineEmits<{
 
 const isModalOpen = ref(false)
 const fieldOptions = PERSONNEL_FILTER_FIELD_OPTIONS.filter(option => option.value)
+
+const conditions = computed<PersonnelSearchCondition[]>(() => {
+  if (!props.modelValue.conditions) {
+    return props.modelValue.term
+      ? [{ id: 'legacy-condition', field: props.modelValue.fields || fieldOptions[0]?.value || '', operator: 'contains', value: props.modelValue.term }]
+      : []
+  }
+
+})
 </script>
