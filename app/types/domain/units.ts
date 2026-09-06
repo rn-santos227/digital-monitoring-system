@@ -156,7 +156,11 @@ export interface CompanySearchQuery extends CompanyEndpointQuery {
   term?: string
   fields?: string
   isActive?: boolean
+  conditions?: string
+  match?: 'any' | 'all'
 }
+
+export type CompanySearchCondition = AdvancedSearchCondition
 
 export interface UnitsTablePagination {
   page: number
