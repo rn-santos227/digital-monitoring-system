@@ -1,5 +1,6 @@
 export type UnitManagementTabId = 'battalion' | 'company'
 export type UnitViewTabId = 'information' | 'personnel' | 'equipment' | 'companies'
+import type { AdvancedSearchCondition } from '~/constants/ui.constants'
 
 export interface BattalionListItem {
   id: string
@@ -137,7 +138,11 @@ export interface BattalionSearchQuery extends BattalionEndpointQuery {
   term?: string
   fields?: string
   isActive?: boolean
+  conditions?: string
+  match?: 'any' | 'all'
 }
+
+export type BattalionSearchCondition = AdvancedSearchCondition
 
 export interface CompanyEndpointQuery {
   page?: number
