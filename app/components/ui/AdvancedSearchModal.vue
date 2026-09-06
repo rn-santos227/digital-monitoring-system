@@ -15,7 +15,14 @@
       />
 
       <section class="space-y-3" aria-labelledby="advanced-search-conditions-heading">
-        
+        <div class="flex items-center justify-between gap-3">
+          <h3 id="advanced-search-conditions-heading" class="text-sm font-semibold text-slate-800">
+            Conditions
+          </h3>
+          <BaseButton type="button" variant="secondary" size="sm" icon-name="plus" @click="addCondition">
+            Add condition
+          </BaseButton>
+        </div>
       </section>
     </form>
 
