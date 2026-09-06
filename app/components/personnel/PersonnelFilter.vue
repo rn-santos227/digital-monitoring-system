@@ -2,6 +2,9 @@
   <section class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
     <div>
       <h2 class="text-sm font-semibold text-slate-900">{{ PERSONNEL_FILTER_CARD_TITLE }}</h2>
+      <p class="mt-1 text-sm text-slate-600">
+        {{ activeConditionCount ? `${activeConditionCount} advanced search condition${activeConditionCount === 1 ? '' : 's'} applied` : 'No advanced search conditions applied' }}
+      </p>
     </div>
   </section>
 </template>
