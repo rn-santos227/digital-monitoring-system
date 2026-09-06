@@ -21,8 +21,12 @@ export const searchPersonnel = async (supabase: SupabaseClient, options: SearchP
     })
     query = query.or(expressions.join(','))
   } else {
+    const filterGroups = new Map<string, PersonnelSearchFilter[]>()
     options.filters.forEach((filter) => {
-      query = query.filter(filter.column, filter.operator, filter.value)
+      const groupKey = filter.conditionGroup ?? `${filter.column}:${filter.operator}:${filter.value}`
+      const groupFilters = filterGroups.get(groupKey) ?? []
+      groupFilters.push(filter)
+      filterGroups.set(groupKey, groupFilters)
     })
   }
 
