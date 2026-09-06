@@ -11,4 +11,12 @@ import {
   PERSONNEL_FILTER_FIELD_OPTIONS,
   PERSONNEL_FILTER_RESET_LABEL,
 } from '~/constants/page.constants'
+
+const props = withDefaults(defineProps<{
+  modelValue: Partial<PersonnelSearchQuery>
+  validationErrors?: Readonly<Record<string, string>>
+}>(), {
+  modelValue: () => ({}),
+  validationErrors: () => ({}),
+})
 </script>
