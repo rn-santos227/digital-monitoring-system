@@ -54,6 +54,13 @@ const applySearch = () => {
     .map(condition => ({ ...condition, value: condition.value.trim() }))
     .filter(condition => condition.value)
 
+  if (!conditions.length) {
+    errorMessage.value = 'Enter a value for at least one search condition.'
+    return
+  }
+
+  errorMessage.value = ''
+  emit('apply', { match: draft.match, conditions })
 }
 
 const clearSearch = () => emit('clear')
