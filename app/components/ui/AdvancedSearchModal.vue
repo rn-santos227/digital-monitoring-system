@@ -17,4 +17,10 @@ const props = defineProps<{
   fields: readonly AdvancedSearchField[]
   modelValue: AdvancedSearchValue
 }>()
+
+const emit = defineEmits<{
+  (event: 'apply', value: AdvancedSearchValue): void
+  (event: 'clear'): void
+  (event: 'close'): void
+}>()
 </script>
