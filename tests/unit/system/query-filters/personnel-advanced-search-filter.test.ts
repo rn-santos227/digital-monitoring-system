@@ -24,4 +24,24 @@ describe('personnel advanced search filters', () => {
     ])
   })
 
+  it('ignores empty values and sanitizes filter grouping characters', () => {
+    expect(buildPersonnelAdvancedSearchFilters([{
+      field: 'lastName',
+      operator: 'equals',
+      value: ' Dela (Cruz),, Santos ',
+    }])).toEqual([
+      {
+        column: 'last_name',
+        operator: 'eq',
+        value: 'Dela  Cruz',
+        conditionGroup: 'condition-0',
+      },
+      {
+        column: 'last_name',
+        operator: 'eq',
+        value: 'Santos',
+        conditionGroup: 'condition-0',
+      },
+    ])
+  })
 })
