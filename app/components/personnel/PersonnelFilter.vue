@@ -24,4 +24,7 @@ const emit = defineEmits<{
   (event: 'apply', value: Partial<PersonnelSearchQuery>): void
   (event: 'reset'): void
 }>()
+
+const isModalOpen = ref(false)
+const fieldOptions = PERSONNEL_FILTER_FIELD_OPTIONS.filter(option => option.value)
 </script>
