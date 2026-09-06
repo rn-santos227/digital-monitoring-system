@@ -164,7 +164,11 @@ export interface UserAccountsSearchQuery extends UserAccountsEndpointQuery {
   term?: string
   fields?: string
   isSystem?: boolean
+  conditions?: string
+  match?: 'any' | 'all'
 }
+
+export type AccountTypeSearchCondition = AdvancedSearchCondition
 
 export interface UserAccountEndpointResponseItem {
   id: string
