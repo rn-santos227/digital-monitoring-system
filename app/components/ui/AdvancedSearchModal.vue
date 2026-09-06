@@ -23,6 +23,14 @@
             Add condition
           </BaseButton>
         </div>
+
+        <div
+          v-for="(condition, index) in draft.conditions"
+          :key="condition.id"
+          class="grid gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 md:grid-cols-[minmax(0,1fr)_minmax(0,0.75fr)_minmax(0,1.25fr)_auto] md:items-end"
+        >
+
+        </div>
       </section>
     </form>
 
