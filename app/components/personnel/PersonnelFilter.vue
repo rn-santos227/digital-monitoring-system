@@ -42,4 +42,10 @@ const conditions = computed<PersonnelSearchCondition[]>(() => {
     return []
   }
 })
+
+const activeConditionCount = computed(() => conditions.value.length)
+const advancedSearchValue = computed<AdvancedSearchValue>(() => ({
+  match: props.modelValue.match ?? 'all',
+  conditions: conditions.value,
+}))
 </script>
