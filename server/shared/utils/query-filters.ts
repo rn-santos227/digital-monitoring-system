@@ -29,4 +29,9 @@ export const applyPersonnelSearchFilters = <TQuery>(
     return query.or(filters.map(expressionFor).join(',')) as unknown as TQuery
   }
 
+  const groups = new Map<string, PersonnelSearchFilter[]>()
+  filters.forEach((filter) => {
+    const groupKey = filter.conditionGroup ?? `${filter.column}:${filter.operator}:${filter.value}`
+    groups.set(groupKey, [...(groups.get(groupKey) ?? []), filter])
+  })
 }
