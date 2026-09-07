@@ -38,7 +38,9 @@ export const useRankSearchHandlers = (filters: Ref<Partial<RankListQuery>>) => {
         value: value.fields ?? '',
         maxLength: 64,
       },
-
     ])
+    const normalizedField = validation.values.fields
+    const isFieldValid = !normalizedField || RANK_SEARCHABLE_FIELDS.includes(normalizedField)
+
   }
 }
