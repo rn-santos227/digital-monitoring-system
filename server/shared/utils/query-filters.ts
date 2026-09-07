@@ -16,3 +16,11 @@ export function applyNullableFilter<TQuery extends { eq: (column: string, value:
 
   return query.is(column, null)
 }
+
+export const applyPersonnelSearchFilters = <TQuery>(
+  sourceQuery: TQuery,
+  filters: readonly PersonnelSearchFilter[],
+  match: 'any' | 'all',
+): TQuery => {
+
+}
