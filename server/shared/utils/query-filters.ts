@@ -36,7 +36,12 @@ export const applyPersonnelSearchFilters = <TQuery>(
   })
 
   groups.forEach((group) => {
-
+    const first = group[0]
+    if (group.length === 1 && first) {
+      query = query.filter(first.column, first.operator, first.value)
+      return
+    }
+    query = query.or(group.map(expressionFor).join(','))
   })
 
   return query as unknown as TQuery
