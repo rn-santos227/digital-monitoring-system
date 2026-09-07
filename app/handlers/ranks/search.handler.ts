@@ -32,6 +32,12 @@ export const useRankSearchHandlers = (filters: Ref<Partial<RankListQuery>>) => {
         pattern: REGEX_PATTERNS.alphaNumericSpace,
         patternMessage: 'Search term allows letters, numbers, spaces, periods, underscores, and hyphens only.',
       },
+      {
+        field: 'fields',
+        label: 'Search field',
+        value: value.fields ?? '',
+        maxLength: 64,
+      },
 
     ])
   }
