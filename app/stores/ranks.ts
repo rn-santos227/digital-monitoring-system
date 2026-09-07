@@ -76,7 +76,9 @@ const rankStoreOptions = {
       const query: RankListQuery = {
         page,
         pageSize,
-        search: search.trim() || undefined,
+        search: filters.term?.trim() || filters.search?.trim() || undefined,
+        conditions: filters.conditions,
+        match: filters.match,
       }
 
       try {
