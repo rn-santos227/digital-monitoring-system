@@ -11,6 +11,9 @@ export const useUsersSearchHandlers = (
   accountFilters: Ref<Partial<UserAccountsSearchQuery>>,
 ) => {
   const handleProfileFilterApply = (value: Partial<UserProfilesSearchQuery>) => {
+    if (value.conditions) {
+      return { filters: { conditions: value.conditions, match: value.match === 'any' ? 'any' as const : 'all' as const }, errors: {}, isValid: true }
+    }
     const commonValidation = validateFields([
       {
         field: 'term',
