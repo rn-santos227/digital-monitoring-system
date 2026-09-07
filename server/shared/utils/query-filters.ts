@@ -34,4 +34,10 @@ export const applyPersonnelSearchFilters = <TQuery>(
     const groupKey = filter.conditionGroup ?? `${filter.column}:${filter.operator}:${filter.value}`
     groups.set(groupKey, [...(groups.get(groupKey) ?? []), filter])
   })
+
+  groups.forEach((group) => {
+
+  })
+
+  return query as unknown as TQuery
 }
