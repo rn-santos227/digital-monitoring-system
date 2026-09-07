@@ -157,9 +157,11 @@ const usersStoreOptions = {
         term: filters.term?.trim() || undefined,
         fields: filters.fields?.trim() || undefined,
         isSystem: typeof filters.isSystem === 'boolean' ? filters.isSystem : undefined,
+        conditions: filters.conditions,
+        match: filters.match,
       }
 
-      const hasSearchFilters = Boolean(requestQuery.term || typeof requestQuery.isSystem === 'boolean')
+     const hasSearchFilters = Boolean(requestQuery.term || requestQuery.conditions || typeof requestQuery.isSystem === 'boolean')
 
       try {
         const response = hasSearchFilters
