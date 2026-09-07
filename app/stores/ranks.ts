@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import type { CreateRankPayload, RankListItem, RankListQuery, RankState, RankTablePagination } from '~/types/domain/rank'
 import { extractApiErrorMessage } from '~/utils/api-request'
 import { resolveDefaultFetchPageSize } from '~/utils/application-settings-page-size'
-import { createRankEndpoint, deleteRankEndpoint, getRanksEndpoint } from '~/utils/rank-endpoints'
+import { createRankEndpoint, deleteRankEndpoint, getRanksEndpoint, searchRanksEndpoint } from '~/utils/rank-endpoints'
 import { usePersonnelStore } from '~/stores/personnel'
 
 const DEFAULT_RANK_PAGINATION: RankTablePagination = {
@@ -54,7 +54,7 @@ const buildCreatedRankItem = (payload: CreateRankPayload, id: string): RankListI
 }
 
 interface RankStoreActionContext extends RankState {
-  fetchRanks: (page?: number, search?: string) => Promise<void>
+  fetchRanks: (page?: number, filters?: Partial<RankListQuery>) => Promise<void>
 }
 
 const rankStoreOptions = {
@@ -68,10 +68,10 @@ const rankStoreOptions = {
   },
 
   actions: {
-    async fetchRanks(this: RankStoreActionContext, page = 1, search = '', pageSize = this.pagination.pageSize) {
+   async fetchRanks(this: RankStoreActionContext, page = 1, filters: Partial<RankListQuery> = {}, pageSize = this.pagination.pageSize) {
       this.isLoading = true
       this.error = ''
-      this.searchTerm = search
+      this.searchTerm = filters.term ?? filters.search ?? ''
 
       const query: RankListQuery = {
         page,
