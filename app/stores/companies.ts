@@ -58,10 +58,13 @@ const companiesStoreOptions = {
         fields: filters.fields?.trim() || undefined,
         isActive: typeof filters.isActive === 'boolean' ? filters.isActive : undefined,
         battalionId: filters.battalionId?.trim() || undefined,
+        conditions: filters.conditions,
+        match: filters.match,
       }
 
       const hasSearchFilters = Boolean(
         requestQuery.term
+        || requestQuery.conditions
         || typeof requestQuery.isActive === 'boolean'
         || requestQuery.battalionId,
       )
