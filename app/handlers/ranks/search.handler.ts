@@ -22,5 +22,17 @@ export const useRankSearchHandlers = (filters: Ref<Partial<RankListQuery>>) => {
         isValid: true,
       }
     }
+
+    const validation = validateFields([
+      {
+        field: 'term',
+        label: 'Search term',
+        value: value.term ?? value.search ?? '',
+        maxLength: 120,
+        pattern: REGEX_PATTERNS.alphaNumericSpace,
+        patternMessage: 'Search term allows letters, numbers, spaces, periods, underscores, and hyphens only.',
+      },
+
+    ])
   }
 }
