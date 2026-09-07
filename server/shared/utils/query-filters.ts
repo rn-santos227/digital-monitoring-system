@@ -25,5 +25,8 @@ export const applyPersonnelSearchFilters = <TQuery>(
   let query = sourceQuery as unknown as AdvancedSearchQuery
   const expressionFor = (filter: PersonnelSearchFilter) => `${filter.column}.${filter.operator}."${filter.value.replace(/["\\]/g, '')}"`
 
+  if (match === 'any') {
+    return query.or(filters.map(expressionFor).join(',')) as unknown as TQuery
+  }
 
 }
