@@ -82,7 +82,9 @@ const rankStoreOptions = {
       }
 
       try {
-        const response = await getRanksEndpoint(query)
+        const response = query.conditions
+          ? await searchRanksEndpoint(query)
+          : await getRanksEndpoint(query)
         this.items = response.items
         this.pagination = {
           page: response.page,
