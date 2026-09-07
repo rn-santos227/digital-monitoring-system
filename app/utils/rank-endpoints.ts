@@ -28,6 +28,16 @@ export const getRanksEndpoint = async (query: RankListQuery): Promise<RankListRe
   }, API_LOADING_MESSAGES.fetchRanks, { useGlobalLoading: false })
 }
 
+export const searchRanksEndpoint = async (query: RankListQuery): Promise<RankListResponse> => {
+  return await withApiLoading(async () => {
+    return await $fetch<RankListResponse>(PERSONNEL_API_ENDPOINTS.ranksSearch, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchRanks, { useGlobalLoading: false })
+}
+
 export const createRankEndpoint = async (payload: CreateRankPayload): Promise<CreateRankResponse> => {
   return await withApiLoading(async () => {
     return await $fetch<CreateRankResponse>(PERSONNEL_API_ENDPOINTS.ranks, {
