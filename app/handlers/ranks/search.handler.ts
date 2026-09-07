@@ -61,4 +61,9 @@ export const useRankSearchHandlers = (filters: Ref<Partial<RankListQuery>>) => {
     filters.value = resetFilters
     return resetFilters
   }
+
+  return {
+    handleFilterApply,
+    handleFilterReset,
+  }
 }
