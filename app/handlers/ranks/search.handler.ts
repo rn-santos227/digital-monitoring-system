@@ -51,6 +51,8 @@ export const useRankSearchHandlers = (filters: Ref<Partial<RankListQuery>>) => {
         term: validation.values.term || undefined,
         fields: normalizedField || undefined,
       },
+      errors,
+      isValid: Object.keys(errors).length === 0,
     }
   }
 }
