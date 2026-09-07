@@ -1,6 +1,8 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { COMPANY_SELECT_COLUMNS } from '../../shared/constants'
+import type { PersonnelSearchFilter } from '../../shared/models'
+import { applyPersonnelSearchFilters } from '../../shared/utils'
 
 interface SearchCompaniesParams {
   term: string
@@ -9,6 +11,8 @@ interface SearchCompaniesParams {
   rangeFrom: number
   rangeTo: number
   fields: string[]
+  advancedFilters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
 }
 
 export async function searchCompanies(supabase: SupabaseClient, params: SearchCompaniesParams) {
