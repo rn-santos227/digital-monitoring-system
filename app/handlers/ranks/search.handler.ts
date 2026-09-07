@@ -16,7 +16,11 @@ export const useRankSearchHandlers = (filters: Ref<Partial<RankListQuery>>) => {
         match: value.match === 'any' ? 'any' : 'all',
       }
 
-
+      return {
+        filters: sanitizedFilters,
+        errors: {},
+        isValid: true,
+      }
     }
   }
 }
