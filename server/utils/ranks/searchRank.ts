@@ -3,3 +3,11 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { RANK_LIST_SELECT_COLUMNS } from '../../shared/constants'
 import type { PersonnelSearchFilter, RankRow } from '../../shared/models'
 import { applyPersonnelSearchFilters } from '../../shared/utils'
+
+interface SearchRanksOptions {
+  filters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
+  rangeFrom: number
+  rangeTo: number
+}
+
