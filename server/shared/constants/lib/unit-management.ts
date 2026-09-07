@@ -8,6 +8,11 @@ export const BATTALION_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   name: 'name',
 })
 
+export const COMPANY_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
+  code: 'code',
+  name: 'name',
+})
+
 export const UNIT_PERMISSION_GROUPS = {
   battalionManagement: [
     'battalion.view',
