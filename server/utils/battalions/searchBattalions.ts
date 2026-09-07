@@ -1,12 +1,16 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { BATTALION_SELECT_COLUMNS } from '../../shared/constants'
+import type { PersonnelSearchFilter } from '../../shared/models'
+import { applyPersonnelSearchFilters } from '../../shared/utils'
 
 interface SearchBattalionsOptions {
   searchFilters: string[]
   isActive: boolean | null
   rangeFrom: number
   rangeTo: number
+  advancedFilters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
 }
 
 export async function searchBattalions(supabase: SupabaseClient, options: SearchBattalionsOptions) {
@@ -20,6 +24,10 @@ export async function searchBattalions(supabase: SupabaseClient, options: Search
 
   if (searchFilters.length > 0) {
     battalionQuery = battalionQuery.or(searchFilters.join(','))
+  }
+
+  if (options.advancedFilters.length > 0) {
+    battalionQuery = applyPersonnelSearchFilters(battalionQuery, options.advancedFilters, options.match)
   }
 
   if (typeof isActive === 'boolean') {
