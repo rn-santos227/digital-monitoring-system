@@ -10,6 +10,13 @@ const RANK_SEARCHABLE_FIELDS = RANK_FILTER_FIELD_OPTIONS
 
 export const useRankSearchHandlers = (filters: Ref<Partial<RankListQuery>>) => {
   const handleFilterApply = (value: Partial<RankListQuery>) => {
+    if (value.conditions) {
+      const sanitizedFilters: Partial<RankListQuery> = {
+        conditions: value.conditions,
+        match: value.match === 'any' ? 'any' : 'all',
+      }
 
+
+    }
   }
 }
