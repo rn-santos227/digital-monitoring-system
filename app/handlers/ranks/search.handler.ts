@@ -55,4 +55,10 @@ export const useRankSearchHandlers = (filters: Ref<Partial<RankListQuery>>) => {
       isValid: Object.keys(errors).length === 0,
     }
   }
+
+  const handleFilterReset = (): Partial<RankListQuery> => {
+    const resetFilters: Partial<RankListQuery> = {}
+    filters.value = resetFilters
+    return resetFilters
+  }
 }
