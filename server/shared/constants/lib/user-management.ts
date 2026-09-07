@@ -3,6 +3,11 @@ export const MANAGEMENT_MODULES = {
   accountTypeManagement: 'account_type_management',
 } as const
 
+export const USER_PROFILE_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
+  email: 'email',
+  fullName: 'full_name',
+})
+
 export const MANAGEMENT_PERMISSION_GROUPS = {
   userProfileManagement: [
     'user.view',
