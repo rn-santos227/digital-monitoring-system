@@ -8,6 +8,12 @@ export const USER_PROFILE_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   fullName: 'full_name',
 })
 
+export const ACCOUNT_TYPE_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
+  code: 'code',
+  name: 'name',
+  description: 'description',
+})
+
 export const MANAGEMENT_PERMISSION_GROUPS = {
   userProfileManagement: [
     'user.view',
