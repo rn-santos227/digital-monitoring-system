@@ -13,6 +13,11 @@ export const PERSONNEL_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   rankName: 'rank_name',
 })
 
+export const RANK_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
+  code: 'code',
+  name: 'name',
+})
+
 export const PERSONNEL_PERMISSION_GROUPS = {
   personnelManagement: [
     'personnel.view',
