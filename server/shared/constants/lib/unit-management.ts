@@ -3,6 +3,11 @@ export const UNIT_MODULES = {
   companyManagement: 'company',
 } as const
 
+export const BATTALION_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
+  code: 'code',
+  name: 'name',
+})
+
 export const UNIT_PERMISSION_GROUPS = {
   battalionManagement: [
     'battalion.view',
