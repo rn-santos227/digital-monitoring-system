@@ -41,6 +41,11 @@ export const useRankSearchHandlers = (filters: Ref<Partial<RankListQuery>>) => {
     ])
     const normalizedField = validation.values.fields
     const isFieldValid = !normalizedField || RANK_SEARCHABLE_FIELDS.includes(normalizedField)
+    const errors = {
+      ...validation.errors,
+      ...(!isFieldValid ? { fields: 'Selected rank field is invalid.' } : {}),
+    }
+
 
   }
 }
