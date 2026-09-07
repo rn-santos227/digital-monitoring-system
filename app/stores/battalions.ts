@@ -57,9 +57,11 @@ const battalionsStoreOptions = {
         term: filters.term?.trim() || undefined,
         fields: filters.fields?.trim() || undefined,
         isActive: typeof filters.isActive === 'boolean' ? filters.isActive : undefined,
+        conditions: filters.conditions,
+        match: filters.match,
       }
 
-      const hasSearchFilters = Boolean(requestQuery.term || typeof requestQuery.isActive === 'boolean')
+      const hasSearchFilters = Boolean(requestQuery.term || requestQuery.conditions || typeof requestQuery.isActive === 'boolean')
 
       try {
         const response = hasSearchFilters
