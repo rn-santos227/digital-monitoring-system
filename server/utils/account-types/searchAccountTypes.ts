@@ -1,12 +1,16 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { ACCOUNT_TYPE_LIST_SELECT_COLUMNS } from '../../shared/constants'
+import type { PersonnelSearchFilter } from '../../shared/models'
+import { applyPersonnelSearchFilters } from '../../shared/utils'
 
 interface SearchAccountTypesOptions {
   searchFilters: string[]
   isSystem: boolean | null
   rangeFrom: number
   rangeTo: number
+  advancedFilters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
 }
 
 export async function searchAccountTypes(supabase: SupabaseClient, options: SearchAccountTypesOptions) {
