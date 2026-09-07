@@ -26,6 +26,10 @@ export async function searchAccountTypes(supabase: SupabaseClient, options: Sear
     accountTypeQuery = accountTypeQuery.or(searchFilters.join(','))
   }
 
+  if (options.advancedFilters.length > 0) {
+    accountTypeQuery = applyPersonnelSearchFilters(accountTypeQuery, options.advancedFilters, options.match)
+  }
+
   if (typeof isSystem === 'boolean') {
     accountTypeQuery = accountTypeQuery.eq('is_system', isSystem)
   }
