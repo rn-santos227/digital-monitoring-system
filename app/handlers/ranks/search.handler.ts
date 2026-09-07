@@ -46,6 +46,11 @@ export const useRankSearchHandlers = (filters: Ref<Partial<RankListQuery>>) => {
       ...(!isFieldValid ? { fields: 'Selected rank field is invalid.' } : {}),
     }
 
-
+    return {
+      filters: {
+        term: validation.values.term || undefined,
+        fields: normalizedField || undefined,
+      },
+    }
   }
 }
