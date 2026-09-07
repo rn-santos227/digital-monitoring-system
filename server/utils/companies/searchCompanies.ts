@@ -28,6 +28,10 @@ export async function searchCompanies(supabase: SupabaseClient, params: SearchCo
     query = query.or(filters.join(','))
   }
 
+  if (params.advancedFilters.length > 0) {
+    query = applyPersonnelSearchFilters(query, params.advancedFilters, params.match)
+  }
+
   if (typeof params.isActive === 'boolean') {
     query = query.eq('is_active', params.isActive)
   }
