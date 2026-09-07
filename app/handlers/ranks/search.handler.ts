@@ -9,5 +9,7 @@ const RANK_SEARCHABLE_FIELDS = RANK_FILTER_FIELD_OPTIONS
   .filter(Boolean)
 
 export const useRankSearchHandlers = (filters: Ref<Partial<RankListQuery>>) => {
+  const handleFilterApply = (value: Partial<RankListQuery>) => {
 
+  }
 }
