@@ -14,4 +14,8 @@ export default defineEventHandler(async (event): Promise<RankListApiResponse> =>
   const query = getQuery(event)
   const serializedConditions = typeof query.conditions === 'string' ? query.conditions : ''
 
+  if (!serializedConditions) {
+    throw createError({ statusCode: 400, statusMessage: 'Advanced search conditions are required.' })
+  }
+
 })
