@@ -19,6 +19,11 @@ interface SearchUserProfilesOptions {
 export const searchUserProfile = async <T>(
   options: SearchUserProfilesOptions,
 ): Promise<FetchUserProfilesListResult<T>> => {
+  const supabase = getServiceSupabaseClient()
+  let query = supabase
+    .from('user_profiles')
+    .select(USER_PROFILE_COMPACT_SELECT_COLUMNS, { count: 'exact' })
+    .neq('id', options.actorId)
 
 
 }
