@@ -38,4 +38,9 @@ export default defineEventHandler(async (event): Promise<RankListApiResponse> =>
     rangeTo,
     match: query.match === 'any' ? 'any' : 'all',
   })
+  const items = result.data.map(mapRankListItem)
+  const totalItems = result.count
+  const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
+
+  return { items, page, pageSize, totalItems, totalPages }
 })
