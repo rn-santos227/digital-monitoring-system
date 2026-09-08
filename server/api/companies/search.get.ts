@@ -43,7 +43,9 @@ export default defineEventHandler(async (event): Promise<CompanyListResponse> =>
     battalionId,
     rangeFrom,
     rangeTo,
-    fields: selectedFields.map(field => SEARCHABLE_FIELDS[field]),
+    fields: selectedFields.map(field => COMPANY_SEARCHABLE_FIELD_COLUMNS[field]),
+    advancedFilters,
+    match: query.match === 'any' ? 'any' : 'all',
   })
 
   const items = result.data.map(mapCompanyListItem)
