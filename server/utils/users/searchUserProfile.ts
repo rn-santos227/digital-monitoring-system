@@ -40,4 +40,8 @@ export const searchUserProfile = async <T>(
   const { data, count, error } = await query
     .order('full_name', { ascending: true })
     .range(options.rangeFrom, options.rangeTo)
+
+  if (error) {
+    throw createError({ statusCode: 500, statusMessage: `Failed to search user profiles: ${error.message}` })
+  }
 }
