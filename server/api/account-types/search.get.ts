@@ -13,6 +13,11 @@ export default defineEventHandler(async (event): Promise<AccountTypeListResponse
 
   const query = getQuery(event)
   const term = typeof query.term === 'string' ? query.term.trim() : ''
+  const serializedConditions = typeof query.conditions === 'string' ? query.conditions : ''
+  const advancedFilters = buildPersonnelAdvancedSearchFilters(parsePersonnelAdvancedSearchConditions(serializedConditions), ACCOUNT_TYPE_SEARCHABLE_FIELD_COLUMNS)
+  if (serializedConditions && advancedFilters.length === 0) {
+    throw createError({ statusCode: 400, statusMessage: 'No valid advanced search conditions were provided.' })
+  }
   const isSystem = query.isSystem === 'true' ? true : query.isSystem === 'false' ? false : null
 
   if (!term && typeof isSystem !== 'boolean') {
