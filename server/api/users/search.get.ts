@@ -41,8 +41,7 @@ export default defineEventHandler(async (event): Promise<UserProfileListCompactR
     }
   }
 
-  const supabase = getServiceSupabaseClient()
-  const { data, count } = await fetchUserProfilesList<Parameters<typeof mapUserProfileCompactListItem>[0]>({
+  const { data, count } = await searchUserProfile<Parameters<typeof mapUserProfileCompactListItem>[0]>({
     actorId: actor.id,
     rangeFrom,
     rangeTo,
