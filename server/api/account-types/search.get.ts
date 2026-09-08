@@ -20,7 +20,7 @@ export default defineEventHandler(async (event): Promise<AccountTypeListResponse
   }
   const isSystem = query.isSystem === 'true' ? true : query.isSystem === 'false' ? false : null
 
-  if (!term && typeof isSystem !== 'boolean') {
+  if (!term && !serializedConditions && typeof isSystem !== 'boolean') {
     throw createError({
       statusCode: 400,
       statusMessage: 'At least one search filter is required (term or isSystem).',
