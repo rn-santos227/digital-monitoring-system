@@ -1,8 +1,10 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { CompanyListResponse } from '../../shared/responses'
-import { UNIT_PERMISSION_GROUPS } from '../../shared/constants'
+import { COMPANY_SEARCHABLE_FIELD_COLUMNS, UNIT_PERMISSION_GROUPS } from '../../shared/constants'
 import { mapCompanyListItem, parseManagementPaginationQuery } from '../../shared/utils'
+import { parsePersonnelAdvancedSearchConditions } from '../../shared/validations'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
+import { buildPersonnelAdvancedSearchFilters } from '../../utils/personnel/buildPersonnelAdvancedSearchFilters'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { searchCompanies } from '../../utils/companies/searchCompanies'
 
