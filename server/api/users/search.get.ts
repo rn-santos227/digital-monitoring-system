@@ -33,8 +33,8 @@ export default defineEventHandler(async (event): Promise<UserProfileListCompactR
   if (term) {
     const rawFields = typeof query.fields === 'string' ? query.fields.split(',').map(field => field.trim()) : []
     selectedFields = rawFields.length > 0
-      ? rawFields.filter((field): field is keyof typeof SEARCHABLE_USER_PROFILE_FIELDS => field in SEARCHABLE_USER_PROFILE_FIELDS)
-      : Object.keys(SEARCHABLE_USER_PROFILE_FIELDS) as Array<keyof typeof SEARCHABLE_USER_PROFILE_FIELDS>
+      ? rawFields.filter((field): field is keyof typeof USER_PROFILE_SEARCHABLE_FIELD_COLUMNS => field in USER_PROFILE_SEARCHABLE_FIELD_COLUMNS)
+      : Object.keys(USER_PROFILE_SEARCHABLE_FIELD_COLUMNS) as Array<keyof typeof USER_PROFILE_SEARCHABLE_FIELD_COLUMNS>
 
     if (selectedFields.length === 0) {
       throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided for this term.' })
