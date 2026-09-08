@@ -16,3 +16,9 @@ interface SearchUserProfilesOptions {
   rangeTo: number
 }
 
+export const searchUserProfile = async <T>(
+  options: SearchUserProfilesOptions,
+): Promise<FetchUserProfilesListResult<T>> => {
+
+
+}
