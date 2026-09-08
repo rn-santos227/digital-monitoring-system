@@ -19,7 +19,7 @@ export default defineEventHandler(async (event): Promise<UserProfileListCompactR
   }
   const isActive = query.isActive === 'true' ? true : query.isActive === 'false' ? false : null
 
-  if (!term && typeof isActive !== 'boolean') {
+  if (!term && !serializedConditions && typeof isActive !== 'boolean') {
     throw createError({ statusCode: 400, statusMessage: 'At least one search filter is required (term or isActive).' })
   }
 
