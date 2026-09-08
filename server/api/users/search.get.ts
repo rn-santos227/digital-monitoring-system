@@ -5,12 +5,6 @@ import { mapUserProfileCompactListItem, parseManagementPaginationQuery } from '.
 import { parsePersonnelAdvancedSearchConditions } from '../../shared/validations'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 
-
-const SEARCHABLE_USER_PROFILE_FIELDS = {
-  email: 'email',
-  fullName: 'full_name',
-} as const
-
 export default defineEventHandler(async (event): Promise<UserProfileListCompactResponse> => {
   const actor = await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.userProfileManagement)
 
