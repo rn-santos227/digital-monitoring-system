@@ -28,7 +28,7 @@ export default defineEventHandler(async (event): Promise<UserProfileListCompactR
     pageSize: query.pageSize,
   })
 
-  let selectedFields: Array<keyof typeof SEARCHABLE_USER_PROFILE_FIELDS> = []
+  let selectedFields: Array<keyof typeof USER_PROFILE_SEARCHABLE_FIELD_COLUMNS> = []
 
   if (term) {
     const rawFields = typeof query.fields === 'string' ? query.fields.split(',').map(field => field.trim()) : []
