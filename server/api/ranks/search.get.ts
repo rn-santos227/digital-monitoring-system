@@ -22,4 +22,8 @@ export default defineEventHandler(async (event): Promise<RankListApiResponse> =>
     parsePersonnelAdvancedSearchConditions(serializedConditions),
     RANK_SEARCHABLE_FIELD_COLUMNS,
   )
+
+  if (advancedFilters.length === 0) {
+    throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
+  }
 })
