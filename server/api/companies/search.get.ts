@@ -21,7 +21,7 @@ export default defineEventHandler(async (event): Promise<CompanyListResponse> =>
   const isActive = query.isActive === 'true' ? true : query.isActive === 'false' ? false : null
   const battalionId = typeof query.battalionId === 'string' && query.battalionId.length > 0 ? query.battalionId : null
 
-  if (!term && typeof isActive !== 'boolean' && !battalionId) {
+  if (!term && !serializedConditions && typeof isActive !== 'boolean' && !battalionId) {
     throw createError({ statusCode: 400, statusMessage: 'At least one search filter is required (term, isActive, or battalionId).' })
   }
 
