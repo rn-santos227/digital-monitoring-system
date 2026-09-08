@@ -1,10 +1,10 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { UserProfileListCompactResponse } from '../../shared/responses'
-import { MANAGEMENT_PERMISSION_GROUPS } from '../../shared/constants'
+import { MANAGEMENT_PERMISSION_GROUPS, USER_PROFILE_SEARCHABLE_FIELD_COLUMNS } from '../../shared/constants'
 import { mapUserProfileCompactListItem, parseManagementPaginationQuery } from '../../shared/utils'
+import { parsePersonnelAdvancedSearchConditions } from '../../shared/validations'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
-import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
-import { fetchUserProfilesList } from '../../utils/users/fetchUserProfilesList'
+
 
 const SEARCHABLE_USER_PROFILE_FIELDS = {
   email: 'email',
