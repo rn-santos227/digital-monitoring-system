@@ -44,4 +44,9 @@ export const searchUserProfile = async <T>(
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to search user profiles: ${error.message}` })
   }
+
+  return {
+    data: (data ?? []) as T[],
+    count: count ?? 0,
+  }
 }
