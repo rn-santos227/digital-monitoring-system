@@ -24,4 +24,7 @@ const emit = defineEmits<{
   (event: 'apply', value: Partial<RankListQuery>): void
   (event: 'reset'): void
 }>()
+
+const isModalOpen = ref(false)
+const fieldOptions = RANK_FILTER_FIELD_OPTIONS.filter(option => option.value)
 </script>
