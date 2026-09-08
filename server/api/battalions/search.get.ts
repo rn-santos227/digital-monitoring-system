@@ -49,6 +49,8 @@ export default defineEventHandler(async (event): Promise<BattalionListResponse> 
   const supabase = getServiceSupabaseClient()
   const { rows, totalItems } = await searchBattalions(supabase, {
     searchFilters,
+    advancedFilters,
+    match: query.match === 'any' ? 'any' : 'all',
     isActive,
     rangeFrom,
     rangeTo,
