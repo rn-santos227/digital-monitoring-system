@@ -37,11 +37,11 @@ export default defineEventHandler(async (event): Promise<AccountTypeListResponse
   if (term) {
     const rawFields = typeof query.fields === 'string' ? query.fields.split(',').map(field => field.trim()) : []
     const selectedFields = rawFields.length > 0
-      ? rawFields.filter((field): field is keyof typeof SEARCHABLE_ACCOUNT_TYPE_FIELDS => field in SEARCHABLE_ACCOUNT_TYPE_FIELDS)
-      : Object.keys(SEARCHABLE_ACCOUNT_TYPE_FIELDS) as Array<keyof typeof SEARCHABLE_ACCOUNT_TYPE_FIELDS>
+      ? rawFields.filter((field): field is keyof typeof ACCOUNT_TYPE_SEARCHABLE_FIELD_COLUMNS => field in ACCOUNT_TYPE_SEARCHABLE_FIELD_COLUMNS)
+      : Object.keys(ACCOUNT_TYPE_SEARCHABLE_FIELD_COLUMNS) as Array<keyof typeof ACCOUNT_TYPE_SEARCHABLE_FIELD_COLUMNS>
 
     for (const field of selectedFields) {
-      searchFilters.push(`${SEARCHABLE_ACCOUNT_TYPE_FIELDS[field]}.ilike.%${term}%`)
+      searchFilters.push(`${ACCOUNT_TYPE_SEARCHABLE_FIELD_COLUMNS[field]}.ilike.%${term}%`)
     }
 
     if (searchFilters.length === 0) {
