@@ -55,6 +55,8 @@ export default defineEventHandler(async (event): Promise<AccountTypeListResponse
     isSystem,
     rangeFrom,
     rangeTo,
+    advancedFilters,
+    match: query.match === 'any' ? 'any' : 'all',
   })
 
   const items = rows.map(mapAccountTypeListItem)
