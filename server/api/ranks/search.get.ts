@@ -18,4 +18,8 @@ export default defineEventHandler(async (event): Promise<RankListApiResponse> =>
     throw createError({ statusCode: 400, statusMessage: 'Advanced search conditions are required.' })
   }
 
+  const advancedFilters = buildPersonnelAdvancedSearchFilters(
+    parsePersonnelAdvancedSearchConditions(serializedConditions),
+    RANK_SEARCHABLE_FIELD_COLUMNS,
+  )
 })
