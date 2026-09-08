@@ -6,20 +6,19 @@ import { useRanksStore } from '~/stores/ranks'
 export const useRanks = () => {
   const rankStore = useRanksStore()
   const { items, pagination, isLoading, error, searchTerm } = storeToRefs(rankStore)
-  const filters = ref<Pick<RankListQuery, 'search'>>({ search: '' })
+  const filters = ref<Partial<RankListQuery>>({})
 
   const tableRows = computed(() => items.value)
 
   const loadRanks = async (
     page = pagination.value.page,
-    queryTerm = filters.value.search ?? searchTerm.value,
+    query: Partial<RankListQuery> = filters.value,
     pageSize = pagination.value.pageSize,
   ) => {
-    const normalizedSearchTerm = queryTerm?.trim() ?? ''
-    filters.value = { search: normalizedSearchTerm }
+    filters.value = { ...query }
 
     try {
-      await rankStore.fetchRanks(page, normalizedSearchTerm, pageSize)
+      await rankStore.fetchRanks(page, filters.value, pageSize)
     } catch {
       // Error state is exposed from the store.
     }
