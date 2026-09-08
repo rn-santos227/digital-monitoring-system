@@ -7,3 +7,7 @@ import { requirePermission } from '../../utils/auth/requirePermission'
 import { buildPersonnelAdvancedSearchFilters } from '../../utils/personnel/buildPersonnelAdvancedSearchFilters'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { searchRank } from '../../utils/ranks/searchRank'
+
+export default defineEventHandler(async (event): Promise<RankListApiResponse> => {
+
+})
