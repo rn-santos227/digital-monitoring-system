@@ -32,4 +32,8 @@ export const searchUserProfile = async <T>(
   if (options.advancedFilters.length) {
     query = applyPersonnelSearchFilters(query, options.advancedFilters, options.match)
   }
+
+  if (typeof options.isActive === 'boolean') {
+    query = query.eq('is_active', options.isActive)
+  }
 }
