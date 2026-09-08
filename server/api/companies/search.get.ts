@@ -13,6 +13,11 @@ export default defineEventHandler(async (event): Promise<CompanyListResponse> =>
 
   const query = getQuery(event)
   const term = typeof query.term === 'string' ? query.term.trim() : ''
+  const serializedConditions = typeof query.conditions === 'string' ? query.conditions : ''
+  const advancedFilters = buildPersonnelAdvancedSearchFilters(parsePersonnelAdvancedSearchConditions(serializedConditions), COMPANY_SEARCHABLE_FIELD_COLUMNS)
+  if (serializedConditions && advancedFilters.length === 0) {
+    throw createError({ statusCode: 400, statusMessage: 'No valid advanced search conditions were provided.' })
+  }
   const isActive = query.isActive === 'true' ? true : query.isActive === 'false' ? false : null
   const battalionId = typeof query.battalionId === 'string' && query.battalionId.length > 0 ? query.battalionId : null
 
