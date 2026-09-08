@@ -25,5 +25,8 @@ export const searchUserProfile = async <T>(
     .select(USER_PROFILE_COMPACT_SELECT_COLUMNS, { count: 'exact' })
     .neq('id', options.actorId)
 
+  if (options.term) {
+    query = query.or(options.searchFields.map(field => `${field}.ilike.%${options.term}%`).join(','))
+  }
 
 }
