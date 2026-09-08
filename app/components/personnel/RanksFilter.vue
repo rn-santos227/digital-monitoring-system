@@ -19,4 +19,9 @@ const props = withDefaults(defineProps<{
   modelValue: () => ({}),
   validationErrors: () => ({}),
 })
+
+const emit = defineEmits<{
+  (event: 'apply', value: Partial<RankListQuery>): void
+  (event: 'reset'): void
+}>()
 </script>
