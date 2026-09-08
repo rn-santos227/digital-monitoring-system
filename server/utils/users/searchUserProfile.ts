@@ -29,4 +29,7 @@ export const searchUserProfile = async <T>(
     query = query.or(options.searchFields.map(field => `${field}.ilike.%${options.term}%`).join(','))
   }
 
+  if (options.advancedFilters.length) {
+    query = applyPersonnelSearchFilters(query, options.advancedFilters, options.match)
+  }
 }
