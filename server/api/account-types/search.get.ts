@@ -8,12 +8,6 @@ import { buildPersonnelAdvancedSearchFilters } from '../../utils/personnel/build
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { searchAccountTypes } from '../../utils/account-types/searchAccountTypes'
 
-const SEARCHABLE_ACCOUNT_TYPE_FIELDS = {
-  code: 'code',
-  name: 'name',
-  description: 'description',
-} as const
-
 export default defineEventHandler(async (event): Promise<AccountTypeListResponse> => {
   await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.accountTypeManagement)
 
