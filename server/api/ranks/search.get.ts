@@ -9,5 +9,9 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { searchRank } from '../../utils/ranks/searchRank'
 
 export default defineEventHandler(async (event): Promise<RankListApiResponse> => {
+  await requirePermission(event, PERMISSION_CODES.personnelView)
+
+  const query = getQuery(event)
+  const serializedConditions = typeof query.conditions === 'string' ? query.conditions : ''
 
 })
