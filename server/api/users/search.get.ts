@@ -47,7 +47,9 @@ export default defineEventHandler(async (event): Promise<UserProfileListCompactR
     rangeTo,
     term,
     isActive,
-    searchFields: selectedFields.map((field) => SEARCHABLE_USER_PROFILE_FIELDS[field]),
+    searchFields: selectedFields.map((field) => USER_PROFILE_SEARCHABLE_FIELD_COLUMNS[field]),
+    advancedFilters,
+    match: query.match === 'any' ? 'any' : 'all',
   })
 
   const items = data.map(mapUserProfileCompactListItem)
