@@ -39,5 +39,11 @@ const conditions = computed<RankSearchCondition[]>(() => {
       : []
   }
 
+  try {
+    const parsed: unknown = JSON.parse(props.modelValue.conditions)
+    return Array.isArray(parsed) ? parsed as RankSearchCondition[] : []
+  } catch {
+    return []
+  }
 })
 </script>
