@@ -26,6 +26,10 @@ export default defineEventHandler(async (event): Promise<BattalionListResponse> 
   })
 
   const searchFilters: string[] = []
+  const advancedFilters = buildPersonnelAdvancedSearchFilters(parsePersonnelAdvancedSearchConditions(serializedConditions), BATTALION_SEARCHABLE_FIELD_COLUMNS)
+  if (serializedConditions && advancedFilters.length === 0) {
+    throw createError({ statusCode: 400, statusMessage: 'No valid advanced search conditions were provided.' })
+  }
 
   if (term) {
     const rawFields = typeof query.fields === 'string' ? query.fields.split(',').map(field => field.trim()) : []
