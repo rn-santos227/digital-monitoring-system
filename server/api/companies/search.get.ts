@@ -8,11 +8,6 @@ import { buildPersonnelAdvancedSearchFilters } from '../../utils/personnel/build
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { searchCompanies } from '../../utils/companies/searchCompanies'
 
-const SEARCHABLE_FIELDS = {
-  code: 'code',
-  name: 'name',
-} as const
-
 export default defineEventHandler(async (event): Promise<CompanyListResponse> => {
   await requireAnyPermission(event, UNIT_PERMISSION_GROUPS.companyManagement)
 
