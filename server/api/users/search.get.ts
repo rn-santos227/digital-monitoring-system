@@ -4,6 +4,8 @@ import { MANAGEMENT_PERMISSION_GROUPS, USER_PROFILE_SEARCHABLE_FIELD_COLUMNS } f
 import { mapUserProfileCompactListItem, parseManagementPaginationQuery } from '../../shared/utils'
 import { parsePersonnelAdvancedSearchConditions } from '../../shared/validations'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
+import { buildPersonnelAdvancedSearchFilters } from '../../utils/personnel/buildPersonnelAdvancedSearchFilters'
+import { searchUserProfile } from '../../utils/users/searchUserProfile'
 
 export default defineEventHandler(async (event): Promise<UserProfileListCompactResponse> => {
   const actor = await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.userProfileManagement)
