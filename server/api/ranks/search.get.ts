@@ -26,4 +26,9 @@ export default defineEventHandler(async (event): Promise<RankListApiResponse> =>
   if (advancedFilters.length === 0) {
     throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
   }
+
+  const { page, pageSize, rangeFrom, rangeTo } = parseManagementPaginationQuery({
+    page: query.page,
+    pageSize: query.pageSize,
+  })
 })
