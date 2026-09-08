@@ -31,4 +31,11 @@ export default defineEventHandler(async (event): Promise<RankListApiResponse> =>
     page: query.page,
     pageSize: query.pageSize,
   })
+  const supabase = getServiceSupabaseClient()
+  const result = await searchRank(supabase, {
+    filters: advancedFilters,
+    rangeFrom,
+    rangeTo,
+    match: query.match === 'any' ? 'any' : 'all',
+  })
 })
