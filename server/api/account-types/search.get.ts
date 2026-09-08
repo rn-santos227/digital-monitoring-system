@@ -1,8 +1,10 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { AccountTypeListResponse } from '../../shared/models'
-import { MANAGEMENT_PERMISSION_GROUPS } from '../../shared/constants'
+import { ACCOUNT_TYPE_SEARCHABLE_FIELD_COLUMNS, MANAGEMENT_PERMISSION_GROUPS } from '../../shared/constants'
 import { mapAccountTypeListItem, parseManagementPaginationQuery } from '../../shared/utils'
+import { parsePersonnelAdvancedSearchConditions } from '../../shared/validations'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
+import { buildPersonnelAdvancedSearchFilters } from '../../utils/personnel/buildPersonnelAdvancedSearchFilters'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { searchAccountTypes } from '../../utils/account-types/searchAccountTypes'
 
