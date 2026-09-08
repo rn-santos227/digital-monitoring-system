@@ -8,11 +8,6 @@ import { buildPersonnelAdvancedSearchFilters } from '../../utils/personnel/build
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { searchBattalions } from '../../utils/battalions/searchBattalions'
 
-const SEARCHABLE_FIELDS = {
-  code: 'code',
-  name: 'name',
-} as const
-
 export default defineEventHandler(async (event): Promise<BattalionListResponse> => {
   await requireAnyPermission(event, UNIT_PERMISSION_GROUPS.battalionManagement)
 
