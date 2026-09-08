@@ -34,11 +34,11 @@ export default defineEventHandler(async (event): Promise<BattalionListResponse> 
   if (term) {
     const rawFields = typeof query.fields === 'string' ? query.fields.split(',').map(field => field.trim()) : []
     const selectedFields = rawFields.length > 0
-      ? rawFields.filter((field): field is keyof typeof SEARCHABLE_FIELDS => field in SEARCHABLE_FIELDS)
-      : Object.keys(SEARCHABLE_FIELDS) as Array<keyof typeof SEARCHABLE_FIELDS>
+      ? rawFields.filter((field): field is keyof typeof BATTALION_SEARCHABLE_FIELD_COLUMNS => field in BATTALION_SEARCHABLE_FIELD_COLUMNS)
+      : Object.keys(BATTALION_SEARCHABLE_FIELD_COLUMNS) as Array<keyof typeof BATTALION_SEARCHABLE_FIELD_COLUMNS>
 
     for (const field of selectedFields) {
-      searchFilters.push(`${SEARCHABLE_FIELDS[field]}.ilike.%${term}%`)
+      searchFilters.push(`${BATTALION_SEARCHABLE_FIELD_COLUMNS[field]}.ilike.%${term}%`)
     }
 
     if (searchFilters.length === 0) {
