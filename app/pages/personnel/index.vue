@@ -124,13 +124,13 @@
         </template>
 
         <template v-else>
-          <div class="grid gap-3 md:grid-cols-[1fr_auto]">
-            <BaseTextField
-              :model-value="rankSearchTerm"
-              type="search"
-              label="Search Rank"
-              placeholder="Search rank code or name"
-              @update:model-value="onRankSearchTermChange"
+          <div class="flex justify-end gap-2">
+            <PrintDataListButton
+              table-name="ranks"
+              table-label="Ranks"
+              :filters="rankFilters"
+              :disabled="isRanksLoading"
+              :get-print-data="handlePrintRanks"
             />
             <div class="flex items-end gap-2">
               <PrintDataListButton
