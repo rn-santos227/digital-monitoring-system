@@ -24,4 +24,10 @@ const emit = defineEmits<{
   (event: 'apply', value: Partial<UserProfilesSearchQuery>): void
   (event: 'reset'): void
 }>()
+
+const isModalOpen = ref(false)
+const fieldOptions = USERS_PROFILE_FILTER_FIELD_OPTIONS.filter(option => option.value)
+const conditions = computed<UserProfileSearchCondition[]>(() => {
+
+})
 </script>
