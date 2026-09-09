@@ -39,5 +39,11 @@ const conditions = computed<UserProfileSearchCondition[]>(() => {
       : []
   }
 
+  try {
+    const parsed: unknown = JSON.parse(props.modelValue.conditions)
+    return Array.isArray(parsed) ? parsed as UserProfileSearchCondition[] : []
+  } catch {
+    return []
+  }
 })
 </script>
