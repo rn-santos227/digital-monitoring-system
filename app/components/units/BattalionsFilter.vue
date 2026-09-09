@@ -14,7 +14,7 @@ import {
 
 const props = withDefaults(defineProps<{
   modelValue: Partial<BattalionSearchQuery>
-  validationErrors?: FieldValidationMap
+  validationErrors?: Readonly<Record<string, string>>
 }>(), {
   modelValue: () => ({}),
   validationErrors: () => ({}),
