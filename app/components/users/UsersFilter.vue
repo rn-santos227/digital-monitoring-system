@@ -11,4 +11,12 @@ import {
   USERS_PROFILE_FILTER_FIELD_OPTIONS,
   USERS_PROFILE_FILTER_RESET_LABEL,
 } from '~/constants/page.constants'
+
+const props = withDefaults(defineProps<{
+  modelValue: Partial<UserProfilesSearchQuery>
+  validationErrors?: Readonly<Record<string, string>>
+}>(), {
+  modelValue: () => ({}),
+  validationErrors: () => ({}),
+})
 </script>
