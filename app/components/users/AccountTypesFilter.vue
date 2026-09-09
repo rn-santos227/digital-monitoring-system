@@ -11,4 +11,12 @@ import {
   USERS_ACCOUNT_FILTER_FIELD_OPTIONS,
   USERS_ACCOUNT_FILTER_RESET_LABEL,
 } from '~/constants/page.constants'
+
+const props = withDefaults(defineProps<{
+  validationErrors?: FieldValidationMap
+  validationErrors?: Readonly<Record<string, string>>
+}>(), {
+  modelValue: () => ({}),
+  validationErrors: () => ({}),
+})
 </script>
