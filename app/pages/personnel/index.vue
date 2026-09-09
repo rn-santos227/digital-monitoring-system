@@ -539,12 +539,22 @@ const { handleTableAction } = usePersonnelTableActionHandler({
 })
 
 const {
-  handleSearchTermChange: onRankSearchTermChange,
+  handleApplyFilters: onRankFilterApply,
+  handleResetFilters: onRankFilterReset,
   handlePageChange: onRankPageChange,
   handlePageSizeChange: onRankPageSizeChange,
-} = useSearchTermListHandlers({
-  searchTerm: rankSearchTerm,
+} = useValidatedListHandlers({
+  filters: rankFilters,
+  validationErrors: rankFilterValidationErrors,
+  applyFilters: handleRankFilterApply,
+  resetFilters: handleRankFilterReset,
   loadPage: loadRanks,
+  onInvalid: () => showDialog({
+    type: 'error',
+    title: 'Invalid rank filter input',
+    message: 'Please correct the highlighted fields before applying rank filters.',
+    confirmLabel: 'OK',
+  }),
 })
 
 const handleCreateRank = createModalFeedbackHandler(async (payload: CreateRankPayload) => {
