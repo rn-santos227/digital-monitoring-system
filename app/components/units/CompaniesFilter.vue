@@ -52,4 +52,8 @@ const advancedSearchValue = computed<AdvancedSearchValue>(() => ({
   conditions: conditions.value,
 }))
 
+const emitApply = (value: AdvancedSearchValue) => {
+  emit('apply', { conditions: JSON.stringify(value.conditions), match: value.match })
+  isModalOpen.value = false
+}
 </script>
