@@ -1,66 +1,16 @@
 <template>
-  <BaseAccordion :title="BATTALIONS_FILTER_CARD_TITLE" :initially-open="true">
-    <form :class="UNITS_FILTER_FORM_CLASSES" @submit.prevent="emitApply">
-      <div :class="UNITS_FILTER_FIELDS_GRID_CLASSES">
-        <BaseTextField
-          v-model="localValue.term"
-          type="search"
-          :label="BATTALIONS_FILTER_TERM_LABEL"
-          :placeholder="BATTALIONS_FILTER_TERM_PLACEHOLDER"
-          :error="validationErrors.term"
-        />
 
-        <BaseSelect
-          v-model="localValue.fields"
-          :label="BATTALIONS_FILTER_FIELDS_LABEL"
-          :options="battalionFilterFieldOptions"
-          :error="validationErrors.fields"
-        />
-
-        <BaseSelect
-          v-model="localValue.status"
-          :label="BATTALIONS_FILTER_STATUS_LABEL"
-          :options="battalionFilterStatusOptions"
-        />
-      </div>
-
-      <footer :class="UNITS_FILTER_FOOTER_CLASSES">
-        <div :class="UNITS_FILTER_ACTIONS_CLASSES">
-          <BaseButton type="submit" size="sm">{{ BATTALIONS_FILTER_APPLY_LABEL }}</BaseButton>
-          <BaseButton type="button" variant="secondary" size="sm" @click="emitReset">{{ BATTALIONS_FILTER_RESET_LABEL }}</BaseButton>
-        </div>
-      </footer>
-    </form>
-  </BaseAccordion>
 </template>
 
 <script setup lang="ts">
-import { reactive, watch } from 'vue'
-import type { BattalionSearchQuery } from '~/types/domain/units'
-import type { FieldValidationMap } from '~/utils/field-validation'
+import { computed, ref } from 'vue'
+import type { AdvancedSearchValue } from '~/constants/ui.constants'
+import type { BattalionSearchCondition, BattalionSearchQuery } from '~/types/domain/units'
 import {
-  BATTALIONS_FILTER_APPLY_LABEL,
   BATTALIONS_FILTER_CARD_TITLE,
   BATTALIONS_FILTER_FIELD_OPTIONS,
-  BATTALIONS_FILTER_FIELDS_LABEL,
   BATTALIONS_FILTER_RESET_LABEL,
-  BATTALIONS_FILTER_STATUS_LABEL,
-  BATTALIONS_FILTER_STATUS_OPTIONS,
-  BATTALIONS_FILTER_TERM_LABEL,
-  BATTALIONS_FILTER_TERM_PLACEHOLDER,
 } from '~/constants/page.constants'
-import {
-  UNITS_FILTER_ACTIONS_CLASSES,
-  UNITS_FILTER_FIELDS_GRID_CLASSES,
-  UNITS_FILTER_FOOTER_CLASSES,
-  UNITS_FILTER_FORM_CLASSES,
-} from '~/constants/shared.constants'
-
-interface BattalionsFilterModel {
-  term: string
-  fields: string
-  status: string
-}
 
 const props = withDefaults(defineProps<{
   modelValue: Partial<BattalionSearchQuery>
