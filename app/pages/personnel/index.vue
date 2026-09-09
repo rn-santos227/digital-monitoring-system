@@ -132,18 +132,9 @@
               :disabled="isRanksLoading"
               :get-print-data="handlePrintRanks"
             />
-            <div class="flex items-end gap-2">
-              <PrintDataListButton
-                table-name="ranks"
-                table-label="Ranks"
-                :filters="{ search: rankSearchTerm }"
-                :disabled="isRanksLoading"
-                :get-print-data="handlePrintRanks"
-              />
-              <BaseButton v-if="canCreateRanks" @click="isCreateRankModalOpen = true">
-                {{ RANK_CREATE_BUTTON_LABEL }}
-              </BaseButton>
-            </div>
+            <BaseButton v-if="canCreateRanks" @click="isCreateRankModalOpen = true">
+              {{ RANK_CREATE_BUTTON_LABEL }}
+            </BaseButton>
           </div>
           <BaseAlert v-if="rankError" :message="rankError" tone="danger" />
           <RanksTable
