@@ -39,5 +39,11 @@ const conditions = computed<AccountTypeSearchCondition[]>(() => {
       : []
   }
 
+  try {
+    const parsed: unknown = JSON.parse(props.modelValue.conditions)
+    return Array.isArray(parsed) ? parsed as AccountTypeSearchCondition[] : []
+  } catch {
+    return []
+  }
 })
 </script>
