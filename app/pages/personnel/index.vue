@@ -136,6 +136,12 @@
               {{ RANK_CREATE_BUTTON_LABEL }}
             </BaseButton>
           </div>
+          <RanksFilter
+            :model-value="rankFilters"
+            :validation-errors="rankFilterValidationErrors"
+            @apply="onRankFilterApply"
+            @reset="onRankFilterReset"
+          />
           <BaseAlert v-if="rankError" :message="rankError" tone="danger" />
           <RanksTable
             :rows="rankRows"
