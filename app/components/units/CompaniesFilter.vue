@@ -11,4 +11,12 @@ import {
   COMPANIES_FILTER_FIELD_OPTIONS,
   COMPANIES_FILTER_RESET_LABEL,
 } from '~/constants/page.constants'
+
+const props = withDefaults(defineProps<{
+  modelValue: Partial<CompanySearchQuery>
+  validationErrors?: Readonly<Record<string, string>>
+}>(), {
+  modelValue: () => ({}),
+  validationErrors: () => ({}),
+})
 </script>
