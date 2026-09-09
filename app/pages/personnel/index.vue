@@ -343,6 +343,7 @@ watch(rankRows, (rows) => {
 })
 
 const filterValidationErrors = ref<FieldValidationMap>({})
+const rankFilterValidationErrors = ref<FieldValidationMap>({})
 const isCreatePersonnelModalOpen = ref(false)
 const isBatchUploadPersonnelModalOpen = ref(false)
 const isBatchUploadSubmitting = ref(false)
@@ -510,7 +511,7 @@ const handlePrintPersonnel = () => handleDownloadAndPrintPersonnel(filters.value
 const handlePrintRanks = createCompleteListPrintHandler({
   rows: rankRows,
   pagination: rankPagination,
-  loadPage: (page, pageSize) => loadRanks(page, rankSearchTerm.value, pageSize),
+  loadPage: (page, pageSize) => loadRanks(page, rankFilters.value, pageSize),
   printItems: printRanks,
 })
 
