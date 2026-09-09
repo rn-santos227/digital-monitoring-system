@@ -27,7 +27,7 @@ const emit = defineEmits<{
 
 const isModalOpen = ref(false)
 const fieldOptions = COMPANIES_FILTER_FIELD_OPTIONS.filter(option => option.value)
-const conditions = computed<CompanySearchCondition[]>(() => 
+const conditions = computed<CompanySearchCondition[]>(() => {
   if (!props.modelValue.conditions) {
     return props.modelValue.term
       ? [{
@@ -37,6 +37,13 @@ const conditions = computed<CompanySearchCondition[]>(() =>
           value: props.modelValue.term || '',
         }]
       : []
+  }
+
+  try {
+    const parsed: unknown = JSON.parse(props.modelValue.conditions)
+    return Array.isArray(parsed) ? parsed as CompanySearchCondition[] : []
+  } catch {
+    return []
   }
 })
 </script>
