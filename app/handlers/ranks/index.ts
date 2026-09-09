@@ -1,6 +1,7 @@
 export * from './delete.handler'
 export * from './index.handler'
 export * from './print.handler'
+export * from './search.handler'
 export * from './suggestions.handler'
 export * from './bulk-delete.handler'
 export * from './bulk-update.handler'

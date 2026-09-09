@@ -226,6 +226,7 @@ import PersonnelCards from '~/components/personnel/PersonnelCards.vue'
 import PersonnelTable from '~/components/personnel/PersonnelTable.vue'
 import BaseViewToggle from '~/components/ui/BaseViewToggle.vue'
 import RanksTable from '~/components/personnel/RanksTable.vue'
+import RanksFilter from '~/components/personnel/RanksFilter.vue'
 import UpdatePersonnelModal from '~/components/personnel/UpdatePersonnelModal.vue'
 import { useRanks } from '~/composables/useRanks'
 import {
@@ -267,7 +268,7 @@ import {
   usePrintRanksHandler,
   useRankTableActionHandler,
   useRanksPageHandlers,
-  useSearchTermListHandlers,
+  useRankSearchHandlers,
   useUpdatePersonnelHandler,
   useValidatedListHandlers,
   useViewPersonnelProfileHandler,
@@ -280,8 +281,9 @@ import type { ListViewMode } from '~/constants/ui.constants'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
 const { filters, tableRows, kpis, pagination, isLoading, error, loadPersonnel, createPersonnel, updatePersonnel, deletePersonnel, getPersonnelById, uploadPersonnelBatch } = usePersonnel()
-const { tableRows: rankRows, pagination: rankPagination, isLoading: isRanksLoading, error: rankError, search: rankSearchTerm, loadRanks, createRank, deleteRank } = useRanks()
+const { filters: rankFilters, tableRows: rankRows, pagination: rankPagination, isLoading: isRanksLoading, error: rankError, loadRanks, createRank, deleteRank } = useRanks()
 const { handleFilterApply, handleFilterReset } = usePersonnelPageHandlers(filters)
+const { handleFilterApply: handleRankFilterApply, handleFilterReset: handleRankFilterReset } = useRankSearchHandlers(rankFilters)
 const { handleDownloadAndPrintPersonnel } = usePrintPersonnelHandler()
 const { printRanks } = usePrintRanksHandler()
 const { handleViewPersonnelProfile } = useViewPersonnelProfileHandler()
