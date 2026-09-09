@@ -13,10 +13,15 @@ import {
 } from '~/constants/page.constants'
 
 const props = withDefaults(defineProps<{
-  validationErrors?: FieldValidationMap
+  modelValue: Partial<UserAccountsSearchQuery>
   validationErrors?: Readonly<Record<string, string>>
 }>(), {
   modelValue: () => ({}),
   validationErrors: () => ({}),
 })
+
+const emit = defineEmits<{
+  (event: 'apply', value: Partial<UserAccountsSearchQuery>): void
+  (event: 'reset'): void
+}>()
 </script>
