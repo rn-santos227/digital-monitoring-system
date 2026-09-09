@@ -27,4 +27,7 @@ const emit = defineEmits<{
 
 const isModalOpen = ref(false)
 const fieldOptions = BATTALIONS_FILTER_FIELD_OPTIONS.filter(option => option.value)
+const conditions = computed<BattalionSearchCondition[]>(() => {
+
+})
 </script>
