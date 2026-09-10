@@ -25,5 +25,11 @@ describe('unit management advanced search filters', () => {
       value: '2026-07-10T00:00:00.000Z',
       groupMatch: 'all',
     })
+    expect(filters[1]).toMatchObject({
+      column: 'updated_at',
+      operator: 'lte',
+      value: '2026-07-12T23:59:59.999Z',
+      groupMatch: 'all',
+    })
   })
 })
