@@ -6,6 +6,8 @@ export const MANAGEMENT_MODULES = {
 export const USER_PROFILE_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   email: 'email',
   fullName: 'full_name',
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
 })
 
 export const ACCOUNT_TYPE_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
