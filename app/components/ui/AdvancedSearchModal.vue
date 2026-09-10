@@ -115,7 +115,7 @@ const errorMessage = ref('')
 const matchOptions = [...ADVANCED_SEARCH_MATCH_OPTIONS]
 const operatorOptions = [...ADVANCED_SEARCH_OPERATOR_OPTIONS]
 
-const addCondition = () => draft.conditions.push(createCondition())
+const addCondition = (index = draft.conditions.length) => draft.conditions.splice(index, 0, createCondition())
 const removeCondition = (id: string) => {
   if (draft.conditions.length > 1) {
     draft.conditions = draft.conditions.filter(condition => condition.id !== id)
