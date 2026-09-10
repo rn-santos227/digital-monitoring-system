@@ -203,6 +203,8 @@ export const USERS_PROFILE_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: '', label: 'All searchable fields' },
   { value: 'email', label: 'Email' },
   { value: 'fullName', label: 'Full Name' },
+  { value: 'createdAt', label: 'Created Date', dataType: 'date' },
+  { value: 'updatedAt', label: 'Updated Date', dataType: 'date' },
 ])
 
 export const USERS_PROFILE_FILTER_STATUS_OPTIONS = Object.freeze([
