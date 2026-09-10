@@ -17,5 +17,13 @@ describe('unit management advanced search filters', () => {
       value: '2026-07-10',
       valueTo: '2026-07-12',
     }], searchableFields)
+
+    expect(filters).toHaveLength(2)
+    expect(filters[0]).toMatchObject({
+      column: 'updated_at',
+      operator: 'gte',
+      value: '2026-07-10T00:00:00.000Z',
+      groupMatch: 'all',
+    })
   })
 })
