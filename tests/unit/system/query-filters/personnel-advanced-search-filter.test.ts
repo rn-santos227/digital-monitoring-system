@@ -47,6 +47,10 @@ describe('personnel advanced search filters', () => {
 
   it('creates inclusive bounds for a between condition', () => {
     expect(buildPersonnelAdvancedSearchFilters([{
+      field: 'createdAt',
+      operator: 'between',
+      value: '2026-09-04',
+      valueTo: '2026-09-05',
     }])).toEqual([
 
     ])
