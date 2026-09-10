@@ -8,6 +8,7 @@ const OPERATOR_VALUE_BUILDERS: Record<PersonnelSearchOperator, (value: string) =
   notEquals: value => value,
   startsWith: value => `${value}%`,
   endsWith: value => `%${value}`,
+  between: value => value,
 }
 
 export const buildPersonnelAdvancedSearchFilters = (
