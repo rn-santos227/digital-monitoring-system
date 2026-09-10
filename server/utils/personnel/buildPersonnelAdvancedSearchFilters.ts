@@ -14,7 +14,7 @@ const OPERATOR_VALUE_BUILDERS: Record<PersonnelSearchOperator, (value: string) =
 export const buildPersonnelAdvancedSearchFilters = (
   conditions: readonly PersonnelAdvancedSearchConditionRequest[],
   searchableFields: Readonly<Record<string, string>> = PERSONNEL_SEARCHABLE_FIELD_COLUMNS,
-): PersonnelSearchFilter[] => conditions.flatMap((condition, conditionIndex) => {
+): PersonnelSearchFilter[] => conditions.flatMap<PersonnelSearchFilter>((condition, conditionIndex) => {
   const field = condition.field ?? ''
   const operator = condition.operator ?? 'contains'
   const values = (condition.value ?? '')
