@@ -30,7 +30,7 @@ export interface PersonnelKpiCounts {
 
 export interface PersonnelSearchFilter {
   column: string
-  operator: 'eq' | 'neq' | 'ilike'
+  operator: 'eq' | 'neq' | 'ilike' | 'gte' | 'lte'
   value: string
   conditionGroup?: string
 }
