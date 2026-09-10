@@ -64,4 +64,5 @@ export interface PersonnelAdvancedSearchConditionRequest {
   field?: string
   operator?: PersonnelSearchOperator
   value?: string
+  valueTo?: string
 }
