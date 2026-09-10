@@ -14,6 +14,8 @@ export const ACCOUNT_TYPE_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   code: 'code',
   name: 'name',
   description: 'description',
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
 })
 
 export const MANAGEMENT_PERMISSION_GROUPS = {
