@@ -126,4 +126,6 @@ export const PERSONNEL_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: 'lastName', label: 'Last Name' },
   { value: 'firstName', label: 'First Name' },
   { value: 'rankName', label: 'Rank' },
+  { value: 'createdAt', label: 'Created Date', dataType: 'date' },
+  { value: 'updatedAt', label: 'Updated Date', dataType: 'date' },
 ])
