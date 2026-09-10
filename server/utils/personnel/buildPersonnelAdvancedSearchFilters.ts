@@ -41,7 +41,13 @@ export const buildPersonnelAdvancedSearchFilters = (
         conditionGroup: `condition-${conditionIndex}`,
         groupMatch: 'all',
       },
-
+      {
+        column,
+        operator: 'lte',
+        value: isTimestampField ? `${valueTo}T23:59:59.999Z` : valueTo,
+        conditionGroup: `condition-${conditionIndex}`,
+        groupMatch: 'all',
+      },
     ]
   }
 
