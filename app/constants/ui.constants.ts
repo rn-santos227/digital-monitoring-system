@@ -58,7 +58,7 @@ export interface DataTableAction {
 }
 
 export type AdvancedSearchMatch = 'any' | 'all'
-export type AdvancedSearchOperator = 'contains' | 'equals' | 'notEquals' | 'startsWith' | 'endsWith'
+export type AdvancedSearchOperator = 'contains' | 'equals' | 'notEquals' | 'startsWith' | 'endsWith' | 'between'
 
 export interface AdvancedSearchCondition {
   id: string
