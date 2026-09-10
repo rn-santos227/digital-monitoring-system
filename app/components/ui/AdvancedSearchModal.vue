@@ -55,6 +55,16 @@
           </div>
           <div class="flex gap-2" :class="ADVANCED_SEARCH_REMOVE_BUTTON_CLASSES">
             <BaseButton type="button" variant="secondary" size="sm" icon-only icon-name="plus" :aria-label="`Add condition after ${index + 1}`" @click="addCondition(index + 1)" />
+            <BaseButton
+              type="button"
+              variant="danger"
+              size="sm"
+              icon-only
+              icon-name="trash"
+              :aria-label="`Remove condition ${index + 1}`"
+              :disabled="draft.conditions.length === 1"
+              @click="removeCondition(condition.id)"
+            />
           </div>
         </div>
       </section>
