@@ -83,6 +83,8 @@ export const RANK_FILTER_RESET_LABEL = 'Reset'
 export const RANK_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: 'code', label: 'Code' },
   { value: 'name', label: 'Name' },
+  { value: 'createdAt', label: 'Created Date', dataType: 'date' },
+  { value: 'updatedAt', label: 'Updated Date', dataType: 'date' },
 ])
 export const RANK_CREATE_MODAL_TITLE = 'Create Rank Record'
 export const RANK_CREATE_MODAL_DESCRIPTION = 'Register a rank for personnel assignment and reporting.'
