@@ -131,8 +131,8 @@ const removeCondition = (id: string) => {
 
 const applySearch = () => {
   const conditions = draft.conditions
-    .map(condition => ({ ...condition, value: condition.value.trim() }))
-    .filter(condition => condition.value)
+    .map(condition => ({ ...condition, value: condition.value.trim(), valueTo: condition.valueTo?.trim() }))
+    .filter(condition => condition.value && (condition.operator !== 'between' || condition.valueTo))
 
   if (!conditions.length) {
     errorMessage.value = 'Enter a value for at least one search condition.'
