@@ -33,6 +33,7 @@ export interface PersonnelSearchFilter {
   operator: 'eq' | 'neq' | 'ilike' | 'gte' | 'lte'
   value: string
   conditionGroup?: string
+  groupMatch?: 'any' | 'all'
 }
 
 export interface PersonnelCreate {
