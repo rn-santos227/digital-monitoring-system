@@ -50,7 +50,7 @@ const props = withDefaults(
   defineProps<{
     modelValue?: string | number
     label?: string
-    type?: 'text' | 'email' | 'password' | 'number' | 'search' | 'tel' | 'url'
+    type?: 'text' | 'email' | 'password' | 'number' | 'search' | 'tel' | 'url' | 'date'
     placeholder?: string
     helperText?: string
     error?: string
