@@ -54,7 +54,7 @@
             />
           </div>
           <div class="flex gap-2" :class="ADVANCED_SEARCH_REMOVE_BUTTON_CLASSES">
-            
+            <BaseButton type="button" variant="secondary" size="sm" icon-only icon-name="plus" :aria-label="`Add condition after ${index + 1}`" @click="addCondition(index + 1)" />
           </div>
         </div>
       </section>
