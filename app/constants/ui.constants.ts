@@ -65,6 +65,7 @@ export interface AdvancedSearchCondition {
   field: string
   operator: AdvancedSearchOperator
   value: string
+  valueTo?: string
 }
 
 export interface AdvancedSearchValue {
