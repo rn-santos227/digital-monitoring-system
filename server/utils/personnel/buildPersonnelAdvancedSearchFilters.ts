@@ -28,7 +28,7 @@ export const buildPersonnelAdvancedSearchFilters = (
   }
 
   if (operator === 'between') {
-
+   const valueTo = (condition.valueTo ?? '').replace(/[()]/g, ' ').trim().slice(0, 120)
   }
 
   return values.map(value => ({
