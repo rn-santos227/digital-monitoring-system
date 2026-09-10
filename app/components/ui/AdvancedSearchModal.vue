@@ -116,7 +116,13 @@ const matchOptions = [...ADVANCED_SEARCH_MATCH_OPTIONS]
 const operatorOptions = [...ADVANCED_SEARCH_OPERATOR_OPTIONS]
 
 const addCondition = (index = draft.conditions.length) => draft.conditions.splice(index, 0, createCondition())
-const fieldType = (field: string) => props.fields.find(option => option.value === field)?.dataType === 'date' ? 'date' : 'text'
+const fieldType = (field: string): 'date' | 'text' => {
+  const selectedField = props.fields.find(option => option.value === field)
+
+  return selectedField && 'dataType' in selectedField && selectedField.dataType === 'date'
+    ? 'date'
+    : 'text'
+}
 const removeCondition = (id: string) => {
   if (draft.conditions.length > 1) {
     draft.conditions = draft.conditions.filter(condition => condition.id !== id)
@@ -125,8 +131,8 @@ const removeCondition = (id: string) => {
 
 const applySearch = () => {
   const conditions = draft.conditions
-    .map(condition => ({ ...condition, value: condition.value.trim(), valueTo: condition.valueTo?.trim() }))
-    .filter(condition => condition.value && (condition.operator !== 'between' || condition.valueTo))
+    .map(condition => ({ ...condition, value: condition.value.trim() }))
+    .filter(condition => condition.value)
 
   if (!conditions.length) {
     errorMessage.value = 'Enter a value for at least one search condition.'
