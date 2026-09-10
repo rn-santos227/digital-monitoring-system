@@ -102,6 +102,7 @@ const createCondition = (condition?: Partial<AdvancedSearchCondition>): Advanced
   field: condition?.field ?? props.fields[0]?.value ?? '',
   operator: condition?.operator ?? 'contains',
   value: condition?.value ?? '',
+  valueTo: condition?.valueTo ?? '',
 })
 
 const draft = reactive<{ match: AdvancedSearchMatch; conditions: AdvancedSearchCondition[] }>({
