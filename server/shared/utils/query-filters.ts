@@ -42,6 +42,10 @@ export const applyPersonnelSearchFilters = <TQuery>(
   }
 
   groups.forEach((group) => {
+    if (group[0]?.groupMatch === 'all') {
+      group.forEach(filter => { query = query.filter(filter.column, filter.operator, filter.value) })
+      return
+    }
     const first = group[0]
     if (group.length === 1 && first) {
       query = query.filter(first.column, first.operator, first.value)
