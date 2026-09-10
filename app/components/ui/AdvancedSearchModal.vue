@@ -46,6 +46,12 @@
               :helper-text="condition.operator === 'between' ? '' : ADVANCED_SEARCH_VALUE_HELPER_TEXT"
             />
             <span v-if="condition.operator === 'between'" class="mt-8 text-sm text-slate-500">to</span>
+            <BaseTextField
+              v-if="condition.operator === 'between'"
+              v-model="condition.valueTo"
+              label="To"
+              :type="fieldType(condition.field)"
+            />
           </div>
         </div>
       </section>
