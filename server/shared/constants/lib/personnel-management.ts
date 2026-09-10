@@ -11,6 +11,8 @@ export const PERSONNEL_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   firstName: 'first_name',
   email: 'email',
   rankName: 'rank_name',
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
 })
 
 export const RANK_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
