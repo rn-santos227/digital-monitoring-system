@@ -32,7 +32,7 @@ export const buildPersonnelAdvancedSearchFilters = (
     if (values.length !== 1 || !valueTo) {
       return []
     }
-
+    const isTimestampField = field === 'createdAt' || field === 'updatedAt'
   }
 
   return values.map(value => ({
