@@ -264,6 +264,7 @@ export const parsePersonnelAdvancedSearchConditions = (
         ? record.operator as PersonnelAdvancedSearchConditionRequest['operator']
         : undefined,
       value: typeof record.value === 'string' ? record.value : undefined,
+      valueTo: typeof record.valueTo === 'string' ? record.valueTo : undefined,
     }
   })
 }
