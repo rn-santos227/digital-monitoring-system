@@ -25,7 +25,7 @@
           <h3 id="advanced-search-conditions-heading" class="text-sm font-semibold text-slate-800">
             Conditions
           </h3>
-          <BaseButton type="button" variant="secondary" size="sm" icon-name="plus" @click="addCondition">
+          <BaseButton type="button" variant="secondary" size="sm" icon-name="plus" @click="addCondition()">
             Add condition
           </BaseButton>
         </div>
