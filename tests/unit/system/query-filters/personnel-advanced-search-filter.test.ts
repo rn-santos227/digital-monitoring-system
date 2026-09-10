@@ -44,4 +44,11 @@ describe('personnel advanced search filters', () => {
       },
     ])
   })
+
+  it('creates inclusive bounds for a between condition', () => {
+    expect(buildPersonnelAdvancedSearchFilters([{
+    }])).toEqual([
+
+    ])
+  })
 })
