@@ -27,6 +27,10 @@ export const buildPersonnelAdvancedSearchFilters = (
     return []
   }
 
+  if (operator === 'between') {
+
+  }
+
   return values.map(value => ({
     column,
     operator: operator === 'equals' ? 'eq' : operator === 'notEquals' ? 'neq' : 'ilike',
