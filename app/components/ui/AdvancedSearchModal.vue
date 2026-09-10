@@ -45,6 +45,7 @@
               :placeholder="ADVANCED_SEARCH_VALUE_PLACEHOLDER"
               :helper-text="condition.operator === 'between' ? '' : ADVANCED_SEARCH_VALUE_HELPER_TEXT"
             />
+            <span v-if="condition.operator === 'between'" class="mt-8 text-sm text-slate-500">to</span>
           </div>
         </div>
       </section>
