@@ -37,23 +37,9 @@
         >
           <BaseSelect v-model="condition.field" :label="`Field ${index + 1}`" :options="fields" />
           <BaseSelect v-model="condition.operator" label="Operator" :options="operatorOptions" />
-          <BaseTextField
-            v-model="condition.value"
-            label="Value"
-            :placeholder="ADVANCED_SEARCH_VALUE_PLACEHOLDER"
-            :helper-text="ADVANCED_SEARCH_VALUE_HELPER_TEXT"
-          />
-          <BaseButton
-            type="button"
-            variant="danger"
-            size="sm"
-            icon-only
-            icon-name="trash"
-            :class="ADVANCED_SEARCH_REMOVE_BUTTON_CLASSES"
-            :aria-label="`Remove condition ${index + 1}`"
-            :disabled="draft.conditions.length === 1"
-            @click="removeCondition(condition.id)"
-          />
+          <div :class="condition.operator === 'between' ? 'grid grid-cols-[1fr_auto_1fr] items-start gap-2' : ''">
+            
+          </div>
         </div>
       </section>
     </form>
