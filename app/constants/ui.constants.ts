@@ -71,6 +71,7 @@ export interface AdvancedSearchCondition {
 export interface AdvancedSearchValue {
   match: AdvancedSearchMatch
   conditions: readonly AdvancedSearchCondition[]
+  dataType?: 'text' | 'date'
 }
 
 export interface AdvancedSearchField {
