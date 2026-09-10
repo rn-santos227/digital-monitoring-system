@@ -31,6 +31,16 @@ export const applyPersonnelSearchFilters = <TQuery>(
     groups.set(groupKey, [...(groups.get(groupKey) ?? []), filter])
   })
 
+  if (match === 'any') {
+    const expressions = [...groups.values()].map((group) => {
+      const expressionsForGroup = group.map(expressionFor)
+      return group[0]?.groupMatch === 'all' && group.length > 1
+        ? `and(${expressionsForGroup.join(',')})`
+        : expressionsForGroup.join(',')
+    })
+    return query.or(expressions.join(',')) as unknown as TQuery
+  }
+
   groups.forEach((group) => {
     const first = group[0]
     if (group.length === 1 && first) {
