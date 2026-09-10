@@ -39,6 +39,8 @@ export const BATTALIONS_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: '', label: 'All searchable fields' },
   { value: 'code', label: 'Code' },
   { value: 'name', label: 'Name' },
+  { value: 'createdAt', label: 'Created Date', dataType: 'date' },
+  { value: 'updatedAt', label: 'Updated Date', dataType: 'date' },
 ])
 export const BATTALIONS_FILTER_STATUS_OPTIONS = Object.freeze([
   { value: '', label: 'All statuses' },
