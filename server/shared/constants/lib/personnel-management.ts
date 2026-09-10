@@ -18,6 +18,8 @@ export const PERSONNEL_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
 export const RANK_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   code: 'code',
   name: 'name',
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
 })
 
 export const PERSONNEL_PERMISSION_GROUPS = {
