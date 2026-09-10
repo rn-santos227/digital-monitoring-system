@@ -53,6 +53,9 @@
               :type="fieldType(condition.field)"
             />
           </div>
+          <div class="flex gap-2" :class="ADVANCED_SEARCH_REMOVE_BUTTON_CLASSES">
+            
+          </div>
         </div>
       </section>
     </form>
