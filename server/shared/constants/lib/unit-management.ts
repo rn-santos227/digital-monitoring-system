@@ -6,6 +6,8 @@ export const UNIT_MODULES = {
 export const BATTALION_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   code: 'code',
   name: 'name',
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
 })
 
 export const COMPANY_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
