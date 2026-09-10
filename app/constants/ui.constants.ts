@@ -85,6 +85,7 @@ export const ADVANCED_SEARCH_OPERATOR_OPTIONS = Object.freeze([
   { value: 'notEquals', label: 'is not' },
   { value: 'startsWith', label: 'starts with' },
   { value: 'endsWith', label: 'ends with' },
+  { value: 'between', label: 'is between' },
 ])
 
 export const ADVANCED_SEARCH_MATCH_OPTIONS = Object.freeze([
