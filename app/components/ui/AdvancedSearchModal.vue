@@ -38,7 +38,13 @@
           <BaseSelect v-model="condition.field" :label="`Field ${index + 1}`" :options="fields" />
           <BaseSelect v-model="condition.operator" label="Operator" :options="operatorOptions" />
           <div :class="condition.operator === 'between' ? 'grid grid-cols-[1fr_auto_1fr] items-start gap-2' : ''">
-            
+            <BaseTextField
+              v-model="condition.value"
+              :label="condition.operator === 'between' ? 'From' : 'Value'"
+              :type="fieldType(condition.field)"
+              :placeholder="ADVANCED_SEARCH_VALUE_PLACEHOLDER"
+              :helper-text="condition.operator === 'between' ? '' : ADVANCED_SEARCH_VALUE_HELPER_TEXT"
+            />
           </div>
         </div>
       </section>
