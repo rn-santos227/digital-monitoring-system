@@ -57,7 +57,7 @@ export interface PersonnelBatchUploadRowRequest {
 }
 
 export type PersonnelSearchMatch = 'any' | 'all'
-export type PersonnelSearchOperator = 'contains' | 'equals' | 'notEquals' | 'startsWith' | 'endsWith'
+export type PersonnelSearchOperator = 'contains' | 'equals' | 'notEquals' | 'startsWith' | 'endsWith' | 'between'
 
 export interface PersonnelAdvancedSearchConditionRequest {
   id?: string
