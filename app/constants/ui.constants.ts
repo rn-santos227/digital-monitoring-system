@@ -92,6 +92,9 @@ export const ADVANCED_SEARCH_MATCH_OPTIONS = Object.freeze([
 
 export const ADVANCED_SEARCH_VALUE_PLACEHOLDER = 'Enter one or more values'
 export const ADVANCED_SEARCH_VALUE_HELPER_TEXT = 'Separate multiple specific values with commas.'
+export const ADVANCED_SEARCH_CONDITION_GRID_CLASSES =
+  'grid gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 md:grid-cols-[minmax(0,1fr)_minmax(0,0.75fr)_minmax(0,1.25fr)_auto] md:items-start'
+export const ADVANCED_SEARCH_REMOVE_BUTTON_CLASSES = 'md:mt-6'
 
 export interface SuggestionFieldOption {
   value: string

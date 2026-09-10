@@ -33,7 +33,7 @@
         <div
           v-for="(condition, index) in draft.conditions"
           :key="condition.id"
-          class="grid gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 md:grid-cols-[minmax(0,1fr)_minmax(0,0.75fr)_minmax(0,1.25fr)_auto] md:items-end"
+          :class="ADVANCED_SEARCH_CONDITION_GRID_CLASSES"
         >
           <BaseSelect v-model="condition.field" :label="`Field ${index + 1}`" :options="fields" />
           <BaseSelect v-model="condition.operator" label="Operator" :options="operatorOptions" />
@@ -49,6 +49,7 @@
             size="sm"
             icon-only
             icon-name="trash"
+            :class="ADVANCED_SEARCH_REMOVE_BUTTON_CLASSES"
             :aria-label="`Remove condition ${index + 1}`"
             :disabled="draft.conditions.length === 1"
             @click="removeCondition(condition.id)"
@@ -72,8 +73,10 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import {
+  ADVANCED_SEARCH_CONDITION_GRID_CLASSES,
   ADVANCED_SEARCH_MATCH_OPTIONS,
   ADVANCED_SEARCH_OPERATOR_OPTIONS,
+  ADVANCED_SEARCH_REMOVE_BUTTON_CLASSES,
   ADVANCED_SEARCH_VALUE_HELPER_TEXT,
   ADVANCED_SEARCH_VALUE_PLACEHOLDER,
   type AdvancedSearchCondition,
