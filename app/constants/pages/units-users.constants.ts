@@ -226,6 +226,8 @@ export const USERS_ACCOUNT_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: 'code', label: 'Code' },
   { value: 'name', label: 'Name' },
   { value: 'description', label: 'Description' },
+  { value: 'createdAt', label: 'Created Date', dataType: 'date' },
+  { value: 'updatedAt', label: 'Updated Date', dataType: 'date' },
 ])
 
 export const USERS_ACCOUNT_FILTER_SYSTEM_TYPE_OPTIONS = Object.freeze([
