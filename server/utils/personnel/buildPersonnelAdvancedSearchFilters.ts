@@ -33,6 +33,10 @@ export const buildPersonnelAdvancedSearchFilters = (
       return []
     }
     const isTimestampField = field === 'createdAt' || field === 'updatedAt'
+    return [
+      { column, operator: 'gte', value: isTimestampField ? `${values[0] ?? ''}T00:00:00.000Z` : values[0] ?? '', conditionGroup: `condition-${conditionIndex}`, groupMatch: 'all' },
+      { column, operator: 'lte', value: isTimestampField ? `${valueTo}T23:59:59.999Z` : valueTo, conditionGroup: `condition-${conditionIndex}`, groupMatch: 'all' },
+    ]
   }
 
   return values.map(value => ({
