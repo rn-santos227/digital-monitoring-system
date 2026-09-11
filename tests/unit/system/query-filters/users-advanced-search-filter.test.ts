@@ -16,6 +16,13 @@ describe('user management advanced search filters', () => {
     }], USER_PROFILE_SEARCHABLE_FIELD_COLUMNS)
 
     expect(filters).toEqual([
+      {
+        column: 'created_at',
+        operator: 'gte',
+        value: '2026-09-04T00:00:00.000Z',
+        conditionGroup: 'condition-0',
+        groupMatch: 'all',
+      },
 
     ])
   })
