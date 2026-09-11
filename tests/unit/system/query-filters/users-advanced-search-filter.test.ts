@@ -32,4 +32,8 @@ describe('user management advanced search filters', () => {
       },
     ])
   })
+
+  it('builds an inclusive updated date range for account types', () => {
+
+  })
 })
