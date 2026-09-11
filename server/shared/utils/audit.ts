@@ -46,6 +46,16 @@ export const buildAuditSearchConditionExpressions = (
   const column = AUDIT_SEARCH_COLUMNS[condition.field] ?? 'action'
   const value = condition.value.replace(/["\\(),]/g, '')
 
+  if (condition.operator === 'between') {
+    return [
+      { column, operator: 'gte', operand: value },
+      {
+        column,
+        operator: 'lte',
+        operand: (condition.valueTo ?? condition.value).replace(/["\\(),]/g, ''),
+      },
+    ]
+  }
 }
 
 interface AuditLogDetailRow {
