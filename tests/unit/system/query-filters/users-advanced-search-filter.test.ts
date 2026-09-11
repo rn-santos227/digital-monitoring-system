@@ -40,5 +40,10 @@ describe('user management advanced search filters', () => {
       value: '2026-08-01',
       valueTo: '2026-08-31',
     }], ACCOUNT_TYPE_SEARCHABLE_FIELD_COLUMNS)
+
+    expect(filters.map(filter => [filter.column, filter.operator, filter.value])).toEqual([
+      ['updated_at', 'gte', '2026-08-01T00:00:00.000Z'],
+      ['updated_at', 'lte', '2026-08-31T23:59:59.999Z'],
+    ])
   })
 })
