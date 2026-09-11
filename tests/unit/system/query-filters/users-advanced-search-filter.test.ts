@@ -35,6 +35,10 @@ describe('user management advanced search filters', () => {
 
   it('builds an inclusive updated date range for account types', () => {
     const filters = buildPersonnelAdvancedSearchFilters([{
+      field: 'updatedAt',
+      operator: 'between',
+      value: '2026-08-01',
+      valueTo: '2026-08-31',
     }], ACCOUNT_TYPE_SEARCHABLE_FIELD_COLUMNS)
   })
 })
