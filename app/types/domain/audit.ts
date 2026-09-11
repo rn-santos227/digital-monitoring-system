@@ -76,6 +76,8 @@ export interface AuditLogSearchQuery extends AuditLogListQuery {
   userName?: string
   startDate?: string
   endDate?: string
+  conditions?: string
+  match?: 'any' | 'all'
 }
 
 export interface AuditLogTableRow {
