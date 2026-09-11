@@ -93,6 +93,12 @@ export default defineEventHandler(async (event): Promise<AuditLogListResponse> =
     auditSearchQuery = auditSearchQuery.lte('created_at', endDate)
   }
 
+  if (serializedConditions) {
+    const conditions = parseAuditAdvancedSearchConditions(serializedConditions)
+    const match = query.match === 'any' ? 'any' : 'all'
+    auditSearchQuery = applyAuditAdvancedSearch(auditSearchQuery, conditions, match)
+  }
+
   const { data, count, error } = await auditSearchQuery
 
   if (error) {
