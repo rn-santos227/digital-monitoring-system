@@ -6,6 +6,12 @@ const AUDIT_SEARCH_OPERATORS = new Set(['contains', 'equals', 'notEquals', 'star
 
 export const parseAuditAdvancedSearchConditions = (serializedConditions: string): AuditAdvancedSearchConditionRequest[] => {
   let parsed: unknown
+
+  try {
+    parsed = JSON.parse(serializedConditions)
+  } catch {
+    throw createError({ statusCode: 400, statusMessage: 'Advanced search conditions must be valid JSON.' })
+  }
 }
 
 export const parseRecordPrintedTableAuditPayload = (payload: RecordPrintedTableAuditRequest): RecordPrintedTableAuditRequest => {
