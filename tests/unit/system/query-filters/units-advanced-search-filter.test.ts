@@ -32,4 +32,12 @@ describe('unit management advanced search filters', () => {
       groupMatch: 'all',
     })
   })
+
+  it('rejects a company between condition without an ending value', () => {
+    expect(buildPersonnelAdvancedSearchFilters([{
+      field: 'createdAt',
+      operator: 'between',
+      value: '2026-07-10',
+    }], COMPANY_SEARCHABLE_FIELD_COLUMNS)).toEqual([])
+  })
 })
