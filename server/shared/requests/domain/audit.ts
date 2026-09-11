@@ -6,5 +6,10 @@ export interface RecordPrintedTableAuditRequest {
 
 export type AuditSearchOperator = 'contains' | 'equals' | 'notEquals' | 'startsWith' | 'endsWith' | 'between'
 
-
+export interface AuditAdvancedSearchConditionRequest {
+  field: string
+  operator: AuditSearchOperator
+  value: string
+  valueTo?: string
+}
 
