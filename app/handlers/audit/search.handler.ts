@@ -15,7 +15,8 @@ export const useAuditSearchHandlers = (searchQuery: Ref<string>) => {
           conditions: value.conditions,
           match: value.match === 'any' ? 'any' as const : 'all' as const,
         },
-
+        errors: {},
+        isValid: true,
       }
     }
   
