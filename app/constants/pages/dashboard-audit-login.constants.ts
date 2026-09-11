@@ -36,12 +36,13 @@ export const AUDIT_FILTER_END_DATE_LABEL = 'End Date'
 export const AUDIT_FILTER_APPLY_LABEL = 'Apply Filters'
 export const AUDIT_FILTER_RESET_LABEL = 'Reset'
 export const AUDIT_FILTER_FIELD_OPTIONS = Object.freeze([
-  { value: '', label: 'All searchable fields' },
   { value: 'action', label: 'Action' },
   { value: 'tableName', label: 'Entity/Table Name' },
   { value: 'recordId', label: 'Record ID' },
   { value: 'ipAddress', label: 'IP Address' },
-  { value: 'statusCode', label: 'Status Code' }
+  { value: 'statusCode', label: 'Status Code' },
+  { value: 'userName', label: 'Actor Name' },
+  { value: 'createdAt', label: 'Created Date', dataType: 'date' }
 ])
 export const AUDIT_MODAL_TITLE = 'Audit Log Details'
 export const AUDIT_MODAL_DESCRIPTION = 'Review request, response, headers, and metadata for this audit record.'
