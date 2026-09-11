@@ -34,6 +34,12 @@ const AUDIT_SEARCH_COLUMNS: Readonly<Record<string, string>> = Object.freeze({
   createdAt: 'created_at',
 })
 
+export interface AuditSearchExpression {
+  column: string
+  operator: string
+  operand: string
+}
+
 interface AuditLogDetailRow {
   id: string
   user_id: string | null
