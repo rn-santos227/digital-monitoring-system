@@ -76,6 +76,14 @@ export const AUDIT_LOG_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   createdAt: 'created_at',
 })
 
+export const AUDIT_LOG_LEGACY_SEARCH_FIELDS = Object.freeze([
+  'action',
+  'tableName',
+  'recordId',
+  'ipAddress',
+  'statusCode',
+] as const)
+
 export const AUDIT_LOG_ENDPOINTS = {
   domainBulkUpdate: '/api/:domain/bulk',
   domainBulkDelete: '/api/:domain/bulk',
