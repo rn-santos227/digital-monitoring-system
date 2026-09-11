@@ -18,7 +18,11 @@ export const parseAuditAdvancedSearchConditions = (serializedConditions: string)
   }
 
   return parsed.map((condition) => {
-
+    const record = condition && typeof condition === 'object' ? condition as Record<string, unknown> : {}
+    const field = typeof record.field === 'string' ? record.field : ''
+    const operator = typeof record.operator === 'string' ? record.operator : ''
+    const value = typeof record.value === 'string' ? record.value.trim() : ''
+    const valueTo = typeof record.valueTo === 'string' ? record.valueTo.trim() : undefined
   })
 }
 
