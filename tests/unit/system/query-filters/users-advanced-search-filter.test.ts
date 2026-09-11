@@ -9,6 +9,10 @@ import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/pe
 describe('user management advanced search filters', () => {
   it('builds an inclusive created date range for user profiles', () => {
     const filters = buildPersonnelAdvancedSearchFilters([{
+      field: 'createdAt',
+      operator: 'between',
+      value: '2026-09-04',
+      valueTo: '2026-09-05',
     }], USER_PROFILE_SEARCHABLE_FIELD_COLUMNS)
   })
 })
