@@ -40,6 +40,14 @@ export interface AuditSearchExpression {
   operand: string
 }
 
+export const buildAuditSearchConditionExpressions = (
+  condition: AuditAdvancedSearchConditionRequest,
+): AuditSearchExpression[] => {
+  const column = AUDIT_SEARCH_COLUMNS[condition.field] ?? 'action'
+  const value = condition.value.replace(/["\\(),]/g, '')
+
+}
+
 interface AuditLogDetailRow {
   id: string
   user_id: string | null
