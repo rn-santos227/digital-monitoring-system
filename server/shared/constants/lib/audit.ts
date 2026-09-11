@@ -66,6 +66,16 @@ export const AUDIT_LOG_OUTCOMES = {
   failed: 'failed',
 } as const
 
+export const AUDIT_LOG_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
+  action: 'action',
+  tableName: 'table_name',
+  recordId: 'record_id',
+  ipAddress: 'ip_address',
+  statusCode: 'status_code',
+  userName: 'user_profiles.full_name',
+  createdAt: 'created_at',
+})
+
 export const AUDIT_LOG_ENDPOINTS = {
   domainBulkUpdate: '/api/:domain/bulk',
   domainBulkDelete: '/api/:domain/bulk',
