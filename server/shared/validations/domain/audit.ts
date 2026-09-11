@@ -16,6 +16,10 @@ export const parseAuditAdvancedSearchConditions = (serializedConditions: string)
   if (!Array.isArray(parsed) || parsed.length < 1 || parsed.length > 12) {
     throw createError({ statusCode: 400, statusMessage: 'Advanced search accepts between 1 and 12 conditions.' })
   }
+
+  return parsed.map((condition) => {
+
+  })
 }
 
 export const parseRecordPrintedTableAuditPayload = (payload: RecordPrintedTableAuditRequest): RecordPrintedTableAuditRequest => {
