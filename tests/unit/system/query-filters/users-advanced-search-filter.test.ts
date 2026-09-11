@@ -7,6 +7,6 @@ import {
 import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/personnel/buildPersonnelAdvancedSearchFilters'
 
 describe('user management advanced search filters', () => {
-
-
+  it('builds an inclusive created date range for user profiles', () => {
+  })
 })
