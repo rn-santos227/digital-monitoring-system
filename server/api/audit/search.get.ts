@@ -23,8 +23,9 @@ export default defineEventHandler(async (event): Promise<AuditLogListResponse> =
   const userName = typeof query.userName === 'string' ? query.userName.trim() : ''
   const startDate = typeof query.startDate === 'string' ? query.startDate.trim() : ''
   const endDate = typeof query.endDate === 'string' ? query.endDate.trim() : ''
+  const serializedConditions = typeof query.conditions === 'string' ? query.conditions.trim() : ''
 
-  if (!term && !userName && !startDate && !endDate) {
+  if (!term && !userName && !startDate && !endDate && !serializedConditions) {
     throw createError({
       statusCode: 400,
       statusMessage: 'At least one search filter is required (term, userName, startDate, endDate).',
