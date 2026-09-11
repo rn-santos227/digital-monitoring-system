@@ -4,6 +4,8 @@ import { AUDIT_LOG_LIST_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/co
 import { mapAuditLogListItem, parsePaginationQuery } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { parseAuditAdvancedSearchConditions } from '../../shared/validations'
+import { applyAuditAdvancedSearch } from '../../utils/audit/applyAuditAdvancedSearch'
 
 const SEARCHABLE_AUDIT_FIELDS = {
   action: 'action',
