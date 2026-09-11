@@ -34,6 +34,7 @@ describe('user management advanced search filters', () => {
   })
 
   it('builds an inclusive updated date range for account types', () => {
-
+    const filters = buildPersonnelAdvancedSearchFilters([{
+    }], ACCOUNT_TYPE_SEARCHABLE_FIELD_COLUMNS)
   })
 })
