@@ -10,7 +10,13 @@ export const useAuditSearchHandlers = (searchQuery: Ref<string>) => {
 
   const handleFilterApply = (value: Partial<AuditLogSearchQuery>) => {
     if (value.conditions) {
+      return {
+        filters: {
+          conditions: value.conditions,
+          match: value.match === 'any' ? 'any' as const : 'all' as const,
+        },
 
+      }
     }
   
     const commonValidation = validateFields([
