@@ -9,6 +9,10 @@ export const useAuditSearchHandlers = (searchQuery: Ref<string>) => {
   }
 
   const handleFilterApply = (value: Partial<AuditLogSearchQuery>) => {
+    if (value.conditions) {
+
+    }
+  
     const commonValidation = validateFields([
       { field: 'term', label: 'Search term', value: value.term ?? '', maxLength: 120 },
       { field: 'fields', label: 'Search field', value: value.fields ?? '', maxLength: 64 },
