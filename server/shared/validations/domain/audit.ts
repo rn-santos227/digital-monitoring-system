@@ -28,7 +28,12 @@ export const parseAuditAdvancedSearchConditions = (serializedConditions: string)
       throw createError({ statusCode: 400, statusMessage: 'Each advanced search condition must contain a valid field, operator, and value.' })
     }
 
-
+    return {
+      field,
+      operator: operator as AuditAdvancedSearchConditionRequest['operator'],
+      value,
+      valueTo,
+    }
   })
 }
 
