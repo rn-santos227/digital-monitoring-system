@@ -64,6 +64,9 @@ export const buildAuditSearchConditionExpressions = (
     startsWith: ['ilike', `${value}*`],
     endsWith: ['ilike', `*${value}`],
   } as const
+  const [operator, operand] = operators[condition.operator]
+
+  return [{ column, operator, operand }]
 }
 
 interface AuditLogDetailRow {
