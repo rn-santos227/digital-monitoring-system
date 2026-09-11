@@ -1,5 +1,8 @@
 import { createError } from 'h3'
-import type { RecordPrintedTableAuditRequest } from '../../requests'
+import type { AuditAdvancedSearchConditionRequest, RecordPrintedTableAuditRequest } from '../../requests'
+
+const AUDIT_SEARCH_FIELDS = new Set(['action', 'tableName', 'recordId', 'ipAddress', 'statusCode', 'userName', 'createdAt'])
+const AUDIT_SEARCH_OPERATORS = new Set(['contains', 'equals', 'notEquals', 'startsWith', 'endsWith', 'between'])
 
 export const parseRecordPrintedTableAuditPayload = (payload: RecordPrintedTableAuditRequest): RecordPrintedTableAuditRequest => {
   const normalizedTableName = typeof payload.tableName === 'string' ? payload.tableName.trim() : ''
