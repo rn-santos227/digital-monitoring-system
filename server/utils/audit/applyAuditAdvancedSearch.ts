@@ -23,4 +23,11 @@ export const applyAuditAdvancedSearch = <TQuery>(
     return query.or(groups.join(',')) as unknown as TQuery
   }
 
+  conditions.forEach((condition) => {
+    buildAuditSearchConditionExpressions(condition).forEach((expression) => {
+      query = query.filter(expression.column, expression.operator, expression.operand)
+    })
+  })
+
+  return query as unknown as TQuery
 }
