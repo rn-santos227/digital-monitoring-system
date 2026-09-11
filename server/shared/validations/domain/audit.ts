@@ -23,6 +23,12 @@ export const parseAuditAdvancedSearchConditions = (serializedConditions: string)
     const operator = typeof record.operator === 'string' ? record.operator : ''
     const value = typeof record.value === 'string' ? record.value.trim() : ''
     const valueTo = typeof record.valueTo === 'string' ? record.valueTo.trim() : undefined
+
+    if (!AUDIT_SEARCH_FIELDS.has(field) || !AUDIT_SEARCH_OPERATORS.has(operator) || !value || (operator === 'between' && !valueTo)) {
+      throw createError({ statusCode: 400, statusMessage: 'Each advanced search condition must contain a valid field, operator, and value.' })
+    }
+
+
   })
 }
 
