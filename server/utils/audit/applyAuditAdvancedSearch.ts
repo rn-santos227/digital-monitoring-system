@@ -13,4 +13,14 @@ export const applyAuditAdvancedSearch = <TQuery>(
   match: 'any' | 'all',
 ): TQuery => {
   let query = sourceQuery as unknown as AuditSearchBuilder
+
+  if (match === 'any') {
+    const groups = conditions.map((condition) => {
+      const expressions = buildAuditSearchConditionExpressions(condition)
+        .map(expression => `${expression.column}.${expression.operator}.${expression.operand}`)
+      return expressions.length > 1 ? `and(${expressions.join(',')})` : expressions[0] ?? ''
+    })
+    return query.or(groups.join(',')) as unknown as TQuery
+  }
+
 }
