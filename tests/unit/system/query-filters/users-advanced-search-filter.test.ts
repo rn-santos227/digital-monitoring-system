@@ -14,5 +14,9 @@ describe('user management advanced search filters', () => {
       value: '2026-09-04',
       valueTo: '2026-09-05',
     }], USER_PROFILE_SEARCHABLE_FIELD_COLUMNS)
+
+    expect(filters).toEqual([
+
+    ])
   })
 })
