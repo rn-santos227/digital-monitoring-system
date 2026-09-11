@@ -23,7 +23,13 @@ describe('user management advanced search filters', () => {
         conditionGroup: 'condition-0',
         groupMatch: 'all',
       },
-
+      {
+        column: 'created_at',
+        operator: 'lte',
+        value: '2026-09-05T23:59:59.999Z',
+        conditionGroup: 'condition-0',
+        groupMatch: 'all',
+      },
     ])
   })
 })
