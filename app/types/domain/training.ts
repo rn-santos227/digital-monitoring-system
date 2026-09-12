@@ -144,6 +144,8 @@ export interface TrainingRecordSearchQuery extends TrainingEndpointQuery {
   match?: AdvancedSearchMatch
 }
 
+export type TrainingRecordSearchCondition = AdvancedSearchCondition
+
 export interface TrainingCategoryEndpointQuery {
   page?: number
   pageSize?: number
@@ -153,7 +155,11 @@ export interface TrainingCategoryEndpointQuery {
 export interface TrainingCategorySearchQuery extends TrainingCategoryEndpointQuery {
   term?: string
   fields?: string
+  conditions?: string
+  match?: AdvancedSearchMatch
 }
+
+export type TrainingCategorySearchCondition = AdvancedSearchCondition
 
 export interface TrainingRecordListItem {
   id: string
