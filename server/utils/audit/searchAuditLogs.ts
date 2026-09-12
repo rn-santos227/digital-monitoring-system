@@ -20,5 +20,8 @@ export const searchAuditLogs = async (params: SearchAuditLogsParams) => {
     .select(AUDIT_LOG_LIST_SELECT_COLUMNS, { count: 'exact' })
     .order('created_at', { ascending: false })
     .range(rangeFrom, rangeTo)
-
+    
+  if (legacyExpressions.length > 0) {
+    query = query.or(legacyExpressions.join(','))
+  }
 }
