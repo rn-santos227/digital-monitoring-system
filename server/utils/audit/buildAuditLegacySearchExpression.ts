@@ -7,5 +7,7 @@ import {
 type AuditLogLegacySearchField = typeof AUDIT_LOG_LEGACY_SEARCH_FIELDS[number]
 
 export const buildAuditLegacySearchExpressions = (term: string, fields?: string): string[] => {
-
+  if (!term) {
+    return []
+  }
 }
