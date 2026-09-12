@@ -13,3 +13,12 @@ export interface AuditAdvancedSearchConditionRequest {
   valueTo?: string
 }
 
+export interface AuditLogSearchRequest {
+  term: string
+  fields?: string
+  userName: string
+  startDate: string
+  endDate: string
+  conditions: AuditAdvancedSearchConditionRequest[]
+  match: 'any' | 'all'
+}
