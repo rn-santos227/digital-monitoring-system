@@ -15,5 +15,10 @@ interface SearchAuditLogsParams {
 export const searchAuditLogs = async (params: SearchAuditLogsParams) => {
   const { supabase, search, rangeFrom, rangeTo } = params
   const legacyExpressions = buildAuditLegacySearchExpressions(search.term, search.fields)
+  let query = supabase
+    .from('audit_logs')
+    .select(AUDIT_LOG_LIST_SELECT_COLUMNS, { count: 'exact' })
+    .order('created_at', { ascending: false })
+    .range(rangeFrom, rangeTo)
 
 }
