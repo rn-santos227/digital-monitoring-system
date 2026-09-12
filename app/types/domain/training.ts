@@ -5,6 +5,7 @@ import type {
   UUID,
 } from '../database.tables'
 import type { TrainingStatusName } from '../enums'
+import type { AdvancedSearchCondition, AdvancedSearchMatch } from '~/constants/ui.constants'
 
 export type TrainingRecordCreateInput = TrainingRecordsInsert
 export type TrainingRecordUpdateInput = TrainingRecordsUpdate
@@ -128,9 +129,13 @@ export interface UpdateTrainingCategoryPayload {
 export interface TrainingSearchQuery extends TrainingEndpointQuery {
   term?: string
   fields?: string
+  conditions?: string
+  match?: AdvancedSearchMatch
   trainingCategoryId?: string
   statusId?: string
 }
+
+export type TrainingSearchCondition = AdvancedSearchCondition
 
 export interface TrainingRecordSearchQuery extends TrainingEndpointQuery {
   term?: string
