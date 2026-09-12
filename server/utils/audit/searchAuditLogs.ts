@@ -27,4 +27,7 @@ export const searchAuditLogs = async (params: SearchAuditLogsParams) => {
   if (search.userName) {
     query = query.ilike('user_profiles.full_name', `%${search.userName}%`)
   }
+  if (search.startDate) {
+    query = query.gte('created_at', search.startDate)
+  }
 }
