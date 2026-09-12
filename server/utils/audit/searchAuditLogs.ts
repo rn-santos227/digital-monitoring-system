@@ -13,5 +13,7 @@ interface SearchAuditLogsParams {
 }
 
 export const searchAuditLogs = async (params: SearchAuditLogsParams) => {
+  const { supabase, search, rangeFrom, rangeTo } = params
+  const legacyExpressions = buildAuditLegacySearchExpressions(search.term, search.fields)
 
 }
