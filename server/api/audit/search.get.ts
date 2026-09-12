@@ -11,4 +11,12 @@ export default defineEventHandler(async (event): Promise<AuditLogListResponse> =
   await requirePermission(event, PERMISSION_CODES.auditView)
   const query = getQuery(event)
 
+  const search = parseAuditLogSearchQuery(query)
+  const { page, pageSize, rangeFrom, rangeTo } = parsePaginationQuery(query)
+  const { rows, totalItems } = await searchAuditLogs({
+    supabase: getServiceSupabaseClient(),
+    search,
+    rangeFrom,
+    rangeTo,
+  })
 })
