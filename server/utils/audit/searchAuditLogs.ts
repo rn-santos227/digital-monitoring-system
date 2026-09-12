@@ -24,4 +24,7 @@ export const searchAuditLogs = async (params: SearchAuditLogsParams) => {
   if (legacyExpressions.length > 0) {
     query = query.or(legacyExpressions.join(','))
   }
+  if (search.userName) {
+    query = query.ilike('user_profiles.full_name', `%${search.userName}%`)
+  }
 }
