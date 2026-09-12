@@ -4,6 +4,7 @@ import type { AuditAdvancedSearchConditionRequest, RecordPrintedTableAuditReques
 const AUDIT_SEARCH_FIELDS = new Set(['action', 'tableName', 'recordId', 'ipAddress', 'statusCode', 'userName', 'createdAt'])
 const AUDIT_SEARCH_OPERATORS = new Set(['contains', 'equals', 'notEquals', 'startsWith', 'endsWith', 'between'])
 
+
 export const parseAuditAdvancedSearchConditions = (serializedConditions: string): AuditAdvancedSearchConditionRequest[] => {
   let parsed: unknown
 
@@ -35,6 +36,11 @@ export const parseAuditAdvancedSearchConditions = (serializedConditions: string)
       valueTo,
     }
   })
+}
+
+export const parseAuditLogSearchQuery = (query: Record<string, unknown>): AuditLogSearchRequest => {
+
+
 }
 
 export const parseRecordPrintedTableAuditPayload = (payload: RecordPrintedTableAuditRequest): RecordPrintedTableAuditRequest => {
