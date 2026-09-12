@@ -19,4 +19,12 @@ export default defineEventHandler(async (event): Promise<AuditLogListResponse> =
     rangeFrom,
     rangeTo,
   })
+
+  return {
+    items: rows.map(mapAuditLogListItem),
+    page,
+    pageSize,
+    totalItems,
+    totalPages: totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize),
+  }
 })
