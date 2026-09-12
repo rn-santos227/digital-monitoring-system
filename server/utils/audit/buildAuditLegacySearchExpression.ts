@@ -26,4 +26,6 @@ export const buildAuditLegacySearchExpressions = (term: string, fields?: string)
 
 
   })
+
+ return expressions
 }
