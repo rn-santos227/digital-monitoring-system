@@ -33,4 +33,7 @@ export const searchAuditLogs = async (params: SearchAuditLogsParams) => {
   if (search.endDate) {
     query = query.lte('created_at', search.endDate)
   }
+  if (search.conditions.length > 0) {
+    query = applyAuditAdvancedSearch(query, search.conditions, search.match)
+  }
 }
