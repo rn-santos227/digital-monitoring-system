@@ -11,4 +11,12 @@ import {
   AUDIT_FILTER_FIELD_OPTIONS,
   AUDIT_FILTER_RESET_LABEL,
 } from '~/constants/page.constants'
+
+const props = withDefaults(defineProps<{
+  modelValue: Partial<AuditLogSearchQuery>
+  validationErrors?: Readonly<Record<string, string>>
+}>(), {
+  modelValue: () => ({}),
+  validationErrors: () => ({}),
+})
 </script>
