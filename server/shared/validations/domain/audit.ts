@@ -44,6 +44,10 @@ export const parseAuditLogSearchQuery = (query: Record<string, unknown>): AuditL
   const startDate = typeof query.startDate === 'string' ? query.startDate.trim() : ''
   const endDate = typeof query.endDate === 'string' ? query.endDate.trim() : ''
   const serializedConditions = typeof query.conditions === 'string' ? query.conditions.trim() : ''
+
+  if (!term && !userName && !startDate && !endDate && !serializedConditions) {
+    throw createError({ statusCode: 400, statusMessage: 'At least one audit search filter is required.' })
+  }
 }
 
 export const parseRecordPrintedTableAuditPayload = (payload: RecordPrintedTableAuditRequest): RecordPrintedTableAuditRequest => {
