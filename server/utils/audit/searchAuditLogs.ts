@@ -36,4 +36,11 @@ export const searchAuditLogs = async (params: SearchAuditLogsParams) => {
   if (search.conditions.length > 0) {
     query = applyAuditAdvancedSearch(query, search.conditions, search.match)
   }
+
+  const { data, count, error } = await query
+  if (error) {
+    throw createError({ statusCode: 500, statusMessage: `Failed to search audit logs: ${error.message}` })
+  }
+
+  return { rows: data ?? [], totalItems: count ?? 0 }
 }
