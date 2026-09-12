@@ -38,5 +38,12 @@ const conditions = computed<AdvancedSearchCondition[]>(() => {
         }]
       : []
   }
+
+  try {
+    const parsed: unknown = JSON.parse(props.modelValue.conditions)
+    return Array.isArray(parsed) ? parsed as AdvancedSearchCondition[] : []
+  } catch {
+    return []
+  }
 })
 </script>
