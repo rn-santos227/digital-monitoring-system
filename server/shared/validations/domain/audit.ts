@@ -39,7 +39,8 @@ export const parseAuditAdvancedSearchConditions = (serializedConditions: string)
 }
 
 export const parseAuditLogSearchQuery = (query: Record<string, unknown>): AuditLogSearchRequest => {
-
+  const term = typeof query.term === 'string' ? query.term.trim() : ''
+  const userName = typeof query.userName === 'string' ? query.userName.trim() : ''
 
 }
 
