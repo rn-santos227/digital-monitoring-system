@@ -6,6 +6,14 @@
         {{ activeConditionCount ? `${activeConditionCount} advanced search condition${activeConditionCount === 1 ? '' : 's'} applied` : 'No advanced search conditions applied' }}
       </p>
     </div>
+    <div class="flex gap-2">
+      <BaseButton v-if="activeConditionCount" type="button" variant="ghost" size="sm" @click="emitReset">
+        {{ AUDIT_FILTER_RESET_LABEL }}
+      </BaseButton>
+      <BaseButton type="button" size="sm" icon-name="magnifying-glass" @click="isModalOpen = true">
+        Advanced search
+      </BaseButton>
+    </div>
   </section>
 </template>
 
