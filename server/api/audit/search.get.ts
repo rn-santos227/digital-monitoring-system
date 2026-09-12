@@ -9,6 +9,6 @@ import { searchAuditLogs } from '../../utils/audit/searchAuditLogs'
 
 export default defineEventHandler(async (event): Promise<AuditLogListResponse> => {
   await requirePermission(event, PERMISSION_CODES.auditView)
-
+  const query = getQuery(event)
 
 })
