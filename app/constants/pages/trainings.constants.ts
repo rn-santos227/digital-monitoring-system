@@ -44,16 +44,19 @@ export const TRAINING_RECORDS_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: 'remarks', label: 'Remarks' },
 ])
 
-export const TRAININGS_FILTER_CARD_TITLE = 'Filter Trainings'
+export const TRAININGS_FILTER_CARD_TITLE = 'Search Trainings'
 export const TRAININGS_FILTER_TERM_LABEL = 'Search Term'
 export const TRAININGS_FILTER_TERM_PLACEHOLDER = 'Search training value'
 export const TRAININGS_FILTER_FIELDS_LABEL = 'Search Field'
 export const TRAININGS_FILTER_APPLY_LABEL = 'Apply Filters'
 export const TRAININGS_FILTER_RESET_LABEL = 'Reset'
 export const TRAININGS_FILTER_FIELD_OPTIONS = Object.freeze([
-  { value: '', label: 'All searchable fields' },
   { value: 'trainingTitle', label: 'Training Title' },
+  { value: 'startDate', label: 'Start Date', dataType: 'date' },
+  { value: 'endDate', label: 'End Date', dataType: 'date' },
   { value: 'defaultRemarks', label: 'Default Remarks' },
+  { value: 'createdAt', label: 'Created Date', dataType: 'date' },
+  { value: 'updatedAt', label: 'Updated Date', dataType: 'date' },
 ])
 
 export const TRAINING_CATEGORIES_FILTER_CARD_TITLE = 'Filter Training Categories'
