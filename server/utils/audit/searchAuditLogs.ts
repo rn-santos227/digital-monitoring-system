@@ -12,3 +12,6 @@ interface SearchAuditLogsParams {
   rangeTo: number
 }
 
+export const searchAuditLogs = async (params: SearchAuditLogsParams) => {
+
+}
