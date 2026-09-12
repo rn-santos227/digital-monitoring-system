@@ -41,7 +41,9 @@ export const parseAuditAdvancedSearchConditions = (serializedConditions: string)
 export const parseAuditLogSearchQuery = (query: Record<string, unknown>): AuditLogSearchRequest => {
   const term = typeof query.term === 'string' ? query.term.trim() : ''
   const userName = typeof query.userName === 'string' ? query.userName.trim() : ''
-
+  const startDate = typeof query.startDate === 'string' ? query.startDate.trim() : ''
+  const endDate = typeof query.endDate === 'string' ? query.endDate.trim() : ''
+  const serializedConditions = typeof query.conditions === 'string' ? query.conditions.trim() : ''
 }
 
 export const parseRecordPrintedTableAuditPayload = (payload: RecordPrintedTableAuditRequest): RecordPrintedTableAuditRequest => {
