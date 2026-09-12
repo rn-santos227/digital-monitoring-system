@@ -25,7 +25,16 @@ export const buildAuditLegacySearchExpressions = (term: string, fields?: string)
     }
 
 
+    if (field === 'ipAddress') {
+      return [`ip_address.eq.${term}`]
+    }
+
+    return [`${AUDIT_LOG_SEARCHABLE_FIELD_COLUMNS[field]}.ilike.%${term}%`]
   })
 
- return expressions
+  if (expressions.length === 0) {
+    throw createError({ statusCode: 400, statusMessage: 'No valid searchable audit fields were provided for this term.' })
+  }
+
+  return expressions
 }
