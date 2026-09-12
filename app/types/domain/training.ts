@@ -140,6 +140,8 @@ export type TrainingSearchCondition = AdvancedSearchCondition
 export interface TrainingRecordSearchQuery extends TrainingEndpointQuery {
   term?: string
   fields?: string
+  conditions?: string
+  match?: AdvancedSearchMatch
 }
 
 export interface TrainingCategoryEndpointQuery {
