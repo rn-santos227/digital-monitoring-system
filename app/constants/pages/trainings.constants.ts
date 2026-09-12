@@ -28,17 +28,19 @@ export const TRAINING_PAGE_TAB_REQUIRED_PERMISSIONS: Readonly<Record<TrainingMan
 export const TRAINING_PAGE_REQUIRED_PERMISSIONS = TRAINING_PRIVILEGES
 
 
-export const TRAINING_RECORDS_FILTER_CARD_TITLE = 'Filter Training Records'
+export const TRAINING_RECORDS_FILTER_CARD_TITLE = 'Search Training Records'
 export const TRAINING_RECORDS_FILTER_TERM_LABEL = 'Search Term'
 export const TRAINING_RECORDS_FILTER_TERM_PLACEHOLDER = 'Search training record value'
 export const TRAINING_RECORDS_FILTER_FIELDS_LABEL = 'Search Field'
 export const TRAINING_RECORDS_FILTER_APPLY_LABEL = 'Apply Filters'
 export const TRAINING_RECORDS_FILTER_RESET_LABEL = 'Reset'
 export const TRAINING_RECORDS_FILTER_FIELD_OPTIONS = Object.freeze([
-  { value: '', label: 'All searchable fields' },
   { value: 'recordNo', label: 'Record No.' },
   { value: 'trainingTitle', label: 'Training' },
   { value: 'certificateNo', label: 'Certificate No.' },
+  { value: 'startDate', label: 'Start Date', dataType: 'date' },
+  { value: 'endDate', label: 'End Date', dataType: 'date' },
+  { value: 'validUntil', label: 'Valid Until', dataType: 'date' },
   { value: 'remarks', label: 'Remarks' },
 ])
 
