@@ -30,4 +30,7 @@ export const searchAuditLogs = async (params: SearchAuditLogsParams) => {
   if (search.startDate) {
     query = query.gte('created_at', search.startDate)
   }
+  if (search.endDate) {
+    query = query.lte('created_at', search.endDate)
+  }
 }
