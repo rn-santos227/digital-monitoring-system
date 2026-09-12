@@ -59,16 +59,17 @@ export const TRAININGS_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: 'updatedAt', label: 'Updated Date', dataType: 'date' },
 ])
 
-export const TRAINING_CATEGORIES_FILTER_CARD_TITLE = 'Filter Training Categories'
+export const TRAINING_CATEGORIES_FILTER_CARD_TITLE = 'Search Training Categories'
 export const TRAINING_CATEGORIES_FILTER_TERM_LABEL = 'Search Term'
 export const TRAINING_CATEGORIES_FILTER_TERM_PLACEHOLDER = 'Search category value'
 export const TRAINING_CATEGORIES_FILTER_FIELDS_LABEL = 'Search Field'
 export const TRAINING_CATEGORIES_FILTER_APPLY_LABEL = 'Apply Filters'
 export const TRAINING_CATEGORIES_FILTER_RESET_LABEL = 'Reset'
 export const TRAINING_CATEGORIES_FILTER_FIELD_OPTIONS = Object.freeze([
-  { value: '', label: 'All searchable fields' },
   { value: 'code', label: 'Code' },
   { value: 'name', label: 'Name' },
+  { value: 'createdAt', label: 'Created Date', dataType: 'date' },
+  { value: 'updatedAt', label: 'Updated Date', dataType: 'date' },
 ])
 
 export const TRAINING_RECORDS_PENDING_MESSAGE = 'Training records module will be added in the next iteration.'
