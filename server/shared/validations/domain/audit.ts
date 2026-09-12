@@ -1,9 +1,8 @@
 import { createError } from 'h3'
-import type { AuditAdvancedSearchConditionRequest, RecordPrintedTableAuditRequest } from '../../requests'
+import type { AuditAdvancedSearchConditionRequest, AuditLogSearchRequest, RecordPrintedTableAuditRequest } from '../../requests'
 
 const AUDIT_SEARCH_FIELDS = new Set(['action', 'tableName', 'recordId', 'ipAddress', 'statusCode', 'userName', 'createdAt'])
 const AUDIT_SEARCH_OPERATORS = new Set(['contains', 'equals', 'notEquals', 'startsWith', 'endsWith', 'between'])
-
 
 export const parseAuditAdvancedSearchConditions = (serializedConditions: string): AuditAdvancedSearchConditionRequest[] => {
   let parsed: unknown
@@ -47,6 +46,16 @@ export const parseAuditLogSearchQuery = (query: Record<string, unknown>): AuditL
 
   if (!term && !userName && !startDate && !endDate && !serializedConditions) {
     throw createError({ statusCode: 400, statusMessage: 'At least one audit search filter is required.' })
+  }
+
+  return {
+    term,
+    fields: typeof query.fields === 'string' ? query.fields : undefined,
+    userName,
+    startDate,
+    endDate,
+    conditions: serializedConditions ? parseAuditAdvancedSearchConditions(serializedConditions) : [],
+    match: query.match === 'any' ? 'any' : 'all',
   }
 }
 
