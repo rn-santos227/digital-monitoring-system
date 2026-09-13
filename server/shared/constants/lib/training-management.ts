@@ -12,6 +12,11 @@ export const TRAINING_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   updatedAt: 'updated_at',
 })
 
+export const TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
+  recordNo: 'record_no',
+  trainingTitle: 'training_title',
+})
+
 export const TRAINING_PERMISSION_GROUPS = {
   trainingManagement: [
     'training.view',
