@@ -15,8 +15,8 @@ export default defineEventHandler(async (event): Promise<TrainingCategoryListRes
   const term = typeof query.term === 'string' ? query.term.trim() : ''
   const serializedConditions = typeof query.conditions === 'string' ? query.conditions : ''
 
-  if (!term) {
-    throw createError({ statusCode: 400, statusMessage: 'Search term is required.' })
+  if (!term && !serializedConditions) {
+    throw createError({ statusCode: 400, statusMessage: 'At least one search filter is required.' })
   }
 
   const { page, pageSize, rangeFrom, rangeTo } = parseManagementPaginationQuery({
