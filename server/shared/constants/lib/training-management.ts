@@ -17,7 +17,9 @@ export const TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   trainingTitle: 'training_title',
   certificateNo: 'certificate_no',
   startDate: 'start_date',
-
+  endDate: 'end_date',
+  validUntil: 'valid_until',
+  remarks: 'remarks',
 })
 
 export const TRAINING_PERMISSION_GROUPS = {
