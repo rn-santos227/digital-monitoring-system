@@ -266,6 +266,10 @@ const trainingsStoreOptions = {
       this.records.error = ''
 
       const query: TrainingEndpointQuery = { page, pageSize, search: filters.term ?? '' }
+      const searchQuery: TrainingRecordSearchQuery = {
+
+      }
+      const hasSearchFilters = Boolean(searchQuery.term || searchQuery.conditions)
 
       try {
         const response = filters.term
