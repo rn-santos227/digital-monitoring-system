@@ -1,7 +1,8 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createError } from 'h3'
-import type { TrainingRecordRow } from '../../shared/models'
-import { TRAINING_RECORD_SELECT_COLUMNS } from '../../shared/constants'
+import type { PersonnelSearchFilter, TrainingRecordRow } from '../../shared/models'
+import { TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS, TRAINING_RECORD_SELECT_COLUMNS } from '../../shared/constants'
+import { applyPersonnelSearchFilters } from '../../shared/utils'
 
 const SEARCHABLE_FIELDS = {
   recordNo: 'record_no',
