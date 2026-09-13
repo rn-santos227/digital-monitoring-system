@@ -226,6 +226,8 @@ const trainingsStoreOptions = {
         pageSize,
         term: filters.term?.trim() || undefined,
         fields: filters.fields?.trim() || undefined,
+        conditions: filters.conditions?.trim() || undefined,
+        match: filters.match,
       }
 
       const hasSearchFilters = Boolean(requestQuery.term)
