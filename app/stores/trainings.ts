@@ -177,6 +177,7 @@ const trainingsStoreOptions = {
 
       const hasSearchFilters = Boolean(
         requestQuery.term
+        || requestQuery.conditions
         || requestQuery.trainingCategoryId
         || requestQuery.statusId
       )
