@@ -277,8 +277,8 @@ const trainingsStoreOptions = {
       const hasSearchFilters = Boolean(searchQuery.term || searchQuery.conditions)
 
       try {
-        const response = filters.term
-          ? await searchTrainingRecordsEndpoint({ page, pageSize, term: filters.term, fields: filters.fields })
+        const response = hasSearchFilters
+          ? await searchTrainingRecordsEndpoint(searchQuery)
           : await getTrainingRecordsEndpoint(query)
 
         this.records.items = response.items
