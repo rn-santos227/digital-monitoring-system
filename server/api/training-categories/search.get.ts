@@ -29,9 +29,11 @@ export default defineEventHandler(async (event): Promise<TrainingCategoryListRes
     ? rawFields.filter((field): field is keyof typeof TRAINING_CATEGORY_SEARCHABLE_FIELD_COLUMNS => field in TRAINING_CATEGORY_SEARCHABLE_FIELD_COLUMNS)
     : Object.keys(TRAINING_CATEGORY_SEARCHABLE_FIELD_COLUMNS) as Array<keyof typeof TRAINING_CATEGORY_SEARCHABLE_FIELD_COLUMNS>
 
-  const filters = selectedFields.map(field => `${SEARCHABLE_FIELDS[field]}.ilike.%${term}%`)
+  const filters = term
+    ? selectedFields.map(field => `${TRAINING_CATEGORY_SEARCHABLE_FIELD_COLUMNS[field]}.ilike.%${term}%`)
+    : []
 
-  if (filters.length === 0) {
+  if (term && filters.length === 0) {
     throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
   }
 
