@@ -32,7 +32,9 @@ export async function searchTrainingRecords(
     ? params.fields.filter((field): field is SearchableField => field in TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS)
     : Object.keys(TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS) as SearchableField[]
 
-  const filters = params.term ? selectedFields.map(field => `${SEARCHABLE_FIELDS[field]}.ilike.%${params.term}%`) : []
+  const filters = params.term
+    ? selectedFields.map(field => `${TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS[field]}.ilike.%${params.term}%`)
+    : []
 
   if (params.term && filters.length === 0) {
     throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
