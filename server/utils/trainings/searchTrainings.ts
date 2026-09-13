@@ -23,6 +23,7 @@ export async function searchTrainings(supabase: SupabaseClient, params: SearchTr
     .range(params.rangeFrom, params.rangeTo)
 
   if (params.filters.length > 0) query = query.or(params.filters.join(','))
+  if (params.advancedFilters.length > 0) query = applyPersonnelSearchFilters(query, params.advancedFilters, params.match)
   if (params.trainingCategoryId) query = query.eq('training_category_id', params.trainingCategoryId)
   if (params.statusId) query = query.eq('status_id', params.statusId)
 
