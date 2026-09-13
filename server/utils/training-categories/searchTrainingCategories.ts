@@ -27,6 +27,8 @@ export async function searchTrainingCategories(
     query = applyPersonnelSearchFilters(query, params.advancedFilters, params.match)
   }
 
+  const { data, count, error } = await query
+
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to search training categories: ${error.message}` })
   }
