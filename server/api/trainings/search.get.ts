@@ -29,9 +29,20 @@ export default defineEventHandler(async (event): Promise<TrainingListResponse> =
   })
 
   const rawFields = typeof query.fields === 'string' ? query.fields.split(',').map((field) => field.trim()) : []
-  const selectedFields = rawFields.length > 0 ? rawFields.filter((field): field is keyof typeof SEARCHABLE_FIELDS => field in SEARCHABLE_FIELDS) : Object.keys(SEARCHABLE_FIELDS) as Array<keyof typeof SEARCHABLE_FIELDS>
-  const filters = term ? selectedFields.map((field) => `${SEARCHABLE_FIELDS[field]}.ilike.%${term}%`) : []
-  if (term && filters.length === 0) throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
+  const selectedFields = rawFields.length > 0
+    ? rawFields.filter((field): field is keyof typeof TRAINING_SEARCHABLE_FIELD_COLUMNS => field in TRAINING_SEARCHABLE_FIELD_COLUMNS)
+    : Object.keys(TRAINING_SEARCHABLE_FIELD_COLUMNS) as Array<keyof typeof TRAINING_SEARCHABLE_FIELD_COLUMNS>
+  const filters = term ? selectedFields.map((field) => `${TRAINING_SEARCHABLE_FIELD_COLUMNS[field]}.ilike.%${term}%`) : []
+  if (term && filters.length === 0) {
+    throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
+  }
+  const advancedFilters = buildPersonnelAdvancedSearchFilters(
+    parsePersonnelAdvancedSearchConditions(serializedConditions),
+    TRAINING_SEARCHABLE_FIELD_COLUMNS,
+  )
+  if (serializedConditions && advancedFilters.length === 0) {
+    throw createError({ statusCode: 400, statusMessage: 'No valid advanced search conditions were provided.' })
+  }
   
   const { data, count } = await searchTrainings(getServiceSupabaseClient(), { filters, trainingCategoryId, statusId, rangeFrom, rangeTo })
   const items = data.map(mapTrainingListItem)
