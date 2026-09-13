@@ -13,12 +13,13 @@ export default defineEventHandler(async (event): Promise<TrainingRecordListRespo
 
   const query = getQuery(event)
   const term = typeof query.term === 'string' ? query.term.trim() : ''
+  const serializedConditions = typeof query.conditions === 'string' ? query.conditions : ''
   const trainingId = typeof query.trainingId === 'string' && query.trainingId.length > 0 ? query.trainingId : null
   const personnelId = typeof query.personnelId === 'string' && query.personnelId.length > 0 ? query.personnelId : null
   const trainingCategoryId = typeof query.trainingCategoryId === 'string' && query.trainingCategoryId.length > 0 ? query.trainingCategoryId : null
   const statusId = typeof query.statusId === 'string' && query.statusId.length > 0 ? query.statusId : null
 
-  if (!term && !trainingId && !personnelId && !trainingCategoryId && !statusId) {
+  if (!term && !serializedConditions && !trainingId && !personnelId && !trainingCategoryId && !statusId) {
     throw createError({ statusCode: 400, statusMessage: 'At least one search filter is required.' })
   }
 
