@@ -1,15 +1,12 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { TrainingCategoryListResponse } from '../../shared/responses'
-import { TRAINING_PERMISSION_GROUPS } from '../../shared/constants'
+import { TRAINING_CATEGORY_SEARCHABLE_FIELD_COLUMNS, TRAINING_PERMISSION_GROUPS } from '../../shared/constants'
 import { mapTrainingCategoryListItem, parseManagementPaginationQuery } from '../../shared/utils'
+import { parsePersonnelAdvancedSearchConditions } from '../../shared/validations'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { searchTrainingCategories } from '../../utils/training-categories/searchTrainingCategories'
-
-const SEARCHABLE_FIELDS = {
-  code: 'code',
-  name: 'name',
-} as const
+import { buildPersonnelAdvancedSearchFilters } from '../../utils/personnel/buildPersonnelAdvancedSearchFilters'
 
 export default defineEventHandler(async (event): Promise<TrainingCategoryListResponse> => {
   await requireAnyPermission(event, TRAINING_PERMISSION_GROUPS.trainingManagement)
