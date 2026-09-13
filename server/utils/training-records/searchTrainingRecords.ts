@@ -48,6 +48,9 @@ export async function searchTrainingRecords(
     .range(params.rangeFrom, params.rangeTo)
 
   if (filters.length > 0) trainingRecordQuery = trainingRecordQuery.or(filters.join(','))
+  if (params.advancedFilters.length > 0) {
+    trainingRecordQuery = applyPersonnelSearchFilters(trainingRecordQuery, params.advancedFilters, params.match)
+  }
   if (params.trainingId) trainingRecordQuery = trainingRecordQuery.eq('training_id', params.trainingId)
   if (params.personnelId) trainingRecordQuery = trainingRecordQuery.eq('personnel_id', params.personnelId)
   if (params.trainingCategoryId) trainingRecordQuery = trainingRecordQuery.eq('training_category_id', params.trainingCategoryId)
