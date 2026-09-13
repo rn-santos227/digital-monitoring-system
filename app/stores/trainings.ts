@@ -267,6 +267,8 @@ const trainingsStoreOptions = {
 
       const query: TrainingEndpointQuery = { page, pageSize, search: filters.term ?? '' }
       const searchQuery: TrainingRecordSearchQuery = {
+        page,
+        pageSize,
 
       }
       const hasSearchFilters = Boolean(searchQuery.term || searchQuery.conditions)
