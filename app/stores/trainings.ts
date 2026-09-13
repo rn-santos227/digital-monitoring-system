@@ -269,6 +269,8 @@ const trainingsStoreOptions = {
       const searchQuery: TrainingRecordSearchQuery = {
         page,
         pageSize,
+        term: filters.term?.trim() || undefined,
+        fields: filters.fields?.trim() || undefined,
 
       }
       const hasSearchFilters = Boolean(searchQuery.term || searchQuery.conditions)
