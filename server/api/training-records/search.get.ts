@@ -1,10 +1,12 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { TrainingRecordListResponse } from '../../shared/responses'
-import { PERMISSION_CODES } from '../../shared/constants'
+import { PERMISSION_CODES, TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS } from '../../shared/constants'
 import { mapTrainingRecordListItem, parseManagementPaginationQuery } from '../../shared/utils'
+import { parsePersonnelAdvancedSearchConditions } from '../../shared/validations'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { searchTrainingRecords } from '../../utils/training-records/searchTrainingRecords'
+import { buildPersonnelAdvancedSearchFilters } from '../../utils/personnel/buildPersonnelAdvancedSearchFilters'
 
 export default defineEventHandler(async (event): Promise<TrainingRecordListResponse> => {
   await requirePermission(event, PERMISSION_CODES.trainingManage)
