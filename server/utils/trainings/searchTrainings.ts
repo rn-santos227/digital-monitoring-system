@@ -6,6 +6,8 @@ import { applyPersonnelSearchFilters } from '../../shared/utils'
 
 interface SearchTrainingsParams {
   filters: string[]
+  advancedFilters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
   trainingCategoryId: string | null
   statusId: string | null
   rangeFrom: number
