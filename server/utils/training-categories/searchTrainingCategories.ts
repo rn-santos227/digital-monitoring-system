@@ -22,6 +22,11 @@ export async function searchTrainingCategories(
     .order('name', { ascending: true })
     .range(params.rangeFrom, params.rangeTo)
 
+  if (params.filters.length > 0) query = query.or(params.filters.join(','))
+  if (params.advancedFilters.length > 0) {
+    query = applyPersonnelSearchFilters(query, params.advancedFilters, params.match)
+  }
+
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to search training categories: ${error.message}` })
   }
