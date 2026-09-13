@@ -4,7 +4,10 @@ import { TRAINING_CATEGORY_SELECT_COLUMNS } from '../../shared/constants'
 import type { PersonnelSearchFilter } from '../../shared/models'
 import { applyPersonnelSearchFilters } from '../../shared/utils'
 
-
+interface SearchTrainingCategoriesParams {
+  filters: string[]
+  advancedFilters: PersonnelSearchFilter[]
+}
 
 export async function searchTrainingCategories(
   supabase: SupabaseClient,
