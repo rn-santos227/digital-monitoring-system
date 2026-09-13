@@ -9,6 +9,8 @@ type SearchableField = keyof typeof TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS
 interface SearchTrainingRecordsParams {
   term: string
   fields: string[]
+  advancedFilters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
   trainingId: string | null
   personnelId: string | null
   trainingCategoryId: string | null
