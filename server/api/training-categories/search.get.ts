@@ -36,6 +36,13 @@ export default defineEventHandler(async (event): Promise<TrainingCategoryListRes
   if (term && filters.length === 0) {
     throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
   }
+  const advancedFilters = buildPersonnelAdvancedSearchFilters(
+    parsePersonnelAdvancedSearchConditions(serializedConditions),
+    TRAINING_CATEGORY_SEARCHABLE_FIELD_COLUMNS,
+  )
+  if (serializedConditions && advancedFilters.length === 0) {
+    throw createError({ statusCode: 400, statusMessage: 'No valid advanced search conditions were provided.' })
+  }
 
   const supabase = getServiceSupabaseClient()
   const { rows, totalItems } = await searchTrainingCategories(supabase, filters, rangeFrom, rangeTo)
