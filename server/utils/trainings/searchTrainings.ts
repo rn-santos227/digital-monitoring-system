@@ -1,7 +1,8 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { TRAINING_SELECT_COLUMNS } from '../../shared/constants'
-import type { TrainingRow } from '../../shared/models'
+import type { PersonnelSearchFilter, TrainingRow } from '../../shared/models'
+import { applyPersonnelSearchFilters } from '../../shared/utils'
 
 interface SearchTrainingsParams {
   filters: string[]
