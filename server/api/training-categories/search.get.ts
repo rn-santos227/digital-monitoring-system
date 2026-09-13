@@ -45,7 +45,13 @@ export default defineEventHandler(async (event): Promise<TrainingCategoryListRes
   }
 
   const supabase = getServiceSupabaseClient()
-  const { rows, totalItems } = await searchTrainingCategories(supabase, filters, rangeFrom, rangeTo)
+  const { rows, totalItems } = await searchTrainingCategories(supabase, {
+    filters,
+    advancedFilters,
+    match: query.match === 'any' ? 'any' : 'all',
+    rangeFrom,
+    rangeTo,
+  })
 
   const items = rows.map(mapTrainingCategoryListItem)
   const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
