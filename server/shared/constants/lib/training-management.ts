@@ -8,7 +8,8 @@ export const TRAINING_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   startDate: 'start_date',
   endDate: 'end_date',
   defaultRemarks: 'default_remarks',
-
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
 })
 
 export const TRAINING_PERMISSION_GROUPS = {
