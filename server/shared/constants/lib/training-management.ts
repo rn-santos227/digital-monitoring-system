@@ -22,6 +22,11 @@ export const TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   remarks: 'remarks',
 })
 
+export const TRAINING_CATEGORY_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
+  code: 'code',
+  name: 'name',
+})
+
 export const TRAINING_PERMISSION_GROUPS = {
   trainingManagement: [
     'training.view',
