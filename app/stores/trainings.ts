@@ -169,6 +169,8 @@ const trainingsStoreOptions = {
         pageSize,
         term: filters.term?.trim() || undefined,
         fields: filters.fields?.trim() || undefined,
+        conditions: filters.conditions?.trim() || undefined,
+        match: filters.match,
         trainingCategoryId: filters.trainingCategoryId?.trim() || undefined,
         statusId: filters.statusId?.trim() || undefined,
       }
