@@ -25,10 +25,19 @@ export default defineEventHandler(async (event): Promise<TrainingRecordListRespo
 
   const { page, pageSize, rangeFrom, rangeTo } = parseManagementPaginationQuery({ page: query.page, pageSize: query.pageSize })
   const fields = typeof query.fields === 'string' ? query.fields.split(',').map(field => field.trim()) : []
+  const advancedFilters = buildPersonnelAdvancedSearchFilters(
+    parsePersonnelAdvancedSearchConditions(serializedConditions),
+    TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS,
+  )
+  if (serializedConditions && advancedFilters.length === 0) {
+    throw createError({ statusCode: 400, statusMessage: 'No valid advanced search conditions were provided.' })
+  }
 
   const { rows, totalItems } = await searchTrainingRecords(getServiceSupabaseClient(), {
     term,
     fields,
+    advancedFilters,
+    match: query.match === 'any' ? 'any' : 'all',
     trainingId,
     personnelId,
     trainingCategoryId,
