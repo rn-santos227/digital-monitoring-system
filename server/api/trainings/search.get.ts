@@ -44,7 +44,15 @@ export default defineEventHandler(async (event): Promise<TrainingListResponse> =
     throw createError({ statusCode: 400, statusMessage: 'No valid advanced search conditions were provided.' })
   }
   
-  const { data, count } = await searchTrainings(getServiceSupabaseClient(), { filters, trainingCategoryId, statusId, rangeFrom, rangeTo })
+  const { data, count } = await searchTrainings(getServiceSupabaseClient(), {
+    filters,
+    advancedFilters,
+    match: query.match === 'any' ? 'any' : 'all',
+    trainingCategoryId,
+    statusId,
+    rangeFrom,
+    rangeTo,
+  })
   const items = data.map(mapTrainingListItem)
   
   const totalItems = count
