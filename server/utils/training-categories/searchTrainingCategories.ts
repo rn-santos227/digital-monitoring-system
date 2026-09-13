@@ -7,6 +7,9 @@ import { applyPersonnelSearchFilters } from '../../shared/utils'
 interface SearchTrainingCategoriesParams {
   filters: string[]
   advancedFilters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
+  rangeFrom: number
+  rangeTo: number
 }
 
 export async function searchTrainingCategories(
