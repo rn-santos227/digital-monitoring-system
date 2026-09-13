@@ -15,6 +15,9 @@ export const TRAINING_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
 export const TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   recordNo: 'record_no',
   trainingTitle: 'training_title',
+  certificateNo: 'certificate_no',
+  startDate: 'start_date',
+
 })
 
 export const TRAINING_PERMISSION_GROUPS = {
