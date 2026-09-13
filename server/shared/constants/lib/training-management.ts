@@ -6,6 +6,8 @@ export const TRAINING_MODULES = {
 export const TRAINING_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   trainingTitle: 'training_title',
   startDate: 'start_date',
+  endDate: 'end_date',
+  defaultRemarks: 'default_remarks',
 
 })
 
