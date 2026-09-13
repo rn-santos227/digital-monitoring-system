@@ -4,14 +4,7 @@ import type { PersonnelSearchFilter, TrainingRecordRow } from '../../shared/mode
 import { TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS, TRAINING_RECORD_SELECT_COLUMNS } from '../../shared/constants'
 import { applyPersonnelSearchFilters } from '../../shared/utils'
 
-const SEARCHABLE_FIELDS = {
-  recordNo: 'record_no',
-  trainingTitle: 'training_title',
-  certificateNo: 'certificate_no',
-  remarks: 'remarks',
-} as const
-
-type SearchableField = keyof typeof SEARCHABLE_FIELDS
+type SearchableField = keyof typeof TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS
 
 interface SearchTrainingRecordsParams {
   term: string
