@@ -230,7 +230,7 @@ const trainingsStoreOptions = {
         match: filters.match,
       }
 
-      const hasSearchFilters = Boolean(requestQuery.term)
+      const hasSearchFilters = Boolean(requestQuery.term || requestQuery.conditions)
 
       try {
         const response = hasSearchFilters
