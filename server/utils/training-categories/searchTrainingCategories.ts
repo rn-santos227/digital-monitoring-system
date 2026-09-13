@@ -14,16 +14,13 @@ interface SearchTrainingCategoriesParams {
 
 export async function searchTrainingCategories(
   supabase: SupabaseClient,
-  filters: string[],
-  rangeFrom: number,
-  rangeTo: number,
+  params: SearchTrainingCategoriesParams,
 ) {
-  const { data, count, error } = await supabase
+  let query = supabase
     .from('training_categories')
     .select(TRAINING_CATEGORY_SELECT_COLUMNS, { count: 'exact' })
-    .or(filters.join(','))
     .order('name', { ascending: true })
-    .range(rangeFrom, rangeTo)
+    .range(params.rangeFrom, params.rangeTo)
 
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to search training categories: ${error.message}` })
