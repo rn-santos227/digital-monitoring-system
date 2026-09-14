@@ -5,7 +5,10 @@
       <p class="mt-1 text-sm text-slate-600">
         {{ conditionSummary }}
       </p>
-    </div> 
+    </div>
+    <div class="flex gap-2">
+      
+    </div>
   </section>
 </template>
 
