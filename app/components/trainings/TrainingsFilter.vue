@@ -1,19 +1,21 @@
 <template>
+  <section class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
 
+  </section>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import type { AdvancedSearchValue } from '~/constants/ui.constants'
-import type { TrainingRecordSearchCondition, TrainingRecordSearchQuery } from '~/types/domain/training'
+import type { TrainingSearchCondition, TrainingSearchQuery } from '~/types/domain/training'
 import {
-  TRAINING_RECORDS_FILTER_CARD_TITLE,
-  TRAINING_RECORDS_FILTER_FIELD_OPTIONS,
-  TRAINING_RECORDS_FILTER_RESET_LABEL,
+  TRAININGS_FILTER_CARD_TITLE,
+  TRAININGS_FILTER_FIELD_OPTIONS,
+  TRAININGS_FILTER_RESET_LABEL,
 } from '~/constants/page.constants'
 
 const props = withDefaults(defineProps<{
-  modelValue: Partial<TrainingRecordSearchQuery>
+  modelValue: Partial<TrainingSearchQuery>
   validationErrors?: Readonly<Record<string, string>>
 }>(), {
   modelValue: () => ({}),
@@ -21,12 +23,12 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  (event: 'apply', value: Partial<TrainingRecordSearchQuery>): void
+  (event: 'apply', value: Partial<TrainingSearchQuery>): void
   (event: 'reset'): void
 }>()
 const isModalOpen = ref(false)
-const fieldOptions = TRAINING_RECORDS_FILTER_FIELD_OPTIONS
-const conditions = computed<TrainingRecordSearchCondition[]>(() => {
+const fieldOptions = TRAININGS_FILTER_FIELD_OPTIONS
+const conditions = computed<TrainingSearchCondition[]>(() => {
   if (!props.modelValue.conditions) {
     return props.modelValue.term
       ? [{
@@ -39,7 +41,7 @@ const conditions = computed<TrainingRecordSearchCondition[]>(() => {
   }
   try {
     const parsed: unknown = JSON.parse(props.modelValue.conditions)
-    return Array.isArray(parsed) ? parsed as TrainingRecordSearchCondition[] : []
+    return Array.isArray(parsed) ? parsed as TrainingSearchCondition[] : []
   } catch {
     return []
   }
