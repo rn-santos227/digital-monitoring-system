@@ -39,6 +39,8 @@ const conditions = computed<TrainingCategorySearchCondition[]>(() => {
       : []
   }
   try {
+    const parsed: unknown = JSON.parse(props.modelValue.conditions)
+    return Array.isArray(parsed) ? parsed as TrainingCategorySearchCondition[] : []
   } catch {
     return []
   }
