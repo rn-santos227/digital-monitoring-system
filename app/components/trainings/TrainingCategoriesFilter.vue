@@ -24,4 +24,7 @@ const emit = defineEmits<{
   (event: 'apply', value: Partial<TrainingCategorySearchQuery>): void
   (event: 'reset'): void
 }>()
+
+const isModalOpen = ref(false)
+const fieldOptions = TRAINING_CATEGORIES_FILTER_FIELD_OPTIONS
 </script>
