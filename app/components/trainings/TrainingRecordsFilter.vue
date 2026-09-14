@@ -27,4 +27,9 @@ const emit = defineEmits<{
 
 const isModalOpen = ref(false)
 const fieldOptions = TRAINING_RECORDS_FILTER_FIELD_OPTIONS
+const conditions = computed<TrainingRecordSearchCondition[]>(() => {
+  if (!props.modelValue.conditions) {
+
+  }
+})
 </script>
