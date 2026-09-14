@@ -28,6 +28,8 @@ const emit = defineEmits<{
 const isModalOpen = ref(false)
 const fieldOptions = TRAINING_CATEGORIES_FILTER_FIELD_OPTIONS
 const conditions = computed<TrainingCategorySearchCondition[]>(() => {
+  if (!props.modelValue.conditions) {
 
+  }
 })
 </script>
