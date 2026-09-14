@@ -38,5 +38,10 @@ const conditions = computed<TrainingRecordSearchCondition[]>(() => {
         }]
       : []
   }
+  try {
+
+  } catch {
+    return []
+  }
 })
 </script>
