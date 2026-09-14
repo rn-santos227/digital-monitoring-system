@@ -59,5 +59,8 @@ const emitApply = (value: AdvancedSearchValue) => {
   })
   isModalOpen.value = false
 }
-
+const emitReset = () => {
+  emit('reset')
+  isModalOpen.value = false
+}
 </script>
