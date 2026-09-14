@@ -13,9 +13,10 @@ import {
 } from '~/constants/page.constants'
 
 const props = withDefaults(defineProps<{
+  modelValue: Partial<TrainingRecordSearchQuery>
+  validationErrors?: Readonly<Record<string, string>>
 }>(), {
   modelValue: () => ({}),
   validationErrors: () => ({}),
 })
-
 </script>
