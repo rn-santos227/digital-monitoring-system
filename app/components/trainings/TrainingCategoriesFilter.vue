@@ -11,4 +11,12 @@ import {
   TRAINING_CATEGORIES_FILTER_FIELD_OPTIONS,
   TRAINING_CATEGORIES_FILTER_RESET_LABEL,
 } from '~/constants/page.constants'
+
+const props = withDefaults(defineProps<{
+  modelValue: Partial<TrainingCategorySearchQuery>
+  validationErrors?: Readonly<Record<string, string>>
+}>(), {
+  modelValue: () => ({}),
+  validationErrors: () => ({}),
+})
 </script>
