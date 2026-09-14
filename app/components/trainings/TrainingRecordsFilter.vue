@@ -54,4 +54,7 @@ const advancedSearchValue = computed<AdvancedSearchValue>(() => ({
   conditions: conditions.value,
 }))
 
+const emitApply = (value: AdvancedSearchValue) => {
+
+}
 </script>
