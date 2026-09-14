@@ -38,5 +38,9 @@ const conditions = computed<TrainingCategorySearchCondition[]>(() => {
         }]
       : []
   }
+  try {
+  } catch {
+    return []
+  }
 })
 </script>
