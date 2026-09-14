@@ -24,4 +24,7 @@ const emit = defineEmits<{
   (event: 'apply', value: Partial<TrainingRecordSearchQuery>): void
   (event: 'reset'): void
 }>()
+
+const isModalOpen = ref(false)
+const fieldOptions = TRAINING_RECORDS_FILTER_FIELD_OPTIONS
 </script>
