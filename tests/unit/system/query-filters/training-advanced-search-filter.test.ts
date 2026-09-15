@@ -52,4 +52,8 @@ describe('training management advanced search filters', () => {
     ])
     expect(filters.every(filter => filter.groupMatch === 'all')).toBe(true)
   })
+
+  it('builds training record certificate and validity conditions', () => {
+
+  })
 })
