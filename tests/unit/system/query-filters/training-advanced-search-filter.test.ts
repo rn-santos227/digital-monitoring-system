@@ -102,6 +102,9 @@ describe('training management advanced search filters', () => {
   })
 
   it.each([
+    ['training', TRAINING_SEARCHABLE_FIELD_COLUMNS],
+    ['training record', TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS],
+    ['training category', TRAINING_CATEGORY_SEARCHABLE_FIELD_COLUMNS],
   ] as const)('ignores unsupported %s fields', (_domain, searchableFields) => {
 
   })
