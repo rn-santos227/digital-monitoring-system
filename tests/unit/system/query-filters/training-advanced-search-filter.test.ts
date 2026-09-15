@@ -74,7 +74,8 @@ describe('training management advanced search filters', () => {
       ['certificate_no', 'eq', 'CERT-002'],
     ])
     expect(filters.slice(2).map(filter => [filter.column, filter.operator, filter.value])).toEqual([
-
+      ['valid_until', 'gte', '2027-01-01'],
+      ['valid_until', 'lte', '2027-12-31'],
     ])
   })
 })
