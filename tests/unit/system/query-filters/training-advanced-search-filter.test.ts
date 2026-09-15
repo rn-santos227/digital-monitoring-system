@@ -21,9 +21,14 @@ describe('training management advanced search filters', () => {
         value: 'readiness',
       },
     ], TRAINING_SEARCHABLE_FIELD_COLUMNS)
+
+    expect(filters).toEqual([
+      {
+        column: 'training_title',
+        operator: 'ilike',
+        value: 'Field%',
+        conditionGroup: 'condition-0',
+      },
+    ])
   })
-
-  expect(filters).toEqual([
-
-  ])
 })
