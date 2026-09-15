@@ -29,6 +29,12 @@ describe('training management advanced search filters', () => {
         value: 'Field%',
         conditionGroup: 'condition-0',
       },
+      {
+        column: 'default_remarks',
+        operator: 'ilike',
+        value: '%readiness%',
+        conditionGroup: 'condition-1',
+      },
     ])
   })
 })
