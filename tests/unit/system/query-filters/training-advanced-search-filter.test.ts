@@ -54,6 +54,7 @@ describe('training management advanced search filters', () => {
   })
 
   it('builds training record certificate and validity conditions', () => {
-
+    const filters = buildPersonnelAdvancedSearchFilters([
+    ], TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS)
   })
 })
