@@ -50,5 +50,6 @@ describe('training management advanced search filters', () => {
       ['created_at', 'gte', '2026-09-01T00:00:00.000Z'],
       ['created_at', 'lte', '2026-09-03T23:59:59.999Z'],
     ])
+    expect(filters.every(filter => filter.groupMatch === 'all')).toBe(true)
   })
 })
