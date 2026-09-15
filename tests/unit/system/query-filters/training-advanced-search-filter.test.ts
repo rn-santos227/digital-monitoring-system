@@ -80,6 +80,7 @@ describe('training management advanced search filters', () => {
   })
 
   it('builds training category name and updated timestamp conditions', () => {
-
+    const filters = buildPersonnelAdvancedSearchFilters([
+    ], TRAINING_CATEGORY_SEARCHABLE_FIELD_COLUMNS)
   })
 })
