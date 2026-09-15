@@ -9,5 +9,8 @@ import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/pe
 
 describe('training management advanced search filters', () => {
   it('builds training title and remarks conditions', () => {
+    const filters = buildPersonnelAdvancedSearchFilters([
+
+    ], TRAINING_SEARCHABLE_FIELD_COLUMNS)
   })
 })
