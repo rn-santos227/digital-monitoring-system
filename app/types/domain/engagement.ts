@@ -4,6 +4,10 @@ import type {
   EngagementRecordsUpdate,
   UUID,
 } from '../database.tables'
+import type {
+  AdvancedSearchCondition,
+  AdvancedSearchMatch,
+} from '~/constants/ui.constants'
 
 export type EngagementRecordsTabId = 'records' | 'engagements' | 'calendar'
 
