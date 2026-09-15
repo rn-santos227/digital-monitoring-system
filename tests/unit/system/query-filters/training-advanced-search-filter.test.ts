@@ -67,5 +67,10 @@ describe('training management advanced search filters', () => {
         valueTo: '2027-12-31',
       },
     ], TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS)
+
+    expect(filters).toHaveLength(4)
+    expect(filters.slice(0, 2).map(filter => [filter.column, filter.operator, filter.value])).toEqual([
+
+    ])
   })
 })
