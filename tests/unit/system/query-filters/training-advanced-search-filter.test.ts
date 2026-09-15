@@ -60,6 +60,12 @@ describe('training management advanced search filters', () => {
         operator: 'equals',
         value: 'CERT-001, CERT-002',
       },
+      {
+        field: 'validUntil',
+        operator: 'between',
+        value: '2027-01-01',
+        valueTo: '2027-12-31',
+      },
     ], TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS)
   })
 })
