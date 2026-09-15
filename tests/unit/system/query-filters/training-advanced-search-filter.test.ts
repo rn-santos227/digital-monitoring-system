@@ -100,4 +100,9 @@ describe('training management advanced search filters', () => {
       ['updated_at', 'lte', '2026-08-31T23:59:59.999Z'],
     ])
   })
+
+  it.each([
+  ] as const)('ignores unsupported %s fields', (_domain, searchableFields) => {
+
+  })
 })
