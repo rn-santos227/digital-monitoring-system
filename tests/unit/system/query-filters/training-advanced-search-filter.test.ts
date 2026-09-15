@@ -39,6 +39,7 @@ describe('training management advanced search filters', () => {
   })
 
   it('builds an inclusive training audit timestamp range', () => {
-
+    const filters = buildPersonnelAdvancedSearchFilters([{
+    }], TRAINING_SEARCHABLE_FIELD_COLUMNS)
   })
 })
