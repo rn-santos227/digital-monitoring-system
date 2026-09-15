@@ -37,4 +37,8 @@ describe('training management advanced search filters', () => {
       },
     ])
   })
+
+  it('builds an inclusive training audit timestamp range', () => {
+
+  })
 })
