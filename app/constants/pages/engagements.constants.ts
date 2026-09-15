@@ -50,6 +50,16 @@ export const ENGAGEMENTS_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: 'updatedAt', label: 'Updated Date', dataType: 'date' },
 ])
 
+export const ENGAGEMENT_RECORDS_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: 'recordNo', label: 'Record No' },
+  { value: 'engagementTitle', label: 'Engagement Title' },
+  { value: 'startDate', label: 'Start Date', dataType: 'date' },
+  { value: 'endDate', label: 'End Date', dataType: 'date' },
+  { value: 'remarks', label: 'Remarks' },
+  { value: 'createdAt', label: 'Created Date', dataType: 'date' },
+  { value: 'updatedAt', label: 'Updated Date', dataType: 'date' },
+])
+
 export const ENGAGEMENT_RECORDS_UPDATE_MODAL_TITLE = 'Update Engagement Record'
 export const ENGAGEMENT_RECORDS_UPDATE_MODAL_DESCRIPTION = 'Update personnel engagement record details.'
 export const ENGAGEMENT_RECORDS_VIEW_MODAL_TITLE = 'Engagement Record'
