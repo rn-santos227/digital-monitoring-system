@@ -64,14 +64,19 @@ export const ENGAGEMENT_RECORDS_UPDATE_MODAL_TITLE = 'Update Engagement Record'
 export const ENGAGEMENT_RECORDS_UPDATE_MODAL_DESCRIPTION =
   'Update personnel engagement record details.'
 export const ENGAGEMENT_RECORDS_VIEW_MODAL_TITLE = 'Engagement Record'
-export const ENGAGEMENT_RECORDS_VIEW_MODAL_DESCRIPTION = 'Review personnel engagement record details.'
+export const ENGAGEMENT_RECORDS_VIEW_MODAL_DESCRIPTION =
+  'Review personnel engagement record details.'
 export const ENGAGEMENT_RECORDS_VIEW_MODAL_CLOSE_LABEL = 'Close'
 export const ENGAGEMENT_RECORDS_ENGAGEMENT_LABEL = 'Engagement'
-export const ENGAGEMENT_RECORDS_ENGAGEMENT_PLACEHOLDER = 'Search engagement profile'
-export const ENGAGEMENT_RECORDS_ENGAGEMENT_HELPER_TEXT = 'Select an engagement profile to link this personnel record.'
+export const ENGAGEMENT_RECORDS_ENGAGEMENT_PLACEHOLDER =
+  'Search engagement profile'
+export const ENGAGEMENT_RECORDS_ENGAGEMENT_HELPER_TEXT =
+  'Select an engagement profile to link this personnel record.'
 export const ENGAGEMENT_RECORDS_PERSONNEL_LABEL = 'Personnel'
-export const ENGAGEMENT_RECORDS_PERSONNEL_PLACEHOLDER = 'Search personnel code or name'
-export const ENGAGEMENT_RECORDS_PERSONNEL_HELPER_TEXT = 'Select personnel assigned to this engagement record.'
+export const ENGAGEMENT_RECORDS_PERSONNEL_PLACEHOLDER =
+  'Search personnel code or name'
+export const ENGAGEMENT_RECORDS_PERSONNEL_HELPER_TEXT =
+  'Select personnel assigned to this engagement record.'
 export const ENGAGEMENT_RECORDS_ROLE_LABEL = 'Role'
 export const ENGAGEMENT_RECORDS_LOCATION_LABEL = 'Location'
 export const ENGAGEMENT_RECORDS_START_DATE_LABEL = 'Start Date'
