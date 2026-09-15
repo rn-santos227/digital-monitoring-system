@@ -3,7 +3,11 @@ import type { EngagementManagementSearchQuery } from '~/types/domain/engagement'
 import { validateFields } from '~/utils/field-validation'
 import { REGEX_PATTERNS } from '~/utils/regex'
 
-const SEARCHABLE_FIELDS = ['engagementTitle', 'recordNo', 'personnelName'] as const
+const SEARCHABLE_FIELDS = [
+  'engagementTitle',
+  'recordNo',
+  'personnelName',
+] as const
 
 export const useEngagementSearchHandlers = (
   filtersRef: Ref<Partial<EngagementManagementSearchQuery>>,
