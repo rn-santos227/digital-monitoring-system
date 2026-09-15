@@ -70,7 +70,8 @@ describe('training management advanced search filters', () => {
 
     expect(filters).toHaveLength(4)
     expect(filters.slice(0, 2).map(filter => [filter.column, filter.operator, filter.value])).toEqual([
-
+      ['certificate_no', 'eq', 'CERT-001'],
+      ['certificate_no', 'eq', 'CERT-002'],
     ])
   })
 })
