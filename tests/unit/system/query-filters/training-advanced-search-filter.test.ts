@@ -7,4 +7,6 @@ import {
 } from '../../../../server/shared/constants'
 import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/personnel/buildPersonnelAdvancedSearchFilters'
 
+describe('training management advanced search filters', () => {
 
+})
