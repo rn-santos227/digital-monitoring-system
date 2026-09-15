@@ -106,6 +106,10 @@ describe('training management advanced search filters', () => {
     ['training record', TRAINING_RECORD_SEARCHABLE_FIELD_COLUMNS],
     ['training category', TRAINING_CATEGORY_SEARCHABLE_FIELD_COLUMNS],
   ] as const)('ignores unsupported %s fields', (_domain, searchableFields) => {
-
+    expect(buildPersonnelAdvancedSearchFilters([{
+      field: 'unsupportedField',
+      operator: 'equals',
+      value: 'unsupported value',
+    }], searchableFields)).toEqual([])
   })
 })
