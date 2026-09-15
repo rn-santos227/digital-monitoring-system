@@ -61,7 +61,8 @@ export const ENGAGEMENT_RECORDS_FILTER_FIELD_OPTIONS = Object.freeze([
 ])
 
 export const ENGAGEMENT_RECORDS_UPDATE_MODAL_TITLE = 'Update Engagement Record'
-export const ENGAGEMENT_RECORDS_UPDATE_MODAL_DESCRIPTION = 'Update personnel engagement record details.'
+export const ENGAGEMENT_RECORDS_UPDATE_MODAL_DESCRIPTION =
+  'Update personnel engagement record details.'
 export const ENGAGEMENT_RECORDS_VIEW_MODAL_TITLE = 'Engagement Record'
 export const ENGAGEMENT_RECORDS_VIEW_MODAL_DESCRIPTION = 'Review personnel engagement record details.'
 export const ENGAGEMENT_RECORDS_VIEW_MODAL_CLOSE_LABEL = 'Close'
