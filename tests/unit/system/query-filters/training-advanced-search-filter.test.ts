@@ -95,7 +95,9 @@ describe('training management advanced search filters', () => {
     ], TRAINING_CATEGORY_SEARCHABLE_FIELD_COLUMNS)
 
     expect(filters.map(filter => [filter.column, filter.operator, filter.value])).toEqual([
-
+      ['name', 'ilike', '%Course'],
+      ['updated_at', 'gte', '2026-08-01T00:00:00.000Z'],
+      ['updated_at', 'lte', '2026-08-31T23:59:59.999Z'],
     ])
   })
 })
