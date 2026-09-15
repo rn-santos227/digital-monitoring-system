@@ -78,4 +78,8 @@ describe('training management advanced search filters', () => {
       ['valid_until', 'lte', '2027-12-31'],
     ])
   })
+
+  it('builds training category name and updated timestamp conditions', () => {
+
+  })
 })
