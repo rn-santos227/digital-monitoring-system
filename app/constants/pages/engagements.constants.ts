@@ -5,14 +5,17 @@ import {
   ENGAGEMENT_STATUS_VALUES,
 } from '~/types/enums'
 export const ENGAGEMENT_RECORDS_PAGE_TITLE = 'Engagement Records Management'
-export const ENGAGEMENT_RECORDS_PAGE_SUBTITLE = 'Monitor engagement records and operation participation across personnel.'
+export const ENGAGEMENT_RECORDS_PAGE_SUBTITLE =
+  'Monitor engagement records and operation participation across personnel.'
 export const ENGAGEMENT_RECORDS_PAGE_SECTION_CLASSES = 'space-y-6'
-export const ENGAGEMENT_RECORDS_PAGE_TABS_ARIA_LABEL = 'Engagement records management tabs'
-export const ENGAGEMENT_RECORDS_PAGE_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
-  { id: 'records', label: 'Records' },
-  { id: 'engagements', label: 'Engagements' },
-  { id: 'calendar', label: 'Calendar' },
-])
+export const ENGAGEMENT_RECORDS_PAGE_TABS_ARIA_LABEL =
+  'Engagement records management tabs'
+export const ENGAGEMENT_RECORDS_PAGE_TAB_ITEMS: readonly BaseTabItem[] =
+  Object.freeze([
+    { id: 'records', label: 'Records' },
+    { id: 'engagements', label: 'Engagements' },
+    { id: 'calendar', label: 'Calendar' },
+  ])
 export const ENGAGEMENT_RECORDS_PAGE_TAB_REQUIRED_PERMISSIONS = Object.freeze({
   engagements: Object.freeze(['engagement.manage']),
   records: Object.freeze(['engagement.manage']),
