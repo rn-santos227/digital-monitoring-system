@@ -86,6 +86,12 @@ describe('training management advanced search filters', () => {
         operator: 'endsWith',
         value: 'Course',
       },
+      {
+        field: 'updatedAt',
+        operator: 'between',
+        value: '2026-08-01',
+        valueTo: '2026-08-31',
+      },
     ], TRAINING_CATEGORY_SEARCHABLE_FIELD_COLUMNS)
   })
 })
