@@ -15,7 +15,11 @@ describe('training management advanced search filters', () => {
         operator: 'startsWith',
         value: 'Field',
       },
-
+      {
+        field: 'defaultRemarks',
+        operator: 'contains',
+        value: 'readiness',
+      },
     ], TRAINING_SEARCHABLE_FIELD_COLUMNS)
   })
 })
