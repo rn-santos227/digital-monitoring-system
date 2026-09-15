@@ -81,6 +81,11 @@ describe('training management advanced search filters', () => {
 
   it('builds training category name and updated timestamp conditions', () => {
     const filters = buildPersonnelAdvancedSearchFilters([
+      {
+        field: 'name',
+        operator: 'endsWith',
+        value: 'Course',
+      },
     ], TRAINING_CATEGORY_SEARCHABLE_FIELD_COLUMNS)
   })
 })
