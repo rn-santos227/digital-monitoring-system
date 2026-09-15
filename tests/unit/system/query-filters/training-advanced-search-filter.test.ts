@@ -22,4 +22,8 @@ describe('training management advanced search filters', () => {
       },
     ], TRAINING_SEARCHABLE_FIELD_COLUMNS)
   })
+
+  expect(filters).toEqual([
+
+  ])
 })
