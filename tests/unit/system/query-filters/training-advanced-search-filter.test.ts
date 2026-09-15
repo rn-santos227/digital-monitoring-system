@@ -45,5 +45,10 @@ describe('training management advanced search filters', () => {
       value: '2026-09-01',
       valueTo: '2026-09-03',
     }], TRAINING_SEARCHABLE_FIELD_COLUMNS)
+
+    expect(filters.map(filter => [filter.column, filter.operator, filter.value])).toEqual([
+      ['created_at', 'gte', '2026-09-01T00:00:00.000Z'],
+      ['created_at', 'lte', '2026-09-03T23:59:59.999Z'],
+    ])
   })
 })
