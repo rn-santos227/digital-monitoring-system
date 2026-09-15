@@ -8,5 +8,6 @@ import {
 import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/personnel/buildPersonnelAdvancedSearchFilters'
 
 describe('training management advanced search filters', () => {
-
+  it('builds training title and remarks conditions', () => {
+  })
 })
