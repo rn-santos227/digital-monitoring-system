@@ -56,7 +56,11 @@ export interface EngagementManagementSearchQuery {
   pageSize?: number
   term?: string
   fields?: string
+  conditions?: string
+  match?: AdvancedSearchMatch
 }
+
+export type EngagementSearchCondition = AdvancedSearchCondition
 
 export interface EngagementManagementListItem {
   id: UUID
