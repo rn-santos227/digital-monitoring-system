@@ -82,10 +82,16 @@ export const ENGAGEMENT_RECORDS_LOCATION_LABEL = 'Location'
 export const ENGAGEMENT_RECORDS_START_DATE_LABEL = 'Start Date'
 export const ENGAGEMENT_RECORDS_END_DATE_LABEL = 'End Date'
 export const ENGAGEMENT_RECORDS_REMARKS_LABEL = 'Remarks'
-export const ENGAGEMENT_RECORDS_REMARKS_PLACEHOLDER = 'Optional engagement remarks'
-export const ENGAGEMENT_CALENDAR_ERROR_MESSAGE = 'Unable to fetch engagement calendar events.'
+export const ENGAGEMENT_RECORDS_REMARKS_PLACEHOLDER =
+  'Optional engagement remarks'
+export const ENGAGEMENT_CALENDAR_ERROR_MESSAGE =
+  'Unable to fetch engagement calendar events.'
 export const ENGAGEMENTS_BULK_UPDATE_MODAL_TITLE = 'Bulk Update Engagements'
-export const ENGAGEMENTS_BULK_UPDATE_MODAL_DESCRIPTION = 'Choose non-unique fields to apply to every selected engagement.'
-export const ENGAGEMENT_RECORDS_BULK_UPDATE_MODAL_TITLE = 'Bulk Update Engagement Records'
-export const ENGAGEMENT_RECORDS_BULK_UPDATE_MODAL_DESCRIPTION = 'Choose non-unique fields to apply to every selected engagement record.'
-export const ENGAGEMENTS_BULK_UPDATE_WARNING = 'Only checked fields will be changed. Unique identifiers, titles, personnel, and engagement assignments remain unchanged.'
+export const ENGAGEMENTS_BULK_UPDATE_MODAL_DESCRIPTION =
+  'Choose non-unique fields to apply to every selected engagement.'
+export const ENGAGEMENT_RECORDS_BULK_UPDATE_MODAL_TITLE =
+  'Bulk Update Engagement Records'
+export const ENGAGEMENT_RECORDS_BULK_UPDATE_MODAL_DESCRIPTION =
+  'Choose non-unique fields to apply to every selected engagement record.'
+export const ENGAGEMENTS_BULK_UPDATE_WARNING =
+  'Only checked fields will be changed. Unique identifiers, titles, personnel, and engagement assignments remain unchanged.'
