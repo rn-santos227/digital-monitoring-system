@@ -229,7 +229,13 @@ export const useEngagementsStore = defineStore('engagements', {
         const response = await createEngagementRecordEndpoint(payload)
         this.records.items = [response.item, ...this.records.items]
         this.records.pagination.totalItems += 1
-        this.records.pagination.totalPages = Math.max(1, Math.ceil(this.records.pagination.totalItems / this.records.pagination.pageSize))
+        this.records.pagination.totalPages = Math.max(
+          1,
+          Math.ceil(
+            this.records.pagination.totalItems /
+              this.records.pagination.pageSize,
+          ),
+        )
         if (this.hasLoadedKpis) {
           this.kpis = {
             ...this.kpis,
