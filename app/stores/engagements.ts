@@ -161,9 +161,10 @@ export const useEngagementsStore = defineStore('engagements', {
       }
 
       try {
-        const response = query.term
-          ? await searchEngagementsEndpoint(query)
-          : await getEngagementsEndpoint(query)
+        const response =
+          query.term || query.conditions
+            ? await searchEngagementsEndpoint(query)
+            : await getEngagementsEndpoint(query)
 
         this.engagements.items = response.items
         this.engagements.pagination = {
