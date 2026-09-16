@@ -141,7 +141,12 @@ export const useEngagementsStore = defineStore('engagements', {
       }
     },
 
-    async fetchEngagements(this: EngagementsStoreState, page = 1, filters: Partial<EngagementManagementSearchQuery> = {}, pageSize?: number) {
+    async fetchEngagements(
+      this: EngagementsStoreState,
+      page = 1,
+      filters: Partial<EngagementManagementSearchQuery> = {},
+      pageSize?: number,
+    ) {
       this.engagements.isLoading = true
       this.engagements.error = ''
 
