@@ -281,7 +281,8 @@ export const useEngagementsStore = defineStore('engagements', {
       this.engagements.error = ''
 
       try {
-        const deletedEngagement = this.engagements.items.find(item => item.id === id) ?? null
+        const deletedEngagement =
+          this.engagements.items.find((item) => item.id === id) ?? null
         await deleteEngagementEndpoint(id)
         this.engagements.items = this.engagements.items.filter(item => item.id !== id)
         this.engagements.pagination.totalItems = Math.max(0, this.engagements.pagination.totalItems - 1)
