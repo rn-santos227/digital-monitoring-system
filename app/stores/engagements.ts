@@ -198,7 +198,10 @@ export const useEngagementsStore = defineStore('engagements', {
         this.engagements.pagination.totalItems += 1
         this.engagements.pagination.totalPages = Math.max(
           1,
-          Math.ceil(this.engagements.pagination.totalItems / this.engagements.pagination.pageSize),
+          Math.ceil(
+            this.engagements.pagination.totalItems /
+              this.engagements.pagination.pageSize,
+          ),
         )
 
         if (this.hasLoadedKpis) {
