@@ -261,7 +261,9 @@ export const useEngagementsStore = defineStore('engagements', {
 
       try {
         const response = await updateEngagementEndpoint(id, payload)
-        this.engagements.items = this.engagements.items.map(item => (item.id === id ? response.item : item))
+        this.engagements.items = this.engagements.items.map((item) =>
+          item.id === id ? response.item : item,
+        )
         this.selectedEngagement = response.item
       } catch (error) {
         this.engagements.error = extractApiErrorMessage(error, 'Unable to update engagement.')
