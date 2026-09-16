@@ -384,7 +384,10 @@ export const useEngagementsStore = defineStore('engagements', {
         if (this.hasLoadedKpis && deletedItemCount > 0) {
           this.kpis = {
             ...this.kpis,
-            totalEngagementRecords: Math.max(0, this.kpis.totalEngagementRecords - deletedItemCount),
+            totalEngagementRecords: Math.max(
+              0,
+              this.kpis.totalEngagementRecords - deletedItemCount,
+            ),
           }
         }
       } catch (error) {
