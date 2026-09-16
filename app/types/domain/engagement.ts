@@ -61,7 +61,6 @@ export interface EngagementManagementSearchQuery {
 }
 
 export type EngagementSearchCondition = AdvancedSearchCondition
-
 export interface EngagementManagementListItem {
   id: UUID
   recordNo: string | null

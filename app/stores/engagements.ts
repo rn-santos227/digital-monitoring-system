@@ -27,7 +27,10 @@ import {
   updateEngagementEndpoint,
   updateEngagementRecordEndpoint,
 } from '~/utils/engagement-endpoints'
-import type { CalendarEventsQuery, DomainCalendarState } from '~/types/domain/calendar'
+import type {
+  CalendarEventsQuery,
+  DomainCalendarState,
+} from '~/types/domain/calendar'
 import { ENGAGEMENT_CALENDAR_ERROR_MESSAGE } from '~/constants/page.constants'
 
 const DEFAULT_PAGINATION: EngagementTablePagination = {
