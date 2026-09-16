@@ -45,8 +45,11 @@ export const useEngagementSearchHandlers = (
     ])
 
     const normalizedField = validation.values.fields
-    const isFieldValid = !normalizedField
-      || SEARCHABLE_FIELDS.includes(normalizedField as (typeof SEARCHABLE_FIELDS)[number])
+    const isFieldValid =
+      !normalizedField ||
+      SEARCHABLE_FIELDS.includes(
+        normalizedField as (typeof SEARCHABLE_FIELDS)[number],
+      )
     const errors = {
       ...validation.errors,
       ...(!isFieldValid ? { fields: 'Selected engagement field is invalid.' } : {}),
