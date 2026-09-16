@@ -406,7 +406,12 @@ export const useEngagementsStore = defineStore('engagements', {
       return await getEngagementRecordByIdEndpoint(id)
     },
 
-    async fetchEngagementRecords(this: EngagementsStoreState, page = 1, filters: Partial<EngagementManagementSearchQuery> = {}, pageSize?: number) {
+    async fetchEngagementRecords(
+      this: EngagementsStoreState,
+      page = 1,
+      filters: Partial<EngagementManagementSearchQuery> = {},
+      pageSize?: number,
+    ) {
       this.records.isLoading = true
       this.records.error = ''
 
