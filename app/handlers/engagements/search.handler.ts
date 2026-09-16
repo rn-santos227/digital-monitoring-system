@@ -52,7 +52,9 @@ export const useEngagementSearchHandlers = (
       )
     const errors = {
       ...validation.errors,
-      ...(!isFieldValid ? { fields: 'Selected engagement field is invalid.' } : {}),
+      ...(!isFieldValid
+        ? { fields: 'Selected engagement field is invalid.' }
+        : {}),
     }
 
     const filters: Partial<EngagementManagementSearchQuery> = {
