@@ -317,7 +317,10 @@ export const useEngagementsStore = defineStore('engagements', {
       }
     },
 
-    async getEngagementById(this: EngagementsStoreState, id: string): Promise<EngagementManagementListItem> {
+    async getEngagementById(
+      this: EngagementsStoreState,
+      id: string,
+    ): Promise<EngagementManagementListItem> {
       const item = await getEngagementByIdEndpoint(id)
       this.selectedEngagement = item
       return item
