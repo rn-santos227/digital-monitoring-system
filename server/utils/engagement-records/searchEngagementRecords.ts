@@ -51,7 +51,10 @@ export async function searchEngagementRecords(
     : []
 
   if (params.term && filters.length === 0) {
-    throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'No valid searchable fields were provided.',
+    })
   }
 
   let engagementRecordQuery = supabase
