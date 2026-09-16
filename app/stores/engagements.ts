@@ -399,7 +399,10 @@ export const useEngagementsStore = defineStore('engagements', {
       }
     },
 
-    async getEngagementRecordById(this: EngagementsStoreState, id: string): Promise<EngagementManagementListItem> {
+    async getEngagementRecordById(
+      this: EngagementsStoreState,
+      id: string,
+    ): Promise<EngagementManagementListItem> {
       return await getEngagementRecordByIdEndpoint(id)
     },
 
