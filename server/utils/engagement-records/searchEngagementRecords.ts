@@ -14,6 +14,8 @@ type SearchableField = keyof typeof ENGAGEMENT_RECORD_SEARCHABLE_FIELD_COLUMNS
 interface SearchEngagementRecordsParams {
   term: string
   fields: string[]
+  advancedFilters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
   engagementId: string | null
   personnelId: string | null
   engagementTypeId: string | null
