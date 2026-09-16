@@ -133,7 +133,10 @@ export const useEngagementsStore = defineStore('engagements', {
       } catch (error) {
         this.kpis = { ...DEFAULT_ENGAGEMENT_MANAGEMENT_KPIS }
         this.hasLoadedKpis = false
-        this.engagements.error = extractApiErrorMessage(error, 'Unable to fetch engagement KPI counts.')
+        this.engagements.error = extractApiErrorMessage(
+          error,
+          'Unable to fetch engagement KPI counts.',
+        )
         throw error
       }
     },
