@@ -96,7 +96,10 @@ export const useEngagementsStore = defineStore('engagements', {
   },
 
   actions: {
-    async fetchEngagementCalendarEvents(this: EngagementsStoreState, query: CalendarEventsQuery) {
+    async fetchEngagementCalendarEvents(
+      this: EngagementsStoreState,
+      query: CalendarEventsQuery,
+    ) {
       this.calendar.isLoading = true
       this.calendar.error = ''
       this.calendar.lastQuery = { ...query }
