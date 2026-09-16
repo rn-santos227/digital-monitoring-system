@@ -421,6 +421,8 @@ export const useEngagementsStore = defineStore('engagements', {
         pageSize: resolvedPageSize,
         term: filters.term?.trim() || undefined,
         fields: filters.fields?.trim() || undefined,
+        conditions: filters.conditions?.trim() || undefined,
+        match: filters.match,
       }
 
       try {
