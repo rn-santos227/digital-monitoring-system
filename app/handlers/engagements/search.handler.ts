@@ -33,7 +33,8 @@ export const useEngagementSearchHandlers = (
         value: value.term ?? '',
         maxLength: 120,
         pattern: REGEX_PATTERNS.alphaNumericSpace,
-        patternMessage: 'Search term allows letters, numbers, spaces, periods, underscores, and hyphens only.',
+        patternMessage:
+          'Search term allows letters, numbers, spaces, periods, underscores, and hyphens only.'
       },
       {
         field: 'fields',
