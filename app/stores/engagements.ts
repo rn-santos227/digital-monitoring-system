@@ -309,7 +309,10 @@ export const useEngagementsStore = defineStore('engagements', {
           }
         }
       } catch (error) {
-        this.engagements.error = extractApiErrorMessage(error, 'Unable to delete engagement.')
+        this.engagements.error = extractApiErrorMessage(
+          error,
+          'Unable to delete engagement.',
+        )
         throw error
       }
     },
