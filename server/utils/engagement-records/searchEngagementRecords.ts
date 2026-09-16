@@ -64,16 +64,42 @@ export async function searchEngagementRecords(
     .order('engagement_title', { ascending: true })
     .range(params.rangeFrom, params.rangeTo)
 
-  if (filters.length > 0) engagementRecordQuery = engagementRecordQuery.or(filters.join(','))
-  if (params.engagementId) engagementRecordQuery = engagementRecordQuery.eq('engagement_id', params.engagementId)
-  if (params.personnelId) engagementRecordQuery = engagementRecordQuery.eq('personnel_id', params.personnelId)
-  if (params.engagementTypeId) engagementRecordQuery = engagementRecordQuery.eq('engagement_type_id', params.engagementTypeId)
-  if (params.statusId) engagementRecordQuery = engagementRecordQuery.eq('status_id', params.statusId)
+  if (filters.length > 0)
+    engagementRecordQuery = engagementRecordQuery.or(filters.join(','))
+  if (params.advancedFilters.length > 0)
+    engagementRecordQuery = applyPersonnelSearchFilters(
+      engagementRecordQuery,
+      params.advancedFilters,
+      params.match,
+    )
+  if (params.engagementId)
+    engagementRecordQuery = engagementRecordQuery.eq(
+      'engagement_id',
+      params.engagementId,
+    )
+  if (params.personnelId)
+    engagementRecordQuery = engagementRecordQuery.eq(
+      'personnel_id',
+      params.personnelId,
+    )
+  if (params.engagementTypeId)
+    engagementRecordQuery = engagementRecordQuery.eq(
+      'engagement_type_id',
+      params.engagementTypeId,
+    )
+  if (params.statusId)
+    engagementRecordQuery = engagementRecordQuery.eq(
+      'status_id',
+      params.statusId,
+    )
 
   const { data, count, error } = await engagementRecordQuery
 
   if (error) {
-    throw createError({ statusCode: 500, statusMessage: `Failed to search engagement records: ${error.message}` })
+    throw createError({
+      statusCode: 500,
+      statusMessage: `Failed to search engagement records: ${error.message}`,
+    })
   }
 
   return {
