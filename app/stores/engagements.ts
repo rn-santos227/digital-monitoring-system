@@ -110,7 +110,10 @@ export const useEngagementsStore = defineStore('engagements', {
         return response
       } catch (error) {
         this.calendar.items = []
-        this.calendar.error = extractApiErrorMessage(error, ENGAGEMENT_CALENDAR_ERROR_MESSAGE)
+        this.calendar.error = extractApiErrorMessage(
+          error,
+          ENGAGEMENT_CALENDAR_ERROR_MESSAGE,
+        )
         throw error
       } finally {
         this.calendar.isLoading = false
