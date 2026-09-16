@@ -1,16 +1,15 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { createError } from 'h3'
-import type { EngagementRecordRow } from '../../shared/models'
-import { ENGAGEMENT_RECORD_LIST_SELECT_COLUMNS } from '../../shared/constants'
-
-const SEARCHABLE_FIELDS = {
-  recordNo: 'record_no',
-  engagementTitle: 'engagement_title',
-  certificateNo: 'certificate_no',
-  remarks: 'remarks',
-} as const
-
-type SearchableField = keyof typeof SEARCHABLE_FIELDS
+import type {
+  EngagementRecordRow,
+  PersonnelSearchFilter,
+} from '../../shared/models'
+import {
+  ENGAGEMENT_RECORD_LIST_SELECT_COLUMNS,
+  ENGAGEMENT_RECORD_SEARCHABLE_FIELD_COLUMNS,
+} from '../../shared/constants'
+import { applyPersonnelSearchFilters } from '../../shared/utils'
+type SearchableField = keyof typeof ENGAGEMENT_RECORD_SEARCHABLE_FIELD_COLUMNS
 
 interface SearchEngagementRecordsParams {
   term: string
