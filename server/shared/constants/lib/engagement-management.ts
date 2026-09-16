@@ -12,6 +12,16 @@ export const ENGAGEMENT_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   updatedAt: 'updated_at',
 })
 
+export const ENGAGEMENT_RECORD_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
+  recordNo: 'record_no',
+  engagementTitle: 'engagement_title',
+  startDate: 'start_date',
+  endDate: 'end_date',
+  remarks: 'remarks',
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+})
+
 export const ENGAGEMENT_PERMISSION_GROUPS = {
   engagementManagement: [
     'engagement.view',
