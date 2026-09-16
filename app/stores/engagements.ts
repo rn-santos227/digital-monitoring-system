@@ -326,7 +326,10 @@ export const useEngagementsStore = defineStore('engagements', {
       return item
     },
 
-    async fetchEngagementPersonnel(this: EngagementsStoreState, id: string): Promise<EngagementPersonnelListItem[]> {
+    async fetchEngagementPersonnel(
+      this: EngagementsStoreState,
+      id: string,
+    ): Promise<EngagementPersonnelListItem[]> {
       const response = await getEngagementPersonnelEndpoint(id)
       this.engagementPersonnel = response.items
       return response.items
