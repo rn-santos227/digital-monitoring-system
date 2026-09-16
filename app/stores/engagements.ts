@@ -220,7 +220,10 @@ export const useEngagementsStore = defineStore('engagements', {
       }
     },
 
-    async createEngagementRecord(this: EngagementsStoreState, payload: CreateEngagementRecordPayload): Promise<{ id: string }> {
+    async createEngagementRecord(
+      this: EngagementsStoreState,
+      payload: CreateEngagementRecordPayload,
+    ): Promise<{ id: string }> {
       this.records.error = ''
       try {
         const response = await createEngagementRecordEndpoint(payload)
