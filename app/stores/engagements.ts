@@ -347,7 +347,10 @@ export const useEngagementsStore = defineStore('engagements', {
           item.id === id ? response.item : item,
         )
       } catch (error) {
-        this.records.error = extractApiErrorMessage(error, 'Unable to update engagement record.')
+        this.records.error = extractApiErrorMessage(
+          error,
+          'Unable to update engagement record.',
+        )
         throw error
       }
     },
