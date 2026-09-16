@@ -441,7 +441,10 @@ export const useEngagementsStore = defineStore('engagements', {
       } catch (error) {
         this.records.items = []
         this.records.pagination = { ...DEFAULT_PAGINATION }
-        this.records.error = extractApiErrorMessage(error, 'Unable to fetch engagement records.')
+        this.records.error = extractApiErrorMessage(
+          error,
+          'Unable to fetch engagement records.',
+        )
       } finally {
         this.records.isLoading = false
       }
