@@ -274,7 +274,10 @@ export const useEngagementsStore = defineStore('engagements', {
       }
     },
 
-    async deleteEngagement(this: EngagementsStoreState, id: string): Promise<void> {
+    async deleteEngagement(
+      this: EngagementsStoreState,
+      id: string,
+    ): Promise<void> {
       this.engagements.error = ''
 
       try {
