@@ -185,7 +185,11 @@ export const useEngagementsStore = defineStore('engagements', {
       }
     },
     
-    async createEngagement(this: EngagementsStoreState, payload: CreateEngagementPayload): Promise<{ id: string }> {
+
+    async createEngagement(
+      this: EngagementsStoreState,
+      payload: CreateEngagementPayload,
+    ): Promise<{ id: string }> {
       this.engagements.error = ''
 
       try {
