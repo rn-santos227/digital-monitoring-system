@@ -33,9 +33,15 @@ export async function searchEngagementRecords(
   supabase: SupabaseClient,
   params: SearchEngagementRecordsParams,
 ): Promise<SearchEngagementRecordsResult> {
-  const selectedFields: SearchableField[] = params.fields.length > 0
-    ? params.fields.filter((field): field is SearchableField => field in SEARCHABLE_FIELDS)
-    : Object.keys(SEARCHABLE_FIELDS) as SearchableField[]
+  const selectedFields: SearchableField[] =
+    params.fields.length > 0
+      ? params.fields.filter(
+          (field): field is SearchableField =>
+            field in ENGAGEMENT_RECORD_SEARCHABLE_FIELD_COLUMNS,
+        )
+      : (Object.keys(
+          ENGAGEMENT_RECORD_SEARCHABLE_FIELD_COLUMNS,
+        ) as SearchableField[])
 
   const filters = params.term ? selectedFields.map(field => `${SEARCHABLE_FIELDS[field]}.ilike.%${params.term}%`) : []
 
