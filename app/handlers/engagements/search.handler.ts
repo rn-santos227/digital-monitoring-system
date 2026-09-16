@@ -12,7 +12,20 @@ const SEARCHABLE_FIELDS = [
 export const useEngagementSearchHandlers = (
   filtersRef: Ref<Partial<EngagementManagementSearchQuery>>,
 ) => {
-  const handleEngagementFilterApply = (value: Partial<EngagementManagementSearchQuery>) => {
+  const handleEngagementFilterApply = (
+    value: Partial<EngagementManagementSearchQuery>,
+  ) => {
+    if (value.conditions) {
+      return {
+        filters: {
+          conditions: value.conditions,
+          match: value.match === 'any' ? ('any' as const) : ('all' as const),
+        },
+        errors: {},
+        isValid: true,
+      }
+    }
+
     const validation = validateFields([
       {
         field: 'term',
