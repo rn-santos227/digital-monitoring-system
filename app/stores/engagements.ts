@@ -363,13 +363,23 @@ export const useEngagementsStore = defineStore('engagements', {
       try {
         const previousLength = this.records.items.length
         await deleteEngagementRecordEndpoint(id)
-        this.records.items = this.records.items.filter(item => item.id !== id)
+        this.records.items = this.records.items.filter((item) => item.id !== id)
         const deletedItemCount = previousLength - this.records.items.length
         if (deletedItemCount > 0) {
-          this.records.pagination.totalItems = Math.max(0, this.records.pagination.totalItems - deletedItemCount)
-          this.records.pagination.totalPages = this.records.pagination.totalItems === 0
-            ? 0
-            : Math.max(1, Math.ceil(this.records.pagination.totalItems / this.records.pagination.pageSize))
+          this.records.pagination.totalItems = Math.max(
+            0,
+            this.records.pagination.totalItems - deletedItemCount,
+          )
+          this.records.pagination.totalPages =
+            this.records.pagination.totalItems === 0
+              ? 0
+              : Math.max(
+                  1,
+                  Math.ceil(
+                    this.records.pagination.totalItems /
+                      this.records.pagination.pageSize,
+                  ),
+                )
         }
         if (this.hasLoadedKpis && deletedItemCount > 0) {
           this.kpis = {
