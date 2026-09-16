@@ -43,7 +43,12 @@ export async function searchEngagementRecords(
           ENGAGEMENT_RECORD_SEARCHABLE_FIELD_COLUMNS,
         ) as SearchableField[])
 
-  const filters = params.term ? selectedFields.map(field => `${SEARCHABLE_FIELDS[field]}.ilike.%${params.term}%`) : []
+  const filters = params.term
+    ? selectedFields.map(
+        (field) =>
+          `${ENGAGEMENT_RECORD_SEARCHABLE_FIELD_COLUMNS[field]}.ilike.%${params.term}%`,
+      )
+    : []
 
   if (params.term && filters.length === 0) {
     throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
