@@ -244,7 +244,10 @@ export const useEngagementsStore = defineStore('engagements', {
         }
         return { id: response.id }
       } catch (error) {
-        this.records.error = extractApiErrorMessage(error, 'Unable to create engagement record.')
+        this.records.error = extractApiErrorMessage(
+          error,
+          'Unable to create engagement record.',
+        )
         throw error
       }
     },
