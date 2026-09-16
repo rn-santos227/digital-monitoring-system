@@ -89,10 +89,10 @@ export const useEngagementsStore = defineStore('engagements', {
   }),
 
   getters: {
-    hasEngagements: state => state.engagements.items.length > 0,
-    hasRecords: state => state.records.items.length > 0,
-    engagementManagementKpis: state => state.kpis,
-    engagementCalendarEvents: state => state.calendar.items,
+    hasEngagements: (state) => state.engagements.items.length > 0,
+    hasRecords: (state) => state.records.items.length > 0,
+    engagementManagementKpis: (state) => state.kpis,
+    engagementCalendarEvents: (state) => state.calendar.items,
   },
 
   actions: {
