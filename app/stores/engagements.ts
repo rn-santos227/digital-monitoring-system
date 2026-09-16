@@ -355,7 +355,10 @@ export const useEngagementsStore = defineStore('engagements', {
       }
     },
 
-    async deleteEngagementRecord(this: EngagementsStoreState, id: string): Promise<void> {
+    async deleteEngagementRecord(
+      this: EngagementsStoreState,
+      id: string,
+    ): Promise<void> {
       this.records.error = ''
       try {
         const previousLength = this.records.items.length
