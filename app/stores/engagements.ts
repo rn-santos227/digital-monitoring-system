@@ -185,7 +185,6 @@ export const useEngagementsStore = defineStore('engagements', {
       }
     },
     
-
     async createEngagement(
       this: EngagementsStoreState,
       payload: CreateEngagementPayload,
@@ -213,7 +212,10 @@ export const useEngagementsStore = defineStore('engagements', {
 
         return { id: response.id }
       } catch (error) {
-        this.engagements.error = extractApiErrorMessage(error, 'Unable to create engagement.')
+        this.engagements.error = extractApiErrorMessage(
+          error,
+          'Unable to create engagement.',
+        )
         throw error
       }
     },
