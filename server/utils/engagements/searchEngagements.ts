@@ -6,6 +6,8 @@ import { applyPersonnelSearchFilters } from '../../shared/utils'
 
 interface SearchEngagementsParams {
   filters: string[]
+  advancedFilters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
   engagementCategoryId: string | null
   statusId: string | null
   rangeFrom: number
