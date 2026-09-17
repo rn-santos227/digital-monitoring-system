@@ -8,4 +8,8 @@ import type {
 import { parsePersonnelAdvancedSearchConditions } from '../../shared/validations'
 import { buildPersonnelAdvancedSearchFilters } from '../personnel/buildPersonnelAdvancedSearchFilters'
 
+export const parseEngagementRecordSearchQuery = (
+  query: EngagementRecordSearchQuery,
+): ParsedEngagementRecordSearchQuery => {
 
+}
