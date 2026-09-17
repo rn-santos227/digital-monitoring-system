@@ -37,4 +37,8 @@ export const parseEngagementSearchQuery = (
   const filters = term
     ? selectedFields.map(field => `${ENGAGEMENT_SEARCHABLE_FIELD_COLUMNS[field]}.ilike.%${term}%`)
     : []
+
+  if (term && filters.length === 0) {
+    throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
+  }
 }
