@@ -11,6 +11,13 @@ import { buildPersonnelAdvancedSearchFilters } from '../personnel/buildPersonnel
 export const parseEngagementSearchQuery = (
   query: EngagementSearchQuery,
 ): ParsedEngagementSearchQuery => {
-
+  const term = typeof query.term === 'string' ? query.term.trim() : ''
+  const serializedConditions = typeof query.conditions === 'string' ? query.conditions : ''
+  const engagementCategoryId = typeof query.engagementCategoryId === 'string' && query.engagementCategoryId.length > 0
+    ? query.engagementCategoryId
+    : null
+  const statusId = typeof query.statusId === 'string' && query.statusId.length > 0
+    ? query.statusId
+    : null
 
 }
