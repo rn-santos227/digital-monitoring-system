@@ -12,7 +12,19 @@ import type {
   EngagementListItem,
   EngagementRow,
   EngagementSuggestionItem,
+  PersonnelSearchFilter,
 } from '../models'
+
+export interface EngagementSearchQuery {
+  page?: unknown
+  pageSize?: unknown
+  term?: unknown
+  fields?: unknown
+  conditions?: unknown
+  match?: unknown
+  engagementCategoryId?: unknown
+  statusId?: unknown
+}
 
 type LookupTable = 'levels' | 'engagement_statuses' | 'engagement_types'
 type LookupColumn = 'id' | 'name'
