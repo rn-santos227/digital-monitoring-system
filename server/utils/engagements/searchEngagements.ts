@@ -37,7 +37,11 @@ export async function searchEngagements(
   if (params.statusId) query = query.eq('status_id', params.statusId)
 
   const { data, count, error } = await query
-  if (error) throw createError({ statusCode: 500, statusMessage: `Failed to search engagements: ${error.message}` })
+  if (error)
+    throw createError({
+      statusCode: 500,
+      statusMessage: `Failed to search engagements: ${error.message}`,
+    })
 
   return { data: (data ?? []) as EngagementRow[], count: count ?? 0 }
 }
