@@ -21,4 +21,9 @@ const props = withDefaults(
     modelValue: () => ({}),
   },
 )
+
+const emit = defineEmits<{
+  (event: 'apply', value: Partial<EngagementManagementSearchQuery>): void
+  (event: 'reset'): void
+}>()
 </script>
