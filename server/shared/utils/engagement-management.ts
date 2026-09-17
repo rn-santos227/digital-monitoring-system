@@ -26,6 +26,18 @@ export interface EngagementSearchQuery {
   statusId?: unknown
 }
 
+export interface ParsedEngagementSearchQuery {
+  page: number
+  pageSize: number
+  filters: string[]
+  advancedFilters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
+  engagementCategoryId: string | null
+  statusId: string | null
+  rangeFrom: number
+  rangeTo: number
+}
+
 type LookupTable = 'levels' | 'engagement_statuses' | 'engagement_types'
 type LookupColumn = 'id' | 'name'
 type EngagementLookupSupabaseClient = Pick<SupabaseClient, 'from'>
