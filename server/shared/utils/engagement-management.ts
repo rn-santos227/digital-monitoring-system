@@ -38,6 +38,19 @@ export interface ParsedEngagementSearchQuery {
   rangeTo: number
 }
 
+export interface EngagementRecordSearchQuery {
+  page?: unknown
+  pageSize?: unknown
+  term?: unknown
+  fields?: unknown
+  conditions?: unknown
+  match?: unknown
+  engagementId?: unknown
+  personnelId?: unknown
+  engagementTypeId?: unknown
+  statusId?: unknown
+}
+
 type LookupTable = 'levels' | 'engagement_statuses' | 'engagement_types'
 type LookupColumn = 'id' | 'name'
 type EngagementLookupSupabaseClient = Pick<SupabaseClient, 'from'>
