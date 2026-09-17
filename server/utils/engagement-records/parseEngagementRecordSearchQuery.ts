@@ -42,4 +42,8 @@ export const parseEngagementRecordSearchQuery = (
     parsePersonnelAdvancedSearchConditions(serializedConditions),
     ENGAGEMENT_RECORD_SEARCHABLE_FIELD_COLUMNS,
   )
+
+  if (serializedConditions && advancedFilters.length === 0) {
+    throw createError({ statusCode: 400, statusMessage: 'No valid advanced search conditions were provided.' })
+  }
 }
