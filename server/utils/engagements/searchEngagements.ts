@@ -14,7 +14,10 @@ interface SearchEngagementsParams {
   rangeTo: number
 }
 
-export async function searchEngagements(supabase: SupabaseClient, params: SearchEngagementsParams) {
+export async function searchEngagements(
+  supabase: SupabaseClient,
+  params: SearchEngagementsParams,
+) {
   let query = supabase
     .from('engagements')
     .select(ENGAGEMENT_SELECT_COLUMNS, { count: 'exact' })
