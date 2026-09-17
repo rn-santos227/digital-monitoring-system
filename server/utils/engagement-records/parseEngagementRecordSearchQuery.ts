@@ -16,4 +16,13 @@ export const parseEngagementRecordSearchQuery = (
   const engagementId = typeof query.engagementId === 'string' && query.engagementId.length > 0
     ? query.engagementId
     : null
+  const personnelId = typeof query.personnelId === 'string' && query.personnelId.length > 0
+    ? query.personnelId
+    : null
+  const engagementTypeId = typeof query.engagementTypeId === 'string' && query.engagementTypeId.length > 0
+    ? query.engagementTypeId
+    : null
+  const statusId = typeof query.statusId === 'string' && query.statusId.length > 0
+    ? query.statusId
+    : null
 }
