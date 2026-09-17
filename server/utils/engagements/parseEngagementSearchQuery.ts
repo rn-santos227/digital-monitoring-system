@@ -28,4 +28,13 @@ export const parseEngagementSearchQuery = (
     page: query.page,
     pageSize: query.pageSize,
   })
+  const rawFields = typeof query.fields === 'string'
+    ? query.fields.split(',').map(field => field.trim())
+    : []
+  const selectedFields = rawFields.length > 0
+    ? rawFields.filter((field): field is keyof typeof ENGAGEMENT_SEARCHABLE_FIELD_COLUMNS => field in ENGAGEMENT_SEARCHABLE_FIELD_COLUMNS)
+    : Object.keys(ENGAGEMENT_SEARCHABLE_FIELD_COLUMNS) as Array<keyof typeof ENGAGEMENT_SEARCHABLE_FIELD_COLUMNS>
+  const filters = term
+    ? selectedFields.map(field => `${ENGAGEMENT_SEARCHABLE_FIELD_COLUMNS[field]}.ilike.%${term}%`)
+    : []
 }
