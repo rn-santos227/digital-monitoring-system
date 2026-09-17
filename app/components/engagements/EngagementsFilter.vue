@@ -26,4 +26,7 @@ const emit = defineEmits<{
   (event: 'apply', value: Partial<EngagementManagementSearchQuery>): void
   (event: 'reset'): void
 }>()
+
+const isModalOpen = ref(false)
+const fieldOptions = ENGAGEMENTS_FILTER_FIELD_OPTIONS
 </script>
