@@ -41,4 +41,9 @@ export const parseEngagementSearchQuery = (
   if (term && filters.length === 0) {
     throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
   }
+
+  const advancedFilters = buildPersonnelAdvancedSearchFilters(
+    parsePersonnelAdvancedSearchConditions(serializedConditions),
+    ENGAGEMENT_SEARCHABLE_FIELD_COLUMNS,
+  )
 }
