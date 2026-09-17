@@ -66,7 +66,6 @@ export interface ParsedEngagementRecordSearchQuery {
   rangeTo: number
 }
 
-type LookupTable = 'levels' | 'engagement_statuses' | 'engagement_types'
 type LookupColumn = 'id' | 'name'
 type EngagementLookupSupabaseClient = Pick<SupabaseClient, 'from'>
 
