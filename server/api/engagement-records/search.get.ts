@@ -11,3 +11,9 @@ import {
 import { requirePermission } from '../../utils/auth/requirePermission'
 const REQUIRED_PERMISSION_CODE = PERMISSION_CODES.engagementManage
 
+import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { searchEngagementRecords } from '../../utils/engagement-records/searchEngagementRecords'
+import { parsePersonnelAdvancedSearchConditions } from '../../shared/validations'
+import { buildPersonnelAdvancedSearchFilters } from '../../utils/personnel/buildPersonnelAdvancedSearchFilters'
+
+
