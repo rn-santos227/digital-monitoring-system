@@ -8,3 +8,9 @@ import type {
 import { parsePersonnelAdvancedSearchConditions } from '../../shared/validations'
 import { buildPersonnelAdvancedSearchFilters } from '../personnel/buildPersonnelAdvancedSearchFilters'
 
+export const parseEngagementSearchQuery = (
+  query: EngagementSearchQuery,
+): ParsedEngagementSearchQuery => {
+
+
+}
