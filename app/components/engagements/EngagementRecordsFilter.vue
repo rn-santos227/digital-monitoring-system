@@ -6,6 +6,25 @@
       </h2>
       <p class="mt-1 text-sm text-slate-600">{{ conditionSummary }}</p>
     </div>
+    <div class="flex gap-2">
+      <BaseButton
+        v-if="activeConditionCount"
+        type="button"
+        variant="ghost"
+        size="sm"
+        @click="emitReset"
+      >
+        {{ ENGAGEMENTS_FILTER_RESET_LABEL }}
+      </BaseButton>
+      <BaseButton
+        type="button"
+        size="sm"
+        icon-name="magnifying-glass"
+        @click="isModalOpen = true"
+      >
+        Advanced search
+      </BaseButton>
+    </div>
   </section>
 </template>
 
