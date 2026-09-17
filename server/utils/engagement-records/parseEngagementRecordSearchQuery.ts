@@ -46,4 +46,19 @@ export const parseEngagementRecordSearchQuery = (
   if (serializedConditions && advancedFilters.length === 0) {
     throw createError({ statusCode: 400, statusMessage: 'No valid advanced search conditions were provided.' })
   }
+
+  return {
+    page,
+    pageSize,
+    term,
+    fields,
+    advancedFilters,
+    match: query.match === 'any' ? 'any' : 'all',
+    engagementId,
+    personnelId,
+    engagementTypeId,
+    statusId,
+    rangeFrom,
+    rangeTo,
+  }
 }
