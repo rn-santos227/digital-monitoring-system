@@ -34,4 +34,12 @@ export const parseEngagementRecordSearchQuery = (
     page: query.page,
     pageSize: query.pageSize,
   })
+
+  const fields = typeof query.fields === 'string'
+    ? query.fields.split(',').map(field => field.trim())
+    : []
+  const advancedFilters = buildPersonnelAdvancedSearchFilters(
+    parsePersonnelAdvancedSearchConditions(serializedConditions),
+    ENGAGEMENT_RECORD_SEARCHABLE_FIELD_COLUMNS,
+  )
 }
