@@ -51,6 +51,21 @@ export interface EngagementRecordSearchQuery {
   statusId?: unknown
 }
 
+export interface ParsedEngagementRecordSearchQuery {
+  page: number
+  pageSize: number
+  term: string
+  fields: string[]
+  advancedFilters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
+  engagementId: string | null
+  personnelId: string | null
+  engagementTypeId: string | null
+  statusId: string | null
+  rangeFrom: number
+  rangeTo: number
+}
+
 type LookupTable = 'levels' | 'engagement_statuses' | 'engagement_types'
 type LookupColumn = 'id' | 'name'
 type EngagementLookupSupabaseClient = Pick<SupabaseClient, 'from'>
