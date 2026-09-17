@@ -20,4 +20,7 @@ export const parseEngagementSearchQuery = (
     ? query.statusId
     : null
 
+  if (!term && !serializedConditions && !engagementCategoryId && !statusId) {
+    throw createError({ statusCode: 400, statusMessage: 'At least one search filter is required.' })
+  }
 }
