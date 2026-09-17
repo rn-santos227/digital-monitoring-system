@@ -14,4 +14,11 @@ import type {
   EngagementManagementSearchQuery,
   EngagementSearchCondition,
 } from '~/types/domain/engagement'
+
+const props = withDefaults(
+  defineProps<{ modelValue: Partial<EngagementManagementSearchQuery> }>(),
+  {
+    modelValue: () => ({}),
+  },
+)
 </script>
