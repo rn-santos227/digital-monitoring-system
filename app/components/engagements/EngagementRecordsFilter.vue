@@ -26,4 +26,16 @@ const emit = defineEmits<{
   (event: 'apply', value: Partial<EngagementManagementSearchQuery>): void
   (event: 'reset'): void
 }>()
+
+const isModalOpen = ref(false)
+const fieldOptions = ENGAGEMENT_RECORDS_FILTER_FIELD_OPTIONS
+const conditions = computed<EngagementSearchCondition[]>(() => {
+  if (!props.modelValue.conditions) return []
+  try {
+    const parsed: unknown = JSON.parse(props.modelValue.conditions)
+    return Array.isArray(parsed) ? (parsed as EngagementSearchCondition[]) : []
+  } catch {
+    return []
+  }
+})
 </script>
