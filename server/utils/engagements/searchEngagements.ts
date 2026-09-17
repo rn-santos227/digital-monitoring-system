@@ -26,7 +26,14 @@ export async function searchEngagements(
     .range(params.rangeFrom, params.rangeTo)
 
   if (params.filters.length > 0) query = query.or(params.filters.join(','))
-  if (params.engagementCategoryId) query = query.eq('engagement_type_id', params.engagementCategoryId)
+  if (params.advancedFilters.length > 0)
+    query = applyPersonnelSearchFilters(
+      query,
+      params.advancedFilters,
+      params.match,
+    )
+  if (params.engagementCategoryId)
+    query = query.eq('engagement_type_id', params.engagementCategoryId)
   if (params.statusId) query = query.eq('status_id', params.statusId)
 
   const { data, count, error } = await query
