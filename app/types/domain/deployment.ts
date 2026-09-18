@@ -84,7 +84,11 @@ export interface DeploymentManagementSearchQuery {
   pageSize?: number
   term?: string
   fields?: string
+  conditions?: string
+  match?: AdvancedSearchMatch
 }
+
+export type DeploymentSearchCondition = AdvancedSearchCondition
 
 export interface DeploymentManagementListItem {
   id: UUID
@@ -148,4 +152,3 @@ export type DeploymentBulkUpdateValues = Partial<{
   remarks: string | null
   default_remarks: string | null
 }>
-
