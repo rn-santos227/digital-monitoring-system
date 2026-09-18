@@ -100,4 +100,9 @@ describe('engagement management advanced search filters', () => {
     expect(parsed.engagementId).toBe('engagement-id')
     expect(parsed.match).toBe('all')
   })
+
+  it('rejects empty engagement searches before querying the database', () => {
+    expect(() => parseEngagementSearchQuery({})).toThrow('At least one search filter is required.')
+    expect(() => parseEngagementRecordSearchQuery({})).toThrow('At least one search filter is required.')
+  })
 }
