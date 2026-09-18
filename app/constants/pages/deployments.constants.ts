@@ -22,10 +22,13 @@ export const DEPLOYMENTS_FILTER_FIELDS_LABEL = 'Search Field'
 export const DEPLOYMENTS_FILTER_APPLY_LABEL = 'Apply Filters'
 export const DEPLOYMENTS_FILTER_RESET_LABEL = 'Reset'
 export const DEPLOYMENTS_FILTER_FIELD_OPTIONS = Object.freeze([
-  { value: '', label: 'All searchable fields' },
   { value: 'operationName', label: 'Operation' },
   { value: 'deploymentArea', label: 'Deployment Area' },
-  { value: 'status', label: 'Status' },
+  { value: 'assignmentRole', label: 'Assignment Role' },
+  { value: 'location', label: 'Location' },
+  { value: 'remarks', label: 'Remarks' },
+  { value: 'startDate', label: 'Start Date', type: 'date' },
+  { value: 'endDate', label: 'End Date', type: 'date' },
 ])
 export const DEPLOYMENT_RECORDS_FILTER_CARD_TITLE = 'Filter Deployment Records'
 export const DEPLOYMENT_RECORDS_FILTER_TERM_LABEL = 'Search Term'
