@@ -34,6 +34,20 @@ export interface ParsedDeploymentSearchQuery {
   rangeTo: number
 }
 
+export interface ParsedDeploymentRecordSearchQuery {
+  page: number
+  pageSize: number
+  term: string
+  fields: string[]
+  advancedFilters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
+  personnelId: string | null
+  statusId: string | null
+  supervisorId: string | null
+  rangeFrom: number
+  rangeTo: number
+}
+
 const toSingleReference = (value: DeploymentRecordRow['personnel'] | DeploymentRecordRow['supervisor'] | DeploymentRecordRow['deployment_status']) => {
   if (!value) {
     return null
