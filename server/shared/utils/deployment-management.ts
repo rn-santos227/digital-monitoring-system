@@ -8,7 +8,19 @@ import type {
   DeploymentRow,
   DeploymentSuggestionItem,
   DeploymentSuggestionRow,
+  PersonnelSearchFilter,
 } from '../models'
+
+export interface DeploymentSearchQuery {
+  page?: unknown
+  pageSize?: unknown
+  term?: unknown
+  fields?: unknown
+  conditions?: unknown
+  match?: unknown
+  statusId?: unknown
+  supervisorId?: unknown
+}
 
 const toSingleReference = (value: DeploymentRecordRow['personnel'] | DeploymentRecordRow['supervisor'] | DeploymentRecordRow['deployment_status']) => {
   if (!value) {
