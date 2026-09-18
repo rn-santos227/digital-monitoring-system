@@ -8,4 +8,6 @@ import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/pe
 import { parseEngagementSearchQuery } from '../../../../server/utils/engagements/parseEngagementSearchQuery'
 import { parseEngagementRecordSearchQuery } from '../../../../server/utils/engagement-records/parseEngagementRecordSearchQuery'
 
+describe('engagement management advanced search filters', () => {
 
+}
