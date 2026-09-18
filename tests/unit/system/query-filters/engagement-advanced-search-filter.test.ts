@@ -27,6 +27,18 @@ describe('engagement management advanced search filters', () => {
   })
 
   it('builds engagement record identifiers and date ranges', () => {
+    const filters = buildPersonnelAdvancedSearchFilters(
+      [
+        { field: 'recordNo', operator: 'equals', value: 'ENG-001' },
+        {
+          field: 'startDate',
+          operator: 'between',
+          value: '2026-09-01',
+          valueTo: '2026-09-15',
+        },
+      ],
+      ENGAGEMENT_RECORD_SEARCHABLE_FIELD_COLUMNS,
+    )
 
   })
 }
