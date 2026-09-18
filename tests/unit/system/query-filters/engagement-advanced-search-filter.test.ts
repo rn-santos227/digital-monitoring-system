@@ -95,6 +95,9 @@ describe('engagement management advanced search filters', () => {
       engagementId: 'engagement-id',
     })
 
-
+    expect(parsed.term).toBe('ENG-001')
+    expect(parsed.fields).toEqual(['recordNo', 'remarks'])
+    expect(parsed.engagementId).toBe('engagement-id')
+    expect(parsed.match).toBe('all')
   })
 }
