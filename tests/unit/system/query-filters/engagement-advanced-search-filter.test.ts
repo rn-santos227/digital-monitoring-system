@@ -18,5 +18,11 @@ describe('engagement management advanced search filters', () => {
       ENGAGEMENT_SEARCHABLE_FIELD_COLUMNS,
     )
 
+    expect(
+      filters.map((filter) => [filter.column, filter.operator, filter.value]),
+    ).toEqual([
+      ['engagement_title', 'ilike', 'Exercise%'],
+      ['default_remarks', 'ilike', '%readiness%'],
+    ])
   })
 }
