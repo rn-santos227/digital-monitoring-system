@@ -10,6 +10,13 @@ import { parseEngagementRecordSearchQuery } from '../../../../server/utils/engag
 
 describe('engagement management advanced search filters', () => {
   it('builds engagement title and default remarks conditions', () => {
+   const filters = buildPersonnelAdvancedSearchFilters(
+      [
+        { field: 'engagementTitle', operator: 'startsWith', value: 'Exercise' },
+        { field: 'defaultRemarks', operator: 'contains', value: 'readiness' },
+      ],
+      ENGAGEMENT_SEARCHABLE_FIELD_COLUMNS,
+    )
 
   })
 }
