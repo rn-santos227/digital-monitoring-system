@@ -48,4 +48,8 @@ describe('engagement management advanced search filters', () => {
       ['start_date', 'lte', '2026-09-15'],
     ])
   })
+
+  it('ignores fields outside each engagement domain allowlist', () => {
+
+  })
 }
