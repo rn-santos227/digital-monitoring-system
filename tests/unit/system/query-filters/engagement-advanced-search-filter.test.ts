@@ -40,5 +40,12 @@ describe('engagement management advanced search filters', () => {
       ENGAGEMENT_RECORD_SEARCHABLE_FIELD_COLUMNS,
     )
 
+    expect(
+      filters.map((filter) => [filter.column, filter.operator, filter.value]),
+    ).toEqual([
+      ['record_no', 'eq', 'ENG-001'],
+      ['start_date', 'gte', '2026-09-01'],
+      ['start_date', 'lte', '2026-09-15'],
+    ])
   })
 }
