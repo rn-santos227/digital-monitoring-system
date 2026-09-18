@@ -50,6 +50,12 @@ describe('engagement management advanced search filters', () => {
   })
 
   it('ignores fields outside each engagement domain allowlist', () => {
+    expect(
+      buildPersonnelAdvancedSearchFilters(
+        [{ field: 'recordNo', operator: 'equals', value: 'ENG-001' }],
+        ENGAGEMENT_SEARCHABLE_FIELD_COLUMNS,
+      ),
+    ).toEqual([])
 
   })
 }
