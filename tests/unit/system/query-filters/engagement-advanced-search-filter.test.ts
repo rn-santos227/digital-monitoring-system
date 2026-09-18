@@ -87,4 +87,8 @@ describe('engagement management advanced search filters', () => {
       },
     ])
   })
+
+  it('prepares engagement record API search parameters in a utility', () => {
+
+  })
 }
