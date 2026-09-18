@@ -54,6 +54,16 @@ export const getDeploymentRecordsEndpoint = async (query: DeploymentManagementSe
   }, API_LOADING_MESSAGES.fetchDeploymentRecords)
 }
 
+export const searchDeploymentRecordsEndpoint = async (query: DeploymentManagementSearchQuery): Promise<DeploymentManagementListResponse<DeploymentManagementListItem>> => {
+  return await withApiLoading(async () => {
+    return await $fetch<DeploymentManagementListResponse<DeploymentManagementListItem>>(DEPLOYMENT_MANAGEMENT_API_ENDPOINTS.deploymentRecordsSearch, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+      query,
+    })
+  }, API_LOADING_MESSAGES.fetchDeploymentRecords)
+}
+
 export const createDeploymentEndpoint = async (payload: CreateDeploymentPayload): Promise<CreateDeploymentManagementResponse> => {
   return await withApiLoading(async () => {
     return await $fetch<CreateDeploymentManagementResponse>(DEPLOYMENT_MANAGEMENT_API_ENDPOINTS.deployments, {
