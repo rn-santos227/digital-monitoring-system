@@ -15,6 +15,19 @@ export const DEPLOYMENT_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   updatedAt: 'updated_at',
 })
 
+export const DEPLOYMENT_RECORD_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
+  recordNo: 'record_no',
+  operationName: 'operation_name',
+  deploymentArea: 'deployment_area',
+  assignmentRole: 'assignment_role',
+  location: 'location',
+  remarks: 'remarks',
+  startDate: 'start_date',
+  endDate: 'end_date',
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+})
+
 export const DEPLOYMENT_PERMISSION_GROUPS = {
   deploymentManagement: [
     'deployment.view',
