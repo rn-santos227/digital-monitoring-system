@@ -66,6 +66,14 @@ describe('engagement management advanced search filters', () => {
   })
 
   it('prepares engagement API search parameters in a utility', () => {
+    const parsed = parseEngagementSearchQuery({
+      page: '2',
+      pageSize: '10',
+      conditions: JSON.stringify([
+        { field: 'engagementTitle', operator: 'contains', value: 'Exercise' },
+      ]),
+      match: 'any',
+    })
 
   })
 }
