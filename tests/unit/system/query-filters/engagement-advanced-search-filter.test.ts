@@ -75,5 +75,9 @@ describe('engagement management advanced search filters', () => {
       match: 'any',
     })
 
+    expect(parsed.page).toBe(2)
+    expect(parsed.pageSize).toBe(10)
+    expect(parsed.match).toBe('any')
+
   })
 }
