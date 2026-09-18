@@ -1,12 +1,12 @@
-
-export type DeploymentManagementTabId = 'deployments' | 'records'
-
+import type { AdvancedSearchCondition, AdvancedSearchMatch } from '~/constants/ui.constants'
 import type {
   DeploymentRecordsInsert,
   DeploymentRecordsRow,
   DeploymentRecordsUpdate,
   UUID,
 } from '../database.tables'
+
+export type DeploymentManagementTabId = 'deployments' | 'records'
 
 export type DeploymentRecordCreateInput = DeploymentRecordsInsert
 export type DeploymentRecordUpdateInput = DeploymentRecordsUpdate
