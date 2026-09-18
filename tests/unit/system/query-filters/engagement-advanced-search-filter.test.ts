@@ -57,5 +57,11 @@ describe('engagement management advanced search filters', () => {
       ),
     ).toEqual([])
 
+    expect(
+      buildPersonnelAdvancedSearchFilters(
+        [{ field: 'defaultRemarks', operator: 'contains', value: 'internal' }],
+        ENGAGEMENT_RECORD_SEARCHABLE_FIELD_COLUMNS,
+      ),
+    ).toEqual([])
   })
 }
