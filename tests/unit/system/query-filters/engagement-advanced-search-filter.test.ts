@@ -89,6 +89,12 @@ describe('engagement management advanced search filters', () => {
   })
 
   it('prepares engagement record API search parameters in a utility', () => {
+    const parsed = parseEngagementRecordSearchQuery({
+      term: 'ENG-001',
+      fields: 'recordNo,remarks',
+      engagementId: 'engagement-id',
+    })
+
 
   })
 }
