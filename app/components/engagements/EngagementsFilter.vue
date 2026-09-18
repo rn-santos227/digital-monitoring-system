@@ -1,7 +1,8 @@
+
 <template>
-
+  <section class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4">
+  </section>
 </template>
-
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import type { AdvancedSearchValue } from '~/constants/ui.constants'
