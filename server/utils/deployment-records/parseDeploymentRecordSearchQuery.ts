@@ -15,4 +15,14 @@ export const parseDeploymentRecordSearchQuery = (query: DeploymentSearchQuery & 
   if (!term && !serializedConditions && !personnelId && !statusId && !supervisorId) {
     throw createError({ statusCode: 400, statusMessage: 'At least one search filter is required.' })
   }
+
+  const { page, pageSize, rangeFrom, rangeTo } = parseManagementPaginationQuery(query)
+  const fields = typeof query.fields === 'string' ? query.fields.split(',').map(field => field.trim()) : []
+  const advancedFilters = buildPersonnelAdvancedSearchFilters(
+    parsePersonnelAdvancedSearchConditions(serializedConditions),
+    DEPLOYMENT_RECORD_SEARCHABLE_FIELD_COLUMNS,
+  )
+  if (serializedConditions && advancedFilters.length === 0) {
+    throw createError({ statusCode: 400, statusMessage: 'No valid advanced search conditions were provided.' })
+  }
 }
