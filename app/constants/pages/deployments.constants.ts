@@ -30,6 +30,10 @@ export const DEPLOYMENTS_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: 'startDate', label: 'Start Date', type: 'date' },
   { value: 'endDate', label: 'End Date', type: 'date' },
 ])
+export const DEPLOYMENT_RECORDS_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: 'recordNo', label: 'Record Number' },
+  ...DEPLOYMENTS_FILTER_FIELD_OPTIONS,
+])
 export const DEPLOYMENT_RECORDS_FILTER_CARD_TITLE = 'Filter Deployment Records'
 export const DEPLOYMENT_RECORDS_FILTER_TERM_LABEL = 'Search Term'
 export const DEPLOYMENT_RECORDS_FILTER_TERM_PLACEHOLDER = 'Search deployment record value'
