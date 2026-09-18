@@ -22,6 +22,18 @@ export interface DeploymentSearchQuery {
   supervisorId?: unknown
 }
 
+export interface ParsedDeploymentSearchQuery {
+  page: number
+  pageSize: number
+  filters: string[]
+  advancedFilters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
+  statusId: string | null
+  supervisorId: unknown
+  rangeFrom: number
+  rangeTo: number
+}
+
 const toSingleReference = (value: DeploymentRecordRow['personnel'] | DeploymentRecordRow['supervisor'] | DeploymentRecordRow['deployment_status']) => {
   if (!value) {
     return null
