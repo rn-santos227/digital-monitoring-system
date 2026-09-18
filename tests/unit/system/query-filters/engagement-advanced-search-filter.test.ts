@@ -25,4 +25,8 @@ describe('engagement management advanced search filters', () => {
       ['default_remarks', 'ilike', '%readiness%'],
     ])
   })
+
+  it('builds engagement record identifiers and date ranges', () => {
+
+  })
 }
