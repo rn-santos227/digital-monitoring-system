@@ -17,6 +17,7 @@ import {
   getDeploymentRecordsEndpoint,
   getDeploymentsEndpoint,
   searchDeploymentsEndpoint,
+  searchDeploymentRecordsEndpoint,
   updateDeploymentDetailsEndpoint,
   updateDeploymentLocationEndpoint,
   deleteDeploymentEndpoint,
@@ -97,9 +98,18 @@ export const useDeploymentsStore = defineStore('deployments', {
       this.deployments.isLoading = true
       this.deployments.error = ''
       const resolvedPageSize = pageSize ?? this.deployments.pagination.pageSize
-      const query: DeploymentManagementSearchQuery = { page, pageSize: resolvedPageSize, term: filters.term?.trim() || undefined, fields: filters.fields?.trim() || undefined }
+      const query: DeploymentManagementSearchQuery = {
+        page,
+        pageSize: resolvedPageSize,
+        term: filters.term?.trim() || undefined,
+        fields: filters.fields?.trim() || undefined,
+        conditions: filters.conditions?.trim() || undefined,
+        match: filters.match,
+      }
       try {
-        const response = query.term ? await searchDeploymentsEndpoint(query) : await getDeploymentsEndpoint(query)
+        const response = query.term || query.conditions
+          ? await searchDeploymentsEndpoint(query)
+          : await getDeploymentsEndpoint(query)
         this.deployments.items = response.items
         this.deployments.pagination = { page: response.page, pageSize: response.pageSize, totalItems: response.totalItems, totalPages: response.totalPages }
       } catch (error) {
