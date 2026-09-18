@@ -64,4 +64,8 @@ describe('engagement management advanced search filters', () => {
       ),
     ).toEqual([])
   })
+
+  it('prepares engagement API search parameters in a utility', () => {
+
+  })
 }
