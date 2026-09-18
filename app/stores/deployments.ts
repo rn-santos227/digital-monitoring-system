@@ -137,7 +137,9 @@ export const useDeploymentsStore = defineStore('deployments', {
         match: filters.match,
       }
       try {
-        const response = await getDeploymentRecordsEndpoint(query)
+        const response = query.term || query.conditions
+          ? await searchDeploymentRecordsEndpoint(query)
+          : await getDeploymentRecordsEndpoint(query)
         this.records.items = response.items
         this.records.pagination = { page: response.page, pageSize: response.pageSize, totalItems: response.totalItems, totalPages: response.totalPages }
       } catch (error) {
