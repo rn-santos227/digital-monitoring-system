@@ -78,6 +78,13 @@ describe('engagement management advanced search filters', () => {
     expect(parsed.page).toBe(2)
     expect(parsed.pageSize).toBe(10)
     expect(parsed.match).toBe('any')
-
+    expect(parsed.advancedFilters).toEqual([
+      {
+        column: 'engagement_title',
+        operator: 'ilike',
+        value: '%Exercise%',
+        conditionGroup: 'condition-0',
+      },
+    ])
   })
 }
