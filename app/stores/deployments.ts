@@ -128,7 +128,14 @@ export const useDeploymentsStore = defineStore('deployments', {
       this.records.isLoading = true
       this.records.error = ''
       const resolvedPageSize = pageSize ?? this.records.pagination.pageSize
-      const query: DeploymentManagementSearchQuery = { page, pageSize: resolvedPageSize, term: filters.term?.trim() || undefined, fields: filters.fields?.trim() || undefined }
+      const query: DeploymentManagementSearchQuery = {
+        page,
+        pageSize: resolvedPageSize,
+        term: filters.term?.trim() || undefined,
+        fields: filters.fields?.trim() || undefined,
+        conditions: filters.conditions?.trim() || undefined,
+        match: filters.match,
+      }
       try {
         const response = await getDeploymentRecordsEndpoint(query)
         this.records.items = response.items
