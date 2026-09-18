@@ -9,5 +9,7 @@ import { parseEngagementSearchQuery } from '../../../../server/utils/engagements
 import { parseEngagementRecordSearchQuery } from '../../../../server/utils/engagement-records/parseEngagementRecordSearchQuery'
 
 describe('engagement management advanced search filters', () => {
+  it('builds engagement title and default remarks conditions', () => {
 
+  })
 }
