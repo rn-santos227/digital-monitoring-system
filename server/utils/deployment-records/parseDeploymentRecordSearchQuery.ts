@@ -11,4 +11,8 @@ export const parseDeploymentRecordSearchQuery = (query: DeploymentSearchQuery & 
   const personnelId = typeof query.personnelId === 'string' && query.personnelId.length > 0 ? query.personnelId : null
   const statusId = typeof query.statusId === 'string' && query.statusId.length > 0 ? query.statusId : null
   const supervisorId = typeof query.supervisorId === 'string' && query.supervisorId.length > 0 ? query.supervisorId : null
+
+  if (!term && !serializedConditions && !personnelId && !statusId && !supervisorId) {
+    throw createError({ statusCode: 400, statusMessage: 'At least one search filter is required.' })
+  }
 }
