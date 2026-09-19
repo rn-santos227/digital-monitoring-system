@@ -53,6 +53,8 @@ const normalizeEquipmentCategoryQuery = (
     pageSize: query.pageSize,
     term: query.term?.trim() || undefined,
     fields: query.fields?.trim() || undefined,
+    conditions: query.conditions?.trim() || undefined,
+    match: query.match === 'any' ? 'any' : 'all',
     isActive: typeof query.isActive === 'boolean' ? query.isActive : undefined,
   }
 }
@@ -65,6 +67,8 @@ const normalizeEquipmentAssetQuery = (
     pageSize: query.pageSize,
     term: query.term?.trim() || undefined,
     fields: query.fields?.trim() || undefined,
+    conditions: query.conditions?.trim() || undefined,
+    match: query.match === 'any' ? 'any' : 'all',
   }
 }
 
@@ -76,6 +80,8 @@ const normalizeEquipmentItemQuery = (
     pageSize: query.pageSize,
     term: query.term?.trim() || undefined,
     fields: query.fields?.trim() || undefined,
+    conditions: query.conditions?.trim() || undefined,
+    match: query.match === 'any' ? 'any' : 'all',
   }
 }
 
@@ -86,6 +92,9 @@ const normalizeEquipmentIssuanceQuery = (
     page: query.page,
     pageSize: query.pageSize,
     term: query.term?.trim() || undefined,
+    fields: query.fields?.trim() || undefined,
+    conditions: query.conditions?.trim() || undefined,
+    match: query.match === 'any' ? 'any' : 'all',
     issuedToPersonnelId: query.issuedToPersonnelId?.trim() || undefined,
     statusId: query.statusId?.trim() || undefined,
     statusName: query.statusName?.trim() || undefined,
