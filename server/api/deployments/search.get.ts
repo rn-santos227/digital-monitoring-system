@@ -12,8 +12,16 @@ export default defineEventHandler(async (event): Promise<DeploymentListResponse>
   await requireAnyPermission(event, DEPLOYMENT_PERMISSION_GROUPS.deploymentManagement)
 
   const { page, pageSize, supervisorId: supervisorQuery, ...searchParams } = parseDeploymentSearchQuery(getQuery(event))
+  const supabase = getServiceSupabaseClient()
+
   const supervisorId = await getDeploymentSupervisorId(supabase, supervisorQuery)
   const { data, count } = await searchDeployments(supabase, { ...searchParams, supervisorId })
 
-
+  return {
+    items: data.map(mapDeploymentSelectListItem),
+    page,
+    pageSize,
+    totalItems: count,
+    totalPages: count === 0 ? 0 : Math.ceil(count / pageSize),
+  }
 })
