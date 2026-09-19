@@ -8,6 +8,9 @@
       <BaseButton v-if="activeConditionCount" type="button" variant="ghost" size="sm" @click="emitReset">
         {{ DEPLOYMENT_RECORDS_FILTER_RESET_LABEL }}
       </BaseButton>
+      <BaseButton type="button" size="sm" icon-name="magnifying-glass" @click="isModalOpen = true">
+        Advanced search
+      </BaseButton>
     </div>
     
   </section>
