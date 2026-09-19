@@ -479,10 +479,15 @@ export interface EquipmentIssuanceListItem {
 
 export interface EquipmentIssuanceSearchQuery extends EquipmentCategoryEndpointQuery {
   term?: string
+  fields?: string
+  conditions?: string
+  match?: AdvancedSearchMatch
   issuedToPersonnelId?: string
   statusId?: string
   statusName?: string
 }
+
+export type EquipmentIssuanceSearchCondition = AdvancedSearchCondition
 
 export interface EquipmentIssuanceTableRow extends EquipmentIssuanceListItem {}
 
