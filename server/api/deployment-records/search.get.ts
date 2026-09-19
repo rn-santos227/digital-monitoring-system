@@ -10,11 +10,8 @@ import { searchDeploymentRecords } from '../../utils/deployment-records/searchDe
 export default defineEventHandler(async (event): Promise<DeploymentRecordListResponse> => {
   await requirePermission(event, PERMISSION_CODES.deploymentManage)
 
-  const query = getQuery(event)
-  const term = typeof query.term === 'string' ? query.term.trim() : ''
-  const personnelId = typeof query.personnelId === 'string' && query.personnelId.length > 0 ? query.personnelId : null
-  const statusId = typeof query.statusId === 'string' && query.statusId.length > 0 ? query.statusId : null
-  const supervisorId = typeof query.supervisorId === 'string' && query.supervisorId.length > 0 ? query.supervisorId : null
+  const { page, pageSize, ...searchParams } = parseDeploymentRecordSearchQuery(getQuery(event))
+  const { rows, totalItems } = await searchDeploymentRecords(getServiceSupabaseClient(), searchParams)
 
   if (!term && !personnelId && !statusId && !supervisorId) {
     throw createError({ statusCode: 400, statusMessage: 'At least one search filter is required.' })
