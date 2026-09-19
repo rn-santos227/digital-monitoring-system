@@ -10,6 +10,10 @@ import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/pe
 
 describe('deployment management advanced search filters', () => {
   it('builds deployment operation and date conditions', () => {
+    const filters = buildPersonnelAdvancedSearchFilters([
+      { field: 'operationName', operator: 'contains', value: 'Sentinel' },
+      { field: 'startDate', operator: 'between', value: '2026-09-01', valueTo: '2026-09-30' },
+    ], DEPLOYMENT_SEARCHABLE_FIELD_COLUMNS)
 
   })
 }
