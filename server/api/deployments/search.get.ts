@@ -11,9 +11,7 @@ import { searchDeployments } from '../../utils/deployments/searchDeployments'
 export default defineEventHandler(async (event): Promise<DeploymentListResponse> => {
   await requireAnyPermission(event, DEPLOYMENT_PERMISSION_GROUPS.deploymentManagement)
 
-  const query = getQuery(event)
-  const term = typeof query.term === 'string' ? query.term.trim() : ''
-  const statusId = typeof query.statusId === 'string' && query.statusId.length > 0 ? query.statusId : null
+  const { page, pageSize, supervisorId: supervisorQuery, ...searchParams } = parseDeploymentSearchQuery(getQuery(event))
   const supabase = getServiceSupabaseClient()
   const supervisorId = await getDeploymentSupervisorId(supabase, query.supervisorId)
 
