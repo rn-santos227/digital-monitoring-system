@@ -21,4 +21,8 @@ describe('deployment management advanced search filters', () => {
       ['start_date', 'lte', '2026-09-30'],
     ])
   })
+
+  it('keeps deployment record fields isolated from deployment fields', () => {
+
+  })
 }
