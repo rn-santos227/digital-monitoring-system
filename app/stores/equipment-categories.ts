@@ -119,6 +119,8 @@ export const useEquipmentCategoriesStore = defineStore('equipment-categories', {
         pageSize: resolvedPageSize,
         term: filters.term,
         fields: filters.fields,
+        conditions: filters.conditions,
+        match: filters.match,
         isActive: filters.isActive,
       }
 
