@@ -27,3 +27,15 @@ export const EQUIPMENT_ASSET_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   createdAt: 'created_at',
   updatedAt: 'updated_at',
 })
+
+export const EQUIPMENT_ISSUANCE_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
+  issueNo: 'issue_no',
+  issuedLocation: 'issued_location',
+  returnLocation: 'return_location',
+  remarks: 'remarks',
+  issueDate: 'issue_date',
+  expectedReturnDate: 'expected_return_date',
+  actualReturnDate: 'actual_return_date',
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+})
