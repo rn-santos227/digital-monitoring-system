@@ -24,4 +24,8 @@ export const parseDeploymentSearchQuery = (query: DeploymentSearchQuery): Parsed
     throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
   }
 
+  const advancedFilters = buildPersonnelAdvancedSearchFilters(
+    parsePersonnelAdvancedSearchConditions(serializedConditions),
+    DEPLOYMENT_SEARCHABLE_FIELD_COLUMNS,
+  )
 }
