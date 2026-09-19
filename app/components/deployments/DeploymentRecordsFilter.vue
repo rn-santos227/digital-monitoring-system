@@ -26,4 +26,14 @@ const emit = defineEmits<{
 
 const isModalOpen = ref(false)
 const fieldOptions = DEPLOYMENT_RECORDS_FILTER_FIELD_OPTIONS
+const conditions = computed<DeploymentSearchCondition[]>(() => {
+  if (!props.modelValue.conditions) return []
+  try {
+    const parsed: unknown = JSON.parse(props.modelValue.conditions)
+    return Array.isArray(parsed) ? parsed as DeploymentSearchCondition[] : []
+  } catch {
+    return []
+  }
+})
+
 </script>
