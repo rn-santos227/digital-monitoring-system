@@ -4,6 +4,11 @@
       <h2 class="text-sm font-semibold text-slate-900">{{ DEPLOYMENTS_FILTER_CARD_TITLE }}</h2>
       <p class="mt-1 text-sm text-slate-600">{{ conditionSummary }}</p>
     </div>
+    <div class="flex gap-2">
+      <BaseButton v-if="activeConditionCount" type="button" variant="ghost" size="sm" @click="emitReset">
+        {{ DEPLOYMENTS_FILTER_RESET_LABEL }}
+      </BaseButton>
+    </div>
   </section>
 </template>
 
