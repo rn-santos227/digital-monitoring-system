@@ -1,11 +1,14 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { DEPLOYMENT_SUGGESTION_SELECT_COLUMNS } from '../../shared/constants'
-import type { DeploymentSuggestionRow } from '../../shared/models'
+import type { DeploymentSuggestionRow, PersonnelSearchFilter } from '../../shared/models'
+import { applyPersonnelSearchFilters } from '../../shared/utils'
 
 interface SearchDeploymentsParams {
   filters: string[]
   statusId: string | null
+  advancedFilters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
   supervisorId: string | null
   rangeFrom: number
   rangeTo: number
