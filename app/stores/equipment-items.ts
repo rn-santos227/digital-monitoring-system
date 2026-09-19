@@ -79,6 +79,8 @@ export const useEquipmentItemsStore = defineStore('equipment-items', {
         pageSize: resolvedPageSize,
         term: filters.term,
         fields: filters.fields,
+        conditions: filters.conditions,
+        match: filters.match,
       }
 
       try {
