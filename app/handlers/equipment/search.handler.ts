@@ -92,6 +92,15 @@ export const useEquipmentCategorySearchHandlers = (
   filters: Ref<Partial<EquipmentCategorySearchQuery>>,
 ) => {
   const handleFilterApply = (value: Partial<EquipmentCategorySearchQuery>) => {
+    if (value.conditions) {
+      const nextFilters: Partial<EquipmentCategorySearchQuery> = {
+        conditions: value.conditions,
+        match: value.match === 'any' ? 'any' : 'all',
+      }
+      filters.value = nextFilters
+      return { filters: nextFilters, errors: {}, isValid: true }
+    }
+
     const commonValidation = validateFields([
       {
         field: 'term',
