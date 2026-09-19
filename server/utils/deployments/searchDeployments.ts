@@ -26,6 +26,10 @@ export async function searchDeployments(supabase: SupabaseClient, params: Search
     query = query.or(params.filters.join(','))
   }
 
+  if (params.advancedFilters.length > 0) {
+    query = applyPersonnelSearchFilters(query, params.advancedFilters, params.match)
+  }
+
   if (params.statusId) {
     query = query.eq('status_id', params.statusId)
   }
