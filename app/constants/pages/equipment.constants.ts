@@ -121,6 +121,17 @@ export const EQUIPMENT_ISSUANCES_FILTER_STATUS_OPTIONS = Object.freeze([
 ])
 export const EQUIPMENT_ISSUANCES_FILTER_APPLY_LABEL = 'Apply Filters'
 export const EQUIPMENT_ISSUANCES_FILTER_RESET_LABEL = 'Reset'
+export const EQUIPMENT_ISSUANCES_FILTER_FIELD_OPTIONS = Object.freeze([
+  { value: 'issueNo', label: 'Issue Number' },
+  { value: 'issuedLocation', label: 'Issued Location' },
+  { value: 'returnLocation', label: 'Return Location' },
+  { value: 'remarks', label: 'Remarks' },
+  { value: 'issueDate', label: 'Issue Date', dataType: 'date' as const },
+  { value: 'expectedReturnDate', label: 'Expected Return Date', dataType: 'date' as const },
+  { value: 'actualReturnDate', label: 'Actual Return Date', dataType: 'date' as const },
+  { value: 'createdAt', label: 'Created Date', dataType: 'date' as const },
+  { value: 'updatedAt', label: 'Updated Date', dataType: 'date' as const },
+])
 export const EQUIPMENT_ISSUANCES_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGES
 
 export const EQUIPMENT_INCIDENTS_PAGE_TITLE = 'Equipment Incidents'
