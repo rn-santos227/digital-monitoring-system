@@ -18,4 +18,9 @@ import type {
 const props = withDefaults(defineProps<{ modelValue: Partial<DeploymentManagementSearchQuery> }>(), {
   modelValue: () => ({}),
 })
+
+const emit = defineEmits<{
+  (event: 'apply', value: Partial<DeploymentManagementSearchQuery>): void
+  (event: 'reset'): void
+}>()
 </script>
