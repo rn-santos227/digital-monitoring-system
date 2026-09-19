@@ -43,5 +43,8 @@ describe('deployment management advanced search filters', () => {
    const conditions = JSON.stringify([
       { field: 'deploymentArea', operator: 'startsWith', value: 'North' },
     ])
+    const deployment = parseDeploymentSearchQuery({ conditions, match: 'any', page: '2' })
+    const record = parseDeploymentRecordSearchQuery({ conditions })
+
   })
 }
