@@ -40,4 +40,9 @@ const activeConditionCount = computed(() => conditions.value.length)
 const conditionSummary = computed(() => activeConditionCount.value
   ? `${activeConditionCount.value} advanced search condition${activeConditionCount.value === 1 ? '' : 's'} applied`
   : 'No advanced search conditions applied')
+const advancedSearchValue = computed<AdvancedSearchValue>(() => ({
+  match: props.modelValue.match ?? 'all',
+  conditions: conditions.value,
+}))
+
 </script>
