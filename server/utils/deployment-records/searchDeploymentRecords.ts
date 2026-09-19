@@ -7,6 +7,8 @@ import { applyPersonnelSearchFilters } from '../../shared/utils'
 interface SearchDeploymentRecordsParams {
   term: string
   fields: string[]
+  advancedFilters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
   personnelId: string | null
   statusId: string | null
   supervisorId: string | null
