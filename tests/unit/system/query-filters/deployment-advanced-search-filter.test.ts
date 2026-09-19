@@ -46,5 +46,8 @@ describe('deployment management advanced search filters', () => {
     const deployment = parseDeploymentSearchQuery({ conditions, match: 'any', page: '2' })
     const record = parseDeploymentRecordSearchQuery({ conditions })
 
+    expect(deployment.page).toBe(2)
+    expect(deployment.match).toBe('any')
+
   })
 }
