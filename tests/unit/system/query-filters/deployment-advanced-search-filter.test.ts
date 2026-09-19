@@ -15,5 +15,10 @@ describe('deployment management advanced search filters', () => {
       { field: 'startDate', operator: 'between', value: '2026-09-01', valueTo: '2026-09-30' },
     ], DEPLOYMENT_SEARCHABLE_FIELD_COLUMNS)
 
+    expect(filters.map(filter => [filter.column, filter.operator, filter.value])).toEqual([
+      ['operation_name', 'ilike', '%Sentinel%'],
+      ['start_date', 'gte', '2026-09-01'],
+      ['start_date', 'lte', '2026-09-30'],
+    ])
   })
 }
