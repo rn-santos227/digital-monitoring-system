@@ -216,7 +216,11 @@ export interface EquipmentItemSuggestionResponse {
 export interface EquipmentItemSearchQuery extends EquipmentCategoryEndpointQuery {
   term?: string
   fields?: string
+  conditions?: string
+  match?: AdvancedSearchMatch
 }
+
+export type EquipmentItemSearchCondition = AdvancedSearchCondition
 
 export type EquipmentItemTableActionKey =
   | 'view-equipment-item'
