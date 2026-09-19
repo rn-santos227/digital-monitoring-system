@@ -5,4 +5,6 @@ import { parseManagementPaginationQuery } from '../../shared/utils'
 import { parsePersonnelAdvancedSearchConditions } from '../../shared/validations'
 import { buildPersonnelAdvancedSearchFilters } from '../personnel/buildPersonnelAdvancedSearchFilters'
 
+export const parseDeploymentSearchQuery = (query: DeploymentSearchQuery): ParsedDeploymentSearchQuery => {
 
+}
