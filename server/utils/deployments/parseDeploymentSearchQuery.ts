@@ -31,4 +31,16 @@ export const parseDeploymentSearchQuery = (query: DeploymentSearchQuery): Parsed
   if (serializedConditions && advancedFilters.length === 0) {
     throw createError({ statusCode: 400, statusMessage: 'No valid advanced search conditions were provided.' })
   }
+
+  return {
+    page,
+    pageSize,
+    filters,
+    advancedFilters,
+    match: query.match === 'any' ? 'any' : 'all',
+    statusId,
+    supervisorId: query.supervisorId,
+    rangeFrom,
+    rangeTo,
+  }
 }
