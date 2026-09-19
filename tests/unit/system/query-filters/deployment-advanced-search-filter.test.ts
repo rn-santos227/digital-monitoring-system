@@ -38,4 +38,10 @@ describe('deployment management advanced search filters', () => {
       },
     ])
   })
+
+  it('prepares deployment API search parameters in utilities', () => {
+   const conditions = JSON.stringify([
+      { field: 'deploymentArea', operator: 'startsWith', value: 'North' },
+    ])
+  })
 }
