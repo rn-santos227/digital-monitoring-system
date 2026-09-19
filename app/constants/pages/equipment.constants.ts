@@ -24,9 +24,10 @@ export const EQUIPMENT_CATEGORIES_FILTER_APPLY_LABEL = 'Apply Filters'
 export const EQUIPMENT_CATEGORIES_FILTER_RESET_LABEL = 'Reset'
 
 export const EQUIPMENT_CATEGORIES_FILTER_FIELD_OPTIONS = Object.freeze([
-  { value: '', label: 'All searchable fields' },
   { value: 'code', label: 'Code' },
   { value: 'name', label: 'Name' },
+  { value: 'createdAt', label: 'Created Date', dataType: 'date' as const },
+  { value: 'updatedAt', label: 'Updated Date', dataType: 'date' as const },
 ])
 
 export const EQUIPMENT_CATEGORIES_FILTER_STATUS_OPTIONS = Object.freeze([

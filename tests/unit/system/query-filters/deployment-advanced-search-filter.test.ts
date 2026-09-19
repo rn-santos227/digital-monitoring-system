@@ -61,4 +61,4 @@ describe('deployment management advanced search filters', () => {
     expect(() => parseDeploymentSearchQuery({})).toThrow('At least one search filter is required.')
     expect(() => parseDeploymentRecordSearchQuery({})).toThrow('At least one search filter is required.')
   })
-}
+})
