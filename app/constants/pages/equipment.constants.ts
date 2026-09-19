@@ -83,11 +83,15 @@ export const EQUIPMENT_ASSETS_FILTER_FIELDS_LABEL = 'Search Field'
 export const EQUIPMENT_ASSETS_FILTER_APPLY_LABEL = 'Apply Filters'
 export const EQUIPMENT_ASSETS_FILTER_RESET_LABEL = 'Reset'
 export const EQUIPMENT_ASSETS_FILTER_FIELD_OPTIONS = Object.freeze([
-  { value: '', label: 'All searchable fields' },
   { value: 'assetTag', label: 'Asset Tag' },
-  { value: 'equipmentItemCode', label: 'Equipment Code' },
-  { value: 'equipmentItemName', label: 'Equipment Item' },
   { value: 'serialNo', label: 'Serial Number' },
+  { value: 'batchNo', label: 'Batch Number' },
+  { value: 'fundSource', label: 'Fund Source' },
+  { value: 'currentLocation', label: 'Current Location' },
+  { value: 'remarks', label: 'Remarks' },
+  { value: 'procurementDate', label: 'Procurement Date', dataType: 'date' as const },
+  { value: 'createdAt', label: 'Created Date', dataType: 'date' as const },
+  { value: 'updatedAt', label: 'Updated Date', dataType: 'date' as const },
 ])
 export const EQUIPMENT_ASSETS_CONDITION_STATUS_OPTIONS = Object.freeze(
   CONDITION_STATUS_VALUES.map((value) => ({ label: value, value })),
