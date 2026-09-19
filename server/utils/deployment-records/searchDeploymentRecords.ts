@@ -21,7 +21,7 @@ export function resolveDeploymentRecordSearchFilters(term: string, fields: strin
     ? fields.filter((field): field is keyof typeof DEPLOYMENT_RECORD_SEARCHABLE_FIELD_COLUMNS => field in DEPLOYMENT_RECORD_SEARCHABLE_FIELD_COLUMNS)
     : Object.keys(DEPLOYMENT_RECORD_SEARCHABLE_FIELD_COLUMNS) as Array<keyof typeof DEPLOYMENT_RECORD_SEARCHABLE_FIELD_COLUMNS>
 
-  const filters = term ? selectedFields.map(field => `${SEARCHABLE_FIELDS[field]}.ilike.%${term}%`) : []
+  const filters = term ? selectedFields.map(field => `${DEPLOYMENT_RECORD_SEARCHABLE_FIELD_COLUMNS[field]}.ilike.%${term}%`) : []
 
   if (term && filters.length === 0) {
     throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
