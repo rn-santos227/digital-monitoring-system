@@ -8,4 +8,6 @@ import { parseDeploymentRecordSearchQuery } from '../../../../server/utils/deplo
 import { parseDeploymentSearchQuery } from '../../../../server/utils/deployments/parseDeploymentSearchQuery'
 import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/personnel/buildPersonnelAdvancedSearchFilters'
 
+describe('deployment management advanced search filters', () => {
 
+}
