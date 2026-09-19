@@ -18,8 +18,8 @@ interface SearchDeploymentRecordsParams {
 
 export function resolveDeploymentRecordSearchFilters(term: string, fields: string[]) {
   const selectedFields = fields.length > 0
-    ? fields.filter((field): field is keyof typeof SEARCHABLE_FIELDS => field in SEARCHABLE_FIELDS)
-    : Object.keys(SEARCHABLE_FIELDS) as Array<keyof typeof SEARCHABLE_FIELDS>
+    ? fields.filter((field): field is keyof typeof DEPLOYMENT_RECORD_SEARCHABLE_FIELD_COLUMNS => field in DEPLOYMENT_RECORD_SEARCHABLE_FIELD_COLUMNS)
+    : Object.keys(DEPLOYMENT_RECORD_SEARCHABLE_FIELD_COLUMNS) as Array<keyof typeof DEPLOYMENT_RECORD_SEARCHABLE_FIELD_COLUMNS>
 
   const filters = term ? selectedFields.map(field => `${SEARCHABLE_FIELDS[field]}.ilike.%${term}%`) : []
 
