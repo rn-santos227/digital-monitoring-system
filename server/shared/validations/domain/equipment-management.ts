@@ -1,4 +1,5 @@
 import { createError } from 'h3'
+import { parsePersonnelAdvancedSearchConditions } from './personnel-management'
 import type { 
   CreateEquipmentAssetRequest,
   CreateEquipmentCategoryRequest,
@@ -312,3 +313,5 @@ export const buildEquipmentIssuanceUpdates = (
 
   return updates
 }
+
+export const parseEquipmentAdvancedSearchConditions = parsePersonnelAdvancedSearchConditions
