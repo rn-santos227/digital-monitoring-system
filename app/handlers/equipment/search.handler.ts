@@ -20,6 +20,15 @@ export const useEquipmentSearchHandlers = (
   filters: Ref<EquipmentSearchFilters>,
 ) => {
   const handleFilterApply = (value: EquipmentSearchFilterInput) => {
+    if (value.conditions) {
+      const nextFilters: EquipmentSearchFilters = {
+        conditions: value.conditions,
+        match: value.match === 'any' ? 'any' : 'all',
+      }
+      filters.value = nextFilters
+      return { filters: nextFilters, errors: {}, isValid: true }
+    }
+
     const commonValidation = validateFields([
       {
         field: 'term',
