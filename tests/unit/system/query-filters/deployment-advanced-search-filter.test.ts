@@ -55,6 +55,10 @@ describe('deployment management advanced search filters', () => {
     })
     expect(record.match).toBe('all')
     expect(record.advancedFilters[0]?.column).toBe('deployment_area')
+  })
 
+  it('rejects empty deployment searches before querying the database', () => {
+    expect(() => parseDeploymentSearchQuery({})).toThrow('At least one search filter is required.')
+    expect(() => parseDeploymentRecordSearchQuery({})).toThrow('At least one search filter is required.')
   })
 }
