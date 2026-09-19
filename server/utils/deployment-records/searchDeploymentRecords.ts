@@ -1,16 +1,8 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { DeploymentRecordRow } from '../../shared/models'
-import { DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS } from '../../shared/constants'
-
-const SEARCHABLE_FIELDS = {
-  recordNo: 'record_no',
-  deploymentArea: 'deployment_area',
-  operationName: 'operation_name',
-  location: 'location',
-  assignmentRole: 'assignment_role',
-  remarks: 'remarks',
-} as const
+import type { DeploymentRecordRow, PersonnelSearchFilter } from '../../shared/models'
+import { DEPLOYMENT_RECORD_DETAIL_SELECT_COLUMNS, DEPLOYMENT_RECORD_SEARCHABLE_FIELD_COLUMNS } from '../../shared/constants'
+import { applyPersonnelSearchFilters } from '../../shared/utils'
 
 interface SearchDeploymentRecordsParams {
   term: string
