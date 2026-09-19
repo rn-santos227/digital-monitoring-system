@@ -12,39 +12,8 @@ export default defineEventHandler(async (event): Promise<DeploymentListResponse>
   await requireAnyPermission(event, DEPLOYMENT_PERMISSION_GROUPS.deploymentManagement)
 
   const { page, pageSize, supervisorId: supervisorQuery, ...searchParams } = parseDeploymentSearchQuery(getQuery(event))
-  const supabase = getServiceSupabaseClient()
-  const supervisorId = await getDeploymentSupervisorId(supabase, query.supervisorId)
+  const supervisorId = await getDeploymentSupervisorId(supabase, supervisorQuery)
+  const { data, count } = await searchDeployments(supabase, { ...searchParams, supervisorId })
 
-  if (!term && !statusId && !supervisorId) {
-    throw createError({ statusCode: 400, statusMessage: 'At least one search filter is required.' })
-  }
 
-  const { page, pageSize, rangeFrom, rangeTo } = parseManagementPaginationQuery({
-    page: query.page,
-    pageSize: query.pageSize,
-  })
-
-  const rawFields = typeof query.fields === 'string' ? query.fields.split(',').map(field => field.trim()) : []
-  const selectedFields = rawFields.length > 0
-    ? rawFields.filter((field): field is keyof typeof SEARCHABLE_FIELDS => field in SEARCHABLE_FIELDS)
-    : Object.keys(SEARCHABLE_FIELDS) as Array<keyof typeof SEARCHABLE_FIELDS>
-  const filters = term ? selectedFields.map(field => `${SEARCHABLE_FIELDS[field]}.ilike.%${term}%`) : []
-
-  if (term && filters.length === 0) {
-    throw createError({ statusCode: 400, statusMessage: 'No valid searchable fields were provided.' })
-  }
-
-  const { data, count } = await searchDeployments(supabase, {
-    filters,
-    statusId,
-    supervisorId,
-    rangeFrom,
-    rangeTo,
-  })
-
-  const items = data.map(mapDeploymentSelectListItem)
-  const totalItems = count
-  const totalPages = totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize)
-
-  return { items, page, pageSize, totalItems, totalPages }
 })
