@@ -23,6 +23,9 @@ describe('deployment management advanced search filters', () => {
   })
 
   it('keeps deployment record fields isolated from deployment fields', () => {
+    expect(buildPersonnelAdvancedSearchFilters([
+      { field: 'recordNo', operator: 'equals', value: 'DEP-001' },
+    ], DEPLOYMENT_SEARCHABLE_FIELD_COLUMNS)).toEqual([])
 
   })
 }
