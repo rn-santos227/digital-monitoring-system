@@ -16,5 +16,8 @@ export const parseDeploymentSearchQuery = (query: DeploymentSearchQuery): Parsed
 
   const { page, pageSize, rangeFrom, rangeTo } = parseManagementPaginationQuery(query)
   const rawFields = typeof query.fields === 'string' ? query.fields.split(',').map(field => field.trim()) : []
+  const selectedFields = rawFields.length > 0
+    ? rawFields.filter((field): field is keyof typeof DEPLOYMENT_SEARCHABLE_FIELD_COLUMNS => field in DEPLOYMENT_SEARCHABLE_FIELD_COLUMNS)
+    : Object.keys(DEPLOYMENT_SEARCHABLE_FIELD_COLUMNS) as Array<keyof typeof DEPLOYMENT_SEARCHABLE_FIELD_COLUMNS>
 
 }
