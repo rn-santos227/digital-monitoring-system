@@ -1,13 +1,14 @@
-import { createError, defineEventHandler, getQuery } from 'h3'
+import { defineEventHandler, getQuery } from 'h3'
 import type { DeploymentRecordListResponse } from '../../shared/responses'
-import { DEPLOYMENT_PERMISSION_GROUPS  } from '../../shared/constants'
-import { mapDeploymentRecordListItem, parseManagementPaginationQuery } from '../../shared/utils'
-import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
+import { PERMISSION_CODES } from '../../shared/constants'
+import { mapDeploymentRecordListItem } from '../../shared/utils'
+import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { parseDeploymentRecordSearchQuery } from '../../utils/deployment-records/parseDeploymentRecordSearchQuery'
 import { searchDeploymentRecords } from '../../utils/deployment-records/searchDeploymentRecords'
 
 export default defineEventHandler(async (event): Promise<DeploymentRecordListResponse> => {
-  await requireAnyPermission(event, DEPLOYMENT_PERMISSION_GROUPS.deploymentManagement)
+  await requirePermission(event, PERMISSION_CODES.deploymentManage)
 
   const query = getQuery(event)
   const term = typeof query.term === 'string' ? query.term.trim() : ''
