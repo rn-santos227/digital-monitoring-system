@@ -28,5 +28,11 @@ const isModalOpen = ref(false)
 const fieldOptions = DEPLOYMENTS_FILTER_FIELD_OPTIONS
 const conditions = computed<DeploymentSearchCondition[]>(() => {
   if (!props.modelValue.conditions) return []
+  try {
+    const parsed: unknown = JSON.parse(props.modelValue.conditions)
+    return Array.isArray(parsed) ? parsed as DeploymentSearchCondition[] : []
+  } catch {
+    return []
+  }
 })
 </script>
