@@ -36,6 +36,10 @@ export const parseEquipmentAssetSearchQuery = (
           `${EQUIPMENT_ASSET_SEARCHABLE_FIELD_COLUMNS[field]}.ilike.%${term}%`,
       )
     : []
-
+  if (term && !searchFilters.length)
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'No valid searchable fields were provided.',
+    })
 }
 
