@@ -26,4 +26,7 @@ const emit = defineEmits<{
 
 const isModalOpen = ref(false)
 const fieldOptions = DEPLOYMENTS_FILTER_FIELD_OPTIONS
+const conditions = computed<DeploymentSearchCondition[]>(() => {
+  if (!props.modelValue.conditions) return []
+})
 </script>
