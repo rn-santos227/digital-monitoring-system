@@ -28,4 +28,7 @@ export const parseDeploymentSearchQuery = (query: DeploymentSearchQuery): Parsed
     parsePersonnelAdvancedSearchConditions(serializedConditions),
     DEPLOYMENT_SEARCHABLE_FIELD_COLUMNS,
   )
+  if (serializedConditions && advancedFilters.length === 0) {
+    throw createError({ statusCode: 400, statusMessage: 'No valid advanced search conditions were provided.' })
+  }
 }
