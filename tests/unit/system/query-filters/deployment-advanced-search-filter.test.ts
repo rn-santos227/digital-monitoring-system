@@ -30,6 +30,12 @@ describe('deployment management advanced search filters', () => {
     expect(buildPersonnelAdvancedSearchFilters([
       { field: 'recordNo', operator: 'equals', value: 'DEP-001' },
     ], DEPLOYMENT_RECORD_SEARCHABLE_FIELD_COLUMNS)).toEqual([
+      {
+        column: 'record_no',
+        operator: 'eq',
+        value: 'DEP-001',
+        conditionGroup: 'condition-0',
+      },
     ])
   })
 }
