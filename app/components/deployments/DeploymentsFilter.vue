@@ -14,4 +14,8 @@ import type {
   DeploymentManagementSearchQuery,
   DeploymentSearchCondition
 } from '~/types/domain/deployment'
+
+const props = withDefaults(defineProps<{ modelValue: Partial<DeploymentManagementSearchQuery> }>(), {
+  modelValue: () => ({}),
+})
 </script>
