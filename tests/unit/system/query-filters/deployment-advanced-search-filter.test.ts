@@ -48,6 +48,11 @@ describe('deployment management advanced search filters', () => {
 
     expect(deployment.page).toBe(2)
     expect(deployment.match).toBe('any')
+    expect(deployment.advancedFilters[0]).toMatchObject({
+      column: 'deployment_area',
+      operator: 'ilike',
+      value: 'North%',
+    })
 
   })
 }
