@@ -23,4 +23,7 @@ const emit = defineEmits<{
   (event: 'apply', value: Partial<DeploymentManagementSearchQuery>): void
   (event: 'reset'): void
 }>()
+
+const isModalOpen = ref(false)
+const fieldOptions = DEPLOYMENTS_FILTER_FIELD_OPTIONS
 </script>
