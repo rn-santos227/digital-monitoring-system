@@ -9,5 +9,7 @@ import { parseDeploymentSearchQuery } from '../../../../server/utils/deployments
 import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/personnel/buildPersonnelAdvancedSearchFilters'
 
 describe('deployment management advanced search filters', () => {
+  it('builds deployment operation and date conditions', () => {
 
+  })
 }
