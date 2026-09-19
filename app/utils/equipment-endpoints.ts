@@ -106,7 +106,7 @@ export const hasEquipmentCategorySearchFilters = (
 ): boolean => {
   const normalizedQuery = normalizeEquipmentCategoryQuery(query)
 
-  return Boolean(normalizedQuery.term) || typeof normalizedQuery.isActive === 'boolean'
+  return Boolean(normalizedQuery.term || normalizedQuery.conditions) || typeof normalizedQuery.isActive === 'boolean'
 }
 
 export const hasEquipmentItemSearchFilters = (
@@ -114,7 +114,7 @@ export const hasEquipmentItemSearchFilters = (
 ): boolean => {
   const normalizedQuery = normalizeEquipmentItemQuery(query)
 
-  return Boolean(normalizedQuery.term)
+  return Boolean(normalizedQuery.term || normalizedQuery.conditions)
 }
 
 export const hasEquipmentAssetSearchFilters = (
@@ -122,7 +122,7 @@ export const hasEquipmentAssetSearchFilters = (
 ): boolean => {
   const normalizedQuery = normalizeEquipmentAssetQuery(query)
 
-  return Boolean(normalizedQuery.term)
+  return Boolean(normalizedQuery.term || normalizedQuery.conditions)
 }
 
 export const hasEquipmentIssuanceSearchFilters = (
@@ -133,6 +133,7 @@ export const hasEquipmentIssuanceSearchFilters = (
   return Boolean(
     normalizedQuery.term
     || normalizedQuery.issuedToPersonnelId
+    || normalizedQuery.conditions
     || normalizedQuery.statusId
     || normalizedQuery.statusName
   )
