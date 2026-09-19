@@ -13,4 +13,8 @@ export const parseDeploymentSearchQuery = (query: DeploymentSearchQuery): Parsed
   if (!term && !serializedConditions && !statusId && !query.supervisorId) {
     throw createError({ statusCode: 400, statusMessage: 'At least one search filter is required.' })
   }
+
+  const { page, pageSize, rangeFrom, rangeTo } = parseManagementPaginationQuery(query)
+  const rawFields = typeof query.fields === 'string' ? query.fields.split(',').map(field => field.trim()) : []
+
 }
