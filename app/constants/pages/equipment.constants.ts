@@ -48,11 +48,14 @@ export const EQUIPMENT_ITEMS_FILTER_FIELDS_LABEL = 'Search Field'
 export const EQUIPMENT_ITEMS_FILTER_APPLY_LABEL = 'Apply Filters'
 export const EQUIPMENT_ITEMS_FILTER_RESET_LABEL = 'Reset'
 export const EQUIPMENT_ITEMS_FILTER_FIELD_OPTIONS = Object.freeze([
-  { value: '', label: 'All searchable fields' },
   { value: 'equipmentCode', label: 'Equipment Code' },
   { value: 'name', label: 'Item Name' },
   { value: 'model', label: 'Model' },
   { value: 'manufacturer', label: 'Manufacturer' },
+  { value: 'description', label: 'Description' },
+  { value: 'unitOfMeasure', label: 'Unit of Measure' },
+  { value: 'createdAt', label: 'Created Date', dataType: 'date' as const },
+  { value: 'updatedAt', label: 'Updated Date', dataType: 'date' as const },
 ])
 export const EQUIPMENT_ITEMS_PAGE_REQUIRED_PERMISSIONS = EQUIPMENT_PRIVILEGES
 
