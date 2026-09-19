@@ -360,7 +360,11 @@ export interface EquipmentAssetSuggestionResponse {
 export interface EquipmentAssetSearchQuery extends EquipmentCategoryEndpointQuery {
   term?: string
   fields?: string
+  conditions?: string
+  match?: AdvancedSearchMatch
 }
+
+export type EquipmentAssetSearchCondition = AdvancedSearchCondition
 
 export interface EquipmentAssetFormValues {
   assetTag: string
