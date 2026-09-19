@@ -120,6 +120,8 @@ export const useEquipmentAssetsStore = defineStore('equipment-assets', {
         pageSize: resolvedPageSize,
         term: filters.term,
         fields: filters.fields,
+        conditions: filters.conditions,
+        match: filters.match,
       }
       try {
         const response = hasEquipmentAssetSearchFilters(query)
