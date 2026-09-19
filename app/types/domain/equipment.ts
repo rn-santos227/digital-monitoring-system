@@ -7,6 +7,7 @@ import type {
   EquipmentIssuancesUpdate,
   UUID,
 } from '../database.tables'
+import type { AdvancedSearchCondition, AdvancedSearchMatch } from '~/constants/ui.constants'
 
 export type EquipmentAssetCreateInput = EquipmentAssetsInsert
 export type EquipmentAssetUpdateInput = EquipmentAssetsUpdate
@@ -86,8 +87,12 @@ export interface EquipmentCategoryEndpointQuery {
 export interface EquipmentCategorySearchQuery extends EquipmentCategoryEndpointQuery {
   term?: string
   fields?: string
+  conditions?: string
+  match?: AdvancedSearchMatch
   isActive?: boolean
 }
+
+export type EquipmentCategorySearchCondition = AdvancedSearchCondition
 
 export interface EquipmentCategorySuggestionItem {
   id: string
