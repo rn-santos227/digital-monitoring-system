@@ -20,5 +20,16 @@ export const parseEquipmentIssuanceSearchQuery = (
     typeof query.statusName === 'string' && query.statusName
       ? query.statusName.trim()
       : null
-
+  if (
+    !term &&
+    !serializedConditions &&
+    !issuedToPersonnelId &&
+    !statusId &&
+    !statusName
+  ) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'At least one search filter is required.',
+    })
+  }
 }
