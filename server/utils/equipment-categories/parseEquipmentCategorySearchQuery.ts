@@ -48,6 +48,11 @@ export const parseEquipmentCategorySearchQuery = (
     parseEquipmentAdvancedSearchConditions(serializedConditions),
     EQUIPMENT_CATEGORY_SEARCHABLE_FIELD_COLUMNS,
   )
+  if (serializedConditions && !advancedFilters.length)
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'No valid advanced search conditions were provided.',
+    })
 
 
 }
