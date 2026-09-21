@@ -15,9 +15,7 @@ interface SearchEquipmentCategoriesOptions {
 
 export async function searchEquipmentCategories(
   supabase: SupabaseClient,
-  filters: string[],
-  rangeFrom: number,
-  rangeTo: number,
+  options: SearchEquipmentCategoriesOptions,
 ) {
   const { data, count, error } = await supabase
     .from('equipment_categories')
