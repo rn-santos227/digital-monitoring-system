@@ -16,5 +16,9 @@ export const parseEquipmentIssuanceSearchQuery = (
       : null
   const statusId =
     typeof query.statusId === 'string' && query.statusId ? query.statusId : null
+  const statusName =
+    typeof query.statusName === 'string' && query.statusName
+      ? query.statusName.trim()
+      : null
 
 }
