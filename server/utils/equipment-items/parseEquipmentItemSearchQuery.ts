@@ -20,5 +20,14 @@ export const parseEquipmentItemSearchQuery = (
     typeof query.fields === 'string'
       ? query.fields.split(',').map((field) => field.trim())
       : []
-
+  const selectedFields = rawFields.length
+    ? rawFields.filter(
+        (
+          field,
+        ): field is keyof typeof EQUIPMENT_ITEM_SEARCHABLE_FIELD_COLUMNS =>
+          field in EQUIPMENT_ITEM_SEARCHABLE_FIELD_COLUMNS,
+      )
+    : (Object.keys(EQUIPMENT_ITEM_SEARCHABLE_FIELD_COLUMNS) as Array<
+        keyof typeof EQUIPMENT_ITEM_SEARCHABLE_FIELD_COLUMNS
+      >)
 }
