@@ -17,12 +17,9 @@ export async function searchEquipmentCategories(
   supabase: SupabaseClient,
   options: SearchEquipmentCategoriesOptions,
 ) {
-  const { data, count, error } = await supabase
+  let query = supabase
     .from('equipment_categories')
     .select(EQUIPMENT_CATEGORY_SELECT_COLUMNS, { count: 'exact' })
-    .or(filters.join(','))
-    .order('name', { ascending: true })
-    .range(rangeFrom, rangeTo)
 
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to search equipment categories: ${error.message}` })
