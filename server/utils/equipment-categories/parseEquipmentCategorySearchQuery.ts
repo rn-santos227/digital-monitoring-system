@@ -53,6 +53,11 @@ export const parseEquipmentCategorySearchQuery = (
       statusCode: 400,
       statusMessage: 'No valid advanced search conditions were provided.',
     })
-
-
+  return {
+    ...pagination,
+    searchFilters,
+    advancedFilters,
+    match: query.match === 'any' ? ('any' as const) : ('all' as const),
+    isActive,
+  }
 }
