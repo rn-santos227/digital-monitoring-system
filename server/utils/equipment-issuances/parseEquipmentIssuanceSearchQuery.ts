@@ -47,4 +47,10 @@ export const parseEquipmentIssuanceSearchQuery = (
     : (Object.keys(EQUIPMENT_ISSUANCE_SEARCHABLE_FIELD_COLUMNS) as Array<
         keyof typeof EQUIPMENT_ISSUANCE_SEARCHABLE_FIELD_COLUMNS
       >)
+  const searchFilters = term
+    ? selectedFields.map(
+        (field) =>
+          `${EQUIPMENT_ISSUANCE_SEARCHABLE_FIELD_COLUMNS[field]}.ilike.%${term}%`,
+      )
+    : []
 }
