@@ -10,6 +10,8 @@ export const parseEquipmentCategorySearchQuery = (
   const term = typeof query.term === 'string' ? query.term.trim() : ''
   const serializedConditions =
     typeof query.conditions === 'string' ? query.conditions : ''
+  const isActive =
+    query.isActive === 'true' ? true : query.isActive === 'false' ? false : null
 
 
 }
