@@ -24,4 +24,8 @@ export async function searchEquipmentAssets(supabase: SupabaseClient, options: S
   if (options.advancedFilters.length > 0) {
     query = applyPersonnelSearchFilters(query, options.advancedFilters, options.match)
   }
+
+  const { data, count, error } = await query
+    .order('created_at', { ascending: false })
+    .range(options.rangeFrom, options.rangeTo)
 }
