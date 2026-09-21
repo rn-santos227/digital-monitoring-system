@@ -7,7 +7,9 @@ import { applyPersonnelSearchFilters } from '../../shared/utils'
 export async function searchEquipmentIssuances(
   supabase: SupabaseClient,
   params: {
-    term: string
+    searchFilters: string[]
+    advancedFilters: PersonnelSearchFilter[]
+    match: 'any' | 'all'
     issuedToPersonnelId: string | null
     statusId: string | null
     statusName: string | null
