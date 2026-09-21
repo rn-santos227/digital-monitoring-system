@@ -23,6 +23,16 @@ export const parseEquipmentCategorySearchQuery = (
     typeof query.fields === 'string'
       ? query.fields.split(',').map((field) => field.trim())
       : []
+  const selectedFields = rawFields.length
+    ? rawFields.filter(
+        (
+          field,
+        ): field is keyof typeof EQUIPMENT_CATEGORY_SEARCHABLE_FIELD_COLUMNS =>
+          field in EQUIPMENT_CATEGORY_SEARCHABLE_FIELD_COLUMNS,
+      )
+    : (Object.keys(EQUIPMENT_CATEGORY_SEARCHABLE_FIELD_COLUMNS) as Array<
+        keyof typeof EQUIPMENT_CATEGORY_SEARCHABLE_FIELD_COLUMNS
+      >)
 
 
 }
