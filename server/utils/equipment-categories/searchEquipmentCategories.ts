@@ -33,6 +33,10 @@ export async function searchEquipmentCategories(
     query = query.eq('is_active', options.isActive)
   }
 
+  const { data, count, error } = await query
+    .order('name', { ascending: true })
+    .range(options.rangeFrom, options.rangeTo)
+
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to search equipment categories: ${error.message}` })
   }
