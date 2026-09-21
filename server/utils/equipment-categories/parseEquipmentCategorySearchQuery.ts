@@ -18,6 +18,11 @@ export const parseEquipmentCategorySearchQuery = (
       statusMessage: 'At least one search filter is required.',
     })
   }
+  const pagination = parseManagementPaginationQuery(query)
+  const rawFields =
+    typeof query.fields === 'string'
+      ? query.fields.split(',').map((field) => field.trim())
+      : []
 
 
 }
