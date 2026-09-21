@@ -7,5 +7,8 @@ import { buildPersonnelAdvancedSearchFilters } from '../personnel/buildPersonnel
 export const parseEquipmentItemSearchQuery = (
   query: Record<string, unknown>,
 ) => {
+  const term = typeof query.term === 'string' ? query.term.trim() : ''
+  const serializedConditions =
+    typeof query.conditions === 'string' ? query.conditions : ''
 
 }
