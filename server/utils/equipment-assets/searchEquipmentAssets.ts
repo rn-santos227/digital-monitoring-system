@@ -21,4 +21,7 @@ export async function searchEquipmentAssets(supabase: SupabaseClient, options: S
     query = query.or(options.searchFilters.join(','))
   }
 
+  if (options.advancedFilters.length > 0) {
+    query = applyPersonnelSearchFilters(query, options.advancedFilters, options.match)
+  }
 }
