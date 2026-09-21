@@ -12,4 +12,6 @@ interface SearchEquipmentAssetsOptions {
   rangeTo: number
 }
 
+export async function searchEquipmentAssets(supabase: SupabaseClient, options: SearchEquipmentAssetsOptions) {
 
+}
