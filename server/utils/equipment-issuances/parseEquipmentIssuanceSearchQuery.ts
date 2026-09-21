@@ -10,5 +10,9 @@ export const parseEquipmentIssuanceSearchQuery = (
   const term = typeof query.term === 'string' ? query.term.trim() : ''
   const serializedConditions =
     typeof query.conditions === 'string' ? query.conditions : ''
+  const issuedToPersonnelId =
+    typeof query.issuedToPersonnelId === 'string' && query.issuedToPersonnelId
+      ? query.issuedToPersonnelId
+      : null
 
 }
