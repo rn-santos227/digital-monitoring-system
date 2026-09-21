@@ -13,5 +13,8 @@ interface SearchEquipmentAssetsOptions {
 }
 
 export async function searchEquipmentAssets(supabase: SupabaseClient, options: SearchEquipmentAssetsOptions) {
+  let query = supabase
+    .from('equipment_assets')
+    .select(EQUIPMENT_ASSET_SELECT_COLUMNS, { count: 'exact' })
 
 }
