@@ -17,4 +17,8 @@ export async function searchEquipmentAssets(supabase: SupabaseClient, options: S
     .from('equipment_assets')
     .select(EQUIPMENT_ASSET_SELECT_COLUMNS, { count: 'exact' })
 
+  if (options.searchFilters.length > 0) {
+    query = query.or(options.searchFilters.join(','))
+  }
+
 }
