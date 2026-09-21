@@ -28,4 +28,10 @@ export async function searchEquipmentAssets(supabase: SupabaseClient, options: S
   const { data, count, error } = await query
     .order('created_at', { ascending: false })
     .range(options.rangeFrom, options.rangeTo)
+
+  if (error) {
+    throw createError({ statusCode: 500, statusMessage: `Failed to search equipment assets: ${error.message}` })
+  }
+
+  return { rows: (data ?? []) as EquipmentAssetRow[], totalItems: count ?? 0 }
 }
