@@ -12,6 +12,12 @@ export const parseEquipmentCategorySearchQuery = (
     typeof query.conditions === 'string' ? query.conditions : ''
   const isActive =
     query.isActive === 'true' ? true : query.isActive === 'false' ? false : null
+  if (!term && !serializedConditions && typeof isActive !== 'boolean') {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'At least one search filter is required.',
+    })
+  }
 
 
 }
