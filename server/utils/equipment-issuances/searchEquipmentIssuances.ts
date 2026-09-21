@@ -38,8 +38,12 @@ export async function searchEquipmentIssuances(
 
   let query = supabase.from('equipment_issuances').select(EQUIPMENT_ISSUANCE_SELECT_COLUMNS, { count: 'exact' })
 
-  if (filters.length > 0) {
-    query = query.or(filters.join(','))
+  if (params.searchFilters.length > 0) {
+    query = query.or(params.searchFilters.join(','))
+  }
+
+  if (params.advancedFilters.length > 0) {
+    query = applyPersonnelSearchFilters(query, params.advancedFilters, params.match)
   }
 
   if (params.issuedToPersonnelId) {
