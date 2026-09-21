@@ -17,16 +17,7 @@ export async function searchEquipmentIssuances(
     rangeTo: number
   },
 ) {
-  const filters: string[] = []
-
-  if (params.term) {
-    filters.push(`issue_no.ilike.%${params.term}%`)
-    filters.push(`remarks.ilike.%${params.term}%`)
-    filters.push(`issued_location.ilike.%${params.term}%`)
-  }
-
   let resolvedStatusId = params.statusId
-
   if (!resolvedStatusId && params.statusName) {
     const { data: statusRow, error: statusError } = await supabase
       .from('issuance_statuses')
