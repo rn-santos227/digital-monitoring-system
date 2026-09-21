@@ -10,5 +10,10 @@ export const parseEquipmentItemSearchQuery = (
   const term = typeof query.term === 'string' ? query.term.trim() : ''
   const serializedConditions =
     typeof query.conditions === 'string' ? query.conditions : ''
+  if (!term && !serializedConditions)
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'At least one search filter is required.',
+    })
 
 }
