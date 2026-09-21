@@ -29,6 +29,10 @@ export async function searchEquipmentCategories(
     query = applyPersonnelSearchFilters(query, options.advancedFilters, options.match)
   }
 
+  if (typeof options.isActive === 'boolean') {
+    query = query.eq('is_active', options.isActive)
+  }
+
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to search equipment categories: ${error.message}` })
   }
