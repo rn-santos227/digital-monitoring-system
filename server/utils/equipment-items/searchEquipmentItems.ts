@@ -19,7 +19,6 @@ export async function searchEquipmentItems(
   let query = supabase
     .from('equipment_items')
     .select(EQUIPMENT_ITEM_SELECT_COLUMNS, { count: 'exact' })
-    .range(options.rangeFrom, options.rangeTo)
 
   if (options.searchFilters.length > 0) {
     query = query.or(options.searchFilters.join(','))
@@ -28,6 +27,10 @@ export async function searchEquipmentItems(
   if (options.advancedFilters.length > 0) {
     query = applyPersonnelSearchFilters(query, options.advancedFilters, options.match)
   }
+
+  const { data, count, error } = await query
+    .order('name', { ascending: true })
+    .range(options.rangeFrom, options.rangeTo)
 
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to search equipment items: ${error.message}` })
