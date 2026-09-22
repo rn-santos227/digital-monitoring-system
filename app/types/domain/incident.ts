@@ -1,3 +1,5 @@
+import type { AdvancedSearchCondition, AdvancedSearchMatch } from '~/constants/ui.constants'
+
 export interface IncidentTypeSuggestionItem {
   id: string
   code: string
