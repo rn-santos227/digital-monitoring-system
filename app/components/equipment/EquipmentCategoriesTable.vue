@@ -22,4 +22,6 @@ const props = withDefaults(defineProps<{
 
 const isModalOpen = ref(false)
 const fieldOptions = EQUIPMENT_CATEGORIES_FILTER_FIELD_OPTIONS
+const conditions = computed<EquipmentCategorySearchCondition[]>(() => {
+})
 </script>
