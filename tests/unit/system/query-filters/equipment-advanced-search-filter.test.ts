@@ -29,4 +29,8 @@ describe('equipment management advanced search filters', () => {
       },
     ])
   })
+
+  it('builds equipment category timestamp ranges', () => {
+
+  })
 })
