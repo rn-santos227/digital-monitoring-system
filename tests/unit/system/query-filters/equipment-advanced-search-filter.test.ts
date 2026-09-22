@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest'
+
 import {
   EQUIPMENT_ASSET_SEARCHABLE_FIELD_COLUMNS,
   EQUIPMENT_CATEGORY_SEARCHABLE_FIELD_COLUMNS,
