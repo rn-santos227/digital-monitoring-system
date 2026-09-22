@@ -34,6 +34,7 @@ describe('equipment management advanced search filters', () => {
     const filters = buildPersonnelAdvancedSearchFilters([{
       field: 'createdAt',
       operator: 'between',
+      value: '2026-09-01',
     }], EQUIPMENT_CATEGORY_SEARCHABLE_FIELD_COLUMNS)
   })
 })
