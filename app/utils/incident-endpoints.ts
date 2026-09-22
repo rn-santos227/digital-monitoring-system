@@ -44,6 +44,7 @@ export const hasEquipmentIncidentSearchFilters = (
   return Boolean(
     normalizedQuery.term
     || normalizedQuery.incidentTypeId
+    || normalizedQuery.conditions
     || normalizedQuery.investigationStatusId
     || normalizedQuery.dateFrom
     || normalizedQuery.dateTo,
