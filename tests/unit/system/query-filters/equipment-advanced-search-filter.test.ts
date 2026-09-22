@@ -46,6 +46,7 @@ describe('equipment management advanced search filters', () => {
 
   it.each([
     ['asset', EQUIPMENT_ASSET_SEARCHABLE_FIELD_COLUMNS],
+    ['category', EQUIPMENT_CATEGORY_SEARCHABLE_FIELD_COLUMNS],
   ] as const)('rejects unsupported %s fields', (_domain, searchableFields) => {
 
   })
