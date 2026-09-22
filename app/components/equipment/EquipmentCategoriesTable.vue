@@ -20,6 +20,11 @@ const props = withDefaults(defineProps<{
   validationErrors: () => ({}),
 })
 
+const emit = defineEmits<{
+  (event: 'apply', value: Partial<EquipmentCategorySearchQuery>): void
+  (event: 'reset'): void
+}>()
+
 const isModalOpen = ref(false)
 const fieldOptions = EQUIPMENT_CATEGORIES_FILTER_FIELD_OPTIONS
 const conditions = computed<EquipmentCategorySearchCondition[]>(() => {
