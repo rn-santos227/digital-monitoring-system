@@ -13,4 +13,11 @@ export default defineEventHandler(async (event): Promise<EquipmentItemListApiRes
   const { page, pageSize, ...searchOptions } = parseEquipmentItemSearchQuery(getQuery(event))
   const { rows, totalItems } = await searchEquipmentItems(getServiceSupabaseClient(), searchOptions)
 
+  return {
+    items: rows.map(mapEquipmentItemListItem),
+    page,
+    pageSize,
+    totalItems,
+    totalPages: totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize),
+  }
 })
