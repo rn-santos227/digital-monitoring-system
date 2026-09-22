@@ -26,6 +26,9 @@ export interface EquipmentIncidentEndpointQuery {
 
 export interface EquipmentIncidentSearchQuery extends EquipmentIncidentEndpointQuery {
   term?: string
+  fields?: string
+  conditions?: string
+  match?: AdvancedSearchMatch
   incidentTypeId?: string
   investigationStatusId?: string
   dateFrom?: string
