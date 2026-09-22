@@ -17,7 +17,7 @@
         {{ EQUIPMENT_ASSETS_FILTER_RESET_LABEL }}
       </BaseButton>
       <BaseButton type="button" size="sm" icon-name="magnifying-glass" @click="isModalOpen = true">
-        Advanced search
+        Advanced Search
       </BaseButton>
     </div>
   </section>

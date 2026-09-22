@@ -22,7 +22,7 @@
         icon-name="magnifying-glass"
         @click="isModalOpen = true"
       >
-        Advanced search
+        Advanced Search
       </BaseButton>
     </div>
     <AdvancedSearchModal
