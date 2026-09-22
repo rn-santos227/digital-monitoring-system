@@ -14,16 +14,12 @@ interface SearchEquipmentItemsOptions {
 
 export async function searchEquipmentItems(
   supabase: SupabaseClient,
-  filters: string[],
-  rangeFrom: number,
-  rangeTo: number,
+  options: SearchEquipmentItemsOptions,
 ) {
-  const { data, count, error } = await supabase
+  let query = supabase
     .from('equipment_items')
     .select(EQUIPMENT_ITEM_SELECT_COLUMNS, { count: 'exact' })
-    .or(filters.join(','))
-    .order('name', { ascending: true })
-    .range(rangeFrom, rangeTo)
+    .range(options.rangeFrom, options.rangeTo)
 
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to search equipment items: ${error.message}` })
