@@ -7,13 +7,6 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { parseEquipmentItemSearchQuery } from '../../utils/equipment-items/parseEquipmentItemSearchQuery'
 import { searchEquipmentItems } from '../../utils/equipment-items/searchEquipmentItems'
 
-const SEARCHABLE_FIELDS = {
-  equipmentCode: 'equipment_code',
-  name: 'name',
-  model: 'model',
-  manufacturer: 'manufacturer',
-} as const
-
 export default defineEventHandler(async (event): Promise<EquipmentItemListApiResponse> => {
   await requirePermission(event, PERMISSION_CODES.equipmentView)
   const query = getQuery(event)
