@@ -12,5 +12,11 @@ import {
 } from '~/constants/page.constants'
 import type { EquipmentIssuanceSearchCondition, EquipmentIssuanceSearchQuery } from '~/types/domain/equipment'
 
-
+const props = withDefaults(defineProps<{
+  modelValue: Partial<EquipmentIssuanceSearchQuery>
+  validationErrors?: Readonly<Record<string, string>>
+}>(), {
+  modelValue: () => ({}),
+  validationErrors: () => ({}),
+})
 </script>
