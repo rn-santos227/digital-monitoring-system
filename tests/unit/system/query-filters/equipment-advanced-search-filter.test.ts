@@ -43,4 +43,10 @@ describe('equipment management advanced search filters', () => {
       ['created_at', 'lte', '2026-09-30T23:59:59.999Z'],
     ])
   })
+
+  it.each([
+  
+  ] as const)('rejects unsupported %s fields', (_domain, searchableFields) => {
+
+  })
 })
