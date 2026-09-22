@@ -1,9 +1,10 @@
-import { createError, defineEventHandler, getQuery } from 'h3'
+import { defineEventHandler, getQuery } from 'h3'
 import type { EquipmentItemListApiResponse } from '../../shared/responses'
 import { PERMISSION_CODES } from '../../shared/constants'
-import { mapEquipmentItemListItem, parseManagementPaginationQuery } from '../../shared/utils'
+import { mapEquipmentItemListItem } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
+import { parseEquipmentItemSearchQuery } from '../../utils/equipment-items/parseEquipmentItemSearchQuery'
 import { searchEquipmentItems } from '../../utils/equipment-items/searchEquipmentItems'
 
 const SEARCHABLE_FIELDS = {
