@@ -20,6 +20,14 @@
         Advanced Search
       </BaseButton>
     </div>
+    <AdvancedSearchModal
+      v-if="isModalOpen"
+      :fields="fieldOptions"
+      :model-value="advancedSearchValue"
+      @apply="emitApply"
+      @clear="emitReset"
+      @close="isModalOpen = false"
+    />
   </section>
 </template>
 
