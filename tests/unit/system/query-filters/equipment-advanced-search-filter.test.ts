@@ -31,6 +31,7 @@ describe('equipment management advanced search filters', () => {
   })
 
   it('builds equipment category timestamp ranges', () => {
-
+    const filters = buildPersonnelAdvancedSearchFilters([{
+    }], EQUIPMENT_CATEGORY_SEARCHABLE_FIELD_COLUMNS)
   })
 })
