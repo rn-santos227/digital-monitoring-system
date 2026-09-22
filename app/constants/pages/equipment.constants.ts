@@ -152,6 +152,7 @@ export const EQUIPMENT_INCIDENTS_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: 'remarks', label: 'Remarks' },
   { value: 'incidentDate', label: 'Incident Date', dataType: 'date' as const },
   { value: 'createdAt', label: 'Created Date', dataType: 'date' as const },
+  { value: 'updatedAt', label: 'Updated Date', dataType: 'date' as const },
 ])
 export const EQUIPMENT_INCIDENTS_INCIDENT_TYPE_OPTIONS = Object.freeze(
   INCIDENT_TYPE_VALUES.map((value) => ({ label: value, value })),
