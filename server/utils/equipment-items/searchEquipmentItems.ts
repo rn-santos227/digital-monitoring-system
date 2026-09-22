@@ -25,6 +25,9 @@ export async function searchEquipmentItems(
     query = query.or(options.searchFilters.join(','))
   }
 
+  if (options.advancedFilters.length > 0) {
+    query = applyPersonnelSearchFilters(query, options.advancedFilters, options.match)
+  }
 
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to search equipment items: ${error.message}` })
