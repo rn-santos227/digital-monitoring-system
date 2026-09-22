@@ -1,72 +1,16 @@
 <template>
-  <BaseAccordion :title="EQUIPMENT_ISSUANCES_FILTER_CARD_TITLE" :initially-open="true">
-    <form :class="UNITS_FILTER_FORM_CLASSES" @submit.prevent="emitApply">
-      <div :class="UNITS_FILTER_FIELDS_GRID_CLASSES">
-        <BaseTextField
-          v-model="localValue.term"
-          type="search"
-          :label="EQUIPMENT_ISSUANCES_FILTER_TERM_LABEL"
-          :placeholder="EQUIPMENT_ISSUANCES_FILTER_TERM_PLACEHOLDER"
-        />
 
-        <BaseSelect
-          v-model="localValue.statusName"
-          :label="EQUIPMENT_ISSUANCES_FILTER_STATUS_LABEL"
-          :options="statusOptions"
-        />
-      </div>
-
-      <footer :class="UNITS_FILTER_FOOTER_CLASSES">
-        <div :class="UNITS_FILTER_ACTIONS_CLASSES">
-          <BaseButton type="submit" size="sm">{{ EQUIPMENT_ISSUANCES_FILTER_APPLY_LABEL }}</BaseButton>
-          <BaseButton type="button" variant="secondary" size="sm" @click="emit('reset')">
-            {{ EQUIPMENT_ISSUANCES_FILTER_RESET_LABEL }}
-          </BaseButton>
-        </div>
-      </footer>
-    </form>
-  </BaseAccordion>
 </template>
 
 <script setup lang="ts">
-import { reactive, watch } from 'vue'
+import { computed, ref } from 'vue'
+import type { AdvancedSearchValue } from '~/constants/ui.constants'
 import {
-  EQUIPMENT_ISSUANCES_FILTER_APPLY_LABEL,
   EQUIPMENT_ISSUANCES_FILTER_CARD_TITLE,
+  EQUIPMENT_ISSUANCES_FILTER_FIELD_OPTIONS,
   EQUIPMENT_ISSUANCES_FILTER_RESET_LABEL,
-  EQUIPMENT_ISSUANCES_FILTER_STATUS_LABEL,
-  EQUIPMENT_ISSUANCES_FILTER_STATUS_OPTIONS,
-  EQUIPMENT_ISSUANCES_FILTER_TERM_LABEL,
-  EQUIPMENT_ISSUANCES_FILTER_TERM_PLACEHOLDER,
 } from '~/constants/page.constants'
-import {
-  UNITS_FILTER_ACTIONS_CLASSES,
-  UNITS_FILTER_FIELDS_GRID_CLASSES,
-  UNITS_FILTER_FOOTER_CLASSES,
-  UNITS_FILTER_FORM_CLASSES,
-} from '~/constants/shared.constants'
-import type { EquipmentIssuanceSearchQuery } from '~/types/domain/equipment'
+import type { EquipmentIssuanceSearchCondition, EquipmentIssuanceSearchQuery } from '~/types/domain/equipment'
 
-const props = withDefaults(defineProps<{ modelValue: Partial<EquipmentIssuanceSearchQuery> }>(), {
-  modelValue: () => ({}),
-})
 
-const emit = defineEmits<{
-  (event: 'apply', value: Partial<EquipmentIssuanceSearchQuery>): void
-  (event: 'reset'): void
-}>()
-
-const localValue = reactive({ term: '', statusName: '' })
-
-watch(() => props.modelValue, (value) => {
-  localValue.term = value.term ?? ''
-  localValue.statusName = value.statusName ?? ''
-}, { immediate: true, deep: true })
-
-const statusOptions = [...EQUIPMENT_ISSUANCES_FILTER_STATUS_OPTIONS]
-
-const emitApply = () => emit('apply', {
-  term: localValue.term,
-  statusName: localValue.statusName || undefined,
-})
 </script>
