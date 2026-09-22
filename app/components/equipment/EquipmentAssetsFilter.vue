@@ -39,5 +39,11 @@ const conditions = computed<EquipmentAssetSearchCondition[]>(() => {
       : []
   }
 
+  try {
+    const parsed: unknown = JSON.parse(props.modelValue.conditions)
+    return Array.isArray(parsed) ? parsed as EquipmentAssetSearchCondition[] : []
+  } catch {
+    return []
+  }
 })
 </script>
