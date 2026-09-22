@@ -147,6 +147,7 @@ export const EQUIPMENT_INCIDENTS_FILTER_RESET_LABEL = 'Reset'
 export const EQUIPMENT_INCIDENTS_FILTER_FIELD_OPTIONS = Object.freeze([
   { value: 'incidentNo', label: 'Incident Number' },
   { value: 'location', label: 'Location' },
+  { value: 'description', label: 'Description' },
 ])
 export const EQUIPMENT_INCIDENTS_INCIDENT_TYPE_OPTIONS = Object.freeze(
   INCIDENT_TYPE_VALUES.map((value) => ({ label: value, value })),
