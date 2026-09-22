@@ -12,5 +12,11 @@ export default defineEventHandler(async (event): Promise<EquipmentIssuanceListAp
   const { page, pageSize, ...searchOptions } = parseEquipmentIssuanceSearchQuery(getQuery(event))
   const { rows, totalItems } = await searchEquipmentIssuances(getServiceSupabaseClient(), searchOptions)
 
-  return { items: rows.map(mapEquipmentIssuanceListItem), page, pageSize, totalItems, totalPages: totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize) }
+  return {
+    items: rows.map(mapEquipmentIssuanceListItem),
+    page,
+    pageSize,
+    totalItems,
+    totalPages: totalItems === 0 ? 0 : Math.ceil(totalItems / pageSize),
+  }
 })
