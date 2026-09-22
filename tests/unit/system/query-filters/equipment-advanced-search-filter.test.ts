@@ -53,7 +53,9 @@ describe('equipment management advanced search filters', () => {
     ['issuance', EQUIPMENT_ISSUANCE_SEARCHABLE_FIELD_COLUMNS],
   ] as const)('rejects unsupported %s fields', (_domain, searchableFields) => {
     expect(buildPersonnelAdvancedSearchFilters([{
-
+      field: 'unsupportedField',
+      operator: 'equals',
+      value: 'value',
     }], searchableFields)).toEqual([])
   })
 })
