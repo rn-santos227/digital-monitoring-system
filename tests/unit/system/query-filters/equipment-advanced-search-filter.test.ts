@@ -40,6 +40,7 @@ describe('equipment management advanced search filters', () => {
 
     expect(filters.map(filter => [filter.column, filter.operator, filter.value])).toEqual([
       ['created_at', 'gte', '2026-09-01T00:00:00.000Z'],
+      ['created_at', 'lte', '2026-09-30T23:59:59.999Z'],
     ])
   })
 })
