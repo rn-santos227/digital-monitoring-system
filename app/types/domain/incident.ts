@@ -35,6 +35,8 @@ export interface EquipmentIncidentSearchQuery extends EquipmentIncidentEndpointQ
   dateTo?: string
 }
 
+export type EquipmentIncidentSearchCondition = AdvancedSearchCondition
+
 export interface EquipmentIncidentListItem {
   id: string
   incidentNo: string
