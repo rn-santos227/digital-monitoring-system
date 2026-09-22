@@ -50,6 +50,7 @@ describe('equipment management advanced search filters', () => {
     ['asset', EQUIPMENT_ASSET_SEARCHABLE_FIELD_COLUMNS],
     ['category', EQUIPMENT_CATEGORY_SEARCHABLE_FIELD_COLUMNS],
     ['item', EQUIPMENT_ITEM_SEARCHABLE_FIELD_COLUMNS],
+    ['issuance', EQUIPMENT_ISSUANCE_SEARCHABLE_FIELD_COLUMNS],
   ] as const)('rejects unsupported %s fields', (_domain, searchableFields) => {
 
   })
