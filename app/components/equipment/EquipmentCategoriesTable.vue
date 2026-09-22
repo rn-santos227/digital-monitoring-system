@@ -19,4 +19,7 @@ const props = withDefaults(defineProps<{
   modelValue: () => ({}),
   validationErrors: () => ({}),
 })
+
+const isModalOpen = ref(false)
+const fieldOptions = EQUIPMENT_CATEGORIES_FILTER_FIELD_OPTIONS
 </script>
