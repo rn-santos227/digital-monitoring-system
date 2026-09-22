@@ -39,7 +39,7 @@ describe('equipment management advanced search filters', () => {
     }], EQUIPMENT_CATEGORY_SEARCHABLE_FIELD_COLUMNS)
 
     expect(filters.map(filter => [filter.column, filter.operator, filter.value])).toEqual([
-
+      ['created_at', 'gte', '2026-09-01T00:00:00.000Z'],
     ])
   })
 })
