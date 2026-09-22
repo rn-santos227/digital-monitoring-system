@@ -35,6 +35,7 @@ describe('equipment management advanced search filters', () => {
       field: 'createdAt',
       operator: 'between',
       value: '2026-09-01',
+      valueTo: '2026-09-30',
     }], EQUIPMENT_CATEGORY_SEARCHABLE_FIELD_COLUMNS)
   })
 })
