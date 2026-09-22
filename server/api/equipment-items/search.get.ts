@@ -10,4 +10,7 @@ import { searchEquipmentItems } from '../../utils/equipment-items/searchEquipmen
 export default defineEventHandler(async (event): Promise<EquipmentItemListApiResponse> => {
   await requirePermission(event, PERMISSION_CODES.equipmentView)
 
+  const { page, pageSize, ...searchOptions } = parseEquipmentItemSearchQuery(getQuery(event))
+  const { rows, totalItems } = await searchEquipmentItems(getServiceSupabaseClient(), searchOptions)
+
 })
