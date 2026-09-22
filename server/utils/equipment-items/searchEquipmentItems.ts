@@ -21,6 +21,11 @@ export async function searchEquipmentItems(
     .select(EQUIPMENT_ITEM_SELECT_COLUMNS, { count: 'exact' })
     .range(options.rangeFrom, options.rangeTo)
 
+  if (options.searchFilters.length > 0) {
+    query = query.or(options.searchFilters.join(','))
+  }
+
+
   if (error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to search equipment items: ${error.message}` })
   }
