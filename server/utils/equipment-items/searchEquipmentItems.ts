@@ -1,6 +1,9 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { EQUIPMENT_ITEM_SELECT_COLUMNS } from '../../shared/constants'
+import type { PersonnelSearchFilter } from '../../shared/models'
+import { applyPersonnelSearchFilters } from '../../shared/utils'
+
 
 export async function searchEquipmentItems(
   supabase: SupabaseClient,
