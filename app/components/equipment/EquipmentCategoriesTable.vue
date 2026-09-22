@@ -41,4 +41,8 @@ const conditions = computed<EquipmentCategorySearchCondition[]>(() => {
   }
 })
 const activeConditionCount = computed(() => conditions.value.length)
+const conditionSummary = computed(() => activeConditionCount.value
+  ? `${activeConditionCount.value} advanced search condition${activeConditionCount.value === 1 ? '' : 's'} applied`
+  : 'No advanced search conditions applied')
+
 </script>
