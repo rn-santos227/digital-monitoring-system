@@ -4,6 +4,13 @@ import { EQUIPMENT_ITEM_SELECT_COLUMNS } from '../../shared/constants'
 import type { PersonnelSearchFilter } from '../../shared/models'
 import { applyPersonnelSearchFilters } from '../../shared/utils'
 
+interface SearchEquipmentItemsOptions {
+  searchFilters: string[]
+  advancedFilters: PersonnelSearchFilter[]
+  match: 'any' | 'all'
+  rangeFrom: number
+  rangeTo: number
+}
 
 export async function searchEquipmentItems(
   supabase: SupabaseClient,
