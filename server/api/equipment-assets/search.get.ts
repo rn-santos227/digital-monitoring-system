@@ -1,11 +1,11 @@
-import { createError, defineEventHandler, getQuery } from 'h3'
+import { defineEventHandler, getQuery } from 'h3'
 import type { EquipmentAssetListApiResponse } from '../../shared/responses'
 import { PERMISSION_CODES } from '../../shared/constants'
-import { parseManagementPaginationQuery } from '../../shared/utils'
+import { mapEquipmentAssetListItem } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
-import { fetchEquipmentAssetsList } from '../../utils/equipment-assets/fetchEquipmentAssetsList'
-import { mapEquipmentAssetListItem } from '../../shared/utils/equipment-management'
+import { parseEquipmentAssetSearchQuery } from '../../utils/equipment-assets/parseEquipmentAssetSearchQuery'
+import { searchEquipmentAssets } from '../../utils/equipment-assets/searchEquipmentAssets'
 
 export default defineEventHandler(async (event): Promise<EquipmentAssetListApiResponse> => {
   await requirePermission(event, PERMISSION_CODES.equipmentView)
