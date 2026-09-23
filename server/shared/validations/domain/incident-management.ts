@@ -20,6 +20,9 @@ import {
   INCIDENT_DEFAULT_PAGE_SIZE,
   INCIDENT_MAX_PAGE_SIZE,
 } from '../../constants'
+import { parsePersonnelAdvancedSearchConditions } from './personnel-management'
+
+export const parseEquipmentIncidentAdvancedSearchConditions = parsePersonnelAdvancedSearchConditions
 
 const parseRequiredText = (value: unknown, message: string): string => {
   const normalized = normalizeOptionalText(typeof value === 'string' ? value : undefined)
