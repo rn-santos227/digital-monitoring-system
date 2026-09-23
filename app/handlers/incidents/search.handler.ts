@@ -7,6 +7,10 @@ export const useIncidentSearchHandlers = (
   filters: Ref<Partial<EquipmentIncidentSearchQuery>>,
 ) => {
   const handleFilterApply = (value: Partial<EquipmentIncidentSearchQuery>) => {
+    if (value.conditions) {
+
+    }
+
     const validation = validateFields([
       {
         field: 'term',
