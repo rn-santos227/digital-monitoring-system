@@ -21,7 +21,12 @@ describe('equipment management advanced search filters', () => {
         value: 'RIFLE%',
         conditionGroup: 'condition-0',
       },
-
+      {
+        column: 'manufacturer',
+        operator: 'ilike',
+        value: '%Arms%',
+        conditionGroup: 'condition-1',
+      },
     ])
   })
 })
