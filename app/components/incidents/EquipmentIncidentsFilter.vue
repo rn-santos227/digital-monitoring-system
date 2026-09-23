@@ -56,6 +56,6 @@ const emitApply = (value: AdvancedSearchValue) => {
     conditions: JSON.stringify(value.conditions),
     match: value.match,
   })
-
+  isModalOpen.value = false
 }
 </script>
