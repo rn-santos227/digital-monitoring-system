@@ -13,5 +13,9 @@ describe('equipment management advanced search filters', () => {
       { field: 'equipmentCode', operator: 'startsWith', value: 'RIFLE' },
       { field: 'manufacturer', operator: 'contains', value: 'Arms' },
     ]))
+
+    expect(buildPersonnelAdvancedSearchFilters(conditions, EQUIPMENT_ITEM_SEARCHABLE_FIELD_COLUMNS)).toEqual([
+
+    ])
   })
 })
