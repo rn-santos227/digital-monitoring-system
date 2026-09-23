@@ -8,6 +8,8 @@ export const INVESTIGATION_STATUS_SUGGESTION_SELECT_COLUMNS = 'id, name'
 export const EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   incidentNo: 'incident_no',
   location: 'location',
+  description: 'description',
+  resolution: 'resolution',
 
 })
 
