@@ -24,4 +24,7 @@ const emit = defineEmits<{
   (event: 'apply', value: Partial<EquipmentItemSearchQuery>): void
   (event: 'reset'): void
 }>()
+
+const isModalOpen = ref(false)
+const fieldOptions = EQUIPMENT_ITEMS_FILTER_FIELD_OPTIONS
 </script>
