@@ -21,4 +21,13 @@ export const parseEquipmentIncidentSearchQuery = (
   const rawFields = typeof query.fields === 'string'
     ? query.fields.split(',').map(field => field.trim())
     : []
+  const selectedFields = rawFields.length
+    ? rawFields.filter(
+        (field): field is keyof typeof EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS => (
+          field in EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS
+        ),
+      )
+    : Object.keys(EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS) as Array<
+        keyof typeof EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS
+      >
 }
