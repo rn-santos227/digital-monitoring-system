@@ -9,7 +9,8 @@ export const useIncidentSearchHandlers = (
   const handleFilterApply = (value: Partial<EquipmentIncidentSearchQuery>) => {
     if (value.conditions) {
       const nextFilters: Partial<EquipmentIncidentSearchQuery> = {
-
+        conditions: value.conditions,
+        match: value.match === 'any' ? 'any' : 'all',
       }
     }
 
