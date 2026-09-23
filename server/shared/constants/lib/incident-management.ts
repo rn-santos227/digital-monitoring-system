@@ -10,6 +10,8 @@ export const EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   location: 'location',
   description: 'description',
   resolution: 'resolution',
+  remarks: 'remarks',
+  incidentDate: 'incident_date',
 
 })
 
