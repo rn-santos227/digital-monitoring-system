@@ -28,4 +28,8 @@ const emit = defineEmits<{
 
 const isModalOpen = ref(false)
 const fieldOptions = EQUIPMENT_INCIDENTS_FILTER_FIELD_OPTIONS
+
+const conditions = computed<EquipmentIncidentSearchCondition[]>(() => {
+
+})
 </script>
