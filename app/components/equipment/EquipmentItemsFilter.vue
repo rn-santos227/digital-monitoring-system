@@ -28,6 +28,16 @@ const emit = defineEmits<{
 const isModalOpen = ref(false)
 const fieldOptions = EQUIPMENT_ITEMS_FILTER_FIELD_OPTIONS
 const conditions = computed<EquipmentItemSearchCondition[]>(() => {
+  if (!props.modelValue.conditions) {
+    return props.modelValue.term
+      ? [{
+          id: 'legacy-condition',
+          field: props.modelValue.fields || fieldOptions[0]?.value || '',
+          operator: 'contains',
+          value: props.modelValue.term,
+        }]
+      : []
+  }
 
 })
 </script>
