@@ -47,4 +47,10 @@ export const parseEquipmentIncidentSearchQuery = (
     parseEquipmentIncidentAdvancedSearchConditions(serializedConditions),
     EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS,
   )
+
+  if (serializedConditions && advancedFilters.length === 0) {
+    throw createError({
+
+    })
+  }
 }
