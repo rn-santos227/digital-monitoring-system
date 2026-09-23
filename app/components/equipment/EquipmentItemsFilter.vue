@@ -6,7 +6,17 @@
         {{ conditionSummary }}
       </p>
     </div>
-
+    <div class="flex gap-2">
+      <BaseButton
+        v-if="activeConditionCount"
+        type="button"
+        variant="ghost"
+        size="sm"
+        @click="emitReset"
+      >
+        {{ EQUIPMENT_ITEMS_FILTER_RESET_LABEL }}
+      </BaseButton>
+    </div>
   </section>
 </template>
 
