@@ -12,6 +12,8 @@ export const parseEquipmentIncidentSearchQuery = (
 
   if (!term && !serializedConditions) {
     throw createError({
+      statusCode: 400,
+      statusMessage: 'At least one search filter is required.',
     })
   }
 }
