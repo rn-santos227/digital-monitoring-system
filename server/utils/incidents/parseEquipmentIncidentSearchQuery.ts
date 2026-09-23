@@ -19,4 +19,6 @@ export const parseEquipmentIncidentSearchQuery = (
 
   const pagination = parseManagementPaginationQuery(query)
   const rawFields = typeof query.fields === 'string'
+    ? query.fields.split(',').map(field => field.trim())
+    : []
 }
