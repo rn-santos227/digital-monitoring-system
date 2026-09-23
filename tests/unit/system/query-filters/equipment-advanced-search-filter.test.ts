@@ -15,6 +15,12 @@ describe('equipment management advanced search filters', () => {
     ]))
 
     expect(buildPersonnelAdvancedSearchFilters(conditions, EQUIPMENT_ITEM_SEARCHABLE_FIELD_COLUMNS)).toEqual([
+      {
+        column: 'equipment_code',
+        operator: 'ilike',
+        value: 'RIFLE%',
+        conditionGroup: 'condition-0',
+      },
 
     ])
   })
