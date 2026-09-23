@@ -30,6 +30,10 @@ const isModalOpen = ref(false)
 const fieldOptions = EQUIPMENT_INCIDENTS_FILTER_FIELD_OPTIONS
 
 const conditions = computed<EquipmentIncidentSearchCondition[]>(() => {
+  if (!props.modelValue.conditions) {
+    return []
+  }
+
 
 })
 </script>
