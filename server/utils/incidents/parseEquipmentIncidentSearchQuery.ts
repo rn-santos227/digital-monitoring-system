@@ -36,4 +36,9 @@ export const parseEquipmentIncidentSearchQuery = (
       )
     : []
 
+  if (term && searchFilters.length === 0) {
+    throw createError({
+
+    })
+  }
 }
