@@ -10,4 +10,9 @@ import {
   EQUIPMENT_INCIDENTS_FILTER_FIELD_OPTIONS,
   EQUIPMENT_INCIDENTS_FILTER_RESET_LABEL,
 } from '~/constants/page.constants'
+import type {
+  EquipmentIncidentSearchCondition,
+  EquipmentIncidentSearchQuery,
+} from '~/types/domain/incident'
+
 </script>
