@@ -20,4 +20,9 @@ const props = withDefaults(defineProps<{
 }>(), {
   modelValue: () => ({}),
 })
+
+const emit = defineEmits<{
+  (event: 'apply', value: Partial<EquipmentIncidentSearchQuery>): void
+  (event: 'reset'): void
+}>()
 </script>
