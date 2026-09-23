@@ -10,5 +10,5 @@ import {
   EQUIPMENT_ITEMS_FILTER_FIELD_OPTIONS,
   EQUIPMENT_ITEMS_FILTER_RESET_LABEL,
 } from '~/constants/page.constants'
-import type { EquipmentItemSearchCondition, EquipmentItemSearchQuery } from '~/types/do
+import type { EquipmentItemSearchCondition, EquipmentItemSearchQuery } from '~/types/domain/equipment'
 </script>
