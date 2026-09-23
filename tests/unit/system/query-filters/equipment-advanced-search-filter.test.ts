@@ -10,7 +10,8 @@ import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/pe
 describe('equipment management advanced search filters', () => {
   it('parses and builds equipment item conditions', () => {
     const conditions = parseEquipmentAdvancedSearchConditions(JSON.stringify([
-
+      { field: 'equipmentCode', operator: 'startsWith', value: 'RIFLE' },
+      { field: 'manufacturer', operator: 'contains', value: 'Arms' },
     ]))
   })
 })
