@@ -12,7 +12,8 @@ export const EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
   resolution: 'resolution',
   remarks: 'remarks',
   incidentDate: 'incident_date',
-
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
 })
 
 export const INCIDENT_MUTATION_PERMISSION_CODES = [
