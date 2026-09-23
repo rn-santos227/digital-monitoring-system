@@ -12,6 +12,8 @@ export const useIncidentSearchHandlers = (
         conditions: value.conditions,
         match: value.match === 'any' ? 'any' : 'all',
       }
+      filters.value = nextFilters
+      return { filters: nextFilters, errors: {}, isValid: true }
     }
 
     const validation = validateFields([
