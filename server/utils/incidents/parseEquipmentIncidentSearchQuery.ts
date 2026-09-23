@@ -9,4 +9,9 @@ export const parseEquipmentIncidentSearchQuery = (
 ) => {
   const term = typeof query.term === 'string' ? query.term.trim() : ''
   const serializedConditions = typeof query.conditions === 'string' ? query.conditions : ''
+
+  if (!term && !serializedConditions) {
+    throw createError({
+    })
+  }
 }
