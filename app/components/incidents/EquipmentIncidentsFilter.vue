@@ -7,7 +7,15 @@
       <p class="mt-1 text-sm text-slate-600">{{ conditionSummary }}</p>
     </div>
     <div class="flex gap-2">
-      
+      <BaseButton
+        v-if="activeConditionCount"
+        type="button"
+        variant="ghost"
+        size="sm"
+        @click="emitReset"
+      >
+        {{ EQUIPMENT_INCIDENTS_FILTER_RESET_LABEL }}
+      </BaseButton>
     </div>
   </section>
 </template>
