@@ -4,3 +4,8 @@ import { parseManagementPaginationQuery } from '../../shared/utils'
 import { parseEquipmentIncidentAdvancedSearchConditions } from '../../shared/validations'
 import { buildPersonnelAdvancedSearchFilters } from '../personnel/buildPersonnelAdvancedSearchFilters'
 
+export const parseEquipmentIncidentSearchQuery = (
+  query: Record<string, unknown>,
+) => {
+
+}
