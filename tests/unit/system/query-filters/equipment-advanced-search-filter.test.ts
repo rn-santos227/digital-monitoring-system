@@ -8,5 +8,7 @@ import { parseEquipmentAdvancedSearchConditions } from '../../../../server/share
 import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/personnel/buildPersonnelAdvancedSearchFilters'
 
 describe('equipment management advanced search filters', () => {
+  it('parses and builds equipment item conditions', () => {
 
+  })
 })
