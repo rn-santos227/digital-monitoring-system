@@ -5,6 +5,10 @@ export const INCIDENT_TYPE_SUGGESTION_SELECT_COLUMNS = 'id, code, name'
 
 export const INVESTIGATION_STATUS_SUGGESTION_SELECT_COLUMNS = 'id, name'
 
+export const EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS = Object.freeze({
+
+})
+
 export const INCIDENT_MUTATION_PERMISSION_CODES = [
   'equipment.maintain',
   'equipment.manage',
