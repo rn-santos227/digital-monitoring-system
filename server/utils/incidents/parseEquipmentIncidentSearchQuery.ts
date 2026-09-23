@@ -42,4 +42,9 @@ export const parseEquipmentIncidentSearchQuery = (
       statusMessage: 'No valid searchable fields were provided.',
     })
   }
+
+  const advancedFilters = buildPersonnelAdvancedSearchFilters(
+    parseEquipmentIncidentAdvancedSearchConditions(serializedConditions),
+    EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS,
+  )
 }
