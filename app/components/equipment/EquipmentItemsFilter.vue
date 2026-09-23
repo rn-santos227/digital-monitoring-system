@@ -27,4 +27,7 @@ const emit = defineEmits<{
 
 const isModalOpen = ref(false)
 const fieldOptions = EQUIPMENT_ITEMS_FILTER_FIELD_OPTIONS
+const conditions = computed<EquipmentItemSearchCondition[]>(() => {
+
+})
 </script>
