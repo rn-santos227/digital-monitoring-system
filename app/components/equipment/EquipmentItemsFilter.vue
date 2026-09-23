@@ -45,4 +45,6 @@ const conditions = computed<EquipmentItemSearchCondition[]>(() => {
     return []
   }
 })
+const activeConditionCount = computed(() => conditions.value.length)
+
 </script>
