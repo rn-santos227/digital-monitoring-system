@@ -38,7 +38,8 @@ export const parseEquipmentIncidentSearchQuery = (
 
   if (term && searchFilters.length === 0) {
     throw createError({
-
+      statusCode: 400,
+      statusMessage: 'No valid searchable fields were provided.',
     })
   }
 }
