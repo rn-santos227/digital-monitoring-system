@@ -14,6 +14,11 @@ describe('equipment incident advanced search filters', () => {
       conditions,
       EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS,
     )).toEqual([
+      {
+        column: 'incident_no',
+        operator: 'ilike',
+
+      }
     ])
   })
 })
