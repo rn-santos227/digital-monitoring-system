@@ -23,4 +23,8 @@ export const searchEquipmentIncidents = async (
   if (options.searchFilters.length > 0) {
     query = query.or(options.searchFilters.join(','))
   }
+
+  if (options.advancedFilters.length > 0) {
+    query = applyPersonnelSearchFilters(query, options.advancedFilters, options.match)
+  }
 }
