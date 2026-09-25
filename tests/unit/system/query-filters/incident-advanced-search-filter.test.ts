@@ -23,7 +23,8 @@ describe('equipment incident advanced search filters', () => {
       {
         column: 'location',
         operator: 'ilike',
-
+        value: '%Camp%',
+        conditionGroup: 'condition-1',
       }
     ])
   })
