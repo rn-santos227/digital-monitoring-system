@@ -17,7 +17,8 @@ describe('equipment incident advanced search filters', () => {
       {
         column: 'incident_no',
         operator: 'ilike',
-
+        value: 'INC-%',
+        conditionGroup: 'condition-0',
       }
     ])
   })
