@@ -16,5 +16,8 @@ export const searchEquipmentIncidents = async (
   supabase: SupabaseClient,
   options: SearchEquipmentIncidentsOptions,
 ) => {
+  let query = supabase
+    .from('equipment_incidents')
+    .select(EQUIPMENT_INCIDENT_LIST_SELECT_COLUMNS, { count: 'exact' })
 
 }
