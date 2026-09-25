@@ -42,4 +42,8 @@ describe('equipment incident advanced search filters', () => {
       ['incident_date', 'gte', '2026-09-01'],
     ])
   })
+
+  it('rejects unsupported incident fields', () => {
+
+  })
 })
