@@ -39,6 +39,7 @@ describe('equipment incident advanced search filters', () => {
 
     expect(filters.map(filter => [filter.column, filter.operator, filter.value])).toEqual([
       ['incident_date', 'gte', '2026-09-01'],
+      ['incident_date', 'gte', '2026-09-01'],
     ])
   })
 })
