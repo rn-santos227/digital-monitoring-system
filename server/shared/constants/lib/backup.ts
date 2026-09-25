@@ -15,6 +15,9 @@ export const BACKUP_TABLES = Object.freeze([
   'engagement_types',
   'engagement_statuses',
   'condition_statuses',
+  'serviceability_statuses',
+  'asset_statuses',
+  'issuance_statuses',
 
 ])
 
