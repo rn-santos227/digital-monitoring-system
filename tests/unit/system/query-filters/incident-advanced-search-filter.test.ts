@@ -7,6 +7,7 @@ describe('equipment incident advanced search filters', () => {
   it('parses and builds incident text conditions', () => {
     const conditions = parseEquipmentIncidentAdvancedSearchConditions(JSON.stringify([
       { field: 'incidentNo', operator: 'startsWith', value: 'INC-' },
+      { field: 'location', operator: 'contains', value: 'Camp' },
     ]))
   })
 })
