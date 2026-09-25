@@ -4,4 +4,7 @@ import { EQUIPMENT_INCIDENT_LIST_SELECT_COLUMNS } from '../../shared/constants'
 import type { EquipmentIncidentRow, PersonnelSearchFilter } from '../../shared/models'
 import { applyPersonnelSearchFilters } from '../../shared/utils'
 
+interface SearchEquipmentIncidentsOptions {
 
+
+}
