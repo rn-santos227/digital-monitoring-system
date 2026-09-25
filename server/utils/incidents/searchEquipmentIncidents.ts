@@ -5,6 +5,8 @@ import type { EquipmentIncidentRow, PersonnelSearchFilter } from '../../shared/m
 import { applyPersonnelSearchFilters } from '../../shared/utils'
 
 interface SearchEquipmentIncidentsOptions {
+  searchFilters: string[]
+  advancedFilters: PersonnelSearchFilter[]
 
 
 }
