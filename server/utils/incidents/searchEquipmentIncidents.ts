@@ -39,4 +39,9 @@ export const searchEquipmentIncidents = async (
       statusMessage: `Failed to search equipment incidents: ${error.message}`,
     })
   }
+
+  return {
+    rows: (data ?? []) as EquipmentIncidentRow[],
+    totalItems: count ?? 0,
+  }
 }
