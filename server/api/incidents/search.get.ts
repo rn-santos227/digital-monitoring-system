@@ -7,3 +7,8 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { parseEquipmentIncidentSearchQuery } from '../../utils/incidents/parseEquipmentIncidentSearchQuery'
 import { searchEquipmentIncidents } from '../../utils/incidents/searchEquipmentIncidents'
 
+export default defineEventHandler(async (event): Promise<EquipmentIncidentListResponse> => {
+  await requirePermission(event, PERMISSION_CODES.equipmentView)
+
+
+})
