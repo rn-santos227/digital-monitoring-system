@@ -11,3 +11,10 @@ interface SearchEquipmentIncidentsOptions {
   rangeFrom: number
   rangeTo: number
 }
+
+export const searchEquipmentIncidents = async (
+  supabase: SupabaseClient,
+  options: SearchEquipmentIncidentsOptions,
+) => {
+
+}
