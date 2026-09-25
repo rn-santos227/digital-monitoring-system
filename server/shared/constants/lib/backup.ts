@@ -21,6 +21,9 @@ export const BACKUP_TABLES = Object.freeze([
   'maintenance_types',
   'incident_types',
   'investigation_statuses',
+  'personnel',
+  'trainings',
+  'training_records',
 ])
 
 export type BackupTableName = (typeof BACKUP_TABLES)[number]
