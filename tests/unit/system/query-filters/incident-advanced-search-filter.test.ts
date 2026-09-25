@@ -3,3 +3,6 @@ import { EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS } from '../../../../server/
 import { parseEquipmentIncidentAdvancedSearchConditions } from '../../../../server/shared/validations'
 import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/personnel/buildPersonnelAdvancedSearchFilters'
 
+describe('equipment incident advanced search filters', () => {
+
+})
