@@ -250,6 +250,7 @@ values
   ('incident.delete', 'Delete Incident', 'incident'),
   ('reports.view', 'View Reports', 'reports'),
   ('audit.view', 'View Audit Logs', 'audit'),
+  ('backup.download', 'Download System Backup', 'backup'),
   ('settings.update', 'Update Settings', 'update'),
   ('user.view', 'View User', 'user_management'),
   ('user.create', 'Create User', 'user_management'),
