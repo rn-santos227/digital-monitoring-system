@@ -45,6 +45,9 @@ describe('equipment incident advanced search filters', () => {
 
   it('rejects unsupported incident fields', () => {
     expect(buildPersonnelAdvancedSearchFilters([{
+      field: 'assetTag',
+      operator: 'equals',
+      value: 'ASSET-001',
     }], EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS)).toEqual([])
   })
 })
