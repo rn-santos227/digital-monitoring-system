@@ -9,5 +9,11 @@ describe('equipment incident advanced search filters', () => {
       { field: 'incidentNo', operator: 'startsWith', value: 'INC-' },
       { field: 'location', operator: 'contains', value: 'Camp' },
     ]))
+
+    expect(buildPersonnelAdvancedSearchFilters(
+      conditions,
+      EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS,
+    )).toEqual([
+    ])
   })
 })
