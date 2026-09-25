@@ -20,4 +20,7 @@ export const searchEquipmentIncidents = async (
     .from('equipment_incidents')
     .select(EQUIPMENT_INCIDENT_LIST_SELECT_COLUMNS, { count: 'exact' })
 
+  if (options.searchFilters.length > 0) {
+    query = query.or(options.searchFilters.join(','))
+  }
 }
