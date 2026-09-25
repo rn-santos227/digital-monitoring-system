@@ -7,6 +7,7 @@ import { applyPersonnelSearchFilters } from '../../shared/utils'
 interface SearchEquipmentIncidentsOptions {
   searchFilters: string[]
   advancedFilters: PersonnelSearchFilter[]
-
-
+  match: 'any' | 'all'
+  rangeFrom: number
+  rangeTo: number
 }
