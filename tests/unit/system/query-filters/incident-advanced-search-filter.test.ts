@@ -28,4 +28,8 @@ describe('equipment incident advanced search filters', () => {
       }
     ])
   })
+
+  it('builds incident date ranges without timestamp expansion', () => {
+
+  })
 })
