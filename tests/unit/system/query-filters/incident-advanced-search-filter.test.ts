@@ -4,5 +4,6 @@ import { parseEquipmentIncidentAdvancedSearchConditions } from '../../../../serv
 import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/personnel/buildPersonnelAdvancedSearchFilters'
 
 describe('equipment incident advanced search filters', () => {
-
+  it('parses and builds incident text conditions', () => {
+  })
 })
