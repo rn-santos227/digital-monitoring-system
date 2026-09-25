@@ -9,6 +9,10 @@ import { searchEquipmentIncidents } from '../../utils/incidents/searchEquipmentI
 
 export default defineEventHandler(async (event): Promise<EquipmentIncidentListResponse> => {
   await requirePermission(event, PERMISSION_CODES.equipmentView)
-
+  const { page, pageSize, ...searchOptions } = parseEquipmentIncidentSearchQuery(getQuery(event))
+  const { rows, totalItems } = await searchEquipmentIncidents(
+    getServiceSupabaseClient(),
+    searchOptions,
+  )
 
 })
