@@ -32,4 +32,11 @@ export const searchEquipmentIncidents = async (
     .order('incident_date', { ascending: false })
     .order('created_at', { ascending: false })
     .range(options.rangeFrom, options.rangeTo)
+
+  if (error) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: `Failed to search equipment incidents: ${error.message}`,
+    })
+  }
 }
