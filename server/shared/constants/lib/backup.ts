@@ -6,6 +6,9 @@ export const BACKUP_TABLES = Object.freeze([
   'ranks',
   'battalions',
   'companies',
+  'employment_statuses',
+  'service_statuses',
+  'levels',
 
 ])
 
