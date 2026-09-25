@@ -33,7 +33,8 @@ describe('equipment incident advanced search filters', () => {
     const filters = buildPersonnelAdvancedSearchFilters([{
       field: 'incidentDate',
       operator: 'between',
-
+      value: '2026-09-01',
+      valueTo: '2026-09-30',
     }], EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS)
   })
 })
