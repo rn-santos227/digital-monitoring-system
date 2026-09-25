@@ -5,5 +5,8 @@ import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/pe
 
 describe('equipment incident advanced search filters', () => {
   it('parses and builds incident text conditions', () => {
+    const conditions = parseEquipmentIncidentAdvancedSearchConditions(JSON.stringify([
+
+    ]))
   })
 })
