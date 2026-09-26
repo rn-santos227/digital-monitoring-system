@@ -8,4 +8,8 @@ export const fetchAllTableRecords = async (
 ): Promise<BackupRecord[]> => {
   const records: BackupRecord[] = []
   let page = 0
+
+  while (true) {
+
+  }
 }
