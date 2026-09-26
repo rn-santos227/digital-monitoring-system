@@ -23,6 +23,16 @@ export default defineEventHandler(async (event): Promise<string> => {
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unable to create the system backup.'
 
+    await recordManagementAuditLog(event, {
+      userId: actor.id,
+      action: AUDIT_LOG_ACTIONS.backupDownload,
+      tableName: 'system_backup',
+      endpoint: AUDIT_LOG_ENDPOINTS.backupDownload,
+      requestData: { format: 'json' },
+      statusCode: 500,
+      outcome: AUDIT_LOG_OUTCOMES.failed,
+      message,
+    })
 
   }
 })
