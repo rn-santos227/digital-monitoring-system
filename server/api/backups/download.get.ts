@@ -16,4 +16,9 @@ export default defineEventHandler(async (event): Promise<string> => {
   const actor = await requirePermission(event, PERMISSION_CODES.backupDownload)
   const generatedAt = new Date().toISOString()
 
+  try {
+  
+  } catch (error: unknown) {
+
+  }
 })
