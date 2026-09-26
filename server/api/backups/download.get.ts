@@ -12,4 +12,6 @@ import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { createSystemBackup } from '../../utils/backups/createSystemBackup'
 
+export default defineEventHandler(async (event): Promise<string> => {
 
+})
