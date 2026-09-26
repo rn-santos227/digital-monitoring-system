@@ -6,5 +6,6 @@ export const fetchAllTableRecords = async (
   supabase: SupabaseClient,
   tableName: BackupTableName,
 ): Promise<BackupRecord[]> => {
-
+  const records: BackupRecord[] = []
+  let page = 0
 }
