@@ -66,6 +66,10 @@ export const AUDIT_PRIVILEGES = Object.freeze({
   view: Object.freeze([PRIVILEGE_CODES.auditView]),
 })
 
+export const BACKUP_PRIVILEGES = Object.freeze({
+  download: Object.freeze([PRIVILEGE_CODES.backupDownload]),
+})
+
 export const PERSONNEL_PRIVILEGES = Object.freeze({
   view: Object.freeze([PRIVILEGE_CODES.personnelView]),
   create: Object.freeze([PRIVILEGE_CODES.personnelCreate]),
