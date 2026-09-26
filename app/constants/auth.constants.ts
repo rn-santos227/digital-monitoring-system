@@ -30,7 +30,7 @@ export const ROUTE_PERMISSION_MATRIX: Readonly<Record<string, readonly string[]>
   [ROUTE_PATHS.equipmentIssuances]: EQUIPMENT_PRIVILEGES.view,
   [ROUTE_PATHS.incidents]: EQUIPMENT_PRIVILEGES.view,
   [ROUTE_PATHS.units]: Object.freeze([...BATTALION_PRIVILEGES.view, ...COMPANY_PRIVILEGES.view]),
-  [ROUTE_PATHS.settings]: SETTINGS_PRIVILEGES.update,
+  [ROUTE_PATHS.settings]: Object.freeze([...SETTINGS_PRIVILEGES.update, ...BACKUP_PRIVILEGES.download]),
 })
 
 export const ROUTE_PERMISSION_ANY_MATRIX: Readonly<Record<string, true>> = Object.freeze({
