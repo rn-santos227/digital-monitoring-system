@@ -5,4 +5,10 @@ import {
 } from '../constants'
 import type { BackupRecord, SystemBackup } from '../models'
 
+export const buildSystemBackup = (
+  generatedAt: string,
+  generatedBy: string,
+  tables: Record<BackupTableName, BackupRecord[]>,
+): SystemBackup => ({
 
+})
