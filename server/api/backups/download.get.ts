@@ -20,6 +20,19 @@ export default defineEventHandler(async (event): Promise<string> => {
    const backup = await createSystemBackup(getServiceSupabaseClient(), generatedAt, actor.id)
     const safeTimestamp = generatedAt.replaceAll(':', '-').replaceAll('.', '-')
     const fileName = `${BACKUP_FILE_PREFIX}-${safeTimestamp}.json`
+
+    await recordManagementAuditLog(event, {
+      userId: actor.id,
+      action: AUDIT_LOG_ACTIONS.backupDownload,
+      tableName: 'system_backup',
+      endpoint: AUDIT_LOG_ENDPOINTS.backupDownload,
+      requestData: { format: 'json' },
+      newData: { fileName, tableCount: BACKUP_TABLES.length },
+      statusCode: 200,
+      outcome: AUDIT_LOG_OUTCOMES.success,
+      message: 'System backup downloaded successfully.',
+    })
+
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unable to create the system backup.'
 
