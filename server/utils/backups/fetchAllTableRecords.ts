@@ -17,5 +17,9 @@ export const fetchAllTableRecords = async (
     if (error) {
       throw new Error(`Failed to back up ${tableName}: ${error.message}`)
     }
+
+    const pageRecords = (data ?? []) as BackupRecord[]
+    records.push(...pageRecords)
+
   }
 }
