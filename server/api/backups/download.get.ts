@@ -17,7 +17,9 @@ export default defineEventHandler(async (event): Promise<string> => {
   const generatedAt = new Date().toISOString()
 
   try {
-  
+   const backup = await createSystemBackup(getServiceSupabaseClient(), generatedAt, actor.id)
+    const safeTimestamp = generatedAt.replaceAll(':', '-').replaceAll('.', '-')
+    const fileName = `${BACKUP_FILE_PREFIX}-${safeTimestamp}.json`
   } catch (error: unknown) {
 
   }
