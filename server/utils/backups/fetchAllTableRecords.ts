@@ -14,6 +14,8 @@ export const fetchAllTableRecords = async (
     const to = from + BACKUP_PAGE_SIZE - 1
     const { data, error } = await supabase.from(tableName).select('*').range(from, to)
 
-
+    if (error) {
+      throw new Error(`Failed to back up ${tableName}: ${error.message}`)
+    }
   }
 }
