@@ -21,6 +21,8 @@ export default defineEventHandler(async (event): Promise<string> => {
     const safeTimestamp = generatedAt.replaceAll(':', '-').replaceAll('.', '-')
     const fileName = `${BACKUP_FILE_PREFIX}-${safeTimestamp}.json`
   } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unable to create the system backup.'
+
 
   }
 })
