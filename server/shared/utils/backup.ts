@@ -10,5 +10,9 @@ export const buildSystemBackup = (
   generatedBy: string,
   tables: Record<BackupTableName, BackupRecord[]>,
 ): SystemBackup => ({
-
+  formatVersion: BACKUP_FORMAT_VERSION,
+  generatedAt,
+  generatedBy,
+  application: 'Digital AFP Personnel and Equipment Monitoring System',
+  tables,
 })
