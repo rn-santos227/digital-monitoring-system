@@ -59,6 +59,7 @@ export const AUDIT_LOG_ACTIONS = {
   fileAttachmentCreate: 'FILE_ATTACHMENT_CREATE',
   applicationSettingsUpdate: 'APPLICATION_SETTINGS_UPDATE',
   dataTablePrint: 'DATA_TABLE_PRINT',
+  backupDownload: 'BACKUP_DOWNLOAD',
 } as const
 
 export const AUDIT_LOG_OUTCOMES = {
@@ -155,4 +156,5 @@ export const AUDIT_LOG_ENDPOINTS = {
   applicationSettingsUpdate: '/api/application-settings',
   fileUpload: '/api/files/upload',
   auditPrint: '/api/audit/print',
+  backupDownload: '/api/backups/download',
 } as const
