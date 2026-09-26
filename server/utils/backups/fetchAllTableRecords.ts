@@ -10,6 +10,10 @@ export const fetchAllTableRecords = async (
   let page = 0
 
   while (true) {
+   const from = page * BACKUP_PAGE_SIZE
+    const to = from + BACKUP_PAGE_SIZE - 1
+    const { data, error } = await supabase.from(tableName).select('*').range(from, to)
+
 
   }
 }
