@@ -12,5 +12,7 @@ export const createSystemBackup = async (
     const records = await fetchAllTableRecords(supabase, tableName)
     return [tableName, records] as const
   }))
+ const tables = Object.fromEntries(tableEntries) as Record<BackupTableName, BackupRecord[]>
+
 
 }
