@@ -39,7 +39,11 @@ export const BACKUP_TABLES = Object.freeze([
   'personnel_weapon_assignments',
   'application_settings',
   'user_profiles',
-
+  'account_types',
+  'permissions',
+  'user_account_types',
+  'account_type_permissions',
+  'audit_logs',
 ])
 
 export type BackupTableName = (typeof BACKUP_TABLES)[number]
