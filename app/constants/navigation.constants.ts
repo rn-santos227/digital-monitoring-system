@@ -125,7 +125,8 @@ export const SIDEBAR_FOOTER_ITEMS: readonly NavigationItem[] = Object.freeze([
     label: 'Settings',
     to: ROUTE_PATHS.settings,
     icon: 'cog',
-    requiredPermissions: SETTINGS_PRIVILEGES.update,
+    requiredPermissions: Object.freeze([...SETTINGS_PRIVILEGES.update, ...BACKUP_PRIVILEGES.download]),
+    requiredPermissionMode: 'any',
   }
 ])
 
