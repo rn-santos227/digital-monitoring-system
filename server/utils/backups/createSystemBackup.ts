@@ -8,5 +8,9 @@ export const createSystemBackup = async (
   generatedAt: string,
   generatedBy: string,
 ): Promise<SystemBackup> => {
+  const tableEntries = await Promise.all(BACKUP_TABLES.map(async (tableName) => {
+    const records = await fetchAllTableRecords(supabase, tableName)
+    return [tableName, records] as const
+  }))
 
 }
