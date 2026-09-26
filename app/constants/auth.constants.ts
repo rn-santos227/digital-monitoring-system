@@ -36,6 +36,7 @@ export const ROUTE_PERMISSION_MATRIX: Readonly<Record<string, readonly string[]>
 export const ROUTE_PERMISSION_ANY_MATRIX: Readonly<Record<string, true>> = Object.freeze({
   [ROUTE_PATHS.users]: true,
   [ROUTE_PATHS.units]: true,
+  [ROUTE_PATHS.settings]: true,
 })
 
 export const ROUTE_PERMISSION_PREFIX_MATRIX: Readonly<Record<string, readonly string[]>> = Object.freeze({
