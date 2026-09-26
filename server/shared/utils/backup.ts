@@ -18,5 +18,6 @@ export const buildSystemBackup = (
 })
 
 export const buildBackupFileName = (generatedAt: string): string => {
-
+  const safeTimestamp = generatedAt.replaceAll(':', '-').replaceAll('.', '-')
+  return `${BACKUP_FILE_PREFIX}-${safeTimestamp}.json`
 }
