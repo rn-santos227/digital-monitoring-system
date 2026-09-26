@@ -311,4 +311,5 @@ export const API_LOADING_MESSAGES = Object.freeze({
   deleteEquipmentIncident: 'Deleting equipment incident...',
   fetchApplicationSettings: 'Loading application settings...',
   updateApplicationSettings: 'Updating application settings...',
+  downloadBackup: 'Preparing system backup...',
 })
