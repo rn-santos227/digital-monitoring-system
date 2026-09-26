@@ -1,6 +1,7 @@
 import { ROUTE_PATHS } from '~/constants/routes.constants'
 import {
   ACCOUNT_TYPE_PRIVILEGES,
+  BACKUP_PRIVILEGES,
   AUDIT_PRIVILEGES,
   BATTALION_PRIVILEGES,
   COMPANY_PRIVILEGES,
