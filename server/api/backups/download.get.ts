@@ -34,5 +34,6 @@ export default defineEventHandler(async (event): Promise<string> => {
       message,
     })
 
+    throw createError({ statusCode: 500, statusMessage: 'Unable to create the system backup.' })
   }
 })
