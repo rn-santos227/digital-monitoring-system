@@ -13,5 +13,6 @@ import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { createSystemBackup } from '../../utils/backups/createSystemBackup'
 
 export default defineEventHandler(async (event): Promise<string> => {
-
+  const actor = await requirePermission(event, PERMISSION_CODES.backupDownload)
+  const generatedAt = new Date().to
 })
