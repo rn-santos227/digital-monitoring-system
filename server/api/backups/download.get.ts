@@ -33,6 +33,10 @@ export default defineEventHandler(async (event): Promise<string> => {
       message: 'System backup downloaded successfully.',
     })
 
+    setResponseHeader(event, 'Content-Type', 'application/json; charset=utf-8')
+    setResponseHeader(event, 'Content-Disposition', `attachment; filename="${fileName}"`)
+    setResponseHeader(event, 'Cache-Control', 'no-store')
+    return JSON.stringify(backup, null, 2)
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : 'Unable to create the system backup.'
 
