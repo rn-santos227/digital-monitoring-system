@@ -12,7 +12,13 @@ export const createSystemBackup = async (
     const records = await fetchAllTableRecords(supabase, tableName)
     return [tableName, records] as const
   }))
- const tables = Object.fromEntries(tableEntries) as Record<BackupTableName, BackupRecord[]>
+  const tables = Object.fromEntries(tableEntries) as Record<BackupTableName, BackupRecord[]>
 
-
+  return {
+    formatVersion: BACKUP_FORMAT_VERSION,
+    generatedAt,
+    generatedBy,
+    application: 'Digital AFP Personnel and Equipment Monitoring System',
+    tables,
+  }
 }
