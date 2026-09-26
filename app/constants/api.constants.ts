@@ -179,6 +179,10 @@ export const APPLICATION_SETTINGS_API_ENDPOINTS = Object.freeze({
   settings: '/api/application-settings',
 })
 
+export const BACKUP_API_ENDPOINTS = Object.freeze({
+  download: '/api/backups/download',
+})
+
 export const FILE_UPLOAD_CONSTRAINTS = Object.freeze({
   maxSizeBytes: 10 * 1024 * 1024,
   imageAccept: '.jpg,.jpeg,.png,.webp',
