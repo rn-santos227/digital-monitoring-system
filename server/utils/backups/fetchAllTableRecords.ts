@@ -21,5 +21,10 @@ export const fetchAllTableRecords = async (
     const pageRecords = (data ?? []) as BackupRecord[]
     records.push(...pageRecords)
 
+    if (pageRecords.length < BACKUP_PAGE_SIZE) {
+      return records
+    }
+
+    page += 1
   }
 }
