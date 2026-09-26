@@ -16,3 +16,7 @@ export const buildSystemBackup = (
   application: 'Digital AFP Personnel and Equipment Monitoring System',
   tables,
 })
+
+export const buildBackupFileName = (generatedAt: string): string => {
+
+}
