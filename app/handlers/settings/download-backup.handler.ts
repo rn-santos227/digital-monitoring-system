@@ -23,6 +23,9 @@ export const useDownloadBackupHandler = () => {
     }
 
     try {
+      const { blob, fileName } = await backupStore.download()
+      const objectUrl = URL.createObjectURL(blob)
+      const downloadLink = document.createElement('a')
 
     } catch (error: unknown) {
       errorMessage.value = await showErrorDialog({
