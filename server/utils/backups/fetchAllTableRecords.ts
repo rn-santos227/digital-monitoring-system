@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { BACKUP_PAGE_SIZE, type BackupTableName } from '../../shared/constants'
+import { BACKUP_PAGE_SIZE } from '../../shared/constants'
+import type { BackupTableName } from '../../shared/constants'
 import type { BackupRecord } from '../../shared/models'
 
 export const fetchAllTableRecords = async (
@@ -10,7 +11,7 @@ export const fetchAllTableRecords = async (
   let page = 0
 
   while (true) {
-   const from = page * BACKUP_PAGE_SIZE
+    const from = page * BACKUP_PAGE_SIZE
     const to = from + BACKUP_PAGE_SIZE - 1
     const { data, error } = await supabase.from(tableName).select('*').range(from, to)
 
