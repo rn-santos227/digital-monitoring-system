@@ -22,7 +22,11 @@ export const useDownloadBackupHandler = () => {
       return
     }
 
+    try {
 
+    } catch (error: unknown) {
+
+    }
   }
 
   return { canDownload, errorMessage, isDownloading, onDownloadBackup }
