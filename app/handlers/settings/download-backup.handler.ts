@@ -10,4 +10,6 @@ import { useAuthStore } from '~/stores/auth'
 import { useBackupStore } from '~/stores/backup'
 import { showErrorDialog } from '~/utils/error-handling'
 
+export const useDownloadBackupHandler = () => {
 
+}
