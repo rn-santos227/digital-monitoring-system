@@ -14,4 +14,10 @@ const backupStoreOptions = {
   getters: {
     hasDownloadError: (state: BackupState) => Boolean(state.downloadError),
   },
+
+  actions: {
+    async download(this: BackupState) {
+
+    }
+  },
 }
