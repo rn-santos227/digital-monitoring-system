@@ -17,6 +17,9 @@ const backupStoreOptions = {
 
   actions: {
     async download(this: BackupState) {
+      this.isDownloading = true
+      this.downloadError = ''
+
 
     }
   },
