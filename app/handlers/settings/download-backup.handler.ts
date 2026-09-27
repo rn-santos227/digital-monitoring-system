@@ -13,5 +13,9 @@ import { showErrorDialog } from '~/utils/error-handling'
 export const useDownloadBackupHandler = () => {
   const authStore = useAuthStore()
   const backupStore = useBackupStore()
+  const { downloadError: errorMessage, isDownloading } = storeToRefs(backupStore)
+  const { showDialog } = useDialog()
+  const canDownload = computed(() => authStore.hasPermissionAccess(BACKUP_PRIVILEGES.download))
+
 
 }
