@@ -20,7 +20,14 @@ const backupStoreOptions = {
       this.isDownloading = true
       this.downloadError = ''
 
-
+      try {
+        return await downloadSystemBackupEndpoint()
+      } catch (error: unknown) {
+        this.downloadError = extractApiErrorMessage(error, 'Unable to download the system backup right now.')
+        throw error
+      } finally {
+        this.isDownloading = false
+      }
     }
   },
 }
