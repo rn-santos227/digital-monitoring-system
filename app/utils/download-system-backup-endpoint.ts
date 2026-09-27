@@ -3,4 +3,6 @@ import type { DownloadedBackup } from '~/types/domain/backup'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
 
+export const downloadSystemBackupEndpoint = async (): Promise<DownloadedBackup> => {
 
+}
