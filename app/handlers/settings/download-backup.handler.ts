@@ -26,6 +26,10 @@ export const useDownloadBackupHandler = () => {
 
     } catch (error: unknown) {
       errorMessage.value = await showErrorDialog({
+        showDialog,
+        title: 'Unable to download backup',
+        error,
+        fallbackMessage: BACKUP_DOWNLOAD_ERROR,
       })
     }
   }
