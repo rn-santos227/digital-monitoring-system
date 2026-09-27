@@ -10,5 +10,9 @@ export const downloadSystemBackupEndpoint = async (): Promise<DownloadedBackup> 
       headers: createSessionHeaders(),
     })
 
+    if (!response.ok) {
+      const errorBody = await response.json().catch(() => null) as { statusMessage?: string } | null
+      throw new Error(errorBody?.statusMessage ?? 'Unable to download the system backup.')
+    }
   }, API_LOADING_MESSAGES.downloadBackup)
 }
