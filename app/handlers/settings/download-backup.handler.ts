@@ -18,6 +18,10 @@ export const useDownloadBackupHandler = () => {
   const canDownload = computed(() => authStore.hasPermissionAccess(BACKUP_PRIVILEGES.download))
 
   const onDownloadBackup = async () => {
+    if (!canDownload.value || isDownloading.value) {
+      return
+    }
+
 
   }
 
