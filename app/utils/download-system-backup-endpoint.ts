@@ -2,6 +2,7 @@ import { API_LOADING_MESSAGES, BACKUP_API_ENDPOINTS } from '~/constants/api.cons
 import type { DownloadedBackup } from '~/types/domain/backup'
 import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
+import { REGEX_PATTERNS } from '~/utils/regex'
 
 export const downloadSystemBackupEndpoint = async (): Promise<DownloadedBackup> => {
   return await withApiLoading(async () => {
@@ -16,7 +17,7 @@ export const downloadSystemBackupEndpoint = async (): Promise<DownloadedBackup> 
     }
 
     const contentDisposition = response.headers.get('content-disposition')
-    const fileNameMatch = contentDisposition?.match(/filename="([^"]+)"/i)
+    const fileNameMatch = contentDisposition?.match(REGEX_PATTERNS.contentDispositionFileName)
 
     return {
       blob: await response.blob(),
