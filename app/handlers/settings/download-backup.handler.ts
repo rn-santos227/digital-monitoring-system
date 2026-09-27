@@ -17,5 +17,9 @@ export const useDownloadBackupHandler = () => {
   const { showDialog } = useDialog()
   const canDownload = computed(() => authStore.hasPermissionAccess(BACKUP_PRIVILEGES.download))
 
+  const onDownloadBackup = async () => {
 
+  }
+
+  return { canDownload, errorMessage, isDownloading, onDownloadBackup }
 }
