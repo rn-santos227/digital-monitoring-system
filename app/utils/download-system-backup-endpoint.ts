@@ -4,5 +4,7 @@ import { withApiLoading } from '~/utils/api-request'
 import { createSessionHeaders } from '~/utils/auth-session'
 
 export const downloadSystemBackupEndpoint = async (): Promise<DownloadedBackup> => {
-
+  return await withApiLoading(async () => {
+    
+  }, API_LOADING_MESSAGES.downloadBackup)
 }
