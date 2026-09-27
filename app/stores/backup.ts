@@ -8,3 +8,6 @@ const INITIAL_BACKUP_STATE: BackupState = {
   downloadError: '',
 }
 
+const backupStoreOptions = {
+
+}
