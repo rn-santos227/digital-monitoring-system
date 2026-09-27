@@ -10,4 +10,8 @@ const INITIAL_BACKUP_STATE: BackupState = {
 
 const backupStoreOptions = {
   state: (): BackupState => ({ ...INITIAL_BACKUP_STATE }),
+
+  getters: {
+    hasDownloadError: (state: BackupState) => Boolean(state.downloadError),
+  },
 }
