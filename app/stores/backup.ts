@@ -31,3 +31,5 @@ const backupStoreOptions = {
     }
   },
 }
+
+export const useBackupStore = defineStore('backup', backupStoreOptions)
