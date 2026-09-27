@@ -11,5 +11,7 @@ import { useBackupStore } from '~/stores/backup'
 import { showErrorDialog } from '~/utils/error-handling'
 
 export const useDownloadBackupHandler = () => {
+  const authStore = useAuthStore()
+  const backupStore = useBackupStore()
 
 }
