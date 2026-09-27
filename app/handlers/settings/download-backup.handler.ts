@@ -25,7 +25,8 @@ export const useDownloadBackupHandler = () => {
     try {
 
     } catch (error: unknown) {
-
+      errorMessage.value = await showErrorDialog({
+      })
     }
   }
 
