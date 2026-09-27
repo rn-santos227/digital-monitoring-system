@@ -31,7 +31,10 @@ export const useDownloadBackupHandler = () => {
       downloadLink.click()
       URL.revokeObjectURL(objectUrl)
       await showDialog({
-
+        type: 'success',
+        title: 'Backup downloaded',
+        message: BACKUP_DOWNLOAD_SUCCESS,
+        confirmLabel: 'OK',
       })
     } catch (error: unknown) {
       errorMessage.value = await showErrorDialog({
