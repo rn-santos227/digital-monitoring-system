@@ -29,7 +29,10 @@ export const useDownloadBackupHandler = () => {
       downloadLink.href = objectUrl
       downloadLink.download = fileName
       downloadLink.click()
+      URL.revokeObjectURL(objectUrl)
+      await showDialog({
 
+      })
     } catch (error: unknown) {
       errorMessage.value = await showErrorDialog({
         showDialog,
