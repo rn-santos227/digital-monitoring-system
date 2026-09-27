@@ -18,5 +18,9 @@ export const downloadSystemBackupEndpoint = async (): Promise<DownloadedBackup> 
     const contentDisposition = response.headers.get('content-disposition')
     const fileNameMatch = contentDisposition?.match(/filename="([^"]+)"/i)
 
+    return {
+      blob: await response.blob(),
+      fileName: fileNameMatch?.[1] ?? 'digital-afp-monitoring-backup.json',
+    }
   }, API_LOADING_MESSAGES.downloadBackup)
 }
