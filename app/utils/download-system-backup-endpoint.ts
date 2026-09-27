@@ -5,6 +5,10 @@ import { createSessionHeaders } from '~/utils/auth-session'
 
 export const downloadSystemBackupEndpoint = async (): Promise<DownloadedBackup> => {
   return await withApiLoading(async () => {
-    
+    const response = await fetch(BACKUP_API_ENDPOINTS.download, {
+      method: 'GET',
+      headers: createSessionHeaders(),
+    })
+
   }, API_LOADING_MESSAGES.downloadBackup)
 }
