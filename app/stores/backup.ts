@@ -4,6 +4,7 @@ import { extractApiErrorMessage } from '~/utils/api-request'
 import { downloadSystemBackupEndpoint } from '~/utils/download-system-backup-endpoint'
 
 const INITIAL_BACKUP_STATE: BackupState = {
-
+  isDownloading: false,
+  downloadError: '',
 }
 
