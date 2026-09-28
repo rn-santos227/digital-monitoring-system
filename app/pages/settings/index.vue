@@ -29,6 +29,11 @@
           title="Danger"
           :message="dangerMessage"
         />
+        <BaseAlert
+          v-if="loadError"
+          tone="danger"
+          :message="loadError"
+        />
       </BaseCard>
     </section>
   </main>
