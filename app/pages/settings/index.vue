@@ -23,6 +23,12 @@
           title="Error"
           :message="errorMessage"
         />
+        <BaseAlert
+          v-if="dangerMessage"
+          tone="danger"
+          title="Danger"
+          :message="dangerMessage"
+        />
       </BaseCard>
     </section>
   </main>
