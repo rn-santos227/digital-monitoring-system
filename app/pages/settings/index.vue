@@ -65,6 +65,12 @@
         </BaseButton>
       </template>
     </BaseCard>
+    <BaseCard
+      :title="BACKUP_CARD_TITLE"
+      :subtitle="BACKUP_CARD_SUBTITLE"
+    >
+
+    </BaseCard>
   </section>
 </template>
 
