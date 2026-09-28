@@ -66,4 +66,5 @@ export const saveDashboardParameters = (value: DashboardParameters): DashboardPa
     localStorage.setItem(DASHBOARD_PARAMETERS_STORAGE_KEY, JSON.stringify(normalizedValue))
   }
 
+  return normalizedValue
 }
