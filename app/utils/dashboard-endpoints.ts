@@ -173,7 +173,7 @@ export const getDashboardPersonnelDeploymentHistoryEndpoint = async (parameters:
   }, API_LOADING_MESSAGES.fetchDashboardPersonnelDeploymentHistory)
 }
 
-export const getDashboardOperationalTimeMonitoringEndpoint = async (): Promise<DashboardOperationalTimeMonitoring> => {
+export const getDashboardOperationalTimeMonitoringEndpoint = async (parameters: DashboardParameters): Promise<DashboardOperationalTimeMonitoring> => {
   return await withApiLoading(async () => {
     return await $fetch<DashboardOperationalTimeMonitoring>(DASHBOARD_API_ENDPOINTS.operationalTimeMonitoring, {
       method: 'GET',
