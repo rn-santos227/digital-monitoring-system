@@ -54,7 +54,7 @@ export const readDashboardParameters = (): DashboardParameters => {
   }
 
   try {
-
+    return normalizeDashboardParameters(JSON.parse(storedValue) as DashboardParameterInput)
   } catch {
 
   }
