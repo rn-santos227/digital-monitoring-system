@@ -26,6 +26,8 @@ export const normalizeDashboardParameters = (value?: DashboardParameterInput | n
     DASHBOARD_PARAMETER_LIMITS.maximumRecordLimit,
   },
   equipmentLimit: normalizeLimit(
-
+    value?.equipmentLimit,
+    INITIAL_DASHBOARD_PARAMETERS.equipmentLimit,
+    DASHBOARD_PARAMETER_LIMITS.maximumRecordLimit,
   },
 })
