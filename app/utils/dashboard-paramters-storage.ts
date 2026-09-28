@@ -52,4 +52,10 @@ export const readDashboardParameters = (): DashboardParameters => {
   if (!storedValue) {
     return normalizeDashboardParameters()
   }
+
+  try {
+
+  } catch {
+
+  }
 }
