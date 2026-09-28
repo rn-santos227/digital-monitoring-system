@@ -71,4 +71,8 @@ export const saveDashboardParameters = (value: DashboardParameters): DashboardPa
 
 export const resetDashboardParameters = (): DashboardParameters => {
   const initialValue = normalizeDashboardParameters()
+
+  if (!import.meta.server) {
+    localStorage.removeItem(DASHBOARD_PARAMETERS_STORAGE_KEY)
+  }
 }
