@@ -39,6 +39,11 @@
           tone="danger"
           :message="validationError"
         />
+        <form class="space-y-4" @submit.prevent="onSubmit">
+          <div class="grid gap-4 md:grid-cols-3">
+            <BaseTextField v-model="form.appName" label="Application Name" :disabled="!canUpdate || isSubmitting" />
+          </div>
+        </form>
       </BaseCard>
     </section>
   </main>
