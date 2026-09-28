@@ -51,6 +51,7 @@
             <BaseSelect v-model="form.defaultDateFormat" label="Date Format" :options="dateFormatOptions" :disabled="!canUpdate || isSubmitting" />
             <BaseSelect v-model="form.defaultTimeFormat" label="Time Format" :options="timeFormatOptions" :disabled="!canUpdate || isSubmitting" />
             <BaseSelect v-model="form.appTheme" label="Theme" :options="themeOptions" :disabled="!canUpdate || isSubmitting" />
+            <BaseSelect v-model="form.densityMode" label="Density Mode" :options="densityOptions" :disabled="!canUpdate || isSubmitting" />
           </div>
         </form>
       </BaseCard>
