@@ -56,7 +56,7 @@
           </div>
           <div class="grid gap-4 md:grid-cols-3">
             <BaseTextField v-model="form.mapDefaultLatitude" label="Default Map Latitude" :disabled="!canUpdate || isSubmitting" />
-
+            <BaseTextField v-model="form.mapDefaultLongitude" label="Default Map Longitude" :disabled="!canUpdate || isSubmitting" />
           </div>
         </form>
       </BaseCard>
