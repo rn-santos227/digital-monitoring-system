@@ -70,5 +70,5 @@ export const saveDashboardParameters = (value: DashboardParameters): DashboardPa
 }
 
 export const resetDashboardParameters = (): DashboardParameters => {
-
+  const initialValue = normalizeDashboardParameters()
 }
