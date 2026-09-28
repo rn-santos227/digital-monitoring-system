@@ -34,6 +34,11 @@
           tone="danger"
           :message="loadError"
         />
+        <BaseAlert
+          v-if="validationError"
+          tone="danger"
+          :message="validationError"
+        />
       </BaseCard>
     </section>
   </main>
