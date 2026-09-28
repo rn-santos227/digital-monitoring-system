@@ -45,6 +45,10 @@
             <BaseTextField v-model="form.appShortCode" label="Short Code" :disabled="!canUpdate || isSubmitting" />
             <BaseSelect v-model="form.defaultTimezone" label="Default Timezone" :options="timezoneOptions" :disabled="!canUpdate || isSubmitting" />
           </div>
+          <BaseTextArea v-model="form.appDescription" label="Application Description" :disabled="!canUpdate || isSubmitting" />
+          <div class="grid gap-4 md:grid-cols-2">
+
+          </div>
         </form>
       </BaseCard>
     </section>
