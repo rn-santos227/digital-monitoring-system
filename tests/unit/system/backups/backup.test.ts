@@ -20,5 +20,11 @@ describe('system backup configuration', () => {
         }),
       })),
     } as unknown as SupabaseClient
+
+    const backup = await createSystemBackup(
+      supabase,
+      '2026-09-26T10:20:30.000Z',
+      'user-1',
+    )
   })
 })
