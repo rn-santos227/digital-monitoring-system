@@ -75,4 +75,6 @@ export const resetDashboardParameters = (): DashboardParameters => {
   if (!import.meta.server) {
     localStorage.removeItem(DASHBOARD_PARAMETERS_STORAGE_KEY)
   }
+
+  return initialValue
 }
