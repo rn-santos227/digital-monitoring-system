@@ -26,5 +26,8 @@ describe('system backup configuration', () => {
       '2026-09-26T10:20:30.000Z',
       'user-1',
     )
+
+    expect(backup.formatVersion).toBe(BACKUP_FORMAT_VERSION)
+    expect(backup.generatedBy).toBe('user-1')
   })
 })
