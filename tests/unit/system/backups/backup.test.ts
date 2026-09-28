@@ -11,4 +11,8 @@ describe('system backup configuration', () => {
     expect(BACKUP_TABLES).toContain('audit_logs')
     expect(BACKUP_TABLES).not.toContain('auth_sessions')
   })
+
+  it('builds a backup from the allowlisted tables', async () => {
+
+  })
 })
