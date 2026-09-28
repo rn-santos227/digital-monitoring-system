@@ -83,6 +83,15 @@
       <p v-if="canDownload" class="text-sm text-slate-600">
         The generated file contains database records but excludes authentication session tokens and uploaded file contents. Store it securely because it may contain sensitive personnel information.
       </p>
+      <template #actions>
+        <BaseButton
+          v-if="canDownload"
+          :disabled="isDownloading"
+          @click="onDownloadBackup"
+        >
+          {{ isDownloading ? 'Preparing Backup...' : BACKUP_DOWNLOAD_LABEL }}
+        </BaseButton>
+      </template>
     </BaseCard>
   </section>
 </template>
