@@ -17,6 +17,12 @@
           title="Info"
           :message="infoMessage"
         />
+        <BaseAlert
+          v-if="errorMessage"
+          tone="danger"
+          title="Error"
+          :message="errorMessage"
+        />
       </BaseCard>
     </section>
   </main>
