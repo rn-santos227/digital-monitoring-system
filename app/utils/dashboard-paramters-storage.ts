@@ -68,3 +68,7 @@ export const saveDashboardParameters = (value: DashboardParameters): DashboardPa
 
   return normalizedValue
 }
+
+export const resetDashboardParameters = (): DashboardParameters => {
+
+}
