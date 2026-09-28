@@ -11,6 +11,12 @@
           tone="warning"
           message="You do not have permission to update settings."
         />
+        <BaseAlert
+          v-if="infoMessage"
+          tone="info"
+          title="Info"
+          :message="infoMessage"
+        />
       </BaseCard>
     </section>
   </main>
