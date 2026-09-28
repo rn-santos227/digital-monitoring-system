@@ -62,5 +62,8 @@ export const readDashboardParameters = (): DashboardParameters => {
 
 export const saveDashboardParameters = (value: DashboardParameters): DashboardParameters => {
   const normalizedValue = normalizeDashboardParameters(value)
+  if (!import.meta.server) {
+    localStorage.setItem(DASHBOARD_PARAMETERS_STORAGE_KEY, JSON.stringify(normalizedValue))
+  }
 
 }
