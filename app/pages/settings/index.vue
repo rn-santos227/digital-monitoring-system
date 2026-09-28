@@ -111,6 +111,7 @@ import {
   BACKUP_PERMISSION_WARNING,
 } from '~/constants/page.constants'
 import { useDownloadBackupHandler, useUpdateSettingsHandler } from '~/handlers/settings'
+import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 
 const {
   canUpdate,
