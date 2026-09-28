@@ -8,3 +8,6 @@ const endpointSources = import.meta.glob('/server/api/backups/*.ts', {
   query: '?raw',
 }) as Record<string, string>
 
+describe('backup download endpoint contract', () => {
+
+}
