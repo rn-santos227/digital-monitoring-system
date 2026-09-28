@@ -11,5 +11,15 @@ import type {
   DashboardPersonnelDeploymentSummary,
   DashboardTopKpis,
 } from '~/types/domain/dashboard'
-
+import {
+  getDashboardCriticalEquipmentEndpoint,
+  getDashboardCriticalPersonnelEndpoint,
+  getDashboardEquipmentStatusOverviewEndpoint,
+  getDashboardLocationLoadAnalysisEndpoint,
+  getDashboardNearRotationEndpoint,
+  getDashboardOperationalTimeMonitoringEndpoint,
+  getDashboardPersonnelDeploymentHistoryEndpoint,
+  getDashboardPersonnelDeploymentSummaryEndpoint,
+  getDashboardTopKpisEndpoint,
+} from '~/utils/dashboard-endpoints'
 
