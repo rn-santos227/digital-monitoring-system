@@ -61,6 +61,6 @@ export const readDashboardParameters = (): DashboardParameters => {
 }
 
 export const saveDashboardParameters = (value: DashboardParameters): DashboardParameters => {
-
+  const normalizedValue = normalizeDashboardParameters(value)
 
 }
