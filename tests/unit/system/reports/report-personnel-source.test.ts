@@ -1,1 +1,6 @@
 import { describe, expect, it } from 'vitest'
+
+import {
+  REPORT_PERSONNEL_CHART_SELECT_COLUMNS,
+  REPORT_PERSONNEL_CHART_SOURCE,
+} from '../../../../server/shared/constants/lib/reports'
