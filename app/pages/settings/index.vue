@@ -75,6 +75,12 @@
           tone="warning"
           :message="BACKUP_PERMISSION_WARNING"
         />
+        <BaseAlert
+          v-if="backupErrorMessage"
+          tone="danger"
+          title="Error"
+          :message="backupErrorMessage"
+        />
       </BaseCard>
     </section>
   </main>
