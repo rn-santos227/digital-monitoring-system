@@ -13,6 +13,7 @@ describe('system backup configuration', () => {
   })
 
   it('builds a backup from the allowlisted tables', async () => {
-
+    const supabase = {
+    } as unknown as SupabaseClient
   })
 })
