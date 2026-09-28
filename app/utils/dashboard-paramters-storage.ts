@@ -35,4 +35,7 @@ export const normalizeDashboardParameters = (value?: DashboardParameterInput | n
     INITIAL_DASHBOARD_PARAMETERS.deploymentLimit,
     DASHBOARD_PARAMETER_LIMITS.maximumRecordLimit,
   ),
+  itemLimit: normalizeLimit(
+
+  ),
 })
