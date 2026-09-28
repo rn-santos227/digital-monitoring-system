@@ -80,6 +80,9 @@
         title="Error"
         :message="backupErrorMessage"
       />
+      <p v-if="canDownload" class="text-sm text-slate-600">
+        The generated file contains database records but excludes authentication session tokens and uploaded file contents. Store it securely because it may contain sensitive personnel information.
+      </p>
     </BaseCard>
   </section>
 </template>
