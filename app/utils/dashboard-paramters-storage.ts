@@ -24,13 +24,15 @@ export const normalizeDashboardParameters = (value?: DashboardParameterInput | n
     value?.personnelLimit,
     INITIAL_DASHBOARD_PARAMETERS.personnelLimit,
     DASHBOARD_PARAMETER_LIMITS.maximumRecordLimit,
-  },
+  ),
   equipmentLimit: normalizeLimit(
     value?.equipmentLimit,
     INITIAL_DASHBOARD_PARAMETERS.equipmentLimit,
     DASHBOARD_PARAMETER_LIMITS.maximumRecordLimit,
-  },
+  ),
   deploymentLimit: normalizeLimit(
-
-  },
+    value?.deploymentLimit,
+    INITIAL_DASHBOARD_PARAMETERS.deploymentLimit,
+    DASHBOARD_PARAMETER_LIMITS.maximumRecordLimit,
+  ),
 })
