@@ -178,6 +178,7 @@ export const getDashboardOperationalTimeMonitoringEndpoint = async (parameters: 
     return await $fetch<DashboardOperationalTimeMonitoring>(DASHBOARD_API_ENDPOINTS.operationalTimeMonitoring, {
       method: 'GET',
       headers: getDashboardSessionHeaders(),
+      query: parameters,
     })
   }, API_LOADING_MESSAGES.fetchDashboardOperationalTimeMonitoring)
 }
