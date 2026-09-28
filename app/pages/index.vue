@@ -33,4 +33,11 @@ onMounted(async () => {
     await navigateTo(destination, { replace: true })
   }
 })
+
+const {
+  canDownload,
+  errorMessage: backupErrorMessage,
+  isDownloading,
+  onDownloadBackup,
+} = useDownloadBackupHandler()
 </script>
