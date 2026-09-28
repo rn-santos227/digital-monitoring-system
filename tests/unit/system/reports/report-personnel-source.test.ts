@@ -7,5 +7,6 @@ import {
 
 describe('report personnel chart source', () => {
   it('uses the personnel profile view for resolved lookup names', () => {
+    expect(REPORT_PERSONNEL_CHART_SOURCE).toBe('vw_personnel_profile')
   })
 })
