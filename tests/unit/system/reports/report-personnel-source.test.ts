@@ -13,7 +13,8 @@ describe('report personnel chart source', () => {
       'service_status',
       'battalion_name',
       'company_name',
-
+      'sex',
+      'created_at',
     ])
   })
 })
