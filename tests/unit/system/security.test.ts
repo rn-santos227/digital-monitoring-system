@@ -21,6 +21,9 @@ describe('OWASP security utilities', () => {
     expect(CONTENT_SECURITY_POLICY).toContain("default-src 'self'")
     expect(CONTENT_SECURITY_POLICY).toContain("frame-ancestors 'none'")
     expect(CONTENT_SECURITY_POLICY).toContain("object-src 'none'")
+    expect(CONTENT_SECURITY_POLICY).toContain(
+      "script-src 'self' 'unsafe-inline' https://unpkg.com",
+    )
   })
 
   it('accepts only canonical HTTP origins from configuration', () => {
