@@ -41,3 +41,7 @@ export const normalizeDashboardParameters = (value?: DashboardParameterInput | n
     DASHBOARD_PARAMETER_LIMITS.maximumItemLimit,
   ),
 })
+
+export const readDashboardParameters = (): DashboardParameters => {
+
+}
