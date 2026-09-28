@@ -47,7 +47,7 @@
           </div>
           <BaseTextArea v-model="form.appDescription" label="Application Description" :disabled="!canUpdate || isSubmitting" />
           <div class="grid gap-4 md:grid-cols-2">
-
+            <BaseTextField v-model="form.defaultLocale" label="Default Locale" :disabled="!canUpdate || isSubmitting" />
           </div>
         </form>
       </BaseCard>
