@@ -1,7 +1,15 @@
 <template>
- <main :class="APP_MAIN_CONTENT_CLASSES">
-  
- </main>
+  <main :class="APP_MAIN_CONTENT_CLASSES">
+    <section class="space-y-6">
+      <BaseCard
+        title="Application Settings"
+        subtitle="Configure monitoring defaults that are stored locally after first load for faster access."
+        v-if="canUpdate"
+      >
+
+      </BaseCard>
+    </section>
+  </main>
 </template>
 
 <script setup lang="ts">
