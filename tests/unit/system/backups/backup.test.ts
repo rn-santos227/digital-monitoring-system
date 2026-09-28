@@ -14,6 +14,11 @@ describe('system backup configuration', () => {
 
   it('builds a backup from the allowlisted tables', async () => {
     const supabase = {
+      from: vi.fn((tableName: string) => ({
+        select: () => ({
+          range: async () => ({ data: [{ tableName }], error: null }),
+        }),
+      })),
     } as unknown as SupabaseClient
   })
 })
