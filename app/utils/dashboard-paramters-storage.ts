@@ -43,5 +43,7 @@ export const normalizeDashboardParameters = (value?: DashboardParameterInput | n
 })
 
 export const readDashboardParameters = (): DashboardParameters => {
-
+  if (import.meta.server) {
+    return normalizeDashboardParameters()
+  }
 }
