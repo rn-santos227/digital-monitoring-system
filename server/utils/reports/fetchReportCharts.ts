@@ -36,7 +36,7 @@ const fetchTotalCount = async (
 export const fetchReportCharts = async (supabase: SupabaseClient): Promise<ReportChartsResponse> => {
   const [personnelResult, equipmentAssetsResult, equipmentItemsTotal] = await Promise.all([
     supabase
-      .from('personnel')
+      .from(REPORT_PERSONNEL_CHART_SOURCE)
       .select(REPORT_PERSONNEL_CHART_SELECT_COLUMNS, { count: 'exact' }),
     supabase
       .from('equipment_assets')
