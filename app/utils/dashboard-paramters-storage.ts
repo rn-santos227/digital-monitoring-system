@@ -46,4 +46,8 @@ export const readDashboardParameters = (): DashboardParameters => {
   if (import.meta.server) {
     return normalizeDashboardParameters()
   }
+
+  const storedValue = localStorage.getItem(DASHBOARD_PARAMETERS_STORAGE_KEY)
+
+
 }
