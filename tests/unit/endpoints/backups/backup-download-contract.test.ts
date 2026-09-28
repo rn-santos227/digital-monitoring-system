@@ -14,6 +14,8 @@ describe('backup download endpoint contract', () => {
 
     expect(source).toContain('requirePermission(event, PERMISSION_CODES.backupDownload)')
     expect(source).toContain('AUDIT_LOG_ACTIONS.backupDownload')
-
+    expect(source).toContain('AUDIT_LOG_OUTCOMES.success')
+    expect(source).toContain('AUDIT_LOG_OUTCOMES.failed')
+    expect(source).toContain("'Cache-Control', 'no-store'")
   }
 }
