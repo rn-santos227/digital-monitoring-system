@@ -60,6 +60,11 @@
             <BaseTextField v-model="form.mapDefaultZoom" label="Default Map Zoom" :disabled="!canUpdate || isSubmitting" />
           </div>
         </form>
+        <template #actions>
+          <BaseButton :disabled="!canUpdate || isSubmitting" @click="onSubmit">
+            Save Settings
+          </BaseButton>
+        </template>
       </BaseCard>
     </section>
   </main>
