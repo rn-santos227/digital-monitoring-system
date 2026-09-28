@@ -9,6 +9,8 @@ export const REPORT_CHART_DEFAULT_COLORS = [
 
 export const REPORT_TOP_CATEGORY_LIMIT = 5
 
+export const REPORT_PERSONNEL_CHART_SOURCE = 'vw_personnel_profile'
+
 export const REPORT_PERSONNEL_CHART_SELECT_COLUMNS =
   'id, service_status, battalion_name, company_name, sex, created_at'
 
