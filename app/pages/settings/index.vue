@@ -6,7 +6,11 @@
         subtitle="Configure monitoring defaults that are stored locally after first load for faster access."
         v-if="canUpdate"
       >
-
+        <BaseAlert
+          v-if="!canUpdate"
+          tone="warning"
+          message="You do not have permission to update settings."
+        />
       </BaseCard>
     </section>
   </main>
