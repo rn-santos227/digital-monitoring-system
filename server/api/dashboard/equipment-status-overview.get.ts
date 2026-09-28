@@ -14,7 +14,7 @@ export default defineEventHandler(async (event): Promise<DashboardEquipmentStatu
   const now = new Date()
   const parameters = parseDashboardParameters(getQuery(event))
 
-  const equipmentRows = await fetchEquipmentAssets(supabase, 'equipment status overview')
+  const equipmentRows = await fetchEquipmentAssets(supabase, 'equipment status overview', parameters.equipmentLimit)
   const metrics = buildEquipmentMetrics(equipmentRows)
 
   return {
