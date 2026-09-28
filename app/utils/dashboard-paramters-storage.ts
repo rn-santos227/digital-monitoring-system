@@ -18,3 +18,7 @@ const normalizeLimit = (value: unknown, fallback: number, maximum: number): numb
 
   return Math.min(maximum, Math.max(DASHBOARD_PARAMETER_LIMITS.minimum, Math.trunc(parsedValue)))
 }
+
+export const normalizeDashboardParameters = (value?: DashboardParameterInput | null): DashboardParameters => ({
+
+})
