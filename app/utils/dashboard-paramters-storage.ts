@@ -12,5 +12,8 @@ type DashboardParameterInput = {
 const normalizeLimit = (value: unknown, fallback: number, maximum: number): number => {
   const parsedValue = typeof value === 'number' ? value : Number.parseInt(String(value ?? ''), 10)
 
+  if (!Number.isFinite(parsedValue)) {
+    return fallback
+  }
 
 }
