@@ -9,5 +9,7 @@ const endpointSources = import.meta.glob('/server/api/backups/*.ts', {
 }) as Record<string, string>
 
 describe('backup download endpoint contract', () => {
+  it('requires the backup permission and audits successful and failed downloads', () => {
 
+  }
 }
