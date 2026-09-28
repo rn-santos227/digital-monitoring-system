@@ -8,13 +8,7 @@
 import { onMounted } from 'vue'
 import { ROUTE_PATHS } from '~/constants/routes.constants'
 import { useAuthStore } from '~/stores/auth'
-import {
-  BACKUP_CARD_SUBTITLE,
-  BACKUP_CARD_TITLE,
-  BACKUP_DOWNLOAD_LABEL,
-  BACKUP_PERMISSION_WARNING,
-} from '~/constants/page.constants'
-import { useDownloadBackupHandler, useUpdateSettingsHandler } from '~/handlers/settings'
+import { getStoredSessionToken } from '~/utils/auth-session'
 
 const authStore = useAuthStore()
 
@@ -33,11 +27,4 @@ onMounted(async () => {
     await navigateTo(destination, { replace: true })
   }
 })
-
-const {
-  canDownload,
-  errorMessage: backupErrorMessage,
-  isDownloading,
-  onDownloadBackup,
-} = useDownloadBackupHandler()
 </script>

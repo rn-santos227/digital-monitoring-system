@@ -75,7 +75,13 @@ import BaseSelect from '~/components/ui/BaseSelect.vue'
 import BaseTextArea from '~/components/ui/BaseTextArea.vue'
 import BaseTextField from '~/components/ui/BaseTextField.vue'
 import { useApplicationSettings } from '~/composables/useApplicationSettings'
-import { useUpdateSettingsHandler } from '~/handlers/settings'
+import {
+  BACKUP_CARD_SUBTITLE,
+  BACKUP_CARD_TITLE,
+  BACKUP_DOWNLOAD_LABEL,
+  BACKUP_PERMISSION_WARNING,
+} from '~/constants/page.constants'
+import { useDownloadBackupHandler, useUpdateSettingsHandler } from '~/handlers/settings'
 
 const {
   canUpdate,
