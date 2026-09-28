@@ -3,6 +3,7 @@
     <BaseCard
       title="Application Settings"
       subtitle="Configure monitoring defaults that are stored locally after first load for faster access."
+      v-if="canUpdate"
     >
       <BaseAlert
         v-if="!canUpdate"
