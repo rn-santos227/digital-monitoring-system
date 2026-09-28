@@ -42,6 +42,7 @@
         <form class="space-y-4" @submit.prevent="onSubmit">
           <div class="grid gap-4 md:grid-cols-3">
             <BaseTextField v-model="form.appName" label="Application Name" :disabled="!canUpdate || isSubmitting" />
+            <BaseTextField v-model="form.appShortCode" label="Short Code" :disabled="!canUpdate || isSubmitting" />
           </div>
         </form>
       </BaseCard>
