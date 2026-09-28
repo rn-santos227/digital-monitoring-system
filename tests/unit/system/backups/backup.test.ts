@@ -29,5 +29,7 @@ describe('system backup configuration', () => {
 
     expect(backup.formatVersion).toBe(BACKUP_FORMAT_VERSION)
     expect(backup.generatedBy).toBe('user-1')
+    expect(backup.tables.personnel).toEqual([{ tableName: 'personnel' }])
+    expect(supabase.from).toHaveBeenCalledTimes(BACKUP_TABLES.length)
   })
 })
