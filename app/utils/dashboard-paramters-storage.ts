@@ -8,3 +8,7 @@ import type { DashboardParameters } from '~/types/domain/dashboard'
 type DashboardParameterInput = {
   [Key in keyof DashboardParameters]?: unknown
 }
+
+const normalizeLimit = (value: unknown, fallback: number, maximum: number): number => {
+
+}
