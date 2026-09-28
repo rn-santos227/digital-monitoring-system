@@ -70,7 +70,11 @@
         :title="BACKUP_CARD_TITLE"
         :subtitle="BACKUP_CARD_SUBTITLE"
       >
-
+        <BaseAlert
+          v-if="!canDownload"
+          tone="warning"
+          :message="BACKUP_PERMISSION_WARNING"
+        />
       </BaseCard>
     </section>
   </main>
