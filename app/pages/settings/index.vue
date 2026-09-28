@@ -54,6 +54,10 @@
             <BaseSelect v-model="form.densityMode" label="Density Mode" :options="densityOptions" :disabled="!canUpdate || isSubmitting" />
             <BaseSelect v-model="form.pageSize" label="Page Size" :options="pageSizeOptions" :disabled="!canUpdate || isSubmitting" />
           </div>
+          <div class="grid gap-4 md:grid-cols-3">
+            <BaseTextField v-model="form.mapDefaultLatitude" label="Default Map Latitude" :disabled="!canUpdate || isSubmitting" />
+
+          </div>
         </form>
       </BaseCard>
     </section>
