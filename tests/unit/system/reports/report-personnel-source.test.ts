@@ -11,6 +11,8 @@ describe('report personnel chart source', () => {
     expect(REPORT_PERSONNEL_CHART_SELECT_COLUMNS.split(', ')).toEqual([
       'id',
       'service_status',
+      'battalion_name',
+      'company_name',
 
     ])
   })
