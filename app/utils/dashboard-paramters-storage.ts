@@ -20,5 +20,7 @@ const normalizeLimit = (value: unknown, fallback: number, maximum: number): numb
 }
 
 export const normalizeDashboardParameters = (value?: DashboardParameterInput | null): DashboardParameters => ({
+  personnelLimit: normalizeLimit(
 
+  },
 })
