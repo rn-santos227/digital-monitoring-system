@@ -102,4 +102,10 @@ const { dangerMessage, errorMessage, infoMessage, onSubmit, validationError } = 
   toUpdatePayload,
   updateApplicationSettings,
 })
+const {
+  canDownload,
+  errorMessage: backupErrorMessage,
+  isDownloading,
+  onDownloadBackup,
+} = useDownloadBackupHandler()
 </script>
