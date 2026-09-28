@@ -49,5 +49,7 @@ export const readDashboardParameters = (): DashboardParameters => {
 
   const storedValue = localStorage.getItem(DASHBOARD_PARAMETERS_STORAGE_KEY)
 
-
+  if (!storedValue) {
+    return normalizeDashboardParameters()
+  }
 }
