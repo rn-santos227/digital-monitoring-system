@@ -8,7 +8,13 @@
 import { onMounted } from 'vue'
 import { ROUTE_PATHS } from '~/constants/routes.constants'
 import { useAuthStore } from '~/stores/auth'
-import { getStoredSessionToken } from '~/utils/auth-session'
+import {
+  BACKUP_CARD_SUBTITLE,
+  BACKUP_CARD_TITLE,
+  BACKUP_DOWNLOAD_LABEL,
+  BACKUP_PERMISSION_WARNING,
+} from '~/constants/page.constants'
+import { useDownloadBackupHandler, useUpdateSettingsHandler } from '~/handlers/settings'
 
 const authStore = useAuthStore()
 
