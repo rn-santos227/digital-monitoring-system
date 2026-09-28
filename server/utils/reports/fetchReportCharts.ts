@@ -3,6 +3,7 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import {
   REPORT_EQUIPMENT_ASSET_CHART_SELECT_COLUMNS,
   REPORT_PERSONNEL_CHART_SELECT_COLUMNS,
+  REPORT_PERSONNEL_CHART_SOURCE,
 } from '../../shared/constants'
 import type { ReportChartsResponse } from '../../shared/responses'
 import {
