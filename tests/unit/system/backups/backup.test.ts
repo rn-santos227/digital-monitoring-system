@@ -5,6 +5,8 @@ import { createSystemBackup } from '../../../../server/utils/backups/createSyste
 
 describe('system backup configuration', () => {
   it('defines a versioned table allowlist without authentication sessions', () => {
+    expect(BACKUP_FORMAT_VERSION).toBe(1)
+    expect(BACKUP_TABLES).toContain('personnel')
 
   })
 })
