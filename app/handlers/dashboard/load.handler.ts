@@ -50,4 +50,5 @@ export const createInitialDashboardData = (): DashboardData => ({
   criticalEquipment: { asOf: '', items: [] },
   nearRotation: { asOf: '', items: [] },
   locationLoadAnalysis: { asOf: '', items: [] },
+  personnelDeploymentHistory: { asOf: '', items: [] },
 })
