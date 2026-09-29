@@ -79,4 +79,8 @@ export const loadDashboardData = async (parameters: DashboardParameters): Promis
     getDashboardPersonnelDeploymentHistoryEndpoint(parameters),
     getDashboardOperationalTimeMonitoringEndpoint(parameters),
   ])
+
+  return {
+    topKpis,
+  }
 }
