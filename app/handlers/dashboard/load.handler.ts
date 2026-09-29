@@ -77,5 +77,6 @@ export const loadDashboardData = async (parameters: DashboardParameters): Promis
     getDashboardNearRotationEndpoint(parameters),
     getDashboardLocationLoadAnalysisEndpoint(parameters),
     getDashboardPersonnelDeploymentHistoryEndpoint(parameters),
+    getDashboardOperationalTimeMonitoringEndpoint(parameters),
   ])
 }
