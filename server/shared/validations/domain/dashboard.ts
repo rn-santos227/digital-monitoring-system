@@ -20,5 +20,9 @@ export const parseDashboardParameters = (query: Record<string, unknown>): Dashbo
     DEFAULT_DASHBOARD_PARAMETERS.personnelLimit,
     DASHBOARD_PARAMETER_LIMITS.maximumRecordLimit,
   ),
-
+  equipmentLimit: parseLimit(
+    query.equipmentLimit,
+    DEFAULT_DASHBOARD_PARAMETERS.equipmentLimit,
+    DASHBOARD_PARAMETER_LIMITS.maximumRecordLimit,
+  ),
 })
