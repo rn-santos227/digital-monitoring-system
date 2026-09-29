@@ -3,3 +3,7 @@ export const DASHBOARD_PARAMETER_LIMITS = Object.freeze({
   maximumRecordLimit: 5000,
   maximumItemLimit: 100,
 })
+
+export const DEFAULT_DASHBOARD_PARAMETERS = Object.freeze({
+
+})
