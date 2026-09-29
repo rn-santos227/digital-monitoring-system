@@ -33,4 +33,5 @@ export interface DashboardData {
   nearRotation: DashboardNearRotation
   locationLoadAnalysis: DashboardLocationLoadAnalysis
   personnelDeploymentHistory: DashboardPersonnelDeploymentHistory
+  operationalTimeMonitoring: DashboardOperationalTimeMonitoring
 }
