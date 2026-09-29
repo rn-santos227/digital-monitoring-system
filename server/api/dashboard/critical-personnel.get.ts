@@ -1,6 +1,7 @@
-import { defineEventHandler } from 'h3'
+import { defineEventHandler, getQuery } from 'h3'
 import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardCriticalPersonnelResponse } from '../../shared/responses'
+import { parseDashboardParameters } from '../../shared/validations'
 import {
   buildPersonnelSummaryMetrics,
   normalizeDashboardPersonnelStatusRows,
