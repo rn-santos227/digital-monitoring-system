@@ -31,4 +31,6 @@ export interface DashboardData {
   criticalPersonnel: DashboardCriticalPersonnel
   criticalEquipment: DashboardCriticalEquipment
   nearRotation: DashboardNearRotation
+  locationLoadAnalysis: DashboardLocationLoadAnalysis
+  personnelDeploymentHistory: DashboardPersonnelDeploymentHistory
 }
