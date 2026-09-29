@@ -3,4 +3,8 @@ import type { DashboardParameters } from '../../requests'
 
 const parseLimit = (value: unknown, fallback: number, maximum: number): number => {
   const normalizedValue = Array.isArray(value) ? value[0] : value
+  const parsedValue = typeof normalizedValue === 'number'
+    ? normalizedValue
+    : Number.parseInt(String(normalizedValue ?? ''), 10)
+
 }
