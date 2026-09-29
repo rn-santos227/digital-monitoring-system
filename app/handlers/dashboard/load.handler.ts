@@ -74,5 +74,6 @@ export const loadDashboardData = async (parameters: DashboardParameters): Promis
     getDashboardEquipmentStatusOverviewEndpoint(parameters),
     getDashboardCriticalPersonnelEndpoint(parameters),
     getDashboardCriticalEquipmentEndpoint(parameters),
+    getDashboardNearRotationEndpoint(parameters),
   ])
 }
