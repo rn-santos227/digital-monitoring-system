@@ -38,6 +38,6 @@ export default defineEventHandler(async (event): Promise<DashboardCriticalPerson
 
   return {
     asOf: now.toISOString(),
-    items: metrics.criticalPersonnel,
+    items: metrics.criticalPersonnel.slice(0, parameters.itemLimit),
   }
 })
