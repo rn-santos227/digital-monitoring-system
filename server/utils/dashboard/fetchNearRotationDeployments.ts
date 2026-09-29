@@ -19,6 +19,7 @@ export async function fetchNearRotationDeployments(
   supabase: SupabaseClient,
   todayIsoDate: string,
   cutoffDate: string,
+  limit: number,
 ) {
   const nearRotationResult = await supabase
     .from('deployment_records')
