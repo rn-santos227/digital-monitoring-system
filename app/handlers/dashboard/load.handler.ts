@@ -29,4 +29,6 @@ export interface DashboardData {
   personnelDeploymentSummary: DashboardPersonnelDeploymentSummary
   equipmentStatusOverview: DashboardEquipmentStatusOverview
   criticalPersonnel: DashboardCriticalPersonnel
+  criticalEquipment: DashboardCriticalEquipment
+  nearRotation: DashboardNearRotation
 }
