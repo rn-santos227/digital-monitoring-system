@@ -56,3 +56,7 @@ export const createInitialDashboardData = (): DashboardData => ({
     metric: { activeDeploymentCount: 0, averageActiveDays: 0, longestActiveDays: 0 },
   },
 })
+
+export const loadDashboardData = async (parameters: DashboardParameters): Promise<DashboardData> => {
+
+}
