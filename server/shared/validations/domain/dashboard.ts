@@ -15,5 +15,10 @@ const parseLimit = (value: unknown, fallback: number, maximum: number): number =
 }
 
 export const parseDashboardParameters = (query: Record<string, unknown>): DashboardParameters => ({
+  personnelLimit: parseLimit(
+    query.personnelLimit,
+    DEFAULT_DASHBOARD_PARAMETERS.personnelLimit,
+    DASHBOARD_PARAMETER_LIMITS.maximumRecordLimit,
+  ),
 
 })
