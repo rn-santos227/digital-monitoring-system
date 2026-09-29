@@ -23,3 +23,7 @@ import {
   getDashboardTopKpisEndpoint,
 } from '~/utils/dashboard-endpoints'
 import { readDashboardParameters } from '~/utils/dashboard-parameters-storage'
+
+export interface DashboardData {
+
+}
