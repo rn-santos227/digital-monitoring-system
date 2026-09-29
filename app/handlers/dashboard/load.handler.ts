@@ -72,5 +72,6 @@ export const loadDashboardData = async (parameters: DashboardParameters): Promis
     getDashboardTopKpisEndpoint(parameters),
     getDashboardPersonnelDeploymentSummaryEndpoint(parameters),
     getDashboardEquipmentStatusOverviewEndpoint(parameters),
+    getDashboardCriticalPersonnelEndpoint(parameters),
   ])
 }
