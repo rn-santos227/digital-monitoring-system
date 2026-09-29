@@ -16,6 +16,8 @@ export async function fetchPersonnelStatusAndActiveDeployments(
   supabase: SupabaseClient,
   todayIsoDate: string,
   contextLabel: string,
+  personnelLimit: number,
+  deploymentLimit: number,
 ) {
   const [personnelResult, activeDeploymentsResult] = await Promise.all([
     supabase
