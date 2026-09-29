@@ -3,10 +3,12 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import { DASHBOARD_EQUIPMENT_STATUS_SELECT_COLUMNS } from '../../shared/constants'
 import type { DashboardEquipmentStatusRow } from '../../shared/utils'
 
-export async function fetchEquipmentAssets(supabase: SupabaseClient, contextLabel: string) {
+export async function fetchEquipmentAssets(supabase: SupabaseClient, contextLabel: string, limit: number) {
   const equipmentResult = await supabase
     .from('equipment_assets')
     .select(DASHBOARD_EQUIPMENT_STATUS_SELECT_COLUMNS)
+    .order('id', { ascending: true })
+    .limit(limit)
 
   if (equipmentResult.error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to load ${contextLabel}: ${equipmentResult.error.message}` })
