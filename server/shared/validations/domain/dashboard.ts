@@ -25,4 +25,5 @@ export const parseDashboardParameters = (query: Record<string, unknown>): Dashbo
     DEFAULT_DASHBOARD_PARAMETERS.equipmentLimit,
     DASHBOARD_PARAMETER_LIMITS.maximumRecordLimit,
   ),
+
 })
