@@ -28,6 +28,8 @@ export async function fetchNearRotationDeployments(
     .not('end_date', 'is', null)
     .lte('end_date', cutoffDate)
     .gte('end_date', todayIsoDate)
+    .order('end_date', { ascending: true })
+    .limit(limit)
 
   if (nearRotationResult.error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to load near-rotation records: ${nearRotationResult.error.message}` })
