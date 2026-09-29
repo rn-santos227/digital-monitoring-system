@@ -5,5 +5,8 @@ export const DASHBOARD_PARAMETER_LIMITS = Object.freeze({
 })
 
 export const DEFAULT_DASHBOARD_PARAMETERS = Object.freeze({
-
+  personnelLimit: 500,
+  equipmentLimit: 500,
+  deploymentLimit: 500,
+  itemLimit: 10,
 })
