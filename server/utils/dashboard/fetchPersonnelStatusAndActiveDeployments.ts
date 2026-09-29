@@ -22,7 +22,9 @@ export async function fetchPersonnelStatusAndActiveDeployments(
   const [personnelResult, activeDeploymentsResult] = await Promise.all([
     supabase
       .from('vw_personnel_profile')
-      .select(DASHBOARD_PERSONNEL_STATUS_SELECT_COLUMNS),
+      .select(DASHBOARD_PERSONNEL_STATUS_SELECT_COLUMNS)
+      .order('id', { ascending: true })
+      .limit(personnelLimit),
     supabase
       .from('deployment_records')
       .select(DASHBOARD_ACTIVE_DEPLOYMENT_PERSONNEL_SELECT_COLUMNS)
