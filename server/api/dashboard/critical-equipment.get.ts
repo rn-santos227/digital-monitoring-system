@@ -14,11 +14,11 @@ export default defineEventHandler(async (event): Promise<DashboardCriticalEquipm
   const now = new Date()
   const parameters = parseDashboardParameters(getQuery(event))
 
-  const equipmentRows = await fetchEquipmentAssets(supabase, 'critical equipment data')
+  const equipmentRows = await fetchEquipmentAssets(supabase, 'critical equipment data', parameters.equipmentLimit)
   const metrics = buildEquipmentMetrics(equipmentRows)
 
   return {
     asOf: now.toISOString(),
-    items: metrics.criticalEquipment,
+    items: metrics.criticalEquipment.slice(0, parameters.itemLimit),
   }
 })
