@@ -35,3 +35,7 @@ export interface DashboardData {
   personnelDeploymentHistory: DashboardPersonnelDeploymentHistory
   operationalTimeMonitoring: DashboardOperationalTimeMonitoring
 }
+
+export const createInitialDashboardData = (): DashboardData => ({
+  topKpis: { asOf: '', totalRegistered: 0, deployed: 0, standbyAlert: 0, noComms: 0, injuredOrDead: 0 },
+})
