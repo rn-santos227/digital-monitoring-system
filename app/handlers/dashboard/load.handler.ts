@@ -70,5 +70,6 @@ export const loadDashboardData = async (parameters: DashboardParameters): Promis
     operationalTimeMonitoring,
   ] = await Promise.all([
     getDashboardTopKpisEndpoint(parameters),
+    getDashboardPersonnelDeploymentSummaryEndpoint(parameters),
   ])
 }
