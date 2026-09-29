@@ -27,4 +27,6 @@ import { readDashboardParameters } from '~/utils/dashboard-parameters-storage'
 export interface DashboardData {
   topKpis: DashboardTopKpis
   personnelDeploymentSummary: DashboardPersonnelDeploymentSummary
+  equipmentStatusOverview: DashboardEquipmentStatusOverview
+  criticalPersonnel: DashboardCriticalPersonnel
 }
