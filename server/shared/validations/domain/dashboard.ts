@@ -10,4 +10,6 @@ const parseLimit = (value: unknown, fallback: number, maximum: number): number =
   if (!Number.isFinite(parsedValue)) {
     return fallback
   }
+
+  return Math.min(maximum, Math.max(DASHBOARD_PARAMETER_LIMITS.minimum, Math.trunc(parsedValue)))
 }
