@@ -38,6 +38,6 @@ export default defineEventHandler(async (event): Promise<DashboardLocationLoadAn
 
   return {
     asOf: now.toISOString(),
-    items: metrics.locationLoadAnalysis,
+    items: metrics.locationLoadAnalysis.slice(0, parameters.itemLimit),
   }
 })
