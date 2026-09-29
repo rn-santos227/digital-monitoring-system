@@ -58,5 +58,7 @@ export const createInitialDashboardData = (): DashboardData => ({
 })
 
 export const loadDashboardData = async (parameters: DashboardParameters): Promise<DashboardData> => {
-
+  const [
+  ] = await Promise.all([
+  ])
 }
