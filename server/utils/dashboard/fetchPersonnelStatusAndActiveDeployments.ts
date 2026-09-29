@@ -29,7 +29,8 @@ export async function fetchPersonnelStatusAndActiveDeployments(
       .from('deployment_records')
       .select(DASHBOARD_ACTIVE_DEPLOYMENT_PERSONNEL_SELECT_COLUMNS)
       .eq('deployment_statuses.name', 'Active')
-      .or(`end_date.is.null,end_date.gte.${todayIsoDate}`),
+      .or(`end_date.is.null,end_date.gte.${todayIsoDate}`)
+      .limit(deploymentLimit),
   ])
 
   if (personnelResult.error) {
