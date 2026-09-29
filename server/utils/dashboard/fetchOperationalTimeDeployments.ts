@@ -13,6 +13,8 @@ export async function fetchOperationalTimeDeployments(supabase: SupabaseClient, 
     .select(DASHBOARD_OPERATIONAL_TIME_MONITORING_SELECT_COLUMNS)
     .eq('deployment_statuses.name', 'Active')
     .or(`end_date.is.null,end_date.gte.${todayIsoDate}`)
+    .order('start_date', { ascending: false })
+    .limit(limit)
 
   if (operationalTimeResult.error) {
     throw createError({ statusCode: 500, statusMessage: `Failed to load operational time monitoring metrics: ${operationalTimeResult.error.message}` })
