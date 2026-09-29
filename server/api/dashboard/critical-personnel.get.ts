@@ -23,6 +23,8 @@ export default defineEventHandler(async (event): Promise<DashboardCriticalPerson
     supabase,
     todayIsoDate,
     'critical personnel',
+    parameters.personnelLimit,
+    parameters.deploymentLimit,
   )
 
   const normalizedPersonnelRows = normalizeDashboardPersonnelStatusRows(personnelRows)
