@@ -1,10 +1,12 @@
-import { defineEventHandler } from 'h3'
+import { defineEventHandler, getQuery } from 'h3'
 import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardNearRotationResponse, DashboardRotationAlertItem } from '../../shared/responses'
+import { parseDashboardParameters } from '../../shared/validations'
 import { toFullName } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchNearRotationDeployments } from '../../utils/dashboard/fetchNearRotationDeployments'
+
 interface NearRotationRow {
   personnel_id: string
   end_date: string
