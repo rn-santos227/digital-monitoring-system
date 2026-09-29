@@ -7,7 +7,7 @@ export interface OperationalTimeDeploymentRow {
   end_date: string | null
 }
 
-export async function fetchOperationalTimeDeployments(supabase: SupabaseClient, todayIsoDate: string) {
+export async function fetchOperationalTimeDeployments(supabase: SupabaseClient, todayIsoDate: string, limit: number) {
   const operationalTimeResult = await supabase
     .from('deployment_records')
     .select(DASHBOARD_OPERATIONAL_TIME_MONITORING_SELECT_COLUMNS)
