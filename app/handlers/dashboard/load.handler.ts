@@ -42,4 +42,8 @@ export const createInitialDashboardData = (): DashboardData => ({
     asOf: '',
     summary: { deployed: 0, unavailable: 0, standbyAlert: 0, injured: 0, dead: 0 },
   },
+  equipmentStatusOverview: {
+    asOf: '',
+    summary: { operational: 0, standbyReady: 0, partiallyOperational: 0, underMaintenance: 0, defective: 0 },
+  },
 })
