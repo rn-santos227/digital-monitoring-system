@@ -61,7 +61,8 @@ export const loadDashboardData = async (parameters: DashboardParameters): Promis
   const [
     topKpis,
     personnelDeploymentSummary,
-
+    equipmentStatusOverview,
+    criticalPersonnel,
   ] = await Promise.all([
   ])
 }
