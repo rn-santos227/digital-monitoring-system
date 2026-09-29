@@ -1,6 +1,7 @@
-import { defineEventHandler } from 'h3'
+import { defineEventHandler, getQuery } from 'h3'
 import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardCriticalEquipmentResponse } from '../../shared/responses'
+import { parseDashboardParameters } from '../../shared/validations'
 import { buildEquipmentMetrics } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
