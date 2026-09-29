@@ -7,4 +7,7 @@ const parseLimit = (value: unknown, fallback: number, maximum: number): number =
     ? normalizedValue
     : Number.parseInt(String(normalizedValue ?? ''), 10)
 
+  if (!Number.isFinite(parsedValue)) {
+    return fallback
+  }
 }
