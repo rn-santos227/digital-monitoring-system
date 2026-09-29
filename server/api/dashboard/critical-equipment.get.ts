@@ -12,6 +12,7 @@ export default defineEventHandler(async (event): Promise<DashboardCriticalEquipm
 
   const supabase = getServiceSupabaseClient()
   const now = new Date()
+  const parameters = parseDashboardParameters(getQuery(event))
 
   const equipmentRows = await fetchEquipmentAssets(supabase, 'critical equipment data')
   const metrics = buildEquipmentMetrics(equipmentRows)
