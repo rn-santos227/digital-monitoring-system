@@ -38,4 +38,8 @@ export interface DashboardData {
 
 export const createInitialDashboardData = (): DashboardData => ({
   topKpis: { asOf: '', totalRegistered: 0, deployed: 0, standbyAlert: 0, noComms: 0, injuredOrDead: 0 },
+  personnelDeploymentSummary: {
+    asOf: '',
+    summary: { deployed: 0, unavailable: 0, standbyAlert: 0, injured: 0, dead: 0 },
+  },
 })
