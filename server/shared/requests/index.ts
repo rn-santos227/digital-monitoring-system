@@ -1,6 +1,7 @@
 export * from './domain/application-settings'
 export * from './domain/bulk-management'
 export * from './domain/audit'
+export * from './domain/dashboard'
 export * from './domain/deployment-management'
 export * from './domain/file-management'
 export * from './domain/personnel-management'
