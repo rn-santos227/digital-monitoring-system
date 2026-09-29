@@ -51,4 +51,8 @@ export const createInitialDashboardData = (): DashboardData => ({
   nearRotation: { asOf: '', items: [] },
   locationLoadAnalysis: { asOf: '', items: [] },
   personnelDeploymentHistory: { asOf: '', items: [] },
+  operationalTimeMonitoring: {
+    asOf: '',
+    metric: { activeDeploymentCount: 0, averageActiveDays: 0, longestActiveDays: 0 },
+  },
 })
