@@ -15,6 +15,9 @@
         :max="field.maximum"
         required
       />
+      <div class="flex flex-wrap gap-2 md:col-span-2 xl:col-span-4">
+        
+      </div>
     </form>
   </BaseAccordion>
 </template>
