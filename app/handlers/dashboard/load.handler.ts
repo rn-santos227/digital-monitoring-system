@@ -107,6 +107,7 @@ export const createDashboardParameterHandlers = (
   }
 
   return {
-
+    applyParameters,
+    initializeParameters,
   }
 }
