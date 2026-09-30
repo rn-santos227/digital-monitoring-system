@@ -85,5 +85,6 @@ export const loadDashboardData = async (parameters: DashboardParameters): Promis
     personnelDeploymentSummary,
     equipmentStatusOverview,
     criticalPersonnel,
+    criticalEquipment,
   }
 }
