@@ -1,6 +1,8 @@
 <template>
   <BaseAccordion :title="DASHBOARD_ADVANCED_PARAMETERS_TITLE">
-  
+    <p class="mb-4 text-sm text-slate-600">
+      {{ DASHBOARD_ADVANCED_PARAMETERS_DESCRIPTION }}
+    </p>
   </BaseAccordion>
 </template>
 
