@@ -26,4 +26,6 @@ const props = defineProps<{ modelValue: DashboardParameters }>()
 const emit = defineEmits<{
   (event: 'apply', value: DashboardParameters): void
 }>()
+
+type DashboardParameterDraft = Record<keyof DashboardParameters, string | number>
 </script>
