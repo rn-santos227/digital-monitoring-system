@@ -33,5 +33,6 @@ const draft = reactive<DashboardParameterDraft>({ ...props.modelValue })
 
 watch(
   () => props.modelValue,
+  (value) => Object.assign(draft, value),
 )
 </script>
