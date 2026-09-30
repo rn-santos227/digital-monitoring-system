@@ -43,5 +43,7 @@ const applyParameters = () => {
 
 const restoreDefaults = () => {
   const initialValue = resetDashboardParameters()
+  Object.assign(draft, initialValue)
+  emit('apply', initialValue)
 }
 </script>
