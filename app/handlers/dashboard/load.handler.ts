@@ -92,3 +92,10 @@ export const loadDashboardData = async (parameters: DashboardParameters): Promis
     operationalTimeMonitoring,
   }
 }
+
+export const createDashboardParameterHandlers = (
+  parameters: Ref<DashboardParameters>,
+  dashboardData: Ref<DashboardData>,
+) => {
+
+}
