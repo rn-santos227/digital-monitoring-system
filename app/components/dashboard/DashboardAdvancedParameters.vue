@@ -1,5 +1,7 @@
 <template>
-
+  <BaseAccordion :title="DASHBOARD_ADVANCED_PARAMETERS_TITLE">
+  
+  </BaseAccordion>
 </template>
 
 <script setup lang="ts">
