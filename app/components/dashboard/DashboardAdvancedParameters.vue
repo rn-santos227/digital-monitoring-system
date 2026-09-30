@@ -28,4 +28,10 @@ const emit = defineEmits<{
 }>()
 
 type DashboardParameterDraft = Record<keyof DashboardParameters, string | number>
+
+const draft = reactive<DashboardParameterDraft>({ ...props.modelValue })
+
+watch(
+  
+)
 </script>
