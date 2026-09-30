@@ -42,6 +42,6 @@ const applyParameters = () => {
 }
 
 const restoreDefaults = () => {
-
+  const initialValue = resetDashboardParameters()
 }
 </script>
