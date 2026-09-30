@@ -38,6 +38,6 @@ watch(
 )
 
 const applyParameters = () => {
-  
+  emit('apply', saveDashboardParameters(normalizeDashboardParameters(draft)))
 }
 </script>
