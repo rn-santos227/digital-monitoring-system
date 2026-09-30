@@ -22,4 +22,8 @@ import {
 } from '~/utils/dashboard-parameters-storage'
 
 const props = defineProps<{ modelValue: DashboardParameters }>()
+
+const emit = defineEmits<{
+  (event: 'apply', value: DashboardParameters): void
+}>()
 </script>
