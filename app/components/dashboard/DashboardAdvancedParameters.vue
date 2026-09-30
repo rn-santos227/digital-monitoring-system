@@ -36,4 +36,8 @@ watch(
   (value) => Object.assign(draft, value),
   { deep: true },
 )
+
+const applyParameters = () => {
+  
+}
 </script>
