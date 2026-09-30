@@ -11,4 +11,5 @@ import DashboardLocationLoadAnalysisWidget from '~/components/dashboard/Dashboar
 import DashboardNearRotationWidget from '~/components/dashboard/DashboardNearRotationWidget.vue'
 import DashboardOperationalTimeMonitoringWidget from '~/components/dashboard/DashboardOperationalTimeMonitoringWidget.vue'
 import DashboardPersonnelDeploymentHistoryWidget from '~/components/dashboard/DashboardPersonnelDeploymentHistoryWidget.vue'
+import DashboardPersonnelDeploymentSummaryWidget from '~/components/dashboard/DashboardPersonnelDeploymentSummaryWidget.vue'
 </script>
