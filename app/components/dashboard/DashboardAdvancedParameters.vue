@@ -14,4 +14,5 @@ import {
   DASHBOARD_ADVANCED_PARAMETERS_TITLE,
   DASHBOARD_PARAMETER_FIELDS,
 } from '~/constants/page.constants'
+import type { DashboardParameters } from '~/types/domain/dashboard'
 </script>
