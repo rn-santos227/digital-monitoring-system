@@ -3,6 +3,9 @@
     <p class="mb-4 text-sm text-slate-600">
       {{ DASHBOARD_ADVANCED_PARAMETERS_DESCRIPTION }}
     </p>
+    <form class="grid gap-4 md:grid-cols-2 xl:grid-cols-4" @submit.prevent="applyParameters">
+      
+    </form>
   </BaseAccordion>
 </template>
 
