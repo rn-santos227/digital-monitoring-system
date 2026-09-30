@@ -103,6 +103,6 @@ export const createDashboardParameterHandlers = (
   }
 
   const initializeParameters = async () => {
-
+    await applyParameters(readDashboardParameters())
   }
 }
