@@ -4,7 +4,17 @@
       {{ DASHBOARD_ADVANCED_PARAMETERS_DESCRIPTION }}
     </p>
     <form class="grid gap-4 md:grid-cols-2 xl:grid-cols-4" @submit.prevent="applyParameters">
-      
+      <BaseTextField
+        v-for="field in DASHBOARD_PARAMETER_FIELDS"
+        :key="field.key"
+        v-model="draft[field.key]"
+        type="number"
+        :label="field.label"
+        :helper-text="field.helperText"
+        :min="1"
+        :max="field.maximum"
+        required
+      />
     </form>
   </BaseAccordion>
 </template>
