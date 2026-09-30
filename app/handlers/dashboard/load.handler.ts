@@ -98,6 +98,7 @@ export const createDashboardParameterHandlers = (
   dashboardData: Ref<DashboardData>,
 ) => {
   const applyParameters = async (value: DashboardParameters) => {
-
+    parameters.value = value
+    dashboardData.value = await loadDashboardData(value)
   }
 }
