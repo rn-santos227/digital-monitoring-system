@@ -88,5 +88,6 @@ export const loadDashboardData = async (parameters: DashboardParameters): Promis
     criticalEquipment,
     nearRotation,
     locationLoadAnalysis,
+    personnelDeploymentHistory,
   }
 }
