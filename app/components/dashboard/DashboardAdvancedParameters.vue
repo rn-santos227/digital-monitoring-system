@@ -19,6 +19,9 @@
         <BaseButton type="submit">
           {{ DASHBOARD_ADVANCED_PARAMETERS_APPLY_LABEL }}
         </BaseButton>
+        <BaseButton type="button" variant="secondary" @click="restoreDefaults">
+          {{ DASHBOARD_ADVANCED_PARAMETERS_RESET_LABEL }}
+        </BaseButton>
       </div>
     </form>
   </BaseAccordion>
