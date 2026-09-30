@@ -20,4 +20,6 @@ import {
   resetDashboardParameters,
   saveDashboardParameters,
 } from '~/utils/dashboard-parameters-storage'
+
+const props = defineProps<{ modelValue: DashboardParameters }>()
 </script>
