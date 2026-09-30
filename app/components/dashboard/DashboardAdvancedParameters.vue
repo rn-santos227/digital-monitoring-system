@@ -16,7 +16,9 @@
         required
       />
       <div class="flex flex-wrap gap-2 md:col-span-2 xl:col-span-4">
-        
+        <BaseButton type="submit">
+          {{ DASHBOARD_ADVANCED_PARAMETERS_APPLY_LABEL }}
+        </BaseButton>
       </div>
     </form>
   </BaseAccordion>
