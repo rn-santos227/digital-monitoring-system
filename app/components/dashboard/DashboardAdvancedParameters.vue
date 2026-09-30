@@ -16,5 +16,8 @@ import {
 } from '~/constants/page.constants'
 import type { DashboardParameters } from '~/types/domain/dashboard'
 import {
+  normalizeDashboardParameters,
+  resetDashboardParameters,
+  saveDashboardParameters,
 } from '~/utils/dashboard-parameters-storage'
 </script>
