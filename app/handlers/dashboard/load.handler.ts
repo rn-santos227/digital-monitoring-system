@@ -101,4 +101,8 @@ export const createDashboardParameterHandlers = (
     parameters.value = value
     dashboardData.value = await loadDashboardData(value)
   }
+
+  const initializeParameters = async () => {
+
+  }
 }
