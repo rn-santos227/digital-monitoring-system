@@ -13,4 +13,5 @@ import DashboardOperationalTimeMonitoringWidget from '~/components/dashboard/Das
 import DashboardPersonnelDeploymentHistoryWidget from '~/components/dashboard/DashboardPersonnelDeploymentHistoryWidget.vue'
 import DashboardPersonnelDeploymentSummaryWidget from '~/components/dashboard/DashboardPersonnelDeploymentSummaryWidget.vue'
 import DashboardTopKpisWidget from '~/components/dashboard/DashboardTopKpisWidget.vue'
+import ClockDateWidget from '~/components/general/ClockDateWidget.vue'
 </script>
