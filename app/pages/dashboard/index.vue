@@ -21,4 +21,8 @@ import {
   INITIAL_DASHBOARD_PARAMETERS,
 } from '~/constants/page.constants'
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
+import {
+  createDashboardParameterHandlers,
+  createInitialDashboardData,
+} from '~/handlers/dashboard'
 </script>
