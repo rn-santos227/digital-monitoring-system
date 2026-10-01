@@ -30,6 +30,14 @@ export interface ReportDateRange {
   dateTo?: string
 }
 
+export const isReportDateInRange = (
+  value: string | null | undefined,
+  range: ReportDateRange,
+): boolean => {
+
+
+}
+
 const getChartColor = (index: number): string => {
   return REPORT_CHART_DEFAULT_COLORS[index % REPORT_CHART_DEFAULT_COLORS.length] ?? REPORT_CHART_DEFAULT_COLORS[0]
 }
