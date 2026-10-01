@@ -34,6 +34,9 @@ export const isReportDateInRange = (
   value: string | null | undefined,
   range: ReportDateRange,
 ): boolean => {
+  if (!range.dateFrom && !range.dateTo) {
+    return true
+  }
 
 
 }
