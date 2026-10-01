@@ -14,4 +14,10 @@ import DashboardPersonnelDeploymentHistoryWidget from '~/components/dashboard/Da
 import DashboardPersonnelDeploymentSummaryWidget from '~/components/dashboard/DashboardPersonnelDeploymentSummaryWidget.vue'
 import DashboardTopKpisWidget from '~/components/dashboard/DashboardTopKpisWidget.vue'
 import ClockDateWidget from '~/components/general/ClockDateWidget.vue'
+import {
+  DASHBOARD_PAGE_SECTION_CLASSES,
+  DASHBOARD_PAGE_SUBTITLE,
+  DASHBOARD_PAGE_TITLE,
+  INITIAL_DASHBOARD_PARAMETERS,
+} from '~/constants/page.constants'
 </script>
