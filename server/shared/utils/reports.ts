@@ -25,6 +25,11 @@ export interface ReportEquipmentAssetChartRow {
   asset_status: ReportReferenceRow | ReportReferenceRow[] | null
 }
 
+export interface ReportDateRange {
+  dateFrom?: string
+  dateTo?: string
+}
+
 const getChartColor = (index: number): string => {
   return REPORT_CHART_DEFAULT_COLORS[index % REPORT_CHART_DEFAULT_COLORS.length] ?? REPORT_CHART_DEFAULT_COLORS[0]
 }
