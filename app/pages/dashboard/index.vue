@@ -1,7 +1,9 @@
 <template>
   <main :class="APP_MAIN_CONTENT_CLASSES">
     <section :class="DASHBOARD_PAGE_SECTION_CLASSES">
-      
+      <header class="space-y-2">
+        <h1 class="text-3xl font-semibold text-slate-900">{{ DASHBOARD_PAGE_TITLE }}</h1>
+      </header>
     </section>
   </main>
 </template>
