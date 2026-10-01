@@ -57,8 +57,10 @@ export const fetchReportCharts = async (
     throw createError({ statusCode: 500, statusMessage: `Failed to load report equipment charts: ${equipmentAssetsResult.error.message}` })
   }
 
-  const personnelRows = (personnelResult.data ?? []) as ReportPersonnelChartRow[]
-  const equipmentAssetRows = (equipmentAssetsResult.data ?? []) as ReportEquipmentAssetChartRow[]
+  const personnelRows = ((personnelResult.data ?? []) as ReportPersonnelChartRow[])
+    .filter(row => isReportDateInRange(row.created_at, dateRange))
+  const equipmentAssetRows = ((equipmentAssetsResult.data ?? []) as ReportEquipmentAssetChartRow[])
+    .filter(row => isReportDateInRange(row.procurement_date ?? row.created_at, dateRange))
   const battalionNames = personnelRows.map(row => row.battalion_name?.trim()).filter((value): value is string => Boolean(value))
   const companyNames = personnelRows.map(row => row.company_name?.trim()).filter((value): value is string => Boolean(value))
   const locations = equipmentAssetRows.map(row => row.current_location?.trim()).filter((value): value is string => Boolean(value))
