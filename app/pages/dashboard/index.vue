@@ -27,4 +27,5 @@ import {
 } from '~/handlers/dashboard'
 import type { DashboardParameters } from '~/types/domain/dashboard'
 
+const parameters = ref<DashboardParameters>({ ...INITIAL_DASHBOARD_PARAMETERS })
 </script>
