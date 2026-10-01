@@ -15,6 +15,7 @@
       <section class="grid gap-4 xl:grid-cols-3">
         <DashboardPersonnelDeploymentSummaryWidget :data="personnelDeploymentSummary" />
         <DashboardEquipmentStatusOverviewWidget :data="equipmentStatusOverview" />
+        <DashboardCriticalPersonnelWidget :data="criticalPersonnel" />
       </section>
     </section>
   </main>
