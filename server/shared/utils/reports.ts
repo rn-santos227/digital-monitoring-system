@@ -38,6 +38,9 @@ export const isReportDateInRange = (
     return true
   }
 
+  if (!value) {
+    return false
+  }
 
 }
 
