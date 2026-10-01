@@ -26,6 +26,7 @@
 
       <section class="grid gap-4 xl:grid-cols-2">
         <DashboardCriticalEquipmentWidget :data="criticalEquipment" />
+        <DashboardNearRotationWidget :data="nearRotation" />
       </section>
     </section>
   </main>
