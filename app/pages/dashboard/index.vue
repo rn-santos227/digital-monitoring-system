@@ -6,6 +6,10 @@
         <p class="text-sm text-slate-600">{{ DASHBOARD_PAGE_SUBTITLE }}</p>
         <ClockDateWidget />
       </header>
+      <DashboardAdvancedParameters
+        :model-value="parameters"
+        @apply="applyParameters"
+      />
     </section>
   </main>
 </template>
