@@ -1,5 +1,7 @@
 <template>
-
+  <main :class="APP_MAIN_CONTENT_CLASSES">
+    
+  </main>
 </template>
 
 <script setup lang="ts">
