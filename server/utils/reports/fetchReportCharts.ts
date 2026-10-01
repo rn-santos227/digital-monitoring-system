@@ -14,6 +14,8 @@ import {
   getReportEquipmentItemName,
   getReportEquipmentServiceabilityName,
   limitReportChartData,
+  isReportDateInRange,
+  limitReportChartData,
   type ReportEquipmentAssetChartRow,
   type ReportPersonnelChartRow,
 } from '../../shared/utils'
