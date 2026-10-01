@@ -15,7 +15,6 @@ import {
   getReportEquipmentServiceabilityName,
   limitReportChartData,
   isReportDateInRange,
-  limitReportChartData,
   type ReportEquipmentAssetChartRow,
   type ReportPersonnelChartRow,
 } from '../../shared/utils'
@@ -36,7 +35,10 @@ const fetchTotalCount = async (
   return count ?? 0
 }
 
-export const fetchReportCharts = async (supabase: SupabaseClient): Promise<ReportChartsResponse> => {
+export const fetchReportCharts = async (
+  supabase: SupabaseClient,
+  dateRange: ReportDateRangeQuery = {},
+): Promise<ReportChartsResponse> => {
   const [personnelResult, equipmentAssetsResult, equipmentItemsTotal] = await Promise.all([
     supabase
       .from(REPORT_PERSONNEL_CHART_SOURCE)
