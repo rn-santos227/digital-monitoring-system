@@ -42,5 +42,6 @@ const criticalEquipment = computed(() => dashboardData.value.criticalEquipment)
 const nearRotation = computed(() => dashboardData.value.nearRotation)
 const locationLoadAnalysis = computed(() => dashboardData.value.locationLoadAnalysis)
 const personnelDeploymentHistory = computed(() => dashboardData.value.personnelDeploymentHistory)
+const operationalTimeMonitoring = computed(() => dashboardData.value.operationalTimeMonitoring)
 
 </script>
