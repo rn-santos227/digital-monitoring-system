@@ -42,6 +42,7 @@ export const isReportDateInRange = (
     return false
   }
 
+  const reportDate = value.slice(0, 10)
 }
 
 const getChartColor = (index: number): string => {
