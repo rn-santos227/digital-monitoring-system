@@ -6,6 +6,7 @@ import {
   REPORT_PERSONNEL_CHART_SOURCE,
 } from '../../shared/constants'
 import type { ReportChartsResponse } from '../../shared/responses'
+import type { ReportDateRangeQuery } from '../../shared/requests'
 import {
   buildReportMonthChart,
   buildReportStringChart,
