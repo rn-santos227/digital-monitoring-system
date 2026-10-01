@@ -44,4 +44,5 @@ const locationLoadAnalysis = computed(() => dashboardData.value.locationLoadAnal
 const personnelDeploymentHistory = computed(() => dashboardData.value.personnelDeploymentHistory)
 const operationalTimeMonitoring = computed(() => dashboardData.value.operationalTimeMonitoring)
 
+onMounted(initializeParameters)
 </script>
