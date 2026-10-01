@@ -31,6 +31,7 @@
 
       <section class="grid gap-4 xl:grid-cols-2">
         <DashboardLocationLoadAnalysisWidget :data="locationLoadAnalysis" />
+        <DashboardPersonnelDeploymentHistoryWidget :data="personnelDeploymentHistory" />
       </section>
     </section>
   </main>
