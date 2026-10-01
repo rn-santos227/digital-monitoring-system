@@ -36,4 +36,6 @@ const {
 
 const topKpis = computed(() => dashboardData.value.topKpis)
 const personnelDeploymentSummary = computed(() => dashboardData.value.personnelDeploymentSummary)
+const equipmentStatusOverview = computed(() => dashboardData.value.equipmentStatusOverview)
+
 </script>
