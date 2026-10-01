@@ -11,6 +11,10 @@
         @apply="applyParameters"
       />
       <DashboardTopKpisWidget :data="topKpis" />
+
+      <section class="grid gap-4 xl:grid-cols-3">
+        
+      </section>
     </section>
   </main>
 </template>
