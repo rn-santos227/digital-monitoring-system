@@ -35,4 +35,5 @@ const {
 } = createDashboardParameterHandlers(parameters, dashboardData)
 
 const topKpis = computed(() => dashboardData.value.topKpis)
+const personnelDeploymentSummary = computed(() => dashboardData.value.personnelDeploymentSummary)
 </script>
