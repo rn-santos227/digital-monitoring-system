@@ -10,6 +10,7 @@
         :model-value="parameters"
         @apply="applyParameters"
       />
+      <DashboardTopKpisWidget :data="topKpis" />
     </section>
   </main>
 </template>
