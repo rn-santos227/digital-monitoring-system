@@ -30,5 +30,7 @@ import type { DashboardParameters } from '~/types/domain/dashboard'
 const parameters = ref<DashboardParameters>({ ...INITIAL_DASHBOARD_PARAMETERS })
 const dashboardData = ref(createInitialDashboardData())
 const {
+  applyParameters,
+  initializeParameters,
 } = createDashboardParameterHandlers(parameters, dashboardData)
 </script>
