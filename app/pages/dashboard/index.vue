@@ -33,6 +33,8 @@
         <DashboardLocationLoadAnalysisWidget :data="locationLoadAnalysis" />
         <DashboardPersonnelDeploymentHistoryWidget :data="personnelDeploymentHistory" />
       </section>
+
+      <DashboardOperationalTimeMonitoringWidget :data="operationalTimeMonitoring" />
     </section>
   </main>
 </template>
