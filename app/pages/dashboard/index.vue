@@ -30,7 +30,7 @@
       </section>
 
       <section class="grid gap-4 xl:grid-cols-2">
-        
+        <DashboardLocationLoadAnalysisWidget :data="locationLoadAnalysis" />
       </section>
     </section>
   </main>
