@@ -4,6 +4,7 @@
       <header class="space-y-2">
         <h1 class="text-3xl font-semibold text-slate-900">{{ DASHBOARD_PAGE_TITLE }}</h1>
         <p class="text-sm text-slate-600">{{ DASHBOARD_PAGE_SUBTITLE }}</p>
+        <ClockDateWidget />
       </header>
     </section>
   </main>
