@@ -20,4 +20,5 @@ import {
   DASHBOARD_PAGE_TITLE,
   INITIAL_DASHBOARD_PARAMETERS,
 } from '~/constants/page.constants'
+import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
 </script>
