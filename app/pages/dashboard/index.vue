@@ -25,4 +25,6 @@ import {
   createDashboardParameterHandlers,
   createInitialDashboardData,
 } from '~/handlers/dashboard'
+import type { DashboardParameters } from '~/types/domain/dashboard'
+
 </script>
