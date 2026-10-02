@@ -20,6 +20,6 @@ const parseReportDate = (value: unknown, label: string): string | undefined => {
 }
 
 export const parseReportDateRangeQuery = (query: Record<string, unknown>): ReportDateRangeQuery => {
-
+  const dateFrom = parseReportDate(query.dateFrom, 'Start date')
 
 }
