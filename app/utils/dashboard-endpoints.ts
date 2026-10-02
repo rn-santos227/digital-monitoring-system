@@ -138,6 +138,7 @@ export const getDashboardCriticalEquipmentEndpoint = async (parameters: Dashboar
     return await $fetch<DashboardCriticalEquipment>(DASHBOARD_API_ENDPOINTS.criticalEquipment, {
       method: 'GET',
       headers: getDashboardSessionHeaders(),
+      query: parameters,
     })
   }, API_LOADING_MESSAGES.fetchDashboardCriticalEquipment)
 }
