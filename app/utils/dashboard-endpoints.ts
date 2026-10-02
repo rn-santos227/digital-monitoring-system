@@ -143,7 +143,7 @@ export const getDashboardCriticalEquipmentEndpoint = async (parameters: Dashboar
   }, API_LOADING_MESSAGES.fetchDashboardCriticalEquipment)
 }
 
-export const getDashboardNearRotationEndpoint = async (): Promise<DashboardNearRotation> => {
+export const getDashboardNearRotationEndpoint = async (parameters: DashboardParameters): Promise<DashboardNearRotation> => {
   return await withApiLoading(async () => {
     return await $fetch<DashboardNearRotation>(DASHBOARD_API_ENDPOINTS.nearRotation, {
       method: 'GET',
