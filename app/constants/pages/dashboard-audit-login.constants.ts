@@ -34,6 +34,8 @@ export const DASHBOARD_PARAMETER_FIELDS = Object.freeze([
   {
     key: 'deploymentLimit',
     label: 'Deployment record limit',
+    helperText: 'Maximum active deployment records analyzed per request.',
+    maximum: DASHBOARD_PARAMETER_LIMITS.maximumRecordLimit,
   },
 ] as const)
 export const DASHBOARD_METRICS_GRID_CLASSES = 'grid gap-4 md:grid-cols-2 xl:grid-cols-4'
