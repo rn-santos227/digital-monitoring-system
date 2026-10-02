@@ -19,6 +19,7 @@ export default defineEventHandler(async (event): Promise<DashboardOperationalTim
   const supabase = getServiceSupabaseClient()
   const now = new Date()
   const todayIsoDate = now.toISOString().slice(0, 10)
+  const parameters = parseDashboardParameters(getQuery(event))
 
   const rows = await fetchOperationalTimeDeployments(supabase, todayIsoDate)
 
