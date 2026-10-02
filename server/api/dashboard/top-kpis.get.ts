@@ -17,6 +17,7 @@ export default defineEventHandler(async (event): Promise<DashboardTopKpisRespons
   const supabase = getServiceSupabaseClient()
   const now = new Date()
   const todayIsoDate = now.toISOString().slice(0, 10)
+  const parameters = parseDashboardParameters(getQuery(event))
 
   const { personnelRows, activeDeploymentRows } = await fetchPersonnelStatusAndActiveDeployments(
     supabase,
