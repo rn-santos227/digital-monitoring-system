@@ -1,3 +1,7 @@
+export interface DashboardParameters {
+
+}
+
 export interface DashboardStatusCountSummary {
   deployed: number
   unavailable: number
