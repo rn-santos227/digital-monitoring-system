@@ -67,7 +67,9 @@ const props = withDefaults(
     helperText: '',
     error: '',
     required: false,
-    disabled: false
+    disabled: false,
+    min: undefined,
+    max: undefined
   }
 )
 
