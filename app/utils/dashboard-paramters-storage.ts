@@ -5,3 +5,6 @@ import {
 } from '~/constants/page.constants'
 import type { DashboardParameters } from '~/types/domain/dashboard'
 
+type DashboardParameterInput = {
+  [Key in keyof DashboardParameters]?: unknown
+}
