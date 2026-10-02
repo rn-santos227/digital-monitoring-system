@@ -163,7 +163,7 @@ export const getDashboardLocationLoadAnalysisEndpoint = async (parameters: Dashb
   }, API_LOADING_MESSAGES.fetchDashboardLocationLoadAnalysis)
 }
 
-export const getDashboardPersonnelDeploymentHistoryEndpoint = async (): Promise<DashboardPersonnelDeploymentHistory> => {
+export const getDashboardPersonnelDeploymentHistoryEndpoint = async (parameters: DashboardParameters): Promise<DashboardPersonnelDeploymentHistory> => {
   return await withApiLoading(async () => {
     return await $fetch<DashboardPersonnelDeploymentHistory>(DASHBOARD_API_ENDPOINTS.personnelDeploymentHistory, {
       method: 'GET',
