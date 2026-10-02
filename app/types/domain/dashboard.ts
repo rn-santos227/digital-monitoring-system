@@ -1,5 +1,6 @@
 export interface DashboardParameters {
-
+  personnelLimit: number
+  equipmentLimit: number
 }
 
 export interface DashboardStatusCountSummary {
