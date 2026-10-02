@@ -24,6 +24,7 @@ export default defineEventHandler(async (event): Promise<DashboardNearRotationRe
   const now = new Date()
   const todayIsoDate = now.toISOString().slice(0, 10)
   const cutoffDate = new Date(now.getTime() + (NEAR_ROTATION_WINDOW_DAYS * 86400000)).toISOString().slice(0, 10)
+  const parameters = parseDashboardParameters(getQuery(event))
 
   const rows = await fetchNearRotationDeployments(supabase, todayIsoDate, cutoffDate)
 
