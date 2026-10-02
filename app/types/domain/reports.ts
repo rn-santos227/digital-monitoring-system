@@ -1,5 +1,10 @@
 export type ReportTabId = 'personnel' | 'equipment'
 
+export interface ReportDateRange {
+  dateFrom: string
+  dateTo: string
+}
+
 export interface ChartDataPoint {
   label: string
   value: number
