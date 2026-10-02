@@ -27,7 +27,7 @@ export default defineEventHandler(async (event): Promise<DashboardPersonnelDeplo
   const now = new Date()
   const parameters = parseDashboardParameters(getQuery(event))
 
-  const rows = await fetchDeploymentHistory(supabase, DEPLOYMENT_HISTORY_LIMIT)
+  const rows = await fetchDeploymentHistory(supabase, parameters.itemLimit)
   const items: DashboardDeploymentHistoryItem[] = rows.map((row) => {
     const person = toPerson(row.personnel)
 
