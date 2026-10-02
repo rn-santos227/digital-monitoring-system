@@ -13,6 +13,8 @@ export const DASHBOARD_PARAMETER_LIMITS = Object.freeze({
   maximumItemLimit: 100,
 })
 export const INITIAL_DASHBOARD_PARAMETERS = Object.freeze({
+  personnelLimit: 500,
+  equipmentLimit: 500,
 
 })
 
