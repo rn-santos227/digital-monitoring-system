@@ -57,6 +57,8 @@ const props = withDefaults(
     id?: string
     required?: boolean
     disabled?: boolean
+    min?: number
+    max?: number
   }>(),
   {
     modelValue: '',
