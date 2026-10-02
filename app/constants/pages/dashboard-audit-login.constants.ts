@@ -40,7 +40,8 @@ export const DASHBOARD_PARAMETER_FIELDS = Object.freeze([
   {
     key: 'itemLimit',
     label: 'Widget item limit',
-
+    helperText: 'Maximum rows shown in alerts, history, and location widgets.',
+    maximum: DASHBOARD_PARAMETER_LIMITS.maximumItemLimit,
   },
 ] as const)
 export const DASHBOARD_METRICS_GRID_CLASSES = 'grid gap-4 md:grid-cols-2 xl:grid-cols-4'
