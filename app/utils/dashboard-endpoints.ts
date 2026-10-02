@@ -9,6 +9,7 @@ import type {
   DashboardLocationLoadAnalysis,
   DashboardNearRotation,
   DashboardOperationalTimeMonitoring,
+  DashboardParameters,
   DashboardPersonnelDeploymentHistory,
   DashboardPersonnelDeploymentSummary,
   DashboardTopKpis,
@@ -92,20 +93,22 @@ export const getUnitManagementKpisEndpoint = async (): Promise<UnitManagementKpi
 }
 
 
-export const getDashboardTopKpisEndpoint = async (): Promise<DashboardTopKpis> => {
+export const getDashboardTopKpisEndpoint = async (parameters: DashboardParameters): Promise<DashboardTopKpis> => {
   return await withApiLoading(async () => {
     return await $fetch<DashboardTopKpis>(DASHBOARD_API_ENDPOINTS.topKpis, {
       method: 'GET',
       headers: getDashboardSessionHeaders(),
+      query: parameters,
     })
   }, API_LOADING_MESSAGES.fetchDashboardTopKpis)
 }
 
-export const getDashboardPersonnelDeploymentSummaryEndpoint = async (): Promise<DashboardPersonnelDeploymentSummary> => {
+export const getDashboardPersonnelDeploymentSummaryEndpoint = async (parameters: DashboardParameters): Promise<DashboardPersonnelDeploymentSummary> => {
   return await withApiLoading(async () => {
     return await $fetch<DashboardPersonnelDeploymentSummary>(DASHBOARD_API_ENDPOINTS.personnelDeploymentSummary, {
       method: 'GET',
       headers: getDashboardSessionHeaders(),
+      query: parameters,
     })
   }, API_LOADING_MESSAGES.fetchDashboardPersonnelDeploymentSummary)
 }
