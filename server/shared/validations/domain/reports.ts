@@ -21,5 +21,11 @@ const parseReportDate = (value: unknown, label: string): string | undefined => {
 
 export const parseReportDateRangeQuery = (query: Record<string, unknown>): ReportDateRangeQuery => {
   const dateFrom = parseReportDate(query.dateFrom, 'Start date')
-  const dateTo = parseReportDate(query.dateTo, 'En
+  const dateTo = parseReportDate(query.dateTo, 'End date')
+
+  if (dateFrom && dateTo && dateFrom > dateTo) {
+    throw createError({ statusCode: 400, statusMessage: 'End date must be on or after start date.' })
+  }
+
+  return { dateFrom, dateTo }
 }
