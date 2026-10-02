@@ -113,11 +113,12 @@ export const getDashboardPersonnelDeploymentSummaryEndpoint = async (parameters:
   }, API_LOADING_MESSAGES.fetchDashboardPersonnelDeploymentSummary)
 }
 
-export const getDashboardEquipmentStatusOverviewEndpoint = async (): Promise<DashboardEquipmentStatusOverview> => {
+export const getDashboardEquipmentStatusOverviewEndpoint = async (parameters: DashboardParameters): Promise<DashboardEquipmentStatusOverview> => {
   return await withApiLoading(async () => {
     return await $fetch<DashboardEquipmentStatusOverview>(DASHBOARD_API_ENDPOINTS.equipmentStatusOverview, {
       method: 'GET',
       headers: getDashboardSessionHeaders(),
+      query: parameters,
     })
   }, API_LOADING_MESSAGES.fetchDashboardEquipmentStatusOverview)
 }
