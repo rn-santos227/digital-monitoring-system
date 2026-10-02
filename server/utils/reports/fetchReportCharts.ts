@@ -83,7 +83,7 @@ export const fetchReportCharts = async (
     },
     equipment: {
       metrics: {
-        totalAssets: equipmentAssetsResult.count ?? equipmentAssetRows.length,
+        totalAssets: equipmentAssetRows.length,
         totalItems: equipmentItemsTotal,
         trackedLocations: new Set(locations).size,
       },
