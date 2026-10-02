@@ -69,7 +69,7 @@ export const fetchReportCharts = async (
     asOf: new Date().toISOString(),
     personnel: {
       metrics: {
-        totalRecords: personnelResult.count ?? personnelRows.length,
+        totalRecords: personnelRows.length,
         battalionsRepresented: new Set(battalionNames).size,
         companiesRepresented: new Set(companyNames).size,
       },
