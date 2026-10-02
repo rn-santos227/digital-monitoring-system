@@ -4,6 +4,9 @@ export const DASHBOARD_PAGE_SUBTITLE = 'AFP personnel readiness and equipment ha
 export const DASHBOARD_PAGE_SECTION_CLASSES = 'space-y-6'
 export const DASHBOARD_PARAMETERS_STORAGE_KEY = 'afp-dashboard-advanced-parameters'
 export const DASHBOARD_ADVANCED_PARAMETERS_TITLE = 'Advanced Dashboard Parameters'
+export const DASHBOARD_ADVANCED_PARAMETERS_DESCRIPTION = 'Limit the records analyzed by each dashboard request. These settings are saved only in this browser.'
+
+
 export const DASHBOARD_METRICS_GRID_CLASSES = 'grid gap-4 md:grid-cols-2 xl:grid-cols-4'
 export const DASHBOARD_SECONDARY_GRID_CLASSES = 'grid gap-4 xl:grid-cols-2'
 export const DASHBOARD_METRIC_VALUE_CLASSES = 'text-3xl font-semibold text-slate-900'
