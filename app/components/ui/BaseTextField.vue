@@ -11,6 +11,8 @@
         :value="modelValue"
         :placeholder="placeholder"
         :disabled="disabled"
+        :min="min"
+        :max="max"
         :class="inputClasses"
         @input="onInput"
       />
