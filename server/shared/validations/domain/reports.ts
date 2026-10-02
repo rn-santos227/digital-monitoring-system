@@ -7,5 +7,9 @@ const parseReportDate = (value: unknown, label: string): string | undefined => {
     return undefined
   }
 
+  if (typeof value !== 'string' || !ISO_DATE_PATTERN.test(value)) {
+    throw createError({ statusCode: 400, statusMessage: `${label} must use YYYY-MM-DD format.` })
+  }
+
 
 }
