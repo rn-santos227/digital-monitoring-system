@@ -6,11 +6,6 @@ import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchOperationalTimeDeployments } from '../../utils/dashboard/fetchOperationalTimeDeployments'
 
-interface OperationalTimeRow {
-  start_date: string
-  end_date: string | null
-}
-
 const DAY_IN_MILLISECONDS = 86400000
 
 export default defineEventHandler(async (event): Promise<DashboardOperationalTimeMonitoringResponse> => {
