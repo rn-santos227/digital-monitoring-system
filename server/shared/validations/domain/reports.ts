@@ -11,5 +11,5 @@ const parseReportDate = (value: unknown, label: string): string | undefined => {
     throw createError({ statusCode: 400, statusMessage: `${label} must use YYYY-MM-DD format.` })
   }
 
-
+  const parsedDate = new Date(`${value}T00:00:00.000Z`)
 }
