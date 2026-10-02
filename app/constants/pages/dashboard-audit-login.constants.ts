@@ -12,6 +12,9 @@ export const DASHBOARD_PARAMETER_LIMITS = Object.freeze({
   maximumRecordLimit: 5000,
   maximumItemLimit: 100,
 })
+export const INITIAL_DASHBOARD_PARAMETERS = Object.freeze({
+
+})
 
 export const DASHBOARD_METRICS_GRID_CLASSES = 'grid gap-4 md:grid-cols-2 xl:grid-cols-4'
 export const DASHBOARD_SECONDARY_GRID_CLASSES = 'grid gap-4 xl:grid-cols-2'
