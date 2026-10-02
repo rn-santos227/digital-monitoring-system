@@ -1,12 +1,11 @@
-import { defineEventHandler } from 'h3'
+import { defineEventHandler, getQuery } from 'h3'
 import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardDeploymentHistoryItem, DashboardPersonnelDeploymentHistoryResponse } from '../../shared/responses'
+import { parseDashboardParameters } from '../../shared/validations'
 import { toFullName } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchDeploymentHistory, type DeploymentHistoryRow } from '../../utils/dashboard/fetchDeploymentHistory'
-
-const DEPLOYMENT_HISTORY_LIMIT = 10
 
 const toPerson = (value: DeploymentHistoryRow['personnel']): { first_name: string; last_name: string } | null => {
   if (!value) {
