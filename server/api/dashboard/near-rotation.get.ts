@@ -26,7 +26,7 @@ export default defineEventHandler(async (event): Promise<DashboardNearRotationRe
   const cutoffDate = new Date(now.getTime() + (NEAR_ROTATION_WINDOW_DAYS * 86400000)).toISOString().slice(0, 10)
   const parameters = parseDashboardParameters(getQuery(event))
 
-  const rows = await fetchNearRotationDeployments(supabase, todayIsoDate, cutoffDate)
+  const rows = await fetchNearRotationDeployments(supabase, todayIsoDate, cutoffDate, parameters.itemLimit)
 
   const items: DashboardRotationAlertItem[] = rows.map((row) => {
     const person = Array.isArray(row.personnel) ? (row.personnel[0] ?? null) : row.personnel
