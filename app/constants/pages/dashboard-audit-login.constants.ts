@@ -6,6 +6,8 @@ export const DASHBOARD_PARAMETERS_STORAGE_KEY = 'afp-dashboard-advanced-paramete
 export const DASHBOARD_ADVANCED_PARAMETERS_TITLE = 'Advanced Dashboard Parameters'
 export const DASHBOARD_ADVANCED_PARAMETERS_DESCRIPTION = 'Limit the records analyzed by each dashboard request. These settings are saved only in this browser.'
 export const DASHBOARD_ADVANCED_PARAMETERS_APPLY_LABEL = 'Save and refresh'
+export const DASHBOARD_ADVANCED_PARAMETERS_RESET_LABEL = 'Restore defaults'
+
 
 export const DASHBOARD_METRICS_GRID_CLASSES = 'grid gap-4 md:grid-cols-2 xl:grid-cols-4'
 export const DASHBOARD_SECONDARY_GRID_CLASSES = 'grid gap-4 xl:grid-cols-2'
