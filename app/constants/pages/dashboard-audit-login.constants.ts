@@ -15,7 +15,8 @@ export const DASHBOARD_PARAMETER_LIMITS = Object.freeze({
 export const INITIAL_DASHBOARD_PARAMETERS = Object.freeze({
   personnelLimit: 500,
   equipmentLimit: 500,
-
+  deploymentLimit: 500,
+  itemLimit: 10,
 })
 
 export const DASHBOARD_METRICS_GRID_CLASSES = 'grid gap-4 md:grid-cols-2 xl:grid-cols-4'
