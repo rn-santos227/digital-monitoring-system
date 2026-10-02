@@ -12,4 +12,9 @@ const parseReportDate = (value: unknown, label: string): string | undefined => {
   }
 
   const parsedDate = new Date(`${value}T00:00:00.000Z`)
+  if (Number.isNaN(parsedDate.getTime()) || parsedDate.toISOString().slice(0, 10) !== value) {
+    throw createError({ statusCode: 400, statusMessage: `${label} must be a valid date.` })
+  }
+
+  return value
 }
