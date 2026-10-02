@@ -123,11 +123,12 @@ export const getDashboardEquipmentStatusOverviewEndpoint = async (parameters: Da
   }, API_LOADING_MESSAGES.fetchDashboardEquipmentStatusOverview)
 }
 
-export const getDashboardCriticalPersonnelEndpoint = async (): Promise<DashboardCriticalPersonnel> => {
+export const getDashboardCriticalPersonnelEndpoint = async (parameters: DashboardParameters): Promise<DashboardCriticalPersonnel> => {
   return await withApiLoading(async () => {
     return await $fetch<DashboardCriticalPersonnel>(DASHBOARD_API_ENDPOINTS.criticalPersonnel, {
       method: 'GET',
       headers: getDashboardSessionHeaders(),
+      query: parameters,
     })
   }, API_LOADING_MESSAGES.fetchDashboardCriticalPersonnel)
 }
