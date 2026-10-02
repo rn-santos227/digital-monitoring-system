@@ -158,6 +158,7 @@ export const getDashboardLocationLoadAnalysisEndpoint = async (parameters: Dashb
     return await $fetch<DashboardLocationLoadAnalysis>(DASHBOARD_API_ENDPOINTS.locationLoadAnalysis, {
       method: 'GET',
       headers: getDashboardSessionHeaders(),
+      query: parameters,
     })
   }, API_LOADING_MESSAGES.fetchDashboardLocationLoadAnalysis)
 }
