@@ -3,3 +3,5 @@ import {
   DASHBOARD_PARAMETER_LIMITS,
   INITIAL_DASHBOARD_PARAMETERS,
 } from '~/constants/page.constants'
+import type { DashboardParameters } from '~/types/domain/dashboard'
+
