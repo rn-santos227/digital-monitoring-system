@@ -25,6 +25,7 @@ export default defineEventHandler(async (event): Promise<DashboardPersonnelDeplo
 
   const supabase = getServiceSupabaseClient()
   const now = new Date()
+  const parameters = parseDashboardParameters(getQuery(event))
 
   const rows = await fetchDeploymentHistory(supabase, DEPLOYMENT_HISTORY_LIMIT)
   const items: DashboardDeploymentHistoryItem[] = rows.map((row) => {
