@@ -8,7 +8,9 @@ export const DASHBOARD_ADVANCED_PARAMETERS_DESCRIPTION = 'Limit the records anal
 export const DASHBOARD_ADVANCED_PARAMETERS_APPLY_LABEL = 'Save and refresh'
 export const DASHBOARD_ADVANCED_PARAMETERS_RESET_LABEL = 'Restore defaults'
 export const DASHBOARD_PARAMETER_LIMITS = Object.freeze({
-
+  minimum: 1,
+  maximumRecordLimit: 5000,
+  maximumItemLimit: 100,
 })
 
 export const DASHBOARD_METRICS_GRID_CLASSES = 'grid gap-4 md:grid-cols-2 xl:grid-cols-4'
