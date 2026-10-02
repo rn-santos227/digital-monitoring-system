@@ -153,7 +153,7 @@ export const getDashboardNearRotationEndpoint = async (parameters: DashboardPara
   }, API_LOADING_MESSAGES.fetchDashboardNearRotation)
 }
 
-export const getDashboardLocationLoadAnalysisEndpoint = async (): Promise<DashboardLocationLoadAnalysis> => {
+export const getDashboardLocationLoadAnalysisEndpoint = async (parameters: DashboardParameters): Promise<DashboardLocationLoadAnalysis> => {
   return await withApiLoading(async () => {
     return await $fetch<DashboardLocationLoadAnalysis>(DASHBOARD_API_ENDPOINTS.locationLoadAnalysis, {
       method: 'GET',
