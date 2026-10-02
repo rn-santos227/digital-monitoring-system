@@ -168,6 +168,7 @@ export const getDashboardPersonnelDeploymentHistoryEndpoint = async (parameters:
     return await $fetch<DashboardPersonnelDeploymentHistory>(DASHBOARD_API_ENDPOINTS.personnelDeploymentHistory, {
       method: 'GET',
       headers: getDashboardSessionHeaders(),
+      query: parameters,
     })
   }, API_LOADING_MESSAGES.fetchDashboardPersonnelDeploymentHistory)
 }
