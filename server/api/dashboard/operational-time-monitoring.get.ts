@@ -21,7 +21,7 @@ export default defineEventHandler(async (event): Promise<DashboardOperationalTim
   const todayIsoDate = now.toISOString().slice(0, 10)
   const parameters = parseDashboardParameters(getQuery(event))
 
-  const rows = await fetchOperationalTimeDeployments(supabase, todayIsoDate)
+  const rows = await fetchOperationalTimeDeployments(supabase, todayIsoDate, parameters.deploymentLimit)
 
   let totalActiveDays = 0
   let longestActiveDays = 0
