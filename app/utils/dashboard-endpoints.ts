@@ -133,7 +133,7 @@ export const getDashboardCriticalPersonnelEndpoint = async (parameters: Dashboar
   }, API_LOADING_MESSAGES.fetchDashboardCriticalPersonnel)
 }
 
-export const getDashboardCriticalEquipmentEndpoint = async (): Promise<DashboardCriticalEquipment> => {
+export const getDashboardCriticalEquipmentEndpoint = async (parameters: DashboardParameters): Promise<DashboardCriticalEquipment> => {
   return await withApiLoading(async () => {
     return await $fetch<DashboardCriticalEquipment>(DASHBOARD_API_ENDPOINTS.criticalEquipment, {
       method: 'GET',
