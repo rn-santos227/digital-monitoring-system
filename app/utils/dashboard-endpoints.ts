@@ -148,6 +148,7 @@ export const getDashboardNearRotationEndpoint = async (parameters: DashboardPara
     return await $fetch<DashboardNearRotation>(DASHBOARD_API_ENDPOINTS.nearRotation, {
       method: 'GET',
       headers: getDashboardSessionHeaders(),
+      query: parameters,
     })
   }, API_LOADING_MESSAGES.fetchDashboardNearRotation)
 }
