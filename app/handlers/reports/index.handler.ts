@@ -42,7 +42,8 @@ interface LoadReportChartsOptions {
 }
 
 interface ReportDateRangeHandlerOptions extends LoadReportChartsOptions {
-
+  dateRange: ReportDateRange
+  dateRangeError: Ref<string>
 }
 
 export const loadReportCharts = async ({
