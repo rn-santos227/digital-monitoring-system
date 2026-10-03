@@ -12,5 +12,5 @@ export default defineEventHandler(async (event): Promise<ReportChartsResponse> =
 
   const dateRange = parseReportDateRangeQuery(getQuery(event))
   const supabase = getServiceSupabaseClient()
-  return await fetchReportCharts(supabase)
+  return await fetchReportCharts(supabase, dateRange)
 })
