@@ -116,6 +116,13 @@ onMounted(async () => {
   })
 })
 
+const { handleApplyDateRange, handleClearDateRange } = createReportDateRangeHandlers({
+  reportChartsResponse,
+  reportLoadError,
+  dateRange,
+  dateRangeError,
+})
+
 const personnelCharts = computed(() => reportChartsResponse.value.personnel.charts)
 const equipmentCharts = computed(() => reportChartsResponse.value.equipment.charts)
 
