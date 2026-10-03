@@ -80,5 +80,6 @@ const clearReportDateRange = async (options: ReportDateRangeHandlerOptions): Pro
 }
 
 export const createReportDateRangeHandlers = (options: ReportDateRangeHandlerOptions) => ({
-
+  handleApplyDateRange: async (): Promise<void> => await applyReportDateRange(options),
+  handleClearDateRange: async (): Promise<void> => await clearReportDateRange(options),
 })
