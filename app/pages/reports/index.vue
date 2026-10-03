@@ -79,9 +79,16 @@ import ReportLineChart from '~/components/charts/ReportLineChart.vue'
 import BaseAlert from '~/components/ui/BaseAlert.vue'
 import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseCard from '~/components/ui/BaseCard.vue'
+import BaseDatePicker from '~/components/ui/BaseDatePicker.vue'
 import BaseTab from '~/components/ui/BaseTab.vue'
 import {
   REPORTS_EQUIPMENT_TAB_TITLE,
+  REPORTS_APPLY_DATE_RANGE_LABEL,
+  REPORTS_CLEAR_DATE_RANGE_LABEL,
+  REPORTS_DATE_FROM_LABEL,
+  REPORTS_DATE_RANGE_SUBTITLE,
+  REPORTS_DATE_RANGE_TITLE,
+  REPORTS_DATE_TO_LABEL,
   REPORTS_PAGE_SECTION_CLASSES,
   REPORTS_PAGE_SUBTITLE,
   REPORTS_PAGE_TITLE,
