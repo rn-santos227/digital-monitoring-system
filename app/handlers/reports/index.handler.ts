@@ -44,6 +44,7 @@ interface LoadReportChartsOptions {
 export const loadReportCharts = async ({
   reportChartsResponse,
   reportLoadError,
+  dateRange,
 }: LoadReportChartsOptions): Promise<void> => {
   reportLoadError.value = ''
 
