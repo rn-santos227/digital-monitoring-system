@@ -38,6 +38,7 @@ export const createEmptyReportChartsResponse = (): ReportChartsResponse => ({
 interface LoadReportChartsOptions {
   reportChartsResponse: Ref<ReportChartsResponse>
   reportLoadError: Ref<string>
+  dateRange?: ReportDateRange
 }
 
 export const loadReportCharts = async ({
