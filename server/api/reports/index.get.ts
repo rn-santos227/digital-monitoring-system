@@ -1,6 +1,7 @@
-import { defineEventHandler } from 'h3'
+import { defineEventHandler, getQuery } from 'h3'
 import { PERMISSION_CODES } from '../../shared/constants'
 import type { ReportChartsResponse } from '../../shared/responses'
+import { parseReportDateRangeQuery } from '../../shared/validations'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { fetchReportCharts } from '../../utils/reports/fetchReportCharts'
