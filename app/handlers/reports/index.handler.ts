@@ -41,6 +41,10 @@ interface LoadReportChartsOptions {
   dateRange?: ReportDateRange
 }
 
+interface ReportDateRangeHandlerOptions extends LoadReportChartsOptions {
+
+}
+
 export const loadReportCharts = async ({
   reportChartsResponse,
   reportLoadError,
