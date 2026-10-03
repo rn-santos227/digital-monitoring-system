@@ -24,7 +24,11 @@
         :title="REPORTS_DATE_RANGE_TITLE"
         :subtitle="REPORTS_DATE_RANGE_SUBTITLE"
       >
-
+          <BaseDatePicker
+            v-model="dateRange.dateFrom"
+            :label="REPORTS_DATE_FROM_LABEL"
+            :max="dateRange.dateTo || undefined"
+          />
       </BaseCard>
 
       <BaseTab
