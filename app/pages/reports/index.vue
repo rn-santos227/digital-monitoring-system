@@ -29,6 +29,12 @@
             :label="REPORTS_DATE_FROM_LABEL"
             :max="dateRange.dateTo || undefined"
           />
+          <BaseDatePicker
+            v-model="dateRange.dateTo"
+            :label="REPORTS_DATE_TO_LABEL"
+            :min="dateRange.dateFrom || undefined"
+            :error="dateRangeError"
+          />
       </BaseCard>
 
       <BaseTab
