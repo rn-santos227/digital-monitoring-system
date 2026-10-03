@@ -71,3 +71,7 @@ const applyReportDateRange = async (options: ReportDateRangeHandlerOptions): Pro
 
   await loadReportCharts(options)
 }
+
+const clearReportDateRange = async (options: ReportDateRangeHandlerOptions): Promise<void> => {
+
+}
