@@ -10,6 +10,7 @@ export default defineEventHandler(async (event): Promise<ReportChartsResponse> =
   await requirePermission(event, PERMISSION_CODES.personnelView)
   await requirePermission(event, PERMISSION_CODES.equipmentView)
 
+  const dateRange = parseReportDateRangeQuery(getQuery(event))
   const supabase = getServiceSupabaseClient()
   return await fetchReportCharts(supabase)
 })
