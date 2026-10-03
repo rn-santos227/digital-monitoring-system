@@ -106,6 +106,8 @@ import type { ChartDataPoint, ReportChartsResponse, ReportDateRange, ReportTabId
 const activeTab = ref<ReportTabId>('personnel')
 const reportLoadError = ref('')
 const reportChartsResponse = ref<ReportChartsResponse>(createEmptyReportChartsResponse())
+const dateRange = reactive<ReportDateRange>({ dateFrom: '', dateTo: '' })
+const dateRangeError = ref('')
 
 onMounted(async () => {
   await loadReportCharts({
