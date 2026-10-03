@@ -5,6 +5,11 @@ export interface ReportDateRange {
   dateTo: string
 }
 
+export interface ReportDateRange {
+  dateFrom: string
+  dateTo: string
+}
+
 export interface ChartDataPoint {
   label: string
   value: number
