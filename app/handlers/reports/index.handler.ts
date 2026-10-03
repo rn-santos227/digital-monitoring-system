@@ -63,4 +63,9 @@ export const loadReportCharts = async ({
 const applyReportDateRange = async (options: ReportDateRangeHandlerOptions): Promise<void> => {
   const { dateRange, dateRangeError } = options
   dateRangeError.value = ''
+
+  if (dateRange?.dateFrom && dateRange.dateTo && dateRange.dateFrom > dateRange.dateTo) {
+    dateRangeError.value = 'End date must be on or after start date.'
+    return
+  }
 }
