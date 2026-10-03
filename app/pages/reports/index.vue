@@ -24,7 +24,7 @@
         :title="REPORTS_DATE_RANGE_TITLE"
         :subtitle="REPORTS_DATE_RANGE_SUBTITLE"
       >
-        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-[1fr_1fr_auto] lg:items-end"></div>
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-[1fr_1fr_auto] lg:items-end">
           <BaseDatePicker
             v-model="dateRange.dateFrom"
             :label="REPORTS_DATE_FROM_LABEL"
