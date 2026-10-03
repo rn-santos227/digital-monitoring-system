@@ -61,5 +61,6 @@ export const loadReportCharts = async ({
 }
 
 const applyReportDateRange = async (options: ReportDateRangeHandlerOptions): Promise<void> => {
-
+  const { dateRange, dateRangeError } = options
+  dateRangeError.value = ''
 }
