@@ -78,3 +78,7 @@ const clearReportDateRange = async (options: ReportDateRangeHandlerOptions): Pro
   options.dateRangeError.value = ''
   await loadReportCharts(options)
 }
+
+export const createReportDateRangeHandlers = (options: ReportDateRangeHandlerOptions) => ({
+
+})
