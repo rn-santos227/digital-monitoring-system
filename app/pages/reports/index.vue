@@ -24,6 +24,7 @@
         :title="REPORTS_DATE_RANGE_TITLE"
         :subtitle="REPORTS_DATE_RANGE_SUBTITLE"
       >
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-[1fr_1fr_auto] lg:items-end"></div>
           <BaseDatePicker
             v-model="dateRange.dateFrom"
             :label="REPORTS_DATE_FROM_LABEL"
@@ -35,6 +36,15 @@
             :min="dateRange.dateFrom || undefined"
             :error="dateRangeError"
           />
+          <div class="flex gap-2">
+            <BaseButton @click="handleApplyDateRange">
+              {{ REPORTS_APPLY_DATE_RANGE_LABEL }}
+            </BaseButton>
+            <BaseButton variant="secondary" @click="handleClearDateRange">
+              {{ REPORTS_CLEAR_DATE_RANGE_LABEL }}
+            </BaseButton>
+          </div>
+        </div>
       </BaseCard>
 
       <BaseTab
