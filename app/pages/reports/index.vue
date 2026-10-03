@@ -18,6 +18,15 @@
         tone="danger"
       />
 
+
+      <BaseCard
+        class="print:hidden"
+        :title="REPORTS_DATE_RANGE_TITLE"
+        :subtitle="REPORTS_DATE_RANGE_SUBTITLE"
+      >
+
+      </BaseCard>
+
       <BaseTab
         v-model="activeTab"
         class="print:hidden"
