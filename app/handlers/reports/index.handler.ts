@@ -74,4 +74,5 @@ const applyReportDateRange = async (options: ReportDateRangeHandlerOptions): Pro
 
 const clearReportDateRange = async (options: ReportDateRangeHandlerOptions): Promise<void> => {
   options.dateRange.dateFrom = ''
+  options.dateRange.dateTo = ''
 }
