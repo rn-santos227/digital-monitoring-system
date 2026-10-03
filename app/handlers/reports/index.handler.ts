@@ -59,3 +59,7 @@ export const loadReportCharts = async ({
     reportLoadError.value = extractApiErrorMessage(error, 'Unable to load report data right now.')
   }
 }
+
+const applyReportDateRange = async (options: ReportDateRangeHandlerOptions): Promise<void> => {
+
+}
