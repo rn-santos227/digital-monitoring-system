@@ -27,6 +27,7 @@ export const getReportChartsEndpoint = async (dateRange?: ReportDateRange): Prom
     return await $fetch<ReportChartsResponse>(REPORTS_API_ENDPOINTS.reports, {
       method: 'GET',
       headers: getReportSessionHeaders(),
+      query: dateRange,
     })
   }, API_LOADING_MESSAGES.fetchReportCharts)
 }
