@@ -68,4 +68,6 @@ const applyReportDateRange = async (options: ReportDateRangeHandlerOptions): Pro
     dateRangeError.value = 'End date must be on or after start date.'
     return
   }
+
+  await loadReportCharts(options)
 }
