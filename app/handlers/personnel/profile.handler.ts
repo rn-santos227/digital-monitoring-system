@@ -2,6 +2,7 @@ import type { Ref } from 'vue'
 import type { DialogInput } from '~/composables/useDialog'
 import type { CreateDeploymentRecordPayload } from '~/types/domain/deployment'
 import type { CreateEngagementRecordPayload } from '~/types/domain/engagement'
+import type { CreateEquipmentIssuancePayload } from '~/types/domain/equipment'
 import type { PersonnelProfileTabId } from '~/types/domain/personnel'
 import type { ActiveServiceStatusModal } from '~/types/domain/service-status'
 import type { CreateTrainingRecordPayload } from '~/types/domain/training'
@@ -23,6 +24,10 @@ interface UsePersonnelProfileHandlersOptions {
     personnelId: string,
     payload: CreateTrainingRecordPayload,
   ) => Promise<unknown>
+  assignEquipment: (
+    personnelId: string,
+    payload: CreateEquipmentIssuancePayload,
+  ) => Promise<unknown>
   reloadProfile: (personnelId: string) => Promise<unknown>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
 }
@@ -34,6 +39,7 @@ export const usePersonnelProfileHandlers = ({
   assignDeployment,
   assignEngagement,
   assignTraining,
+  assignEquipment,
   reloadProfile,
   showDialog,
 }: UsePersonnelProfileHandlersOptions) => {
@@ -54,7 +60,7 @@ export const usePersonnelProfileHandlers = ({
       await assignDeployment(id, { ...payload, personnel_id: id })
       onCloseAssignModal()
       await reloadProfile(id)
-    } catch(error) {
+    } catch (error) {
       await showErrorDialog({
         showDialog,
         title: 'Deployment assignment failed',
@@ -121,11 +127,34 @@ export const usePersonnelProfileHandlers = ({
     }
   }
 
+  const onSubmitAssignEquipment = async (
+    payload: Omit<CreateEquipmentIssuancePayload, 'issuedToPersonnelId'>,
+  ) => {
+    const id = personnelId.value
+    if (!id) {
+      return
+    }
+
+    try {
+      await assignEquipment(id, { ...payload, issuedToPersonnelId: id })
+      onCloseAssignModal()
+      await reloadProfile(id)
+    } catch (error) {
+      await showErrorDialog({
+        showDialog,
+        title: 'Equipment assignment failed',
+        error,
+        fallbackMessage: 'Unable to assign equipment record right now.',
+      })
+    }
+  }
+
   return {
     onCloseAssignModal,
     onSubmitAssignDeployment,
     onSubmitAssignEngagement,
     onSubmitAssignTraining,
+    onSubmitAssignEquipment,
     onTabChange,
   }
 }
