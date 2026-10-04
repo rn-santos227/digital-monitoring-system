@@ -6,7 +6,7 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
-      <BaseAlert :message="DEPLOYMENTS_BULK_UPDATE_WARNING" tone="warning" />
+      <BaseAlert :message="warningMessage || DEPLOYMENTS_BULK_UPDATE_WARNING" tone="warning" />
       <BaseAlert
         v-if="errorMessage || validationError"
         :message="errorMessage || validationError"
@@ -53,14 +53,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { reactive, ref } from 'vue'
 import {
   DEPLOYMENT_RECORDS_BULK_UPDATE_MODAL_DESCRIPTION,
   DEPLOYMENT_RECORDS_BULK_UPDATE_MODAL_TITLE,
   DEPLOYMENTS_BULK_UPDATE_WARNING,
-} from "~/constants/page.constants";
-import type { DeploymentBulkUpdateValues } from "~/types/domain/deployment";
-import { validateDeploymentBulkUpdate } from "~/utils/bulk-management-validation";
+} from '~/constants/page.constants'
+import type { DeploymentBulkUpdateValues } from '~/types/domain/deployment'
+import { validateDeploymentBulkUpdate } from '~/utils/bulk-management-validation'
 
 type FieldKey =
   | "deployment_area"
@@ -100,11 +100,16 @@ const fields: readonly {
 
 withDefaults(
   defineProps<{
-    selectedCount: number;
-    isSubmitting?: boolean;
-    errorMessage?: string;
+    selectedCount: number
+    isSubmitting?: boolean
+    errorMessage?: string
+    warningMessage?: string
   }>(),
-  { isSubmitting: false, errorMessage: "" },
+  {
+    isSubmitting: false,
+    errorMessage: "",
+    warningMessage: '',
+  },
 );
 
 const emit = defineEmits<{
