@@ -7,6 +7,8 @@
     @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
       <DeploymentSuggestionField v-model="form.deployment_id" :error="errors.deployment_id" @select="onDeploymentSelected" />
       <PersonnelSuggestionField v-model="form.personnel_id" :error="errors.personnel_id" />
       <BaseTab :model-value="activeTab" :items="CREATE_DEPLOYMENT_RECORD_TAB_ITEMS" aria-label="Create deployment record sections" @update:model-value="onTabChange" />
@@ -83,14 +85,22 @@ import BaseGeoMap from '~/components/ui/BaseGeoMap.vue'
 import type { BaseTabItem } from '~/constants/ui.constants'
 import DeploymentSuggestionField from '~/components/general/DeploymentSuggestionField.vue'
 import PersonnelSuggestionField from '~/components/general/PersonnelSuggestionField.vue'
-import type { CreateDeploymentRecordPayload } from '~/types/domain/deployment'
+import type { CreateDeploymentRecordPayload, DeploymentManagementListItem } from '~/types/domain/deployment'
 import { validateCreateDeploymentRecordForm } from '~/utils/deployment-validation'
-import type { DeploymentManagementListItem } from '~/types/domain/deployment'
 import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
-withDefaults(defineProps<{ isSubmitting?: boolean }>(), {
-  isSubmitting: false,
-})
+withDefaults(
+  defineProps<{
+    isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
