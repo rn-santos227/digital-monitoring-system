@@ -10,7 +10,7 @@ import type {
   DeploymentTablePagination,
   UpdateDeploymentRecordPayload,
 } from '~/types/domain/deployment'
-import { 
+import {
   createDeploymentEndpoint,
   getDeploymentByIdEndpoint,
   getDeploymentManagementKpisEndpoint,
@@ -25,7 +25,7 @@ import {
   updateDeploymentRecordEndpoint,
   updateDeploymentRecordLocationEndpoint,
   deleteDeploymentRecordEndpoint,
-  getDeploymentRecordByIdEndpoint
+  getDeploymentRecordByIdEndpoint,
 } from '~/utils/deployment-endpoints'
 
 const DEFAULT_PAGINATION: DeploymentTablePagination = {
@@ -59,8 +59,18 @@ interface DeploymentsStoreState {
 
 export const useDeploymentsStore = defineStore('deployments', {
   state: (): DeploymentsStoreState => ({
-    deployments: { items: [], pagination: { ...DEFAULT_PAGINATION }, isLoading: false, error: '' },
-    records: { items: [], pagination: { ...DEFAULT_PAGINATION }, isLoading: false, error: '' },
+    deployments: {
+      items: [],
+      pagination: { ...DEFAULT_PAGINATION },
+      isLoading: false,
+      error: '',
+    },
+    records: {
+      items: [],
+      pagination: { ...DEFAULT_PAGINATION },
+      isLoading: false,
+      error: '',
+    },
     kpis: { ...DEFAULT_DEPLOYMENT_MANAGEMENT_KPIS },
     hasLoadedKpis: false,
   }),
