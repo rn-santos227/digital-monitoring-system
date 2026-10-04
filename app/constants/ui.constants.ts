@@ -1,4 +1,94 @@
-import type { LoginPageThemeStyle, KpiToneStyle, IconName, SelectOption } from '~/types/domain/misc'
+export interface SelectOption {
+  label: string
+  value: string
+}
+
+export interface RadioOption {
+  label: string
+  value: string
+  helper?: string
+}
+
+export type BaseMenuItem = {
+  label: string
+  value: string
+  danger?: boolean
+}
+
+export type IconName =
+  | 'home'
+  | 'users'
+  | 'building'
+  | 'clipboard'
+  | 'clipboard-document-list'
+  | 'academic-cap'
+  | 'map'
+  | 'map-pin'
+  | 'shield'
+  | 'shield-exclamation'
+  | 'chart-bar'
+  | 'squares'
+  | 'table-cells'
+  | 'cube'
+  | 'archive'
+  | 'arrow-path'
+  | 'exclamation'
+  | 'check-circle'
+  | 'information-circle'
+  | 'question-mark-circle'
+  | 'x-circle'
+  | 'x-mark'
+  | 'clock'
+  | 'cog'
+  | 'bell'
+  | 'eye'
+  | 'pencil-square'
+  | 'trash'
+  | 'arrows-up-down'
+  | 'magnifying-glass'
+  | 'chevron-up'
+  | 'chevron-down'
+  | 'chevron-left'
+  | 'chevron-right'
+  | 'user-plus'
+  | 'plus'
+
+export type NavigationItem = {
+  label: string
+  to: string
+  icon: IconName
+  requiredPermissions?: readonly string[]
+  requiredPermissionMode?: 'all' | 'any'
+}
+
+export type NavigationSection = {
+  title: string
+  items: NavigationItem[]
+}
+
+export type DashboardMetric = {
+  label: string
+  value: string
+  change: string
+}
+
+export interface KpiToneStyle {
+  iconWrapper: string
+  icon: string
+  context: string
+}
+
+export interface LoginPageThemeStyle {
+  brandPanel: string
+  brandOverlay: string
+  formPanel: string
+  forgotLink: string
+  badge: string
+  description: string
+  securityIcon: string
+  securityText: string
+  footerNotice: string
+}
 
 export type UiSize = 'sm' | 'md' | 'lg'
 export type UiTone = 'neutral' | 'success' | 'warning' | 'danger' | 'info'
@@ -36,6 +126,47 @@ export interface BaseTabItem {
 }
 
 export type ListViewMode = 'table' | 'card'
+
+export interface TablePaginationState {
+  page: number
+  pageSize: number
+  totalItems: number
+  totalPages: number
+}
+
+export interface PersonnelProfileTrainingRow {
+  id: string
+  courseName: string
+  provider: string
+  completedAt: string
+  remarks: string
+}
+
+export interface PersonnelProfileDeploymentRow {
+  id: string
+  location: string
+  operationName: string
+  startedAt: string
+  endedAt: string
+  status: string
+}
+
+export interface PersonnelProfileEngagementRow {
+  id: string
+  eventType: string
+  location: string
+  recordedAt: string
+  outcome: string
+}
+
+export interface PersonnelProfileEquipmentRow {
+  id: string
+  assetCode: string
+  itemName: string
+  issuedAt: string
+  returnedAt: string
+  assignmentStatus: string
+}
 
 export const LIST_VIEW_MODE_ITEMS: readonly BaseTabItem[] = Object.freeze([
   { id: 'table', label: 'Table View', iconName: 'table-cells' },
@@ -243,6 +374,15 @@ export const APP_SIDEBAR_ITEM_THEME_CLASSES = Object.freeze({
 } as const)
 
 export const APP_HEADER_CLASSES = 'sticky top-0 z-20 flex h-16 items-center justify-between px-6'
+export const APP_AVATAR_CLASSES = 'flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold text-white'
+export const APP_AVATAR_THEME_CLASSES = Object.freeze({
+  light: 'bg-emerald-700',
+  dark: 'bg-slate-700',
+  amber: 'bg-amber-700',
+  azure: 'bg-sky-700',
+  emerald: 'bg-emerald-700',
+  brown: 'bg-orange-700',
+} as const)
 export const APP_FOOTER_CLASSES = 'px-6 py-3 text-xs'
 export const APP_SURFACE_THEME_CLASSES = Object.freeze({
   light: 'border-emerald-900/50 bg-emerald-100 text-emerald-900',
@@ -417,3 +557,21 @@ export const PRINT_DATA_LIST_EMPTY_TITLE = 'No records to print'
 export const PRINT_DATA_LIST_EMPTY_MESSAGE = 'Printing is only available when the selected table or list has at least one record.'
 export const PRINT_DATA_LIST_ERROR_TITLE = 'Print unavailable'
 export const PRINT_DATA_LIST_ERROR_MESSAGE = 'Unable to prepare the selected table or list for printing.'
+
+export interface AccountTypePrivilegeOption {
+  value: string
+  code: string
+  name: string
+  module: string
+}
+
+export const CHART_DEFAULT_COLOR = '#0f766e'
+
+export const CHART_DEFAULT_COLORS = Object.freeze([
+  CHART_DEFAULT_COLOR,
+  '#2563eb',
+  '#7c3aed',
+  '#ea580c',
+  '#dc2626',
+  '#0891b2',
+])
