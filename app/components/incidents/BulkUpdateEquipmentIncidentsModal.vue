@@ -7,7 +7,7 @@
     @close="emit('close')"
   >
     <form class="grid gap-4 md:grid-cols-2" @submit.prevent="onSubmit">
-      <BaseAlert class="md:col-span-2" :message="EQUIPMENT_INCIDENTS_BULK_UPDATE_WARNING" tone="warning" />
+      <BaseAlert class="md:col-span-2" :message="warningMessage || EQUIPMENT_INCIDENTS_BULK_UPDATE_WARNING" tone="warning" />
       <BaseAlert v-if="errorMessage || validationError" class="md:col-span-2" :message="errorMessage || validationError" tone="danger" />
 
       <div v-for="field in fields" :key="field.key" class="space-y-2 rounded-lg border border-slate-200 p-3">
@@ -103,23 +103,25 @@ import {
 } from '~/constants/page.constants'
 import type { EquipmentIncidentBulkUpdateValues } from '~/types/domain/incident'
 import type { SelectOption } from '~/types/domain/misc'
-import {
-  formatBulkUpdateInputValue,
-  validateIncidentBulkUpdate,
-} from '~/utils/bulk-management-validation'
+import { formatBulkUpdateInputValue, validateIncidentBulkUpdate } from '~/utils/bulk-management-validation'
 import {
   getIncidentTypeSuggestionsEndpoint,
   getInvestigationStatusSuggestionsEndpoint,
 } from '~/utils/incident-endpoints'
 
-withDefaults(defineProps<{
-  selectedCount: number
-  isSubmitting?: boolean
-  errorMessage?: string
-}>(), {
-  isSubmitting: false,
-  errorMessage: '',
-})
+withDefaults(
+  defineProps<{
+    selectedCount: number
+    isSubmitting?: boolean
+    errorMessage?: string
+    warningMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    errorMessage: '',
+    warningMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
