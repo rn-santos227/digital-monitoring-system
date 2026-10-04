@@ -7,7 +7,7 @@
     @close="emit('close')"
   >
     <form class="grid gap-4 md:grid-cols-2" @submit.prevent="onSubmit">
-      <BaseAlert class="md:col-span-2" :message="EQUIPMENT_BULK_UPDATE_WARNING" tone="warning" />
+      <BaseAlert class="md:col-span-2" :message="warningMessage || EQUIPMENT_BULK_UPDATE_WARNING" tone="warning" />
       <BaseAlert v-if="errorMessage || validationError" class="md:col-span-2" :message="errorMessage || validationError" tone="danger" />
       <div
         v-for="field in fields"
@@ -49,7 +49,8 @@
       <div class="flex justify-end gap-2">
         <BaseButton variant="ghost" @click="emit('close')">
           Cancel
-        </BaseButton><BaseButton :disabled="isSubmitting" @click="onSubmit">
+        </BaseButton>
+        <BaseButton :disabled="isSubmitting" @click="onSubmit">
           Update {{ selectedCount }} selected
         </BaseButton>
       </div>
@@ -69,17 +70,20 @@ import {
   EQUIPMENT_BULK_UPDATE_WARNING,
 } from '~/constants/page.constants'
 import type { EquipmentAssetBulkUpdateValues } from '~/types/domain/equipment'
-import {
-  formatBulkUpdateInputValue,
-  validateEquipmentBulkUpdate,
-} from '~/utils/bulk-management-validation'
+import { formatBulkUpdateInputValue, validateEquipmentBulkUpdate } from '~/utils/bulk-management-validation'
+
 withDefaults(
   defineProps<{
     selectedCount: number
     isSubmitting?: boolean
     errorMessage?: string
+    warningMessage?: string
   }>(),
-  { isSubmitting: false, errorMessage: '' },
+  {
+    isSubmitting: false,
+    errorMessage: '',
+    warningMessage: '',
+  },
 )
 const emit = defineEmits<{
   (event: 'close'): void
