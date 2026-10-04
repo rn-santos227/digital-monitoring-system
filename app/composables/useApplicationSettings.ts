@@ -35,7 +35,10 @@ export const useApplicationSettings = () => {
 
   const timeFormatOptions = TIME_FORMAT_OPTIONS
   const densityOptions = DENSITY_OPTIONS
-  const themeOptions = Object.freeze(APP_THEME_VALUES.map((value) => ({ value, label: value[0]?.toUpperCase() + value.slice(1) })))
+  const themeOptions = Object.freeze(APP_THEME_VALUES.map((value) => ({
+    value,
+    label: (value[0] ?? '').toUpperCase() + value.slice(1),
+  })))
   const timezoneOptions = Object.freeze(TIMEZONE_VALUES.map((value) => ({ value, label: value })))
   const pageSizeOptions = Object.freeze(PAGE_SIZE_VALUES.map((value) => ({ value: String(value), label: String(value) })))
   const dateFormatOptions = Object.freeze(DATE_FORMAT_VALUES.map((value) => ({ value, label: value })))
