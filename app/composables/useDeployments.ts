@@ -53,7 +53,7 @@ export const useDeployments = () => {
   }
 
   const updateDeploymentLocation = async (id: string, payload: CreateDeploymentPayload) => {
-    await deploymentsStore.updateDeploymentDetails(id, payload)
+    await deploymentsStore.updateDeploymentLocation(id, payload)
   }
 
   const deleteDeployment = async (id: string) => {
