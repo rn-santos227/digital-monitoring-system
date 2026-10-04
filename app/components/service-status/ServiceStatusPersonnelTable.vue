@@ -4,8 +4,8 @@
     :columns="SERVICE_STATUS_PERSONNEL_TABLE_COLUMNS"
     :rows="rows"
     row-key="id"
-    :actions="SERVICE_STATUS_PERSONNEL_TABLE_ACTIONS"
-    :action-button-count="SERVICE_STATUS_PERSONNEL_TABLE_ACTIONS.length"
+    :actions="visibleActions"
+    :action-button-count="visibleActions.length"
     :actions-column-label="SERVICE_STATUS_PERSONNEL_TABLE_ACTIONS_COLUMN_LABEL"
     :show-search="false"
     :empty-message="SERVICE_STATUS_PERSONNEL_TABLE_EMPTY_MESSAGE"
@@ -27,6 +27,8 @@ import {
   SERVICE_STATUS_PERSONNEL_TABLE_UNSPECIFIED_OPERATION,
 } from '~/constants/table.constants'
 import type { PersonnelLocationItem } from '~/types/domain/personnel'
+import { SERVICE_STATUS_ACTION_REQUIRED_PERMISSIONS } from '~/constants/privileges.constants'
+import { useAuthStore } from '~/stores/auth'
 
 interface ServiceStatusTableRow {
   id: string
@@ -45,6 +47,13 @@ type ServiceStatusTableActionKey =
   | 'assign-equipment'
 
 const props = defineProps<{ items: PersonnelLocationItem[] }>()
+const authStore = useAuthStore()
+const visibleActions = computed(() => {
+  return SERVICE_STATUS_PERSONNEL_TABLE_ACTIONS.filter((action) => {
+    const permissions = SERVICE_STATUS_ACTION_REQUIRED_PERMISSIONS[action.key]
+    return permissions ? authStore.hasAnyPermissionAccess(permissions) : false
+  })
+})
 const emit = defineEmits<{
   (event: 'assign-deployment', item: PersonnelLocationItem): void
   (event: 'assign-engagement', item: PersonnelLocationItem): void
