@@ -50,11 +50,18 @@ import type { CreateTrainingCategoryPayload } from '~/types/domain/training'
 import { validateCreateTrainingCategoryForm } from '~/utils/training-validation'
 import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
-withDefaults(defineProps<{ isSubmitting?: boolean; warningMessage?: string; errorMessage?: string }>(), {
-  isSubmitting: false,
-  warningMessage: '',
-  errorMessage: '',
-})
+withDefaults(
+  defineProps<{
+    isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
