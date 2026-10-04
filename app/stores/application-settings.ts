@@ -40,6 +40,7 @@ const applicationSettingsStoreOptions = {
       try {
         const response = await getApplicationSettingsEndpoint()
         this.item = response.item
+        this.hasLoaded = true
         saveApplicationSettingsToStorage(response.item)
       } catch (error) {
         this.loadError = extractApiErrorMessage(error, 'Unable to load application settings.')
