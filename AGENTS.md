@@ -143,4 +143,4 @@
 
 7. **Create endpoints should return created list item payloads**
    - For `POST` handlers that create entities shown in frontend tables/lists, return both `{ ok, id }` and a frontend-ready `item` payload so clients can append without an immediate follow-up fetch.
-   - Shape `item` to match the corresponding list response mapping helper/model contract (for example the same item shape 
+   - Shape `item` to match the corresponding list response mapping helper/model contract (for example, the same item shape returned by the domain list endpoint).
