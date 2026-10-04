@@ -25,7 +25,6 @@ export const useRanks = () => {
   }
 
   const createRank = async (payload: CreateRankPayload) => {
-    await rankStore.createRank(payload)
     return await rankStore.createRank(payload)
   }
 
