@@ -79,6 +79,7 @@
 </template>
 
 <script setup lang="ts">
+import { CREATE_DEPLOYMENT_RECORD_TAB_ITEMS } from '~/constants/page.constants'
 import { computed, reactive, ref } from 'vue'
 import { useDialog } from '~/composables/useDialog'
 import BaseGeoMap from '~/components/ui/BaseGeoMap.vue'
@@ -107,10 +108,6 @@ const emit = defineEmits<{
   (event: 'submit', payload: CreateDeploymentRecordPayload): void
 }>()
 
-const CREATE_DEPLOYMENT_RECORD_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
-  { id: 'details', label: 'Details' },
-  { id: 'location', label: 'Geomap' },
-])
 const activeTab = ref<'details' | 'location'>('details')
 
 interface CreateDeploymentRecordForm {
