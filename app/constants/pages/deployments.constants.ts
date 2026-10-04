@@ -1,7 +1,6 @@
 import type { BaseTabItem } from '~/constants/ui.constants'
-import {
-  DEPLOYMENT_STATUS_VALUES,
-} from '~/types/enums'
+import { DEPLOYMENT_STATUS_VALUES } from '~/types/enums'
+
 export const DEPLOYMENTS_PAGE_TITLE = 'Deployments Management'
 export const DEPLOYMENTS_PAGE_SUBTITLE = 'Monitor deployments and deployment records for active personnel operations.'
 export const DEPLOYMENTS_PAGE_SECTION_CLASSES = 'space-y-6'
@@ -88,3 +87,8 @@ export const DEPLOYMENTS_BULK_UPDATE_MODAL_DESCRIPTION = 'Choose non-unique fiel
 export const DEPLOYMENT_RECORDS_BULK_UPDATE_MODAL_TITLE = 'Bulk Update Deployment Records'
 export const DEPLOYMENT_RECORDS_BULK_UPDATE_MODAL_DESCRIPTION = 'Choose non-unique fields to apply to every selected deployment record.'
 export const DEPLOYMENTS_BULK_UPDATE_WARNING = 'Only checked fields will be changed. Existing record numbers and personnel or deployment assignments remain unchanged.'
+
+export const CREATE_DEPLOYMENT_RECORD_TAB_ITEMS: readonly BaseTabItem[] = Object.freeze([
+  { id: 'details', label: 'Details' },
+  { id: 'location', label: 'Geomap' },
+])
