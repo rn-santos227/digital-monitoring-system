@@ -30,17 +30,22 @@ export const useTrainingRecords = () => {
     filters.value = { ...nextFilters }
 
     try {
-       await trainingsStore.fetchTrainingRecords(page, filters.value, pageSize)
+      await trainingsStore.fetchTrainingRecords(page, filters.value, pageSize)
     } catch {
       // Error state is exposed from the store.
     }
   }
 
-  const createTrainingRecord = async (payload: Parameters<typeof trainingsStore.createTrainingRecord>[0]) => {
+  const createTrainingRecord = async (
+    payload: Parameters<typeof trainingsStore.createTrainingRecord>[0],
+  ) => {
     return await trainingsStore.createTrainingRecord(payload)
   }
 
-  const updateTrainingRecord = async (id: string, payload: Parameters<typeof trainingsStore.updateTrainingRecord>[1]) => {
+  const updateTrainingRecord = async (
+    id: string,
+    payload: Parameters<typeof trainingsStore.updateTrainingRecord>[1],
+  ) => {
     await trainingsStore.updateTrainingRecord(id, payload)
   }
 
