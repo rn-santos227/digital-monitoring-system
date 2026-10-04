@@ -39,6 +39,7 @@ const INITIAL_BATTALIONS_STATE: BattalionsState = {
 const battalionsStoreOptions = {
   state: (): BattalionsState => ({
     ...INITIAL_BATTALIONS_STATE,
+    items: [],
     pagination: { ...DEFAULT_PAGINATION },
   }),
 
