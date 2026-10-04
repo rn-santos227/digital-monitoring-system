@@ -6,6 +6,7 @@
     @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
       <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
 
       <div class="grid gap-4 md:grid-cols-2">
@@ -35,18 +36,21 @@
 <script setup lang="ts">
 import { reactive, watch } from 'vue'
 import { useDialog } from '~/composables/useDialog'
-import type { UpdateDeploymentRecordPayload } from '~/types/domain/deployment'
+import type { UpdateDeploymentRecordPayload, DeploymentRecordFormValues } from '~/types/domain/deployment'
 
-import type { DeploymentRecordFormValues } from '~/types/domain/deployment'
-
-const props = withDefaults(defineProps<{
-  initialValues: DeploymentRecordFormValues
-  isSubmitting?: boolean
-  errorMessage?: string
-}>(), {
-  isSubmitting: false,
-  errorMessage: '',
-})
+const props = withDefaults(
+  defineProps<{
+    initialValues: DeploymentRecordFormValues
+    isSubmitting?: boolean
+    errorMessage?: string
+    warningMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    errorMessage: '',
+    warningMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
@@ -73,7 +77,6 @@ watch(() => props.initialValues, (value) => {
   form.end_date = value.endDate
   form.remarks = value.remarks
 }, { immediate: true, deep: true })
-
 
 const errors = reactive<Record<string, string>>({})
 
