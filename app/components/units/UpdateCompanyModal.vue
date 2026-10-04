@@ -68,21 +68,24 @@ import {
 import type { UpdateCompanyPayload } from '~/types/domain/units'
 import { validateCreateCompanyForm } from '~/utils/units-validation'
 
-const props = withDefaults(defineProps<{
-  initialValues: {
-    battalionId: string | null
-    code: string
-    name: string
-    isActive: boolean
-  }
-  isSubmitting?: boolean
-  warningMessage?: string
-  errorMessage?: string
-}>(), {
-  isSubmitting: false,
-  warningMessage: '',
-  errorMessage: '',
-})
+const props = withDefaults(
+  defineProps<{
+    initialValues:{
+      battalionId: string | null
+      code: string
+      name: string
+      isActive: boolean
+    }
+    isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
