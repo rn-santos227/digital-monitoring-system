@@ -21,7 +21,10 @@ const INITIAL_AUDIT_STATE: AuditState = {
 }
 
 const auditStoreOptions = {
-  state: (): AuditState => INITIAL_AUDIT_STATE,
+  state: (): AuditState => ({
+    ...INITIAL_AUDIT_STATE,
+    items: [],
+  }),
 
   getters: {
     hasAuditLogs: (state: AuditState) => state.items.length > 0,
