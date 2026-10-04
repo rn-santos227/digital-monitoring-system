@@ -180,7 +180,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from 'vue'
+import {
+  computed,
+  reactive,
+  ref,
+  watch,
+} from 'vue'
 import { useDialog } from '~/composables/useDialog'
 import BattalionsSuggestionField from '~/components/general/BattalionsSuggestionField.vue'
 import CompaniesSuggestionField from '~/components/general/CompaniesSuggestionField.vue'
@@ -236,11 +241,18 @@ import { extractApiErrorMessage } from '~/utils/api-request'
 import { validateCreatePersonnelForm } from '~/utils/personnel-validation'
 import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
-withDefaults(defineProps<{ isSubmitting?: boolean; warningMessage?: string; errorMessage?: string }>(), {
-  isSubmitting: false,
-  warningMessage: '',
-  errorMessage: '',
-})
+withDefaults(
+  defineProps<{
+    isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
