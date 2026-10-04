@@ -134,3 +134,11 @@ export const EQUIPMENT_PRIVILEGES = Object.freeze({
 export const SETTINGS_PRIVILEGES = Object.freeze({
   update: Object.freeze([PRIVILEGE_CODES.settingsUpdate]),
 })
+
+export const SERVICE_STATUS_ACTION_REQUIRED_PERMISSIONS: Readonly<Record<string, readonly string[]>> = Object.freeze({
+  'view-personnel': PERSONNEL_PRIVILEGES.view,
+  'assign-deployment': DEPLOYMENT_PRIVILEGES.manage,
+  'assign-engagement': ENGAGEMENT_PRIVILEGES.manage,
+  'assign-training': TRAINING_PRIVILEGES.manage,
+  'assign-equipment': EQUIPMENT_PRIVILEGES.mutateIssuance,
+})
