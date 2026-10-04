@@ -10,21 +10,14 @@
 </template>
 
 <script setup lang="ts">
+import type { PersonnelProfileEngagementRow } from '~/constants/ui.constants'
 import {
   PERSONNEL_ENGAGEMENT_TABLE_COLUMNS,
   PERSONNEL_ENGAGEMENT_TABLE_EMPTY_MESSAGE,
   PERSONNEL_ENGAGEMENT_TABLE_TITLE,
 } from '~/constants/table.constants'
 
-interface EngagementTableRow {
-  id: string
-  eventType: string
-  location: string
-  recordedAt: string
-  outcome: string
-}
-
-withDefaults(defineProps<{ rows?: EngagementTableRow[] }>(), {
+withDefaults(defineProps<{ rows?: PersonnelProfileEngagementRow[] }>(), {
   rows: () => [],
 })
 </script>
