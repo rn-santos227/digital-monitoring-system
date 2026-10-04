@@ -187,3 +187,10 @@ export const EQUIPMENT_ISSUANCES_BULK_UPDATE_MODAL_TITLE =
   'Bulk Update Equipment Issuances'
 export const EQUIPMENT_ISSUANCES_BULK_UPDATE_MODAL_DESCRIPTION =
   'Change non-unique issuance fields for all selected equipment issuances.'
+
+export const EQUIPMENT_ITEM_USAGE_DEFAULT_PAGINATION = Object.freeze({
+  page: 1,
+  pageSize: 10,
+  totalItems: 0,
+  totalPages: 0,
+})
