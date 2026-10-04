@@ -10,21 +10,14 @@
 </template>
 
 <script setup lang="ts">
+import type { PersonnelProfileTrainingRow } from '~/constants/ui.constants'
 import {
   PERSONNEL_TRAINING_TABLE_COLUMNS,
   PERSONNEL_TRAINING_TABLE_EMPTY_MESSAGE,
   PERSONNEL_TRAINING_TABLE_TITLE,
 } from '~/constants/table.constants'
 
-interface TrainingTableRow {
-  id: string
-  courseName: string
-  provider: string
-  completedAt: string
-  remarks: string
-}
-
-withDefaults(defineProps<{ rows?: TrainingTableRow[] }>(), {
+withDefaults(defineProps<{ rows?: PersonnelProfileTrainingRow[] }>(), {
   rows: () => [],
 })
 </script>
