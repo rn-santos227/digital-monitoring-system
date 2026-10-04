@@ -12,7 +12,10 @@ export default defineConfig({
         }
 
         return source
-          .replaceAll('import.meta.client', 'Boolean(globalThis.__TEST_NUXT_CLIENT__)')
+          .replaceAll(
+            'import.meta.client',
+            'Boolean(globalThis.__TEST_NUXT_CLIENT__)',
+          )
           .replaceAll('import.meta.server', '!globalThis.__TEST_NUXT_CLIENT__')
       },
     },
@@ -24,10 +27,19 @@ export default defineConfig({
       '~/utils': fileURLToPath(new URL('./app/utils', import.meta.url)),
       '~/stores': fileURLToPath(new URL('./app/stores', import.meta.url)),
       '~/handlers': fileURLToPath(new URL('./app/handlers', import.meta.url)),
-      '~/composables': fileURLToPath(new URL('./app/composables', import.meta.url)),
+      '~/composables': fileURLToPath(
+        new URL('./app/composables', import.meta.url),
+      ),
       '~~': fileURLToPath(new URL('.', import.meta.url)),
-      '#imports': fileURLToPath(new URL('./tests/helpers/nuxt-imports.ts', import.meta.url)),
-      '#supabase/server': fileURLToPath(new URL('./tests/helpers/supabase-server.ts', import.meta.url)),
+      '#imports': fileURLToPath(
+        new URL('./tests/helpers/nuxt-imports.ts', import.meta.url),
+      ),
+      '#supabase/server': fileURLToPath(
+        new URL('./tests/helpers/supabase-server.ts', import.meta.url),
+      ),
+      'nuxt/app': fileURLToPath(
+        new URL('./tests/helpers/nuxt-state.ts', import.meta.url),
+      ),
       '~': fileURLToPath(new URL('.', import.meta.url)),
       '@': fileURLToPath(new URL('.', import.meta.url)),
     },
@@ -36,6 +48,7 @@ export default defineConfig({
     environment: 'node',
     include: ['tests/unit/**/*.test.ts'],
     passWithNoTests: false,
+    maxWorkers: 4,
     coverage: {
       provider: 'v8',
       reporter: ['text-summary', 'json', 'json-summary', 'html'],
