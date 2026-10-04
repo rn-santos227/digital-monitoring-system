@@ -10,22 +10,14 @@
 </template>
 
 <script setup lang="ts">
+import type { PersonnelProfileEquipmentRow } from '~/constants/ui.constants'
 import {
   PERSONNEL_EQUIPMENT_ASSIGNMENT_TABLE_COLUMNS,
   PERSONNEL_EQUIPMENT_ASSIGNMENT_TABLE_EMPTY_MESSAGE,
   PERSONNEL_EQUIPMENT_ASSIGNMENT_TABLE_TITLE,
 } from '~/constants/table.constants'
 
-interface EquipmentAssignmentTableRow {
-  id: string
-  assetCode: string
-  itemName: string
-  issuedAt: string
-  returnedAt: string
-  assignmentStatus: string
-}
-
-withDefaults(defineProps<{ rows?: EquipmentAssignmentTableRow[] }>(), {
+withDefaults(defineProps<{ rows?: PersonnelProfileEquipmentRow[] }>(), {
   rows: () => [],
 })
 </script>
