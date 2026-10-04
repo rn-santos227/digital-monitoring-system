@@ -7,7 +7,7 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
-      <BaseAlert :message="PERSONNEL_BULK_UPDATE_WARNING" tone="warning" />
+      <BaseAlert :message="warningMessage || PERSONNEL_BULK_UPDATE_WARNING" tone="warning" />
       <BaseAlert v-if="errorMessage || validationError" :message="errorMessage || validationError" tone="danger" />
       <div class="grid gap-4 md:grid-cols-2">
         <div class="space-y-2 rounded-lg border border-slate-200 p-3">
@@ -51,10 +51,19 @@ import type { PersonnelBulkUpdateValues } from '~/types/domain/personnel'
 import { validatePersonnelBulkUpdate } from '~/utils/bulk-management-validation'
 
 type FieldKey = keyof PersonnelBulkUpdateValues
-withDefaults(defineProps<{ selectedCount: number; isSubmitting?: boolean; errorMessage?: string }>(), {
-  isSubmitting: false,
-  errorMessage: '',
-})
+withDefaults(
+  defineProps<{
+    selectedCount: number
+    isSubmitting?: boolean
+    errorMessage?: string
+    warningMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    errorMessage: '',
+    warningMessage: '',
+  },
+)
 const emit = defineEmits<{
   (event: 'close'): void
   (event: 'submit', payload: PersonnelBulkUpdateValues): void
