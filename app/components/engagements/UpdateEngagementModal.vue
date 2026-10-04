@@ -88,16 +88,19 @@ interface EngagementUpdateFormValues {
   defaultRemarks: string
 }
 
-const props = withDefaults(defineProps<{
-  initialValues: EngagementUpdateFormValues
-  isSubmitting?: boolean
-  warningMessage?: string
-  errorMessage?: string
-}>(), {
-  isSubmitting: false,
-  warningMessage: '',
-  errorMessage: '',
-})
+const props = withDefaults(
+  defineProps<{
+    initialValues: EngagementUpdateFormValues
+    isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
