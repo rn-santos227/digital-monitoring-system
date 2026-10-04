@@ -61,7 +61,7 @@ import { requestCloseForChangedValues } from '~/utils/form-close-guard'
 
 const props = withDefaults(
   defineProps<{
-    initialValues: {
+    initialValues:{
       equipmentCode: string
       categoryId: string
       name: string
