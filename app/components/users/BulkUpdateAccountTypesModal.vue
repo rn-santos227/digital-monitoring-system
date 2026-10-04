@@ -7,7 +7,7 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
-      <BaseAlert :message="USERS_ACCOUNT_BULK_UPDATE_WARNING" tone="warning" />
+      <BaseAlert :message="warningMessage || USERS_ACCOUNT_BULK_UPDATE_WARNING" tone="warning" />
       <BaseAlert v-if="errorMessage || validationError" :message="errorMessage || validationError" tone="danger" />
 
       <div class="space-y-2 rounded-lg border border-slate-200 p-3">
@@ -55,14 +55,19 @@ import {
 import type { AccountTypeBulkUpdateValues } from '~/types/domain/users'
 import { validateAccountTypeBulkUpdate } from '~/utils/bulk-management-validation'
 
-withDefaults(defineProps<{
-  selectedCount: number
-  isSubmitting?: boolean
-  errorMessage?: string
-}>(), {
-  isSubmitting: false,
-  errorMessage: '',
-})
+withDefaults(
+  defineProps<{
+    selectedCount: number
+    isSubmitting?: boolean
+    errorMessage?: string
+    warningMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    errorMessage: '',
+    warningMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
