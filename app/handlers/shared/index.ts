@@ -1,3 +1,5 @@
 export * from './list.handler'
 export * from './print.handler'
 export * from './complete-list-print.handler'
+export * from './delete-feedback.handler'
+export * from './load-more.handler'
