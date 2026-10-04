@@ -1,6 +1,10 @@
 import { computed, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import type { CreateDeploymentPayload, DeploymentManagementListItem, DeploymentManagementSearchQuery } from '~/types/domain/deployment'
+import type {
+  CreateDeploymentPayload,
+  DeploymentManagementListItem,
+  DeploymentManagementSearchQuery,
+} from '~/types/domain/deployment'
 import { useDeploymentsStore } from '~/stores/deployments'
 
 export const useDeployments = () => {
@@ -16,26 +20,35 @@ export const useDeployments = () => {
     return '—'
   }
 
-  const resolveDeploymentStatus = (item: DeploymentManagementListItem & { statusName?: string | null }): string =>
-    normalizeDisplayValue(item.statusName)
+  const resolveDeploymentStatus = (
+    item: DeploymentManagementListItem & { statusName?: string | null },
+  ): string => normalizeDisplayValue(item.statusName)
 
-  const tableRows = computed(() => deployments.value.items.map(item => ({
-    id: item.id,
-    operationName: normalizeDisplayValue(item.operationName),
-    deploymentArea: normalizeDisplayValue(item.deploymentArea),
-    assignmentRole: item.assignmentRole ?? '',
-    deploymentAreaLatitude: item.deploymentAreaLatitude ?? '',
-    deploymentAreaLongitude: item.deploymentAreaLongitude ?? '',
-    startDate: item.startDate ?? '',
-    endDate: item.endDate ?? '—',
-    statusName: resolveDeploymentStatus(item as DeploymentManagementListItem & { statusName?: string | null }),
-    statusId: item.statusId ?? '',
-    location: item.location ?? '',
-    supervisorId: item.supervisorId ?? '',
-    defaultRemarks: item.defaultRemarks ?? '',
-  })))
+  const tableRows = computed(() =>
+    deployments.value.items.map((item) => ({
+      id: item.id,
+      operationName: normalizeDisplayValue(item.operationName),
+      deploymentArea: normalizeDisplayValue(item.deploymentArea),
+      assignmentRole: item.assignmentRole ?? '',
+      deploymentAreaLatitude: item.deploymentAreaLatitude ?? '',
+      deploymentAreaLongitude: item.deploymentAreaLongitude ?? '',
+      startDate: item.startDate ?? '',
+      endDate: item.endDate ?? '—',
+      statusName: resolveDeploymentStatus(
+        item as DeploymentManagementListItem & { statusName?: string | null },
+      ),
+      statusId: item.statusId ?? '',
+      location: item.location ?? '',
+      supervisorId: item.supervisorId ?? '',
+      defaultRemarks: item.defaultRemarks ?? '',
+    })),
+  )
 
-  const loadDeployments = async (page = deployments.value.pagination.page, nextFilters: Partial<DeploymentManagementSearchQuery> = filters.value, pageSize = deployments.value.pagination.pageSize) => {
+  const loadDeployments = async (
+    page = deployments.value.pagination.page,
+    nextFilters: Partial<DeploymentManagementSearchQuery> = filters.value,
+    pageSize = deployments.value.pagination.pageSize,
+  ) => {
     filters.value = { ...nextFilters }
     try {
       await deploymentsStore.fetchDeployments(page, filters.value, pageSize)
@@ -44,15 +57,23 @@ export const useDeployments = () => {
     }
   }
 
-  const createDeployment: (payload: CreateDeploymentPayload) => Promise<{ id: string }> = (payload) => {
+  const createDeployment: (
+    payload: CreateDeploymentPayload,
+  ) => Promise<{ id: string }> = (payload) => {
     return deploymentsStore.createDeployment(payload)
   }
 
-  const updateDeploymentDetails = async (id: string, payload: CreateDeploymentPayload) => {
+  const updateDeploymentDetails = async (
+    id: string,
+    payload: CreateDeploymentPayload,
+  ) => {
     await deploymentsStore.updateDeploymentDetails(id, payload)
   }
 
-  const updateDeploymentLocation = async (id: string, payload: CreateDeploymentPayload) => {
+  const updateDeploymentLocation = async (
+    id: string,
+    payload: CreateDeploymentPayload,
+  ) => {
     await deploymentsStore.updateDeploymentLocation(id, payload)
   }
 
@@ -68,7 +89,7 @@ export const useDeployments = () => {
     void deploymentsStore.fetchDeploymentManagementKpisOnce().catch(() => {})
   })
 
-  return { 
+  return {
     filters,
     tableRows,
     kpis,
