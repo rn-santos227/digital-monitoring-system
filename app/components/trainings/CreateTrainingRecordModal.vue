@@ -6,6 +6,8 @@
     @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
       <div class="grid gap-4 md:grid-cols-2">
         <TrainingSuggestionField
           v-model="form.trainingId"
@@ -85,7 +87,18 @@ import type { CreateTrainingRecordPayload, TrainingSuggestionItem } from '~/type
 import { validateCreateTrainingRecordForm } from '~/utils/training-validation'
 import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
-withDefaults(defineProps<{ isSubmitting?: boolean }>(), { isSubmitting: false })
+withDefaults(
+  defineProps<{
+    isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
