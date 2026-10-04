@@ -111,16 +111,19 @@ interface DeploymentFormValues {
   defaultRemarks: string
 }
 
-const props = withDefaults(defineProps<{
-  initialValues: DeploymentFormValues
-  isSubmitting?: boolean
-  warningMessage?: string
-  errorMessage?: string
-}>(), {
-  isSubmitting: false,
-  warningMessage: '',
-  errorMessage: '',
-})
+const props = withDefaults(
+  defineProps<{
+    initialValues: DeploymentFormValues
+    isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
