@@ -58,20 +58,23 @@ import {
 import type { UpdateBattalionPayload } from '~/types/domain/units'
 import { validateCreateBattalionForm } from '~/utils/units-validation'
 
-const props = withDefaults(defineProps<{
-  initialValues: {
-    code: string
-    name: string
-    isActive: boolean
-  }
-  isSubmitting?: boolean
-  warningMessage?: string
-  errorMessage?: string
-}>(), {
-  isSubmitting: false,
-  warningMessage: '',
-  errorMessage: '',
-})
+const props = withDefaults(
+  defineProps<{
+    initialValues:{
+      code: string
+      name: string
+      isActive: boolean
+    }
+    isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
