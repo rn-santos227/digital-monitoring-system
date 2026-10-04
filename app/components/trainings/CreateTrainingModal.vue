@@ -85,7 +85,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, shallowRef } from 'vue'
+import {
+  computed,
+  onMounted,
+  reactive,
+  shallowRef,
+} from 'vue'
 import { useDialog } from '~/composables/useDialog'
 import {
   TRAININGS_CREATE_CATEGORY_EMPTY_MESSAGE,
@@ -114,11 +119,18 @@ import { getTrainingCategoriesEndpoint } from '~/utils/training-endpoints'
 import { validateCreateTrainingForm } from '~/utils/training-validation'
 import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
-withDefaults(defineProps<{ isSubmitting?: boolean; warningMessage?: string; errorMessage?: string }>(), {
-  isSubmitting: false,
-  warningMessage: '',
-  errorMessage: '',
-})
+withDefaults(
+  defineProps<{
+    isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
