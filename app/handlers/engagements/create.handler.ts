@@ -14,6 +14,7 @@ interface UseCreateEngagementRecordHandlerOptions {
   isCreateEngagementRecordModalOpen: Ref<boolean>
   createEngagementRecord: (payload: CreateEngagementRecordPayload) => Promise<{ id: string }>
   showDialog: (dialog: DialogInput) => Promise<{ confirmed: boolean }>
+  errorMessage: Ref<string>
 }
 
 export const useCreateEngagementHandler = ({
@@ -63,12 +64,14 @@ export const useCreateEngagementRecordHandler = ({
   isCreateEngagementRecordModalOpen,
   createEngagementRecord,
   showDialog,
+  errorMessage,
 }: UseCreateEngagementRecordHandlerOptions) => {
   const onCloseCreateEngagementRecordModal = () => {
     isCreateEngagementRecordModalOpen.value = false
   }
 
   const onSubmitCreateEngagementRecord = async (payload: CreateEngagementRecordPayload) => {
+    errorMessage.value = ''
     try {
       await createEngagementRecord(payload)
       onCloseCreateEngagementRecordModal()
@@ -79,7 +82,7 @@ export const useCreateEngagementRecordHandler = ({
         confirmLabel: 'OK',
       })
     } catch (error) {
-      await showErrorDialog({
+      errorMessage.value = await showErrorDialog({
         showDialog,
         title: 'Engagement record creation failed',
         error,
