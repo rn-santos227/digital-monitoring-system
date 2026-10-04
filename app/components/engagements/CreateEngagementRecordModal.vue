@@ -6,6 +6,8 @@
     @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
       <div class="grid gap-4 md:grid-cols-2">
         <EngagementSuggestionField
           v-model="form.engagement_id"
@@ -43,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed } from 'vue'
+import { reactive } from 'vue'
 import { useDialog } from '~/composables/useDialog'
 import EngagementSuggestionField from '~/components/general/EngagementSuggestionField.vue'
 import PersonnelSuggestionField from '~/components/general/PersonnelSuggestionField.vue'
@@ -51,9 +53,18 @@ import type { CreateEngagementRecordPayload, EngagementManagementListItem } from
 import { validateCreateEngagementRecordForm } from '~/utils/engagement-validation'
 import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
-withDefaults(defineProps<{ isSubmitting?: boolean }>(), {
-  isSubmitting: false,
-})
+withDefaults(
+  defineProps<{
+    isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
