@@ -6,7 +6,7 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
-      <BaseAlert :message="ENGAGEMENTS_BULK_UPDATE_WARNING" tone="warning" />
+      <BaseAlert :message="warningMessage || ENGAGEMENTS_BULK_UPDATE_WARNING" tone="warning" />
       <BaseAlert
         v-if="errorMessage || validationError"
         :message="errorMessage || validationError"
@@ -74,14 +74,19 @@ const fields: readonly {
   { key: 'default_remarks', label: 'Default Remarks', type: 'textarea' },
 ])
 
-withDefaults(defineProps<{
-  selectedCount: number
-  isSubmitting?: boolean
-  errorMessage?: string
-}>(), {
-  isSubmitting: false,
-  errorMessage: '',
-})
+withDefaults(
+  defineProps<{
+    selectedCount: number
+    isSubmitting?: boolean
+    errorMessage?: string
+    warningMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    errorMessage: '',
+    warningMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
