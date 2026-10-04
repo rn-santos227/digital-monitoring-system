@@ -17,7 +17,7 @@
       >
         <template #trigger>
           <div class="flex items-center gap-2">
-            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-700 text-xs font-semibold text-white">
+            <div :class="userAvatarClasses">
               {{ userInitials }}
             </div>
             <div class="text-left">
@@ -50,7 +50,12 @@
 import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { DASHBOARD_SEARCH_PLACEHOLDER, HEADER_ACCOUNT_MENU_ITEMS } from '~/constants/navigation.constants'
-import { APP_HEADER_CLASSES, APP_SURFACE_THEME_CLASSES } from '~/constants/ui.constants'
+import {
+  APP_AVATAR_CLASSES,
+  APP_AVATAR_THEME_CLASSES,
+  APP_HEADER_CLASSES,
+  APP_SURFACE_THEME_CLASSES,
+} from '~/constants/ui.constants'
 import type { BaseMenuItem } from '~/types/domain/misc'
 import { useLogoutHandler } from '~/handlers'
 import { useProfileSettings } from '~/composables/useProfileSettings'
@@ -66,6 +71,10 @@ const searchQuery = ref('')
 const accountLabel = computed(() => currentUser.value?.fullName || currentUser.value?.email || 'Authenticated User')
 const resolvedTheme = computed(() => (applicationSettingsItem.value?.appTheme ?? 'light') as keyof typeof APP_SURFACE_THEME_CLASSES)
 const headerClasses = computed(() => [APP_HEADER_CLASSES, 'border-b', APP_SURFACE_THEME_CLASSES[resolvedTheme.value] ?? APP_SURFACE_THEME_CLASSES.light])
+const userAvatarClasses = computed(() => [
+  APP_AVATAR_CLASSES,
+  APP_AVATAR_THEME_CLASSES[resolvedTheme.value] ?? APP_AVATAR_THEME_CLASSES.light,
+])
 
 const userInitials = computed(() => {
   const name = currentUser.value?.fullName || currentUser.value?.email || 'AU'
