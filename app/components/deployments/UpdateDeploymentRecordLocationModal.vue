@@ -7,6 +7,7 @@
     @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
       <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
 
       <div class="grid gap-4 md:grid-cols-2">
@@ -50,7 +51,19 @@ import type { DeploymentRecordFormValues, UpdateDeploymentRecordPayload } from '
 import { validateUpdateDeploymentRecordForm } from '~/utils/deployment-validation'
 import { requestCloseForChangedValues, resetFormValues } from '~/utils/form-close-guard'
 
-const props = withDefaults(defineProps<{ initialValues: DeploymentRecordFormValues; isSubmitting?: boolean; errorMessage?: string }>(), { isSubmitting: false, errorMessage: '' })
+const props = withDefaults(
+  defineProps<{
+    initialValues: DeploymentRecordFormValues
+    isSubmitting?: boolean
+    errorMessage?: string
+    warningMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    errorMessage: '',
+    warningMessage: '',
+  },
+)
 const emit = defineEmits<{ (event: 'close'): void; (event: 'submit', payload: UpdateDeploymentRecordPayload): void }>()
 
 const form = reactive({ deployment_area: '', deployment_area_latitude: '', deployment_area_longitude: '', start_date: '', end_date: '', assignment_role: '', location: '', remarks: '' })
