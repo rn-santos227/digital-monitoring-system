@@ -9,6 +9,8 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:frontend": "vitest run tests/unit/frontend",
     "test:endpoints": "vitest run tests/unit/endpoints",
     "test:system": "vitest run tests/unit/system"
   },
