@@ -7,6 +7,8 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
       <PersonnelSuggestionField
         v-model="form.personnelId"
         :selected-personnel-id="props.initialValues.personnelId"
@@ -97,7 +99,7 @@ import { validateUpdateUserProfileForm } from '~/utils/users-validation'
 const props = withDefaults(
   defineProps<{
     accountTypeOptions: RadioOption[]
-    initialValues: {
+    initialValues:{
       personnelId: string | null
       email: string
       fullName: string
@@ -105,9 +107,13 @@ const props = withDefaults(
       accountTypeIds: string[]
     }
     isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
   }>(),
   {
     isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
   },
 )
 
