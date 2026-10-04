@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, computed } from 'vue'
+import { reactive } from 'vue'
 import { useDialog } from '~/composables/useDialog'
 import {
   ENGAGEMENT_CREATE_LEVEL_OPTIONS,
@@ -68,11 +68,18 @@ import type { CreateEngagementPayload } from '~/types/domain/engagement'
 import { validateCreateEngagementForm } from '~/utils/engagement-validation'
 import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
-withDefaults(defineProps<{ isSubmitting?: boolean; warningMessage?: string; errorMessage?: string }>(), {
-  isSubmitting: false,
-  warningMessage: '',
-  errorMessage: '',
-})
+withDefaults(
+  defineProps<{
+    isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
