@@ -7,6 +7,8 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
       <BaseTextField
         v-model="form.code"
         :label="USERS_ACCOUNT_CODE_LABEL"
@@ -74,6 +76,7 @@
 </template>
 
 <script setup lang="ts">
+import type { AccountTypePrivilegeOption, SuggestionFieldOption } from '~/constants/ui.constants'
 import { computed, reactive } from 'vue'
 import {
   USERS_ACCOUNT_CODE_LABEL,
@@ -96,31 +99,30 @@ import {
   USERS_MODAL_CANCEL_LABEL,
   USERS_MODAL_UPDATE_LABEL,
 } from '~/constants/page.constants'
-import type { SuggestionFieldOption } from '~/constants/ui.constants'
 import type { UpdateAccountTypePayload } from '~/types/domain/users'
 import { validateAccountTypeForm } from '~/utils/users-validation'
 
-interface PrivilegeOption {
-  value: string
-  code: string
-  name: string
-  module: string
-}
-
-const props = withDefaults(defineProps<{
-  initialValues: {
-    code: string
-    name: string
-    description: string | null
-    isSystem: boolean
-    permissionIds: string[]
-  }
-  isSubmitting?: boolean
-  privilegeOptions: PrivilegeOption[]
-}>(), {
-  isSubmitting: false,
-  privilegeOptions: () => [],
-})
+const props = withDefaults(
+  defineProps<{
+    initialValues:{
+      code: string
+      name: string
+      description: string | null
+      isSystem: boolean
+      permissionIds: string[]
+    }
+    isSubmitting?: boolean
+    privilegeOptions: AccountTypePrivilegeOption[]
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    privilegeOptions: () => [],
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
@@ -167,8 +169,8 @@ const toModuleLabel = (moduleName: string) => {
     .join(' ')
 }
 
-const groupedPrivilegeOptions = computed(() => {
-  const grouped = (props.privilegeOptions ?? []).reduce<Record<string, PrivilegeOption[]>>((accumulator, option) => {
+const groupedAccountTypePrivilegeOptions = computed(() => {
+  const grouped = (props.privilegeOptions ?? []).reduce<Record<string, AccountTypePrivilegeOption[]>>((accumulator, option) => {
     const moduleOptions = accumulator[option.module] ?? []
     moduleOptions.push(option)
     accumulator[option.module] = moduleOptions
@@ -183,7 +185,7 @@ const groupedPrivilegeOptions = computed(() => {
 })
 
 const privilegeSuggestionOptions = computed<SuggestionFieldOption[]>(() => {
-  return groupedPrivilegeOptions.value.flatMap((group) => {
+  return groupedAccountTypePrivilegeOptions.value.flatMap((group) => {
     return group.items.map((privilege) => ({
       value: privilege.value,
       label: privilege.name,
@@ -196,7 +198,6 @@ const selectedPrivilegeItems = computed(() => {
   const selectedIds = new Set(form.permissionIds)
   return (props.privilegeOptions ?? []).filter((item) => selectedIds.has(item.value))
 })
-
 
 const allPrivilegeIds = computed(() => {
   return (props.privilegeOptions ?? []).map((privilege) => privilege.value)
