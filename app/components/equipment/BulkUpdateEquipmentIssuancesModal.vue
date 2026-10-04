@@ -7,7 +7,7 @@
     @close="emit('close')"
   >
     <form class="grid gap-4 md:grid-cols-2" @submit.prevent="onSubmit">
-      <BaseAlert class="md:col-span-2" :message="EQUIPMENT_BULK_UPDATE_WARNING" tone="warning" />
+      <BaseAlert class="md:col-span-2" :message="warningMessage || EQUIPMENT_BULK_UPDATE_WARNING" tone="warning" />
       <BaseAlert
         v-if="errorMessage || validationError"
         class="md:col-span-2"
@@ -83,17 +83,20 @@ import {
   EQUIPMENT_ISSUANCES_STATUS_OPTIONS,
 } from '~/constants/page.constants'
 import type { EquipmentIssuanceBulkUpdateValues } from '~/types/domain/equipment'
-import {
-  formatBulkUpdateInputValue,
-  validateEquipmentBulkUpdate,
-} from '~/utils/bulk-management-validation'
+import { formatBulkUpdateInputValue, validateEquipmentBulkUpdate } from '~/utils/bulk-management-validation'
+
 withDefaults(
   defineProps<{
     selectedCount: number
     isSubmitting?: boolean
     errorMessage?: string
+    warningMessage?: string
   }>(),
-  { isSubmitting: false, errorMessage: '' },
+  {
+    isSubmitting: false,
+    errorMessage: '',
+    warningMessage: '',
+  },
 )
 const emit = defineEmits<{
   (event: 'close'): void
