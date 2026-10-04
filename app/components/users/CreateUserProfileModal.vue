@@ -7,6 +7,8 @@
     @close="onCloseRequest"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
+      <BaseAlert v-if="warningMessage" :message="warningMessage" tone="warning" />
+      <BaseAlert v-if="errorMessage" :message="errorMessage" tone="danger" />
       <PersonnelSuggestionField
         v-model="form.personnelId"
         @select="onPersonnelSelected"
@@ -141,9 +143,13 @@ const props = withDefaults(
   defineProps<{
     accountTypeOptions: RadioOption[]
     isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
   }>(),
   {
     isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
   },
 )
 
