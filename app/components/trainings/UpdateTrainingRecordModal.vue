@@ -90,22 +90,25 @@ import {
 import type { UpdateTrainingRecordPayload } from '~/types/domain/training'
 import { validateUpdateTrainingRecordForm } from '~/utils/training-validation'
 
-const props = withDefaults(defineProps<{
-  initialValues: {
-    trainingId: string
-    personnelId: string
-    certificateNo: string
-    validUntil: string
-    remarks: string
-  }
-  isSubmitting?: boolean
-  warningMessage?: string
-  errorMessage?: string
-}>(), {
-  isSubmitting: false,
-  warningMessage: '',
-  errorMessage: '',
-})
+const props = withDefaults(
+  defineProps<{
+    initialValues:{
+      trainingId: string
+      personnelId: string
+      certificateNo: string
+      validUntil: string
+      remarks: string
+    }
+    isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
