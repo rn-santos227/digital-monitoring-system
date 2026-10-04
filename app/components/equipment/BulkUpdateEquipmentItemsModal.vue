@@ -7,7 +7,7 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
-      <BaseAlert :message="EQUIPMENT_BULK_UPDATE_WARNING" tone="warning" />
+      <BaseAlert :message="warningMessage || EQUIPMENT_BULK_UPDATE_WARNING" tone="warning" />
       <BaseAlert
         v-if="errorMessage || validationError"
         :message="errorMessage || validationError"
@@ -66,17 +66,20 @@ import {
   EQUIPMENT_ITEMS_BULK_UPDATE_MODAL_TITLE,
 } from '~/constants/page.constants'
 import type { EquipmentItemBulkUpdateValues } from '~/types/domain/equipment'
-import {
-  formatBulkUpdateInputValue,
-  validateEquipmentBulkUpdate,
-} from '~/utils/bulk-management-validation'
+import { formatBulkUpdateInputValue, validateEquipmentBulkUpdate } from '~/utils/bulk-management-validation'
+
 withDefaults(
   defineProps<{
     selectedCount: number
     isSubmitting?: boolean
     errorMessage?: string
+    warningMessage?: string
   }>(),
-  { isSubmitting: false, errorMessage: '' },
+  {
+    isSubmitting: false,
+    errorMessage: '',
+    warningMessage: '',
+  },
 )
 const emit = defineEmits<{
   (event: 'close'): void
