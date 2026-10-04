@@ -51,19 +51,22 @@ import type { UpdateTrainingCategoryPayload } from '~/types/domain/training'
 import { validateUpdateTrainingCategoryForm } from '~/utils/training-validation'
 import { requestCloseForChangedValues, resetFormValues } from '~/utils/form-close-guard'
 
-const props = withDefaults(defineProps<{
-  initialValues: {
-    code: string
-    name: string
-  }
-  isSubmitting?: boolean
-  warningMessage?: string
-  errorMessage?: string
-}>(), {
-  isSubmitting: false,
-  warningMessage: '',
-  errorMessage: '',
-})
+const props = withDefaults(
+  defineProps<{
+    initialValues:{
+      code: string
+      name: string
+    }
+    isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
