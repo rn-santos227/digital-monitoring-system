@@ -39,6 +39,7 @@ const INITIAL_COMPANIES_STATE: CompaniesState = {
 const companiesStoreOptions = {
   state: (): CompaniesState => ({
     ...INITIAL_COMPANIES_STATE,
+    items: [],
     pagination: { ...DEFAULT_PAGINATION },
   }),
 
