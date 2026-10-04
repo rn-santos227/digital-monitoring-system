@@ -28,10 +28,16 @@ import { RANK_CREATE_MODAL_DESCRIPTION, RANK_CREATE_MODAL_TITLE } from '~/consta
 import type { CreateRankPayload } from '~/types/domain/rank'
 import { requestCloseForRequiredFields } from '~/utils/form-close-guard'
 
-withDefaults(defineProps<{ warningMessage?: string; errorMessage?: string }>(), {
-  warningMessage: '',
-  errorMessage: '',
-})
+withDefaults(
+  defineProps<{
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 
 const { showDialog } = useDialog()
 
