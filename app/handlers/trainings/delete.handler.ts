@@ -1,4 +1,4 @@
-import type { Ref } from 'vue'
+import type { DialogInput } from '~/composables/useDialog'
 import { showErrorDialog } from '~/utils/error-handling'
 
 interface UseDeleteTrainingHandlerOptions {
