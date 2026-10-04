@@ -6,7 +6,7 @@
     @close="emit('close')"
   >
     <form class="space-y-4" @submit.prevent="onSubmit">
-      <BaseAlert :message="TRAININGS_BULK_UPDATE_WARNING" tone="warning" />
+      <BaseAlert :message="warningMessage || TRAININGS_BULK_UPDATE_WARNING" tone="warning" />
       <BaseAlert v-if="errorMessage || validationError" :message="errorMessage || validationError" tone="danger" />
       <div v-for="field in fields" :key="field.key" class="space-y-2 rounded-lg border border-slate-200 p-3">
         <BaseCheckbox v-model="enabled[field.key]" :label="field.label" />
@@ -41,7 +41,19 @@ const fields: readonly { key: FieldKey, label: string, type?: 'date' }[] = Objec
   { key: 'remarks', label: 'Remarks' },
 ])
 
-withDefaults(defineProps<{ selectedCount: number, isSubmitting?: boolean, errorMessage?: string }>(), { isSubmitting: false, errorMessage: '' })
+withDefaults(
+  defineProps<{
+    selectedCount: number,
+    isSubmitting?: boolean,
+    errorMessage?: string
+    warningMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    errorMessage: '',
+    warningMessage: '',
+  },
+)
 const emit = defineEmits<{ (event: 'close'): void, (event: 'submit', payload: TrainingRecordBulkUpdateValues): void }>()
 const form = reactive<Record<FieldKey, string>>({ certificate_no: '', valid_until: '', remarks: '' })
 const enabled = reactive<Record<FieldKey, boolean>>({ certificate_no: false, valid_until: false, remarks: false })
