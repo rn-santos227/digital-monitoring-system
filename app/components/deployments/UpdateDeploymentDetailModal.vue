@@ -84,7 +84,10 @@ import {
   TRAININGS_MODAL_CANCEL_LABEL,
   TRAININGS_MODAL_UPDATE_LABEL,
 } from '~/constants/page.constants'
-import { DEPLOYMENTS_CREATE_MODAL_FORM_CLASSES, DEPLOYMENTS_CREATE_MODAL_FORM_PANE_CLASSES } from '~/constants/shared.constants'
+import {
+  DEPLOYMENTS_CREATE_MODAL_FORM_CLASSES,
+  DEPLOYMENTS_CREATE_MODAL_FORM_PANE_CLASSES,
+} from '~/constants/shared.constants'
 import type { CreateDeploymentPayload } from '~/types/domain/deployment'
 import { validateCreateDeploymentForm } from '~/utils/deployment-validation'
 import { requestCloseForChangedValues, resetFormValues } from '~/utils/form-close-guard'
@@ -103,16 +106,19 @@ interface DeploymentFormValues {
   defaultRemarks: string
 }
 
-const props = withDefaults(defineProps<{
-  initialValues: DeploymentFormValues
-  isSubmitting?: boolean
-  warningMessage?: string
-  errorMessage?: string
-}>(), {
-  isSubmitting: false,
-  warningMessage: '',
-  errorMessage: '',
-})
+const props = withDefaults(
+  defineProps<{
+    initialValues: DeploymentFormValues
+    isSubmitting?: boolean
+    warningMessage?: string
+    errorMessage?: string
+  }>(),
+  {
+    isSubmitting: false,
+    warningMessage: '',
+    errorMessage: '',
+  },
+)
 
 const emit = defineEmits<{
   (event: 'close'): void
