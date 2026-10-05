@@ -163,10 +163,14 @@
     </section>
     <CreateTrainingRecordModal
       v-if="isCreateTrainingRecordModalOpen"
+      :is-submitting="isTrainingRecordsLoading"
+      :error-message="trainingRecordsError"
       @close="onCloseCreateTrainingRecordModal"
-      @submit="onCreateTrainingRecord"
+      @submit="onCreateTrainingRecordWithFeedback"
     />
     <UpdateTrainingRecordModal
+      :error-message="trainingRecordsError"
+      :is-submitting="isTrainingRecordsLoading"
       v-if="isUpdateTrainingRecordModalOpen && selectedTrainingRecord"
       :initial-values="selectedTrainingRecordFormValues"
       @close="closeUpdateTrainingRecordModal"
@@ -185,11 +189,15 @@
       @submit="updateSelectedTrainingRecords"
     />
     <CreateTrainingModal
+      :error-message="trainingError"
+      :is-submitting="isTrainingLoading"
       v-if="isCreateTrainingModalOpen"
       @close="onCloseCreateTrainingModal"
       @submit="onCreateTrainingWithFeedback"
     />
     <UpdateTrainingModal
+      :error-message="trainingError"
+      :is-submitting="isTrainingLoading"
       v-if="isUpdateTrainingModalOpen && selectedTraining"
       :initial-values="selectedTrainingFormValues"
       @close="closeUpdateTrainingModal"
@@ -203,11 +211,15 @@
       @close="closeViewTrainingModal"
     />
     <CreateTrainingCategoryModal
+      :error-message="categoryError"
+      :is-submitting="isCategoryLoading"
       v-if="isCreateTrainingCategoryModalOpen"
       @close="onCloseCreateTrainingCategoryModal"
       @submit="onCreateTrainingCategoryWithFeedback"
     />
     <UpdateTrainingCategoryModal
+      :error-message="categoryError"
+      :is-submitting="isCategoryLoading"
       v-if="isUpdateTrainingCategoryModalOpen && selectedTrainingCategory"
       :initial-values="selectedTrainingCategoryFormValues"
       @close="closeUpdateTrainingCategoryModal"
@@ -224,7 +236,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { loadTrainingCalendarEventsHandler } from '~/handlers/trainings'
+import {
+  computed,
+  onMounted,
+  ref,
+  watch,
+} from 'vue'
 import KpiCard from '~/components/general/KpiCard.vue'
 import OperationsCalendar from '~/components/calendar/OperationsCalendar.vue'
 import BulkUpdateTrainingsModal from '~/components/trainings/BulkUpdateTrainingsModal.vue'
@@ -259,7 +277,11 @@ import {
   TRAININGS_CREATE_BUTTON_LABEL,
 } from '~/constants/page.constants'
 import { TRAINING_PRIVILEGES } from '~/constants/privileges.constants'
-import { APP_MAIN_CONTENT_CLASSES, TRAINING_PAGE_HEADER_CLASSES, TRAINING_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
+import {
+  APP_MAIN_CONTENT_CLASSES,
+  TRAINING_PAGE_HEADER_CLASSES,
+  TRAINING_TABLE_ACTIONS_ROW_CLASSES,
+} from '~/constants/shared.constants'
 import {
   useCreateTrainingCategoryHandler,
   useCreateTrainingHandler,
@@ -282,8 +304,12 @@ import {
   createCompleteListPrintHandler,
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
-import type { TrainingCategoryListItem, TrainingListItem, TrainingManagementTabId, TrainingRecordListItem } from '~/types/domain/training'
-import type { CalendarEventsQuery } from '~/types/domain/calendar'
+import type {
+  TrainingCategoryListItem,
+  TrainingListItem,
+  TrainingManagementTabId,
+  TrainingRecordListItem,
+} from '~/types/domain/training'
 import type { FieldValidationMap } from '~/utils/field-validation'
 import { createModalFeedbackHandler } from '~/utils/modal-feedback'
 import { getTrainingPersonnelEndpoint } from '~/utils/training-endpoints'
@@ -574,9 +600,7 @@ const createButtonLabel = computed(() => {
 
 const onTabChange = handleTabChange
 
-const onTrainingCalendarRangeChange = async (query: CalendarEventsQuery) => {
-  await loadTrainingCalendarEvents(query).catch(() => {})
-}
+const onTrainingCalendarRangeChange = loadTrainingCalendarEventsHandler.bind(null, loadTrainingCalendarEvents)
 
 const {
   closeUpdateTrainingRecordModal,
@@ -690,6 +714,13 @@ const {
 const onCreateTrainingWithFeedback = createModalFeedbackHandler(onCreateTraining, showDialog, {
   successTitle: 'Training created',
   successMessage: 'Training record has been created successfully.',
+  errorTitle: 'Create failed',
+  errorMessage: 'Unable to create training record right now.',
+})
+
+const onCreateTrainingRecordWithFeedback = createModalFeedbackHandler(onCreateTrainingRecord, showDialog, {
+  successTitle: 'Training record created',
+  successMessage: 'Personnel training record has been created successfully.',
   errorTitle: 'Create failed',
   errorMessage: 'Unable to create training record right now.',
 })
