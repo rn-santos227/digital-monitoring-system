@@ -110,12 +110,16 @@
       </template>
 
       <CreateBattalionModal
+        :error-message="battalionError"
+        :is-submitting="isBattalionsLoading"
         v-if="isCreateBattalionModalOpen"
         @close="onCloseCreateBattalionModal"
         @submit="handleCreateBattalion"
       />
 
       <UpdateBattalionModal
+        :error-message="battalionError"
+        :is-submitting="isBattalionsLoading"
         v-if="isUpdateBattalionModalOpen && selectedBattalion"
         :initial-values="selectedBattalion"
         @close="onCloseUpdateBattalionModal"
@@ -123,12 +127,16 @@
       />
 
       <CreateCompanyModal
+        :error-message="companyError"
+        :is-submitting="isCompaniesLoading"
         v-if="isCreateCompanyModalOpen"
         @close="onCloseCreateCompanyModal"
         @submit="handleCreateCompany"
       />
 
       <UpdateCompanyModal
+        :error-message="companyError"
+        :is-submitting="isCompaniesLoading"
         v-if="isUpdateCompanyModalOpen && selectedCompany"
         :initial-values="selectedCompany"
         @close="onCloseUpdateCompanyModal"
@@ -196,7 +204,11 @@ import {
   UNITS_PAGE_TITLE,
 } from '~/constants/page.constants'
 import { BATTALION_PRIVILEGES, COMPANY_PRIVILEGES } from '~/constants/privileges.constants'
-import { APP_MAIN_CONTENT_CLASSES, UNITS_PAGE_HEADER_CLASSES, UNITS_TABLE_ACTIONS_ROW_CLASSES } from '~/constants/shared.constants'
+import {
+  APP_MAIN_CONTENT_CLASSES,
+  UNITS_PAGE_HEADER_CLASSES,
+  UNITS_TABLE_ACTIONS_ROW_CLASSES,
+} from '~/constants/shared.constants'
 import {
   useBattalionActionHandler,
   useBattalionFilterHandlers,
@@ -225,11 +237,7 @@ import {
 } from '~/handlers'
 import { useAuthStore } from '~/stores/auth'
 import { useUnitManagementKpisStore } from '~/stores/units'
-import type {
-  UnitManagementTabId,
-  BattalionDetailItem,
-  CompanyDetailItem,
-} from '~/types/domain/units'
+import type { UnitManagementTabId, BattalionDetailItem, CompanyDetailItem } from '~/types/domain/units'
 import type { FieldValidationMap } from '~/utils/field-validation'
 
 const activeTab = ref<UnitManagementTabId>('battalion')
