@@ -136,6 +136,9 @@
         v-if="isCreateUserProfileModalOpen"
         @close="isCreateUserProfileModalOpen = false"
         :account-type-options="accountTypeOptions"
+        :is-submitting="isLoading"
+        :warning-message="profileWarning"
+        :error-message="error"
         @submit="onCreateUserProfileWithFeedback"
       />
 
@@ -144,6 +147,9 @@
         v-if="isUpdateUserProfileModalOpen && selectedUserProfile"
         :account-type-options="accountTypeOptions"
         :initial-values="selectedUserProfile"
+        :is-submitting="isLoading"
+        :warning-message="profileWarning"
+        :error-message="error"
         @close="onCloseUpdateUserProfileModal"
         @submit="onUpdateUserProfileWithFeedback"
       />
@@ -163,6 +169,8 @@
       <CreateAccountTypeModal
         v-if="isAccountTypeModalOpen"
         :privilege-options="privilegeOptions"
+        :is-submitting="isLoading"
+        :error-message="error"
         @close="isAccountTypeModalOpen = false"
         @submit="onCreateAccountTypeWithFeedback"
       />
@@ -171,6 +179,8 @@
         v-if="isUpdateAccountTypeModalOpen && selectedAccountType"
         :initial-values="selectedAccountType"
         :privilege-options="privilegeOptions"
+        :is-submitting="isLoading"
+        :error-message="error"
         @close="onCloseUpdateAccountTypeModal"
         @submit="onUpdateAccountTypeWithFeedback"
       />
