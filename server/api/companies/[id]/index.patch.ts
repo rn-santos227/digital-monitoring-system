@@ -1,4 +1,9 @@
-import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
+import {
+  createError,
+  defineEventHandler,
+  getRouterParam,
+  readBody,
+} from 'h3'
 import type { UpdateCompanyRequest } from '../../../shared/requests'
 import type { MutationSuccessResponse } from '../../../shared/responses'
 import {
@@ -7,7 +12,7 @@ import {
   AUDIT_LOG_OUTCOMES,
   PERMISSION_CODES,
 } from '../../../shared/constants'
-import { buildCompanyUpdates, requireRouteId } from '../../../shared/validations'
+import { buildCompanyUpdates, requireRouteId } from '../../../shared/validation'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
