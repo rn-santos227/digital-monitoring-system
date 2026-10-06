@@ -7,7 +7,7 @@ import {
   DEPLOYMENT_PERMISSION_GROUPS,
 } from '../../../shared/constants'
 import { mapDeploymentDetailListItem } from '../../../shared/utils'
-import { requireRouteId } from '../../../shared/validations'
+import { requireRouteId } from '../../../shared/validation'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
