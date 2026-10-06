@@ -1,11 +1,13 @@
-import { createError, defineEventHandler, getQuery, getRouterParam } from 'h3'
+import {
+  createError,
+  defineEventHandler,
+  getQuery,
+  getRouterParam,
+} from 'h3'
 import type { BattalionEquipmentAssetListResponse } from '../../../shared/responses'
 import { UNIT_PERMISSION_GROUPS } from '../../../shared/constants'
-import {
-  mapUnitEquipmentAssetListItem,
-  parseManagementPaginationQuery,
-} from '../../../shared/utils'
-import { requireRouteId } from '../../../shared/validations'
+import { mapUnitEquipmentAssetListItem, parseManagementPaginationQuery } from '../../../shared/utils'
+import { requireRouteId } from '../../../shared/validation'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { fetchBattalionEquipmentAssets } from '../../../utils/battalions/fetchBattalionEquipmentAssets'
