@@ -4,7 +4,7 @@ import { MANAGEMENT_PERMISSION_GROUPS } from '../../../shared/constants'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { getAccountTypeDetailById } from '../../../utils/account-types/getAccountTypeDetailById'
-import { requireRouteId } from '../../../shared/validations'
+import { requireRouteId } from '../../../shared/validation'
 
 export default defineEventHandler(async (event): Promise<AccountTypeDetailResponse> => {
   await requireAnyPermission(event, MANAGEMENT_PERMISSION_GROUPS.accountTypeManagement)
