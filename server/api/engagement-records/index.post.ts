@@ -1,19 +1,25 @@
 import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreateEngagementRecordRequest } from '../../shared/requests'
 import type { CreateEngagementRecordResponse } from '../../shared/responses'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, ID_ONLY_SELECT_COLUMNS, PERMISSION_CODES } from '../../shared/constants'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  ID_ONLY_SELECT_COLUMNS,
+  PERMISSION_CODES,
+} from '../../shared/constants'
 import { assertPersonnelExists, buildEngagementRecordNo, mapEngagementRecordListItem } from '../../shared/utils'
-import { parseCreateEngagementRecordPayload } from '../../shared/validations'
+import { parseCreateEngagementRecordPayload } from '../../shared/validation'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
-const REQUIRED_PERMISSION_CODE = PERMISSION_CODES.engagementManage
-
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../utils/db/executeWithRollback'
 import { createEngagementRecord } from '../../utils/engagement-records/createEngagementRecord'
 import { deleteEngagementRecordById } from '../../utils/engagement-records/deleteEngagementRecordById'
 import { getEngagementRecordById } from '../../utils/engagement-records/getEngagementRecordById'
 import { getEngagementSourceById } from '../../utils/engagement-records/getEngagementSourceById'
+
+const REQUIRED_PERMISSION_CODE = PERMISSION_CODES.engagementManage
 
 export default defineEventHandler(async (event): Promise<CreateEngagementRecordResponse> => {
   const actor = await requirePermission(event, REQUIRED_PERMISSION_CODE)
