@@ -1,23 +1,14 @@
 import { defineEventHandler, getQuery } from 'h3'
 import { PERMISSION_CODES } from '../../shared/constants'
-import type { DashboardDeploymentHistoryItem, DashboardPersonnelDeploymentHistoryResponse } from '../../shared/responses'
-import { parseDashboardParameters } from '../../shared/validations'
-import { toFullName } from '../../shared/utils'
+import type {
+  DashboardDeploymentHistoryItem,
+  DashboardPersonnelDeploymentHistoryResponse,
+} from '../../shared/responses'
+import { parseDashboardParameters } from '../../shared/validation'
+import { firstRelatedItem, toFullName } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
-import { fetchDeploymentHistory, type DeploymentHistoryRow } from '../../utils/dashboard/fetchDeploymentHistory'
-
-const toPerson = (value: DeploymentHistoryRow['personnel']): { first_name: string; last_name: string } | null => {
-  if (!value) {
-    return null
-  }
-
-  if (Array.isArray(value)) {
-    return value[0] ?? null
-  }
-
-  return value
-}
+import { fetchDeploymentHistory } from '../../utils/dashboard/fetchDeploymentHistory'
 
 export default defineEventHandler(async (event): Promise<DashboardPersonnelDeploymentHistoryResponse> => {
   await requirePermission(event, PERMISSION_CODES.personnelView)
@@ -29,7 +20,7 @@ export default defineEventHandler(async (event): Promise<DashboardPersonnelDeplo
 
   const rows = await fetchDeploymentHistory(supabase, parameters.itemLimit)
   const items: DashboardDeploymentHistoryItem[] = rows.map((row) => {
-    const person = toPerson(row.personnel)
+    const person = firstRelatedItem(row.personnel)
 
     return {
       personnelId: row.personnel_id,
