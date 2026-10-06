@@ -14,7 +14,7 @@ import {
   resolveDeploymentStatusId,
   resolvePersonnelServiceStatusId,
 } from '../../shared/utils'
-import { parseCreateDeploymentPayload } from '../../shared/validations'
+import { parseCreateDeploymentPayload } from '../../shared/validation'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
