@@ -2,10 +2,12 @@ import { defineEventHandler, getRouterParam } from 'h3'
 import type { DeploymentPersonnelListResponse } from '../../../shared/responses'
 import { DEPLOYMENT_PERMISSION_GROUPS } from '../../../shared/constants'
 import { mapUnitPersonnelListItem } from '../../../shared/utils'
-import { requireRouteId } from '../../../shared/validations'
+import { requireRouteId } from '../../../shared/validation'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
-import { fetchDeploymentPersonnelByDeploymentId } from '../../../utils/deployments/fetchDeploymentPersonnelByDeploymentId'
+import {
+  fetchDeploymentPersonnelByDeploymentId,
+} from '../../../utils/deployments/fetchDeploymentPersonnelByDeploymentId'
 
 export default defineEventHandler(async (event): Promise<DeploymentPersonnelListResponse> => {
   await requireAnyPermission(event, DEPLOYMENT_PERMISSION_GROUPS.deploymentManagement)
