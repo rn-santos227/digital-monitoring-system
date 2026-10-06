@@ -1,15 +1,20 @@
 import { createError, defineEventHandler, getRouterParam } from 'h3'
 import type { MutationSuccessResponse } from '../../../shared/responses'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../../shared/constants'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  PERMISSION_CODES,
+} from '../../../shared/constants'
 import { mapEngagementRecordListItem } from '../../../shared/utils'
-import { requireRouteId } from '../../../shared/validations'
+import { requireRouteId } from '../../../shared/validation'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
-const REQUIRED_PERMISSION_CODE = PERMISSION_CODES.engagementManage
-
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { deleteEngagementRecordById } from '../../../utils/engagement-records/deleteEngagementRecordById'
 import { getEngagementRecordById } from '../../../utils/engagement-records/getEngagementRecordById'
+
+const REQUIRED_PERMISSION_CODE = PERMISSION_CODES.engagementManage
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
   const actor = await requirePermission(event, REQUIRED_PERMISSION_CODE)
