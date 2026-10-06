@@ -7,7 +7,7 @@ import {
   AUDIT_LOG_OUTCOMES,
   PERMISSION_CODES,
 } from '../../shared/constants'
-import { parseRecordPrintedTableAuditPayload } from '../../shared/validations'
+import { parseRecordPrintedTableAuditPayload } from '../../shared/validation'
 import { recordApiAuditLog } from '../../utils/audit/recordApiAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 
