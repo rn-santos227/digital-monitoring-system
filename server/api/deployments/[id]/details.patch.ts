@@ -1,19 +1,30 @@
-import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
+import {
+  createError,
+  defineEventHandler,
+  getRouterParam,
+  readBody,
+} from 'h3'
 import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
   DEPLOYMENT_PERMISSION_GROUPS,
 } from '../../../shared/constants'
-import { assertPersonnelExists, resolveDeploymentStatusId, resolvePersonnelServiceStatusId } from '../../../shared/utils'
+import {
+  assertPersonnelExists,
+  resolveDeploymentStatusId,
+  resolvePersonnelServiceStatusId,
+} from '../../../shared/utils'
 import type { UpdateDeploymentRequest } from '../../../shared/requests'
-import { buildDeploymentUpdates, requireRouteId, validateDeploymentDateRange } from '../../../shared/validations'
+import { buildDeploymentUpdates, requireRouteId, validateDeploymentDateRange } from '../../../shared/validation'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
 import { deleteDeploymentRecordByRecordNo } from '../../../utils/deployment-records/deleteDeploymentRecordByRecordNo'
-import { ensureDeploymentPersonnelAssignment } from '../../../utils/deployment-records/ensureDeploymentPersonnelAssignment'
+import {
+  ensureDeploymentPersonnelAssignment,
+} from '../../../utils/deployment-records/ensureDeploymentPersonnelAssignment'
 import { getDeploymentById } from '../../../utils/deployments/getDeploymentById'
 import { getPersonnelServiceStatusById } from '../../../utils/deployments/getPersonnelServiceStatusById'
 import { updateDeploymentById } from '../../../utils/deployments/updateDeploymentById'
