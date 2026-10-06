@@ -1,14 +1,13 @@
 import { defineEventHandler, getQuery } from 'h3'
 import { PERMISSION_CODES } from '../../shared/constants'
 import type { DashboardTopKpisResponse } from '../../shared/responses'
-import { parseDashboardParameters } from '../../shared/validations'
-import {
-  buildPersonnelSummaryMetrics,
-  normalizeDashboardPersonnelStatusRows,
-} from '../../shared/utils'
+import { parseDashboardParameters } from '../../shared/validation'
+import { buildPersonnelSummaryMetrics, normalizeDashboardPersonnelStatusRows } from '../../shared/utils'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
-import { fetchPersonnelStatusAndActiveDeployments } from '../../utils/dashboard/fetchPersonnelStatusAndActiveDeployments'
+import {
+  fetchPersonnelStatusAndActiveDeployments,
+} from '../../utils/dashboard/fetchPersonnelStatusAndActiveDeployments'
 
 export default defineEventHandler(async (event): Promise<DashboardTopKpisResponse> => {
   await requirePermission(event, PERMISSION_CODES.personnelView)
