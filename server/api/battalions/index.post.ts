@@ -1,8 +1,13 @@
 import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreateBattalionRequest } from '../../shared/requests'
 import type { CreateBattalionResponse } from '../../shared/responses'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
-import { parseCreateBattalionPayload } from '../../shared/validations'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  PERMISSION_CODES,
+} from '../../shared/constants'
+import { parseCreateBattalionPayload } from '../../shared/validation'
 import { mapBattalionListItem } from '../../shared/utils'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
