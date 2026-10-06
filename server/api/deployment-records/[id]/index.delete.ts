@@ -1,13 +1,13 @@
 import { createError, defineEventHandler, getRouterParam } from 'h3'
 import type { MutationSuccessResponse } from '../../../shared/responses'
-import { 
+import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
-  DEPLOYMENT_PERMISSION_GROUPS
+  DEPLOYMENT_PERMISSION_GROUPS,
 } from '../../../shared/constants'
 import { mapDeploymentRecordListItem } from '../../../shared/utils'
-import { requireRouteId } from '../../../shared/validations'
+import { requireRouteId } from '../../../shared/validation'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
