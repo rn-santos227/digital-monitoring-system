@@ -1,15 +1,20 @@
-import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
+import {
+  createError,
+  defineEventHandler,
+  getRouterParam,
+  readBody,
+} from 'h3'
 import type { UpdateDeploymentRecordRequest } from '../../../shared/requests'
 import type { MutationSuccessResponse } from '../../../shared/responses'
-import { 
+import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
   AUDIT_LOG_OUTCOMES,
   ID_ONLY_SELECT_COLUMNS,
-  DEPLOYMENT_PERMISSION_GROUPS
+  DEPLOYMENT_PERMISSION_GROUPS,
 } from '../../../shared/constants'
 import { assertPersonnelExists, mapDeploymentRecordListItem } from '../../../shared/utils'
-import { buildDeploymentRecordUpdates, requireRouteId, validateDeploymentDateRange } from '../../../shared/validations'
+import { buildDeploymentRecordUpdates, requireRouteId, validateDeploymentDateRange } from '../../../shared/validation'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
