@@ -1,16 +1,11 @@
 import { defineEventHandler, getQuery, getRouterParam } from 'h3'
 import type { BattalionPersonnelListResponse } from '../../../shared/responses'
 import { ID_ONLY_SELECT_COLUMNS, UNIT_PERMISSION_GROUPS } from '../../../shared/constants'
-import {
-  assertBattalionExists,
-  mapUnitPersonnelListItem,
-  parseManagementPaginationQuery,
-} from '../../../shared/utils'
-import { requireRouteId } from '../../../shared/validations'
+import { assertBattalionExists, mapUnitPersonnelListItem, parseManagementPaginationQuery } from '../../../shared/utils'
+import { requireRouteId } from '../../../shared/validation'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { fetchBattalionPersonnel } from '../../../utils/battalions/fetchBattalionPersonnel'
-
 
 export default defineEventHandler(async (event): Promise<BattalionPersonnelListResponse> => {
   await requireAnyPermission(event, UNIT_PERMISSION_GROUPS.battalionManagement)
