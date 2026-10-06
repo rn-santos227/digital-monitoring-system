@@ -2,9 +2,19 @@ import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreateEngagementRequest } from '../../shared/requests'
 import type { CreateEngagementResponse } from '../../shared/responses'
 import type { EngagementCreate } from '../../shared/models'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
-import { resolveEngagementLevelId, resolveEngagementStatusId, resolveEngagementTypeId, mapEngagementListItem } from '../../shared/utils'
-import { parseCreateEngagementPayload } from '../../shared/validations'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  PERMISSION_CODES,
+} from '../../shared/constants'
+import {
+  resolveEngagementLevelId,
+  resolveEngagementStatusId,
+  resolveEngagementTypeId,
+  mapEngagementListItem,
+} from '../../shared/utils'
+import { parseCreateEngagementPayload } from '../../shared/validation'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
