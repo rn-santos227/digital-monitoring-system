@@ -1,18 +1,19 @@
-import { createError, defineEventHandler, readBody, setCookie } from 'h3'
 import {
-  AUDIT_LOG_ACTIONS,
-  AUDIT_LOG_ENDPOINTS,
-  AUDIT_LOG_OUTCOMES,
-  SESSION_COOKIE_NAME,
-  SESSION_DURATION_HOURS,
-} from '../../shared/constants'
-import type { LoginBody } from '../../shared/models'
+  createError,
+  defineEventHandler,
+  readBody,
+  setCookie,
+} from 'h3'
+import { AUDIT_LOG_OUTCOMES, SESSION_COOKIE_NAME, SESSION_DURATION_HOURS } from '../../shared/constants'
+import type { LoginBody } from '../../shared/requests'
 import { buildLoginAuditRequestData, getRequestIpAddress } from '../../shared/utils'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { generateSessionToken } from '../../utils/auth/sessionToken'
-import { recordApiAuditLog } from '../../utils/audit/recordApiAuditLog'
+import { createLoginAuditHandlers } from '../../utils/auth/createLoginAuditHandlers'
 import { fetchUserPrivilegeClaims } from '../../utils/auth/privileges'
 import { updateUserLastLoginAt } from '../../utils/auth/updateUserLastLoginAt'
+import { revokeSessionByToken } from '../../utils/auth/revokeSessionByToken'
+import { executeWithRollback } from '../../utils/db/executeWithRollback'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<LoginBody>(event)
@@ -21,58 +22,11 @@ export default defineEventHandler(async (event) => {
   const rememberSession = body.rememberSession !== false
   const requestData = buildLoginAuditRequestData(email, password)
 
-  const recordLoginAuditLog = async (
-    callback: () => Promise<void>
-  ): Promise<void> => {
-    try {
-      await callback()
-    } catch (auditError) {
-      console.error('Failed to persist auth login audit log.', auditError)
-    }
-  }
+  const { writeLoginAttempt, writeLoginSuccess } = createLoginAuditHandlers(event, requestData)
 
-  const writeLoginAttempt = async (
-    statusCode: number,
-    outcome: (typeof AUDIT_LOG_OUTCOMES)[keyof typeof AUDIT_LOG_OUTCOMES],
-    userId?: string | null,
-    message?: string
-  ) => {
-    await recordLoginAuditLog(async () => {
-      await recordApiAuditLog(event, {
-        userId: userId ?? null,
-        action: AUDIT_LOG_ACTIONS.loginAttempt,
-        tableName: 'auth_sessions',
-        requestData,
-        responseData: {
-          outcome,
-          message: message ?? null,
-        },
-        statusCode,
-        metadata: {
-          endpoint: AUDIT_LOG_ENDPOINTS.authLogin,
-        },
-      })
-    })
-  }
+  
 
-  const writeLoginSuccess = async (userId: string) => {
-    await recordLoginAuditLog(async () => {
-      await recordApiAuditLog(event, {
-        userId,
-        action: AUDIT_LOG_ACTIONS.login,
-        tableName: 'auth_sessions',
-        requestData,
-        responseData: {
-          ok: true,
-          expiresAt: expiresAtDate.toISOString(),
-        },
-        statusCode: 200,
-        metadata: {
-          endpoint: AUDIT_LOG_ENDPOINTS.authLogin,
-        },
-      })
-    })
-  }
+  
 
   if (!email || !password) {
     await writeLoginAttempt(400, AUDIT_LOG_OUTCOMES.failed, null, 'Email and password are required.')
@@ -90,7 +44,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 500, statusMessage: `Login failed: ${authError.message}` })
   }
 
-  const authenticatedUser = authData?.[0]
+  const authenticatedUser = authData?.[0] ?? null
   if (!authenticatedUser) {
     await writeLoginAttempt(401, AUDIT_LOG_OUTCOMES.failed, null, 'Invalid email or password.')
     throw createError({ statusCode: 401, statusMessage: 'Invalid email or password.' })
@@ -129,8 +83,21 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 500, statusMessage: `Failed to create session: ${sessionError.message}` })
   }
 
+  let privilegeClaims: Awaited<ReturnType<typeof fetchUserPrivilegeClaims>>
   try {
-    await updateUserLastLoginAt(supabase, authenticatedUser.user_id)
+    privilegeClaims = await executeWithRollback({
+      operation: async () => {
+        const claims = await fetchUserPrivilegeClaims(authenticatedUser.user_id)
+        await updateUserLastLoginAt(supabase, authenticatedUser.user_id)
+        return claims
+      },
+      rollback: async () => {
+        await revokeSessionByToken(supabase, token)
+      },
+      onRollbackError: (rollbackError) => {
+        console.error('Failed to revoke an unsuccessful login session.', rollbackError)
+      },
+    })
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to update last login.'
     await writeLoginAttempt(500, AUDIT_LOG_OUTCOMES.failed, authenticatedUser.user_id, message)
@@ -138,8 +105,8 @@ export default defineEventHandler(async (event) => {
   }
 
   await writeLoginAttempt(200, AUDIT_LOG_OUTCOMES.success, authenticatedUser.user_id, 'Authentication successful.')
-  await writeLoginSuccess(authenticatedUser.user_id)
-  const { accountTypeCodes, permissionCodes } = await fetchUserPrivilegeClaims(authenticatedUser.user_id)
+  await writeLoginSuccess(authenticatedUser.user_id, expiresAtDate.toISOString())
+  const { accountTypeCodes, permissionCodes } = privilegeClaims
 
   setCookie(event, SESSION_COOKIE_NAME, token, {
     httpOnly: true,
