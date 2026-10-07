@@ -1,14 +1,13 @@
 import { createError, defineEventHandler, getQuery } from 'h3'
 import type { PersonnelListCompactResponse } from '../../shared/responses'
-import { PERSONNEL_PERMISSION_GROUPS, PERSONNEL_PROFILE_LIST_SELECT_COLUMNS } from '../../shared/constants'
+import { PERSONNEL_PERMISSION_GROUPS } from '../../shared/constants'
 import { mapPersonnelCompactListItem, parseManagementPaginationQuery } from '../../shared/utils'
-import { parsePersonnelAdvancedSearchConditions } from '../../shared/validations'
+import { parsePersonnelAdvancedSearchConditions } from '../../shared/validation'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
 import { buildPersonnelAdvancedSearchFilters } from '../../utils/personnel/buildPersonnelAdvancedSearchFilters'
 import { buildPersonnelSearchFilters } from '../../utils/personnel/buildPersonnelSearchFilters'
 import { searchPersonnel } from '../../utils/personnel/searchPersonnel'
-
 
 export default defineEventHandler(async (event): Promise<PersonnelListCompactResponse> => {
   await requireAnyPermission(event, PERSONNEL_PERMISSION_GROUPS.personnelManagement)
