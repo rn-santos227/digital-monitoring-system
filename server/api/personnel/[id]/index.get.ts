@@ -4,7 +4,7 @@ import { PERSONNEL_PERMISSION_GROUPS } from '../../../shared/constants'
 import { mapPersonnelDetail } from '../../../shared/utils'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
-import { requireRouteId } from '../../../shared/validations'
+import { requireRouteId } from '../../../shared/validation'
 import { getPersonnelById } from '../../../utils/personnel/getPersonnelById'
 
 export default defineEventHandler(async (event): Promise<PersonnelDetailResponse> => {
