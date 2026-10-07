@@ -1,4 +1,9 @@
-import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
+import {
+  createError,
+  defineEventHandler,
+  getRouterParam,
+  readBody,
+} from 'h3'
 import {
   AUDIT_LOG_ACTIONS,
   AUDIT_LOG_ENDPOINTS,
@@ -7,7 +12,7 @@ import {
 } from '../../../shared/constants'
 import type { UpdateEquipmentAssetRequest } from '../../../shared/requests'
 import type { MutationSuccessResponse } from '../../../shared/responses'
-import { buildEquipmentAssetUpdates, requireRouteId } from '../../../shared/validations'
+import { buildEquipmentAssetUpdates, requireRouteId } from '../../../shared/validation'
 import {
   resolveEquipmentAssetStatusId,
   resolveEquipmentConditionStatusId,
