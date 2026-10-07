@@ -1,9 +1,18 @@
 import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreateEquipmentIssuanceRequest } from '../../shared/requests'
 import type { CreateEquipmentIssuanceApiResponse } from '../../shared/responses'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
-import { mapEquipmentIssuanceListItem, resolveEquipmentAssetStatusId, resolveEquipmentIssuanceStatusId } from '../../shared/utils'
-import { parseCreateEquipmentIssuancePayload } from '../../shared/validations'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  PERMISSION_CODES,
+} from '../../shared/constants'
+import {
+  mapEquipmentIssuanceListItem,
+  resolveEquipmentAssetStatusId,
+  resolveEquipmentIssuanceStatusId,
+} from '../../shared/utils'
+import { parseCreateEquipmentIssuancePayload } from '../../shared/validation'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
