@@ -1,9 +1,14 @@
 import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreateEquipmentCategoryRequest } from '../../shared/requests'
 import type { CreateEquipmentCategoryApiResponse } from '../../shared/responses'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  PERMISSION_CODES,
+} from '../../shared/constants'
 import { mapEquipmentCategoryListItem } from '../../shared/utils'
-import { parseCreateEquipmentCategoryPayload } from '../../shared/validations'
+import { parseCreateEquipmentCategoryPayload } from '../../shared/validation'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
