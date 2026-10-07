@@ -9,7 +9,7 @@ import {
   PERMISSION_CODES,
   PERSONNEL_REFERENCE_ID_SELECT_COLUMNS,
 } from '../../shared/constants'
-import { parseCreatePersonnelPayload } from '../../shared/validations'
+import { parseCreatePersonnelPayload } from '../../shared/validation'
 import {
   mapPersonnelDetail,
   resolvePersonnelEmploymentStatusId,
@@ -42,8 +42,6 @@ export default defineEventHandler(async (event): Promise<CreatePersonnelResponse
 
     payload.employment_status_id = await resolvePersonnelEmploymentStatusId(supabase, payload.employment_status_id)
     payload.service_status_id = await resolvePersonnelServiceStatusId(supabase, payload.service_status_id)
-    payload.company_id
-    
     const resolvedAssignment = await resolvePersonnelUnitAssignment(supabase, {
       companyId: payload.company_id ?? null,
       battalionId: payload.battalion_id ?? null,
