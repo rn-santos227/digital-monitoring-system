@@ -1,9 +1,27 @@
-import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
+import {
+  createError,
+  defineEventHandler,
+  getRouterParam,
+  readBody,
+} from 'h3'
 import type { CreateEngagementRecordRequest } from '../../../shared/requests'
 import type { CreateEngagementRecordResponse } from '../../../shared/responses'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, ID_ONLY_SELECT_COLUMNS, PERMISSION_CODES } from '../../../shared/constants'
-import { PERSONNEL_ROUTE_ID_REQUIRED_MESSAGE, PERSONNEL_ROUTE_PARAM_KEY, withPersonnelId, assertPersonnelExists, buildEngagementRecordNo, mapEngagementRecordListItem } from '../../../shared/utils'
-import { parseCreateEngagementRecordPayload, requireRouteId } from '../../../shared/validations'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  ID_ONLY_SELECT_COLUMNS,
+  PERMISSION_CODES,
+} from '../../../shared/constants'
+import {
+  PERSONNEL_ROUTE_ID_REQUIRED_MESSAGE,
+  PERSONNEL_ROUTE_PARAM_KEY,
+  withPersonnelId,
+  assertPersonnelExists,
+  buildEngagementRecordNo,
+  mapEngagementRecordListItem,
+} from '../../../shared/utils'
+import { parseCreateEngagementRecordPayload, requireRouteId } from '../../../shared/validation'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { executeWithRollback } from '../../../utils/db/executeWithRollback'
