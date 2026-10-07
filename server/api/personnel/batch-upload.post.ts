@@ -6,7 +6,7 @@ import {
   AUDIT_LOG_OUTCOMES,
   PERMISSION_CODES,
 } from '../../shared/constants'
-import { validateUploadFilePart } from '../../shared/validations'
+import { validateUploadFilePart } from '../../shared/validation'
 import { parsePersonnelBatchUploadWorkbook } from '../../shared/utils'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
