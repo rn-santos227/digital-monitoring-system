@@ -7,7 +7,7 @@ import {
 } from '../../shared/constants'
 import type { CreateEquipmentAssetRequest } from '../../shared/requests'
 import type { CreateEquipmentAssetApiResponse } from '../../shared/responses'
-import { parseCreateEquipmentAssetPayload } from '../../shared/validations'
+import { parseCreateEquipmentAssetPayload } from '../../shared/validation'
 import {
   mapEquipmentAssetListItem,
   resolveEquipmentAssetStatusId,
