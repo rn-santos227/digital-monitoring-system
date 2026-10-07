@@ -1,4 +1,9 @@
-import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
+import {
+  createError,
+  defineEventHandler,
+  getRouterParam,
+  readBody,
+} from 'h3'
 import type { UpdatePersonnelRequest } from '../../../shared/requests'
 import type { PersonnelUpdate } from '../../../shared/models'
 import type { MutationSuccessResponse } from '../../../shared/responses'
@@ -11,7 +16,7 @@ import {
   PERSONNEL_PATCH_UPDATED_SELECT_COLUMNS,
   PERSONNEL_REFERENCE_ID_SELECT_COLUMNS,
 } from '../../../shared/constants'
-import { buildPersonnelUpdates, requireRouteId } from '../../../shared/validations'
+import { buildPersonnelUpdates, requireRouteId } from '../../../shared/validation'
 import {
   resolvePersonnelEmploymentStatusId,
   resolvePersonnelServiceStatusId,
