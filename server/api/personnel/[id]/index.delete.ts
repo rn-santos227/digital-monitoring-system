@@ -7,7 +7,7 @@ import {
   PERMISSION_CODES,
   PERSONNEL_PROFILE_LIST_SELECT_COLUMNS,
 } from '../../../shared/constants'
-import { requireRouteId } from '../../../shared/validations'
+import { requireRouteId } from '../../../shared/validation'
 import { getPersonnelRelationshipCounts, mapPersonnelRelationshipCountsResponse } from '../../../shared/utils'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
