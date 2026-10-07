@@ -1,9 +1,27 @@
-import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
+import {
+  createError,
+  defineEventHandler,
+  getRouterParam,
+  readBody,
+} from 'h3'
 import type { CreateTrainingRecordRequest } from '../../../shared/requests'
 import type { CreateTrainingRecordResponse } from '../../../shared/responses'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, ID_ONLY_SELECT_COLUMNS, PERMISSION_CODES } from '../../../shared/constants'
-import { PERSONNEL_ROUTE_ID_REQUIRED_MESSAGE, PERSONNEL_ROUTE_PARAM_KEY, withPersonnelId, assertPersonnelExists, buildTrainingRecordNo, mapTrainingRecordListItem } from '../../../shared/utils'
-import { parseCreateTrainingRecordPayload, requireRouteId } from '../../../shared/validations'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  ID_ONLY_SELECT_COLUMNS,
+  PERMISSION_CODES,
+} from '../../../shared/constants'
+import {
+  PERSONNEL_ROUTE_ID_REQUIRED_MESSAGE,
+  PERSONNEL_ROUTE_PARAM_KEY,
+  withPersonnelId,
+  assertPersonnelExists,
+  buildTrainingRecordNo,
+  mapTrainingRecordListItem,
+} from '../../../shared/utils'
+import { parseCreateTrainingRecordPayload, requireRouteId } from '../../../shared/validation'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
