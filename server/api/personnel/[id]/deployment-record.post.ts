@@ -1,9 +1,27 @@
-import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
+import {
+  createError,
+  defineEventHandler,
+  getRouterParam,
+  readBody,
+} from 'h3'
 import type { CreateDeploymentRecordFromDeploymentRequest } from '../../../shared/requests'
 import type { CreateDeploymentRecordResponse } from '../../../shared/responses'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, DEPLOYMENT_PERMISSION_GROUPS, ID_ONLY_SELECT_COLUMNS } from '../../../shared/constants'
-import { PERSONNEL_ROUTE_ID_REQUIRED_MESSAGE, PERSONNEL_ROUTE_PARAM_KEY, withPersonnelId, assertPersonnelExists, mapDeploymentRecordListItem, resolvePersonnelServiceStatusId } from '../../../shared/utils'
-import { parseCreateDeploymentRecordFromDeploymentPayload, requireRouteId } from '../../../shared/validations'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  DEPLOYMENT_PERMISSION_GROUPS,
+  ID_ONLY_SELECT_COLUMNS,
+} from '../../../shared/constants'
+import {
+  PERSONNEL_ROUTE_ID_REQUIRED_MESSAGE,
+  PERSONNEL_ROUTE_PARAM_KEY,
+  withPersonnelId,
+  assertPersonnelExists,
+  mapDeploymentRecordListItem,
+  resolvePersonnelServiceStatusId,
+} from '../../../shared/utils'
+import { parseCreateDeploymentRecordFromDeploymentPayload, requireRouteId } from '../../../shared/validation'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
