@@ -8,7 +8,7 @@ import {
   INCIDENT_MUTATION_PERMISSION_CODES,
 } from '../../shared/constants'
 import { mapEquipmentIncidentListItem } from '../../shared/utils'
-import { parseCreateEquipmentIncidentPayload } from '../../shared/validations'
+import { parseCreateEquipmentIncidentPayload } from '../../shared/validation'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requireAnyPermission } from '../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
