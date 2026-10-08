@@ -8,7 +8,7 @@ import {
   PERMISSION_CODES,
   USER_PROFILE_ACTIVATION_SELECT_COLUMNS,
 } from '../../../shared/constants'
-import { parseActivationPayload, requireRouteId } from '../../../shared/validations'
+import { parseActivationPayload, requireRouteId } from '../../../shared/validation'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
