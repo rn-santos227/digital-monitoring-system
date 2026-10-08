@@ -1,4 +1,9 @@
-import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
+import {
+  createError,
+  defineEventHandler,
+  getRouterParam,
+  readBody,
+} from 'h3'
 import type { UpdateUserPasswordRequest } from '../../../shared/requests'
 import type { MutationSuccessResponse } from '../../../shared/responses'
 import {
@@ -8,7 +13,7 @@ import {
   PERMISSION_CODES,
   USER_PROFILE_PASSWORD_SELECT_COLUMNS,
 } from '../../../shared/constants'
-import { parsePasswordUpdatePayload, requireRouteId } from '../../../shared/validations'
+import { parsePasswordUpdatePayload, requireRouteId } from '../../../shared/validation'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requireAuth } from '../../../utils/auth/requireAuth'
 import { requirePermission } from '../../../utils/auth/requirePermission'
