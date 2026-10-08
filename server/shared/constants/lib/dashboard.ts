@@ -10,3 +10,5 @@ export const DEFAULT_DASHBOARD_PARAMETERS = Object.freeze({
   deploymentLimit: 500,
   itemLimit: 10,
 })
+export const NEAR_ROTATION_WINDOW_DAYS = 14
+export const DASHBOARD_MILLISECONDS_PER_DAY = 86400000
