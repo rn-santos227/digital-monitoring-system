@@ -6,7 +6,7 @@ import { requireAuth } from '../../../utils/auth/requireAuth'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { getUserProfileById } from '../../../utils/users/getUserProfileById'
-import { requireRouteId } from '../../../shared/validations'
+import { requireRouteId } from '../../../shared/validation'
 
 export default defineEventHandler(async (event): Promise<UserProfileDetailResponse> => {
   const actor = await requireAuth(event)
