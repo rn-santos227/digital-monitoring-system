@@ -1,4 +1,9 @@
-import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
+import {
+  createError,
+  defineEventHandler,
+  getRouterParam,
+  readBody,
+} from 'h3'
 import type { UpdateUserProfileRequest } from '../../../shared/requests'
 import type { MutationSuccessResponse } from '../../../shared/responses'
 import {
@@ -8,7 +13,7 @@ import {
   PERMISSION_CODES,
   USER_PROFILE_SUMMARY_SELECT_COLUMNS,
 } from '../../../shared/constants'
-import { buildUserProfileUpdates, normalizeAccountTypeIds, requireRouteId } from '../../../shared/validations'
+import { buildUserProfileUpdates, normalizeAccountTypeIds, requireRouteId } from '../../../shared/validation'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requireAuth } from '../../../utils/auth/requireAuth'
 import { requirePermission } from '../../../utils/auth/requirePermission'
