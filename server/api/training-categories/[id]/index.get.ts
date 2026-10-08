@@ -1,7 +1,7 @@
 import { createError, defineEventHandler, getRouterParam } from 'h3'
 import { TRAINING_PERMISSION_GROUPS } from '../../../shared/constants'
 import { mapTrainingCategoryListItem } from '../../../shared/utils'
-import { requireRouteId } from '../../../shared/validations'
+import { requireRouteId } from '../../../shared/validation'
 import { requireAnyPermission } from '../../../utils/auth/requireAnyPermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { getTrainingCategoryById } from '../../../utils/training-categories/getTrainingCategoryById'
