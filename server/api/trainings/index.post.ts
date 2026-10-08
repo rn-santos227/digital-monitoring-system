@@ -2,9 +2,14 @@ import { createError, defineEventHandler, readBody } from 'h3'
 import type { CreateTrainingRequest } from '../../shared/requests'
 import type { CreateTrainingResponse } from '../../shared/responses'
 import type { TrainingCreate } from '../../shared/models'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../shared/constants'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  PERMISSION_CODES,
+} from '../../shared/constants'
 import { resolveTrainingLevelId, resolveTrainingStatusId, mapTrainingListItem } from '../../shared/utils'
-import { parseCreateTrainingPayload } from '../../shared/validations'
+import { parseCreateTrainingPayload } from '../../shared/validation'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
