@@ -1,9 +1,20 @@
-import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
+import {
+  createError,
+  defineEventHandler,
+  getRouterParam,
+  readBody,
+} from 'h3'
 import type { UpdateTrainingRecordRequest } from '../../../shared/requests'
 import type { MutationSuccessResponse } from '../../../shared/responses'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, ID_ONLY_SELECT_COLUMNS, PERMISSION_CODES } from '../../../shared/constants'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  ID_ONLY_SELECT_COLUMNS,
+  PERMISSION_CODES,
+} from '../../../shared/constants'
 import { assertPersonnelExists, mapTrainingRecordListItem } from '../../../shared/utils'
-import { buildTrainingRecordUpdates, requireRouteId } from '../../../shared/validations'
+import { buildTrainingRecordUpdates, requireRouteId } from '../../../shared/validation'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
@@ -23,7 +34,6 @@ export default defineEventHandler(async (event): Promise<MutationSuccessResponse
   const supabase = getServiceSupabaseClient()
   const existingRow = await getTrainingRecordById(supabase, id)
   if (!existingRow) throw createError({ statusCode: 404, statusMessage: 'Training record not found.' })
-
 
   const effectiveTrainingId = updates.training_id ?? existingRow.training_id
 
