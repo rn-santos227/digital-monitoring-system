@@ -1,6 +1,6 @@
 import type { AuditLogActorDetail, AuditLogDetail, AuditLogListItem } from '../models'
 import type { AuditAdvancedSearchConditionRequest } from '../requests'
-import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../constants'
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, SESSION_TOKEN_HEADER_NAME } from '../constants'
 import { parseNumber } from './parsers'
 
 interface AuditLogActorRow {
@@ -22,7 +22,7 @@ interface AuditLogListRow {
   user: AuditLogActorRow | AuditLogActorRow[] | null
 }
 
-const AUDIT_EXCLUDED_HEADERS = new Set(['authorization', 'cookie'])
+const AUDIT_EXCLUDED_HEADERS = new Set(['authorization', 'cookie', SESSION_TOKEN_HEADER_NAME])
 
 const AUDIT_SEARCH_COLUMNS: Readonly<Record<string, string>> = Object.freeze({
   action: 'action',
