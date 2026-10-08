@@ -1,10 +1,20 @@
-import { createError, defineEventHandler, getRouterParam, readBody } from 'h3'
+import {
+  createError,
+  defineEventHandler,
+  getRouterParam,
+  readBody,
+} from 'h3'
 import type { UpdateTrainingRequest } from '../../../shared/requests'
 import type { MutationSuccessResponse } from '../../../shared/responses'
 import type { TrainingUpdate } from '../../../shared/models'
-import { AUDIT_LOG_ACTIONS, AUDIT_LOG_ENDPOINTS, AUDIT_LOG_OUTCOMES, PERMISSION_CODES } from '../../../shared/constants'
+import {
+  AUDIT_LOG_ACTIONS,
+  AUDIT_LOG_ENDPOINTS,
+  AUDIT_LOG_OUTCOMES,
+  PERMISSION_CODES,
+} from '../../../shared/constants'
 import { resolveTrainingLevelId, resolveTrainingStatusId, mapTrainingListItem } from '../../../shared/utils'
-import { buildTrainingUpdates, requireRouteId, validateTrainingDateRange } from '../../../shared/validations'
+import { buildTrainingUpdates, requireRouteId, validateTrainingDateRange } from '../../../shared/validation'
 import { recordManagementAuditLog } from '../../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
