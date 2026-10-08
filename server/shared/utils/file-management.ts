@@ -4,7 +4,7 @@ import {
   FILE_UPLOAD_BUCKET_ENV_KEYS,
   FILE_UPLOAD_PATH_PREFIX,
 } from '../../config/storage-s3'
-import { normalizeFileName } from '../validations'
+import { normalizeFileName } from '../validation'
 
 export const resolveStorageBucketName = (): string => {
   for (const key of FILE_UPLOAD_BUCKET_ENV_KEYS) {
