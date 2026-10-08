@@ -1,4 +1,5 @@
 export * from './domain/common'
+export * from './domain/dashboard'
 export * from './domain/application-settings'
 export * from './domain/bulk-management'
 export * from './domain/auth'
