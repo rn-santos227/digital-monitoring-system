@@ -8,7 +8,7 @@ import {
   PERMISSION_CODES,
 } from '../../shared/constants'
 import { mapUserProfileListItem } from '../../shared/utils'
-import { parseCreateUserProfilePayload } from '../../shared/validations'
+import { parseCreateUserProfilePayload } from '../../shared/validation'
 import { recordManagementAuditLog } from '../../utils/audit/recordManagementAuditLog'
 import { requirePermission } from '../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../utils/auth/serviceClient'
