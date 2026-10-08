@@ -1,9 +1,3 @@
-export interface LoginBody {
-  email?: string
-  password?: string
-  rememberSession?: boolean
-}
-
 export interface AuthenticatedUser {
   id: string
   email: string
@@ -145,4 +139,3 @@ export interface AuthDatabase {
     CompositeTypes: {}
   }
 }
-
