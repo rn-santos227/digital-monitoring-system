@@ -1,19 +1,7 @@
+import type { NearRotationDeploymentRow } from '../../shared/models'
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { DASHBOARD_NEAR_ROTATION_SELECT_COLUMNS } from '../../shared/constants'
-
-interface DashboardPersonName {
-  first_name: string
-  last_name: string
-}
-
-export interface NearRotationDeploymentRow {
-  personnel_id: string
-  end_date: string
-  location: string | null
-  deployment_area: string | null
-  personnel: DashboardPersonName | DashboardPersonName[] | null
-}
 
 export async function fetchNearRotationDeployments(
   supabase: SupabaseClient,
