@@ -5,7 +5,7 @@ import type {
   EngagementRecordSearchQuery,
   ParsedEngagementRecordSearchQuery,
 } from '../../shared/utils/engagement-management'
-import { parsePersonnelAdvancedSearchConditions } from '../../shared/validations'
+import { parsePersonnelAdvancedSearchConditions } from '../../shared/validation'
 import { buildPersonnelAdvancedSearchFilters } from '../personnel/buildPersonnelAdvancedSearchFilters'
 
 export const parseEngagementRecordSearchQuery = (
