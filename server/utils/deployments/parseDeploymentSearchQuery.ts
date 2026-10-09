@@ -2,7 +2,7 @@ import { createError } from 'h3'
 import { DEPLOYMENT_SEARCHABLE_FIELD_COLUMNS } from '../../shared/constants'
 import type { DeploymentSearchQuery, ParsedDeploymentSearchQuery } from '../../shared/utils/deployment-management'
 import { parseManagementPaginationQuery } from '../../shared/utils'
-import { parsePersonnelAdvancedSearchConditions } from '../../shared/validations'
+import { parsePersonnelAdvancedSearchConditions } from '../../shared/validation'
 import { buildPersonnelAdvancedSearchFilters } from '../personnel/buildPersonnelAdvancedSearchFilters'
 
 export const parseDeploymentSearchQuery = (query: DeploymentSearchQuery): ParsedDeploymentSearchQuery => {
