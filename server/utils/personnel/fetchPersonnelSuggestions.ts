@@ -42,16 +42,33 @@ export const fetchPersonnelSuggestions = async (
     query = query.neq('battalion_id', excludeBattalionId)
   }
 
-  const limit = pageSize + (selectedPersonnelId ? 1 : 0) + (term.length > 0 ? 1 : 0)
+  const limit =
+    pageSize + (selectedPersonnelId ? 1 : 0) + (term.length > 0 ? 1 : 0)
   const { data, error } = await query.limit(limit)
 
   const rows = data ?? []
-  const selectedRow = selectedPersonnelId ? rows.find((row) => row.id === selectedPersonnelId) : undefined
-  const serviceNumberRow = term.length > 0 ? rows.find((row) => row.service_number === term) : undefined
+  const selectedRow = selectedPersonnelId
+    ? rows.find((row) => row.id === selectedPersonnelId)
+    : undefined
+  const serviceNumberRow =
+    term.length > 0
+      ? rows.find((row) => row.service_number === term)
+      : undefined
 
-  const dedupedRows = rows.filter((row) => row.id !== selectedPersonnelId && row.service_number !== term)
-  const prioritizedRows = [selectedRow, serviceNumberRow].filter((row): row is NonNullable<typeof row> => Boolean(row))
-  const normalizedRows = [...prioritizedRows, ...dedupedRows].slice(0, pageSize + prioritizedRows.length)
+  const dedupedRows = rows.filter(
+    (row) => row.id !== selectedPersonnelId && row.service_number !== term,
+  )
+  const prioritizedRows = Array.from(
+    new Map(
+      [selectedRow, serviceNumberRow]
+        .filter((row): row is NonNullable<typeof row> => Boolean(row))
+        .map((row) => [row.id, row]),
+    ).values(),
+  )
+  const normalizedRows = [...prioritizedRows, ...dedupedRows].slice(
+    0,
+    pageSize + prioritizedRows.length,
+  )
 
   return { data: normalizedRows, error }
 }
