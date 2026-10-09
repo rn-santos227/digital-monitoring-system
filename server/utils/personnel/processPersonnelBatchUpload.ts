@@ -1,7 +1,7 @@
 import { createError } from 'h3'
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { PersonnelBatchUploadRowRequest } from '../../shared/requests'
-import { parseCreatePersonnelPayload } from '../../shared/validations'
+import { parseCreatePersonnelPayload } from '../../shared/validation'
 
 type RankLookupRow = { id: string, code: string | null }
 type StatusLookupRow = { id: string, name: string }
