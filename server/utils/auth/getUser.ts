@@ -45,6 +45,10 @@ export async function getUser(event: H3Event): Promise<AuthenticatedUser | null>
     }
   }
 
+  if (profile) {
+    return null
+  }
+
   const { data: authUserData } = await supabase.auth.admin.getUserById(activeSession.user_id)
   const authUser = authUserData?.user
 
