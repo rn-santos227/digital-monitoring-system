@@ -1,16 +1,17 @@
 import { describe, expect, it } from 'vitest'
-
 import {
   parseCreateEquipmentCategoryPayload,
   parseCreateEquipmentItemPayload,
-} from '../../../../server/shared/validations/domain/equipment-management'
+} from '../../../../server/shared/validation/domain/equipment-management'
 
 describe('equipment endpoint payloads', () => {
   it('normalizes category codes and applies endpoint defaults', () => {
-    expect(parseCreateEquipmentCategoryPayload({
-      code: ' comms ',
-      name: ' Communications ',
-    })).toEqual({
+    expect(
+      parseCreateEquipmentCategoryPayload({
+        code: ' comms ',
+        name: ' Communications ',
+      }),
+    ).toEqual({
       code: 'COMMS',
       name: 'Communications',
       requires_serial: false,
@@ -33,11 +34,13 @@ describe('equipment endpoint payloads', () => {
   })
 
   it('rejects negative equipment stock levels', () => {
-    expect(() => parseCreateEquipmentItemPayload({
-      equipmentCode: 'RADIO-01',
-      categoryId: 'category-1',
-      name: 'Field Radio',
-      minimumStockLevel: -1,
-    })).toThrow('Minimum stock level must be a non-negative whole number.')
+    expect(() =>
+      parseCreateEquipmentItemPayload({
+        equipmentCode: 'RADIO-01',
+        categoryId: 'category-1',
+        name: 'Field Radio',
+        minimumStockLevel: -1,
+      }),
+    ).toThrow('Minimum stock level must be a non-negative whole number.')
   })
 })
