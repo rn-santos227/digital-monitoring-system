@@ -12,10 +12,12 @@ describe('backup download endpoint contract', () => {
   it('requires the backup permission and audits successful and failed downloads', () => {
     const source = endpointSources['/server/api/backups/download.get.ts'] ?? ''
 
-    expect(source).toContain('requirePermission(event, PERMISSION_CODES.backupDownload)')
+    expect(source).toContain(
+      'requirePermission(event, PERMISSION_CODES.backupDownload)',
+    )
     expect(source).toContain('AUDIT_LOG_ACTIONS.backupDownload')
     expect(source).toContain('AUDIT_LOG_OUTCOMES.success')
     expect(source).toContain('AUDIT_LOG_OUTCOMES.failed')
     expect(source).toContain("'Cache-Control', 'no-store'")
-  }
-}
+  })
+})
