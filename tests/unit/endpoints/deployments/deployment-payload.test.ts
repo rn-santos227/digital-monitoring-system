@@ -1,17 +1,18 @@
 import { describe, expect, it } from 'vitest'
-
-import { parseCreateDeploymentPayload } from '../../../../server/shared/validations/domain/deployment-management'
+import { parseCreateDeploymentPayload } from '../../../../server/shared/validation/domain/deployment-management'
 
 describe('deployment endpoint payloads', () => {
   it('normalizes deployment details and coordinates', () => {
-    expect(parseCreateDeploymentPayload({
-      deploymentArea: ' Northern Sector ',
-      deploymentAreaLatitude: 14.5995,
-      deploymentAreaLongitude: 120.9842,
-      startDate: '2026-09-01',
-      statusId: ' active ',
-      supervisorPersonnelId: ' personnel-1 ',
-    })).toMatchObject({
+    expect(
+      parseCreateDeploymentPayload({
+        deploymentArea: ' Northern Sector ',
+        deploymentAreaLatitude: 14.5995,
+        deploymentAreaLongitude: 120.9842,
+        startDate: '2026-09-01',
+        statusId: ' active ',
+        supervisorPersonnelId: ' personnel-1 ',
+      }),
+    ).toMatchObject({
       deployment_area: 'Northern Sector',
       deployment_area_latitude: 14.5995,
       deployment_area_longitude: 120.9842,
@@ -22,20 +23,24 @@ describe('deployment endpoint payloads', () => {
   })
 
   it('rejects coordinates outside valid geographic bounds', () => {
-    expect(() => parseCreateDeploymentPayload({
-      deploymentArea: 'Northern Sector',
-      deploymentAreaLatitude: 91,
-      startDate: '2026-09-01',
-      statusId: 'active',
-    })).toThrow('Deployment area latitude must be between -90 and 90.')
+    expect(() =>
+      parseCreateDeploymentPayload({
+        deploymentArea: 'Northern Sector',
+        deploymentAreaLatitude: 91,
+        startDate: '2026-09-01',
+        statusId: 'active',
+      }),
+    ).toThrow('Deployment area latitude must be between -90 and 90.')
   })
 
   it('rejects a deployment that ends before it starts', () => {
-    expect(() => parseCreateDeploymentPayload({
-      deploymentArea: 'Northern Sector',
-      startDate: '2026-09-03',
-      endDate: '2026-09-01',
-      statusId: 'active',
-    })).toThrow('End date must be on or after start date.')
+    expect(() =>
+      parseCreateDeploymentPayload({
+        deploymentArea: 'Northern Sector',
+        startDate: '2026-09-03',
+        endDate: '2026-09-01',
+        statusId: 'active',
+      }),
+    ).toThrow('End date must be on or after start date.')
   })
 })
