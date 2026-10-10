@@ -49,7 +49,6 @@ describe.each(CRUD_DOMAINS)('%s CRUD endpoint contracts', (domain) => {
     expectHandlerContract(source)
   })
 
-
   it('protects and audits the create endpoint', async () => {
     const source = readEndpoint(`${domain}/index.post.ts`)
 
@@ -60,30 +59,31 @@ describe.each(CRUD_DOMAINS)('%s CRUD endpoint contracts', (domain) => {
   })
 
   it('protects the single-record read endpoint', async () => {
-   const source = readEndpoint(`${domain}/[id]/index.get.ts`)
+    const source = readEndpoint(`${domain}/[id]/index.get.ts`)
 
     expectHandlerContract(source)
     expect(source).toMatch(/getRouterParam\(event, ['"]id['"]\)/)
   })
 
   it('protects and audits every update endpoint', async () => {
-    const updatePaths = domain === 'engagement-records'
-      ? []
-      : domain === 'incidents'
-      ? [
-          'deployment.patch.ts',
-          'details.patch.ts',
-          'equipment.patch.ts',
-          'location.patch.ts',
-          'personnel.patch.ts',
-          'status.patch.ts',
-        ].map((fileName) => `${domain}/[id]/${fileName}`)
-      : domain === 'deployments'
-        ? [
-            `${domain}/[id]/details.patch.ts`,
-            `${domain}/[id]/location.patch.ts`,
-          ]
-        : [`${domain}/[id]/index.patch.ts`]
+    const updatePaths =
+      domain === 'engagement-records'
+        ? []
+        : domain === 'incidents'
+          ? [
+              'deployment.patch.ts',
+              'details.patch.ts',
+              'equipment.patch.ts',
+              'location.patch.ts',
+              'personnel.patch.ts',
+              'status.patch.ts',
+            ].map((fileName) => `${domain}/[id]/${fileName}`)
+          : domain === 'deployments'
+            ? [
+                `${domain}/[id]/details.patch.ts`,
+                `${domain}/[id]/location.patch.ts`,
+              ]
+            : [`${domain}/[id]/index.patch.ts`]
 
     for (const updatePath of updatePaths) {
       const source = readEndpoint(updatePath)
