@@ -119,6 +119,10 @@ export const usePersonnelProfileHandlers = ({
   const onTabChange = (nextTab: string) => {
     if (
       nextTab === 'training'
+      || nextTab === 'skills'
+      || nextTab === 'employment'
+      || nextTab === 'education'
+      || nextTab === 'performance-feedback'
       || nextTab === 'deployment'
       || nextTab === 'engagement'
       || nextTab === 'equipment-assignment'
