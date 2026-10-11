@@ -575,3 +575,16 @@ export const CHART_DEFAULT_COLORS = Object.freeze([
   '#dc2626',
   '#0891b2',
 ])
+export interface DashboardValueDefinition<Key extends string> {
+  key: Key
+  label: string
+  classes: string
+}
+
+export interface DashboardDisplayGroup<Key extends string, Widget extends string> {
+  key: Key
+  label: string
+  widget: Widget | null
+  options: readonly { key: string; label: string }[]
+}
+
