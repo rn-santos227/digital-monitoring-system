@@ -1,0 +1,16 @@
+export const EQUIPMENT_ACCOUNTING_TITLE = 'Assigned Equipment Value'
+export const EQUIPMENT_ACCOUNTING_DESCRIPTION =
+  'Current holdings at acquisition prices in PHP. Personnel holdings roll up to their company and battalion. Each asset is counted once per scope.'
+export const EQUIPMENT_ACCOUNTING_TOTAL_LABEL = 'Total assigned value'
+export const EQUIPMENT_ACCOUNTING_ASSETS_LABEL = 'Assigned assets'
+export const EQUIPMENT_ACCOUNTING_QUANTITY_LABEL = 'Assigned quantity'
+export const EQUIPMENT_ACCOUNTING_UNPRICED_LABEL = 'Assets without a price'
+export const EQUIPMENT_ACCOUNTING_UNPRICED_WARNING =
+  'Some assets have no price. The total includes only priced assets; edit their acquisition cost to complete the valuation.'
+export const EQUIPMENT_ACCOUNTING_LOADING_MESSAGE = 'Loading assigned equipment values...'
+export const EQUIPMENT_ACCOUNTING_ERROR_MESSAGE = 'Unable to load assigned equipment values.'
+export const EQUIPMENT_ACCOUNTING_SECTION_CLASSES = 'space-y-4'
+export const EQUIPMENT_ACCOUNTING_SUMMARY_CLASSES = 'grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-4'
+export const EQUIPMENT_PRICE_LABEL = 'Unit price / acquisition cost (PHP)'
+export const EQUIPMENT_PRICE_HELPER = 'Price per unit for assigned-value calculations. Leave blank if unknown.'
+export const EQUIPMENT_PRICE_UNKNOWN = 'Not priced'
