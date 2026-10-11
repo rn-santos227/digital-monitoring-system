@@ -15,7 +15,12 @@
 import { computed } from 'vue'
 import type { DashboardTopKpis, DashboardKpiId } from '~/types/domain/dashboard'
 import { DASHBOARD_KPI_OPTIONS } from '~/constants/page.constants'
-import { DASHBOARD_KPI_GRID_CLASSES, DASHBOARD_KPI_CARD_CLASSES, DASHBOARD_KPI_LABEL_CLASSES, DASHBOARD_KPI_VALUE_CLASSES } from '~/constants/shared.constants'
+import {
+  DASHBOARD_KPI_GRID_CLASSES,
+  DASHBOARD_KPI_CARD_CLASSES,
+  DASHBOARD_KPI_LABEL_CLASSES,
+  DASHBOARD_KPI_VALUE_CLASSES,
+} from '~/constants/shared.constants'
 
 const props = withDefaults(defineProps<{
   data: DashboardTopKpis
