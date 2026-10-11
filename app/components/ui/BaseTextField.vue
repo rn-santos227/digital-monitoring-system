@@ -13,6 +13,7 @@
         :disabled="disabled"
         :min="min"
         :max="max"
+        :step="step"
         :class="inputClasses"
         @input="onInput"
       />
@@ -61,6 +62,7 @@ const props = withDefaults(
     disabled?: boolean
     min?: number
     max?: number
+    step?: number | 'any'
   }>(),
   {
     modelValue: '',
@@ -71,7 +73,8 @@ const props = withDefaults(
     required: false,
     disabled: false,
     min: undefined,
-    max: undefined
+    max: undefined,
+    step: undefined,
   }
 )
 
