@@ -221,7 +221,34 @@ import type {
   TrainingRecordsUpdate,
 } from './tables/domains'
 
+export type {
+  PersonnelEmploymentRecordsRow,
+  PersonnelEmploymentRecordsInsert,
+  PersonnelEmploymentRecordsUpdate,
+  PersonnelEducationRecordsRow,
+  PersonnelEducationRecordsInsert,
+  PersonnelEducationRecordsUpdate,
+  PersonnelPerformanceFeedbackRow,
+  PersonnelPerformanceFeedbackInsert,
+  PersonnelPerformanceFeedbackUpdate,
+} from './tables/domains'
+
+import type {
+  PersonnelEmploymentRecordsRow,
+  PersonnelEmploymentRecordsInsert,
+  PersonnelEmploymentRecordsUpdate,
+  PersonnelEducationRecordsRow,
+  PersonnelEducationRecordsInsert,
+  PersonnelEducationRecordsUpdate,
+  PersonnelPerformanceFeedbackRow,
+  PersonnelPerformanceFeedbackInsert,
+  PersonnelPerformanceFeedbackUpdate,
+} from './tables/domains'
+
 export interface DatabaseTables {
+  personnel_employment_records: TableShape<PersonnelEmploymentRecordsRow, PersonnelEmploymentRecordsInsert, PersonnelEmploymentRecordsUpdate>
+  personnel_education_records: TableShape<PersonnelEducationRecordsRow, PersonnelEducationRecordsInsert, PersonnelEducationRecordsUpdate>
+  personnel_performance_feedback: TableShape<PersonnelPerformanceFeedbackRow, PersonnelPerformanceFeedbackInsert, PersonnelPerformanceFeedbackUpdate>
   ranks: TableShape<RanksRow, RanksInsert, RanksUpdate>
   companies: TableShape<CompaniesRow, CompaniesInsert, CompaniesUpdate>
   battalions: TableShape<BattalionsRow, BattalionsInsert, BattalionsUpdate>
