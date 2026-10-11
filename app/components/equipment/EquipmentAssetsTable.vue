@@ -2,7 +2,7 @@
   <DataTable
     :title="EQUIPMENT_ASSETS_TABLE_TITLE"
     :columns="EQUIPMENT_ASSETS_TABLE_COLUMNS"
-    :rows="props.rows"
+    :rows="pricedRows"
     row-key="id"
     :actions="visibleActions"
     :action-button-count="visibleActions.length"
@@ -48,6 +48,7 @@ import {
 } from '~/constants/table.constants'
 import { useAuthStore } from '~/stores/auth'
 import type { EquipmentAssetTableRow } from '~/types/domain/equipment'
+import { formatEquipmentPrice } from '~/utils/equipment-accounting'
 
 const props = withDefaults(defineProps<{
   rows: readonly EquipmentAssetTableRow[]
@@ -76,6 +77,10 @@ const emit = defineEmits<{
 }>()
 
 const authStore = useAuthStore()
+const pricedRows = computed(() => props.rows.map((row) => ({
+  ...row,
+  unitPriceDisplay: formatEquipmentPrice(row.acquisitionCost),
+})))
 const canBulkUpdate = computed(() => authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.edit))
 const canBulkDelete = computed(() => authStore.hasPermissionAccess(EQUIPMENT_PRIVILEGES.delete))
 
