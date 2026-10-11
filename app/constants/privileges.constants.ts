@@ -7,6 +7,7 @@ export const PRIVILEGE_CODES = Object.freeze({
   personnelView: 'personnel.view',
   personnelCreate: 'personnel.create',
   personnelUpdate: 'personnel.update',
+  personnelFeedback: 'personnel.feedback',
   personnelDelete: 'personnel.delete',
   userView: 'user.view',
   userCreate: 'user.create',
@@ -74,6 +75,7 @@ export const PERSONNEL_PRIVILEGES = Object.freeze({
   view: Object.freeze([PRIVILEGE_CODES.personnelView]),
   create: Object.freeze([PRIVILEGE_CODES.personnelCreate]),
   edit: Object.freeze([PRIVILEGE_CODES.personnelUpdate]),
+  feedback: Object.freeze([PRIVILEGE_CODES.personnelFeedback]),
   delete: Object.freeze([PRIVILEGE_CODES.personnelDelete]),
 })
 
