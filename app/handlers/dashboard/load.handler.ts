@@ -1,15 +1,9 @@
-import type { Ref } from 'vue'
 import type {
-  DashboardCriticalEquipment,
-  DashboardCriticalPersonnel,
-  DashboardEquipmentStatusOverview,
-  DashboardLocationLoadAnalysis,
-  DashboardNearRotation,
-  DashboardOperationalTimeMonitoring,
+  DashboardData,
+  DashboardDisplaySettings,
+  DashboardLoadResult,
   DashboardParameters,
-  DashboardPersonnelDeploymentHistory,
-  DashboardPersonnelDeploymentSummary,
-  DashboardTopKpis,
+  DashboardWidgetId,
 } from '~/types/domain/dashboard'
 import {
   getDashboardCriticalEquipmentEndpoint,
@@ -22,19 +16,13 @@ import {
   getDashboardPersonnelDeploymentSummaryEndpoint,
   getDashboardTopKpisEndpoint,
 } from '~/utils/dashboard-endpoints'
-import { readDashboardParameters } from '~/utils/dashboard-parameters-storage'
-
-export interface DashboardData {
-  topKpis: DashboardTopKpis
-  personnelDeploymentSummary: DashboardPersonnelDeploymentSummary
-  equipmentStatusOverview: DashboardEquipmentStatusOverview
-  criticalPersonnel: DashboardCriticalPersonnel
-  criticalEquipment: DashboardCriticalEquipment
-  nearRotation: DashboardNearRotation
-  locationLoadAnalysis: DashboardLocationLoadAnalysis
-  personnelDeploymentHistory: DashboardPersonnelDeploymentHistory
-  operationalTimeMonitoring: DashboardOperationalTimeMonitoring
-}
+import { extractApiErrorMessage } from '~/utils/api-request'
+import {
+  authorizeDashboardDisplay,
+  isDashboardWidgetEnabled,
+  normalizeDashboardDisplay,
+} from '~/utils/dashboard-display'
+export type { DashboardData } from '~/types/domain/dashboard'
 
 export const createInitialDashboardData = (): DashboardData => ({
   topKpis: { asOf: '', totalRegistered: 0, deployed: 0, standbyAlert: 0, noComms: 0, injuredOrDead: 0 },
@@ -57,57 +45,37 @@ export const createInitialDashboardData = (): DashboardData => ({
   },
 })
 
-export const loadDashboardData = async (parameters: DashboardParameters): Promise<DashboardData> => {
-  const [
-    topKpis,
-    personnelDeploymentSummary,
-    equipmentStatusOverview,
-    criticalPersonnel,
-    criticalEquipment,
-    nearRotation,
-    locationLoadAnalysis,
-    personnelDeploymentHistory,
-    operationalTimeMonitoring,
-  ] = await Promise.all([
-    getDashboardTopKpisEndpoint(parameters),
-    getDashboardPersonnelDeploymentSummaryEndpoint(parameters),
-    getDashboardEquipmentStatusOverviewEndpoint(parameters),
-    getDashboardCriticalPersonnelEndpoint(parameters),
-    getDashboardCriticalEquipmentEndpoint(parameters),
-    getDashboardNearRotationEndpoint(parameters),
-    getDashboardLocationLoadAnalysisEndpoint(parameters),
-    getDashboardPersonnelDeploymentHistoryEndpoint(parameters),
-    getDashboardOperationalTimeMonitoringEndpoint(parameters),
-  ])
-
-  return {
-    topKpis,
-    personnelDeploymentSummary,
-    equipmentStatusOverview,
-    criticalPersonnel,
-    criticalEquipment,
-    nearRotation,
-    locationLoadAnalysis,
-    personnelDeploymentHistory,
-    operationalTimeMonitoring,
+export const loadDashboardData = async (
+  parameters: DashboardParameters,
+  display: DashboardDisplaySettings = normalizeDashboardDisplay(),
+  permissions: readonly string[] = [],
+): Promise<DashboardLoadResult> => {
+  const data = createInitialDashboardData()
+  const errors: DashboardLoadResult['errors'] = {}
+  const selected = authorizeDashboardDisplay(display, permissions)
+  const tasks: Promise<void>[] = []
+  const queue = <Key extends DashboardWidgetId>(
+    key: Key,
+    loader: (value: DashboardParameters) => Promise<DashboardData[Key]>,
+  ) => {
+    if (!isDashboardWidgetEnabled(selected, key)) return
+    tasks.push((async () => {
+      try {
+        data[key] = await loader(parameters)
+      } catch (error) {
+        errors[key] = extractApiErrorMessage(error, 'Unable to load this dashboard section.')
+      }
+    })())
   }
-}
-
-export const createDashboardParameterHandlers = (
-  parameters: Ref<DashboardParameters>,
-  dashboardData: Ref<DashboardData>,
-) => {
-  const applyParameters = async (value: DashboardParameters) => {
-    parameters.value = value
-    dashboardData.value = await loadDashboardData(value)
-  }
-
-  const initializeParameters = async () => {
-    await applyParameters(readDashboardParameters())
-  }
-
-  return {
-    applyParameters,
-    initializeParameters,
-  }
+  queue('topKpis', getDashboardTopKpisEndpoint)
+  queue('personnelDeploymentSummary', getDashboardPersonnelDeploymentSummaryEndpoint)
+  queue('equipmentStatusOverview', getDashboardEquipmentStatusOverviewEndpoint)
+  queue('criticalPersonnel', getDashboardCriticalPersonnelEndpoint)
+  queue('criticalEquipment', getDashboardCriticalEquipmentEndpoint)
+  queue('nearRotation', getDashboardNearRotationEndpoint)
+  queue('locationLoadAnalysis', getDashboardLocationLoadAnalysisEndpoint)
+  queue('personnelDeploymentHistory', getDashboardPersonnelDeploymentHistoryEndpoint)
+  queue('operationalTimeMonitoring', getDashboardOperationalTimeMonitoringEndpoint)
+  await Promise.all(tasks)
+  return { data, errors }
 }
