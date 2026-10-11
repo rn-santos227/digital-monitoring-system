@@ -1,31 +1,29 @@
 <template>
-  <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+  <div :class="DASHBOARD_KPI_GRID_CLASSES">
     <article
       v-for="card in cards"
       :key="card.key"
-      :class="['rounded-xl border p-4 text-white shadow-sm', card.classes]"
+      :class="[DASHBOARD_KPI_CARD_CLASSES, card.classes]"
     >
-      <p class="text-xs font-semibold uppercase tracking-wide text-white/90">{{ card.label }}</p>
-      <p class="mt-2 text-4xl font-bold">{{ card.value }}</p>
+      <p :class="DASHBOARD_KPI_LABEL_CLASSES">{{ card.label }}</p>
+      <p :class="DASHBOARD_KPI_VALUE_CLASSES">{{ card.value }}</p>
     </article>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { DashboardTopKpis } from '~/types/domain/dashboard'
+import type { DashboardTopKpis, DashboardKpiId } from '~/types/domain/dashboard'
+import { DASHBOARD_KPI_OPTIONS } from '~/constants/page.constants'
+import { DASHBOARD_KPI_GRID_CLASSES, DASHBOARD_KPI_CARD_CLASSES, DASHBOARD_KPI_LABEL_CLASSES, DASHBOARD_KPI_VALUE_CLASSES } from '~/constants/shared.constants'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   data: DashboardTopKpis
-}>()
+  selectedValues?: readonly DashboardKpiId[]
+}>(), { selectedValues: () => DASHBOARD_KPI_OPTIONS.map((item) => item.key) })
 
 const cards = computed(() => {
-  return [
-    { key: 'total-registered', label: 'Total Registered', value: props.data.totalRegistered, classes: 'border-blue-700 bg-blue-600' },
-    { key: 'deployed', label: 'Deployed', value: props.data.deployed, classes: 'border-emerald-700 bg-emerald-600' },
-    { key: 'standby-alert', label: 'Standby-Alert', value: props.data.standbyAlert, classes: 'border-amber-700 bg-amber-500' },
-    { key: 'no-comms', label: 'No Comms', value: props.data.noComms, classes: 'border-pink-700 bg-pink-500' },
-    { key: 'injured-dead', label: 'Injured / Dead', value: props.data.injuredOrDead, classes: 'border-rose-800 bg-rose-700' },
-  ]
+  return DASHBOARD_KPI_OPTIONS.filter((item) => props.selectedValues.includes(item.key))
+    .map((item) => ({ ...item, value: props.data[item.key] }))
 })
 </script>
