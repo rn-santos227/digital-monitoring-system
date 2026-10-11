@@ -41,6 +41,8 @@
           @update:model-value="setFieldValue(field.key, $event, field.type)"
           :label="field.label"
           :type="field.type"
+          :min="field.key === 'acquisition_cost' ? 0 : undefined"
+          :step="field.key === 'acquisition_cost' ? 0.01 : undefined"
           :disabled="!enabled[field.key]"
         />
       </div>
@@ -62,6 +64,7 @@
 import { reactive, ref } from 'vue'
 import type { BulkUpdateField } from '~/constants/ui.constants'
 import {
+  EQUIPMENT_PRICE_LABEL,
   EQUIPMENT_ASSETS_ASSET_STATUS_OPTIONS,
   EQUIPMENT_ASSETS_BULK_UPDATE_MODAL_DESCRIPTION,
   EQUIPMENT_ASSETS_BULK_UPDATE_MODAL_TITLE,
@@ -130,7 +133,7 @@ const fields: readonly BulkUpdateField<keyof EquipmentAssetBulkUpdateValues>[] =
   { key: 'equipment_item_id', label: 'Equipment item' },
   { key: 'batch_no', label: 'Batch number' },
   { key: 'procurement_date', label: 'Procurement date', type: 'date' },
-  { key: 'acquisition_cost', label: 'Acquisition cost', type: 'number' },
+  { key: 'acquisition_cost', label: EQUIPMENT_PRICE_LABEL, type: 'number' },
   { key: 'fund_source', label: 'Fund source' },
   { key: 'current_location', label: 'Current location' },
   {
