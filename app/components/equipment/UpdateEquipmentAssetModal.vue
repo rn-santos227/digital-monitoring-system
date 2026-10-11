@@ -24,7 +24,10 @@
         <BaseTextField
           v-model="acquisitionCostInput"
           type="number"
-          label="Acquisition cost"
+          :label="EQUIPMENT_PRICE_LABEL"
+          :helper-text="EQUIPMENT_PRICE_HELPER"
+          :min="0"
+          :step="0.01"
           :error="errors.acquisitionCost"
         />
       </div>
@@ -76,6 +79,8 @@ import { computed, reactive, watch } from 'vue'
 import EquipmentItemsSuggestionField from '~/components/general/EquipmentItemsSuggestionField.vue'
 import { useDialog } from '~/composables/useDialog'
 import {
+  EQUIPMENT_PRICE_LABEL,
+  EQUIPMENT_PRICE_HELPER,
   EQUIPMENT_ASSETS_ASSET_STATUS_OPTIONS,
   EQUIPMENT_ASSETS_CONDITION_STATUS_OPTIONS,
   EQUIPMENT_ASSETS_SERVICEABILITY_STATUS_OPTIONS,
