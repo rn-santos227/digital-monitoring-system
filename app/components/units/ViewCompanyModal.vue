@@ -44,7 +44,10 @@
       />
 
       <UnitsPersonnelTable v-if="activeTab === 'personnel'" :rows="personnel" :is-loading="isLoading" />
-      <UnitsEquipmentAssignmentTable v-else :rows="equipment" :is-loading="isLoading" />
+      <template v-else>
+        <EquipmentAccountingPanel subject="company" :subject-id="company.id" />
+        <UnitsEquipmentAssignmentTable :rows="equipment" :is-loading="isLoading" />
+      </template>
     </div>
 
     <template #footer>
@@ -58,6 +61,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import UnitsPersonnelTable from '~/components/units/view/UnitsPersonnelTable.vue'
+import EquipmentAccountingPanel from '~/components/equipment/EquipmentAccountingPanel.vue'
 import UnitsEquipmentAssignmentTable from '~/components/units/view/UnitsEquipmentAssignmentTable.vue'
 import {
   COMPANY_VIEW_TAB_ITEMS,
