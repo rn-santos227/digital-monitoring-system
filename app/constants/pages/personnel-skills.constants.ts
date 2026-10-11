@@ -1,0 +1,30 @@
+export const PERSONNEL_SKILL_ADD_LABEL = 'Add Skill'
+export const PERSONNEL_SKILL_EDIT_TITLE = 'Edit Personnel Skill'
+export const PERSONNEL_SKILL_CREATE_TITLE = 'Add Personnel Skill'
+export const PERSONNEL_SKILL_MODAL_DESCRIPTION = 'Record a skill with supporting training or an external reference.'
+export const PERSONNEL_SKILL_NAME_LABEL = 'Skill name'
+export const PERSONNEL_SKILL_SOURCE_LABEL = 'Skill source'
+export const PERSONNEL_SKILL_TRAINING_LABEL = 'Supporting training record'
+export const PERSONNEL_SKILL_TRAINING_PLACEHOLDER = 'Search this personnel’s training records'
+export const PERSONNEL_SKILL_TRAINING_HELPER = 'Choose a training record assigned to this person. Its status and certificate are shown as evidence.'
+export const PERSONNEL_SKILL_TRAINING_EMPTY_MESSAGE = 'No matching training records assigned to this personnel.'
+export const PERSONNEL_SKILL_EXTERNAL_LABEL = 'External reference'
+export const PERSONNEL_SKILL_EXTERNAL_HELPER = 'Include a certificate number, issuing organization and document citation, or a reference URL.'
+export const PERSONNEL_SKILL_OBTAINED_LABEL = 'Date obtained'
+export const PERSONNEL_SKILL_VALID_UNTIL_LABEL = 'Valid until'
+export const PERSONNEL_SKILL_SAVE_LABEL = 'Save Skill'
+export const PERSONNEL_SKILL_CANCEL_LABEL = 'Cancel'
+export const PERSONNEL_SKILL_LEGACY_WARNING = 'This existing qualification has no recorded evidence. Add a training record or an external reference when editing it.'
+export const PERSONNEL_SKILL_REMOVE_TITLE = 'Remove Personnel Skill'
+export const PERSONNEL_SKILL_REMOVE_LABEL = 'Remove'
+export const PERSONNEL_SKILL_REMOVE_MESSAGE = 'Remove this skill from the personnel profile? The supporting training record will remain.'
+export const PERSONNEL_SKILL_SAVE_ERROR_TITLE = 'Unable to save skill'
+export const PERSONNEL_SKILL_REMOVE_ERROR_TITLE = 'Unable to remove skill'
+export const PERSONNEL_SKILL_LOAD_ERROR_MESSAGE = 'Unable to load personnel skills.'
+export const PERSONNEL_SKILL_TRAINING_ERROR_MESSAGE = 'Unable to load supporting training records.'
+export const PERSONNEL_SKILL_NOT_RECORDED = 'Evidence not recorded'
+export const PERSONNEL_SKILL_SOURCE_LABELS = Object.freeze({ training: 'Training record', external: 'External reference' })
+export const PERSONNEL_SKILL_SOURCE_OPTIONS = Object.freeze([
+  { value: 'training', label: PERSONNEL_SKILL_SOURCE_LABELS.training },
+  { value: 'external', label: PERSONNEL_SKILL_SOURCE_LABELS.external },
+])
