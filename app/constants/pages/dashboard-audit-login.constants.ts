@@ -3,8 +3,8 @@ export const DASHBOARD_PAGE_SUBTITLE = 'AFP personnel readiness and equipment ha
 
 export const DASHBOARD_PAGE_SECTION_CLASSES = 'space-y-6'
 export const DASHBOARD_PARAMETERS_STORAGE_KEY = 'afp-dashboard-advanced-parameters'
-export const DASHBOARD_ADVANCED_PARAMETERS_TITLE = 'Advanced Dashboard Parameters'
-export const DASHBOARD_ADVANCED_PARAMETERS_DESCRIPTION = 'Limit the records analyzed by each dashboard request. These settings are saved only in this browser.'
+export const DASHBOARD_ADVANCED_PARAMETERS_TITLE = 'Advanced Search & Dashboard Display'
+export const DASHBOARD_ADVANCED_PARAMETERS_DESCRIPTION = 'Choose KPI cards, summary values, and dashboard sections, then set how many records to analyze. Display choices are saved for your account in this browser.'
 export const DASHBOARD_ADVANCED_PARAMETERS_APPLY_LABEL = 'Save and refresh'
 export const DASHBOARD_ADVANCED_PARAMETERS_RESET_LABEL = 'Restore defaults'
 export const DASHBOARD_PARAMETER_LIMITS = Object.freeze({
