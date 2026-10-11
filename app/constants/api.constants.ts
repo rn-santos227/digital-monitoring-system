@@ -1,3 +1,5 @@
+export const EQUIPMENT_ACCOUNTING_API_ENDPOINT = '/api/equipment-accounting'
+
 export const NOTIFICATION_API_ENDPOINTS = Object.freeze({
   notifications: '/api/notifications',
   stream: '/api/notifications/stream',
@@ -313,3 +315,18 @@ export const API_LOADING_MESSAGES = Object.freeze({
   updateApplicationSettings: 'Updating application settings...',
   downloadBackup: 'Preparing system backup...',
 })
+export const PERSONNEL_SKILLS_API_ENDPOINTS = Object.freeze({
+  skills: (personnelId: string) => `/api/personnel/${encodeURIComponent(personnelId)}/skills`,
+  skill: (personnelId: string, skillId: string) => `/api/personnel/${encodeURIComponent(personnelId)}/skills/${encodeURIComponent(skillId)}`,
+  trainingOptions: (personnelId: string) => `/api/personnel/${encodeURIComponent(personnelId)}/skills/training-options`,
+})
+
+export const PERSONNEL_HISTORY_API_ENDPOINTS = Object.freeze({
+  employment: (id: string) => `/api/personnel/${encodeURIComponent(id)}/employment-records`,
+  education: (id: string) => `/api/personnel/${encodeURIComponent(id)}/education-records`,
+})
+export const PERSONNEL_FEEDBACK_API_ENDPOINTS = Object.freeze({
+  feedback: (id: string) => `/api/personnel/${encodeURIComponent(id)}/performance-feedback`,
+  official: '/api/personnel/feedback-official',
+})
+
