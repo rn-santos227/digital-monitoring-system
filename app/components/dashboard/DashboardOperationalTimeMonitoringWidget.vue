@@ -2,21 +2,13 @@
   <BaseCard>
     <header class="mb-4 flex items-center gap-2">
       <BaseIcon name="clock" class="text-slate-600" />
-      <h3 class="text-2xl font-semibold text-slate-900">Operational Time Monitoring</h3>
+      <h3 class="text-2xl font-semibold text-slate-900">{{ DASHBOARD_OPERATIONAL_SUMMARY_TITLE }}</h3>
     </header>
 
-    <div class="grid gap-3 md:grid-cols-3">
-      <article class="rounded-md bg-slate-100 p-4">
-        <p class="text-xs uppercase text-slate-500">Active Deployments</p>
-        <p class="text-3xl font-bold text-slate-900">{{ data.metric.activeDeploymentCount }}</p>
-      </article>
-      <article class="rounded-md bg-slate-100 p-4">
-        <p class="text-xs uppercase text-slate-500">Average Active Days</p>
-        <p class="text-3xl font-bold text-slate-900">{{ data.metric.averageActiveDays }}</p>
-      </article>
-      <article class="rounded-md bg-slate-100 p-4">
-        <p class="text-xs uppercase text-slate-500">Longest Active Days</p>
-        <p class="text-3xl font-bold text-slate-900">{{ data.metric.longestActiveDays }}</p>
+    <div :class="DASHBOARD_VALUE_GRID_CLASSES">
+      <article v-for="item in values" :key="item.key" :class="DASHBOARD_VALUE_CARD_CLASSES">
+        <p :class="DASHBOARD_VALUE_LABEL_CLASSES">{{ item.label }}</p>
+        <p :class="DASHBOARD_VALUE_NUMBER_CLASSES">{{ item.value }}</p>
       </article>
     </div>
   </BaseCard>
@@ -25,7 +17,15 @@
 <script setup lang="ts">
 import BaseCard from '~/components/ui/BaseCard.vue'
 import BaseIcon from '~/components/ui/BaseIcon.vue'
-import type { DashboardOperationalTimeMonitoring } from '~/types/domain/dashboard'
+import { computed } from 'vue'
+import type { DashboardOperationalTimeMonitoring, DashboardOperationalValueId } from '~/types/domain/dashboard'
+import { DASHBOARD_OPERATIONAL_VALUE_OPTIONS, DASHBOARD_OPERATIONAL_SUMMARY_TITLE } from '~/constants/page.constants'
+import { DASHBOARD_VALUE_GRID_CLASSES, DASHBOARD_VALUE_CARD_CLASSES, DASHBOARD_VALUE_LABEL_CLASSES, DASHBOARD_VALUE_NUMBER_CLASSES } from '~/constants/shared.constants'
 
-defineProps<{ data: DashboardOperationalTimeMonitoring }>()
+const props = withDefaults(defineProps<{
+  data: DashboardOperationalTimeMonitoring
+  selectedValues?: readonly DashboardOperationalValueId[]
+}>(), { selectedValues: () => DASHBOARD_OPERATIONAL_VALUE_OPTIONS.map((item) => item.key) })
+const values = computed(() => DASHBOARD_OPERATIONAL_VALUE_OPTIONS.filter((item) => props.selectedValues.includes(item.key))
+  .map((item) => ({ ...item, value: props.data.metric[item.key] })))
 </script>
