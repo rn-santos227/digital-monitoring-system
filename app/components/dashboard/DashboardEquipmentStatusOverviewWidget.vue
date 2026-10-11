@@ -2,7 +2,7 @@
   <BaseCard>
     <header class="mb-4 flex items-center gap-2">
       <BaseIcon name="cog" class="text-blue-600" />
-      <h3 class="text-2xl font-semibold text-slate-900">Equipment Status Overview</h3>
+      <h3 class="text-2xl font-semibold text-slate-900">{{ DASHBOARD_EQUIPMENT_SUMMARY_TITLE }}</h3>
     </header>
     <ul class="space-y-3">
       <li v-for="item in statusItems" :key="item.key" class="flex items-center justify-between rounded-md bg-slate-100 px-3 py-2">
@@ -17,17 +17,16 @@
 import { computed } from 'vue'
 import BaseCard from '~/components/ui/BaseCard.vue'
 import BaseIcon from '~/components/ui/BaseIcon.vue'
-import type { DashboardEquipmentStatusOverview } from '~/types/domain/dashboard'
+import type { DashboardEquipmentStatusOverview, DashboardEquipmentValueId } from '~/types/domain/dashboard'
+import { DASHBOARD_EQUIPMENT_VALUE_OPTIONS, DASHBOARD_EQUIPMENT_SUMMARY_TITLE } from '~/constants/page.constants'
 
-const props = defineProps<{ data: DashboardEquipmentStatusOverview }>()
+const props = withDefaults(defineProps<{
+  data: DashboardEquipmentStatusOverview
+  selectedValues?: readonly DashboardEquipmentValueId[]
+}>(), { selectedValues: () => DASHBOARD_EQUIPMENT_VALUE_OPTIONS.map((item) => item.key) })
 
 const statusItems = computed(() => {
-  return [
-    { key: 'operational', label: 'Operational', value: props.data.summary.operational, classes: 'text-emerald-600' },
-    { key: 'standby-ready', label: 'Standby-Ready', value: props.data.summary.standbyReady, classes: 'text-blue-600' },
-    { key: 'partially-operational', label: 'Partially Operational', value: props.data.summary.partiallyOperational, classes: 'text-amber-600' },
-    { key: 'under-maintenance', label: 'Under Maintenance', value: props.data.summary.underMaintenance, classes: 'text-pink-600' },
-    { key: 'defective', label: 'Defective', value: props.data.summary.defective, classes: 'text-rose-600' },
-  ]
+  return DASHBOARD_EQUIPMENT_VALUE_OPTIONS.filter((item) => props.selectedValues.includes(item.key))
+    .map((item) => ({ ...item, value: props.data.summary[item.key] }))
 })
 </script>
