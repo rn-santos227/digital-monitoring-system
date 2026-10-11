@@ -39,7 +39,10 @@
         @update:model-value="onTabChange"
       />
 
-      <UnitsEquipmentAssignmentTable v-if="activeTab === 'equipment'" :rows="equipment" :is-loading="isLoading" />
+      <template v-if="activeTab === 'equipment'">
+        <EquipmentAccountingPanel subject="battalion" :subject-id="battalion.id" />
+        <UnitsEquipmentAssignmentTable :rows="equipment" :is-loading="isLoading" />
+      </template>
       <UnitsCompaniesTable v-else :rows="companies" :is-loading="isLoading" />
     </div>
 
@@ -53,6 +56,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import EquipmentAccountingPanel from '~/components/equipment/EquipmentAccountingPanel.vue'
 import UnitsEquipmentAssignmentTable from '~/components/units/view/UnitsEquipmentAssignmentTable.vue'
 import UnitsCompaniesTable from '~/components/units/view/UnitsCompaniesTable.vue'
 import {
