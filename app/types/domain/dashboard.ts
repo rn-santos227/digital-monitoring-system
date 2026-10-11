@@ -5,6 +5,51 @@ export interface DashboardParameters {
   itemLimit: number
 }
 
+export type DashboardKpiId = Exclude<keyof DashboardTopKpis, 'asOf'>
+export type DashboardPersonnelValueId = keyof DashboardStatusCountSummary
+export type DashboardEquipmentValueId = keyof DashboardEquipmentStatusSummary
+export type DashboardOperationalValueId = keyof DashboardOperationalTimeMetric
+export type DashboardWidgetId =
+  | 'topKpis'
+  | 'personnelDeploymentSummary'
+  | 'equipmentStatusOverview'
+  | 'criticalPersonnel'
+  | 'criticalEquipment'
+  | 'nearRotation'
+  | 'locationLoadAnalysis'
+  | 'personnelDeploymentHistory'
+  | 'operationalTimeMonitoring'
+
+export interface DashboardDisplaySettings {
+  kpis: DashboardKpiId[]
+  personnelValues: DashboardPersonnelValueId[]
+  equipmentValues: DashboardEquipmentValueId[]
+  operationalValues: DashboardOperationalValueId[]
+  widgets: DashboardWidgetId[]
+}
+
+export interface DashboardConfiguration {
+  parameters: DashboardParameters
+  display: DashboardDisplaySettings
+}
+
+export interface DashboardData {
+  topKpis: DashboardTopKpis
+  personnelDeploymentSummary: DashboardPersonnelDeploymentSummary
+  equipmentStatusOverview: DashboardEquipmentStatusOverview
+  criticalPersonnel: DashboardCriticalPersonnel
+  criticalEquipment: DashboardCriticalEquipment
+  nearRotation: DashboardNearRotation
+  locationLoadAnalysis: DashboardLocationLoadAnalysis
+  personnelDeploymentHistory: DashboardPersonnelDeploymentHistory
+  operationalTimeMonitoring: DashboardOperationalTimeMonitoring
+}
+
+export interface DashboardLoadResult {
+  data: DashboardData
+  errors: Partial<Record<DashboardWidgetId, string>>
+}
+
 export interface DashboardStatusCountSummary {
   deployed: number
   unavailable: number
