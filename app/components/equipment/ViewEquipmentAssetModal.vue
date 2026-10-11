@@ -29,7 +29,7 @@
             <dd class="font-medium text-slate-900">{{ formattedProcurementDate }}</dd>
           </div>
           <div>
-            <dt class="text-slate-500">Acquisition cost</dt>
+            <dt class="text-slate-500">{{ EQUIPMENT_PRICE_LABEL }}</dt>
             <dd class="font-medium text-slate-900">{{ formattedAcquisitionCost }}</dd>
           </div>
         </dl>
@@ -81,6 +81,8 @@
 import { computed } from 'vue'
 import { useDateDisplay } from '~/composables/useDateDisplay'
 import type { EquipmentAssetListItem } from '~/types/domain/equipment'
+import { formatEquipmentPrice } from '~/utils/equipment-accounting'
+import { EQUIPMENT_PRICE_LABEL } from '~/constants/page.constants'
 
 const props = defineProps<{ asset: EquipmentAssetListItem }>()
 const emit = defineEmits<{ (event: 'close'): void }>()
@@ -90,14 +92,5 @@ const formattedProcurementDate = computed(() => {
   return props.asset.procurementDate ? formatDate(props.asset.procurementDate) : 'N/A'
 })
 
-const formattedAcquisitionCost = computed(() => {
-  if (props.asset.acquisitionCost === null) {
-    return 'N/A'
-  }
-
-  return new Intl.NumberFormat('en-PH', {
-    style: 'currency',
-    currency: 'PHP',
-  }).format(props.asset.acquisitionCost)
-})
+const formattedAcquisitionCost = computed(() => formatEquipmentPrice(props.asset.acquisitionCost))
 </script>
