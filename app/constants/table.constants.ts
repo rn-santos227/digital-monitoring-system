@@ -540,6 +540,7 @@ export const EQUIPMENT_ASSETS_TABLE_ACTIONS_COLUMN_LABEL = 'Actions'
 export const EQUIPMENT_ASSETS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
   { key: 'assetTag', label: 'Asset Tag', sortable: true },
   { key: 'equipmentItemCode', label: 'Equipment Code', sortable: true },
+  { key: 'unitPriceDisplay', label: 'Unit Price (PHP)' },
   { key: 'equipmentItemName', label: 'Equipment Item', sortable: true },
   { key: 'serialNo', label: 'Serial Number', sortable: true },
   { key: 'currentLocation', label: 'Current Location', sortable: true },
@@ -593,3 +594,47 @@ export const EQUIPMENT_INCIDENTS_TABLE_ACTIONS: readonly DataTableAction[] = Obj
   { key: 'update-equipment-incident-status', tooltip: 'Update investigation status', iconName: 'check-circle', variant: 'warning' },
   { key: 'delete-equipment-incident', tooltip: 'Delete equipment incident', iconName: 'trash', variant: 'danger' },
 ])
+export const EQUIPMENT_ACCOUNTING_TABLE_TITLE = 'Current Equipment Holdings'
+export const EQUIPMENT_ACCOUNTING_TABLE_EMPTY_MESSAGE = 'No equipment is currently assigned.'
+export const EQUIPMENT_ACCOUNTING_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'assetTag', label: 'Asset Tag', sortable: true },
+  { key: 'itemName', label: 'Equipment Item', sortable: true },
+  { key: 'unitPriceDisplay', label: 'Unit Price (PHP)' },
+  { key: 'quantity', label: 'Quantity', sortable: true },
+  { key: 'assignedValueDisplay', label: 'Assigned Value (PHP)' },
+])
+
+export const PERSONNEL_SKILLS_TABLE_TITLE = 'Personnel Skills'
+export const PERSONNEL_SKILLS_TABLE_EMPTY_MESSAGE = 'No personnel skills recorded.'
+export const PERSONNEL_SKILLS_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'name', label: 'Skill', sortable: true },
+  { key: 'sourceLabel', label: 'Source' },
+  { key: 'evidence', label: 'Supporting Evidence' },
+  { key: 'dateObtained', label: 'Date Obtained', dataType: 'date' },
+  { key: 'validUntil', label: 'Valid Until', dataType: 'date' },
+])
+export const PERSONNEL_SKILLS_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  { key: 'edit-skill', tooltip: 'Edit skill', iconName: 'pencil-square', variant: 'warning' },
+  { key: 'remove-skill', tooltip: 'Remove skill', iconName: 'trash', variant: 'danger' },
+])
+
+export const PERSONNEL_HISTORY_TABLE_ACTIONS: readonly DataTableAction[] = Object.freeze([
+  { key: 'view-history', tooltip: 'View record', iconName: 'eye', variant: 'info' },
+  { key: 'edit-history', tooltip: 'Edit record', iconName: 'pencil-square', variant: 'warning' },
+  { key: 'remove-history', tooltip: 'Remove record', iconName: 'trash', variant: 'danger' },
+])
+export const PERSONNEL_EMPLOYMENT_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'organization', label: 'Employer', sortable: true },
+  { key: 'description', label: 'Job Title', sortable: true },
+  { key: 'startDate', label: 'Start Date', dataType: 'date' },
+  { key: 'endDate', label: 'End Date', dataType: 'date' },
+  { key: 'reference', label: 'Reference' },
+])
+export const PERSONNEL_EDUCATION_TABLE_COLUMNS: readonly DataTableColumn[] = Object.freeze([
+  { key: 'organization', label: 'Institution', sortable: true },
+  { key: 'description', label: 'Qualification / Program', sortable: true },
+  { key: 'educationLevel', label: 'Level' },
+  { key: 'startDate', label: 'Start Date', dataType: 'date' },
+  { key: 'endDate', label: 'End Date', dataType: 'date' },
+])
+
