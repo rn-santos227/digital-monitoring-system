@@ -25,7 +25,12 @@
         <BaseButton type="submit" :disabled="!canCustomize || isLoading">
           {{ DASHBOARD_ADVANCED_PARAMETERS_APPLY_LABEL }}
         </BaseButton>
-        <BaseButton type="button" variant="secondary" :disabled="!canCustomize || isLoading" @click="restoreDefaults">
+        <BaseButton
+          type="button"
+          variant="secondary"
+          :disabled="!canCustomize || isLoading"
+          @click="restoreDefaults"
+        >
           {{ DASHBOARD_ADVANCED_PARAMETERS_RESET_LABEL }}
         </BaseButton>
       </div>
@@ -48,8 +53,16 @@ import {
   DASHBOARD_WIDGET_OPTIONS,
   DASHBOARD_WIDGET_PERMISSIONS,
 } from '~/constants/page.constants'
-import { DASHBOARD_DISPLAY_FORM_CLASSES, DASHBOARD_PARAMETER_FIELDS_CLASSES, DASHBOARD_PARAMETERS_ACTION_CLASSES } from '~/constants/shared.constants'
-import type { DashboardConfiguration, DashboardDisplaySettings, DashboardParameters } from '~/types/domain/dashboard'
+import {
+  DASHBOARD_DISPLAY_FORM_CLASSES,
+  DASHBOARD_PARAMETER_FIELDS_CLASSES,
+  DASHBOARD_PARAMETERS_ACTION_CLASSES,
+} from '~/constants/shared.constants'
+import type {
+  DashboardConfiguration,
+  DashboardDisplaySettings,
+  DashboardParameters,
+} from '~/types/domain/dashboard'
 import { useAuthStore } from '~/stores/auth'
 import { normalizeDashboardParameters } from '~/utils/dashboard-parameters-storage'
 import { normalizeDashboardDisplay } from '~/utils/dashboard-display'
@@ -71,18 +84,27 @@ type DashboardParameterDraft = Record<keyof DashboardParameters, string | number
 const draft = reactive<DashboardParameterDraft>({ ...props.modelValue })
 const displayDraft = ref(normalizeDashboardDisplay(props.display))
 const authStore = useAuthStore()
-const canCustomize = computed(() => DASHBOARD_WIDGET_OPTIONS.some((item) => authStore.hasPermissionAccess(DASHBOARD_WIDGET_PERMISSIONS[item.key])))
+const canCustomize = computed(() => DASHBOARD_WIDGET_OPTIONS.some((item) =>
+  authStore.hasPermissionAccess(DASHBOARD_WIDGET_PERMISSIONS[item.key]),
+))
 
 watch(
   () => props.modelValue,
   (value) => Object.assign(draft, value),
   { deep: true },
 )
-watch(() => props.display, (value) => { displayDraft.value = normalizeDashboardDisplay(value) }, { deep: true })
+watch(
+  () => props.display,
+  (value) => { displayDraft.value = normalizeDashboardDisplay(value) },
+  { deep: true },
+)
 
 const applyParameters = () => {
   if (!canCustomize.value || props.isLoading) return
-  emit('apply', { parameters: normalizeDashboardParameters(draft), display: normalizeDashboardDisplay(displayDraft.value) })
+  emit('apply', {
+    parameters: normalizeDashboardParameters(draft),
+    display: normalizeDashboardDisplay(displayDraft.value),
+  })
 }
 
 const restoreDefaults = () => {
