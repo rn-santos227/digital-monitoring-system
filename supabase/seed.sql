@@ -210,6 +210,7 @@ values
   ('personnel.view', 'View Personnel', 'personnel'),
   ('personnel.create', 'Create Personnel', 'personnel'),
   ('personnel.update', 'Update Personnel', 'personnel'),
+  ('personnel.feedback', 'Officiate Personnel Performance Feedback', 'personnel'),
   ('personnel.delete', 'Delete Personnel', 'personnel'),
   ('rank.view', 'View Rank', 'ranks'),
   ('rank.create', 'Create Rank', 'ranks'),
@@ -272,6 +273,13 @@ where at.code = 'ADMIN'
 on conflict (account_type_id, permission_id) do nothing;
 
 -- Optional bootstrap account seeding.
+insert into public.account_type_permissions (account_type_id, permission_id)
+select at.id, p.id
+from public.account_types at
+join public.permissions p on p.code = 'personnel.feedback'
+where at.code = 'COMMANDER'
+on conflict (account_type_id, permission_id) do nothing;
+
 -- Configure DB settings before seed execution:
 --   app.seed_default_user ('true'/'false', default false)
 --   app.default_user_email
