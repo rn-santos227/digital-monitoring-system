@@ -13,17 +13,20 @@ import { requirePermission } from '../../../utils/auth/requirePermission'
 import { getServiceSupabaseClient } from '../../../utils/auth/serviceClient'
 import { deleteTrainingRecordById } from '../../../utils/training-records/deleteTrainingRecordById'
 import { getTrainingRecordById } from '../../../utils/training-records/getTrainingRecordById'
+import { assertTrainingRecordHasNoSkills } from '../../../utils/training-records/assertTrainingRecordHasNoSkills'
 
 export default defineEventHandler(async (event): Promise<MutationSuccessResponse> => {
   const actor = await requirePermission(event, PERMISSION_CODES.trainingManage)
-  const id = requireRouteId(getRouterParam(event, 'id'), 'Training record id is required.')
-  const supabase = getServiceSupabaseClient()
-  const existingRow = await getTrainingRecordById(supabase, id)
+  let id: string | null = null
+  let oldData: object | null = null
 
-  if (!existingRow) throw createError({ statusCode: 404, statusMessage: 'Training record not found.' })
-  const oldData = { ...mapTrainingRecordListItem(existingRow) }
-  
   try {
+    id = requireRouteId(getRouterParam(event, 'id'), 'Training record id is required.')
+    const supabase = getServiceSupabaseClient()
+    const existingRow = await getTrainingRecordById(supabase, id)
+    if (!existingRow) throw createError({ statusCode: 404, statusMessage: 'Training record not found.' })
+    oldData = { ...mapTrainingRecordListItem(existingRow) }
+    await assertTrainingRecordHasNoSkills(supabase, id)
     await deleteTrainingRecordById(supabase, id)
     await recordManagementAuditLog(event, {
       userId: actor.id,
