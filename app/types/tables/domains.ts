@@ -57,3 +57,17 @@ export type {
   PersonnelWeaponAssignmentsRow,
   PersonnelWeaponAssignmentsUpdate,
 } from './modules/readiness.domain'
+export type {
+  PersonnelEmploymentRecordsRow,
+  PersonnelEmploymentRecordsInsert,
+  PersonnelEmploymentRecordsUpdate,
+  PersonnelEducationRecordsRow,
+  PersonnelEducationRecordsInsert,
+  PersonnelEducationRecordsUpdate,
+} from './modules/personnel-history.domain'
+export type {
+  PersonnelPerformanceFeedbackRow,
+  PersonnelPerformanceFeedbackInsert,
+  PersonnelPerformanceFeedbackUpdate,
+} from './modules/personnel-feedback.domain'
+
