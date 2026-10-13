@@ -313,5 +313,13 @@ export interface PersonnelLocationItem {
   longitude: number | null
 }
 
-export type PersonnelProfileTabId = 'training' | 'deployment' | 'engagement' | 'equipment-assignment'
+export type PersonnelProfileTabId =
+  | 'training'
+  | 'deployment'
+  | 'engagement'
+  | 'equipment-assignment'
+  | 'skills'
+  | 'employment'
+  | 'education'
+  | 'performance-feedback'
 export type PersonnelManagementTabId = 'personnel-records' | 'rank-management'
