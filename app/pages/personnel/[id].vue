@@ -83,9 +83,15 @@
             </BaseButton>
           </div>
 
-          <DeploymentTable v-if="activeTab === 'deployment'" :rows="deploymentRows" />
+          <PersonnelSkillsPanel v-if="activeTab === 'skills'" :personnel-id="personnelId" />
+          <PersonnelHistoryPanel v-else-if="activeTab === 'employment' || activeTab === 'education'" :personnel-id="personnelId" :kind="activeTab" />
+          <PersonnelFeedbackPanel v-else-if="activeTab === 'performance-feedback'" :personnel-id="personnelId" />
+          <DeploymentTable v-else-if="activeTab === 'deployment'" :rows="deploymentRows" />
           <EngagementTable v-else-if="activeTab === 'engagement'" :rows="engagementRows" />
-          <EquipmentAssignmentTable v-else-if="activeTab === 'equipment-assignment'" :rows="equipmentAssignmentRows" />
+          <div v-else-if="activeTab === 'equipment-assignment'">
+            <EquipmentAccountingPanel subject="personnel" :subject-id="personnelId" :refresh-key="equipmentAssignmentRows" />
+            <EquipmentAssignmentTable :rows="equipmentAssignmentRows" />
+          </div>
           <TrainingTable v-else :rows="trainingRows" />
 
           <QuickAssignDeploymentModal
@@ -150,7 +156,11 @@ import BaseButton from '~/components/ui/BaseButton.vue'
 import DeploymentTable from '~/components/personnel/PersonnelDeploymentsTable.vue'
 import EngagementTable from '~/components/personnel/PersonnelEngagementsTable.vue'
 import EquipmentAssignmentTable from '~/components/personnel/PersonnelEquipmentAssignmentsTable.vue'
+import EquipmentAccountingPanel from '~/components/equipment/EquipmentAccountingPanel.vue'
 import TrainingTable from '~/components/personnel/PersonnelTrainingsTable.vue'
+import PersonnelSkillsPanel from '~/components/personnel/PersonnelSkillsPanel.vue'
+import PersonnelHistoryPanel from '~/components/personnel/PersonnelHistoryPanel.vue'
+import PersonnelFeedbackPanel from '~/components/personnel/PersonnelFeedbackPanel.vue'
 import QuickAssignDeploymentModal from '~/components/service-status/QuickAssignDeploymentModal.vue'
 import QuickAssignEngagementModal from '~/components/service-status/QuickAssignEngagementModal.vue'
 import QuickAssignTrainingModal from '~/components/service-status/QuickAssignTrainingModal.vue'
