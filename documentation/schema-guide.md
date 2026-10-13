@@ -2,6 +2,16 @@
 
 Generated from all SQL files in `supabase/migrations` (through `20260512132929_rename-engagement-date-columns.sql`).
 
+Equipment valuation additions from `20261011090000_add-equipment-assignment-values.sql`
+are noted in the issuance table and described in [equipment-accounting.md](equipment-accounting.md).
+
+Skill evidence additions from `20261011100000_add-personnel-skill-evidence.sql`
+are described in [personnel-skills.md](personnel-skills.md).
+
+Personnel history and officiated feedback tables from
+`20261012010000_add-personnel-history-and-officiated-feedback.sql` are described
+in [personnel-history-and-feedback.md](personnel-history-and-feedback.md).
+
 - **Required** = `Yes` means column is non-nullable (`NOT NULL` or implied by `PRIMARY KEY`).
 - **Type** reflects the declared PostgreSQL type.
 - **Notes** captures defaults, keys, and foreign-key targets.
@@ -340,6 +350,7 @@ Table constraints
 | --- | --- | --- | --- |
 | `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
 | `issue_no` | Yes | `text` | UNIQUE |
+| `quantity_issued` | Yes | `integer` | Default `1`; positive; added by the equipment valuation migration |
 | `equipment_asset_id` | Yes | `uuid` | FK → `public.equipment_assets(id)`; on delete restrict |
 | `issued_to_personnel_id` | Yes | `uuid` | FK → `public.personnel(id)`; on delete restrict |
 | `issued_by_personnel_id` | No | `uuid` | FK → `public.personnel(id)`; on delete restrict |
@@ -520,6 +531,9 @@ Table constraints
 | `id` | Yes | `uuid` | PK; default `gen_random_uuid()` |
 | `personnel_id` | Yes | `uuid` | FK → `public.personnel(id)`; on delete restrict |
 | `qualification_type` | Yes | `text` | — |
+| `skill_source` | No | `text` | `training` or `external`; null retained for older qualifications |
+| `training_record_id` | No | `uuid` | Supporting `training_records` entry; composite FK with `personnel_id` enforces ownership |
+| `external_reference` | No | `text` | Required nonblank reference for external skills; maximum 1000 characters |
 | `date_obtained` | No | `date` | — |
 | `valid_until` | No | `date` | — |
 | `created_at` | Yes | `timestamptz` | default `now()` |
