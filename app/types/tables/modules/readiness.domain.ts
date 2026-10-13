@@ -4,6 +4,9 @@ export type PersonnelQualificationsRow = AuditColumns & {
   id: UUID
   personnel_id: UUID
   qualification_type: string
+  skill_source: 'training' | 'external' | null
+  training_record_id: UUID | null
+  external_reference: string | null
   date_obtained: ISODate | null
   valid_until: ISODate | null
 }
