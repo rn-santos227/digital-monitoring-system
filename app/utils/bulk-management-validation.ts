@@ -1,4 +1,6 @@
 import type { DeploymentBulkUpdateValues } from '~/types/domain/deployment'
+import { isValidEquipmentPrice } from '../../server/shared/utils/equipment-accounting'
+import { EQUIPMENT_PRICE_VALIDATION_MESSAGE } from '../../server/shared/constants/lib/equipment-accounting'
 import type { EngagementBulkUpdateValues } from '~/types/domain/engagement'
 import type { PersonnelBulkUpdateValues } from '~/types/domain/personnel'
 import type { RankBulkUpdateValues } from '~/types/domain/rank'
@@ -291,11 +293,16 @@ export const validateEquipmentBulkUpdate = <T extends object>({
   const invalidNumericField = numericFields.find((field) => {
     if (!enabled[field]) return false
     const value = values[field]
+    if (field === 'acquisition_cost') {
+      return value !== null && !isValidEquipmentPrice(value)
+    }
     return typeof value !== 'number' || !Number.isFinite(value) || value < 0
   })
   if (invalidNumericField) {
     return {
-      error: 'Enabled numeric fields must be non-negative numbers.',
+      error: invalidNumericField === 'acquisition_cost'
+        ? EQUIPMENT_PRICE_VALIDATION_MESSAGE
+        : 'Enabled numeric fields must be non-negative numbers.',
       payload: null,
     }
   }
