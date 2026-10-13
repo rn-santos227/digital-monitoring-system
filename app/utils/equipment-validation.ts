@@ -8,6 +8,8 @@ import type {
 } from '~/types/domain/equipment'
 import { validateFields } from '~/utils/field-validation'
 import { REGEX_PATTERNS } from '~/utils/regex'
+import { isValidEquipmentPrice } from '../../server/shared/utils/equipment-accounting'
+import { EQUIPMENT_PRICE_VALIDATION_MESSAGE } from '../../server/shared/constants/lib/equipment-accounting'
 
 export const validateCreateEquipmentCategoryForm = (form: {
   code: string
@@ -116,8 +118,8 @@ export const validateCreateEquipmentAssetForm = (form: {
   const errors = { ...result.errors }
   const acquisitionCost = form.acquisitionCost
 
-  if (acquisitionCost !== null && (!Number.isFinite(acquisitionCost) || acquisitionCost < 0)) {
-    errors.acquisitionCost = 'Acquisition cost must be a non-negative number.'
+  if (acquisitionCost !== null && !isValidEquipmentPrice(acquisitionCost)) {
+    errors.acquisitionCost = EQUIPMENT_PRICE_VALIDATION_MESSAGE
   }
 
   const payload: CreateEquipmentAssetPayload | null = Object.keys(errors).length === 0
