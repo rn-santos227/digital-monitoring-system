@@ -129,6 +129,10 @@ export type PersonnelRelationshipKey =
   | 'equipmentIssuancesReceived'
   | 'equipmentIssuancesIssued'
   | 'qualificationRecords'
+  | 'employmentRecords'
+  | 'educationRecords'
+  | 'performanceFeedbackRecords'
+  | 'feedbackAuthorships'
   | 'medicalReadinessRecords'
   | 'weaponAssignments'
 
