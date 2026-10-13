@@ -8,78 +8,53 @@
       </header>
       <DashboardAdvancedParameters
         :model-value="parameters"
-        @apply="applyParameters"
+        :display="display"
+        :is-loading="isLoading"
+        :warning-message="storageWarning"
+        :error-message="hasErrors ? DASHBOARD_DISPLAY_LOAD_ERROR : ''"
+        @apply="applyConfiguration"
       />
-      <DashboardTopKpisWidget :data="topKpis" />
-
-      <section class="grid gap-4 xl:grid-cols-3">
-        <DashboardPersonnelDeploymentSummaryWidget :data="personnelDeploymentSummary" />
-        <DashboardEquipmentStatusOverviewWidget :data="equipmentStatusOverview" />
-        <DashboardCriticalPersonnelWidget :data="criticalPersonnel" />
-      </section>
-
-      <section class="grid gap-4 xl:grid-cols-3">
-        <DashboardPersonnelDeploymentSummaryWidget :data="personnelDeploymentSummary" />
-        <DashboardEquipmentStatusOverviewWidget :data="equipmentStatusOverview" />
-        <DashboardCriticalPersonnelWidget :data="criticalPersonnel" />
-      </section>
-
-      <section class="grid gap-4 xl:grid-cols-2">
-        <DashboardCriticalEquipmentWidget :data="criticalEquipment" />
-        <DashboardNearRotationWidget :data="nearRotation" />
-      </section>
-
-      <section class="grid gap-4 xl:grid-cols-2">
-        <DashboardLocationLoadAnalysisWidget :data="locationLoadAnalysis" />
-        <DashboardPersonnelDeploymentHistoryWidget :data="personnelDeploymentHistory" />
-      </section>
-
-      <DashboardOperationalTimeMonitoringWidget :data="operationalTimeMonitoring" />
+      <BaseInlineLoader v-if="isLoading" />
+      <DashboardWidgetsGrid v-else :data="dashboardData" :display="effectiveDisplay" :errors="errors" />
     </section>
   </main>
 </template>
 
 <script setup lang="ts">
+import { computed, onMounted, watch } from 'vue'
 import DashboardAdvancedParameters from '~/components/dashboard/DashboardAdvancedParameters.vue'
-import DashboardCriticalEquipmentWidget from '~/components/dashboard/DashboardCriticalEquipmentWidget.vue'
-import DashboardCriticalPersonnelWidget from '~/components/dashboard/DashboardCriticalPersonnelWidget.vue'
-import DashboardEquipmentStatusOverviewWidget from '~/components/dashboard/DashboardEquipmentStatusOverviewWidget.vue'
-import DashboardLocationLoadAnalysisWidget from '~/components/dashboard/DashboardLocationLoadAnalysisWidget.vue'
-import DashboardNearRotationWidget from '~/components/dashboard/DashboardNearRotationWidget.vue'
-import DashboardOperationalTimeMonitoringWidget from '~/components/dashboard/DashboardOperationalTimeMonitoringWidget.vue'
-import DashboardPersonnelDeploymentHistoryWidget from '~/components/dashboard/DashboardPersonnelDeploymentHistoryWidget.vue'
-import DashboardPersonnelDeploymentSummaryWidget from '~/components/dashboard/DashboardPersonnelDeploymentSummaryWidget.vue'
-import DashboardTopKpisWidget from '~/components/dashboard/DashboardTopKpisWidget.vue'
+import DashboardWidgetsGrid from '~/components/dashboard/DashboardWidgetsGrid.vue'
 import ClockDateWidget from '~/components/general/ClockDateWidget.vue'
 import {
   DASHBOARD_PAGE_SECTION_CLASSES,
   DASHBOARD_PAGE_SUBTITLE,
   DASHBOARD_PAGE_TITLE,
-  INITIAL_DASHBOARD_PARAMETERS,
+  DASHBOARD_DISPLAY_LOAD_ERROR,
 } from '~/constants/page.constants'
 import { APP_MAIN_CONTENT_CLASSES } from '~/constants/shared.constants'
-import {
-  createDashboardParameterHandlers,
-  createInitialDashboardData,
-} from '~/handlers/dashboard'
-import type { DashboardParameters } from '~/types/domain/dashboard'
+import { createDashboardConfigurationHandlers } from '~/handlers/dashboard'
+import { useAuthStore } from '~/stores/auth'
 
-const parameters = ref<DashboardParameters>({ ...INITIAL_DASHBOARD_PARAMETERS })
-const dashboardData = ref(createInitialDashboardData())
+const authStore = useAuthStore()
 const {
-  applyParameters,
-  initializeParameters,
-} = createDashboardParameterHandlers(parameters, dashboardData)
+  parameters,
+  display,
+  effectiveDisplay,
+  dashboardData,
+  errors,
+  isLoading,
+  storageWarning,
+  applyConfiguration,
+  initializeConfiguration,
+} = createDashboardConfigurationHandlers(
+  () => authStore.currentUser?.id ?? '',
+  () => authStore.permissionCodes,
+)
+const hasErrors = computed(() => Object.keys(errors.value).length > 0)
 
-const topKpis = computed(() => dashboardData.value.topKpis)
-const personnelDeploymentSummary = computed(() => dashboardData.value.personnelDeploymentSummary)
-const equipmentStatusOverview = computed(() => dashboardData.value.equipmentStatusOverview)
-const criticalPersonnel = computed(() => dashboardData.value.criticalPersonnel)
-const criticalEquipment = computed(() => dashboardData.value.criticalEquipment)
-const nearRotation = computed(() => dashboardData.value.nearRotation)
-const locationLoadAnalysis = computed(() => dashboardData.value.locationLoadAnalysis)
-const personnelDeploymentHistory = computed(() => dashboardData.value.personnelDeploymentHistory)
-const operationalTimeMonitoring = computed(() => dashboardData.value.operationalTimeMonitoring)
-
-onMounted(initializeParameters)
+onMounted(initializeConfiguration)
+watch(
+  () => [authStore.currentUser?.id, authStore.permissionCodes.join(',')],
+  initializeConfiguration,
+)
 </script>
