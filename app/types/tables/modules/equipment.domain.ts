@@ -52,6 +52,7 @@ export type EquipmentAssetsUpdate = Partial<EquipmentAssetsInsert>
 export type EquipmentIssuancesRow = AuditColumns & {
   id: UUID
   issue_no: string
+  quantity_issued: number
   equipment_asset_id: UUID
   issued_to_personnel_id: UUID
   issued_by_personnel_id: UUID | null
