@@ -11,6 +11,7 @@ export const PERMISSION_CODES = {
   personnelView: 'personnel.view',
   personnelCreate: 'personnel.create',
   personnelUpdate: 'personnel.update',
+  personnelFeedback: 'personnel.feedback',
   personnelDelete: 'personnel.delete',
   battalionView: 'battalion.view',
   userCreate: 'user.create',
