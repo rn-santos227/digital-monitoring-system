@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest'
-
 import {
   ENGAGEMENT_RECORD_SEARCHABLE_FIELD_COLUMNS,
   ENGAGEMENT_SEARCHABLE_FIELD_COLUMNS,
@@ -10,7 +9,7 @@ import { parseEngagementRecordSearchQuery } from '../../../../server/utils/engag
 
 describe('engagement management advanced search filters', () => {
   it('builds engagement title and default remarks conditions', () => {
-   const filters = buildPersonnelAdvancedSearchFilters(
+    const filters = buildPersonnelAdvancedSearchFilters(
       [
         { field: 'engagementTitle', operator: 'startsWith', value: 'Exercise' },
         { field: 'defaultRemarks', operator: 'contains', value: 'readiness' },
@@ -102,7 +101,11 @@ describe('engagement management advanced search filters', () => {
   })
 
   it('rejects empty engagement searches before querying the database', () => {
-    expect(() => parseEngagementSearchQuery({})).toThrow('At least one search filter is required.')
-    expect(() => parseEngagementRecordSearchQuery({})).toThrow('At least one search filter is required.')
+    expect(() => parseEngagementSearchQuery({})).toThrow(
+      'At least one search filter is required.',
+    )
+    expect(() => parseEngagementRecordSearchQuery({})).toThrow(
+      'At least one search filter is required.',
+    )
   })
-}
+})
