@@ -147,7 +147,7 @@ defineFormContractTests({
 })
 
 describe('equipment numeric and date constraints', () => {
-  it.each([-1, Number.NaN, Number.POSITIVE_INFINITY])(
+  it.each([-1, 1.001, 1000000000000, Number.NaN, Number.POSITIVE_INFINITY])(
     'rejects acquisition cost %s',
     (acquisitionCost) => {
       expect(
