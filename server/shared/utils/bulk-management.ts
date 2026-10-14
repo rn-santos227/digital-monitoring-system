@@ -1,4 +1,6 @@
 import { createError } from 'h3'
+import { isValidEquipmentPrice } from './equipment-accounting'
+import { EQUIPMENT_PRICE_VALIDATION_MESSAGE } from '../constants/lib/equipment-accounting'
 import type { BulkDomainDefinition, BulkMutationItem } from '../models'
 import {
   BULK_UPDATE_PROTECTED_COLUMNS,
@@ -50,7 +52,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
       'avatar_url',
       'is_active',
     ),
-    deleteReferences: [],
+    deleteReferences: [{ table: 'personnel_performance_feedback', column: 'author_user_id' }],
   },
   battalions: {
     table: 'battalions',
@@ -108,6 +110,10 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
       { table: 'equipment_issuances', column: 'issued_to_personnel_id' },
       { table: 'equipment_issuances', column: 'issued_by_personnel_id' },
       { table: 'personnel_qualifications', column: 'personnel_id' },
+      { table: 'personnel_employment_records', column: 'personnel_id' },
+      { table: 'personnel_education_records', column: 'personnel_id' },
+      { table: 'personnel_performance_feedback', column: 'personnel_id' },
+      { table: 'personnel_performance_feedback', column: 'author_personnel_id' },
       { table: 'personnel_medical_readiness', column: 'personnel_id' },
       { table: 'personnel_weapon_assignments', column: 'personnel_id' },
       { table: 'user_profiles', column: 'personnel_id' },
@@ -163,7 +169,7 @@ export const BULK_DOMAIN_DEFINITIONS: Readonly<
       'valid_until',
       'remarks',
     ),
-    deleteReferences: [],
+    deleteReferences: [{ table: 'personnel_qualifications', column: 'training_record_id' }],
   },
   deployments: {
     table: 'deployments',
@@ -437,6 +443,13 @@ export const parseBulkUpdateItems = (
       throw createError({
         statusCode: 400,
         statusMessage: `Unsupported update fields: ${forbidden.join(', ')}.`,
+      })
+    }
+
+    if ('acquisition_cost' in updates && updates.acquisition_cost !== null && !isValidEquipmentPrice(updates.acquisition_cost)) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: EQUIPMENT_PRICE_VALIDATION_MESSAGE,
       })
     }
 
