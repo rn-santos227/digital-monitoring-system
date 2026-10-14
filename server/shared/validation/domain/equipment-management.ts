@@ -17,6 +17,8 @@ import type {
   EquipmentItemUpdate,
 } from '../../models'
 import { normalizeOptionalText } from '../../utils'
+import { isValidEquipmentPrice } from '../../utils/equipment-accounting'
+import { EQUIPMENT_PRICE_VALIDATION_MESSAGE } from '../../constants/lib/equipment-accounting'
 
 export const parseCreateEquipmentCategoryPayload = (body: CreateEquipmentCategoryRequest) => {
   const code = normalizeOptionalText(body.code)?.toUpperCase()
@@ -176,10 +178,10 @@ export const parseCreateEquipmentAssetPayload = (body: CreateEquipmentAssetReque
   if (!assetStatusId) throw createError({ statusCode: 400, statusMessage: 'Asset status is required.' })
 
   const acquisitionCostValue = body.acquisitionCost
-  const acquisitionCost = acquisitionCostValue == null ? null : Number(acquisitionCostValue)
+  const acquisitionCost = acquisitionCostValue == null ? null : acquisitionCostValue
 
-  if (acquisitionCost !== null && (!Number.isFinite(acquisitionCost) || acquisitionCost < 0)) {
-    throw createError({ statusCode: 400, statusMessage: 'Acquisition cost must be a non-negative number.' })
+  if (acquisitionCost !== null && !isValidEquipmentPrice(acquisitionCost)) {
+    throw createError({ statusCode: 400, statusMessage: EQUIPMENT_PRICE_VALIDATION_MESSAGE })
   }
 
   return {
@@ -213,9 +215,9 @@ export const buildEquipmentAssetUpdates = (body: UpdateEquipmentAssetRequest): E
 
   if ('acquisitionCost' in body) {
     const value = body.acquisitionCost
-    const acquisitionCost = value == null ? null : Number(value)
-    if (acquisitionCost !== null && (!Number.isFinite(acquisitionCost) || acquisitionCost < 0)) {
-      throw createError({ statusCode: 400, statusMessage: 'Acquisition cost must be a non-negative number.' })
+    const acquisitionCost = value == null ? null : value
+    if (acquisitionCost !== null && !isValidEquipmentPrice(acquisitionCost)) {
+      throw createError({ statusCode: 400, statusMessage: EQUIPMENT_PRICE_VALIDATION_MESSAGE })
     }
     updates.acquisition_cost = acquisitionCost
   }
