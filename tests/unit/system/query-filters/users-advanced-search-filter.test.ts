@@ -8,12 +8,17 @@ import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/pe
 
 describe('user management advanced search filters', () => {
   it('builds an inclusive created date range for user profiles', () => {
-    const filters = buildPersonnelAdvancedSearchFilters([{
-      field: 'createdAt',
-      operator: 'between',
-      value: '2026-09-04',
-      valueTo: '2026-09-05',
-    }], USER_PROFILE_SEARCHABLE_FIELD_COLUMNS)
+    const filters = buildPersonnelAdvancedSearchFilters(
+      [
+        {
+          field: 'createdAt',
+          operator: 'between',
+          value: '2026-09-04',
+          valueTo: '2026-09-05',
+        },
+      ],
+      USER_PROFILE_SEARCHABLE_FIELD_COLUMNS,
+    )
 
     expect(filters).toEqual([
       {
@@ -34,14 +39,21 @@ describe('user management advanced search filters', () => {
   })
 
   it('builds an inclusive updated date range for account types', () => {
-    const filters = buildPersonnelAdvancedSearchFilters([{
-      field: 'updatedAt',
-      operator: 'between',
-      value: '2026-08-01',
-      valueTo: '2026-08-31',
-    }], ACCOUNT_TYPE_SEARCHABLE_FIELD_COLUMNS)
+    const filters = buildPersonnelAdvancedSearchFilters(
+      [
+        {
+          field: 'updatedAt',
+          operator: 'between',
+          value: '2026-08-01',
+          valueTo: '2026-08-31',
+        },
+      ],
+      ACCOUNT_TYPE_SEARCHABLE_FIELD_COLUMNS,
+    )
 
-    expect(filters.map(filter => [filter.column, filter.operator, filter.value])).toEqual([
+    expect(
+      filters.map((filter) => [filter.column, filter.operator, filter.value]),
+    ).toEqual([
       ['updated_at', 'gte', '2026-08-01T00:00:00.000Z'],
       ['updated_at', 'lte', '2026-08-31T23:59:59.999Z'],
     ])
