@@ -10,34 +10,49 @@ describe('unit management advanced search filters', () => {
   it.each([
     ['battalion', BATTALION_SEARCHABLE_FIELD_COLUMNS],
     ['company', COMPANY_SEARCHABLE_FIELD_COLUMNS],
-  ] as const)('builds an inclusive updated date range for a %s', (_unit, searchableFields) => {
-    const filters = buildPersonnelAdvancedSearchFilters([{
-      field: 'updatedAt',
-      operator: 'between',
-      value: '2026-07-10',
-      valueTo: '2026-07-12',
-    }], searchableFields)
+  ] as const)(
+    'builds an inclusive updated date range for a %s',
+    (_unit, searchableFields) => {
+      const filters = buildPersonnelAdvancedSearchFilters(
+        [
+          {
+            field: 'updatedAt',
+            operator: 'between',
+            value: '2026-07-10',
+            valueTo: '2026-07-12',
+          },
+        ],
+        searchableFields,
+      )
 
-    expect(filters).toHaveLength(2)
-    expect(filters[0]).toMatchObject({
-      column: 'updated_at',
-      operator: 'gte',
-      value: '2026-07-10T00:00:00.000Z',
-      groupMatch: 'all',
-    })
-    expect(filters[1]).toMatchObject({
-      column: 'updated_at',
-      operator: 'lte',
-      value: '2026-07-12T23:59:59.999Z',
-      groupMatch: 'all',
-    })
-  })
+      expect(filters).toHaveLength(2)
+      expect(filters[0]).toMatchObject({
+        column: 'updated_at',
+        operator: 'gte',
+        value: '2026-07-10T00:00:00.000Z',
+        groupMatch: 'all',
+      })
+      expect(filters[1]).toMatchObject({
+        column: 'updated_at',
+        operator: 'lte',
+        value: '2026-07-12T23:59:59.999Z',
+        groupMatch: 'all',
+      })
+    },
+  )
 
   it('rejects a company between condition without an ending value', () => {
-    expect(buildPersonnelAdvancedSearchFilters([{
-      field: 'createdAt',
-      operator: 'between',
-      value: '2026-07-10',
-    }], COMPANY_SEARCHABLE_FIELD_COLUMNS)).toEqual([])
+    expect(
+      buildPersonnelAdvancedSearchFilters(
+        [
+          {
+            field: 'createdAt',
+            operator: 'between',
+            value: '2026-07-10',
+          },
+        ],
+        COMPANY_SEARCHABLE_FIELD_COLUMNS,
+      ),
+    ).toEqual([])
   })
 })
