@@ -4,11 +4,15 @@ import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/pe
 
 describe('personnel advanced search filters', () => {
   it('creates a filter for every comma-separated specific value', () => {
-    expect(buildPersonnelAdvancedSearchFilters([{
-      field: 'serviceNumber',
-      operator: 'contains',
-      value: 'SIDC0777581, SIDC0777596',
-    }])).toEqual([
+    expect(
+      buildPersonnelAdvancedSearchFilters([
+        {
+          field: 'serviceNumber',
+          operator: 'contains',
+          value: 'SIDC0777581, SIDC0777596',
+        },
+      ]),
+    ).toEqual([
       {
         column: 'service_number',
         operator: 'ilike',
@@ -25,11 +29,15 @@ describe('personnel advanced search filters', () => {
   })
 
   it('ignores empty values and sanitizes filter grouping characters', () => {
-    expect(buildPersonnelAdvancedSearchFilters([{
-      field: 'lastName',
-      operator: 'equals',
-      value: ' Dela (Cruz),, Santos ',
-    }])).toEqual([
+    expect(
+      buildPersonnelAdvancedSearchFilters([
+        {
+          field: 'lastName',
+          operator: 'equals',
+          value: ' Dela (Cruz),, Santos ',
+        },
+      ]),
+    ).toEqual([
       {
         column: 'last_name',
         operator: 'eq',
@@ -46,12 +54,16 @@ describe('personnel advanced search filters', () => {
   })
 
   it('creates inclusive bounds for a between condition', () => {
-    expect(buildPersonnelAdvancedSearchFilters([{
-      field: 'createdAt',
-      operator: 'between',
-      value: '2026-09-04',
-      valueTo: '2026-09-05',
-    }])).toEqual([
+    expect(
+      buildPersonnelAdvancedSearchFilters([
+        {
+          field: 'createdAt',
+          operator: 'between',
+          value: '2026-09-04',
+          valueTo: '2026-09-05',
+        },
+      ]),
+    ).toEqual([
       {
         column: 'created_at',
         operator: 'gte',
