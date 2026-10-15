@@ -1,19 +1,23 @@
 import { describe, expect, it } from 'vitest'
 import { EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS } from '../../../../server/shared/constants'
-import { parseEquipmentIncidentAdvancedSearchConditions } from '../../../../server/shared/validations'
+import { parseEquipmentIncidentAdvancedSearchConditions } from '../../../../server/shared/validation'
 import { buildPersonnelAdvancedSearchFilters } from '../../../../server/utils/personnel/buildPersonnelAdvancedSearchFilters'
 
 describe('equipment incident advanced search filters', () => {
   it('parses and builds incident text conditions', () => {
-    const conditions = parseEquipmentIncidentAdvancedSearchConditions(JSON.stringify([
-      { field: 'incidentNo', operator: 'startsWith', value: 'INC-' },
-      { field: 'location', operator: 'contains', value: 'Camp' },
-    ]))
+    const conditions = parseEquipmentIncidentAdvancedSearchConditions(
+      JSON.stringify([
+        { field: 'incidentNo', operator: 'startsWith', value: 'INC-' },
+        { field: 'location', operator: 'contains', value: 'Camp' },
+      ]),
+    )
 
-    expect(buildPersonnelAdvancedSearchFilters(
-      conditions,
-      EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS,
-    )).toEqual([
+    expect(
+      buildPersonnelAdvancedSearchFilters(
+        conditions,
+        EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS,
+      ),
+    ).toEqual([
       {
         column: 'incident_no',
         operator: 'ilike',
@@ -25,29 +29,43 @@ describe('equipment incident advanced search filters', () => {
         operator: 'ilike',
         value: '%Camp%',
         conditionGroup: 'condition-1',
-      }
+      },
     ])
   })
 
   it('builds incident date ranges without timestamp expansion', () => {
-    const filters = buildPersonnelAdvancedSearchFilters([{
-      field: 'incidentDate',
-      operator: 'between',
-      value: '2026-09-01',
-      valueTo: '2026-09-30',
-    }], EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS)
+    const filters = buildPersonnelAdvancedSearchFilters(
+      [
+        {
+          field: 'incidentDate',
+          operator: 'between',
+          value: '2026-09-01',
+          valueTo: '2026-09-30',
+        },
+      ],
+      EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS,
+    )
 
-    expect(filters.map(filter => [filter.column, filter.operator, filter.value])).toEqual([
+    expect(
+      filters.map((filter) => [filter.column, filter.operator, filter.value]),
+    ).toEqual([
       ['incident_date', 'gte', '2026-09-01'],
-      ['incident_date', 'gte', '2026-09-01'],
+      ['incident_date', 'lte', '2026-09-30'],
     ])
   })
 
   it('rejects unsupported incident fields', () => {
-    expect(buildPersonnelAdvancedSearchFilters([{
-      field: 'assetTag',
-      operator: 'equals',
-      value: 'ASSET-001',
-    }], EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS)).toEqual([])
+    expect(
+      buildPersonnelAdvancedSearchFilters(
+        [
+          {
+            field: 'assetTag',
+            operator: 'equals',
+            value: 'ASSET-001',
+          },
+        ],
+        EQUIPMENT_INCIDENT_SEARCHABLE_FIELD_COLUMNS,
+      ),
+    ).toEqual([])
   })
 })
